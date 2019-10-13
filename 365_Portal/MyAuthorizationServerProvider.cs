@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Security;
+﻿using _365_Portal.DAL;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
@@ -43,25 +44,27 @@ namespace _365_Portal
             if (identity != null)
             {
                 UserBO objUser = new UserBO();
-                objUser = UserDetails.GetUserDetails(UserDetails.UserID);
+                objUser = UserDAL.GetUserDetails(UserDAL.UserID,null);
 
                 //identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
                 //identity.AddClaim(new Claim("username", "admin"));
                 //identity.AddClaim(new Claim(ClaimTypes.Name, "Sourav Mondal"));
                 identity.AddClaim(new Claim(UserClaim.Id, objUser.Id.ToString()));
                 identity.AddClaim(new Claim(UserClaim.UserId, objUser.UserId.ToString()));
-                identity.AddClaim(new Claim(UserClaim.Name, objUser.Name));
-                identity.AddClaim(new Claim(UserClaim.UserName, objUser.UserName));
+                identity.AddClaim(new Claim(UserClaim.ProfilePicPath, objUser.ProfilePicPath));
+                identity.AddClaim(new Claim(UserClaim.FirstName, objUser.FirstName));
+                identity.AddClaim(new Claim(UserClaim.LastName, objUser.LastName));
+                identity.AddClaim(new Claim(UserClaim.EmailId, objUser.EmailId));
                 identity.AddClaim(new Claim(UserClaim.UserPwd, objUser.UserPwd));
-                identity.AddClaim(new Claim(UserClaim.PwdNo, objUser.PwdNo));
+                identity.AddClaim(new Claim(UserClaim.MobileNo, objUser.MobileNo));
+                identity.AddClaim(new Claim(UserClaim.Position, objUser.Position));
                 identity.AddClaim(new Claim(UserClaim.CreatedBy, objUser.CreatedBy.ToString()));
                 identity.AddClaim(new Claim(UserClaim.CreatedOn, objUser.CreatedOn));
-                identity.AddClaim(new Claim(UserClaim.ModifyBy, objUser.ModifyBy.ToString()));
-                identity.AddClaim(new Claim(UserClaim.ModifyOn, objUser.ModifyOn));
+                identity.AddClaim(new Claim(UserClaim.ModifiedBy, objUser.ModifiedBy.ToString()));
+                identity.AddClaim(new Claim(UserClaim.ModifiedOn, objUser.ModifiedOn));
+                identity.AddClaim(new Claim(UserClaim.IsDeleted, objUser.IsDeleted.ToString()));
                 identity.AddClaim(new Claim(UserClaim.DeletedBy, objUser.DeletedBy.ToString()));
                 identity.AddClaim(new Claim(UserClaim.DeletedOn, objUser.DeletedOn));
-                identity.AddClaim(new Claim(UserClaim.IsDeleted, objUser.IsDeleted.ToString()));
-                identity.AddClaim(new Claim(UserClaim.RoleId, objUser.RoleId.ToString()));
 
                 //context.Validated(identity);
                 var props = new AuthenticationProperties(new Dictionary<string, string>
@@ -97,19 +100,20 @@ namespace _365_Portal
                     //_usrDetails.UserId = new Guid(claims.Where(c => c.Type == CommonBO.UserData.UserId).Select(c => c.Value).FirstOrDefault().ToString());
                     _usrDetails.Id = Convert.ToInt64(claims.Where(c => c.Type == UserClaim.Id).Select(c => c.Value).FirstOrDefault().ToString());
                     _usrDetails.UserId = Convert.ToInt64(claims.Where(c => c.Type == UserClaim.UserId).Select(c => c.Value).FirstOrDefault().ToString());
-                    _usrDetails.Name = Convert.ToString(claims.Where(c => c.Type == UserClaim.Name).Select(c => c.Value).FirstOrDefault());
-                    _usrDetails.UserName = Convert.ToString(claims.Where(c => c.Type == UserClaim.UserName).Select(c => c.Value).FirstOrDefault());
+                    _usrDetails.ProfilePicPath = Convert.ToString(claims.Where(c => c.Type == UserClaim.ProfilePicPath).Select(c => c.Value).FirstOrDefault());
+                    _usrDetails.FirstName = Convert.ToString(claims.Where(c => c.Type == UserClaim.FirstName).Select(c => c.Value).FirstOrDefault());
+                    _usrDetails.EmailId = Convert.ToString(claims.Where(c => c.Type == UserClaim.EmailId).Select(c => c.Value).FirstOrDefault());
                     _usrDetails.UserPwd = Convert.ToString(claims.Where(c => c.Type == UserClaim.UserPwd).Select(c => c.Value).FirstOrDefault());
-                    _usrDetails.PwdNo = Convert.ToString(claims.Where(c => c.Type == UserClaim.PwdNo).Select(c => c.Value).FirstOrDefault());
+                    _usrDetails.MobileNo = Convert.ToString(claims.Where(c => c.Type == UserClaim.MobileNo).Select(c => c.Value).FirstOrDefault());
+                    _usrDetails.Position = Convert.ToString(claims.Where(c => c.Type == UserClaim.Position).Select(c => c.Value).FirstOrDefault());
                     _usrDetails.CreatedBy = Convert.ToInt64(claims.Where(c => c.Type == UserClaim.CreatedBy).Select(c => c.Value).FirstOrDefault().ToString());
                     _usrDetails.CreatedOn = Convert.ToString(claims.Where(c => c.Type == UserClaim.CreatedOn).Select(c => c.Value).FirstOrDefault());
-                    _usrDetails.ModifyBy = Convert.ToInt64(claims.Where(c => c.Type == UserClaim.ModifyBy).Select(c => c.Value).FirstOrDefault().ToString());
-                    _usrDetails.ModifyOn = Convert.ToString(claims.Where(c => c.Type == UserClaim.ModifyOn).Select(c => c.Value).FirstOrDefault());
+                    _usrDetails.ModifiedBy = Convert.ToInt64(claims.Where(c => c.Type == UserClaim.ModifiedBy).Select(c => c.Value).FirstOrDefault().ToString());
+                    _usrDetails.ModifiedOn = Convert.ToString(claims.Where(c => c.Type == UserClaim.ModifiedOn).Select(c => c.Value).FirstOrDefault());
+                    _usrDetails.IsDeleted = Convert.ToBoolean(claims.Where(c => c.Type == UserClaim.IsDeleted).Select(c => c.Value).FirstOrDefault().ToString());
                     _usrDetails.DeletedBy = Convert.ToInt64(claims.Where(c => c.Type == UserClaim.DeletedBy).Select(c => c.Value).FirstOrDefault().ToString());
                     _usrDetails.DeletedOn = Convert.ToString(claims.Where(c => c.Type == UserClaim.DeletedOn).Select(c => c.Value).FirstOrDefault());
-                    _usrDetails.IsDeleted = Convert.ToBoolean(claims.Where(c => c.Type == UserClaim.IsDeleted).Select(c => c.Value).FirstOrDefault().ToString());
-                    _usrDetails.Id = Convert.ToInt64(claims.Where(c => c.Type == UserClaim.Id).Select(c => c.Value).FirstOrDefault().ToString());
-                    _usrDetails.RoleId = Convert.ToInt32(claims.Where(c => c.Type == UserClaim.RoleId).Select(c => c.Value).FirstOrDefault().ToString());
+
                     return _usrDetails;
                 }
                 return null;

@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using _365_Portal.Common;
+using _365_Portal.DAL;
+using _365_Portal.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,6 +11,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Script.Serialization;
+using static _365_Portal.Models.Login;
 
 namespace _365_Portal.Controllers
 {
@@ -15,38 +19,90 @@ namespace _365_Portal.Controllers
     {
         [HttpPost]
         [Route("api/User/LoginUser")]
-        public IHttpActionResult LoginUser(UserBO obj)
+        public IHttpActionResult LoginUser()
         {
-            string UserName = "";
-            string Password = "";
-            string StatusCode = "0";
-            string Description = "";
-            string Response = "";
-            UserName = obj.UserName;
-            Password = obj.UserPwd;
+            WebServiceLog objServiceLog = new WebServiceLog();
+            LoginResponse objResponse = null;
+            string Response = string.Empty;
 
-            bool IsValid = UserDetails.LoginUser(obj);
-
-            ResponseModel res = new ResponseModel();
-            if (IsValid)
+            objServiceLog.RequestTime = DateTime.Now;
+            objServiceLog.ControllerName = this.GetType().Name;
+            objServiceLog.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            try
             {
-                if (GetAccessToken(UserName, Password))
-                {
-                    res.status = true;
-                    string token = HttpContext.Current.Session["access_token"].ToString();
-                    var userdetail = UserDetails.GetUserDetails(UserDetails.UserID);
-                    var resm = new { token = token, userid = userdetail.UserId, name = userdetail.Name };
-                    //HttpContext.Current.Session["refresh_token"].ToString();
-                    string response = JsonConvert.SerializeObject(new { resm, res }, Formatting.Indented);
-                    Response = response;
-                }
+                var httpRequest = HttpContext.Current.Request;
+                string EmailId = httpRequest.Form["EmailId"];
+                string UserPwd = httpRequest.Form["UserPwd"];
+
+                LoginRequest objRequest = new LoginRequest();
+                objRequest.EmailId = EmailId;
+                objRequest.UserPwd = UserPwd;
+
+                objResponse = new LoginResponse();
+                objResponse = UserDAL.LoginUser(objRequest);
+                Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
+                objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
+                objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
+                objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
             }
-            else
+            catch (Exception ex)
             {
-                res.Msg = "Please enter valid user credentials";
-                res.status = false;
-                Response = JsonConvert.SerializeObject(new { res }, Formatting.Indented); ;
+                objServiceLog.ResponseString = "Exception "+ ex.Message + " | " + ex.StackTrace;
+                objServiceLog.RequestType = ConstantMessages.WebServiceLog.Exception;
+            }
+            finally
+            {
+                objServiceLog.ResponseTime = DateTime.Now;
+                InsertRequestLog.SaveWebServiceLog(objServiceLog);
+            }
+            return Ok(Response);            
+        }
 
+        [HttpPost]
+        [Route("api/User/UserLogout")]
+        public IHttpActionResult UserLogout()
+        {
+            WebServiceLog objServiceLog = new WebServiceLog();
+            LoginResponse objResponse = null;
+            string Response = string.Empty;
+
+            objServiceLog.RequestTime = DateTime.Now;
+            objServiceLog.ControllerName = this.GetType().Name;
+            objServiceLog.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                var httpRequest = HttpContext.Current.Request;
+                string EmailId = httpRequest.Form["EmailId"];
+
+                LoginRequest objRequest = new LoginRequest();
+                objRequest.EmailId = EmailId;
+
+                objResponse = new LoginResponse();
+                int i = UserDAL.UserLogout(objRequest);
+                if (i > 0)
+                {
+                    objResponse.ReturnCode = "0";
+                    objResponse.ReturnMessage = "User logout succesfully.";
+                }
+                else
+                {
+                    objResponse.ReturnCode = "1";
+                    objResponse.ReturnMessage = "Unable to logout.";
+                }
+                Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
+                objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
+                objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
+                objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+            }
+            catch (Exception ex)
+            {
+                objServiceLog.ResponseString = "Exception " + ex.Message + " | " + ex.StackTrace;
+                objServiceLog.RequestType = ConstantMessages.WebServiceLog.Exception;
+            }
+            finally
+            {
+                objServiceLog.ResponseTime = DateTime.Now;
+                InsertRequestLog.SaveWebServiceLog(objServiceLog);
             }
             return Ok(Response);
         }
@@ -61,8 +117,7 @@ namespace _365_Portal.Controllers
             {
                 var twest = identity.Id;
             }
-
-            return Ok("Hello " + identity.Name);
+            return Ok("Hello " + identity.FirstName);
         }
 
         public bool GetAccessToken(string userName, string password)
@@ -104,12 +159,6 @@ namespace _365_Portal.Controllers
             {
                 throw ex;
             }
-        }
-
-        public class ResponseModel
-        {
-            public bool status { get; set; }
-            public string Msg { get; set; }
-        }
+        }        
     }
 }
