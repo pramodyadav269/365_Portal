@@ -13,7 +13,7 @@ namespace _365_Portal.DAL
 {
     public class UserDAL
     {
-        public static int UserID = 0;//commit
+        public static int UserID = 0;//commit1
 
         public static LoginResponse LoginUser(LoginRequest objRequest)
         {
