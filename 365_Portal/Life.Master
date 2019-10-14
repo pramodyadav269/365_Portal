@@ -27,7 +27,7 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" ng-app="MasterPage">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
             <div class="container">
                 <a class="navbar-brand">

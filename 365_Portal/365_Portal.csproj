@@ -308,6 +308,7 @@
     <Content Include="Asset\images\target.png" />
     <Content Include="Asset\images\video-file.png" />
     <Content Include="Asset\js\all.js" />
+    <Content Include="Asset\js\angular.min.js" />
     <Content Include="Asset\js\bootstrap.js" />
     <Content Include="Asset\js\bootstrap.min.js" />
     <Content Include="Asset\js\jquery-3.3.1.slim.min.js" />
