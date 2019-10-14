@@ -11,6 +11,9 @@ namespace _365_Portal.Models
         {
             public string EmailId { get; set; }
             public string UserPwd { get; set; }
+            public string Ref1 { get; set; }
+            public string Ref2 { get; set; }
+            public string Ref3 { get; set; }
         }
 
         public class LoginResponse : ResponseBase
