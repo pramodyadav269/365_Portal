@@ -1,11 +1,12 @@
-﻿<%@ Page Title="Topics" Language="C#" MasterPageFile="~/Life.Master" AutoEventWireup="true" CodeBehind="Topics.aspx.cs" Inherits="_365_Portal.Topics" %>
+﻿<%@ Page Title="Modules" Language="C#" MasterPageFile="~/Life.Master" AutoEventWireup="true" CodeBehind="Modules.aspx.cs" Inherits="_365_Portal.Modules" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row topics">
         <div class="col-md-12">
-            <h1 class="text-center font-weight-bold">Hello, Daniel!</h1>
+            <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Topics</a>
+            <h1 class="text-center font-weight-bold">Employee Conduct</h1>
         </div>
         <div class="col-md-10 mt-5 offset-md-1">
             <div class="row">
@@ -15,7 +16,7 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <a href="Modules.aspx">
+                            <a href="#">
                                 <div class="card border-0 shadow mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">Employee Conduct</h5>
@@ -64,4 +65,5 @@
         </div>
     </div>
 </asp:Content>
+
 

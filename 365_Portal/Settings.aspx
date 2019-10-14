@@ -1,10 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Life.Master" AutoEventWireup="true" CodeBehind="Settings.aspx.cs" Inherits="_365_Portal.Settings" %>
+﻿<%@ Page Title="Settings" Language="C#" MasterPageFile="~/Life.Master" AutoEventWireup="true" CodeBehind="Settings.aspx.cs" Inherits="_365_Portal.Settings" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row settings">
         <div class="col-md-12">
-            <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to the Dashboard</a>
+            <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h1 class="text-center font-weight-bold">Settings</h1>
         </div>
         <div class="col-md-6 offset-md-3 mt-5">
