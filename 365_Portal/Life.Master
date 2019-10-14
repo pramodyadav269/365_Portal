@@ -20,6 +20,8 @@
     <script src="Asset/js/all.js"></script>
     <script src="Asset/js/select2.min.js"></script>
     <script src="Asset/js/site.js"></script>
+    <script src="Asset/js/angular.min.js"></script>
+    <script src="Asset/customer/common.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>

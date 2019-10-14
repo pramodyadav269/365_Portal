@@ -230,6 +230,12 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -290,6 +296,8 @@
     <Content Include="Asset\css\bootstrap.min.css" />
     <Content Include="Asset\css\select2.min.css" />
     <Content Include="Asset\css\site.css" />
+    <Content Include="Asset\customer\common.js" />
+    <Content Include="Asset\customer\default.js" />
     <Content Include="Asset\images\close-button.png" />
     <Content Include="Asset\images\contract-file.png" />
     <Content Include="Asset\images\diploma.png" />
@@ -385,6 +393,7 @@
     <Content Include="ChangePassword.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -462,6 +471,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Asset\admin\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
