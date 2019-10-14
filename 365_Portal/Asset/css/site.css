@@ -95,6 +95,10 @@ img.logo {
     background-color: #2D7DD2;
 }
 
+.bg-green {
+    background-color: #15BC7F;
+}
+
 .c-green {
     color: #15BC7F;
 }
@@ -296,11 +300,28 @@ a.back {
         background-color: transparent !important;
     }
 
-.user-details .section-title, .topics .section-title {
+.user-details .section-title, .topics .section-title, .modules .section-title {
     text-transform: uppercase;
     color: rgba(0, 0, 0, .50);
     font-weight: bold;
     padding-bottom: .4rem;
+}
+
+.completed-progress {
+    color: rgba(0, 0, 0, .50);
+}
+
+    .completed-progress p {
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+        .completed-progress p span {
+            font-weight: 700;
+        }
+
+.color-0-25 {
+    color: rgba(0, 0, 0, .25) !important;
 }
 
 .user-details .achievements .section-title, .user-details .gifts .section-title {
@@ -372,27 +393,34 @@ img.disabled {
         content: none;
     }
 
-.topics .card .card-body .card-title {
+.topics .card .card-body .card-title, .modules .card .card-body .card-title {
     font-weight: bold;
     margin-bottom: .25rem;
 }
 
-.topics .card {
+.topics .card, .modules .card {
     color: #000;
 }
 
-    .topics .card .card-body p {
-        margin-bottom: 0;
+.modules .locked .card {
+    color: rgba(0, 0, 0, 0.25);
+}
+
+
+
+.topics .card .card-body p, .modules .card .card-body p {
+    margin-bottom: 0;
+}
+
+
+    .topics .card .card-body p.anchor, .modules .card .card-body p.anchor {
+        height: 24px;
     }
 
-
-        .topics .card .card-body p.anchor {
-            height: 24px;
-        }
-
-    .topics .card .card-body .card-text {
-        height: 72px;
-    }
+.topics .card .card-body .card-text, .modules .card .card-body .card-text {
+    height: 98px;
+    line-height: 20px;
+}
 
 .modal-content {
     border-radius: 0;
@@ -434,4 +462,8 @@ img.disabled {
 
 .reward .modal-text {
     line-height: 20px;
+}
+
+.border-radius-0 {
+    border-radius: 0;
 }
