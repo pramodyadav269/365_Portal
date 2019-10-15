@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Life.Master" AutoEventWireup="true" CodeBehind="Topics.aspx.cs" Inherits="_365_Portal.Topics" %>
+﻿<%@ Page Title="Topics" Language="C#" MasterPageFile="~/Life.Master" AutoEventWireup="true" CodeBehind="Topics.aspx.cs" Inherits="_365_Portal.Topics" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -15,7 +15,7 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <a href="#">
+                            <a href="Modules.aspx">
                                 <div class="card border-0 shadow mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">Employee Conduct</h5>
