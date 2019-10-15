@@ -11,7 +11,8 @@ namespace Life
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            // Take UserName from Session.
+            dvUserName.InnerText = "Hello, Daniel!";
         }
     }
 }

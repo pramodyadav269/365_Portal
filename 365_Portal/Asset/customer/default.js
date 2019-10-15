@@ -5,7 +5,6 @@ app.controller("DefaultController", function ($scope, DataService) {
     objDs = DataService;
     objDs.DS_GetUserTopics();
 
-    $scope.UserGreeting = "Hello, Daniel!";
     $scope.ActiveContainer = "Topic";
     $scope.NotificationText = "Notifications";
 
@@ -36,12 +35,12 @@ app.controller("DefaultController", function ($scope, DataService) {
             }
             else {
                 $scope.ActiveContainer = "ContentView";
-                objDs.DS_GetContentsDetails();
+                objDs.DS_GetContentDetails();
             }
         }
         else {
             $scope.ActiveContainer = "ContentView";
-            objDs.DS_GetContentsDetails();
+            objDs.DS_GetContentDetails();
         }
     }
 
@@ -113,11 +112,14 @@ app.controller("DefaultController", function ($scope, DataService) {
 
     $scope.GoBack = function (prevPage) {
         $scope.ActiveContainer = prevPage;
+        if (prevPage == 'Content')
+            $("#dvVideoRating").hide();
     }
 
-    $scope.RateVideo = function (rating) {
+    $scope.RateVideo = function (contentId, rating) {
         //Save Rating
         $("#dvVideoRating").hide();
+        objDs.DS_RateContent(contentId, rating);
         $scope.GoBack('Content');
     }
 });
@@ -201,13 +203,14 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             "TopicDescription": "Employee Conduct",
             "TotalModules": 10, "CompletedModules": 4, "IsCompleted": false,
             "ProgressBarText": "4 of 10 Completed",
+            "CompletedPercentage": (4 / 10) * 100,
             "UnlockedItems": [
                 {
                     "ModuleId": 1,
                     "Title": "Introduction",
                     "Islocked": false,
                     "Description": "Life as an employee can be tough. Let's work together to make it easier.",
-                    "IsCompleted": false,
+                    "IsCompleted": true,
                     "TotalContents": 10,
                     "CompletedContents": 4,
                     "Progress": "4/10",
@@ -344,6 +347,8 @@ app.service("DataService", function ($http, $rootScope, $compile) {
     }
 
     ds.DS_GetContentDetails = function (contentId) {
+        // Update Content Details (Mark it as completed, activate next content)
+        // Check Whether content is locked or unlocked
         $rootScope.SpecialContents = {
             "ContentID": 1,
             "Type": "CONTENT",
@@ -360,197 +365,25 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             "TotalFlashcardSlides": 2,
             "FlashcardSlides": [],
             "TotalQuestions": 8,
-            "Questions": [
-                {
-                    "QuestionID": 1,
-                    "Title": "Multiple Choice Question",
-                    "QuestionType": "1",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Choice 1",
-                            "SortOrder": 1,
-                            "Score": 1,
-                            "IsCorrect": true
-                        },
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Choice 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                },
-                {
-                    "QuestionID": 2,
-                    "Title": "Dropdown",
-                    "QuestionType": "2",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Item 1",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Item 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Item 3",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                },
-                {
-                    "QuestionID": 3,
-                    "Title": "Radio Button",
-                    "QuestionType": "3",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Option 1",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Option 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 4,
-                    "Title": "File Upload",
-                    "QuestionType": "4",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 4,
-                    "Title": "Rating Scale",
-                    "QuestionType": "5",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 6,
-                    "Title": "TextBox",
-                    "QuestionType": "6",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 7,
-                    "Title": "Paragraphs",
-                    "QuestionType": "7",
-                    "IsMandatory": false,
-                    "IsMultipleLine": true,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 8,
-                    "Title": "Date Time",
-                    "QuestionType": "8",
-                    "IsMandatory": false,
-                    "IsMultipleLine": true,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-            ]
+            "Questions": []
         };
 
         if ($rootScope.SpecialContents.Type == 'CONTENT') {
             if ($rootScope.SpecialContents.FileType == 'VIDEO') {
-                $("#divVideo").html('<video id="vdVideoPlayer" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
-                    '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath+'" type="video/mp4">' +
+                $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" autoplay="autoplay" controls="" height="100%" width="100%">' +
+                    '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath + '" type="video/mp4">' +
                     '</video>');
                 document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
             }
             else if ($rootScope.SpecialContents.FileType == 'PDF') {
                 $("#divPDF").html('<div style="width: 760px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); overflow: hidden;">' +
-                    '<embed id="dvPDFViewer" src="' + $rootScope.SpecialContents.FilePath +'" width="760" height="800">' +
+                    '<embed id="dvPDFViewer" src="' + $rootScope.SpecialContents.FilePath + '" width="760" height="800">' +
                     '</div>');
             }
         }
+
+        // Call this to retrieve locked/unlocked contents.
+        //DS_GetContentsByModule();
     }
 
     ds.DS_GetSurveyDetails = function (contentId) {
@@ -574,6 +407,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     "QuestionID": 1,
                     "Title": "Multiple Choice Question",
                     "QuestionType": "1",
+                    "IsAnswered": false,
                     "IsMandatory": false,
                     "IsMultipleLine": false,
                     "MaxLength": "150",
@@ -584,13 +418,15 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                             "AnswerText": "Choice 1",
                             "SortOrder": 1,
                             "Score": 1,
-                            "IsCorrect": true
+                            "IsCorrect": true,
+                            "IsSelected": false,
                         },
                         {
                             "AnswerID": 2,
                             "AnswerText": "Choice 2",
                             "SortOrder": 1,
-                            "IsCorrect": false
+                            "IsCorrect": false,
+                            "IsSelected": false,
                         }
                     ],
                     "IsCorrect": false,
@@ -603,6 +439,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     "QuestionID": 2,
                     "Title": "Dropdown",
                     "QuestionType": "2",
+                    "IsAnswered": false,
                     "IsMandatory": false,
                     "IsMultipleLine": false,
                     "MaxLength": "150",
@@ -612,21 +449,24 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                             "AnswerID": 1,
                             "AnswerText": "Item 1",
                             "SortOrder": 1,
-                            "IsCorrect": false
+                            "IsCorrect": false,
+                            "IsSelected": false,
                         }
                         ,
                         {
                             "AnswerID": 2,
                             "AnswerText": "Item 2",
                             "SortOrder": 1,
-                            "IsCorrect": false
+                            "IsCorrect": false,
+                            "IsSelected": false,
                         }
                         ,
                         {
                             "AnswerID": 2,
                             "AnswerText": "Item 3",
                             "SortOrder": 1,
-                            "IsCorrect": false
+                            "IsCorrect": false,
+                            "IsSelected": false,
                         }
                     ],
                     "IsCorrect": false,
@@ -639,6 +479,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     "QuestionID": 3,
                     "Title": "Radio Button",
                     "QuestionType": "3",
+                    "IsAnswered": false,
                     "IsMandatory": false,
                     "IsMultipleLine": false,
                     "MaxLength": "150",
@@ -648,14 +489,16 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                             "AnswerID": 1,
                             "AnswerText": "Option 1",
                             "SortOrder": 1,
-                            "IsCorrect": false
+                            "IsCorrect": false,
+                            "IsSelected": false,
                         }
                         ,
                         {
                             "AnswerID": 2,
                             "AnswerText": "Option 2",
                             "SortOrder": 1,
-                            "IsCorrect": false
+                            "IsCorrect": false,
+                            "IsSelected": false,
                         }
                     ],
                     "IsCorrect": false,
@@ -669,6 +512,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     "QuestionID": 4,
                     "Title": "File Upload",
                     "QuestionType": "4",
+                    "IsAnswered": false,
                     "IsMandatory": false,
                     "IsMultipleLine": false,
                     "MaxLength": "150",
@@ -685,6 +529,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     "QuestionID": 4,
                     "Title": "Rating Scale",
                     "QuestionType": "5",
+                    "IsAnswered": false,
                     "IsMandatory": false,
                     "IsMultipleLine": false,
                     "MaxLength": "150",
@@ -701,6 +546,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     "QuestionID": 6,
                     "Title": "TextBox",
                     "QuestionType": "6",
+                    "IsAnswered": false,
                     "IsMandatory": false,
                     "IsMultipleLine": false,
                     "MaxLength": "150",
@@ -717,6 +563,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     "QuestionID": 7,
                     "Title": "Paragraphs",
                     "QuestionType": "7",
+                    "IsAnswered": false,
                     "IsMandatory": false,
                     "IsMultipleLine": true,
                     "MaxLength": "150",
@@ -733,6 +580,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     "QuestionID": 8,
                     "Title": "Date Time",
                     "QuestionType": "8",
+                    "IsAnswered": false,
                     "IsMandatory": false,
                     "IsMultipleLine": true,
                     "MaxLength": "150",
@@ -1161,5 +1009,13 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                 }
             ]
         };
+    }
+
+    ds.DS_RateContent = function (contentId, rating) {
+        // Ajax Call
+    }
+
+    ds.DS_SubmitAnswers = function (contentId, rating) {
+        // Ajax Call
     }
 });
