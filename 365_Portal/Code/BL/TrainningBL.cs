@@ -7,11 +7,11 @@ using System.Web;
 
 namespace _365_Portal.Code.BL
 {
-    public class TopicBL
+    public class TrainningBL
     {
         public static DataSet GetUserTopics()
         {
-            return TopicDAL.GetUserTopics();
+            return TrainningDAL.GetUserTopics();
         }
     }
 }

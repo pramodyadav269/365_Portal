@@ -196,9 +196,9 @@
     <Compile Include="ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Code\BL\TopicBL.cs" />
+    <Compile Include="Code\BL\TrainningBL.cs" />
     <Compile Include="Code\ConnectionManager.cs" />
-    <Compile Include="Code\DAL\TopicDAL.cs" />
+    <Compile Include="Code\DAL\TrainningDAL.cs" />
     <Compile Include="Code\TextResult.cs" />
     <Compile Include="Code\Utility.cs" />
     <Compile Include="Common\DBConnection.cs" />
@@ -212,7 +212,7 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TopicController.cs" />
+    <Compile Include="Controllers\TrainningController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Code\DAL\UserDAL.cs" />

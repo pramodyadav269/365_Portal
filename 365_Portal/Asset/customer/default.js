@@ -176,24 +176,19 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                 "ProgressBarText": "4 of 10 Completed",
                 "SortOrder": 4
             }
-        ];
+        ]; 
 
-        /*
-        $(".mainLoader").show();
+        var RequestParams = { UserID: userId };
+    
         $http({
             method: "POST",
-            url: "nlp_report_ajax.aspx?sid=" + QueryString()["sid"],
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            data: $.param({
-                reqType: "5",
-                ReportType: reportType
-            })
+            url: "../api/Trainning/GetUserTopics",
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            data: JSON.stringify({ RequestParams }),
         }).then(function success(response) {
             response = response.data;
-            var aa = response.substring(response.indexOf("<Response>", 0) + 10, response.indexOf("</Response>", 0));
-            aa = JSON.parse(aa);         
+            response = JSON.parse(response);
         });
-        */
     }
 
     ds.DS_GetModulesByTopic = function (topicId) {
@@ -257,6 +252,18 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                 }
             ]
         };
+
+        var RequestParams = { TopicId: topicId };
+
+        $http({
+            method: "POST",
+            url: "../api/Trainning/GetUserTopics",
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            data: JSON.stringify({ RequestParams }),
+        }).then(function success(response) {
+            response = response.data;
+            response = JSON.parse(response);
+        });
 
     }
 
