@@ -14,7 +14,7 @@
     <link href="Asset/css/site.css" rel="stylesheet" />
 
     <%-- JS --%>
-    <script src="Asset/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="Asset/js/jquery.min.js"></script>
     <script src="Asset/js/popper.min.js"></script>
     <script src="Asset/js/bootstrap.min.js"></script>
     <script src="Asset/js/all.js"></script>

@@ -319,7 +319,7 @@
     <Content Include="Asset\js\all.js" />
     <Content Include="Asset\js\bootstrap.js" />
     <Content Include="Asset\js\bootstrap.min.js" />
-    <Content Include="Asset\js\jquery-3.3.1.slim.min.js" />
+    <Content Include="Asset\js\jquery.min.js" />
     <Content Include="Asset\js\popper.min.js" />
     <Content Include="Asset\js\select2.min.js" />
     <Content Include="Asset\js\site.js" />
