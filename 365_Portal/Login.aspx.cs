@@ -13,5 +13,14 @@ namespace _365_Portal
         {
 
         }
+
+        protected void btnLogin_ServerClick(object sender, EventArgs e)
+        {
+            Session["UserId"] = txtUserEmail.Value;
+            Session["Name"] = txtUserEmail.Value;
+            Session["Role"] = txtUserEmail.Value;
+
+            Response.Redirect("~/default.aspx");
+        }
     }
 }

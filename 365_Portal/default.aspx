@@ -103,32 +103,84 @@
         <%--End Modules--%>
 
         <%--Start Content--%>
-        <div id="dvContentsContainer" ng-show="ActiveContainer =='Content'">
-            <div ng-click="GoBack('Module')">Back to Modules</div>
-            <h2>{{Content.ModuleName}}</h2>
-            <h2>Content</h2>
-            <div>{{Content.ProgressBarText}}</div>
-            <b>Overview</b>
-            In the employee motivation module, will guide you through a number of 
-            techniques that you can use to keep yourself motivated. As a result
-            you will hopefully stay much more motivated in your office and have more fun.
-            <div ng-repeat="content in Content.UnlockedItems">
-                <div ng-click="ViewContent(content.Title,content.Type)">
-                    <div>{{content.Icon}}</div>
-                    <div>{{content.Title}}</div>
-                    <div>{{content.Description}}</div>
+        <div class="row contents" id="dvContentsContainer" ng-show="ActiveContainer =='Content'">
+            <div class="col-md-12 header">
+                <a class="back" href="#" ng-click="GoBack('Module')"><i class="fas fa-arrow-left"></i>Back to Modules</a>
+                <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
+                <h1 class="text-center font-weight-bold">{{Content.ModuleName}}</h1>
+                <h6 class="text-center header-sub-title mt-3">Module</h6>
+            </div>
+
+            <div class="col-md-6 mt-4 offset-md-3 completed-progress">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="float-left"><span>{{Content.CompletedModules}} of {{Content.TotalModules}}</span> modules completed</p>
+                        <i class="fas fa-trophy fa-lg float-right"></i>
+                    </div>
+                    <div class="col-12">
+                        <div class="progress border-radius-0">
+                            <div class="progress-bar bg-green" role="progressbar" ng-style="{ 'width': Content.CompletedPercentage + '%' }"
+                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div ng-repeat="content in Content.LockedItems">
-                <div ng-click="ViewContent(content.Title,content.Type)">
-                    <div>{{content.Icon}}</div>
-                    <div>{{content.Title}}</div>
-                    <div>{{content.Description}}</div>
-                    <div>Locked</div>
+            <div class="col-md-10 mt-5 offset-md-1">
+                <div class="row">
+                    <div class="col-md-12 mb-4 overview">
+                        <h4 class="font-weight-bold">Overview</h4>
+                        <p>
+                            In the employee motivation module, will guide you through a number of 
+            techniques that you can use to keep yourself motivated. As a result
+            you will hopefully stay much more motivated in your office and have more fun.
+                        </p>
+                    </div>
+
+                    <div class="col-md-12 mb-3" ng-repeat="content in Content.UnlockedItems">
+                        <a href="#" ng-click="ViewContent(content.Title,content.Type)">
+                            <div class="card border-0 shadow mb-3">
+                                <div class="card-body">
+                                    <div class="row align-items-center content-type">
+                                        <div class="col-sm-2 col-md-2 col-lg-1">
+                                            <img src="Asset/images/pdf-file.png" />
+                                        </div>
+                                        <div class="col-sm-9 col-md-9 col-lg-10">
+                                            <h5 class="card-title">{{content.Title}}</h5>
+                                            <p class="card-text">{{content.Description}}</p>
+                                        </div>
+                                        <div class="col-sm-1 col-md-1 col-lg-1">
+                                            <p class="anchor text-right"><i class="fas fa-check c-green"></i></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-12 mb-3 locked" ng-repeat="content in Content.LockedItems">
+                        <a href="#" ng-click="ViewContent(content.Title,content.Type)">
+                            <div class="card border-0 shadow mb-3">
+                                <div class="card-body">
+                                    <div class="row align-items-center content-type">
+                                        <div class="col-sm-2 col-md-2 col-lg-1">
+                                            <img src="Asset/images/pdf-file.png" />
+                                        </div>
+                                        <div class="col-sm-9 col-md-9 col-lg-10">
+                                            <h5 class="card-title">{{content.Title}}</h5>
+                                            <p class="card-text">{{content.Description}}</p>
+                                        </div>
+                                        <div class="col-sm-1 col-md-1 col-lg-1">
+                                            <p class="anchor text-right"><i class="fas fa-lock"></i></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-
         <%--End Content--%>
 
         <div ng-show="ActiveContainer =='ContentView'">
@@ -368,9 +420,6 @@
             <div>Description</div>
             <button onclick="return false;">GREAT</button>
         </div>
-
-
-
     </div>
 
     <script>
@@ -379,11 +428,11 @@
         }
 
         function VideoPaused(e) {
-            alert("Video Paused");
+            //alert("Video Paused");
         }
 
         function VideoClicked(cntrl) {
-           // $("#vdVideoPlayer").trigger( "click" );
+            // $("#vdVideoPlayer").trigger( "click" );
             cntrl.paused ? cntrl.play() : cntrl.pause();
         }
     </script>
