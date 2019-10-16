@@ -226,6 +226,13 @@
     </Compile>
     <Compile Include="Common\DBConnection.cs" />
     <Compile Include="Common\JSONHelper.cs" />
+    <Compile Include="Contents.aspx.cs">
+      <DependentUpon>Contents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contents.aspx.designer.cs">
+      <DependentUpon>Contents.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -311,10 +318,13 @@
     <Content Include="Asset\images\close-button.png" />
     <Content Include="Asset\images\contract-file.png" />
     <Content Include="Asset\images\diploma.png" />
+    <Content Include="Asset\images\exam.png" />
+    <Content Include="Asset\images\flash-card.png" />
     <Content Include="Asset\images\giftbox.png" />
     <Content Include="Asset\images\logo.svg" />
     <Content Include="Asset\images\pdf-file.png" />
     <Content Include="Asset\images\profile.png" />
+    <Content Include="Asset\images\survey.png" />
     <Content Include="Asset\images\target.png" />
     <Content Include="Asset\images\video-file.png" />
     <Content Include="Asset\js\all.js" />
@@ -329,6 +339,7 @@
     <Content Include="Asset\webfonts\fa-regular-400.svg" />
     <Content Include="Asset\webfonts\fa-solid-900.svg" />
     <Content Include="ChangePassword.aspx" />
+    <Content Include="Contents.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="default.aspx" />

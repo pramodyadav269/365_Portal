@@ -10,6 +10,7 @@
     <%-- CSS --%>
     <link href="Asset/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Asset/css/all.css" rel="stylesheet" />
+    <link href="Asset/css/select2.min.css" rel="stylesheet" />
     <link href="Asset/css/site.css" rel="stylesheet" />
 
     <%-- JS --%>
@@ -17,6 +18,7 @@
     <script src="Asset/js/popper.min.js"></script>
     <script src="Asset/js/bootstrap.min.js"></script>
     <script src="Asset/js/all.js"></script>
+    <script src="Asset/js/select2.min.js"></script>
     <script src="Asset/js/site.js"></script>
 
 </head>

@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 header">
             <a class="back" href="Settings.aspx"><i class="fas fa-arrow-left"></i>Back to Profile</a>
             <h1 class="text-center font-weight-bold">Change Password</h1>
         </div>

@@ -69,7 +69,7 @@
             </div>
         </nav>
 
-        <div class="container mt-5 page-body">
+        <div class="container mt-5 mb-5">
             <asp:ContentPlaceHolder ID="body" runat="server">
             </asp:ContentPlaceHolder>
         </div>

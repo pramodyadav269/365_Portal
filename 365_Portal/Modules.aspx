@@ -4,10 +4,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row modules">
-        <div class="col-md-12">
+        <div class="col-md-12 header">
             <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Topics</a>
             <h1 class="text-center font-weight-bold">Employee Conduct</h1>
-            <h6 class="text-center section-title mt-3 color-0-25">Topic</h6>
+            <h6 class="text-center header-sub-title mt-3">Topic</h6>
         </div>
         <div class="col-md-6 mt-4 offset-md-3 completed-progress">
             <div class="row">
@@ -41,7 +41,7 @@
                             </a>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <a href="#">
+                            <a href="Contents.aspx">
                                 <div class="card border-0 shadow mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">Employee Motivation</h5>
@@ -72,31 +72,37 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <div class="card border-0 mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Conduct After Hours</h5>
-                                    <p class="card-text">When does an employee’s behaviour outside of working hours become the concern of their employee?</p>
-                                    <p class="text-right anchor"><i class="fas fa-lock"></i></p>
+                            <a href="#">
+                                <div class="card border-0 shadow mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Conduct After Hours</h5>
+                                        <p class="card-text">When does an employee’s behaviour outside of working hours become the concern of their employee?</p>
+                                        <p class="text-right anchor"><i class="fas fa-lock"></i></p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <div class="card border-0 mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Risks And Boundaries</h5>
-                                    <p class="card-text">How to set up boundaries?</p>
-                                    <p class="text-right anchor"><i class="fas fa-lock"></i></p>
+                            <a href="#">
+                                <div class="card border-0 shadow mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Risks And Boundaries</h5>
+                                        <p class="card-text">How to set up boundaries?</p>
+                                        <p class="text-right anchor"><i class="fas fa-lock"></i></p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <div class="card border-0 mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Mutual Respect</h5>
-                                    <p class="card-text">Methods which helps you to learn respect each other.</p>
-                                    <p class="text-right anchor"><i class="fas fa-lock"></i></p>
+                            <a href="#">
+                                <div class="card border-0 shadow mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Mutual Respect</h5>
+                                        <p class="card-text">Methods which helps you to learn respect each other.</p>
+                                        <p class="text-right anchor"><i class="fas fa-lock"></i></p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
