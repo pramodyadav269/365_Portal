@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+﻿using _365_Portal.Code.DAL;
+using System;
 
 namespace _365_Portal
 {
@@ -19,6 +15,8 @@ namespace _365_Portal
             Session["UserId"] = txtUserEmail.Value;
             Session["Name"] = txtUserEmail.Value;
             Session["Role"] = txtUserEmail.Value;
+
+            var ds = TopicDAL.GetUserTopics();
 
             Response.Redirect("~/default.aspx");
         }
