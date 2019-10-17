@@ -23,7 +23,7 @@
 
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" class="">
         <div class="container">
             <div class="row">
                 <div class="top-logo">
@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="txtUserPassword">Password</label>
-                                    <input type="password" class="form-control" id="txtUserPassword" placeholder="Password" />
+                                    <input type="password" class="form-control" id="txtUserPassword" placeholder="Password"  />
                                 </div>
                                 <div class="text-center mt-4">
                                     <a class="link font-weight-bold" onclick="toggle('divPasswordRecover','divlogin');">Forgot your password?</a>

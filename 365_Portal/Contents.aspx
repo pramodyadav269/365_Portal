@@ -33,7 +33,7 @@
                     </p>
                 </div>
                 <div class="col-md-12 mb-3">
-                    <a href="#">
+                    <a href="ContentDetails.aspx?key=pdf">
                         <div class="card border-0 shadow mb-3">
                             <div class="card-body">
                                 <div class="row align-items-center content-type">
@@ -53,7 +53,7 @@
                     </a>
                 </div>
                 <div class="col-md-12 mb-3">
-                    <a href="#">
+                    <a href="ContentDetails.aspx?key=video">
                         <div class="card border-0 shadow mb-3">
                             <div class="card-body">
                                 <div class="row align-items-center content-type">
