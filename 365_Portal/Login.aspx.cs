@@ -16,7 +16,7 @@ namespace _365_Portal
             Session["Name"] = txtUserEmail.Value;
             Session["Role"] = txtUserEmail.Value;
 
-            var ds = TrainningDAL.GetUserTopics();
+            var ds = TrainningDAL.GetUserTopics("1");
 
             Response.Redirect("~/default.aspx");
         }

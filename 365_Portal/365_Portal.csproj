@@ -199,6 +199,7 @@
     <Compile Include="Code\BL\TrainningBL.cs" />
     <Compile Include="Code\ConnectionManager.cs" />
     <Compile Include="Code\DAL\TrainningDAL.cs" />
+    <Compile Include="Code\Logger.cs" />
     <Compile Include="Code\TextResult.cs" />
     <Compile Include="Code\Utility.cs" />
     <Compile Include="Common\DBConnection.cs" />
