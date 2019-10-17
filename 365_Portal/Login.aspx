@@ -24,7 +24,7 @@
 
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" class="">
         <div class="container">
             <div class="row">
                 <div class="top-logo">
