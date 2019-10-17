@@ -2,6 +2,12 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="Asset/customer/default.js"></script>
+    <style>
+        .contents-datials .embed {
+            width: 100%;
+            height: 35rem;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div ng-controller="DefaultController">
@@ -183,45 +189,64 @@
         </div>
         <%--End Content--%>
 
-        <div ng-show="ActiveContainer =='ContentView'">
-            <div ng-click="GoBack('Content')">{{ContentGoBackText}}</div>
-            <h2>Display Content View</h2>
-            <div ng-show="SpecialContents.FileType == 'VIDEO'" id="divVideo">
-            </div>
-            <div ng-show="SpecialContents.FileType == 'PDF'" id="divPDF">
+        <div class="row contents-datials" ng-show="ActiveContainer =='ContentView'">
+            <div class="col-md-12 header">
+                <a class="back" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
+                <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
             </div>
 
-            <div id="dvVideoRating" style="display: none;">
-                <h1>How did u like the video?</h1>
-                <div class="section-video-rating-list" ng-click="RateVideo(SpecialContents.ContentID,1)">
-                    <div class="section-video-rating-icon">
-                        <span class="rating-love-icon"></span>
+            <div class="col-md-10 mt-5 offset-md-1">
+                <div class="row">
+                    <div class="col-md-12 mb-3" id="pdfContent" ng-show="SpecialContents.FileType == 'PDF'">
+                        <%-- <embed src="Asset/data/test.pdf" />--%>
+                        <div class="contents-datials embed"  id="divPDF">
+                        </div>
+                        <div class="text-center mt-5">
+                            <a class="btn bg-blue font-weight-bold text-white" onclick="toggleSection('video')">Continue</a>
+                        </div>
                     </div>
-                    <div>Love it!</div>
-                </div>
 
-                <div class="section-video-rating-list" ng-click="RateVideo(SpecialContents.ContentID,2)">
-                    <div class="section-video-rating-icon">
-                        <span class="rating-like-icon"></span>
+                    <div class="col-md-10 offset-md-1 mb-3 text-center" id="videoContent" ng-show="SpecialContents.FileType == 'VIDEO'" >
+                        <div class="row">
+                            <div id="dvVideoRating" style="display: none;" class="col-md-12 video-rating text-white d-none">
+                                <h2 class="font-weight-bold">How did you like the video?</h2>
+                                <dl class="row text-center">
+                                    <dt class="col" ng-click="RateVideo(SpecialContents.ContentID,1)">
+                                        <i class="far fa-grin-hearts fa-5x"></i>
+                                        <span>Love it!</span>
+                                    </dt>
+                                    <dt class="col" ng-click="RateVideo(SpecialContents.ContentID,1)">
+                                        <i class="far fa-grin-beam fa-5x"></i>
+                                        <span>Like it!</span>
+                                    </dt>
+                                    <dt class="col" ng-click="RateVideo(SpecialContents.ContentID,1)">
+                                        <i class="far fa-meh fa-5x"></i>
+                                        <span>Meh</span>
+                                    </dt>
+                                    <dt class="col" ng-click="RateVideo(SpecialContents.ContentID,1)">
+                                        <i class="far fa-frown fa-5x"></i>
+                                        <span>Didn't like it!</span>
+                                    </dt>
+                                </dl>
+                            </div>
+                            <div class="col-md-12">
+                                <%-- <video controls id="contentVideo" onended="videoRating()">
+                                    <source src="Asset/data/bunny.mp4" type="video/mp4">
+                                </video>--%>
+                                <div id="divVideo">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-4 overview text-left">
+                                <h5 class="font-weight-bold text-uppercase">Goal setting - How to get over obstacles?</h5>
+                                <p>
+                                    In this video, we’ll go through the basics of goal setting. Goals are an important aspect 
+                            of motivation and can help you a lot in the long-term.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div>Like it!</div>
-                </div>
-
-                <div class="section-video-rating-list" ng-click="RateVideo(SpecialContents.ContentID,3)">
-                    <div class="section-video-rating-icon">
-                        <span class="rating-meh-icon"></span>
-                    </div>
-                    <div>Meh</div>
-                </div>
-
-                <div class="section-video-rating-list" ng-click="RateVideo(SpecialContents.ContentID,4)">
-                    <div class="section-video-rating-icon">
-                        <span class="rating-dislike-icon"></span>
-                    </div>
-                    <div>Didn't like it!</div>
                 </div>
             </div>
-
         </div>
 
         <div ng-show="ActiveContainer =='ContentSurveyView'">
@@ -425,6 +450,7 @@
     <script>
         function VideoFinished(e) {
             $("#dvVideoRating").show();
+            $('#dvVideoRating').removeClass('d-none');
         }
 
         function VideoPaused(e) {
