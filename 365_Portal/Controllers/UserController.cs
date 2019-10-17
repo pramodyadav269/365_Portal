@@ -107,6 +107,7 @@ namespace _365_Portal.Controllers
             return Ok(Response);
         }
 
+        //Get request api to autheticate user
         [HttpGet]
         [Route("api/User/GetForAuthenticate")]
         public IHttpActionResult GetForAuthenticate()
