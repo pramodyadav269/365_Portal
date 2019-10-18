@@ -225,6 +225,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Code\BL\CommonBL.cs" />
+    <Compile Include="Code\BL\ContentBL.cs" />
+    <Compile Include="Code\BL\SurveyBL.cs" />
     <Compile Include="Code\BL\TrainningBL.cs" />
     <Compile Include="ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
@@ -233,6 +236,11 @@
     <Compile Include="ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Code\BL\UserBL.cs" />
+    <Compile Include="Code\BO\ContentBO.cs" />
+    <Compile Include="Code\DAL\CommonDAL.cs" />
+    <Compile Include="Code\DAL\ContentDAL.cs" />
+    <Compile Include="Code\DAL\SurveyDAL.cs" />
     <Compile Include="Code\Utility.cs" />
     <Compile Include="Common\DBConnection.cs" />
     <Compile Include="Common\JSONHelper.cs" />
@@ -256,7 +264,6 @@
     <Compile Include="Controllers\TrainningController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Code\DAL\LoginDAL.cs" />
     <Compile Include="Code\DAL\TrainningDAL.cs" />
     <Compile Include="Code\DAL\UserDAL.cs" />
     <Compile Include="Global.asax.cs">

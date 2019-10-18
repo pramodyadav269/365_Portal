@@ -1,5 +1,8 @@
 ﻿using _365_Portal.Common;
 using _365_Portal.Models;
+using _365_Portal.Code.DAL;
+
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,11 +11,16 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using static _365_Portal.Models.Login;
+using _365_Portal.Code;
 
-namespace _365_Portal.DAL
+namespace _365_Portal.Code.DAL
 {
     public class UserDAL
     {
+        public static void Log(Exception ex, string methodName)
+        {
+            Logger.Log(ex, "UserDAL", methodName);
+        }
         public static int UserID = 0;//commit1
 
         public static LoginResponse LoginUser(LoginRequest objRequest)
@@ -61,10 +69,10 @@ namespace _365_Portal.DAL
                 {
                     conn.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ControllerName", objRequest.EmailId);                    
+                    cmd.Parameters.AddWithValue("@ControllerName", objRequest.EmailId);
                     cmd.Parameters.AddWithValue("@Ref1", objRequest.Ref1);
                     cmd.Parameters.AddWithValue("@Ref2", objRequest.Ref2);
-                    cmd.Parameters.AddWithValue("@Ref3", objRequest.Ref3);                    
+                    cmd.Parameters.AddWithValue("@Ref3", objRequest.Ref3);
                     i = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -147,6 +155,209 @@ namespace _365_Portal.DAL
             }                       
             */
             return objUser;
+        }
+        public static DataSet CreateUser(UserBO userdetails)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spCreateUser";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CompId", userdetails.CompId);
+                cmd.Parameters.AddWithValue("@UserId", userdetails.UserId);
+                cmd.Parameters.AddWithValue("@UserKey", userdetails.UserKey);
+                cmd.Parameters.AddWithValue("@FirstName", userdetails.FirstName);
+                cmd.Parameters.AddWithValue("@LastName", userdetails.LastName);
+                cmd.Parameters.AddWithValue("@Password", userdetails.NewPassword);//Password field value name is in NewPassword variable. 
+                cmd.Parameters.AddWithValue("@RoleId", userdetails.RoleId);
+                cmd.Parameters.AddWithValue("@EmailId", userdetails.EmailId);
+                cmd.Parameters.AddWithValue("@MobileNo", userdetails.MobileNo);
+                cmd.Parameters.AddWithValue("@Position", userdetails.Position);
+                cmd.Parameters.AddWithValue("@GroupId", userdetails.GroupId);
+                cmd.Parameters.AddWithValue("@ThemeColor", userdetails.ThemeColor);
+                cmd.Parameters.AddWithValue("@Logo", userdetails.Logo);
+                cmd.Parameters.AddWithValue("@ProfilePic", userdetails.ProfilePic);
+                cmd.Parameters.AddWithValue("@CreatedBy", userdetails.CreatedBy);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+        public static DataSet DeleteUser(Int64 CompId, string UserId, string UserKey, string CreatedBy)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spDeleteUser";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CompId", CompId);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+                cmd.Parameters.AddWithValue("@UserKey", UserKey);
+                cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+
+
+
+        public static DataSet GetUsers( string UserId, string RoleId, string EmailId,string GroupId,string MobileNo, string Position, string CreatedBy)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spGetUsers";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+                cmd.Parameters.AddWithValue("@RoleId", RoleId);
+                cmd.Parameters.AddWithValue("@EmailId", EmailId);
+                cmd.Parameters.AddWithValue("@GroupId", GroupId);
+                cmd.Parameters.AddWithValue("@MobileNo", MobileNo);
+                cmd.Parameters.AddWithValue("@Position", Position);
+                cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+
+        public static DataSet CreateGroup(Int64 CompId, string GroupName, string Description, string CreatedBy)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spCreateGroup";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CompId", CompId);
+                cmd.Parameters.AddWithValue("@GroupName", GroupName);
+                cmd.Parameters.AddWithValue("@Description", Description);
+                cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+
+
+        public static DataSet DeleteGroup(Int64 CompId, Int64 GroupId, string CreatedBy)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spDeleteGroup";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CompId", CompId);
+                cmd.Parameters.AddWithValue("@GroupId", GroupId);                
+                cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+
+
+        public static DataSet SetUserPassword(Int64 CompId, string UserId, string Password, string CreatedBy)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spSetUserPassword";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CompId", CompId);
+                cmd.Parameters.AddWithValue("@GroupName", UserId);
+                cmd.Parameters.AddWithValue("@Description", Password);
+                cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
         }
 
         /*
