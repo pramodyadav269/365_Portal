@@ -58,10 +58,19 @@
       <HintPath>..\packages\Microsoft.Owin.Cors.4.0.1\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.10.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.10.9\lib\net452\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MySql.Data, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Cors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
       <Private>True</Private>
@@ -189,6 +198,34 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
+    <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageAreaRegistration.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\CollectionModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ComplexTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\DictionaryModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumValueDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\IModelDocumentationProvider.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\KeyValuePairModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescriptionGenerator.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameAttribute.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameHelper.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterAnnotation.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
+    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -196,14 +233,9 @@
     <Compile Include="ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Code\BL\TrainningBL.cs" />
-    <Compile Include="Code\ConnectionManager.cs" />
-    <Compile Include="Code\DAL\TrainningDAL.cs" />
-    <Compile Include="Code\Logger.cs" />
-    <Compile Include="Code\TextResult.cs" />
-    <Compile Include="Code\Utility.cs" />
     <Compile Include="Common\DBConnection.cs" />
     <Compile Include="Common\JSONHelper.cs" />
+    <Compile Include="Code\ConnectionManager.cs" />
     <Compile Include="ContentDetails.aspx.cs">
       <DependentUpon>ContentDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -223,14 +255,7 @@
     <Compile Include="Controllers\TrainningController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Code\DAL\UserDAL.cs" />
-    <Compile Include="default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="default.aspx.designer.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-    </Compile>
+    <Compile Include="DAL\UserDAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -241,6 +266,7 @@
     <Compile Include="Life.Master.designer.cs">
       <DependentUpon>Life.Master</DependentUpon>
     </Compile>
+    <Compile Include="Code\Logger.cs" />
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -283,6 +309,7 @@
       <DependentUpon>Settings.aspx</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="Code\TextResult.cs" />
     <Compile Include="Topics.aspx.cs">
       <DependentUpon>Topics.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -291,6 +318,13 @@
       <DependentUpon>Topics.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserBO.cs" />
+    <Compile Include="validation.aspx.cs">
+      <DependentUpon>validation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="validation.aspx.designer.cs">
+      <DependentUpon>validation.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Asset\admin\login.js" />
