@@ -233,6 +233,11 @@
     <Compile Include="ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Code\BL\TrainningBL.cs" />
+    <Compile Include="Code\DAL\LoginDAL.cs" />
+    <Compile Include="Code\DAL\TrainningDAL.cs" />
+    <Compile Include="Code\DAL\UserDAL.cs" />
+    <Compile Include="Code\Utility.cs" />
     <Compile Include="Common\DBConnection.cs" />
     <Compile Include="Common\JSONHelper.cs" />
     <Compile Include="Code\ConnectionManager.cs" />
@@ -320,7 +325,6 @@
     <Compile Include="UserBO.cs" />
     <Compile Include="validation.aspx.cs">
       <DependentUpon>validation.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="validation.aspx.designer.cs">
       <DependentUpon>validation.aspx</DependentUpon>
@@ -366,6 +370,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="Modules.aspx" />
@@ -385,6 +390,9 @@
     <Content Include="Asset\webfonts\fa-solid-900.woff" />
     <Content Include="Asset\webfonts\fa-solid-900.woff2" />
     <Content Include="Life.Master" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
