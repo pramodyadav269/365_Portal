@@ -21,7 +21,7 @@ namespace _365_Portal.Controllers
             var data = "";
             try
             {
-                var ds = TrainningBL.GetUserTopics("1");
+                var ds = TrainningBL.GetTopics(1,"1");
                 data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
             }
             catch (Exception ex)

@@ -1,4 +1,6 @@
-﻿using _365_Portal.Code.DAL;
+﻿using _365_Portal.Code.BL;
+using _365_Portal.Code.DAL;
+using MasterPayReportingModule.App_Code;
 using System;
 
 namespace _365_Portal
@@ -16,9 +18,28 @@ namespace _365_Portal
             Session["Name"] = txtUserEmail.Value;
             Session["Role"] = txtUserEmail.Value;
 
-            var ds = TrainningDAL.GetUserTopics("1");
+            var passwordSalt = Utility.GetSalt();
 
-            Response.Redirect("~/default.aspx");
+            // Call BL to get Hashed Password & Salt by UserName
+            var dbPasswordSalt = "SUqfy3IHGUG4YVM/aO7lXWIKz4FAP18spNMiFdiGKNQ=";
+            var dbPasswordHashed = "hdc5ZLZ4sE75e3OqbgR+PqXtr1Y=";
+
+            var passwordHashed = Utility.GetHashedPassword(txtUserPassword.Value, dbPasswordSalt);
+
+            if (passwordHashed == dbPasswordHashed)
+            {
+                // Correct Password
+            }
+            else
+            {
+                // Incorrect Password
+            }
+
+            var ds = TrainningBL.GetTopics(1, "");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                Response.Redirect("~/default.aspx");
+            }
         }
     }
 }

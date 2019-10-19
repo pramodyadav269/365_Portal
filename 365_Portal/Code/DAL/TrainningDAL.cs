@@ -12,6 +12,33 @@ namespace _365_Portal.Code.DAL
             Logger.Log(ex, "TrainningDAL", methodName);
         }
 
+        public static DataSet GetTopics(Int64 CompID, string userId)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "SELECT * FROM tblTopics";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.Text;
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
+
         public static DataSet GetTopicsByUser(Int64 CompID, string userId)
         {
             DataSet ds = new DataSet();
