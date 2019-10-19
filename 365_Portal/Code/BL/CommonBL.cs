@@ -100,7 +100,7 @@ namespace _365_Portal.Code.BL
         }
 
 
-        public static DataSet GetProfileDetails((Int64 CompID, Int64 UserId)
+        public static DataSet GetProfileDetails(Int64 CompID, Int64 UserId)
         {
             DataSet ds = new DataSet();
             try

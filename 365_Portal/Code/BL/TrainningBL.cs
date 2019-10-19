@@ -14,6 +14,20 @@ namespace _365_Portal.Code.BL
             Logger.Log(ex, "TrainningBL", methodName);
         }
 
+        public static DataSet GetTopics(Int64 CompID, string userId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.GetTopics(CompID, userId);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
         public static DataSet GetTopicsByUser(Int64 CompID,string userId)
         {
             DataSet ds = new DataSet();
