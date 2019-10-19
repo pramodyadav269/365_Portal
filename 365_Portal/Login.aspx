@@ -20,6 +20,7 @@
     <script src="Asset/js/all.js"></script>
     <script src="Asset/js/select2.min.js"></script>
     <script src="Asset/js/site.js"></script>
+    <script src="Asset/admin/login.js"></script>
 
 </head>
 <body>
@@ -94,17 +95,17 @@
                             <div class="card-form">
                                 <div class="form-group">
                                     <label for="txtUserEmail">Email</label>
-                                    <input type="email" class="form-control" id="txtUserEmail" placeholder="Your email" />
+                                    <input type="email"  runat="server" class="form-control" id="txtUserEmail" placeholder="Your email" />
                                 </div>
                                 <div class="form-group">
                                     <label for="txtUserPassword">Password</label>
-                                    <input type="password" class="form-control" id="txtUserPassword" placeholder="Password"  />
+                                    <input type="password" runat="server" class="form-control" id="txtUserPassword" placeholder="Password" />
                                 </div>
                                 <div class="text-center mt-4">
                                     <a class="link font-weight-bold" onclick="toggle('divPasswordRecover','divlogin');">Forgot your password?</a>
                                 </div>
                                 <div class="text-center mt-4">
-                                    <a class="btn bg-yellow font-weight-bold" onclick="login(this)">Log In</a>
+                                    <a class="btn bg-yellow font-weight-bold" onclick="login(this)" runat="server" id="btnLogin" onserverclick="btnLogin_ServerClick">Log In</a>
                                 </div>
                             </div>
                         </div>
