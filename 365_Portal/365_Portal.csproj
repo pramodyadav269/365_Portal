@@ -223,6 +223,25 @@
     <Compile Include="ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Code\BL\AchivementBL.cs" />
+    <Compile Include="Code\BL\CommonBL.cs" />
+    <Compile Include="Code\BL\ContentBL.cs" />
+    <Compile Include="Code\BL\FlashcardBL.cs" />
+    <Compile Include="Code\BL\SurveyBL.cs" />
+    <Compile Include="Code\BL\TrainningBL.cs" />
+    <Compile Include="Code\BL\UserBL.cs" />
+    <Compile Include="Code\BO\ContentBO.cs" />
+    <Compile Include="Code\ConnectionManager.cs" />
+    <Compile Include="Code\DAL\AchivementDAL.cs" />
+    <Compile Include="Code\DAL\CommonDAL.cs" />
+    <Compile Include="Code\DAL\ContentDAL.cs" />
+    <Compile Include="Code\DAL\FlashcardDAL.cs" />
+    <Compile Include="Code\DAL\SurveyDAL.cs" />
+    <Compile Include="Code\DAL\TrainningDAL.cs" />
+    <Compile Include="Code\DAL\UserDAL.cs" />
+    <Compile Include="Code\Logger.cs" />
+    <Compile Include="Code\TextResult.cs" />
+    <Compile Include="Code\Utility.cs" />
     <Compile Include="Common\DBConnection.cs" />
     <Compile Include="Common\JSONHelper.cs" />
     <Compile Include="ContentDetails.aspx.cs">
@@ -313,7 +332,6 @@
     <Compile Include="UserBO.cs" />
     <Compile Include="validation.aspx.cs">
       <DependentUpon>validation.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="validation.aspx.designer.cs">
       <DependentUpon>validation.aspx</DependentUpon>
