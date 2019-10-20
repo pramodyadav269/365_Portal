@@ -16,7 +16,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet CreateAchievement(Int64 CompId, Int64 AchievementId,  string AchivementTitle, string AchivementDescription, string LongDescription, string CreatedBy)
+        public static DataSet CreateAchievement(Int32 CompId, Int32 AchievementId,  string AchivementTitle, string AchivementDescription, string LongDescription, string CreatedBy)
         {
 
             DataSet ds = new DataSet();
@@ -51,7 +51,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet DeleteAchievement(Int64 CompId, Int64 AchievementId)
+        public static DataSet DeleteAchievement(Int32 CompId, Int32 AchievementId)
         {
 
             DataSet ds = new DataSet();
@@ -83,7 +83,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetAchievements(Int64 CompId, Int64 AchievementId)
+        public static DataSet GetAchievements(Int32 CompId, Int32 AchievementId)
         {
 
             DataSet ds = new DataSet();

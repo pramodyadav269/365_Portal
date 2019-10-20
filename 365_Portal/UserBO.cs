@@ -28,8 +28,8 @@ namespace _365_Portal
 
     public class UserBO
     {
-        public Int64 Id { get; set; }
-        public Int64 UserId { get; set; }
+        public Int32 Id { get; set; }
+        public Int32 UserId { get; set; }
         public string UserKey { get; set; }
         public string ProfilePicPath { get; set; }
         public string UserName { get; set; }
@@ -39,12 +39,12 @@ namespace _365_Portal
         public string UserPwd { get; set; }
         public string MobileNo { get; set; }
         public string Position { get; set; }
-        public Int64 CreatedBy { get; set; }
+        public Int32 CreatedBy { get; set; }
         public string CreatedOn { get; set; }
-        public Int64 ModifiedBy { get; set; }
+        public Int32 ModifiedBy { get; set; }
         public string ModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
-        public Int64 DeletedBy { get; set; }
+        public Int32 DeletedBy { get; set; }
         public string DeletedOn { get; set; }
         public string DeviceType { get; set; }
         public string DeviceDetails { get; set; }
@@ -60,7 +60,7 @@ namespace _365_Portal
         public string Logo { get; set; }
         public string ProfilePic { get; set; }
         public string GroupId { get; set; }
-        public Int64 CompId { get; set; }
+        public Int32 CompId { get; set; }
         public string RoleId { get; set; }
         public string ErrorCode  { get; set; }
         public string ErrorMessage { get; set; }

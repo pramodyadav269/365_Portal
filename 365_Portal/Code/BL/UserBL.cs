@@ -43,7 +43,7 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet DeleteUser(Int64 CompId, string UserId, string UserKey, string CreatedBy)
+        public static DataSet DeleteUser(Int32 CompId, string UserId, string UserKey, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
@@ -71,7 +71,7 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet CreateGroup(Int64 CompId, string GroupName, string Description, string CreatedBy)
+        public static DataSet CreateGroup(Int32 CompId, string GroupName, string Description, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
@@ -85,7 +85,7 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet ModifyGroup(Int64 CompId, string GroupName, string Description, string CreatedBy)
+        public static DataSet ModifyGroup(Int32 CompId, string GroupName, string Description, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
@@ -98,7 +98,7 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet SetUserPassword(Int64 CompId, string UserId, string Password, string CreatedBy)
+        public static DataSet SetUserPassword(Int32 CompId, string UserId, string Password, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
@@ -111,5 +111,7 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+
+
     }
 }

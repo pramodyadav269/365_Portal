@@ -16,7 +16,7 @@ namespace _365_Portal.Code.BL
         }
 
 
-        public static DataSet CreateQuestion(Int64 CompId, Int64 ContentID)
+        public static DataSet CreateQuestion(Int32 CompId, Int32 ContentID)
         {
             DataSet ds = new DataSet();
             try
@@ -30,7 +30,7 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet ModifyQuestion(Int64 CompId)
+        public static DataSet ModifyQuestion(Int32 CompId)
         {
             DataSet ds = new DataSet();
             try
@@ -44,7 +44,7 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet DeleteQuestion(Int64 CompId,Int64 ContentId)
+        public static DataSet DeleteQuestion(Int32 CompId,Int32 ContentId)
         {
             DataSet ds = new DataSet();
             try

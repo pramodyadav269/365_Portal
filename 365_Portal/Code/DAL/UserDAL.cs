@@ -198,7 +198,7 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-        public static DataSet DeleteUser(Int64 CompId, string UserId, string UserKey, string CreatedBy)
+        public static DataSet DeleteUser(Int32 CompId, string UserId, string UserKey, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -267,7 +267,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet CreateGroup(Int64 CompId, string GroupName, string Description, string CreatedBy)
+        public static DataSet CreateGroup(Int32 CompId, string GroupName, string Description, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -299,7 +299,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet DeleteGroup(Int64 CompId, Int64 GroupId, string CreatedBy)
+        public static DataSet DeleteGroup(Int32 CompId, Int32 GroupId, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -330,7 +330,9 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet SetUserPassword(Int64 CompId, string UserId, string Password, string CreatedBy)
+
+
+        public static DataSet SetUserPassword(Int32 CompId, string UserId, string Password, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);

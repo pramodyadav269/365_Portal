@@ -85,7 +85,7 @@ namespace _365_Portal.Code.BL
         }
 
 
-        public static DataSet GetNotifications(Int64  CompID, Int64 UserId, string Token)
+        public static DataSet GetNotifications(Int32  CompID, Int32 UserId, string Token)
         {
             DataSet ds = new DataSet();
             try
@@ -100,7 +100,7 @@ namespace _365_Portal.Code.BL
         }
 
 
-        public static DataSet GetProfileDetails(Int64 CompID, Int64 UserId)
+        public static DataSet GetProfileDetails(Int32 CompID, Int32 UserId)
         {
             DataSet ds = new DataSet();
             try
@@ -128,5 +128,26 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
+        public static DataSet GetLoginDetails(string UserName)
+        {
+            DataSet ds = new DataSet();
+            if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrWhiteSpace(UserName))
+                {
+                try
+                {
+                    ds = CommonDAL.GetLoginDetails(UserName);                    
+                }
+                catch (Exception ex)
+                {
+                    Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                }
+               
+            }
+            else
+            {
+
+            }
+            return ds;
+        }
     }
 }

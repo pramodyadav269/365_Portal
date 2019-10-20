@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace MasterPayReportingModule.App_Code
+namespace _365_Portal.Code
 {
     public class Utility
     {

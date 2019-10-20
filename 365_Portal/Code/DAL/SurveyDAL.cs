@@ -14,7 +14,7 @@ namespace _365_Portal.Code.DAL
             Logger.Log(ex, "SurveyDAL", methodName);
         }
 
-        public static DataSet CreateQuestion(Int64 CompID, Int64 ContentId)
+        public static DataSet CreateQuestion(Int32 CompID, Int32 ContentId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -41,7 +41,7 @@ namespace _365_Portal.Code.DAL
             }
             return ds;
         }
-        public static DataSet DeleteQuestion(Int64 CompID, Int64 ContentId)
+        public static DataSet DeleteQuestion(Int32 CompID, Int32 ContentId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
