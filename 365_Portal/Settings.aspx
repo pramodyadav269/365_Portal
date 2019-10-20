@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row settings">
-        <div class="col-md-12 header">
+        <div class="col-md-12 header"> 
             <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h1 class="text-center font-weight-bold">Settings</h1>
         </div>

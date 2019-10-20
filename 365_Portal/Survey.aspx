@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row survey">
-        <div class="col-md-12 header">
+        <div class="col-md-12 header"> 
             <a class="back" href="Contents.aspx"><i class="fas fa-arrow-left"></i>Back to Contents</a>
             <%--<a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>--%>
             <h1 class="text-center font-weight-bold">Survey - Employee Health in General</h1>

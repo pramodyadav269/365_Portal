@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <div class="row contents-datials">
+    <div class="row contents-datials"> 
         <div class="col-md-12 header">
             <a class="back" href="Contents.aspx"><i class="fas fa-arrow-left"></i>Back to Contents</a>
             <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>

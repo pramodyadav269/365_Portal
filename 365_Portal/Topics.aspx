@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-        <div class="row topics">
+        <div class="row topics"> 
             <div class="col-md-12 header">
                 <h1 class="text-center font-weight-bold">Hello, Daniel!</h1>
             </div>
