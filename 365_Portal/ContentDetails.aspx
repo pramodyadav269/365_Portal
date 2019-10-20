@@ -94,7 +94,7 @@
         }
 
         function nextContent() {
-            alert('thank your for rating!')
+            window.location.href = "Survey.aspx"
         }
     </script>
 </asp:Content>

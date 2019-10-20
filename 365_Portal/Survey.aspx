@@ -12,6 +12,9 @@
         <div class="col-md-10 mt-5 offset-md-1">
             <div class="row" id="surveyQuestion">
             </div>
+            <div class="text-center mt-4">
+                <a class="btn bg-blue font-weight-bold text-white">Finsh</a>
+            </div>
         </div>
     </div>
 
