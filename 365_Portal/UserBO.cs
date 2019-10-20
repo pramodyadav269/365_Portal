@@ -53,6 +53,7 @@ namespace _365_Portal
         public string ActivityType { get; set; }
         public string OldPassword { get; set; }
         public string NewPassword { get; set; }
+        public string PasswordSalt { get; set; } 
         public bool EmailNotification { get; set; }
         public bool PushNotification { get; set; }
         public string ThemeColor { get; set; }
@@ -61,5 +62,7 @@ namespace _365_Portal
         public string GroupId { get; set; }
         public Int64 CompId { get; set; }
         public string RoleId { get; set; }
+        public string ErrorCode  { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

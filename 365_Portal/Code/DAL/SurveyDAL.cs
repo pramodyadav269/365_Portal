@@ -25,8 +25,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spCreateQuestion";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CompID", CompID);
-                cmd.Parameters.AddWithValue("@UserID", ContentId);
+                cmd.Parameters.AddWithValue("@_CompID", CompID);
+                cmd.Parameters.AddWithValue("@_UserID", ContentId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -52,8 +52,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spDeleteQuestion";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@CompID", CompID);
-                cmd.Parameters.AddWithValue("@ContentId", ContentId);
+                cmd.Parameters.AddWithValue("@_CompID", CompID);
+                cmd.Parameters.AddWithValue("@_ContentId", ContentId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
