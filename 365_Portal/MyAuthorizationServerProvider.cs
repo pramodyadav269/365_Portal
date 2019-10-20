@@ -1,4 +1,4 @@
-﻿using _365_Portal.Code.DAL;
+﻿using _365_Portal.DAL;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using System;

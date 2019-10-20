@@ -23,16 +23,14 @@ namespace _365_Portal
         public const string ModifiedOn = "ModifiedOn";
         public const string IsDeleted = "IsDeleted";
         public const string DeletedBy = "DeletedBy";
-        public const string DeletedOn = "DeletedOn";
+        public const string DeletedOn = "DeletedOn";        
     }
 
     public class UserBO
     {
         public Int64 Id { get; set; }
         public Int64 UserId { get; set; }
-        public string UserKey { get; set; }
         public string ProfilePicPath { get; set; }
-        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailId { get; set; }
@@ -45,21 +43,6 @@ namespace _365_Portal
         public string ModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
         public Int64 DeletedBy { get; set; }
-        public string DeletedOn { get; set; }
-        public string DeviceType { get; set; }
-        public string DeviceDetails { get; set; }
-        public string IP_Addess { get; set; }
-        public string Token { get; set; }
-        public string ActivityType { get; set; }
-        public string OldPassword { get; set; }
-        public string NewPassword { get; set; }
-        public bool EmailNotification { get; set; }
-        public bool PushNotification { get; set; }
-        public string ThemeColor { get; set; }
-        public string Logo { get; set; }
-        public string ProfilePic { get; set; }
-        public string GroupId { get; set; }
-        public Int64 CompId { get; set; }
-        public string RoleId { get; set; }
+        public string DeletedOn { get; set; }   
     }
 }

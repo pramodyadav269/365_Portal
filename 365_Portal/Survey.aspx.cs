@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace _365_Portal
 {
-    public partial class Life : System.Web.UI.MasterPage
+    public partial class Survey : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

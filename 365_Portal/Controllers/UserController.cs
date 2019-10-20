@@ -1,5 +1,5 @@
-﻿using _365_Portal.Code.DAL;
-using _365_Portal.Common;
+﻿using _365_Portal.Common;
+using _365_Portal.DAL;
 using _365_Portal.Models;
 using Newtonsoft.Json;
 using System;
@@ -107,7 +107,6 @@ namespace _365_Portal.Controllers
             return Ok(Response);
         }
 
-        //Get request api to autheticate user
         [HttpGet]
         [Route("api/User/GetForAuthenticate")]
         public IHttpActionResult GetForAuthenticate()

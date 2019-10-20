@@ -40,8 +40,11 @@
                                 </dt>
                             </dl>
                         </div>
+                        <div class="col-md-12 video-control text-white" id="videoControl" onclick="videoPlayPause(1)">
+                            <i class="fas fa-play fa-5x"></i>
+                        </div>
                         <div class="col-md-12">
-                            <video controls id="contentVideo" onended="videoRating()">
+                            <video controls id="contentVideo" onended="videoRating()" onpause="videoPlayPause(2)" onseeking="videoPlayPause(1)" onseeked="videoPlayPause(1)">
                                 <source src="Asset/data/bunny.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -59,6 +62,9 @@
     </div>
 
     <script>
+
+        var video = document.getElementById("contentVideo");
+
         $(document).ready(function () {
             toggleSection(QueryStringValue('key'));
         });
@@ -73,12 +79,22 @@
             }
         }
 
+        function videoPlayPause(action) {
+            if (action == 1) {
+                video.play();
+                $('#videoControl').addClass('d-none')
+            } else if (action == 2) {
+                $('#videoControl').removeClass('d-none')
+            }
+        }
+
         function videoRating() {
+            $('#videoControl').addClass('d-none')
             $('#videoRating').removeClass('d-none')
         }
 
         function nextContent() {
-
+            alert('thank your for rating!')
         }
     </script>
 </asp:Content>

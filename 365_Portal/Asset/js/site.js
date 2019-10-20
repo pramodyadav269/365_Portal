@@ -4,6 +4,15 @@ $(document).ready(function () {
         placeholder: "Select a option",
         allowClear: true
     });
+
+    bsCustomFileInput.init();
+
+    $('.date').datepicker({ uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
+
+    $('.custom-range').on('change', function () {
+        $('label[for=' + this.id + ']').text('Value : ' + $(this).val());
+    });
+
 });
 
 function QueryStringValue(param) {

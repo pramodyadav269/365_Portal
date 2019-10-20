@@ -10,6 +10,7 @@
     <%-- CSS --%>
     <link href="Asset/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Asset/css/all.css" rel="stylesheet" />
+    <link href="Asset/css/gijgo.min.css" rel="stylesheet" />
     <link href="Asset/css/select2.min.css" rel="stylesheet" />
     <link href="Asset/css/site.css" rel="stylesheet" />
 
@@ -18,16 +19,16 @@
     <script src="Asset/js/popper.min.js"></script>
     <script src="Asset/js/bootstrap.min.js"></script>
     <script src="Asset/js/all.js"></script>
+    <script src="Asset/js/gijgo.min.js"></script>
+    <script src="Asset/js/bs-custom-file-input.min.js"></script>
     <script src="Asset/js/select2.min.js"></script>
     <script src="Asset/js/site.js"></script>
-    <script src="Asset/js/angular.min.js"></script>
-    <script src="Asset/customer/common.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="form1" runat="server" ng-app="MasterPage">
+    <form id="form1" runat="server">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
             <div class="container">
                 <a class="navbar-brand" href="Topics.aspx">
