@@ -1,5 +1,5 @@
-﻿using _365_Portal.Common;
-using _365_Portal.DAL;
+﻿using _365_Portal.Code.DAL;
+using _365_Portal.Common;
 using _365_Portal.Models;
 using Newtonsoft.Json;
 using System;
@@ -47,7 +47,7 @@ namespace _365_Portal.Controllers
             }
             catch (Exception ex)
             {
-                objServiceLog.ResponseString = "Exception "+ ex.Message + " | " + ex.StackTrace;
+                objServiceLog.ResponseString = "Exception " + ex.Message + " | " + ex.StackTrace;
                 objServiceLog.RequestType = ConstantMessages.WebServiceLog.Exception;
             }
             finally
@@ -55,7 +55,7 @@ namespace _365_Portal.Controllers
                 objServiceLog.ResponseTime = DateTime.Now;
                 InsertRequestLog.SaveWebServiceLog(objServiceLog);
             }
-            return Ok(Response);            
+            return Ok(Response);
         }
 
         [HttpPost]
@@ -107,6 +107,7 @@ namespace _365_Portal.Controllers
             return Ok(Response);
         }
 
+        //Get request api to autheticate user
         [HttpGet]
         [Route("api/User/GetForAuthenticate")]
         public IHttpActionResult GetForAuthenticate()
@@ -159,6 +160,13 @@ namespace _365_Portal.Controllers
             {
                 throw ex;
             }
-        }        
+        }
+
+        [HttpPost]
+        [Route("api/User/ChangePassword")]
+        public IHttpActionResult ChangePassword()
+        {
+            return null;
+        }
     }
 }
