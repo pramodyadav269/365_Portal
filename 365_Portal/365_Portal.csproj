@@ -270,6 +270,13 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -337,21 +344,18 @@
       <DependentUpon>Topics.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserBO.cs" />
-    <Compile Include="validation.aspx.cs">
-      <DependentUpon>validation.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="validation.aspx.designer.cs">
-      <DependentUpon>validation.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Asset\admin\login.js" />
     <Content Include="Asset\css\all.css" />
     <Content Include="Asset\css\bootstrap.css" />
     <Content Include="Asset\css\bootstrap.min.css" />
     <Content Include="Asset\css\gijgo.min.css" />
     <Content Include="Asset\css\select2.min.css" />
     <Content Include="Asset\css\site.css" />
+    <Content Include="Asset\customer\common.js" />
+    <Content Include="Asset\customer\default.js" />
     <Content Include="Asset\data\bunny.mp4" />
     <Content Include="Asset\fonts\gijgo-material.svg" />
     <Content Include="Asset\images\close-button.png" />
@@ -367,6 +371,7 @@
     <Content Include="Asset\images\target.png" />
     <Content Include="Asset\images\video-file.png" />
     <Content Include="Asset\js\all.js" />
+    <Content Include="Asset\js\angular.min.js" />
     <Content Include="Asset\js\bootstrap.js" />
     <Content Include="Asset\js\bootstrap.min.js" />
     <Content Include="Asset\js\bs-custom-file-input.min.js" />
@@ -384,6 +389,7 @@
     <Content Include="Contents.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -445,7 +451,6 @@
     <Content Include="Survey.aspx" />
     <Content Include="Test.html" />
     <Content Include="Topics.aspx" />
-    <Content Include="validation.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
