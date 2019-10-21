@@ -17,6 +17,7 @@
     <%-- JS --%>
     <script src="Asset/js/jquery.min.js"></script>
     <script src="Asset/js/popper.min.js"></script>
+    <script src="Asset/js/angular.min.js"></script>
     <script src="Asset/js/bootstrap.min.js"></script>
     <script src="Asset/js/all.js"></script>
     <script src="Asset/js/gijgo.min.js"></script>
@@ -28,7 +29,7 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" ng-app="MasterPage">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
             <div class="container">
                 <a class="navbar-brand" href="Topics.aspx">
