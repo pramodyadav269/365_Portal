@@ -1,6 +1,8 @@
 ﻿using _365_Portal.Code.DAL;
+using _365_Portal.Code.BL;
 using _365_Portal.Common;
 using _365_Portal.Models;
+using _365_Portal.Code;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,8 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 using static _365_Portal.Models.Login;
+using Newtonsoft.Json.Linq;
+using System.Web.Configuration;
 
 namespace _365_Portal.Controllers
 {
@@ -162,11 +166,78 @@ namespace _365_Portal.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Change password Api
+        /// </summary>
+        /// <param name="jsonResult"></param>
+        /// <returns>
+        /// Result as True or false 
+        /// </returns>
         [HttpPost]
         [Route("api/User/ChangePassword")]
-        public IHttpActionResult ChangePassword()
+        public IHttpActionResult ChangePassword(JObject jsonResult)
         {
-            return null;
+            var data = "";
+            UserBO _userdetail = new UserBO();
+            string NewPassword = (string)jsonResult.SelectToken("new_password");
+            string PasswordSalt = WebConfigurationManager.AppSettings["dbPasswordSalt"].ToString();
+            string New_PasswordSalt = Utility.GetHashedPassword(NewPassword, PasswordSalt);
+            try
+            {
+                _userdetail.NewPassword = NewPassword;
+                _userdetail.PasswordSalt = New_PasswordSalt;
+                _userdetail.CompId = Convert.ToInt32(HttpContext.Current.Session["CompID"]);
+                _userdetail.UserId = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
+                _userdetail.Token = "";
+                _userdetail.DeviceDetails = "";
+                _userdetail.DeviceType = "";
+                _userdetail.IP_Addess = "";
+                _userdetail.CreatedBy = 0;
+                var ds = CommonBL.ChangePassword(_userdetail); 
+                data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+            }
+            catch (Exception ex)
+            {
+                APIResult.ThrowException(ex);
+            }
+            return new APIResult(data, Request);
         }
+
+        /// <summary>
+        /// Gives the Login Details for User
+        /// </summary>
+        /// <param name="jsonResult">Username In Json result</param>
+        /// <returns>
+        /// Login Details
+        /// </returns>
+        [HttpPost]
+        [Route("api/User/GetLoginDetails")]
+        public IHttpActionResult GetLoginDetails(JObject jsonResult)
+        {
+            var data = "";
+            string UserName =(string)jsonResult.SelectToken("username");
+            if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrWhiteSpace(UserName))
+            {
+                try
+                {
+                    //var ds =  CommonBL.GetLoginDetails(1);
+                    var ds = CommonBL.GetLoginDetails(UserName);
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                }
+                catch (Exception ex)
+                {
+                    APIResult.ThrowException(ex);
+                }
+            }
+            else
+            {
+                data = "UserName is not entered. Please enter a UserName";
+            }
+            return new APIResult(data, Request);
+        }
+
+
+
     }
 }

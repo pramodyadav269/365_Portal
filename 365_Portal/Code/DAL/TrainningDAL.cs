@@ -12,7 +12,7 @@ namespace _365_Portal.Code.DAL
             Logger.Log(ex, "TrainningDAL", methodName);
         }
 
-        public static DataSet GetTopics(Int64 CompID, string userId)
+        public static DataSet GetTopics(Int32 CompID, string userId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -39,7 +39,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet GetTopicsByUser(Int64 CompID, string userId)
+        public static DataSet GetTopicsByUser(Int32 CompID, string userId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -68,7 +68,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet GetModulesByTopic(Int64 CompID, string userId, Int64 TopicId)
+        public static DataSet GetModulesByTopic(Int32 CompID, string userId, Int32 TopicId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -97,7 +97,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetContentsByModule(Int64 CompID, string userId, Int64 TopicId, Int64 ModuleId)
+        public static DataSet GetContentsByModule(Int32 CompID, string userId, Int32 TopicId, Int32 ModuleId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -128,7 +128,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet GetContentDetails(Int64 CompID, string userId, Int64 TopicId, Int64 ModuleId, Int64 ContentId)
+        public static DataSet GetContentDetails(Int32 CompID, string userId, Int32 TopicId, Int32 ModuleId, Int32 ContentId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -160,7 +160,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet RateContent(Int64 CompID, string userId, Int64 TopicId, Int64 ModuleId, Int64 ContentId, string Rating, string CreatedBy)
+        public static DataSet RateContent(Int32 CompID, string userId, Int32 TopicId, Int32 ModuleId, Int32 ContentId, string Rating, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);

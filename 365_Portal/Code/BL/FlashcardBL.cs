@@ -15,7 +15,7 @@ namespace _365_Portal.Code.BL
             Logger.Log(ex, "FlashcardBL", methodName);
         }
 
-        public static DataSet CreateFlashcard(Int64 CompId, Int64 ContentId, Int64 FlashcardId,string FlashcardTitle,string FlashcardDescription,Int64 SrNo, string CreatedBy)
+        public static DataSet CreateFlashcard(Int32 CompId, Int32 ContentId, Int32 FlashcardId,string FlashcardTitle,string FlashcardDescription,Int32 SrNo, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
@@ -28,7 +28,7 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet ModifyFlashcard(Int64 CompId, Int64 ContentId, Int64 FlashcardId, string FlashcardTitle, string FlashcardDescription, Int64 SrNo, string CreatedBy)
+        public static DataSet ModifyFlashcard(Int32 CompId, Int32 ContentId, Int32 FlashcardId, string FlashcardTitle, string FlashcardDescription, Int32 SrNo, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
@@ -41,7 +41,7 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet DeleteFlashcard(Int64 CompId, Int64 ContentId,string CreatedBy)
+        public static DataSet DeleteFlashcard(Int32 CompId, Int32 ContentId,string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
@@ -54,7 +54,7 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet GetFlashcards(Int64 CompId,Int64 ContentId)
+        public static DataSet GetFlashcards(Int32 CompId,Int32 ContentId)
         {
             DataSet ds = new DataSet();
             try

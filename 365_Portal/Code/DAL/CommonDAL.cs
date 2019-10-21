@@ -219,7 +219,7 @@ namespace _365_Portal.Code.DAL
 
 
 
-        public static DataSet GetNotifications(Int64 CompID, Int64 UserId, string Token)
+        public static DataSet GetNotifications(Int32 CompID, Int32 UserId, string Token)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -248,7 +248,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetProfileDetails(Int64 CompID, Int64 UserId)
+        public static DataSet GetProfileDetails(Int32 CompID, Int32 UserId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -311,6 +311,34 @@ namespace _365_Portal.Code.DAL
             {
                 conn.Close();
             }
+            return ds;
+        }
+
+        public static DataSet GetLoginDetails(string UserName)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "GetLoginDetails";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@_UserName", UserName);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
             return ds;
         }
     }
