@@ -27,12 +27,12 @@ namespace _365_Portal.Code.DAL
         {
             LoginResponse objResponse = null;
 
-            SqlParameter[] param = new SqlParameter[3];
-            param[0] = new SqlParameter("@_TYPE", 1);
-            param[1] = new SqlParameter("@_EmailId", objRequest.EmailId);
-            param[2] = new SqlParameter("@_UserPwd", objRequest.UserPwd);
+            MySqlParameter[] param = new MySqlParameter[3];
+            param[0] = new MySqlParameter("@_TYPE", 1);
+            param[1] = new MySqlParameter("@_EmailId", objRequest.EmailId);
+            param[2] = new MySqlParameter("@_UserPwd", objRequest.UserPwd);
 
-            SqlCommand cmd = new SqlCommand();
+            MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
             DataTable dt = DBConnection.GetDataTable("proc_LoginUser", cmd, "");
 
@@ -41,12 +41,10 @@ namespace _365_Portal.Code.DAL
                 objResponse = new LoginResponse();
                 objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
                 objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
-                objResponse.ProfilePicPath = dt.Rows[0]["ProfilePicPath"].ToString();
-                objResponse.FirstName = dt.Rows[0]["FirstName"].ToString();
-                objResponse.LastName = dt.Rows[0]["LastName"].ToString();
-                objResponse.EmailId = dt.Rows[0]["EmailId"].ToString();
-                objResponse.MobileNo = dt.Rows[0]["MobileNo"].ToString();
-                objResponse.Position = dt.Rows[0]["Position"].ToString();
+                objResponse.EmailId = dt.Rows[0]["EmailID"].ToString();
+                objResponse.MobileNo = dt.Rows[0]["MobileNum"].ToString();
+                objResponse.PasswordHash = dt.Rows[0]["PasswordHash"].ToString();
+                objResponse.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();
             }
             else
             {
@@ -62,8 +60,8 @@ namespace _365_Portal.Code.DAL
         {
             string constr = ConfigurationSettings.AppSettings["conString"].ToString();
             int i = 0;
-            SqlConnection conn = new SqlConnection(constr);
-            using (SqlCommand cmd = new SqlCommand("proc_WebServiceLog", DBConnection.getConnection()))
+            MySqlConnection conn = new MySqlConnection(constr);
+            using (MySqlCommand cmd = new MySqlCommand("proc_WebServiceLog", DBConnection.getConnection()))
             {
                 try
                 {

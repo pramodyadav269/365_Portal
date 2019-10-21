@@ -25,6 +25,8 @@ namespace _365_Portal.Models
             public string EmailId { get; set; }
             public string MobileNo { get; set; }
             public string Position { get; set; }
+            public string PasswordHash { get; set; }
+            public string PasswordSalt { get; set; }
         }
     }
 

@@ -42,23 +42,23 @@ namespace _365_Portal.Models
                 {
                     conn.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ControllerName", objWebServiceLog.ControllerName);
-                    cmd.Parameters.AddWithValue("@MethodName", objWebServiceLog.MethodName);
-                    cmd.Parameters.AddWithValue("@RequestString", objWebServiceLog.RequestString);
-                    cmd.Parameters.AddWithValue("@ResponseString", objWebServiceLog.ResponseString);
-                    cmd.Parameters.AddWithValue("@RequestTime", objWebServiceLog.RequestTime);
-                    cmd.Parameters.AddWithValue("@ResponseTime", objWebServiceLog.ResponseTime);
-                    cmd.Parameters.AddWithValue("@RequestType", objWebServiceLog.RequestType);
-                    cmd.Parameters.AddWithValue("@ClientIpAddress", objWebServiceLog.ClientIpAddress);
-                    cmd.Parameters.AddWithValue("@IMEI", objWebServiceLog.IMEI);
-                    cmd.Parameters.AddWithValue("@DeviceModelNo", objWebServiceLog.DeviceModelNo);
-                    cmd.Parameters.AddWithValue("@DeviceType", objWebServiceLog.DeviceType);
-                    cmd.Parameters.AddWithValue("@AppWebVersion", objWebServiceLog.AppWebVersion);
-                    cmd.Parameters.AddWithValue("@Ref1", objWebServiceLog.Ref1);
-                    cmd.Parameters.AddWithValue("@Ref2", objWebServiceLog.Ref2);
-                    cmd.Parameters.AddWithValue("@Ref3", objWebServiceLog.Ref3);
-                    cmd.Parameters.AddWithValue("@Ref4", objWebServiceLog.Ref4);
-                    cmd.Parameters.AddWithValue("@Ref5", objWebServiceLog.Ref5);
+                    cmd.Parameters.AddWithValue("@_ControllerName", objWebServiceLog.ControllerName);
+                    cmd.Parameters.AddWithValue("@_MethodName", objWebServiceLog.MethodName);
+                    cmd.Parameters.AddWithValue("@_RequestString", objWebServiceLog.RequestString);
+                    cmd.Parameters.AddWithValue("@_ResponseString", objWebServiceLog.ResponseString);
+                    cmd.Parameters.AddWithValue("@_RequestTime", objWebServiceLog.RequestTime);
+                    cmd.Parameters.AddWithValue("@_ResponseTime", objWebServiceLog.ResponseTime);
+                    cmd.Parameters.AddWithValue("@_RequestType", objWebServiceLog.RequestType);
+                    cmd.Parameters.AddWithValue("@_ClientIpAddress", objWebServiceLog.ClientIpAddress);
+                    cmd.Parameters.AddWithValue("@_IMEI", objWebServiceLog.IMEI);
+                    cmd.Parameters.AddWithValue("@_DeviceModelNo", objWebServiceLog.DeviceModelNo);
+                    cmd.Parameters.AddWithValue("@_DeviceType", objWebServiceLog.DeviceType);
+                    cmd.Parameters.AddWithValue("@_AppWebVersion", objWebServiceLog.AppWebVersion);
+                    cmd.Parameters.AddWithValue("@_Ref1", objWebServiceLog.Ref1);
+                    cmd.Parameters.AddWithValue("@_Ref2", objWebServiceLog.Ref2);
+                    cmd.Parameters.AddWithValue("@_Ref3", objWebServiceLog.Ref3);
+                    cmd.Parameters.AddWithValue("@_Ref4", objWebServiceLog.Ref4);
+                    cmd.Parameters.AddWithValue("@_Ref5", objWebServiceLog.Ref5);
                     cmd.ExecuteNonQuery();                    
                 }
                 catch (Exception ex)
