@@ -20,9 +20,9 @@ namespace _365_Portal.DAL
             LoginResponse objResponse = null;
 
             SqlParameter[] param = new SqlParameter[3];
-            param[0] = new SqlParameter("@TYPE", 1);
-            param[1] = new SqlParameter("@EmailId", objRequest.EmailId);
-            param[2] = new SqlParameter("@UserPwd", objRequest.UserPwd);
+            param[0] = new SqlParameter("_TYPE", 1);
+            param[1] = new SqlParameter("_EmailId", objRequest.EmailId);
+            param[2] = new SqlParameter("_UserPwd", objRequest.UserPwd);
 
             SqlCommand cmd = new SqlCommand();
             cmd.Parameters.AddRange(param);
@@ -61,9 +61,9 @@ namespace _365_Portal.DAL
                 {
                     conn.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ControllerName", objRequest.EmailId);                    
-                    cmd.Parameters.AddWithValue("@Ref1", objRequest.Ref1);
-                    cmd.Parameters.AddWithValue("@Ref2", objRequest.Ref2);
+                    cmd.Parameters.AddWithValue("_ControllerName", objRequest.EmailId);                    
+                    cmd.Parameters.AddWithValue("_Ref1", objRequest.Ref1);
+                    cmd.Parameters.AddWithValue("_Ref2", objRequest.Ref2);
                     cmd.Parameters.AddWithValue("@Ref3", objRequest.Ref3);                    
                     i = cmd.ExecuteNonQuery();
                 }
@@ -110,9 +110,9 @@ namespace _365_Portal.DAL
             UserBO objUser = null;
 
             SqlParameter[] param = new SqlParameter[3];
-            param[0] = new SqlParameter("@TYPE", 1);
-            param[1] = new SqlParameter("@UserId", UserId);
-            param[2] = new SqlParameter("@Ref1", Ref1);
+            param[0] = new SqlParameter("_TYPE", 1);
+            param[1] = new SqlParameter("_UserId", UserId);
+            param[2] = new SqlParameter("_Ref1", Ref1);
 
             SqlCommand cmd = new SqlCommand();
             cmd.Parameters.AddRange(param);
@@ -159,7 +159,7 @@ namespace _365_Portal.DAL
             try
             {
                 SqlParameter[] param = new SqlParameter[1];
-                param[0] = new SqlParameter("@id", UserId);
+                param[0] = new SqlParameter("_id", UserId);
                 SqlCommand cmd = new SqlCommand();
                 cmd.Parameters.AddRange(param);
                 dt = CDatabase.GetDataTable("pro_UserMenuLogin", cmd);
