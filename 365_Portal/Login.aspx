@@ -95,18 +95,24 @@
                             <div class="card-form">
                                 <div class="form-group">
                                     <label for="txtUserEmail">Email</label>
-                                    <input type="email" class="form-control" id="txtUserEmail" placeholder="Your email" />
+                                    <%--<input type="email" class="form-control" id="txtUserEmail" placeholder="Your email" />--%>
+                                    <asp:TextBox ID="txtUserEmail" class="form-control" runat="server" TextMode="Email" placeholder="Your EmailId"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="txtUserPassword">Password</label>
-                                    <input type="password" class="form-control" id="txtUserPassword" placeholder="Password"  />
+                                    <%--<input type="password" class="form-control" id="txtUserPassword" placeholder="Password"  />--%>
+                                    <asp:TextBox ID="txtUserPassword" runat="server" TextMode="Password" class="form-control" placeholder="Password" />
                                 </div>
                                 <div class="text-center mt-4">
                                     <a class="link font-weight-bold" onclick="toggle('divPasswordRecover','divlogin');">Forgot your password?</a>
                                 </div>
                                 <div class="text-center mt-4">
-                                    <a class="btn bg-yellow font-weight-bold" onclick="login(this)">Log In</a>
+                                    <%--<a class="btn bg-yellow font-weight-bold" onclick="login(this)">Log In</a>--%>
+                                    <asp:Button ID="btnLogin" runat="server" class="btn bg-yellow font-weight-bold" Text="Log In" OnClientClick="return login(this);" OnClick="btnLogin_Click" />  
                                 </div>
+
+                                <asp:Label runat="server" ID="lblError" Text="" />
+
                             </div>
                         </div>
                     </div>
@@ -150,8 +156,53 @@
         }
 
         function login(ctrl) {
-            window.location.href = 'Topics.aspx';
+            //window.location.href = 'Topics.aspx';
+            debugger
+            var formdata = new FormData();
+            formdata.append('EmailId', $("#txtUserEmail").val());
+            formdata.append('UserPwd', $("#txtUserPassword").val());
+            getController(formdata, "/API/User/LoginUser", "");
         }
+
+        //var UserRole = '<%=Session["UserRole"]%>';
+        //var ajaxRequest = [];
+        $(document).ready(function () {
+            //getController(formdata, "/API/Payment/GetPaymentRequest", "");
+        });
+
+        function getController(formdata, getUrl, flag) {            
+            //var accessToken = '<%=Session["access_token"]%>';
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                //headers: { "Authorization": "Bearer " + accessToken },
+                data: formdata,
+                contentType: false,
+                processData: false,
+                //async: false,
+                beforeSend: function () {
+                },
+
+                success: function (response) {
+                    var length = 0;
+                    
+                    var DataSet = $.parseJSON(response);
+
+                },
+                failure: function(response) {
+                    alert(response.d);
+                }
+                /*
+                ,
+                failure: AjaxUDFailure,
+                error: AjaxUDError,
+                complete: function () {
+                    isAction = false;
+                }
+                */
+            });
+        }
+
 
     </script>
 

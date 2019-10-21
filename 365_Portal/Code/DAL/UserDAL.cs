@@ -28,23 +28,39 @@ namespace _365_Portal.Code.DAL
             LoginResponse objResponse = null;
 
             MySqlParameter[] param = new MySqlParameter[3];
-            param[0] = new MySqlParameter("@_TYPE", 1);
-            param[1] = new MySqlParameter("@_EmailId", objRequest.EmailId);
-            param[2] = new MySqlParameter("@_UserPwd", objRequest.UserPwd);
+            param[0] = new MySqlParameter("p_TYPE", 1);
+            param[1] = new MySqlParameter("p_EmailId", objRequest.EmailId);
+            param[2] = new MySqlParameter("p_UserPwd", objRequest.UserPwd);
 
+            
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
-            DataTable dt = DBConnection.GetDataTable("proc_LoginUser", cmd, "");
-
+            DataTable dt = DBConnection.GetDataTable("spLogin", cmd, "");
+            
             if (dt.Rows.Count > 0)
             {
-                objResponse = new LoginResponse();
-                objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
-                objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
-                objResponse.EmailId = dt.Rows[0]["EmailID"].ToString();
-                objResponse.MobileNo = dt.Rows[0]["MobileNum"].ToString();
+                objResponse = new LoginResponse();               
                 objResponse.PasswordHash = dt.Rows[0]["PasswordHash"].ToString();
                 objResponse.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();
+
+                /*
+                Match hash password here
+                */
+                if (1 == 1)
+                {                    
+                    objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
+                    objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
+                    objResponse.UserID = dt.Rows[0]["UserID"].ToString();
+                    objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
+                    objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
+                    objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
+                }
+                else
+                {
+                    objResponse = new LoginResponse();
+                    objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
+                    objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
+                }                
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using _365_Portal.Code;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,7 +17,7 @@ namespace _365_Portal.Common
             MySqlConnection conn;
             try
             {
-                string constr = ConfigurationSettings.AppSettings["conString"].ToString();
+                string constr = ConnectionManager.connectionString;
                 conn = new MySqlConnection(constr);
             }
             catch
@@ -30,7 +31,7 @@ namespace _365_Portal.Common
             MySqlConnection conn;
             try
             {
-                string constr = ConfigurationSettings.AppSettings["conString"].ToString();
+                string constr = ConnectionManager.connectionString;
                 conn = new MySqlConnection(constr);
             }
             catch
@@ -40,11 +41,11 @@ namespace _365_Portal.Common
             return conn;
         }
 
-        public static DataSet GetDataSet(string procedureName, SqlCommand command, string Ref1)
+        public static DataSet GetDataSet(string procedureName, MySqlCommand command, string Ref1)
         {
             MySqlConnection connection = getConnection();
             DataSet ds = null;
-            SqlDataAdapter da = new SqlDataAdapter();
+            MySqlDataAdapter da = new MySqlDataAdapter();
             try
             {
                 command.CommandText = procedureName;
@@ -73,10 +74,10 @@ namespace _365_Portal.Common
             MySqlConnection connection = getConnection();
             connection.Open();
             DataSet ds = null;
-            SqlDataAdapter da = new SqlDataAdapter();
+            MySqlDataAdapter da = new MySqlDataAdapter();
             try
             {
-                da = new SqlDataAdapter(sqlQuery, connection);
+                da = new MySqlDataAdapter(sqlQuery, connection);
                 da.Fill(ds);
             }
             catch (Exception ex)
@@ -90,11 +91,11 @@ namespace _365_Portal.Common
             return ds;
         }
 
-        public static DataTable GetDataTable(string procedureName, SqlCommand command,string Ref1)
+        public static DataTable GetDataTable(string procedureName, MySqlCommand command,string Ref1)
         {
             MySqlConnection connection = getConnection();
-            SqlDataAdapter da = new SqlDataAdapter();
-            DataTable dt = null;
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            DataTable dt = new DataTable();
             try
             {
                 command.CommandTimeout = 1000;
@@ -127,7 +128,7 @@ namespace _365_Portal.Common
             try
             {
                 connection.Open();
-                SqlDataAdapter da = new SqlDataAdapter(sSQl, connection);
+                MySqlDataAdapter da = new MySqlDataAdapter(sSQl, connection);
                 dt = new DataTable();
                 da.Fill(dt);
             }
@@ -144,7 +145,7 @@ namespace _365_Portal.Common
         }
 
         //it gets count return by a stored procedure
-        public static string InsertRecordWithIdentity(string procedureName, SqlCommand command,string Ref1)
+        public static string InsertRecordWithIdentity(string procedureName, MySqlCommand command,string Ref1)
         {
             MySqlConnection connection = getConnection();
             try
@@ -171,7 +172,7 @@ namespace _365_Portal.Common
         public static string ExecuteScalarString(string sql,string Ref1)
         {
             MySqlConnection connection = getConnection();
-            SqlCommand command = new SqlCommand();
+            MySqlCommand command = new MySqlCommand();
             string retValue = "";
             try
             {
