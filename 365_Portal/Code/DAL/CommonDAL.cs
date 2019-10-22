@@ -128,7 +128,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("_DeviceType", u.DeviceType);
                 cmd.Parameters.AddWithValue("_DeviceDetails", u.DeviceDetails);
                 cmd.Parameters.AddWithValue("_IPAddress", u.IP_Addess);
-                //cmd.Parameters.AddWithValue("@_CreatedBy", u.CreatedBy);
+                //cmd.Parameters.AddWithValue("_CreatedBy", u.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -157,8 +157,8 @@ namespace _365_Portal.Code.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("_CompId", u.CompId);
                 cmd.Parameters.AddWithValue("_UserId", u.UserId);
-                //cmd.Parameters.AddWithValue("@_OldPassword", u.OldPassword);
-                //cmd.Parameters.AddWithValue("@_NewPassword", u.NewPassword);
+                //cmd.Parameters.AddWithValue("_OldPassword", u.OldPassword);
+                //cmd.Parameters.AddWithValue("_NewPassword", u.NewPassword);
                 cmd.Parameters.AddWithValue("_NewPassword", u.NewPassword);
                 cmd.Parameters.AddWithValue("_PasswordSalt", u.PasswordSalt);
                 cmd.Parameters.AddWithValue("_Token", u.Token);
@@ -325,7 +325,7 @@ namespace _365_Portal.Code.DAL
                 string stm = "GetLoginDetails";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@_UserName", UserName);
+                cmd.Parameters.AddWithValue("_UserName", UserName);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

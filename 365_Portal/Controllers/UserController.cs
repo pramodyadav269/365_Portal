@@ -181,7 +181,7 @@ namespace _365_Portal.Controllers
         /// <returns>
         /// Login Details
         /// </returns>
-        [HttpPost]
+        [HttpPost] 
         [Route("api/User/GetLoginDetails")]
         public IHttpActionResult GetLoginDetails(JObject jsonResult)
         {
@@ -207,7 +207,7 @@ namespace _365_Portal.Controllers
             return new APIResult(data, Request);
         }
 
-
+         
 
     }
 }

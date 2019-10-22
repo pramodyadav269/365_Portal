@@ -65,7 +65,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("_CompId", CompId);
-                cmd.Parameters.AddWithValue("_AchievementId", AchievementId);
+                cmd.Parameters.AddWithValue("_ContentId", AchievementId);
                 //cmd.Parameters.AddWithValue("_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -96,8 +96,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spGetAchievements";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@_CompId", CompId);
-                cmd.Parameters.AddWithValue("@_AchievementId", AchievementId);
+                cmd.Parameters.AddWithValue("_CompId", CompId);
+                cmd.Parameters.AddWithValue("_AchievementId", AchievementId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
