@@ -50,8 +50,10 @@ namespace _365_Portal.Code.DAL
                 {                    
                     objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
                     objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
+                    objResponse.CompID = dt.Rows[0]["CompID"].ToString();
                     objResponse.UserID = dt.Rows[0]["UserID"].ToString();
                     objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
+                    objResponse.Role = dt.Rows[0]["RoleName"].ToString();
                     objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
                     objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
                 }
@@ -108,11 +110,12 @@ namespace _365_Portal.Code.DAL
             }
         }
 
-        public static LoginResponse GetUserDetails(long UserId, string Ref1)
+        public static UserBO GetUserDetails(string UserId, string Ref1)
         {
-            LoginResponse objUser = new LoginResponse();
+            UserBO objUser = new UserBO();
             objUser.UserID = "0";
-            objUser.RoleID = "EndUser";
+            objUser.RoleID = "4";
+            objUser.Role = "EndUser";
             objUser.IsFirstLogin = "";
             objUser.ProfilePicFileID = "";
             objUser.FirstName = "Pramod";
@@ -176,22 +179,25 @@ namespace _365_Portal.Code.DAL
                 string stm = "spCreateUser";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", userdetails.CompId);
-                cmd.Parameters.AddWithValue("p_UserId", userdetails.UserId);
-                cmd.Parameters.AddWithValue("p_UserKey", userdetails.UserKey);
+                cmd.Parameters.AddWithValue("p_UserID", userdetails.UserID);
+                cmd.Parameters.AddWithValue("p_CompID", userdetails.CompID);
                 cmd.Parameters.AddWithValue("p_FirstName", userdetails.FirstName);
-                cmd.Parameters.AddWithValue("p_LastName", userdetails.LastName);
-                cmd.Parameters.AddWithValue("p_Password", userdetails.NewPassword);//Password field value name is in NewPassword variable. 
-                cmd.Parameters.AddWithValue("p_RoleId", userdetails.RoleId);
-                cmd.Parameters.AddWithValue("p_EmailId", userdetails.EmailId);
-                cmd.Parameters.AddWithValue("p_MobileNo", userdetails.MobileNo);
-                cmd.Parameters.AddWithValue("p_Position", userdetails.Position);
-                cmd.Parameters.AddWithValue("p_GroupId", userdetails.GroupId);
-                cmd.Parameters.AddWithValue("p_ThemeColor", userdetails.ThemeColor);
-                cmd.Parameters.AddWithValue("p_Logo", userdetails.Logo);
-                cmd.Parameters.AddWithValue("p_ProfilePic", userdetails.ProfilePic);
-                cmd.Parameters.AddWithValue("p_CreatedBy", userdetails.CreatedBy);
+                cmd.Parameters.AddWithValue("p_LastName", userdetails.LastName);                
+                cmd.Parameters.AddWithValue("p_RoleID", userdetails.RoleID);
+                cmd.Parameters.AddWithValue("p_EmailID", userdetails.EmailID);
+                cmd.Parameters.AddWithValue("p_MobileNum", userdetails.MobileNum);
+                cmd.Parameters.AddWithValue("p_Position", userdetails.Position);                
+                cmd.Parameters.AddWithValue("p_ProfilePicFileID", userdetails.ProfilePicFileID);
+                cmd.Parameters.AddWithValue("p_CreatedBy", userdetails.UserID);
                 cmd.Parameters.AddWithValue("p_PasswordSalt", userdetails.PasswordSalt);
+                cmd.Parameters.AddWithValue("p_PasswordHash", userdetails.PasswordHash);
+                cmd.Parameters.AddWithValue("p_EmailNotification", userdetails.EmailNotification);
+                cmd.Parameters.AddWithValue("p_PushNotification", userdetails.PushNotification);
+
+                //cmd.Parameters.AddWithValue("p_GroupId", userdetails.GroupId);
+                //cmd.Parameters.AddWithValue("p_ThemeColor", userdetails.ThemeColor);
+                //cmd.Parameters.AddWithValue("p_Logo", userdetails.Logo);
+
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
