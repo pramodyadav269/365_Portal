@@ -1,7 +1,10 @@
 ﻿using _365_Portal.Code;
 using _365_Portal.Code.BL;
 using _365_Portal.Code.DAL;
+using _365_Portal.Models;
 using System;
+using System.Configuration;
+using static _365_Portal.Models.Login;
 
 namespace _365_Portal
 {
@@ -9,37 +12,62 @@ namespace _365_Portal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Page.IsPostBack)
+            {
 
+            }
         }
 
-        protected void btnLogin_ServerClick(object sender, EventArgs e)
+        protected void btnLogin_Click(object sender, EventArgs e)
         {
-            Session["UserId"] = txtUserEmail.Value;
-            Session["Name"] = txtUserEmail.Value;
-            Session["Role"] = txtUserEmail.Value;
+            lblError.Text = "";
 
-            var passwordSalt = Utility.GetSalt();
-
-            // Call BL to get Hashed Password & Salt by UserName
-            var dbPasswordSalt = "SUqfy3IHGUG4YVM/aO7lXWIKz4FAP18spNMiFdiGKNQ=";
-            var dbPasswordHashed = "hdc5ZLZ4sE75e3OqbgR+PqXtr1Y=";
-
-            var passwordHashed = Utility.GetHashedPassword(txtUserPassword.Value, dbPasswordSalt);
-
-            if (passwordHashed == dbPasswordHashed)
+            if (string.IsNullOrEmpty(txtUserEmail.Text.Trim()) || string.IsNullOrEmpty(txtUserPassword.Text.Trim()))
             {
-                // Correct Password
+                lblError.Text = ConstantMessages.Login.InvalidUser;
+                return;
             }
             else
             {
-                // Incorrect Password
-            }
+                LoginRequest objRequest = new LoginRequest();
+                objRequest.EmailId = txtUserEmail.Text.Trim();
+                objRequest.UserPwd = txtUserPassword.Text;
 
-            var ds = TrainningBL.GetTopics(1, "");
-            if (ds.Tables[0].Rows.Count > 0)
-            {
-                Response.Redirect("~/default.aspx");
+                LoginResponse objResponse = new LoginResponse();
+                objResponse = UserDAL.LoginUser(objRequest);
+
+                if (objResponse.ReturnCode == "1")
+                {
+                    bool flag = GetAccessToken(txtUserEmail.Text.Trim(), txtUserPassword.Text.Trim());
+
+                    if (!flag)
+                    {
+                        lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                        return;
+                    }
+
+                    if (objResponse.IsFirstLogin == "1")
+                    {
+                        Response.Redirect("~/ChangePassword.aspx");
+                    }
+                    else
+                    {
+                        if (objResponse.RoleID.ToLower() == "enduser")
+                        {
+                            Response.Redirect("~/Topics.aspx");
+                        }
+                        else
+                        {
+                            Response.Redirect("~/AdminPnael.aspx");
+                        }
+                    }
+                }
+                else
+                {
+                    lblError.Text = objResponse.ReturnMessage;
+                }
             }
+            //Response.Redirect("~/Topics.aspx");            
         }
     }
 }

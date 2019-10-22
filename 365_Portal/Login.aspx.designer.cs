@@ -28,7 +28,7 @@ namespace _365_Portal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl txtUserEmail;
+        protected global::System.Web.UI.WebControls.TextBox txtUserEmail;
         
         /// <summary>
         /// txtUserPassword control.
@@ -37,7 +37,7 @@ namespace _365_Portal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputPassword txtUserPassword;
+        protected global::System.Web.UI.WebControls.TextBox txtUserPassword;
         
         /// <summary>
         /// btnLogin control.
@@ -46,6 +46,15 @@ namespace _365_Portal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnLogin;
+        protected global::System.Web.UI.WebControls.Button btnLogin;
+        
+        /// <summary>
+        /// lblError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
     }
 }

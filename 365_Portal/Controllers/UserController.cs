@@ -38,16 +38,28 @@ namespace _365_Portal.Controllers
                 string EmailId = httpRequest.Form["EmailId"];
                 string UserPwd = httpRequest.Form["UserPwd"];
 
-                LoginRequest objRequest = new LoginRequest();
-                objRequest.EmailId = EmailId;
-                objRequest.UserPwd = UserPwd;
+                if (!string.IsNullOrEmpty(EmailId) || !string.IsNullOrEmpty(UserPwd))
+                {
+                    objResponse = new LoginResponse();
+                    objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
+                    objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                }
+                else
+                {
+                    LoginRequest objRequest = new LoginRequest();
+                    objRequest.EmailId = EmailId;
+                    objRequest.UserPwd = UserPwd;
+                    objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
 
-                objResponse = new LoginResponse();
-                objResponse = UserDAL.LoginUser(objRequest);
-                Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
-                objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
+                    objResponse = new LoginResponse();
+                    objResponse = UserDAL.LoginUser(objRequest);
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                }
+
+                Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);                
                 objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
-                objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                
             }
             catch (Exception ex)
             {
@@ -124,49 +136,7 @@ namespace _365_Portal.Controllers
             }
             return Ok("Hello " + identity.FirstName);
         }
-
-        public bool GetAccessToken(string userName, string password)
-        {
-            try
-            {
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(ConfigurationManager.AppSettings["TokenURL"]);
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                    new KeyValuePair<string, string>("grant_type", "password"),
-                    new KeyValuePair<string, string>("username", userName),
-                    new KeyValuePair<string, string>("password", password)
-                });
-                    var result = client.PostAsync("Token", content).Result;
-                    string resultContent = result.Content.ReadAsStringAsync().Result;
-                    if (!string.IsNullOrEmpty(resultContent))
-                    {
-                        JavaScriptSerializer serializer = new JavaScriptSerializer();
-                        dynamic token = serializer.Deserialize<object>(resultContent);
-                        string accessToken = token["access_token"];
-                        HttpContext.Current.Session["access_token"] = accessToken;
-                        //Added by pramod on 3 Nov 2018
-                        HttpContext.Current.Session["expires_in"] = token["expires_in"];
-                        HttpContext.Current.Session["refresh_token"] = token["refresh_token"];
-                        //End by pramod on 3 Nov 2018
-                        return true;
-                    }
-                    else
-                    {
-                        // Invalid User-Id & Password
-                        return false;
-                    }
-                    //resolve the access_token here for the later use
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-
+        
         /// <summary>
         /// Change password Api
         /// </summary>
