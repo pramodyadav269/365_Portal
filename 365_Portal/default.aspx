@@ -344,7 +344,7 @@
                                             <div class="form-group">
                                                 <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group">
                                                     <input type="text" class="form-control date" id="date" placeholder="Select Date" data-type="datepicker" data-guid="a55dfd8e-b9b5-0a16-2e0b-1268af1fae1d" data-datepicker="true" role="input"><span class="input-group-append" role="right-icon">
-                                                        <button class="btn btn-outline-secondary border-left-0" type="button"><i class="gj-icon">event</i></button></span>
+                                                        <button class="btn btn-custom btn-outline-secondary border-left-0" type="button"><i class="gj-icon">event</i></button></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -356,8 +356,8 @@
                     </div>
                 </div>
                 <div class="text-center mt-4">
-                    <a class="btn bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">Previous</a>
-                    <a class="btn bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">Finish</a>
+                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">Previous</a>
+                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">Finish</a>
                 </div>
             </div>
         </div>
