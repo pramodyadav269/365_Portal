@@ -21,6 +21,14 @@ namespace _365_Portal.Models
             public static string GenericErrorMsg = "There seems to be technical problem, please try again.";
         }
 
+        public class Roles
+        {
+            public static string superadmin = "superadmin";
+            public static string companyadmin = "companyadmin";
+            public static string subadmin = "subadmin";
+            public static string enduser = "enduser";
+        }
+
         public class ConnectionString
         {
             public static string Portal_365 = "365_Portal";
