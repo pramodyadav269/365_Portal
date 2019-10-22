@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-100 mt-5 text-center">
+                    <div class="w-100 mt-5 text-center"> 
                         <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2 d-none" id="btnPrevCard" onclick="previousFlashcard();">Previous card</a>
                         <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextCard" onclick="nextFlashcard();">Next Card</a>
                         <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white d-none" id="btnBeginQuiz" onclick="toggle('divFlashcardQuiz', 'divFlashcard');">Begin Flashcard Quiz</a>
