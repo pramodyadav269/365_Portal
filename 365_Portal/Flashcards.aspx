@@ -150,7 +150,7 @@
                 currentCard.addClass('d-none')
 
                 $('#btnNextCard').addClass('d-none')
-                $('#btnBeginQuiz').removeClass('d-none')
+                $('#btnBeginQuiz').removeClass('d-none') 
             }
             else
                 if (currentCard.next().length > 0) {
