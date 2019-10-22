@@ -60,7 +60,7 @@ namespace _365_Portal.Code.DAL
                     objResponse = new LoginResponse();
                     objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
                     objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
-                }                
+                }
             }
             else
             {
