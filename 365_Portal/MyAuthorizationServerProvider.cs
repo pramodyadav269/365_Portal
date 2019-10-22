@@ -34,11 +34,9 @@ namespace _365_Portal
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            //Added by pramod on 3 Nov 2018
             var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
             if (allowedOrigin == null) allowedOrigin = "*";
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
-            //End by pramod on 3 Nov 2018
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             if (identity != null)
@@ -46,9 +44,6 @@ namespace _365_Portal
                 UserBO objUser = new UserBO();
                 objUser = UserDAL.GetUserDetails(UserDAL.UserID,null);
 
-                //identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
-                //identity.AddClaim(new Claim("username", "admin"));
-                //identity.AddClaim(new Claim(ClaimTypes.Name, "Sourav Mondal"));
                 identity.AddClaim(new Claim(UserClaim.Id, objUser.Id.ToString()));
                 identity.AddClaim(new Claim(UserClaim.UserId, objUser.UserId.ToString()));
                 identity.AddClaim(new Claim(UserClaim.ProfilePicPath, objUser.ProfilePicPath));

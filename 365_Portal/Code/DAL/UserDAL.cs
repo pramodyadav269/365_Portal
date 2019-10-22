@@ -108,25 +108,20 @@ namespace _365_Portal.Code.DAL
             }
         }
 
-        public static UserBO GetUserDetails(long UserId, string Ref1)
+        public static LoginResponse GetUserDetails(long UserId, string Ref1)
         {
-            UserBO objUser = new UserBO();
-            objUser.Id = 0;
-            objUser.UserId = 0;
-            objUser.ProfilePicPath = "";
+            LoginResponse objUser = new LoginResponse();
+            objUser.UserID = "0";
+            objUser.RoleID = "EndUser";
+            objUser.IsFirstLogin = "";
+            objUser.ProfilePicFileID = "";
             objUser.FirstName = "Pramod";
             objUser.LastName = "Yadav";
-            objUser.EmailId = "PramodYadav269@gmail.com";
-            objUser.UserPwd = "123456";
-            objUser.MobileNo = "9930315629";
+            objUser.EmailID = "PramodYadav269@gmail.com";
+            objUser.MobileNum = "9930315629";
             objUser.Position = "EndUser";
-            objUser.CreatedBy = 0;
-            objUser.CreatedOn = "2019-10-12";
-            objUser.ModifiedBy = 0;
-            objUser.ModifiedOn = "2019-10-12";
-            objUser.IsDeleted = false;
-            objUser.DeletedBy = 0;
-            objUser.DeletedOn = "2019-10-12";
+            objUser.PasswordHash = "";
+            objUser.PasswordSalt = "2019-10-12";
 
             /*
             UserBO objUser = null;
