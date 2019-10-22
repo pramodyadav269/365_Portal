@@ -32,22 +32,20 @@ namespace _365_Portal.Code.DAL
             param[1] = new MySqlParameter("p_EmailId", objRequest.EmailId);
             param[2] = new MySqlParameter("p_UserPwd", objRequest.UserPwd);
 
-            
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
             DataTable dt = DBConnection.GetDataTable("spLogin", cmd, "");
-            
-            if (dt.Rows.Count > 0)
+
+            if (dt.Rows.Count > 0 && dt.Rows[0]["ReturnCode"].ToString() == "1")
             {
-                objResponse = new LoginResponse();               
+                objResponse = new LoginResponse();
                 objResponse.PasswordHash = dt.Rows[0]["PasswordHash"].ToString();
                 objResponse.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();
 
-                /*
-                Match hash password here
-                */
-                if (1 == 1)
-                {                    
+                // Check User Password
+                if (Utility.GetHashedPassword(objRequest.UserPwd, objResponse.PasswordSalt) == objResponse.PasswordHash)
+                {
+                    // Valid User with password
                     objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
                     objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
                     objResponse.UserID = dt.Rows[0]["UserID"].ToString();
@@ -57,13 +55,15 @@ namespace _365_Portal.Code.DAL
                 }
                 else
                 {
+                    // Invalid Password
                     objResponse = new LoginResponse();
                     objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
                     objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
-                }                
+                }
             }
             else
             {
+                // User not found
                 objResponse = new LoginResponse();
                 objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
                 objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
@@ -245,7 +245,7 @@ namespace _365_Portal.Code.DAL
 
 
 
-        public static DataSet GetUsers( string UserId, string RoleId, string EmailId,string GroupId,string MobileNo, string Position, string CreatedBy)
+        public static DataSet GetUsers(string UserId, string RoleId, string EmailId, string GroupId, string MobileNo, string Position, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -325,7 +325,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("_CompId", CompId);
-                cmd.Parameters.AddWithValue("_GroupId", GroupId);                
+                cmd.Parameters.AddWithValue("_GroupId", GroupId);
                 cmd.Parameters.AddWithValue("_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");

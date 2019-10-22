@@ -182,7 +182,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
 
         $http({
             method: "POST",
-            url: "../api/Trainning/GetUserTopics",
+            url: "../api/Trainning/GetTopicsByUser",
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
             data: JSON.stringify({ RequestParams }),
         }).then(function success(response) {

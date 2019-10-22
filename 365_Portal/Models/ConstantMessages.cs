@@ -9,7 +9,7 @@ namespace _365_Portal.Models
     {
         public class Login
         {
-            public static string InvalidUserCode = "1";
+            public static string InvalidUserCode = "2";
             public static string InvalidUser = "Invalid EmailId or Password.";            
         }
         public class WebServiceLog
