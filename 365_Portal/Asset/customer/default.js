@@ -130,64 +130,65 @@ app.service("DataService", function ($http, $rootScope, $compile) {
 
     ds.DS_GetUserTopics = function (userId) {
 
-        $rootScope.Topics = [
-            {
-                "TopicID": 1,
-                "Title": "Employee Conduct",
-                "Description": "Life as an employee can be tough. Let's work together to make it easier.",
-                "IsCompleted": true,
-                "TotalModules": 10,
-                "CompletedModules": 4,
-                "Progress": "4/10",
-                "ProgressBarText": "4 of 10 Completed",
-                "SortOrder": 1
-            },
-            {
-                "TopicID": 2,
-                "Title": "Workplace Equity",
-                "Description": "How to be more accepting and bare with your colleagues.",
-                "IsCompleted": false,
-                "TotalModules": 10,
-                "CompletedModules": 4,
-                "Progress": "4/10",
-                "ProgressBarText": "4 of 10 Completed",
-                "SortOrder": 2
-            },
-            {
-                "TopicID": 3,
-                "Title": "Staff Efficiency",
-                "Description": "Increase your productivity while not losing motivation",
-                "IsCompleted": false,
-                "TotalModules": 10,
-                "CompletedModules": 4,
-                "Progress": "",
-                "ProgressBarText": "4 of 10 Completed",
-                "SortOrder": 3
-            }
-            ,
-            {
-                "TopicID": 4,
-                "Title": "Motivation",
-                "Description": "Increase your productivity while not losing motivation",
-                "IsCompleted": false,
-                "TotalModules": 10,
-                "CompletedModules": 4,
-                "Progress": "",
-                "ProgressBarText": "4 of 10 Completed",
-                "SortOrder": 4
-            }
-        ]; 
+        //$rootScope.Topics = [
+        //    {
+        //        "TopicID": 1,
+        //        "Title": "Employee Conduct",
+        //        "Description": "Life as an employee can be tough. Let's work together to make it easier.",
+        //        "IsCompleted": true,
+        //        "TotalModules": 10,
+        //        "CompletedModules": 4,
+        //        "Progress": "4/10",
+        //        "ProgressBarText": "4 of 10 Completed",
+        //        "SortOrder": 1
+        //    },
+        //    {
+        //        "TopicID": 2,
+        //        "Title": "Workplace Equity",
+        //        "Description": "How to be more accepting and bare with your colleagues.",
+        //        "IsCompleted": false,
+        //        "TotalModules": 10,
+        //        "CompletedModules": 4,
+        //        "Progress": "4/10",
+        //        "ProgressBarText": "4 of 10 Completed",
+        //        "SortOrder": 2
+        //    },
+        //    {
+        //        "TopicID": 3,
+        //        "Title": "Staff Efficiency",
+        //        "Description": "Increase your productivity while not losing motivation",
+        //        "IsCompleted": false,
+        //        "TotalModules": 10,
+        //        "CompletedModules": 4,
+        //        "Progress": "",
+        //        "ProgressBarText": "4 of 10 Completed",
+        //        "SortOrder": 3
+        //    }
+        //    ,
+        //    {
+        //        "TopicID": 4,
+        //        "Title": "Motivation",
+        //        "Description": "Increase your productivity while not losing motivation",
+        //        "IsCompleted": false,
+        //        "TotalModules": 10,
+        //        "CompletedModules": 4,
+        //        "Progress": "",
+        //        "ProgressBarText": "4 of 10 Completed",
+        //        "SortOrder": 4
+        //    }
+        //];
 
         var RequestParams = { UserID: userId };
-    
+
         $http({
             method: "POST",
             url: "../api/Trainning/GetUserTopics",
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
             data: JSON.stringify({ RequestParams }),
         }).then(function success(response) {
-            response = response.data;
-            response = JSON.parse(response);
+            var responseData = response.data;
+            $rootScope.Topics = responseData;
+           // responseData = JSON.parse(responseData);
         });
     }
 
@@ -361,9 +362,9 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             "Type": "CONTENT",
             "ContentTitle": "Employee Conduct",
             "ContentDescription": "Employee Conduct",
-            "FilePath": "http://18.209.29.195/ClientContents/User_1/Topic_1/Module_1/Content_1/PDFs/test.pdf#toolbar=0",
-            //"FilePath": "http://18.209.29.195/ClientContents/User_1/Topic_1/Module_1/Content_1/Videos/test.mp4",
-            "FileType": "PDF",
+            //"FilePath": "http://18.209.29.195/ClientContents/User_1/Topic_1/Module_1/Content_1/PDFs/test.pdf#toolbar=0",
+            "FilePath": "http://18.209.29.195/ClientContents/User_1/Topic_1/Module_1/Content_1/Videos/test.mp4",
+            "FileType": "VIDEO",
             "IsLocked": false,
             "IsCompleted": false,
             "DisplaySkipFlashcard": true,
@@ -377,7 +378,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
 
         if ($rootScope.SpecialContents.Type == 'CONTENT') {
             if ($rootScope.SpecialContents.FileType == 'VIDEO') {
-                $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" autoplay="autoplay" controls="" height="100%" width="100%">' +
+                $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
                     '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath + '" type="video/mp4">' +
                     '</video>');
                 document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
@@ -486,6 +487,39 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     "QuestionID": 3,
                     "Title": "Radio Button",
                     "QuestionType": "3",
+                    "IsAnswered": false,
+                    "IsMandatory": false,
+                    "IsMultipleLine": false,
+                    "MaxLength": "150",
+                    "SortOrder": 1,
+                    "AnswerOptions": [
+                        {
+                            "AnswerID": 1,
+                            "AnswerText": "Option 1",
+                            "SortOrder": 1,
+                            "IsCorrect": false,
+                            "IsSelected": false,
+                        }
+                        ,
+                        {
+                            "AnswerID": 2,
+                            "AnswerText": "Option 2",
+                            "SortOrder": 1,
+                            "IsCorrect": false,
+                            "IsSelected": false,
+                        }
+                    ],
+                    "IsCorrect": false,
+                    "ScoreEarned": 0,
+                    "Value_Text": "",
+                    "FileName": "",
+                    "FilePath": ""
+                }
+                ,
+                {
+                    "QuestionID": "3A",
+                    "Title": "Radio Button",
+                    "QuestionType": "9",
                     "IsAnswered": false,
                     "IsMandatory": false,
                     "IsMultipleLine": false,
@@ -1027,18 +1061,40 @@ app.service("DataService", function ($http, $rootScope, $compile) {
     }
 });
 
+app.directive('myPostRepeatDirective', function () {
+    return function (scope, element, attrs) {
+        if (scope.$last) {
+            // iteration is complete, do whatever post-processing
+            // is necessary
+            $('select.select2').select2({
+                placeholder: "Select a option",
+                allowClear: true
+            });
+
+            bsCustomFileInput.init()
+
+            $('.date').datepicker({ uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
+
+            $('.custom-range').on('change', function () {
+                $('label[for=' + this.id + ']').text('Value : ' + $(this).val());
+            });
+            element.parent().css('border', '1px solid black');
+        }
+    };
+});
+
 function LoadData() {
     var formdata = new FormData();
     formdata.append('PageSize', "10000");
     formdata.append('PageNumber', "1");
-   
+
     $.ajax({
         "dataType": 'json',
         //headers: { "Authorization": "Bearer " + gbl_accessToken },
         "type": "POST",
         "contentType": false,
         "processData": false,
-        "url": "../api/Topic/GetUserTopics",
+        "url": "../api/Topic/GetUserTopicsasd",
         "data": formdata,
         beforeSend: function () {
             //$(ctrl).parent().append('<div class="loading-small" style="position: fixed;top: 36%;right: 50%;"></div>')

@@ -29,8 +29,8 @@
                                         <div class="card-body">
                                             <h5 class="card-title">{{topic.Title}}</h5>
                                             <p class="card-text">{{topic.Description}}</p>
-                                            <p ng-show="topic.IsCompleted == 1" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
-                                            <p ng-show="topic.IsCompleted != 1" class="text-right anchor">{{topic.Progress}}</p>
+                                            <p ng-show="topic.IsCompleted == '1'" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
+                                            <p ng-show="topic.IsCompleted != '1'" class="text-right anchor">{{topic.Progress}}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -199,14 +199,14 @@
                 <div class="row">
                     <div class="col-md-12 mb-3" id="pdfContent" ng-show="SpecialContents.FileType == 'PDF'">
                         <%-- <embed src="Asset/data/test.pdf" />--%>
-                        <div class="contents-datials embed"  id="divPDF">
+                        <div class="contents-datials embed" id="divPDF">
                         </div>
                         <div class="text-center mt-5">
                             <a class="btn bg-blue font-weight-bold text-white" onclick="toggleSection('video')">Continue</a>
                         </div>
                     </div>
 
-                    <div class="col-md-10 offset-md-1 mb-3 text-center" id="videoContent" ng-show="SpecialContents.FileType == 'VIDEO'" >
+                    <div class="col-md-10 offset-md-1 mb-3 text-center" id="videoContent" ng-show="SpecialContents.FileType == 'VIDEO'">
                         <div class="row">
                             <div id="dvVideoRating" style="display: none;" class="col-md-12 video-rating text-white d-none">
                                 <h2 class="font-weight-bold">How did you like the video?</h2>
@@ -229,6 +229,9 @@
                                     </dt>
                                 </dl>
                             </div>
+                            <div class="col-md-12 video-control text-white" id="videoControl" onclick="VideoPlayPause(1)">
+                                <i class="fas fa-play fa-5x"></i>
+                            </div>
                             <div class="col-md-12">
                                 <%-- <video controls id="contentVideo" onended="videoRating()">
                                     <source src="Asset/data/bunny.mp4" type="video/mp4">
@@ -249,62 +252,114 @@
             </div>
         </div>
 
-        <div ng-show="ActiveContainer =='ContentSurveyView'">
-            <div ng-click="GoBack('Content')">{{ContentGoBackText}}</div>
-            <h2>This is survey</h2>
-            <div ng-repeat="question in SpecialContents.Questions">
-                <h1>{{$index}}</h1>
-                <div>{{question.Title}}</div>
+        <div class="row survey" ng-show="ActiveContainer =='ContentSurveyView'">
+            <div class="col-md-12 header">
+                <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
+                <h1 class="text-center font-weight-bold">Survey - Employee Health in General</h1>
+            </div>
+            <div class="col-md-10 mt-5 offset-md-1">
+                <div class="row" id="surveyQuestion">
+                    <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
+                        <div class="card border-0 shadow mb-3">
+                            <div class="card-body question">
+                                <div class="row align-items-center content-type">
+                                    <div class="col-md-2">
+                                        <h1 class="card-title display-4 font-weight-bold">{{$index}}.</h1>
+                                    </div>
+                                    <div class="col-md-10 question-content">
+                                        <h5 class="card-title">{{question.Title}}</h5>
 
-                <div ng-show="question.QuestionType == 1 ">
-                    <div ng-repeat="ansOption in question.AnswerOptions">
-                        <input type="checkbox" name="ansOption.AnswerText" value="ansOption.AnswerID">
-                        {{ansOption.AnswerText}}<br>
+                                        <div ng-show="question.QuestionType == 1 ">
+                                            <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
+                                                <input type="checkbox" id="{{'chkAnsOption_' + $index}}" class="custom-control-input" name="ansOption.AnswerText" value="ansOption.AnswerID">
+                                                <label class="custom-control-label" for="{{'chkAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
+                                            </div>
+                                        </div>
+
+                                        <%-- <div class="form-group" data-select2-id="5">
+                                            <select class="form-control select2 select2-hidden-accessible" multiple="" id="selectMultiple" data-select2-id="selectMultiple" tabindex="-1" aria-hidden="true">
+                                                <option data-select2-id="13"></option>
+                                                <option value="1" data-select2-id="14">1</option>
+                                                <option value="2" data-select2-id="15">2</option>
+                                                <option value="3" data-select2-id="16">3</option>
+                                            </select>
+                                            <span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" data-select2-id="3" style="width: 728.325px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="false">
+                                                <ul class="select2-selection__rendered">
+                                                    <span class="select2-selection__clear" title="Remove all items" data-select2-id="20">×</span><li class="select2-search select2-search--inline">
+                                                        <input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" placeholder="Select a option" style="width: 718.325px;"></li>
+                                                </ul>
+                                            </span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                        </div>--%>
+
+                                        <div class="form-group" data-select2-id="5" ng-show="question.QuestionType == 2 " data-select2-id="selectMultiple" tabindex="-1" aria-hidden="true">
+                                            <select class="form-control select2 select2-hidden-accessible" multiple="">
+                                                <option data-select2-id="14" ng-repeat="ansOption in question.AnswerOptions" value="ansOption.AnswerID">{{ansOption.AnswerText}}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="custom-control custom-radio" ng-show="question.QuestionType == 3 ">
+                                            <div ng-repeat="ansOption in question.AnswerOptions">
+                                                <input type="radio" id="{{'rbAnsOption_' + $index}}" name="ansOption.AnswerText" class="custom-control-input" value="ansOption.AnswerID">
+                                                <label class="custom-control-label" for="{{'rbAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="question.QuestionType == 9 " class="box">
+                                            <div ng-repeat="ansOption in question.AnswerOptions">
+                                                <input type="checkbox" id="{{'rbAnsOption_' + $index}}" name="ansOption.AnswerText" value="ansOption.AnswerID">
+                                                <label for="{{'rbAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="question.QuestionType == 4 " class="custom-file">
+                                            <input type="file" class="custom-file-input" id="file"><label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+
+                                        <div ng-show="question.QuestionType == 5" class="rating">
+                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate10" /><label for="rbSurveyRate10">10</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate9" /><label for="rbSurveyRate9">9</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate8" /><label for="rbSurveyRate8">8</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate7" /><label for="rbSurveyRate7">7</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate6" /><label for="rbSurveyRate6">6</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate5" /><label for="rbSurveyRate5">5</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate4" /><label for="rbSurveyRate4">4</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate3" /><label for="rbSurveyRate3">3</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate2" /><label for="rbSurveyRate2">2</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="1" id="rbSurveyRate1" /><label for="rbSurveyRate1">1</label>
+                                        </div>
+
+                                        <div ng-show="question.QuestionType == 6 ">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="text" placeholder="Type your answer here">
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="question.QuestionType == 7">
+                                            <div class="form-group">
+                                                <textarea class="form-control" placeholder="Type your answer here" id="textarea"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div ng-show="question.QuestionType == 8 ">
+                                            <div class="form-group">
+                                                <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group">
+                                                    <input type="text" class="form-control date" id="date" placeholder="Select Date" data-type="datepicker" data-guid="a55dfd8e-b9b5-0a16-2e0b-1268af1fae1d" data-datepicker="true" role="input"><span class="input-group-append" role="right-icon">
+                                                        <button class="btn btn-outline-secondary border-left-0" type="button"><i class="gj-icon">event</i></button></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div ng-show="question.QuestionType == 2 ">
-                    <select>
-                        <option ng-repeat="ansOption in question.AnswerOptions" value="ansOption.AnswerID">{{ansOption.AnswerText}}</option>
-                    </select>
-                </div>
-
-                <div ng-show="question.QuestionType == 3 " ng-repeat="ansOption in question.AnswerOptions">
-                    <input type="radio" name="ansOption.AnswerText" value="ansOption.AnswerID">
-                    {{ansOption.AnswerText}}<br>
-                </div>
-
-                <div ng-show="question.QuestionType == 4 ">
-                    Select a file:
-                    <input type="file" name="myFile"><br>
-                </div>
-
-                <div ng-show="question.QuestionType == 5">
-                    <input type="radio" name="ansOption.AnswerText" value="1" id="rbSurveyRate1" /><label for="rbSurveyRate1">1</label>
-                    <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate2" /><label for="rbSurveyRate2">2</label>
-                    <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate3" /><label for="rbSurveyRate3">3</label>
-                    <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate4" /><label for="rbSurveyRate4">4</label>
-                    <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate5" /><label for="rbSurveyRate5">5</label>
-                    <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate6" /><label for="rbSurveyRate6">6</label>
-                    <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate7" /><label for="rbSurveyRate7">7</label>
-                    <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate8" /><label for="rbSurveyRate8">8</label>
-                    <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate9" /><label for="rbSurveyRate9">9</label>
-                    <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate10" /><label for="rbSurveyRate10">10</label>
-                </div>
-
-                <div ng-show="question.QuestionType == 6 ">
-                    <input type="text" name="txta">
-                </div>
-                <div ng-show="question.QuestionType == 7">
-                    <textarea rows="4" cols="50"></textarea>
-                </div>
-
-                <div ng-show="question.QuestionType == 8 ">
-                    <input type="text" name="Date Time">
+                <div class="text-center mt-4">
+                    <a class="btn bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">Previous</a>
+                    <a class="btn bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">Finish</a>
                 </div>
             </div>
-            <button onclick="return false;" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">Previous</button>
-            <button onclick="return false;" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">Submit Survey</button>
         </div>
 
         <div ng-show="ActiveContainer =='ContentFlashcardView'">
@@ -448,19 +503,34 @@
     </div>
 
     <script>
+        $(document).ready(function () {
+
+        });
+
         function VideoFinished(e) {
             $("#dvVideoRating").show();
             $('#dvVideoRating').removeClass('d-none');
+            $('#videoControl').addClass('d-none');
+        }
+
+        function VideoPlayPause(action) {
+            if (action == 1) {
+                // video.play();
+                $('#vdVideoPlayer')[0].play();
+                $('#videoControl').addClass('d-none')
+            }
         }
 
         function VideoPaused(e) {
             //alert("Video Paused");
+            $('#videoControl').removeClass('d-none');
+             $('#vdVideoPlayer')[0].pause();
         }
 
-        function VideoClicked(cntrl) {
-            // $("#vdVideoPlayer").trigger( "click" );
-            cntrl.paused ? cntrl.play() : cntrl.pause();
-        }
+        //function VideoClicked(cntrl) {
+        //    // $("#vdVideoPlayer").trigger( "click" );
+        //    cntrl.paused ? cntrl.play() : cntrl.pause();
+        //}
     </script>
 </asp:Content>
 

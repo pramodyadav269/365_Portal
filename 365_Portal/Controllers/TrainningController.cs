@@ -21,14 +21,14 @@ namespace _365_Portal.Controllers
             var data = "";
             try
             {
-                var ds = TrainningBL.GetTopics(1,"1");
+                var ds = TrainningBL.GetTopicsByUser(1, "4");
                 data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
             }
             catch (Exception ex)
             {
                 APIResult.ThrowException(ex);
             }
-            return new APIResult(data, Request);
+            return new APIResult(Request, data);
         }
     }
 }

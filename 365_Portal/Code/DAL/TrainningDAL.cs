@@ -50,8 +50,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spGetTopicsByUser";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@_CompID", CompID);
-                cmd.Parameters.AddWithValue("@_UserID", userId);
+                cmd.Parameters.AddWithValue("_CompID", CompID);
+                cmd.Parameters.AddWithValue("_UserID", userId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
