@@ -21,8 +21,10 @@ namespace _365_Portal.Models
 
         public class LoginResponse : ResponseBase
         {
+            public string CompID { get; set; }
             public string UserID { get; set; }
             public string RoleID { get; set; }
+            public string Role { get; set; }
             public string IsFirstLogin { get; set; }
             public string ProfilePicFileID { get; set; }
             public string FirstName { get; set; }

@@ -4,6 +4,7 @@ using _365_Portal.Code.DAL;
 using _365_Portal.Models;
 using System;
 using System.Configuration;
+using System.Web;
 using static _365_Portal.Models.Login;
 
 namespace _365_Portal
@@ -13,8 +14,9 @@ namespace _365_Portal
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
-            {
-
+            {               
+                HttpContext.Current.Session["UserId"] = null;
+                HttpContext.Current.Session["RoleName"] = null;
             }
         }
 
@@ -46,28 +48,34 @@ namespace _365_Portal
                         return;
                     }
 
+                    // Call Login Business Layer Function to record message
+
+                    HttpContext.Current.Session["UserId"] = objResponse.UserID;
+                    HttpContext.Current.Session["RoleName"] = objResponse.Role;
+
                     if (objResponse.IsFirstLogin == "1")
                     {
+                        HttpContext.Current.Session["IsFirstTimeLogin"] = true;
                         Response.Redirect("~/ChangePassword.aspx");
                     }
                     else
-                    {
-                        if (objResponse.RoleID.ToLower() == "enduser")
+                    {                       
+                        if (objResponse.Role.ToLower() == "enduser")
                         {
                             Response.Redirect("~/Topics.aspx");
                         }
-                        else
+                        else if (objResponse.Role.ToLower() == "superadmin" || objResponse.Role.ToLower() == "companyadmin" || objResponse.Role.ToLower() == "subadmin")
                         {
-                            Response.Redirect("~/AdminPnael.aspx");
+                            Response.Redirect("~/admin/dashboard.aspx");
                         }
                     }
                 }
                 else
                 {
+                    // Call Login Business Layer Function to record message
                     lblError.Text = objResponse.ReturnMessage;
                 }
             }
-            //Response.Redirect("~/Topics.aspx");            
         }
     }
 }

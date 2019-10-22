@@ -50,8 +50,10 @@ namespace _365_Portal.Code.DAL
                 {                    
                     objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
                     objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
+                    objResponse.CompID = dt.Rows[0]["CompID"].ToString();
                     objResponse.UserID = dt.Rows[0]["UserID"].ToString();
                     objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
+                    objResponse.Role = dt.Rows[0]["RoleName"].ToString();
                     objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
                     objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
                 }
@@ -60,7 +62,7 @@ namespace _365_Portal.Code.DAL
                     objResponse = new LoginResponse();
                     objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
                     objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
-                }                
+                }
             }
             else
             {
@@ -83,10 +85,10 @@ namespace _365_Portal.Code.DAL
                 {
                     conn.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("_ControllerName", objRequest.EmailId);
-                    cmd.Parameters.AddWithValue("_Ref1", objRequest.Ref1);
-                    cmd.Parameters.AddWithValue("_Ref2", objRequest.Ref2);
-                    cmd.Parameters.AddWithValue("_Ref3", objRequest.Ref3);
+                    cmd.Parameters.AddWithValue("p_ControllerName", objRequest.EmailId);
+                    cmd.Parameters.AddWithValue("p_Ref1", objRequest.Ref1);
+                    cmd.Parameters.AddWithValue("p_Ref2", objRequest.Ref2);
+                    cmd.Parameters.AddWithValue("p_Ref3", objRequest.Ref3);
                     i = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -108,25 +110,21 @@ namespace _365_Portal.Code.DAL
             }
         }
 
-        public static UserBO GetUserDetails(long UserId, string Ref1)
+        public static UserBO GetUserDetails(string UserId, string Ref1)
         {
             UserBO objUser = new UserBO();
-            objUser.Id = 0;
-            objUser.UserId = 0;
-            objUser.ProfilePicPath = "";
+            objUser.UserID = "0";
+            objUser.RoleID = "4";
+            objUser.Role = "EndUser";
+            objUser.IsFirstLogin = "";
+            objUser.ProfilePicFileID = "";
             objUser.FirstName = "Pramod";
             objUser.LastName = "Yadav";
-            objUser.EmailId = "PramodYadav269@gmail.com";
-            objUser.UserPwd = "123456";
-            objUser.MobileNo = "9930315629";
+            objUser.EmailID = "PramodYadav269@gmail.com";
+            objUser.MobileNum = "9930315629";
             objUser.Position = "EndUser";
-            objUser.CreatedBy = 0;
-            objUser.CreatedOn = "2019-10-12";
-            objUser.ModifiedBy = 0;
-            objUser.ModifiedOn = "2019-10-12";
-            objUser.IsDeleted = false;
-            objUser.DeletedBy = 0;
-            objUser.DeletedOn = "2019-10-12";
+            objUser.PasswordHash = "";
+            objUser.PasswordSalt = "2019-10-12";
 
             /*
             UserBO objUser = null;
@@ -181,22 +179,25 @@ namespace _365_Portal.Code.DAL
                 string stm = "spCreateUser";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("_CompId", userdetails.CompId);
-                cmd.Parameters.AddWithValue("_UserId", userdetails.UserId);
-                cmd.Parameters.AddWithValue("_UserKey", userdetails.UserKey);
-                cmd.Parameters.AddWithValue("_FirstName", userdetails.FirstName);
-                cmd.Parameters.AddWithValue("_LastName", userdetails.LastName);
-                cmd.Parameters.AddWithValue("_Password", userdetails.NewPassword);//Password field value name is in NewPassword variable. 
-                cmd.Parameters.AddWithValue("_RoleId", userdetails.RoleId);
-                cmd.Parameters.AddWithValue("_EmailId", userdetails.EmailId);
-                cmd.Parameters.AddWithValue("_MobileNo", userdetails.MobileNo);
-                cmd.Parameters.AddWithValue("_Position", userdetails.Position);
-                cmd.Parameters.AddWithValue("_GroupId", userdetails.GroupId);
-                cmd.Parameters.AddWithValue("_ThemeColor", userdetails.ThemeColor);
-                cmd.Parameters.AddWithValue("_Logo", userdetails.Logo);
-                cmd.Parameters.AddWithValue("_ProfilePic", userdetails.ProfilePic);
-                cmd.Parameters.AddWithValue("_CreatedBy", userdetails.CreatedBy);
-                cmd.Parameters.AddWithValue("_PasswordSalt", userdetails.PasswordSalt);
+                cmd.Parameters.AddWithValue("p_UserID", userdetails.UserID);
+                cmd.Parameters.AddWithValue("p_CompID", userdetails.CompID);
+                cmd.Parameters.AddWithValue("p_FirstName", userdetails.FirstName);
+                cmd.Parameters.AddWithValue("p_LastName", userdetails.LastName);                
+                cmd.Parameters.AddWithValue("p_RoleID", userdetails.RoleID);
+                cmd.Parameters.AddWithValue("p_EmailID", userdetails.EmailID);
+                cmd.Parameters.AddWithValue("p_MobileNum", userdetails.MobileNum);
+                cmd.Parameters.AddWithValue("p_Position", userdetails.Position);                
+                cmd.Parameters.AddWithValue("p_ProfilePicFileID", userdetails.ProfilePicFileID);
+                cmd.Parameters.AddWithValue("p_CreatedBy", userdetails.UserID);
+                cmd.Parameters.AddWithValue("p_PasswordSalt", userdetails.PasswordSalt);
+                cmd.Parameters.AddWithValue("p_PasswordHash", userdetails.PasswordHash);
+                cmd.Parameters.AddWithValue("p_EmailNotification", userdetails.EmailNotification);
+                cmd.Parameters.AddWithValue("p_PushNotification", userdetails.PushNotification);
+
+                //cmd.Parameters.AddWithValue("p_GroupId", userdetails.GroupId);
+                //cmd.Parameters.AddWithValue("p_ThemeColor", userdetails.ThemeColor);
+                //cmd.Parameters.AddWithValue("p_Logo", userdetails.Logo);
+
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -223,10 +224,10 @@ namespace _365_Portal.Code.DAL
                 string stm = "spDeleteUser";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("_CompId", CompId);
-                cmd.Parameters.AddWithValue("_UserId", UserId);
-                cmd.Parameters.AddWithValue("_UserKey", UserKey);
-                cmd.Parameters.AddWithValue("_CreatedBy", CreatedBy);
+                cmd.Parameters.AddWithValue("p_CompId", CompId);
+                cmd.Parameters.AddWithValue("p_UserId", UserId);
+                cmd.Parameters.AddWithValue("p_UserKey", UserKey);
+                cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -258,13 +259,13 @@ namespace _365_Portal.Code.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
 
 
-                cmd.Parameters.AddWithValue("_UserId", UserId);
-                cmd.Parameters.AddWithValue("_RoleId", RoleId);
-                cmd.Parameters.AddWithValue("_EmailId", EmailId);
-                cmd.Parameters.AddWithValue("_GroupId", GroupId);
-                cmd.Parameters.AddWithValue("_MobileNo", MobileNo);
-                cmd.Parameters.AddWithValue("_Position", Position);
-                cmd.Parameters.AddWithValue("_CreatedBy", CreatedBy);
+                cmd.Parameters.AddWithValue("p_UserId", UserId);
+                cmd.Parameters.AddWithValue("p_RoleId", RoleId);
+                cmd.Parameters.AddWithValue("p_EmailId", EmailId);
+                cmd.Parameters.AddWithValue("p_GroupId", GroupId);
+                cmd.Parameters.AddWithValue("p_MobileNo", MobileNo);
+                cmd.Parameters.AddWithValue("p_Position", Position);
+                cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -292,10 +293,10 @@ namespace _365_Portal.Code.DAL
                 string stm = "spCreateGroup";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("_CompId", CompId);
-                cmd.Parameters.AddWithValue("_GroupName", GroupName);
-                cmd.Parameters.AddWithValue("_Description", Description);
-                cmd.Parameters.AddWithValue("_CreatedBy", CreatedBy);
+                cmd.Parameters.AddWithValue("p_CompId", CompId);
+                cmd.Parameters.AddWithValue("p_GroupName", GroupName);
+                cmd.Parameters.AddWithValue("p_Description", Description);
+                cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -324,9 +325,9 @@ namespace _365_Portal.Code.DAL
                 string stm = "spDeleteGroup";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("_CompId", CompId);
-                cmd.Parameters.AddWithValue("_GroupId", GroupId);                
-                cmd.Parameters.AddWithValue("_CreatedBy", CreatedBy);
+                cmd.Parameters.AddWithValue("p_CompId", CompId);
+                cmd.Parameters.AddWithValue("p_GroupId", GroupId);                
+                cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -357,10 +358,10 @@ namespace _365_Portal.Code.DAL
                 string stm = "spSetUserPassword";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("_CompId", CompId);
-                cmd.Parameters.AddWithValue("_GroupName", UserId);
-                cmd.Parameters.AddWithValue("_Description", Password);
-                cmd.Parameters.AddWithValue("_CreatedBy", CreatedBy);
+                cmd.Parameters.AddWithValue("p_CompId", CompId);
+                cmd.Parameters.AddWithValue("p_GroupName", UserId);
+                cmd.Parameters.AddWithValue("p_Description", Password);
+                cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -387,7 +388,7 @@ namespace _365_Portal.Code.DAL
             try
             {
                 SqlParameter[] param = new SqlParameter[1];
-                param[0] = new SqlParameter("_id", UserId);
+                param[0] = new SqlParameter("p_id", UserId);
                 SqlCommand cmd = new SqlCommand();
                 cmd.Parameters.AddRange(param);
                 dt = CDatabase.GetDataTable("pro_UserMenuLogin", cmd);

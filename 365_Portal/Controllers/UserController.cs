@@ -132,7 +132,7 @@ namespace _365_Portal.Controllers
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
             if (identity != null)
             {
-                var twest = identity.Id;
+                var twest = identity.UserID;
             }
             return Ok("Hello " + identity.FirstName);
         }
@@ -155,15 +155,15 @@ namespace _365_Portal.Controllers
             string New_PasswordSalt = Utility.GetHashedPassword(NewPassword, PasswordSalt);
             try
             {
-                _userdetail.NewPassword = NewPassword;
+                _userdetail.PasswordHash = NewPassword;
                 _userdetail.PasswordSalt = New_PasswordSalt;
-                _userdetail.CompId = Convert.ToInt32(HttpContext.Current.Session["CompID"]);
-                _userdetail.UserId = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
-                _userdetail.Token = "";
-                _userdetail.DeviceDetails = "";
-                _userdetail.DeviceType = "";
-                _userdetail.IP_Addess = "";
-                _userdetail.CreatedBy = 0;
+                _userdetail.CompID = Convert.ToString(HttpContext.Current.Session["CompID"]);
+                _userdetail.UserID = Convert.ToString(HttpContext.Current.Session["UserId"]);
+                //_userdetail.Token = "";
+                //_userdetail.DeviceDetails = "";
+                //_userdetail.DeviceType = "";
+                //_userdetail.IP_Addess = "";
+                //_userdetail.CreatedBy = 0;
                 var ds = CommonBL.ChangePassword(_userdetail); 
                 data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
             }
