@@ -339,12 +339,6 @@
       <DependentUpon>Topics.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserBO.cs" />
-    <Compile Include="validation.aspx.cs">
-      <DependentUpon>validation.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="validation.aspx.designer.cs">
-      <DependentUpon>validation.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -447,7 +441,6 @@
     <Content Include="Survey.aspx" />
     <Content Include="Test.html" />
     <Content Include="Topics.aspx" />
-    <Content Include="validation.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
