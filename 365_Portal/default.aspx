@@ -202,7 +202,7 @@
                         <div class="contents-datials embed"  id="divPDF">
                         </div>
                         <div class="text-center mt-5">
-                            <a class="btn bg-blue font-weight-bold text-white" onclick="toggleSection('video')">Continue</a>
+                            <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="toggleSection('video')">Continue</a>
                         </div>
                     </div>
 

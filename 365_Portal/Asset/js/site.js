@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('select.select2').select2({
         placeholder: "Select a option",
         allowClear: true
-    }); 
+    });
 
     bsCustomFileInput.init();
 
@@ -23,4 +23,9 @@ function QueryStringValue(param) {
             return urlparam[1];
         }
     }
+}
+
+function toggle(view, hide) {
+    $('#' + view).removeClass('d-none');
+    $('#' + hide).addClass('d-none');
 }

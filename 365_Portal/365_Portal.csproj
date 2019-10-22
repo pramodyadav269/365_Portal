@@ -279,6 +279,13 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Flashcards.aspx.cs">
+      <DependentUpon>Flashcards.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Flashcards.aspx.designer.cs">
+      <DependentUpon>Flashcards.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -474,6 +481,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
+    <Content Include="Flashcards.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />

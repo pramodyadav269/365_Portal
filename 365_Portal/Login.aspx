@@ -55,7 +55,7 @@
                                     <input type="text" class="form-control" id="txtPosition" placeholder="Position at the company" />
                                 </div>
                                 <div class="text-center mt-5">
-                                    <a class="btn bg-yellow font-weight-bold" onclick="regNext(this)">Next</a>
+                                    <a class="btn btn-custom bg-yellow font-weight-bold" onclick="regNext(this)">Next</a>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                     <input type="password" class="form-control" id="txtRegPasswordAgain" placeholder="Password again" />
                                 </div>
                                 <div class="text-center mt-5">
-                                    <a class="btn bg-yellow font-weight-bold">Let’s go!</a>
+                                    <a class="btn btn-custom bg-yellow font-weight-bold">Let’s go!</a>
                                 </div>
                             </div>
                         </div>
@@ -107,8 +107,8 @@
                                     <a class="link font-weight-bold" onclick="toggle('divPasswordRecover','divlogin');">Forgot your password?</a>
                                 </div>
                                 <div class="text-center mt-4">
-                                    <%--<a class="btn bg-yellow font-weight-bold" onclick="login(this)">Log In</a>--%>
-                                    <asp:Button ID="btnLogin" runat="server" class="btn bg-yellow font-weight-bold" Text="Log In" OnClientClick="return login(this);" OnClick="btnLogin_Click" />  
+                                    <%--<a class="btn btn-custom bg-yellow font-weight-bold" onclick="login(this)">Log In</a>--%>
+                                    <asp:Button ID="btnLogin" runat="server" class="btn btn-custom bg-yellow font-weight-bold" Text="Log In" OnClientClick="return login(this);" OnClick="btnLogin_Click" />  
                                 </div>
 
                                 <asp:Label runat="server" ID="lblError" Text="" />
@@ -130,7 +130,7 @@
                                     <input type="email" class="form-control" id="txtRecoverEmail" placeholder="Your email" />
                                 </div>
                                 <div class="text-center mt-5">
-                                    <a class="btn bg-yellow font-weight-bold">Recover</a>
+                                    <a class="btn btn-custom bg-yellow font-weight-bold">Recover</a>
                                 </div>
                             </div>
                         </div>
@@ -150,10 +150,6 @@
             toggle('divRegPassword', 'divReg');
         }
 
-        function toggle(view, hide) {
-            $('#' + view).removeClass('d-none');
-            $('#' + hide).addClass('d-none');
-        }
 
         function login(ctrl) {
             //window.location.href = 'Topics.aspx';

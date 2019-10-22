@@ -13,7 +13,7 @@
             <div class="row" id="surveyQuestion">
             </div>
             <div class="text-center mt-4">
-                <a class="btn bg-blue font-weight-bold text-white">Finsh</a>
+                <a href="Flashcards.aspx" class="btn btn-custom bg-blue font-weight-bold text-white">Finsh</a>
             </div>
         </div>
     </div>
