@@ -726,7 +726,7 @@ p.anchor {
     align-items: center;
     display: flex;
 } 
-
+ 
 .flashcard-question .card {
     cursor: pointer;
 }

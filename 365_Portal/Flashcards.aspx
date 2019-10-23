@@ -198,7 +198,7 @@
             });
         });
 
-
+         
         function nextFlashcard() {
 
             var currentCard = $('#divFlashcard .card').not('.d-none');

@@ -51,7 +51,7 @@
             $('#btnResetAnwsers').addClass('d-none')
             $('#btnContinue').addClass('d-none')
 
-            var array = [1, 2, 3]; 
+            var array = [1, 2, 3];  
 
             var question = '';
             $.each(array, function (index, value) {
