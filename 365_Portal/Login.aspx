@@ -111,7 +111,7 @@
                                     <asp:Button ID="btnLogin" runat="server" class="btn btn-custom bg-yellow font-weight-bold" Text="Log In" OnClientClick="return login(this);" OnClick="btnLogin_Click" />  
                                 </div>
 
-                                <asp:Label runat="server" ID="lblError" Text="" />
+                                <asp:Label runat="server" ID="lblError" ForeColor="Red" />
 
                             </div>
                         </div>

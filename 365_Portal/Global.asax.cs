@@ -21,5 +21,11 @@ namespace _365_Portal
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        //Added by pramod on 24 Oct 19 to read session values
+        protected void Application_PostAuthorizeRequest()
+        {
+            System.Web.HttpContext.Current.SetSessionStateBehavior(System.Web.SessionState.SessionStateBehavior.Required);
+        }
     }
 }

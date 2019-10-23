@@ -35,10 +35,10 @@ namespace _365_Portal.Controllers
             try
             {
                 var httpRequest = HttpContext.Current.Request;
-                string EmailId = httpRequest.Form["EmailId"];
+                string EmailId = httpRequest.Form["EmailID"];
                 string UserPwd = httpRequest.Form["UserPwd"];
 
-                if (!string.IsNullOrEmpty(EmailId) || !string.IsNullOrEmpty(UserPwd))
+                if (string.IsNullOrEmpty(EmailId) || string.IsNullOrEmpty(UserPwd))
                 {
                     objResponse = new LoginResponse();
                     objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
@@ -54,7 +54,29 @@ namespace _365_Portal.Controllers
 
                     objResponse = new LoginResponse();
                     objResponse = UserDAL.LoginUser(objRequest);
-                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+
+                    if (objResponse.ReturnCode == "1")
+                    {
+                        GetAccessToken(EmailId.Trim(), UserPwd.Trim());
+                        
+                        if (HttpContext.Current.Session["access_token"] != null)
+                        {
+                            objResponse.Token = HttpContext.Current.Session["access_token"].ToString();
+                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                        }
+                        else
+                        {
+                            objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                        }
+                    }
+                    else
+                    {
+                        objResponse.ReturnMessage = objResponse.ReturnMessage;
+                        objResponse.ReturnCode = objResponse.ReturnCode;
+                        objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                    }
                 }
 
                 Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);                
