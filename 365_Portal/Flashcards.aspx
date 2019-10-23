@@ -193,8 +193,7 @@
                     } else {
                         $(el).addClass('b-red-2')
                         $(el).find('.card-body p.anchor').empty().append('<i class="fas fa-times c-red"></i>')
-                    }
-
+                    } 
                 });
             });
         });

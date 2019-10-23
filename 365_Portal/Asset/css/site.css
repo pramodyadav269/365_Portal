@@ -725,7 +725,7 @@ p.anchor {
     min-height: 170px;
     align-items: center;
     display: flex;
-}
+} 
 
 .flashcard-question .card {
     cursor: pointer;
