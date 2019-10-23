@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                     <label for="txtUserEmail">Email</label>
                                     <%--<input type="email" class="form-control" id="txtUserEmail" placeholder="Your email" />--%>
-                                    <asp:TextBox ID="txtUserEmail" class="form-control" runat="server" TextMode="Email" placeholder="Your EmailId"/>
+                                    <asp:TextBox ID="txtUserEmail" runat="server" TextMode="Email" class="form-control"  placeholder="Your EmailId" />
                                 </div>
                                 <div class="form-group">
                                     <label for="txtUserPassword">Password</label>

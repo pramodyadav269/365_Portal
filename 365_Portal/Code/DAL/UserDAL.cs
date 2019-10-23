@@ -120,7 +120,7 @@ namespace _365_Portal.Code.DAL
             objUser.UserID = "0";
             objUser.RoleID = "4";
             objUser.Role = "EndUser";
-            objUser.IsFirstLogin = "";
+            objUser.IsFirstLogin = false;
             objUser.ProfilePicFileID = "";
             objUser.FirstName = "Pramod";
             objUser.LastName = "Yadav";
@@ -184,7 +184,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_UserID", userdetails.UserID);
-                cmd.Parameters.AddWithValue("p_CompID", userdetails.CompID);
+                cmd.Parameters.AddWithValue("p_CompID", userdetails.CompId);
                 cmd.Parameters.AddWithValue("p_FirstName", userdetails.FirstName);
                 cmd.Parameters.AddWithValue("p_LastName", userdetails.LastName);                
                 cmd.Parameters.AddWithValue("p_RoleID", userdetails.RoleID);

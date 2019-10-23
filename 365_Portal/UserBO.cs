@@ -25,7 +25,7 @@ namespace _365_Portal
     public class UserBO
     {
         public Int32 Id { get; set; }
-        public Int32 UserId { get; set; }
+        public string UserID { get; set; }
         public string UserKey { get; set; }
         public string ProfilePicPath { get; set; }
         public string UserName { get; set; }
@@ -43,11 +43,12 @@ namespace _365_Portal
         public string DeletedOn { get; set; }
         public string DeviceType { get; set; }
         public string DeviceDetails { get; set; }
-        public string IP_Addess { get; set; }
+        public string IP_Address { get; set; }
         public string Token { get; set; }
         public string ActivityType { get; set; }
         public string OldPassword { get; set; }
         public string NewPassword { get; set; }
+        public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; } 
         public bool EmailNotification { get; set; }
         public bool PushNotification { get; set; }
@@ -56,8 +57,11 @@ namespace _365_Portal
         public string ProfilePic { get; set; }
         public string GroupId { get; set; }
         public Int32 CompId { get; set; }
-        public string RoleId { get; set; }
-        public string ErrorCode  { get; set; }
+        public string RoleID { get; set; }
+        public string ErrorCode { get; set; }
+        public string Role { get; set; }
         public string ErrorMessage { get; set; }
+        public bool IsFirstLogin { get; set; }
+        public string ProfilePicFileID { get; set; }
     }
 }

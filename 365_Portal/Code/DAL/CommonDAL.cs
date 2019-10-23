@@ -57,7 +57,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompId", u.CompId);
-                cmd.Parameters.AddWithValue("p_UserId", u.UserId);
+                cmd.Parameters.AddWithValue("p_UserID", u.UserID);
                 cmd.Parameters.AddWithValue("p_DeviceType", u.DeviceType);
                 cmd.Parameters.AddWithValue("p_DeviceDetails", u.DeviceDetails);
                 cmd.Parameters.AddWithValue("p_IPAddress", u.IP_Address);
@@ -89,7 +89,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompId", u.CompId);
-                cmd.Parameters.AddWithValue("p_UserId", u.UserId);
+                cmd.Parameters.AddWithValue("p_UserID", u.UserID);
                 cmd.Parameters.AddWithValue("p_Token", u.Token);
                 cmd.Parameters.AddWithValue("p_DeviceType", u.DeviceType);
                 cmd.Parameters.AddWithValue("p_DeviceDetails", u.DeviceDetails);
@@ -122,8 +122,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spUpdateActivity";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", u.CompID);
-                cmd.Parameters.AddWithValue("p_UserId", u.UserID);
+                cmd.Parameters.AddWithValue("p_CompId", u.CompId);
+                cmd.Parameters.AddWithValue("p_UserID", u.UserID);
                 cmd.Parameters.AddWithValue("p_Type", u.ActivityType);
                 cmd.Parameters.AddWithValue("p_DeviceType", u.DeviceType);
                 cmd.Parameters.AddWithValue("p_DeviceDetails", u.DeviceDetails);
@@ -155,8 +155,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spChangePassword";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", u.CompID);
-                cmd.Parameters.AddWithValue("p_UserId", u.UserID);
+                cmd.Parameters.AddWithValue("p_CompID", u.CompId);
+                cmd.Parameters.AddWithValue("p_UserID", u.UserID);
                 //cmd.Parameters.AddWithValue("p_OldPassword", u.OldPassword);
                 //cmd.Parameters.AddWithValue("p_NewPassword", u.NewPassword);
                 cmd.Parameters.AddWithValue("p_PasswordHash", u.PasswordHash);
@@ -194,7 +194,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompId", u.CompId);
-                cmd.Parameters.AddWithValue("p_UserId", u.UserId);
+                cmd.Parameters.AddWithValue("p_UserID", u.UserID);
                 cmd.Parameters.AddWithValue("p_EmailNotification", u.EmailNotification);
                 cmd.Parameters.AddWithValue("p_PushNotification", u.PushNotification);
                 //cmd.Parameters.AddWithValue("p_Token", u.Token);
@@ -287,7 +287,7 @@ namespace _365_Portal.Code.DAL
                 string stm = "spSetProfileDetails";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", u.CompID);
+                cmd.Parameters.AddWithValue("p_CompId", u.CompId);
                 cmd.Parameters.AddWithValue("p_UserId", u.UserID);
                 cmd.Parameters.AddWithValue("p_FirstName", u.FirstName);
                 cmd.Parameters.AddWithValue("p_LastName", u.LastName);

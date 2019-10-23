@@ -24,7 +24,7 @@
                         <input type="password" class="form-control" id="txtNewPasswordAgain" required="required" placeholder="New password again here" />
                     </div>
                     <div class="text-center mt-5">
-                        <a class="btn bg-blue font-weight-bold text-white">Change Password</a>
+                        <a class="btn bg-blue font-weight-bold text-white" onclick="ChangePassword()">Change Password</a>
                     </div>
                 </div>
             </div>
@@ -39,93 +39,60 @@
         function ChangePassword() {
             if (SectionValidation('divChangePassword') == true) {
 
-                var Confimed_Pass = $('#txtNewPasswordAgain').val();
-                var formdata = new FormData();
-                formdata.append('Password', Confimed_Pass);
-                formdata.append('DeviceDetails',"");
-                formdata.append('DeviceType', "");
-                formdata.append('IPAddess', "");
-                getController(formdata, "/API/User/ChangePassword", "");
+                getController("", "/API/User/ChangePassword", "");
             }
 
         }
 
         function getController(formdata, getUrl, flag) {
-            //var accessToken = '<%=Session["access_token"]%>';
-                $.ajax({
-                    type: "POST",
-                    url: getUrl,
-                    //headers: { "Authorization": "Bearer " + accessToken },
-                    data: formdata,
-                    contentType: false,
-                    processData: false,
-                    //async: false,
-                    beforeSend: function () {
-                    },
+            var Confimed_Pass = $('#txtNewPasswordAgain').val();
+            var formdata = new FormData();
+            formdata.append('Password', Confimed_Pass);
+            formdata.append('DeviceDetails', "");
+            formdata.append('DeviceType', "");
+            formdata.append('IPAddess', "");
+            //getController(formdata, "/API/User/ChangePassword", "");
+            var getUrl = "/API/User/ChangePassword";
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                //headers: { "Authorization": "Bearer " + accessToken },
+                data: formdata,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                },
+                success: function (response) {
 
-                    success: function (response) {
-                        var length = 0;
-
-                        var DataSet = $.parseJSON(response);
-
-                    },
-                    failure: function (response) {
-                        alert(response.d);
-                    }
-                    /*
-                    ,
-                    failure: AjaxUDFailure,
-                    error: AjaxUDError,
-                    complete: function () {
-                        isAction = false;
-                    }
-                    */
-                });
-            }
-
-
-            //Validate Section
-            function SectionValidation(divId) {
-                //if ($(el).val() < 5) {
-                //    if (!(regEx.test($(el).val()))) {
-                //        $(this).next('span.invalid, span.valid').remove();
-                //        var errorspan = $('<span></span>').addClass('valid').text('Password should contain at least 1 Alphabet, 1 Number and 1 Special Character.').css({ position: 'absolute', color: 'green', top: '2.5rem', left: "0.75rem", fontSize: "0.8rem" });
-                //        $(this).after(errorspan);
-                //    }
-                //}
-                //var regEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}/;
-                $('#' + divId).find('.form-group').not(".disabled").each(function (i, el) {
-                    //
-                    $(el).find('select, .input-field> input[type=password]').each(function (i, el) {
-                        //
-                        //ALL TEXTBOX REQUIRED
-                        if ($(el).attr('type') == "text" && $(el).hasClass('required')) {
-                            //
-                            if ($(el).val() == "") {
-                                $(this).next('span.invalid, span.valid').remove();
-                                var errorspan = $('<span></span>').addClass('invalid').text('Required').css({ position: 'absolute', color: 'red', top: '2.5rem', left: "0.75rem", fontSize: "0.8rem" });
-                                $(this).after(errorspan);
-                            }
-                            else {
-                                $(this).next('span.invalid, span.valid').remove();
-                                var errorspan = $('<span></span>').addClass('valid').text('').css({ position: 'absolute', color: 'green', top: '2.5rem', left: "0.75rem", fontSize: "0.8rem" });
-                                $(this).after(errorspan);
-                            }
+                    try{
+                        var DataSet = $.parseJSON($.parseJSON(response));
+                        if (DataSet[0].ReturnCode == "1") {
+                            alert(DataSet[0].ReturnMessage);
                         }
-
-                    })
-                    if ($(this).find('span.invalid').length > 0) {
-                        return false;
+                        else {
+                            alert(DataSet[0].ReturnMessage);
+                            ClearFields();
+                        }
                     }
-                })
-                if ($('#' + divId).find('span.invalid').length > 0) {
-                    return false;
+                    catch(e)
+                    {
+                        alert(response);
+                        alert(e.message);
+                    }
+                },
+                failure: function (response) {
+                    alert(response.data);
                 }
-                else {
-                    return true;
-                }
+            });
+        }
 
-            }
+        function ClearFields()
+        {
+            $('#txtCurrentPassword').val('');
+            $('#txtNewPassword').val('');
+            $('#txtNewPasswordAgain').val('');
+        }
+
     </script>
 </asp:Content>
 

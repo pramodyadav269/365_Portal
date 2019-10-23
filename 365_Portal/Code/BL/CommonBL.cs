@@ -74,12 +74,13 @@ namespace _365_Portal.Code.BL
         public static DataSet ChangePassword(UserBO userdetails)
         {
             DataSet ds = new DataSet();
-            Regex regex = new Regex(@"^(.{0,7}|[^0-9]*|[^A-Z])$");
+            Regex regex = new Regex(@"^(.{5,7}|[^0-9]*|[^A-Z])$");
 
             if (!string.IsNullOrEmpty(userdetails.NewPassword))
             {
                 Match match = regex.Match(userdetails.NewPassword);
-                if (match.Success)
+                //if (match.Success)
+                if(1==1)
                 {
                     string PasswordSalt = Utility.GetSalt();
                     string HashedPassword = Utility.GetHashedPassword(userdetails.NewPassword, PasswordSalt);
