@@ -33,5 +33,12 @@ namespace _365_Portal.Models
         {
             public static string Portal_365 = "365_Portal";
         }
+        public class ChangePassowrd {
+            public static string success = "Password changed Successfully";
+            public static string success_code = "200";
+            public static string error = "Error occured while Changing Password";
+            public static string error_code = "500";
+
+        }
     }
 }

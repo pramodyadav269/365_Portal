@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace _365_Portal.Code.BL
@@ -16,12 +17,12 @@ namespace _365_Portal.Code.BL
         }
 
         public static DataSet Login(UserBO userdetails)
-        {   
+        {
             DataSet ds = new DataSet();
             try
             {
                 ds = CommonDAL.Login(userdetails);
-                    }
+            }
             catch (Exception ex)
             {
                 Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -73,9 +74,46 @@ namespace _365_Portal.Code.BL
         public static DataSet ChangePassword(UserBO userdetails)
         {
             DataSet ds = new DataSet();
+            Regex regex = new Regex(@"^(.{0,7}|[^0-9]*|[^A-Z])$");
+
+            if (!string.IsNullOrEmpty(userdetails.NewPassword))
+            {
+                Match match = regex.Match(userdetails.NewPassword);
+                if (match.Success)
+                {
+                    string PasswordSalt = Utility.GetSalt();
+                    string HashedPassword = Utility.GetHashedPassword(userdetails.NewPassword, PasswordSalt);
+                    userdetails.PasswordSalt = PasswordSalt;
+                    userdetails.NewPassword = HashedPassword; //NewPassword variable storing the Newly generated password's Hash.
+                    try
+                    {
+                        ds = CommonDAL.ChangePassword(userdetails);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                    }
+                }
+                else
+                {
+                    new ApplicationException("Password should contain at least 1 Alphabet, 1 Number and 1 Special Character.");
+                }
+            }
+
+            else
+            {
+                new ApplicationException("Password Can't be empty");
+            }
+            return ds;
+        }
+
+
+        public static DataSet GetNotifications(int CompID, int UserID, string Token)
+        {
+            DataSet ds = new DataSet();
             try
             {
-                ds = CommonDAL.ChangePassword(userdetails);
+                ds = CommonDAL.GetNotifications(CompID, UserID, Token);
             }
             catch (Exception ex)
             {
@@ -85,27 +123,12 @@ namespace _365_Portal.Code.BL
         }
 
 
-        public static DataSet GetNotifications(Int32  CompID, Int32 UserId, string Token)
+        public static DataSet GetProfileDetails(int CompID, int UserID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = CommonDAL.GetNotifications(CompID,UserId,Token);
-            }
-            catch (Exception ex)
-            {
-                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
-            }
-            return ds;
-        }
-
-
-        public static DataSet GetProfileDetails(Int32 CompID, Int32 UserId)
-        {
-            DataSet ds = new DataSet();
-            try
-            {
-                ds = CommonDAL.GetProfileDetails(CompID,UserId);
+                ds = CommonDAL.GetProfileDetails(CompID, UserID);
             }
             catch (Exception ex)
             {
@@ -132,16 +155,16 @@ namespace _365_Portal.Code.BL
         {
             DataSet ds = new DataSet();
             if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrWhiteSpace(UserName))
-                {
+            {
                 try
                 {
-                    ds = CommonDAL.GetLoginDetails(UserName);                    
+                    ds = CommonDAL.GetLoginDetails(UserName);
                 }
                 catch (Exception ex)
                 {
                     Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
                 }
-               
+
             }
             else
             {

@@ -16,7 +16,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet CreateAchievement(Int32 CompId, Int32 AchievementId,  string AchivementTitle, string AchivementDescription, string LongDescription, string CreatedBy)
+        public static DataSet CreateAchievement(int CompID, int AchievementID,  string AchivementTitle, string AchivementDescription, string LongDescription, string CreatedBy)
         {
 
             DataSet ds = new DataSet();
@@ -29,8 +29,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spCreateAchievement";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", CompId);
-                cmd.Parameters.AddWithValue("p_AchievementId", AchievementId);
+                cmd.Parameters.AddWithValue("p_CompID", CompID);
+                cmd.Parameters.AddWithValue("p_AchievementID", AchievementID);
                 cmd.Parameters.AddWithValue("p_AchivementTitle", AchivementTitle);
                 cmd.Parameters.AddWithValue("p_AchivementDescription", AchivementDescription);
                 cmd.Parameters.AddWithValue("p_LongDescription", LongDescription);
@@ -51,7 +51,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet DeleteAchievement(Int32 CompId, Int32 AchievementId)
+        public static DataSet DeleteAchievement(int CompID, int AchievementID)
         {
 
             DataSet ds = new DataSet();
@@ -64,8 +64,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spDeleteAchievement";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", CompId);
-                cmd.Parameters.AddWithValue("p_ContentId", AchievementId);
+                cmd.Parameters.AddWithValue("p_CompID", CompID);
+                cmd.Parameters.AddWithValue("p_AchievementID", AchievementID);
                 //cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -83,7 +83,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetAchievements(Int32 CompId, Int32 AchievementId)
+        public static DataSet GetAchievements(int CompID, int AchievementID)
         {
 
             DataSet ds = new DataSet();
@@ -96,8 +96,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spGetAchievements";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", CompId);
-                cmd.Parameters.AddWithValue("p_AchievementId", AchievementId);
+                cmd.Parameters.AddWithValue("p_CompID", CompID);
+                cmd.Parameters.AddWithValue("p_AchievementID", AchievementID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

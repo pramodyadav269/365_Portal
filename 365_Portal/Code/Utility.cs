@@ -65,5 +65,22 @@ namespace _365_Portal.Code
             return str;
         }
 
+
+        public static string GetClientIPaddress()
+        {
+            string IPAddress = "";
+            // This Condition Checks is the Request is from Proxy server. 
+            if (HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != null && HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] != "")
+            {
+                IPAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            }
+            else
+            {
+                IPAddress = HttpContext.Current.Request.UserHostAddress;
+            }
+            return IPAddress;
+        }
+
+
     }
 }

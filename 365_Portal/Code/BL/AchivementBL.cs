@@ -15,12 +15,12 @@ namespace _365_Portal.Code.BL
             Logger.Log(ex, "AchivementBL", methodName);
         }
 
-        public static DataSet CreateAchievement(Int32 CompId, Int32 AchievementId,  string AchivementTitle, string AchivementDescription, string LongDescription, string CreatedBy)
+        public static DataSet CreateAchievement(int CompID, int AchievementID,  string AchivementTitle, string AchivementDescription, string LongDescription, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = AchivementDAL.CreateAchievement(CompId, AchievementId, AchivementTitle, AchivementDescription, LongDescription, CreatedBy);
+                ds = AchivementDAL.CreateAchievement(CompID, AchievementID, AchivementTitle, AchivementDescription, LongDescription, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -29,12 +29,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet DeleteAchievement(Int32 CompId, Int32 AchievementId)
+        public static DataSet DeleteAchievement(int CompID, int AchievementID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = AchivementDAL.DeleteAchievement(CompId, AchievementId);
+                ds = AchivementDAL.DeleteAchievement(CompID, AchievementID);
             }
             catch (Exception ex)
             {
@@ -43,12 +43,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetAchievements(Int32 CompId, Int32 AchievementId)
+        public static DataSet GetAchievements(int CompID, int AchievementID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = AchivementDAL.GetAchievements(CompId, AchievementId);
+                ds = AchivementDAL.GetAchievements(CompID, AchievementID);
             }
             catch (Exception ex)
             {
