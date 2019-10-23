@@ -59,7 +59,7 @@
                                 <a class="link font-weight-bold" href="ChangePassword.aspx">Change password</a>
                             </div>
                             <div class="text-center mt-5">
-                                <a class="btn bg-blue font-weight-bold text-white">Save</a>
+                                <a class="btn btn-custom bg-blue font-weight-bold text-white">Save</a>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="text-center mt-5">
-                                <a class="btn bg-blue font-weight-bold text-white">Save</a>
+                                <a class="btn btn-custom bg-blue font-weight-bold text-white">Save</a>
                             </div>
                         </div>
                     </div>

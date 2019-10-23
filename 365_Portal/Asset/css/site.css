@@ -42,22 +42,27 @@ img.logo {
             padding: 1.25rem 3rem;
         }
 
-    .page-card a.link, .page-card a.link:hover, .form-page a.link, .form-page a.link:hover {
-        text-decoration: underline;
-        color: #000;
-    }
 
-    .page-card span.back {
-        position: absolute;
-        top: 2rem;
-        left: 9rem;
-        cursor: pointer;
-        z-index: 1;
-    }
+a.link, a.link:hover {
+    color: #000;
+    text-decoration: underline !important;
+}
 
-        .page-card span.back .svg-inline--fa {
-            margin-right: .75rem;
-        }
+.text-underline {
+    text-decoration: underline !important;
+}
+
+.page-card span.back {
+    position: absolute;
+    top: 2rem;
+    left: 9rem;
+    cursor: pointer;
+    z-index: 1;
+}
+
+    .page-card span.back .svg-inline--fa {
+        margin-right: .75rem;
+    }
 
 
 @media (max-width: 1024px) {
@@ -77,6 +82,14 @@ img.logo {
         top: 0.5rem;
         left: 2rem;
     }
+
+    .header a.back {
+        top: -2rem !important;
+    }
+
+    .header a.btn {
+        top: -2.2rem !important;
+    }
 }
 
 
@@ -84,11 +97,12 @@ img.logo {
     margin: 2.75rem 4rem;
 }
 
-    .card-body .card-form .btn, .form-page .btn {
-        padding: 0.75rem 3.75rem;
-        font-size: 14px;
-        cursor: pointer;
-    }
+.btn-custom {
+    padding: 0.75rem 2rem;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: .75rem;
+}
 
 
 .bg-yellow {
@@ -105,6 +119,10 @@ img.logo {
 
 .c-green {
     color: #15BC7F;
+}
+
+.c-red {
+    color: #f74e35;
 }
 
 .btn {
@@ -159,6 +177,7 @@ img.logo {
 
 .custom-file-label {
     border: none;
+    cursor: pointer;
     border-radius: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.24);
 }
@@ -363,6 +382,10 @@ img.logo {
     padding-bottom: .4rem;
 }
 
+.btn-transparent, btn-transparent:hover {
+    border: 2px solid rgba(0, 0, 0, .30) !important;
+    color: rgba(0, 0, 0, .50) !important;
+}
 
 
 .completed-progress {
@@ -441,9 +464,11 @@ img.disabled {
     border-radius: 0;
     background-color: transparent;
     border-color: #000;
+    width: 120px;
     text-transform: uppercase;
     color: #000;
     font-weight: 500;
+    border: 1px solid #000;
     width: auto;
     right: unset;
     cursor: pointer;
@@ -481,16 +506,10 @@ img.disabled {
 }
 
 
-
-
-.topics .card .card-body p, .modules .card .card-body p, .contents .card .card-body p {
+p.anchor {
+    height: 24px;
     margin-bottom: 0;
 }
-
-
-    .topics .card .card-body p.anchor, .modules .card .card-body p.anchor {
-        height: 24px;
-    }
 
 .topics .card .card-body .card-text, .modules .card .card-body .card-text {
     height: 98px;
@@ -548,7 +567,7 @@ img.disabled {
     border-radius: 0;
 }
 
-.overview p {
+.overview p, .overview ul li {
     font-size: 1.2rem;
 }
 
@@ -601,7 +620,7 @@ img.disabled {
 /*.question .question-content {
     position: relative;
     left: -4rem;
-}*/ 
+}*/
 
 .gj-picker-bootstrap .modal-footer {
     padding: 0;
@@ -680,3 +699,56 @@ img.disabled {
         .box input[type="radio"]:checked + label, .box input[type="checkbox"]:checked + label {
             background: #FEC900;
         }
+
+
+.flashcard .card-body {
+    padding: 2rem;
+}
+
+.flashcard .card-text {
+    color: rgba(0, 0, 0, .70);
+    min-height: 126px;
+}
+
+.flashcard p.anchor {
+    color: rgba(0, 0, 0, .50);
+    font-size: 1rem;
+}
+
+.flashcard .card img {
+    width: 125px;
+    height: 125px;
+    margin-top: 3rem;
+}
+
+.flashcard-question .card-title {
+    min-height: 170px;
+    align-items: center;
+    display: flex;
+} 
+ 
+.flashcard-question .card {
+    cursor: pointer;
+}
+
+    .flashcard-question .card p.anchor {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+.quiz .card p.anchor {
+    position: absolute;
+    top: 50%;
+    right: .75rem;
+    transform: translate(-50%, -50%);
+}
+
+.b-green-2 {
+    border: 2px solid #15BC7F !important
+}
+
+.b-red-2 {
+    border: 2px solid #f74e35 !important
+}

@@ -35,10 +35,10 @@ namespace _365_Portal.Controllers
             try
             {
                 var httpRequest = HttpContext.Current.Request;
-                string EmailId = httpRequest.Form["EmailId"];
+                string EmailId = httpRequest.Form["EmailID"];
                 string UserPwd = httpRequest.Form["UserPwd"];
 
-                if (!string.IsNullOrEmpty(EmailId) || !string.IsNullOrEmpty(UserPwd))
+                if (string.IsNullOrEmpty(EmailId) || string.IsNullOrEmpty(UserPwd))
                 {
                     objResponse = new LoginResponse();
                     objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
@@ -54,7 +54,29 @@ namespace _365_Portal.Controllers
 
                     objResponse = new LoginResponse();
                     objResponse = UserDAL.LoginUser(objRequest);
-                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+
+                    if (objResponse.ReturnCode == "1")
+                    {
+                        GetAccessToken(EmailId.Trim(), UserPwd.Trim());
+                        
+                        if (HttpContext.Current.Session["access_token"] != null)
+                        {
+                            objResponse.Token = HttpContext.Current.Session["access_token"].ToString();
+                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                        }
+                        else
+                        {
+                            objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                        }
+                    }
+                    else
+                    {
+                        objResponse.ReturnMessage = objResponse.ReturnMessage;
+                        objResponse.ReturnCode = objResponse.ReturnCode;
+                        objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                    }
                 }
 
                 Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
@@ -132,7 +154,7 @@ namespace _365_Portal.Controllers
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
             if (identity != null)
             {
-                var twest = identity.Id;
+                var twest = identity.UserID;
             }
             return Ok("Hello " + identity.FirstName);
         }
@@ -148,57 +170,28 @@ namespace _365_Portal.Controllers
         [Route("API/User/ChangePassword")]
         public IHttpActionResult ChangePassword()
         {
-            string data = string.Empty;
-           
-            var request = HttpContext.Current.Request;
-            string NewPassword = request.Form["Password"];
-            /*This fields are for the mobile Request*/
-            string DeviceDetails = request.Form["DeviceDetails"];  
-            string DeviceType = request.Form["DeviceType"];
-            string IPAddess = request.Form["IPAddess"];
-            if (!string.IsNullOrEmpty(NewPassword))
+            var data = "";
+            UserBO _userdetail = new UserBO();
+            string NewPassword = (string)jsonResult.SelectToken("new_password");
+            string PasswordSalt = WebConfigurationManager.AppSettings["dbPasswordSalt"].ToString();
+            string New_PasswordSalt = Utility.GetHashedPassword(NewPassword, PasswordSalt);
+            try
             {
-
-                UserBO _userdetail = new UserBO();
-                //string PasswordSalt = Utility.GetSalt();
-                //string New_PasswordSalt = Utility.GetHashedPassword(NewPassword, PasswordSalt);
-                try
-                {
-                    _userdetail.NewPassword = NewPassword;//clear Text Password getting From User.                    
-                    //_userdetail.CompId = Convert.ToInt32(HttpContext.Current.Session["CompID"]);
-                    _userdetail.CompId = 1;
-                    //_userdetail.UserId = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
-                    _userdetail.UserId = 1;
-                    _userdetail.Token = "";
-                    if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request["Browser"] == "true") && !string.IsNullOrEmpty(DeviceDetails) && !string.IsNullOrEmpty(DeviceType) && !string.IsNullOrEmpty(DeviceType))
-                    {
-                        _userdetail.DeviceDetails = HttpContext.Current.Request.UserAgent;
-                        _userdetail.DeviceType = "Browser";
-                        _userdetail.IP_Addess = Utility.GetClientIPaddress();
-                    }
-                    else
-                    {
-                        _userdetail.DeviceDetails = "";
-                        _userdetail.DeviceType = "Mobile";
-                        _userdetail.IP_Addess = "";
-                    }
-                    _userdetail.CreatedBy = 1;
-
-                    var ds = CommonBL.ChangePassword(_userdetail);
-                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-
-                }
-                catch (Exception ex)
-                {
-                    data = ConstantMessages.ChangePassowrd.error_code +" || "+"Excetion occured while changing Password "+ " || "+ex.Message+" || "+ex.StackTrace;
-                    //APIResult.ThrowException(ex);
-                    return new APIResult(data, Request);
-                }
+                _userdetail.NewPassword = NewPassword;
+                _userdetail.PasswordSalt = New_PasswordSalt;
+                _userdetail.CompId = Convert.ToInt32(HttpContext.Current.Session["CompID"]);
+                _userdetail.UserId = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
+                _userdetail.Token = "";
+                _userdetail.DeviceDetails = "";
+                _userdetail.DeviceType = "";
+                _userdetail.IP_Addess = "";
+                _userdetail.CreatedBy = 0;
+                var ds = CommonBL.ChangePassword(_userdetail); 
+                data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
             }
-            else
+            catch (Exception ex)
             {
-                data = "Password is cannot be empty "+ConstantMessages.ChangePassowrd.error_code + ConstantMessages.ChangePassowrd.error;
-                return new APIResult(data, Request);
+                APIResult.ThrowException(ex);
             }
             return new APIResult(data, Request);
         }

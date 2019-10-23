@@ -137,7 +137,7 @@
                                         <img src="Asset/images/giftbox.png" class="img-achievements" />
                                     </div>
                                     <div class="col-md-12 text-center mt-5 mb-4">
-                                        <a class="btn bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>
+                                        <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>
                                     </div>
                                 </div>
                             </div>

@@ -24,3 +24,8 @@ function QueryStringValue(param) {
         }
     }
 }
+
+function toggle(view, hide) {
+    $('#' + view).removeClass('d-none');
+    $('#' + hide).addClass('d-none');
+}

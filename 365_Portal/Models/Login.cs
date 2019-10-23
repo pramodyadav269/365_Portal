@@ -21,8 +21,10 @@ namespace _365_Portal.Models
 
         public class LoginResponse : ResponseBase
         {
+            public string CompID { get; set; }
             public string UserID { get; set; }
             public string RoleID { get; set; }
+            public string Role { get; set; }
             public string IsFirstLogin { get; set; }
             public string ProfilePicFileID { get; set; }
             public string FirstName { get; set; }
@@ -30,14 +32,14 @@ namespace _365_Portal.Models
             public string EmailID { get; set; }
             public string MobileNum { get; set; }
             public string Position { get; set; }
-            public string PasswordHash { get; set; }
-            public string PasswordSalt { get; set; }
+            public string Token { get; set; }
         }
 
-        public static bool GetAccessToken(string userName, string password)
+        public static string GetAccessToken(string userName, string password)
         {
+            string accessToken = string.Empty;
             try
-            {
+            {                
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(ConfigurationManager.AppSettings["TokenURL"]);
@@ -53,16 +55,14 @@ namespace _365_Portal.Models
                     {
                         JavaScriptSerializer serializer = new JavaScriptSerializer();
                         dynamic token = serializer.Deserialize<object>(resultContent);
-                        string accessToken = token["access_token"];
+                        accessToken = token["access_token"];
                         HttpContext.Current.Session["access_token"] = accessToken;
                         HttpContext.Current.Session["expires_in"] = token["expires_in"];
-                        
-                        return true;
                     }
                     else
                     {
                         // Invalid User-Id & Password
-                        return false;
+                        return "";
                     }
                     //resolve the access_token here for the later use
                 }
@@ -71,6 +71,7 @@ namespace _365_Portal.Models
             {
                 throw ex;
             }
+            return accessToken;
         }
     }
 

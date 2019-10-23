@@ -24,7 +24,7 @@
                         <input type="password" class="form-control" id="txtNewPasswordAgain" required="required" placeholder="New password again here" />
                     </div>
                     <div class="text-center mt-5">
-                        <a class="btn bg-blue font-weight-bold text-white" onclick="ChangePassword()">Change Password</a>
+                        <a class="btn bg-blue font-weight-bold text-white">Change Password</a>
                     </div>
                 </div>
             </div>

@@ -8,43 +8,38 @@ namespace _365_Portal
 
     public class UserClaim
     {
-        public const string Id = "Id";
-        public const string UserId = "UserId";
-        public const string ProfilePicPath = "ProfilePicPath";
+        public const string UserID = "UserID";
+        public const string RoleID = "RoleID";
+        public const string Role = "Role";
+        public const string IsFirstLogin = "IsFirstLogin";
+        public const string ProfilePicFileID = "ProfilePicFileID";
         public const string FirstName = "FirstName";
         public const string LastName = "LastName";
-        public const string EmailId = "EmailId";
-        public const string UserPwd = "UserPwd";
-        public const string MobileNo = "MobileNo";
+        public const string EmailID = "EmailID";
+        public const string MobileNum = "MobileNum";
         public const string Position = "Position";
-        public const string CreatedBy = "CreatedBy";
-        public const string CreatedOn = "CreatedOn";
-        public const string ModifiedBy = "ModifiedBy";
-        public const string ModifiedOn = "ModifiedOn";
-        public const string IsDeleted = "IsDeleted";
-        public const string DeletedBy = "DeletedBy";
-        public const string DeletedOn = "DeletedOn";        
+        //public const string PasswordHash = "PasswordHash";
+        //public const string PasswordSalt = "PasswordSalt";
     }
 
     public class UserBO
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
+        public Int32 Id { get; set; }
+        public Int32 UserId { get; set; }
         public string UserKey { get; set; }
         public string ProfilePicPath { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string EmailId { get; set; }
-        public string UserPwd { get; set; }
-        public string MobileNo { get; set; }
+        public string EmailID { get; set; }
+        public string MobileNum { get; set; }
         public string Position { get; set; }
-        public int CreatedBy { get; set; }
+        public Int32 CreatedBy { get; set; }
         public string CreatedOn { get; set; }
-        public int ModifiedBy { get; set; }
+        public Int32 ModifiedBy { get; set; }
         public string ModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
-        public int DeletedBy { get; set; }
+        public Int32 DeletedBy { get; set; }
         public string DeletedOn { get; set; }
         public string DeviceType { get; set; }
         public string DeviceDetails { get; set; }
@@ -60,7 +55,7 @@ namespace _365_Portal
         public string Logo { get; set; }
         public string ProfilePic { get; set; }
         public string GroupId { get; set; }
-        public int CompId { get; set; }
+        public Int32 CompId { get; set; }
         public string RoleId { get; set; }
         public string ErrorCode  { get; set; }
         public string ErrorMessage { get; set; }

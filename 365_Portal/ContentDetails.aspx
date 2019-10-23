@@ -14,7 +14,7 @@
                 <div class="col-md-12 mb-3 d-none" id="pdfContent">
                     <embed src="Asset/data/test.pdf" />
                     <div class="text-center mt-5">
-                        <a class="btn bg-blue font-weight-bold text-white" onclick="toggleSection('video')">Continue</a>
+                        <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="toggleSection('video')">Continue</a>
                     </div>
                 </div>
                 <div class="col-md-10 offset-md-1 mb-3 d-none text-center" id="videoContent">

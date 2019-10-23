@@ -31,7 +31,6 @@ namespace _365_Portal.Code.DAL
             param[0] = new MySqlParameter("p_TYPE", 1);
             param[1] = new MySqlParameter("p_EmailId", objRequest.EmailId);
             param[2] = new MySqlParameter("p_UserPwd", objRequest.UserPwd);
-
             
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
@@ -39,21 +38,28 @@ namespace _365_Portal.Code.DAL
             
             if (dt.Rows.Count > 0)
             {
-                objResponse = new LoginResponse();               
-                objResponse.PasswordHash = dt.Rows[0]["PasswordHash"].ToString();
-                objResponse.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();
+                objResponse = new LoginResponse();
+                objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
+                objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
 
-                /*
-                Match hash password here
-                */
-                if (1 == 1)
-                {                    
-                    objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
-                    objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
-                    objResponse.UserID = dt.Rows[0]["UserID"].ToString();
-                    objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
-                    objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
-                    objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
+                if (objResponse.ReturnCode == "1")
+                {
+                    string HashPassword = Utility.GetHashedPassword(objRequest.UserPwd, dt.Rows[0]["PasswordSalt"].ToString());
+                    if (HashPassword == dt.Rows[0]["PasswordHash"].ToString())
+                    {                        
+                        objResponse.CompID = dt.Rows[0]["CompID"].ToString();
+                        objResponse.UserID = dt.Rows[0]["UserID"].ToString();
+                        objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
+                        objResponse.Role = dt.Rows[0]["RoleName"].ToString();
+                        objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
+                        objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
+                    }
+                    else
+                    {
+                        objResponse = new LoginResponse();
+                        objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
+                        objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
+                    }                 
                 }
                 else
                 {
@@ -65,8 +71,8 @@ namespace _365_Portal.Code.DAL
             else
             {
                 objResponse = new LoginResponse();
-                objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
-                objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
+                objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorCode;
+                objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
             }
             objRequest = null;
             return objResponse;
@@ -108,11 +114,12 @@ namespace _365_Portal.Code.DAL
             }
         }
 
-        public static LoginResponse GetUserDetails(long UserId, string Ref1)
+        public static UserBO GetUserDetails(string UserId, string Ref1)
         {
-            LoginResponse objUser = new LoginResponse();
+            UserBO objUser = new UserBO();
             objUser.UserID = "0";
-            objUser.RoleID = "EndUser";
+            objUser.RoleID = "4";
+            objUser.Role = "EndUser";
             objUser.IsFirstLogin = "";
             objUser.ProfilePicFileID = "";
             objUser.FirstName = "Pramod";
@@ -176,22 +183,25 @@ namespace _365_Portal.Code.DAL
                 string stm = "spCreateUser";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", userdetails.CompId);
-                cmd.Parameters.AddWithValue("p_UserId", userdetails.UserId);
-                cmd.Parameters.AddWithValue("p_UserKey", userdetails.UserKey);
+                cmd.Parameters.AddWithValue("p_UserID", userdetails.UserID);
+                cmd.Parameters.AddWithValue("p_CompID", userdetails.CompID);
                 cmd.Parameters.AddWithValue("p_FirstName", userdetails.FirstName);
-                cmd.Parameters.AddWithValue("p_LastName", userdetails.LastName);
-                cmd.Parameters.AddWithValue("p_Password", userdetails.NewPassword);//Password field value name is in NewPassword variable. 
-                cmd.Parameters.AddWithValue("p_RoleId", userdetails.RoleId);
-                cmd.Parameters.AddWithValue("p_EmailId", userdetails.EmailId);
-                cmd.Parameters.AddWithValue("p_MobileNo", userdetails.MobileNo);
-                cmd.Parameters.AddWithValue("p_Position", userdetails.Position);
-                cmd.Parameters.AddWithValue("p_GroupId", userdetails.GroupId);
-                cmd.Parameters.AddWithValue("p_ThemeColor", userdetails.ThemeColor);
-                cmd.Parameters.AddWithValue("p_Logo", userdetails.Logo);
-                cmd.Parameters.AddWithValue("p_ProfilePic", userdetails.ProfilePic);
-                cmd.Parameters.AddWithValue("p_CreatedBy", userdetails.CreatedBy);
+                cmd.Parameters.AddWithValue("p_LastName", userdetails.LastName);                
+                cmd.Parameters.AddWithValue("p_RoleID", userdetails.RoleID);
+                cmd.Parameters.AddWithValue("p_EmailID", userdetails.EmailID);
+                cmd.Parameters.AddWithValue("p_MobileNum", userdetails.MobileNum);
+                cmd.Parameters.AddWithValue("p_Position", userdetails.Position);                
+                cmd.Parameters.AddWithValue("p_ProfilePicFileID", userdetails.ProfilePicFileID);
+                cmd.Parameters.AddWithValue("p_CreatedBy", userdetails.UserID);
                 cmd.Parameters.AddWithValue("p_PasswordSalt", userdetails.PasswordSalt);
+                cmd.Parameters.AddWithValue("p_PasswordHash", userdetails.PasswordHash);
+                cmd.Parameters.AddWithValue("p_EmailNotification", userdetails.EmailNotification);
+                cmd.Parameters.AddWithValue("p_PushNotification", userdetails.PushNotification);
+
+                //cmd.Parameters.AddWithValue("p_GroupId", userdetails.GroupId);
+                //cmd.Parameters.AddWithValue("p_ThemeColor", userdetails.ThemeColor);
+                //cmd.Parameters.AddWithValue("p_Logo", userdetails.Logo);
+
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
