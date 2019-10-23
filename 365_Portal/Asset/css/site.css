@@ -720,13 +720,13 @@ p.anchor {
     height: 125px;
     margin-top: 3rem;
 }
- 
+
 .flashcard-question .card-title {
     min-height: 170px;
     align-items: center;
     display: flex;
 }
- 
+
 .flashcard-question .card {
     cursor: pointer;
 }
@@ -737,6 +737,13 @@ p.anchor {
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+.quiz .card p.anchor {
+    position: absolute;
+    top: 50%;
+    right: .75rem;
+    transform: translate(-50%, -50%);
+}
 
 .b-green-2 {
     border: 2px solid #15BC7F !important
