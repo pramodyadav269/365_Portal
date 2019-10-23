@@ -49,26 +49,27 @@ namespace _365_Portal
                             lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
                             return;
                         }
-
-                        // Call Login Business Layer Function to record message
-
-                        HttpContext.Current.Session["UserId"] = objResponse.UserID;
-                        HttpContext.Current.Session["RoleName"] = objResponse.Role;
-
-                        if (objResponse.IsFirstLogin == "1")
-                        {
-                            HttpContext.Current.Session["IsFirstTimeLogin"] = true;
-                            Response.Redirect("~/ChangePassword.aspx");
-                        }
                         else
                         {
-                            if (objResponse.Role.ToLower() == "enduser")
+                            // Call Login Business Layer Function to record message
+                            HttpContext.Current.Session["UserId"] = objResponse.UserID;
+                            HttpContext.Current.Session["RoleName"] = objResponse.Role;
+
+                            if (objResponse.IsFirstLogin == "1")
                             {
-                                Response.Redirect("~/Topics.aspx");
+                                HttpContext.Current.Session["IsFirstTimeLogin"] = true;
+                                Response.Redirect("~/ChangePassword.aspx");
                             }
-                            else if (objResponse.Role.ToLower() == "superadmin" || objResponse.Role.ToLower() == "companyadmin" || objResponse.Role.ToLower() == "subadmin")
+                            else
                             {
-                                Response.Redirect("~/admin/dashboard.aspx");
+                                if (objResponse.Role.ToLower() == "enduser")
+                                {
+                                    Response.Redirect("~/Topics.aspx");
+                                }
+                                else if (objResponse.Role.ToLower() == "superadmin" || objResponse.Role.ToLower() == "companyadmin" || objResponse.Role.ToLower() == "subadmin")
+                                {
+                                    Response.Redirect("~/admin/dashboard.aspx");
+                                }
                             }
                         }
                     }
