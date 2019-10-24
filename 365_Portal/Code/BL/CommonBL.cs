@@ -79,7 +79,6 @@ namespace _365_Portal.Code.BL
             if (!string.IsNullOrEmpty(userdetails.NewPassword))
             {
                 Match match = regex.Match(userdetails.NewPassword);
-                //if (match.Success)
                 if(1==1)
                 {
                     string PasswordSalt = Utility.GetSalt();

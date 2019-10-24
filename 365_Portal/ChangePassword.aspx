@@ -37,21 +37,14 @@
 
         });
         function ChangePassword() {
-            if (SectionValidation('divChangePassword') == true) {
-
-                getController("", "/API/User/ChangePassword", "");
-            }
-
-        }
-
-        function getController(formdata, getUrl, flag) {
             var Confimed_Pass = $('#txtNewPasswordAgain').val();
-            var formdata = new FormData();
-            formdata.append('Password', Confimed_Pass);
-            formdata.append('DeviceDetails', "");
-            formdata.append('DeviceType', "");
-            formdata.append('IPAddess', "");
-            //getController(formdata, "/API/User/ChangePassword", "");
+            var formdata = {};
+
+            //formdata.append('Password', Confimed_Pass);
+            //formdata.append('DeviceDetails', "");
+            //formdata.append('DeviceType', "");
+            //formdata.append('IPAddess', "");
+            
             var getUrl = "/API/User/ChangePassword";
             $.ajax({
                 type: "POST",
@@ -64,7 +57,7 @@
                 },
                 success: function (response) {
 
-                    try{
+                    try {
                         var DataSet = $.parseJSON($.parseJSON(response));
                         if (DataSet[0].ReturnCode == "1") {
                             alert(DataSet[0].ReturnMessage);
@@ -74,8 +67,7 @@
                             ClearFields();
                         }
                     }
-                    catch(e)
-                    {
+                    catch (e) {
                         alert(response);
                         alert(e.message);
                     }
@@ -84,6 +76,7 @@
                     alert(response.data);
                 }
             });
+
         }
 
         function ClearFields()

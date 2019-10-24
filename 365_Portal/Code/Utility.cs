@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _365_Portal.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -79,6 +80,27 @@ namespace _365_Portal.Code
                 IPAddress = HttpContext.Current.Request.UserHostAddress;
             }
             return IPAddress;
+        }
+
+        public static string GetDeviceDetails(string Type)
+        {
+            var Device_Details = string.Empty;
+            if (Type == ConstantMessages.DeviceInfo.InfoType.Trim().ToLower())
+            {
+                Device_Details = "Browser Name : " + HttpContext.Current.Request.Browser.Browser + ", Browser Version : " + HttpContext.Current.Request.Browser.Version;
+            }
+            else
+            {
+                if (HttpContext.Current.Request.Browser.IsMobileDevice == false)
+                {
+                    Device_Details = "Desktop Browser";
+                }
+                else
+                {
+                    Device_Details = "Mobile Browser";
+                }
+            }
+            return Device_Details;
         }
 
 
