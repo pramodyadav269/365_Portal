@@ -7,22 +7,22 @@ namespace _365_Portal
 {
     public class ContentBO
     {
-        public  Int32 CompId { get; set; }
-        public  Int32 ContentId { get; set; }
+        public  int CompID { get; set; }
+        public  int ContentID { get; set; }
 
-        public  Int32 ContentTypeId { get; set; }
+        public  int ContentTypeID { get; set; }
         public string ContentType { get; set; }
         public  string ContentTitle { get; set; }
         public  string ContentDescription { get; set; }
         public  string FilePath { get; set; }
-        public  string UserIds { get; set; }
-        public  Int32 TopicId { get; set; }
-        public string TopicIds { get; set; }
+        public  string UserIDs { get; set; }
+        public  int TopicID { get; set; }
+        public string TopicIDs { get; set; }
         public  string TopicTitle { get; set; }
         public  string TopicName { get; set; }
         public  string TopicDescription { get; set; }
         public  string TopicOverview { get; set; }
-        public Int32 ModuleId { get; set; }
+        public int ModuleID { get; set; }
         public  string ModuleTitle { get; set; }
         public  string ModuleDescription { get; set; }
         public  string ModuleOverview { get; set; }
@@ -31,7 +31,7 @@ namespace _365_Portal
         public  bool IsGift { get; set; }
         public  bool SkipFlashcard { get; set; }
         public  bool IsActive { get; set; }
-        public  Int32 SrNo { get; set; }
+        public  int SrNo { get; set; }
         public  string MinUnlockedModules { get; set; }
         public  string CreatedBy { get; set; }
 

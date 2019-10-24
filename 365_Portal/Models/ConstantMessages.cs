@@ -19,6 +19,7 @@ namespace _365_Portal.Models
             public static string Validation = "Validation";
 
             public static string GenericErrorMsg = "There seems to be technical problem, please try again.";
+            public static string GenericErrorCode = "There seems to be technical problem, please try again.";
         }
 
         public class Roles
@@ -32,6 +33,13 @@ namespace _365_Portal.Models
         public class ConnectionString
         {
             public static string Portal_365 = "365_Portal";
+        }
+        public class ChangePassowrd {
+            public static string success = "Password changed Successfully";
+            public static string success_code = "200";
+            public static string error = "Error occured while Changing Password";
+            public static string error_code = "500";
+
         }
     }
 }

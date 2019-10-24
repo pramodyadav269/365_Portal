@@ -15,12 +15,12 @@ namespace _365_Portal.Code.BL
             Logger.Log(ex, "FlashcardBL", methodName);
         }
 
-        public static DataSet CreateFlashcard(Int32 CompId, Int32 ContentId, Int32 FlashcardId,string FlashcardTitle,string FlashcardDescription,Int32 SrNo, string CreatedBy)
+        public static DataSet CreateFlashcard(int CompID, int ContentID, int FlashcardID,string FlashcardTitle,string FlashcardDescription,int SrNo, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = FlashcardDAL.CreateFlashcard(CompId, ContentId, FlashcardId, FlashcardTitle, FlashcardDescription, SrNo, CreatedBy);
+                ds = FlashcardDAL.CreateFlashcard(CompID, ContentID, FlashcardID, FlashcardTitle, FlashcardDescription, SrNo, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -28,12 +28,12 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet ModifyFlashcard(Int32 CompId, Int32 ContentId, Int32 FlashcardId, string FlashcardTitle, string FlashcardDescription, Int32 SrNo, string CreatedBy)
+        public static DataSet ModifyFlashcard(int CompID, int ContentID, int FlashcardID, string FlashcardTitle, string FlashcardDescription, int SrNo, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = FlashcardDAL.CreateFlashcard(CompId, ContentId, FlashcardId, FlashcardTitle, FlashcardDescription, SrNo, CreatedBy);
+                ds = FlashcardDAL.CreateFlashcard(CompID, ContentID, FlashcardID, FlashcardTitle, FlashcardDescription, SrNo, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -41,12 +41,12 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet DeleteFlashcard(Int32 CompId, Int32 ContentId,string CreatedBy)
+        public static DataSet DeleteFlashcard(int CompID, int ContentID,string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = FlashcardDAL.DeleteFlashcard(CompId, ContentId, CreatedBy);
+                ds = FlashcardDAL.DeleteFlashcard(CompID, ContentID, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -54,12 +54,12 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet GetFlashcards(Int32 CompId,Int32 ContentId)
+        public static DataSet GetFlashcards(int CompID,int ContentID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = FlashcardDAL.GetFlashcards(CompId, ContentId);
+                ds = FlashcardDAL.GetFlashcards(CompID, ContentID);
             }
             catch (Exception ex)
             {

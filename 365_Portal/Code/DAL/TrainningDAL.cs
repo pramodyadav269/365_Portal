@@ -12,7 +12,7 @@ namespace _365_Portal.Code.DAL
             Logger.Log(ex, "TrainningDAL", methodName);
         }
 
-        public static DataSet GetTopics(Int32 CompID, string userId)
+        public static DataSet GetTopics(int CompID, string UserID)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -39,7 +39,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet GetTopicsByUser(Int32 CompID, string userId)
+        public static DataSet GetTopicsByUser(int CompID, string UserID)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -51,7 +51,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", CompID);
-                cmd.Parameters.AddWithValue("p_UserID", userId);
+                cmd.Parameters.AddWithValue("p_UserID", UserID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -68,7 +68,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet GetModulesByTopic(Int32 CompID, string userId, Int32 TopicId)
+        public static DataSet GetModulesByTopic(int CompID, string UserID, int TopicID)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -80,8 +80,8 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", CompID);
-                cmd.Parameters.AddWithValue("p_UserID", userId);
-                cmd.Parameters.AddWithValue("p_TopicId", TopicId);
+                cmd.Parameters.AddWithValue("p_UserID", UserID);
+                cmd.Parameters.AddWithValue("p_TopicID", TopicID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -97,7 +97,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetContentsByModule(Int32 CompID, string userId, Int32 TopicId, Int32 ModuleId)
+        public static DataSet GetContentsByModule(int CompID, string UserID, int TopicID, int ModuleID)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -109,9 +109,9 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", CompID);
-                cmd.Parameters.AddWithValue("p_UserID", userId);
-                cmd.Parameters.AddWithValue("p_TopicId", TopicId);
-                cmd.Parameters.AddWithValue("p_ModuleId", ModuleId);
+                cmd.Parameters.AddWithValue("p_UserID", UserID);
+                cmd.Parameters.AddWithValue("p_TopicI", TopicID);
+                cmd.Parameters.AddWithValue("p_ModuleID", ModuleID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -128,7 +128,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet GetContentDetails(Int32 CompID, string userId, Int32 TopicId, Int32 ModuleId, Int32 ContentId)
+        public static DataSet GetContentDetails(int CompID, string UserID, int TopicID, int ModuleID, int ContentID)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -140,10 +140,10 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", CompID);
-                cmd.Parameters.AddWithValue("p_UserID", userId);
-                cmd.Parameters.AddWithValue("p_TopicId", TopicId);
-                cmd.Parameters.AddWithValue("p_ModuleId", ModuleId);
-                cmd.Parameters.AddWithValue("p_ContentId", ContentId);
+                cmd.Parameters.AddWithValue("p_UserID", UserID);
+                cmd.Parameters.AddWithValue("p_TopicID", TopicID);
+                cmd.Parameters.AddWithValue("p_ModuleID", ModuleID);
+                cmd.Parameters.AddWithValue("p_ContentID", ContentID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -160,7 +160,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet RateContent(Int32 CompID, string userId, Int32 TopicId, Int32 ModuleId, Int32 ContentId, string Rating, string CreatedBy)
+        public static DataSet RateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID, string Rating, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -172,11 +172,11 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", CompID);
-                cmd.Parameters.AddWithValue("p_UserID", userId);
-                cmd.Parameters.AddWithValue("p_TopicId", TopicId);
-                cmd.Parameters.AddWithValue("p_ModuleId", ModuleId);
-                cmd.Parameters.AddWithValue("p_ContentId", ContentId);
-                cmd.Parameters.AddWithValue("p_ContentId", Rating);
+                cmd.Parameters.AddWithValue("p_UserID", UserID);
+                cmd.Parameters.AddWithValue("p_TopicID", TopicID);
+                cmd.Parameters.AddWithValue("p_ModuleID", ModuleID);
+                cmd.Parameters.AddWithValue("p_ContentID", ContentID);
+                cmd.Parameters.AddWithValue("p_Rating", Rating);
                 cmd.Parameters.AddWithValue("p_ContentId", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");

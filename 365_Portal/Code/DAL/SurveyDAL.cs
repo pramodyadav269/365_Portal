@@ -14,7 +14,7 @@ namespace _365_Portal.Code.DAL
             Logger.Log(ex, "SurveyDAL", methodName);
         }
 
-        public static DataSet CreateQuestion(Int32 CompID, Int32 ContentId)
+        public static DataSet CreateQuestion(int CompID, int ContentID)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -26,7 +26,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", CompID);
-                cmd.Parameters.AddWithValue("p_UserID", ContentId);
+                cmd.Parameters.AddWithValue("p_ContentID", ContentID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -41,7 +41,7 @@ namespace _365_Portal.Code.DAL
             }
             return ds;
         }
-        public static DataSet DeleteQuestion(Int32 CompID, Int32 ContentId)
+        public static DataSet DeleteQuestion(int CompID, int ContentID)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -53,7 +53,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", CompID);
-                cmd.Parameters.AddWithValue("p_ContentId", ContentId);
+                cmd.Parameters.AddWithValue("p_ContentID", ContentID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

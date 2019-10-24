@@ -153,7 +153,7 @@
                     </a>
                 </div>
                 <div class="col-md-12 mb-3">
-                    <a href="#">
+                    <a href="FinalQuiz.aspx">
                         <div class="card border-0 shadow mb-3">
                             <div class="card-body">
                                 <div class="row align-items-center content-type">

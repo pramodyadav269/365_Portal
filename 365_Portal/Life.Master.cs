@@ -13,7 +13,7 @@ namespace _365_Portal
         {
             if (HttpContext.Current.Session["UserId"] != null)
             {
-                if (HttpContext.Current.Session["IsFirstTimeLogin"] !=null)
+                if (HttpContext.Current.Session["IsFirstTimeLogin"] != null)
                 {
                     // This is 1st time login & user has not changed password..
                     Response.Redirect("~/settings.aspx");

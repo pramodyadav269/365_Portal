@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-10 mt-4 offset-md-1">
             <div class="row justify-content-center">
-                <div class="col-12 col-sm-12 col-md-6 mb-3 overview d-none" id="divFlashcardOverview">
+                <div class="col-12 col-sm-12 col-md-6 mb-3 overview" id="divFlashcardOverview">
                     <h5 class="font-weight-bold">In this flashcard series we’ll answer:</h5>
                     <ul>
                         <li>What makes a good communicator?</li>
@@ -67,14 +67,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-100 mt-5 text-center"> 
+                    <div class="w-100 mt-5 text-center">
                         <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2 d-none" id="btnPrevCard" onclick="previousFlashcard();">Previous card</a>
                         <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextCard" onclick="nextFlashcard();">Next Card</a>
                         <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white d-none" id="btnBeginQuiz" onclick="toggle('divFlashcardQuiz', 'divFlashcard');">Begin Flashcard Quiz</a>
                     </div>
                 </div>
 
-                <div class="col-12 mb-3 overview" id="divFlashcardQuiz">
+                <div class="col-12 mb-3 overview d-none" id="divFlashcardQuiz">
                     <div class="row justify-content-center flashcard-question">
                         <div class="col-12 col-sm-12 col-md-6 mb-3 text-center">
                             <p>What is the main difference between the goals of management and the employees?</p>
@@ -106,6 +106,68 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row justify-content-center flashcard-question d-none">
+                        <div class="col-12 col-sm-12 col-md-6 mb-3 text-center">
+                            <p>Test question 1</p>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col-12 col-sm-12 col-md-4 mb-3">
+                            <div class="card border-0 shadow text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">This is first incorrect answer</h5>
+                                    <p class="anchor"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 mb-3">
+                            <div class="card border-0 shadow text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">This is correct answer</h5>
+                                    <p class="anchor"></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 mb-3">
+                            <div class="card border-0 shadow text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">This is second incorrect answer</h5>
+                                    <p class="anchor"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center flashcard-question d-none">
+                        <div class="col-12 col-sm-12 col-md-6 mb-3 text-center">
+                            <p>Test question 2</p>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col-12 col-sm-12 col-md-4 mb-3">
+                            <div class="card border-0 shadow text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">This is first incorrect answer</h5>
+                                    <p class="anchor"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 mb-3">
+                            <div class="card border-0 shadow text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">This is correct answer</h5>
+                                    <p class="anchor"></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 mb-3">
+                            <div class="card border-0 shadow text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">This is second incorrect answer</h5>
+                                    <p class="anchor"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="w-100 mt-5 text-center">
                         <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2 d-none" id="btnPrevQuestion" onclick="previousFlashcardQuestion();">Previous Question</a>
                         <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextQuestion" onclick="nextFlashcardQuestion();">Next Question</a>
@@ -121,7 +183,7 @@
 
             $('.flashcard-question .card').on('click', function () {
 
-                $.each($('.flashcard-question .card'), function (index, el) {
+                $.each($(this).parents('.flashcard-question').find('.card'), function (index, el) {
                     if (index == 0) {
                         $(el).addClass('b-red-2')
                         $(el).find('.card-body p.anchor').empty().append('<i class="fas fa-times c-red"></i>')
@@ -131,16 +193,12 @@
                     } else {
                         $(el).addClass('b-red-2')
                         $(el).find('.card-body p.anchor').empty().append('<i class="fas fa-times c-red"></i>')
-                    }
-
+                    } 
                 });
-
-
             });
-
         });
 
-
+         
         function nextFlashcard() {
 
             var currentCard = $('#divFlashcard .card').not('.d-none');
@@ -150,7 +208,8 @@
                 currentCard.addClass('d-none')
 
                 $('#btnNextCard').addClass('d-none')
-                $('#btnBeginQuiz').removeClass('d-none') 
+                $('#btnPrevCard').removeClass('d-none')
+                $('#btnBeginQuiz').removeClass('d-none')
             }
             else
                 if (currentCard.next().length > 0) {
@@ -169,10 +228,13 @@
             var currentCard = $('#divFlashcard .card').not('.d-none');
 
             if (currentCard.index() === 1) {
-                $('#btnPrevCard').addClass('d-none')
 
                 currentCard.prev().removeClass('d-none')
                 currentCard.addClass('d-none')
+
+                $('#btnNextCard').removeClass('d-none')
+                $('#btnPrevCard').addClass('d-none')
+                $('#btnBeginQuiz').addClass('d-none')
 
             } else if (currentCard.prev().length > 0) {
                 $('#btnPrevCard').removeClass('d-none')
@@ -182,7 +244,54 @@
                 $('#btnNextCard').removeClass('d-none')
                 $('#btnBeginQuiz').addClass('d-none')
             }
+        }
 
+        function nextFlashcardQuestion() {
+
+            var currentCard = $('#divFlashcardQuiz .flashcard-question').not('.d-none');
+
+            if ($('#divFlashcardQuiz .flashcard-question').length === (currentCard.index() + 2)) {
+                currentCard.next().removeClass('d-none')
+                currentCard.addClass('d-none')
+
+                $('#btnNextQuestion').addClass('d-none')
+                $('#btnPrevQuestion').removeClass('d-none')
+                $('#btnContinue').removeClass('d-none')
+            }
+            else
+                if (currentCard.next().length > 0) {
+                    $('#btnPrevQuestion').removeClass('d-none')
+                    currentCard.next().removeClass('d-none')
+                    currentCard.addClass('d-none')
+                } else {
+                    $('#btnNextQuestion').addClass('d-none')
+                    $('#btnContinue').removeClass('d-none')
+                }
+
+        }
+
+        function previousFlashcardQuestion() {
+
+            var currentCard = $('#divFlashcardQuiz .flashcard-question').not('.d-none');
+
+            if (currentCard.index() === 1) {
+                
+
+                currentCard.prev().removeClass('d-none')
+                currentCard.addClass('d-none')
+
+                $('#btnNextQuestion').removeClass('d-none')
+                $('#btnPrevQuestion').addClass('d-none')
+                $('#btnContinue').addClass('d-none')
+            }
+            else if (currentCard.prev().length > 0) {
+                $('#btnPrevQuestion').removeClass('d-none')
+                currentCard.prev().removeClass('d-none')
+                currentCard.addClass('d-none')
+
+                $('#btnNextQuestion').removeClass('d-none')
+                $('#btnContinue').addClass('d-none')
+            }
         }
 
     </script>

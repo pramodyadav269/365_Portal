@@ -31,7 +31,6 @@ namespace _365_Portal.Code.DAL
             param[0] = new MySqlParameter("p_TYPE", 1);
             param[1] = new MySqlParameter("p_EmailId", objRequest.EmailId);
             param[2] = new MySqlParameter("p_UserPwd", objRequest.UserPwd);
-
             
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
@@ -39,23 +38,28 @@ namespace _365_Portal.Code.DAL
             
             if (dt.Rows.Count > 0)
             {
-                objResponse = new LoginResponse();               
-                objResponse.PasswordHash = dt.Rows[0]["PasswordHash"].ToString();
-                objResponse.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();
+                objResponse = new LoginResponse();
+                objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
+                objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
 
-                /*
-                Match hash password here
-                */
-                if (1 == 1)
-                {                    
-                    objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
-                    objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
-                    objResponse.CompID = dt.Rows[0]["CompID"].ToString();
-                    objResponse.UserID = dt.Rows[0]["UserID"].ToString();
-                    objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
-                    objResponse.Role = dt.Rows[0]["RoleName"].ToString();
-                    objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
-                    objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
+                if (objResponse.ReturnCode == "1")
+                {
+                    string HashPassword = Utility.GetHashedPassword(objRequest.UserPwd, dt.Rows[0]["PasswordSalt"].ToString());
+                    if (HashPassword == dt.Rows[0]["PasswordHash"].ToString())
+                    {                        
+                        objResponse.CompID = dt.Rows[0]["CompID"].ToString();
+                        objResponse.UserID = dt.Rows[0]["UserID"].ToString();
+                        objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
+                        objResponse.Role = dt.Rows[0]["RoleName"].ToString();
+                        objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
+                        objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
+                    }
+                    else
+                    {
+                        objResponse = new LoginResponse();
+                        objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
+                        objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
+                    }                 
                 }
                 else
                 {
@@ -67,8 +71,8 @@ namespace _365_Portal.Code.DAL
             else
             {
                 objResponse = new LoginResponse();
-                objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
-                objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
+                objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorCode;
+                objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
             }
             objRequest = null;
             return objResponse;
@@ -116,7 +120,7 @@ namespace _365_Portal.Code.DAL
             objUser.UserID = "0";
             objUser.RoleID = "4";
             objUser.Role = "EndUser";
-            objUser.IsFirstLogin = "";
+            objUser.IsFirstLogin = false;
             objUser.ProfilePicFileID = "";
             objUser.FirstName = "Pramod";
             objUser.LastName = "Yadav";
@@ -180,7 +184,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_UserID", userdetails.UserID);
-                cmd.Parameters.AddWithValue("p_CompID", userdetails.CompID);
+                cmd.Parameters.AddWithValue("p_CompID", userdetails.CompId);
                 cmd.Parameters.AddWithValue("p_FirstName", userdetails.FirstName);
                 cmd.Parameters.AddWithValue("p_LastName", userdetails.LastName);                
                 cmd.Parameters.AddWithValue("p_RoleID", userdetails.RoleID);

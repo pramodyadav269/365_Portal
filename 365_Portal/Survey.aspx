@@ -6,7 +6,6 @@
     <div class="row survey">
         <div class="col-md-12 header"> 
             <a class="back" href="Contents.aspx"><i class="fas fa-arrow-left"></i>Back to Contents</a>
-            <%--<a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>--%>
             <h1 class="text-center font-weight-bold">Survey - Employee Health in General</h1>
         </div>
         <div class="col-md-10 mt-5 offset-md-1">
@@ -20,8 +19,7 @@
     <script>
 
         $(document).ready(function () {
-
-
+             
             var array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
             var question = '';
@@ -29,22 +27,23 @@
                 question += '<div class="col-md-12 mb-3">';
                 question += '<div class="card border-0 shadow mb-3">';
                 question += '<div class="card-body question">';
-                question += '<div class="row align-items-center content-type">';
-                question += '<div class="col-md-2"><h1 class="card-title display-4 font-weight-bold">' + value + '.</h1></div>';
-                question += '<div class="col-md-10 question-content">';
-                question += '<h5 class="card-title">What was your manager like when you argued with him?</h5>';
+                question += '<div class="media mb-4"><h1 class="card-title display-4 font-weight-bold mr-4">' + value + '.</h1>';
+                question += '<div class="media-body pr-4">';
+                
 
                 if (value === 1) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
                     question += '<input type="text" class="form-control" id="text" placeholder="Type your answer here" />';
                     question += '</div>';
 
                 } else if (value === 2) {
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
                     question += '<textarea class="form-control" placeholder="Type your answer here" id="textarea"></textarea>';
                     question += '</div>';
                 } else if (value === 3) {
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
                     question += '<select class="form-control select2" id="select">';
                     question += '<option></option>';
@@ -55,6 +54,7 @@
                     question += '</div>';
 
                 } else if (value === 4) {
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
                     question += '<select class="form-control select2" multiple id="selectMultiple">';
                     question += '<option></option>';
@@ -65,7 +65,7 @@
                     question += '</div>';
 
                 } else if (value === 5) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="custom-control custom-radio">';
                     question += '<input type="radio" id="rbQQ1" name="rgQuestion" class="custom-control-input">';
                     question += '<label class="custom-control-label" for="rbQQ1">Yes</label>';
@@ -76,7 +76,7 @@
                     question += '</div>';
 
                 } else if (value === 6) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="custom-control custom-checkbox">';
                     question += '<input type="checkbox" id="cbQ1" name="cgQuestion" class="custom-control-input">';
                     question += '<label class="custom-control-label" for="cbQ1">A</label>';
@@ -91,25 +91,26 @@
                     question += '</div>';
 
                 } else if (value === 7) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
                     question += '<input type="range" class="custom-range" min="0" max="10" step="1" value="0" id="range">';
                     question += '<label for="range">Value : 0</label>';
                     question += '</div>';
 
                 } else if (value === 8) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="custom-file">';
                     question += '<input type="file" class="custom-file-input" id="file">';
                     question += '<label class="custom-file-label" for="customFile">Choose file</label>';
                     question += '</div>';
                 } else if (value === 9) {
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
                     question += '<input type="text" class="form-control date" id="date" placeholder="Select Date" />';
                     question += '</div>';
 
                 } else if (value === 10) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="rating">';
                     question += '<input type="radio" id="rbQ10" name="rgQuestion" value="10">';
                     question += '<label for="rbQ10">10</label>';
@@ -135,7 +136,7 @@
 
 
                 } else if (value === 11) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="box">';
                     question += '<input type="radio" id="rbY" name="rgYN" value="1">';
                     question += '<label for="rbY">Yes</label>';
@@ -144,7 +145,7 @@
                     question += '</div>';
 
                 } else if (value === 12) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="box inline-box">';
                     question += '<input type="radio" id="rbT" name="rgTF" value="1">';
                     question += '<label for="rbT">True</label>';
@@ -153,7 +154,7 @@
                     question += '</div>';
 
                 } else if (value === 13) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="box">';
                     question += '<input type="checkbox" id="cbY" name="cgYN" value="1">';
                     question += '<label for="cbY">Yes</label>';
@@ -162,7 +163,7 @@
                     question += '</div>';
 
                 } else if (value === 14) {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="box inline-box">';
                     question += '<input type="checkbox" id="cbT" name="cgTF" value="1">';
                     question += '<label for="cbT">True</label>';
@@ -172,13 +173,15 @@
 
 
                 } else {
-
+                    question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
                     question += '<textarea class="form-control" placeholder="Type your answer here" id="textarea"></textarea>';
                     question += '</div>';
                 }
 
-                question += '</div></div></div></div></div>';
+                question += '</div>';
+                question += '<p class="anchor"></p>';
+                question += '</div></div></div></div>';
             });
 
             $('#surveyQuestion').empty().append(question);

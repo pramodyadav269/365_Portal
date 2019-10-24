@@ -16,12 +16,12 @@ namespace _365_Portal.Code.BL
         }
 
 
-        public static DataSet CreateQuestion(Int32 CompId, Int32 ContentID)
+        public static DataSet CreateQuestion(int CompID, int ContentID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = SurveyDAL.CreateQuestion(CompId,ContentID);
+                ds = SurveyDAL.CreateQuestion(CompID,ContentID);
             }
             catch (Exception ex)
             {
@@ -30,12 +30,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet ModifyQuestion(Int32 CompId)
+        public static DataSet ModifyQuestion(int CompID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = SurveyDAL.CreateQuestion(CompId, 0);
+                ds = SurveyDAL.CreateQuestion(CompID, 0);
             }
             catch (Exception ex)
             {
@@ -44,12 +44,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet DeleteQuestion(Int32 CompId,Int32 ContentId)
+        public static DataSet DeleteQuestion(int CompID,int ContentID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = SurveyDAL.DeleteQuestion(CompId,ContentId);
+                ds = SurveyDAL.DeleteQuestion(CompID,ContentID);
             }
             catch (Exception ex)
             {

@@ -24,29 +24,44 @@ namespace _365_Portal
 
     public class UserBO
     {
+        public Int32 Id { get; set; }
         public string UserID { get; set; }
-        public string CompID { get; set; }
-        public string RoleID { get; set; }
-        public string Role { get; set; }
-        public string IsFirstLogin { get; set; }
-        public string ProfilePicFileID { get; set; }
+        public string UserKey { get; set; }
+        public string ProfilePicPath { get; set; }
+        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailID { get; set; }
         public string MobileNum { get; set; }
         public string Position { get; set; }
-        public string PasswordHash { get; set; }
-        public string PasswordSalt { get; set; }
-        public string EmailNotification { get; set; }
-        public string PushNotification { get; set; }
-        public string ThemeColor { get; set; }
-        public string Logo { get; set; }
-        public string GroupId { get; set; }
+        public Int32 CreatedBy { get; set; }
+        public string CreatedOn { get; set; }
+        public Int32 ModifiedBy { get; set; }
+        public string ModifiedOn { get; set; }
+        public bool IsDeleted { get; set; }
+        public Int32 DeletedBy { get; set; }
+        public string DeletedOn { get; set; }
         public string DeviceType { get; set; }
         public string DeviceDetails { get; set; }
-        public string Token { get; set; }        
         public string IP_Address { get; set; }
-        public string CreatedBy { get; set; }
-        public string ActivityType { get; set; }        
+        public string Token { get; set; }
+        public string ActivityType { get; set; }
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
+        public string PasswordHash { get; set; }
+        public string PasswordSalt { get; set; } 
+        public bool EmailNotification { get; set; }
+        public bool PushNotification { get; set; }
+        public string ThemeColor { get; set; }
+        public string Logo { get; set; }
+        public string ProfilePic { get; set; }
+        public string GroupId { get; set; }
+        public Int32 CompId { get; set; }
+        public string RoleID { get; set; }
+        public string ErrorCode { get; set; }
+        public string Role { get; set; }
+        public string ErrorMessage { get; set; }
+        public bool IsFirstLogin { get; set; }
+        public string ProfilePicFileID { get; set; }
     }
 }

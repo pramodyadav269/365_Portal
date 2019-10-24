@@ -14,12 +14,12 @@ namespace _365_Portal.Code.BL
             Logger.Log(ex, "TrainningBL", methodName);
         }
 
-        public static DataSet GetTopics(Int32 CompID, string userId)
+        public static DataSet GetTopics(int CompID, string UserID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetTopics(CompID, userId);
+                ds = TrainningDAL.GetTopics(CompID, UserID);
             }
             catch (Exception ex)
             {
@@ -28,12 +28,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetTopicsByUser(Int32 CompID,string userId)
+        public static DataSet GetTopicsByUser(int CompID,string UserID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetTopicsByUser(CompID,userId);
+                ds = TrainningDAL.GetTopicsByUser(CompID, UserID);
             }
             catch (Exception ex)
             {
@@ -42,12 +42,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetModulesByTopic(Int32 CompID, string userId, Int32 TopicId)
+        public static DataSet GetModulesByTopic(int CompID, string UserID, int TopicID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetModulesByTopic(CompID, userId, TopicId);
+                ds = TrainningDAL.GetModulesByTopic(CompID, UserID, TopicID);
             }
             catch (Exception ex)
             {
@@ -55,12 +55,12 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet GetContentsByModule(Int32 CompID, string userId, Int32 TopicId, Int32 ModuleId)
+        public static DataSet GetContentsByModule(int CompID, string UserID, int TopicID, int ModuleID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetContentsByModule(CompID, userId, TopicId,ModuleId);
+                ds = TrainningDAL.GetContentsByModule(CompID, UserID, TopicID,ModuleID);
             }
             catch (Exception ex)
             {
@@ -68,12 +68,12 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet GetContentDetails(Int32 CompID, string userId, Int32 TopicId,Int32 ModuleId, Int32 ContentId)
+        public static DataSet GetContentDetails(int CompID, string UserID, int TopicID, int ModuleID, int ContentID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetContentDetails(CompID, userId, TopicId,ModuleId,ContentId);
+                ds = TrainningDAL.GetContentDetails(CompID, UserID, TopicID,ModuleID,ContentID);
             }
             catch (Exception ex)
             {
@@ -81,12 +81,12 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet RateContent(Int32 CompID, string userId, Int32 TopicId, Int32 ModuleId, Int32 ContentId,string Rating, string CreatedBy)
+        public static DataSet RateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID,string Rating, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.RateContent(CompID, userId, TopicId,ModuleId,ContentId,Rating,CreatedBy);
+                ds = TrainningDAL.RateContent(CompID, UserID, TopicID, ModuleID, ContentID, Rating,CreatedBy);
             }
             catch (Exception ex)
             {

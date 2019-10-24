@@ -20,7 +20,7 @@ namespace _365_Portal
             var refreshTokenProperties = new AuthenticationProperties(context.Ticket.Properties.Dictionary)
             {
                 IssuedUtc = context.Ticket.Properties.IssuedUtc,
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(60)//DateTime.UtcNow.AddYears(1)
+                ExpiresUtc = DateTime.UtcNow.AddDays(7)//DateTime.UtcNow.AddYears(1)
             };
             var refreshTokenTicket = new AuthenticationTicket(context.Ticket.Identity, refreshTokenProperties);
 

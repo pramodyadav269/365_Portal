@@ -15,7 +15,7 @@ namespace _365_Portal.Code.DAL
             Logger.Log(ex, "FlashcardDAL", methodName);
         }
 
-        public static DataSet CreateFlashcard(Int32 CompId, Int32 ContentId, Int32 FlashcardId, string FlashcardTitle, string FlashcardDescription, Int32 SrNo, string CreatedBy)
+        public static DataSet CreateFlashcard(int CompID, int ContentID, int FlashcardID, string FlashcardTitle, string FlashcardDescription, int SrNo, string CreatedBy)
         {
 
             DataSet ds = new DataSet();
@@ -28,9 +28,9 @@ namespace _365_Portal.Code.DAL
                 string stm = "spCreateFlashcard";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", CompId);
-                cmd.Parameters.AddWithValue("p_ContentId", ContentId);
-                cmd.Parameters.AddWithValue("p_FlashcardId", FlashcardId);
+                cmd.Parameters.AddWithValue("p_CompID", CompID);
+                cmd.Parameters.AddWithValue("p_ContentID", ContentID);
+                cmd.Parameters.AddWithValue("p_FlashcardID", FlashcardID);
                 cmd.Parameters.AddWithValue("p_FlashcardTitle", FlashcardTitle);
                 cmd.Parameters.AddWithValue("p_FlashcardDescription", FlashcardDescription);
                 cmd.Parameters.AddWithValue("p_SrNo", SrNo);
@@ -51,7 +51,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet DeleteFlashcard(Int32 CompId, Int32 ContentId, string CreatedBy)
+        public static DataSet DeleteFlashcard(int CompID, int ContentID, string CreatedBy)
         {
 
             DataSet ds = new DataSet();
@@ -64,8 +64,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spDeleteFlashcard";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", CompId);
-                cmd.Parameters.AddWithValue("p_ContentId", ContentId);
+                cmd.Parameters.AddWithValue("p_CompID", CompID);
+                cmd.Parameters.AddWithValue("p_ContentID", ContentID);
                 cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -83,7 +83,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetFlashcards(Int32 CompId, Int32 ContentId)
+        public static DataSet GetFlashcards(int CompID, int ContentID)
         {
 
             DataSet ds = new DataSet();
@@ -96,8 +96,8 @@ namespace _365_Portal.Code.DAL
                 string stm = "spGetFlashcards";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_ContentId", ContentId);
-                cmd.Parameters.AddWithValue("p_ContentId", ContentId);
+                cmd.Parameters.AddWithValue("p_CompID", CompID);
+                cmd.Parameters.AddWithValue("p_ContentID", ContentID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
