@@ -8,6 +8,7 @@ namespace _365_Portal
 
     public class UserClaim
     {
+        public const string CompId = "CompId";
         public const string UserID = "UserID";
         public const string RoleID = "RoleID";
         public const string Role = "Role";
@@ -18,6 +19,7 @@ namespace _365_Portal
         public const string EmailID = "EmailID";
         public const string MobileNum = "MobileNum";
         public const string Position = "Position";
+        public const string IsFirstPasswordChanged = "IsFirstPasswordChanged";
         //public const string PasswordHash = "PasswordHash";
         //public const string PasswordSalt = "PasswordSalt";
     }
@@ -63,5 +65,6 @@ namespace _365_Portal
         public string ErrorMessage { get; set; }
         public bool IsFirstLogin { get; set; }
         public string ProfilePicFileID { get; set; }
+        public string IsFirstPasswordChanged { get; set; }
     }
 }

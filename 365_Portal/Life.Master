@@ -58,7 +58,7 @@
 
                         <div class="profile dropdown">
                             <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="Asset/images/profile.png" class="circle" width="40" /><span class="name">Daniel</span>
+                                <img src="Asset/images/profile.png" class="circle" width="40" /><span class="name"><asp:Label ID="lblUserName" runat="server"  /></span>
                             </a>
                             <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
                                 <a class="dropdown-item" href="Profile.aspx">Profile</a>

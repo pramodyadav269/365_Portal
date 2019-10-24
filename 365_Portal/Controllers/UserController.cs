@@ -48,8 +48,8 @@ namespace _365_Portal.Controllers
                 else
                 {
                     LoginRequest objRequest = new LoginRequest();
-                    objRequest.EmailId = EmailId;
-                    objRequest.UserPwd = UserPwd;
+                    objRequest.UserName = EmailId;
+                    objRequest.Password = UserPwd;
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
 
                     objResponse = new LoginResponse();
@@ -113,7 +113,7 @@ namespace _365_Portal.Controllers
                 string EmailId = httpRequest.Form["EmailId"];
 
                 LoginRequest objRequest = new LoginRequest();
-                objRequest.EmailId = EmailId;
+                objRequest.UserName = EmailId;
 
                 objResponse = new LoginResponse();
                 int i = UserDAL.UserLogout(objRequest);
