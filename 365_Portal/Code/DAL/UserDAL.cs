@@ -29,8 +29,8 @@ namespace _365_Portal.Code.DAL
 
             MySqlParameter[] param = new MySqlParameter[3];
             param[0] = new MySqlParameter("p_TYPE", 1);
-            param[1] = new MySqlParameter("p_EmailId", objRequest.EmailId);
-            param[2] = new MySqlParameter("p_UserPwd", objRequest.UserPwd);
+            param[1] = new MySqlParameter("p_EmailId", objRequest.UserName);
+            param[2] = new MySqlParameter("p_UserPwd", objRequest.Password);
             
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
@@ -44,7 +44,7 @@ namespace _365_Portal.Code.DAL
 
                 if (objResponse.ReturnCode == "1")
                 {
-                    string HashPassword = Utility.GetHashedPassword(objRequest.UserPwd, dt.Rows[0]["PasswordSalt"].ToString());
+                    string HashPassword = Utility.GetHashedPassword(objRequest.Password, dt.Rows[0]["PasswordSalt"].ToString());
                     if (HashPassword == dt.Rows[0]["PasswordHash"].ToString())
                     {                        
                         objResponse.CompID = dt.Rows[0]["CompID"].ToString();
@@ -52,7 +52,10 @@ namespace _365_Portal.Code.DAL
                         objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
                         objResponse.Role = dt.Rows[0]["RoleName"].ToString();
                         objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
+                        objResponse.FirstName = dt.Rows[0]["FirstName"].ToString();
+                        objResponse.LastName = dt.Rows[0]["LastName"].ToString();
                         objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
+                        objResponse.IsFirstPasswordChanged = dt.Rows[0]["IsFirstPasswordChanged"].ToString();
                     }
                     else
                     {
@@ -89,7 +92,7 @@ namespace _365_Portal.Code.DAL
                 {
                     conn.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("p_ControllerName", objRequest.EmailId);
+                    cmd.Parameters.AddWithValue("p_ControllerName", objRequest.UserName);
                     cmd.Parameters.AddWithValue("p_Ref1", objRequest.Ref1);
                     cmd.Parameters.AddWithValue("p_Ref2", objRequest.Ref2);
                     cmd.Parameters.AddWithValue("p_Ref3", objRequest.Ref3);

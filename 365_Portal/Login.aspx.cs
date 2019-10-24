@@ -34,8 +34,8 @@ namespace _365_Portal
                 else
                 {
                     LoginRequest objRequest = new LoginRequest();
-                    objRequest.EmailId = txtUserEmail.Text.Trim();
-                    objRequest.UserPwd = txtUserPassword.Text;
+                    objRequest.UserName = txtUserEmail.Text.Trim();
+                    objRequest.Password = txtUserPassword.Text;
 
                     LoginResponse objResponse = new LoginResponse();
                     objResponse = UserDAL.LoginUser(objRequest);
@@ -54,11 +54,19 @@ namespace _365_Portal
                             // Call Login Business Layer Function to record message
                             HttpContext.Current.Session["UserId"] = objResponse.UserID;
                             HttpContext.Current.Session["RoleName"] = objResponse.Role;
+                            HttpContext.Current.Session["FirstName"] = objResponse.FirstName;
+                            HttpContext.Current.Session["LastName"] = objResponse.LastName;
+
 
                             if (objResponse.IsFirstLogin == "1")
                             {
-                                HttpContext.Current.Session["IsFirstTimeLogin"] = true;
-                                Response.Redirect("ChangePassword.aspx",false);
+                                HttpContext.Current.Session["IsFirstLogin"] = true;
+                                Response.Redirect("~/Settings.aspx",false);
+                            }
+                            else if (objResponse.IsFirstPasswordChanged == "1")
+                            {
+                                HttpContext.Current.Session["IsFirstPasswordChanged"] = true;
+                                Response.Redirect("~/ChangePassword.aspx", false);
                             }
                             else
                             {
