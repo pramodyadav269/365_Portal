@@ -258,7 +258,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
 
         $http({
             method: "POST",
-            url: "../api/Trainning/GetUserTopics",
+            url: "../api/Trainning/GetModulesByTopic",
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
             data: JSON.stringify({ RequestParams }),
         }).then(function success(response) {
@@ -666,15 +666,20 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     }
                 ]
             },
-            "TotalFlashcardSlides": 2,
+            "TotalFlashcardSlides": 3,
             "FlashcardSlides": [
                 {
-                    "Content": "This is flashcard content.",
+                    "Content": "This is flashcard content 1.",
                     "SortOrder": 1
                 },
                 {
-                    "Content": "This is flashcard content.",
-                    "SortOrder": 1
+                    "Content": "This is flashcard content 2.",
+                    "SortOrder": 2
+                }
+                ,
+                {
+                    "Content": "This is flashcard content 3.",
+                    "SortOrder": 3
                 }
             ],
             "TotalQuestions": 8,

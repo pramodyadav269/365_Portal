@@ -362,52 +362,84 @@
             </div>
         </div>
 
-        <div ng-show="ActiveContainer =='ContentFlashcardView'">
-            <div ng-click="GoBack('Content')">{{ContentGoBackText}}</div>
-            <div>Flashcards</div>
-            <div ng-show="ActiveSubContainer =='BeginFlashcard'">
-                You have completed all the videos/pdfs in this module.
+        <div class="row flashcards" ng-show="ActiveContainer =='ContentFlashcardView'">
+            <div class="col-md-12 header">
+                <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
+                <h1 class="text-center font-weight-bold">Employee Motivation</h1>
+                <h6 class="text-center header-sub-title mt-3">Flashcards</h6>
+            </div>
+            <div class="col-md-10 mt-4 offset-md-1">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-show="ActiveSubContainer =='BeginFlashcard'">
+                        You have completed all the videos/pdfs in this module.
             <h1>UP NEXT:</h1>
-                <div>FLASHCARD ICON</div>
-                <div>FLASHCARD TITLE</div>
-                <button onclick="return false;">SKIP</button>
-                <button onclick="return false;" ng-click="ShowFlashcardIntro()">BEGIN FLASHCARD</button>
-            </div>
-            <div ng-show="ActiveSubContainer =='FlashcardIntro'">
-                <h2>Flashcard intro</h2>
-                <div>{{SpecialContents.FlashcardIntro.Title}}</div>
-                <div ng-repeat="highlight in SpecialContents.FlashcardIntro.Highlights">
-                    <div>
-                        <div>{{highlight.Content}}</div>
+                        <div>FLASHCARD ICON</div>
+                        <div>FLASHCARD TITLE</div>
+                        <button onclick="return false;">SKIP</button>
+                        <button onclick="return false;" ng-click="ShowFlashcardIntro()">BEGIN FLASHCARD</button>
                     </div>
-                </div>
-                <a>Skip Flashcards</a>
-                <button onclick="return false;" ng-click="ShowFlashcardSlides()">let's go</button>
-            </div>
-            <div ng-show="ActiveSubContainer =='FlashcardSlides'">
-                <div ng-repeat="flashcardSlide in SpecialContents.FlashcardSlides">
-                    <div ng-show="$index == CurrIndex">
-                        <div>Icon</div>
-                        <div>{{flashcardSlide.Content}}</div>
-                        <button onclick="return false;" ng-click="FlashcardPreviousClicked($index,SpecialContents.TotalFlashcardSlides)">{{$index ==0 ? 'Previous' :'Previous Card'}}</button>
-                        <button onclick="return false;" ng-click="FlashcardNextClicked($index,SpecialContents.TotalFlashcardSlides)">{{($index + 1) == SpecialContents.TotalFlashcardSlides ? 'Begin Flashcard Quiz' :'Next Card'}}</button>
-                    </div>
-                </div>
-            </div>
-            <div ng-show="ActiveSubContainer =='FlashcardQuiz'">
-                this is flashcard quiz...
-                <div ng-repeat="question in SpecialContents.Questions">
-                    <div ng-show="$index == CurrIndex">
-                        <div>{{question.Title}}</div>
-                        <div ng-repeat="ansOption in question.AnswerOptions">
-                            <div>{{ansOption.AnswerText}}</div>
+                    <div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-show="ActiveSubContainer =='FlashcardIntro'">
+                        <h2>Flashcard intro</h2>
+                        <h5 class="font-weight-bold">{{SpecialContents.FlashcardIntro.Title}}</h5>
+                        <ul>
+                            <li ng-repeat="highlight in SpecialContents.FlashcardIntro.Highlights">{{highlight.Content}}</li>
+                        </ul>
+                        <div class="w-100 mt-5">
+                            <a href="#" class="link font-weight-bold float-left">Skip Flashcards</a>
+                            <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white float-right" ng-click="ShowFlashcardSlides()">Let's Go</a>
                         </div>
-                        <button onclick="return false;" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">{{$index ==0 ? 'Previous' :'Previous Question'}}</button>
-                        <button onclick="return false;" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">{{($index + 1) == SpecialContents.TotalQuestions ? 'Begin Final Quiz' :'Next Question'}}</button>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 mb-3 overview" id="divFlashcard" ng-show="ActiveSubContainer =='FlashcardSlides'">
+                        <div ng-repeat="flashcardSlide in SpecialContents.FlashcardSlides" ng-show="$index == CurrIndex">
+                            <div class="flashcard">
+                                <div class="card border-0">
+                                    <img class="card-img-top circle mx-auto" src="Asset/images/profile.png" />
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            {{flashcardSlide.Content}}
+                                        </p>
+                                        <p class="text-right anchor">1/4</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-5 text-center">
+                                <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2" id="btnPrevCard" ng-click="FlashcardPreviousClicked($index,SpecialContents.TotalFlashcardSlides)">{{$index ==0 ? 'Previous' :'Previous Card'}}</a>
+                                <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextCard" ng-click="FlashcardNextClicked($index,SpecialContents.TotalFlashcardSlides)">{{($index + 1) == SpecialContents.TotalFlashcardSlides ? 'Begin Flashcard Quiz' :'Next Card'}}</a>
+                                <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white" id="btnBeginQuiz" ng-click="FlashcardNextClicked($index,SpecialContents.TotalFlashcardSlides)">{{($index + 1) == SpecialContents.TotalFlashcardSlides ? 'Begin Flashcard Quiz' :'Next Card'}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3 overview" id="divFlashcardQuiz" ng-show="ActiveSubContainer =='FlashcardQuiz'">
+                        <div ng-repeat="question in SpecialContents.Questions">
+                            <div ng-show="$index == CurrIndex">
+                                <div class="row justify-content-center flashcard-question">
+                                    <div class="col-12 col-sm-12 col-md-6 mb-3 text-center">
+                                        <p>{{question.Title}}</p>
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col-12 col-sm-12 col-md-4 mb-3" ng-repeat="ansOption in question.AnswerOptions">
+                                        <div class="ng-class: 'card border-0 shadow text-center ' + (ansOption.IsCorrect ==true ? 'b-green-2' : 'b-red-2' );">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ansOption.AnswerText}}</h5>
+                                                <p class="anchor"></p>
+                                                <i ng-show="ansOption.IsCorrect ==false" class="fas fa-times c-red"></i>
+                                                <i ng-show="ansOption.IsCorrect ==true" class="fas fa-check c-green"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-100 mt-5 text-center">
+                                    <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2 d-none" id="btnPrevQuestion" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">{{$index ==0 ? 'Previous' :'Previous Question'}}</a>
+                                    <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextQuestion" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">{{($index + 1) == SpecialContents.TotalQuestions ? 'Begin Final Quiz' :'Next Question'}}</a>
+                                    <a href="Contents.aspx" class="btn btn-custom bg-blue font-weight-bold text-white d-none" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)" id="btnContinue">{{($index + 1) == SpecialContents.TotalQuestions ? 'Begin Final Quiz' :'Next Question'}}</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div ng-show="ActiveContainer =='ContentQuizView'">
             <div ng-click="GoBack('Content')">{{ContentGoBackText}}</div>
@@ -524,7 +556,7 @@
         function VideoPaused(e) {
             //alert("Video Paused");
             $('#videoControl').removeClass('d-none');
-             $('#vdVideoPlayer')[0].pause();
+            $('#vdVideoPlayer')[0].pause();
         }
 
         //function VideoClicked(cntrl) {
