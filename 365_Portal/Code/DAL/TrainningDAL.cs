@@ -38,7 +38,6 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-
         public static DataSet GetTopicsByUser(int CompID, string UserID)
         {
             DataSet ds = new DataSet();
@@ -66,7 +65,6 @@ namespace _365_Portal.Code.DAL
             }
             return ds;
         }
-
 
         public static DataSet GetModulesByTopic(int CompID, string UserID, int TopicID)
         {
@@ -127,7 +125,6 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-
         public static DataSet GetContentDetails(int CompID, string UserID, int TopicID, int ModuleID, int ContentID)
         {
             DataSet ds = new DataSet();
@@ -158,7 +155,6 @@ namespace _365_Portal.Code.DAL
             }
             return ds;
         }
-
 
         public static DataSet RateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID, string Rating, string CreatedBy)
         {
@@ -193,7 +189,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet spSubmitAnswers()
+        public static DataSet SubmitResponse(int compId, string userId, int surveyId, int totalScore, int scoreEarned, int percentageEarned, string IPAddress)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -201,16 +197,56 @@ namespace _365_Portal.Code.DAL
             try
             {
                 conn.Open();
-                string stm = "spRateContent";
+                string stm = "spSubmitResponse";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("p_CompID", CompID);
-                //cmd.Parameters.AddWithValue("p_UserID", userId);
-                //cmd.Parameters.AddWithValue("p_TopicId", TopicId);
-                //cmd.Parameters.AddWithValue("p_ModuleId", ModuleId);
-                //cmd.Parameters.AddWithValue("p_ContentId", ContentId);
-                //cmd.Parameters.AddWithValue("p_ContentId", Rating);
-                //cmd.Parameters.AddWithValue("p_ContentId", CreatedBy);
+                cmd.Parameters.AddWithValue("p_CompID", compId);
+                cmd.Parameters.AddWithValue("p_UserID", userId);
+                cmd.Parameters.AddWithValue("p_SurveyID", surveyId);
+                cmd.Parameters.AddWithValue("p_TotalScore", totalScore);
+                cmd.Parameters.AddWithValue("p_ScoreEarned", scoreEarned);
+                cmd.Parameters.AddWithValue("p_PercentageEarned", percentageEarned);
+                cmd.Parameters.AddWithValue("p_IPAddress", IPAddress);
+
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
+        public static DataSet SubmitAnswers(int compId, int userId, int surveyId, int responseId, int questionId,string answerIds, 
+            int fileId, string valueText,bool isCorrect,float correctScore, float incorrectScore, string filePath)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spSubmitAnswers";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_CompID", compId);
+                cmd.Parameters.AddWithValue("p_UserID", userId);
+                cmd.Parameters.AddWithValue("p_SurveyID", surveyId);
+                cmd.Parameters.AddWithValue("p_ResponseID", responseId);
+                cmd.Parameters.AddWithValue("p_QuestionID", questionId);
+                cmd.Parameters.AddWithValue("p_AnswerIDs", answerIds);
+                cmd.Parameters.AddWithValue("p_FileID", fileId);
+                cmd.Parameters.AddWithValue("p_Value_Text", valueText);
+                cmd.Parameters.AddWithValue("p_IsCorrect", isCorrect);
+                cmd.Parameters.AddWithValue("p_CorrectScore", correctScore);
+                cmd.Parameters.AddWithValue("p_InCorrectScore", incorrectScore);
+                cmd.Parameters.AddWithValue("p_FilePath", filePath);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

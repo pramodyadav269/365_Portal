@@ -178,13 +178,18 @@ app.service("DataService", function ($http, $rootScope, $compile) {
         //    }
         //];
 
-        var RequestParams = { UserID: userId };
+        alert(userId);
 
+        //var RequestParams = { UserID: userId };
+        var requestParams = { contact_name: "Scott", company_name: "HP" };
+        var accessToken = '<%=Session["access_token"]%>';
         $http({
             method: "POST",
             url: "../api/Trainning/GetTopicsByUser",
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            data: JSON.stringify({ RequestParams }),
+            headers: { "Authorization": "Bearer " + "bLVmFjpEJMzmfQ2SFKIcvGnJk8xrt7IpH2mMU6x1GIoLKQH1m8fpNzIxcdaTA8JYZ_1kgYYNcfLXW1-qea_guNT6DKfabr9TqUG706qlXdDdTX2ocWY3Ucyf_meR3kSdQz4e6JzvMUq_U-dF_LHBVDmpJtmUp4l_xOZE2Jj4LKlEK2jOrsoNIVbb69oVwAk1GQRK9kBOAqermGp6fUkXc18PIYlxJvQwss5v5mtKhtyN1iQirAgb3CdWgOl7jYTZGaMnpRn90SG1jOLq1VYIbQNRNiDiHF3T1PqzIk8QXjqftDaPKDupSCzGS3knCsTdPSH-9TrHhC8h-KMovnmirMw94T3EKmjY66wUYGn3JW11nEqnWWqmAU6rt0P48qOqrbtHSnx3wjbp9rrYzuu3EMOpNv9yhJ_03ToU9wje52Y" },
+            //headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            data: JSON.stringify(requestParams),
+            contentType: "application/json"
         }).then(function success(response) {
             var responseData = response.data;
             $rootScope.Topics = responseData;

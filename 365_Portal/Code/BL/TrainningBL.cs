@@ -1,4 +1,5 @@
 ﻿using _365_Portal.Code.DAL;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -28,7 +29,7 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetTopicsByUser(int CompID,string UserID)
+        public static DataSet GetTopicsByUser(int CompID, string UserID)
         {
             DataSet ds = new DataSet();
             try
@@ -55,12 +56,13 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+
         public static DataSet GetContentsByModule(int CompID, string UserID, int TopicID, int ModuleID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetContentsByModule(CompID, UserID, TopicID,ModuleID);
+                ds = TrainningDAL.GetContentsByModule(CompID, UserID, TopicID, ModuleID);
             }
             catch (Exception ex)
             {
@@ -68,25 +70,13 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+
         public static DataSet GetContentDetails(int CompID, string UserID, int TopicID, int ModuleID, int ContentID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetContentDetails(CompID, UserID, TopicID,ModuleID,ContentID);
-            }
-            catch (Exception ex)
-            {
-                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
-            }
-            return ds;
-        }
-        public static DataSet RateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID,string Rating, string CreatedBy)
-        {
-            DataSet ds = new DataSet();
-            try
-            {
-                ds = TrainningDAL.RateContent(CompID, UserID, TopicID, ModuleID, ContentID, Rating,CreatedBy);
+                ds = TrainningDAL.GetContentDetails(CompID, UserID, TopicID, ModuleID, ContentID);
             }
             catch (Exception ex)
             {
@@ -95,13 +85,29 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-
-        public static DataSet spSubmitAnswers()
+        public static DataSet RateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID, string Rating, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.spSubmitAnswers();
+                ds = TrainningDAL.RateContent(CompID, UserID, TopicID, ModuleID, ContentID, Rating, CreatedBy);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet SubmitAnswers(int compId, string userId, int surveyId, JObject responseDetail)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                int totalScore=0; int scoreEarned=0; int percentageEarned=0;
+                ds = TrainningDAL.SubmitResponse(compId, userId, surveyId, totalScore, scoreEarned, percentageEarned, Utility.GetClientIPaddress());
+
+                // Call SubmitAnswers
             }
             catch (Exception ex)
             {

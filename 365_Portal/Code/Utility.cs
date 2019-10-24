@@ -66,6 +66,32 @@ namespace _365_Portal.Code
             return str;
         }
 
+        public static string GetJSONData(string statusCode, string statusDescription,string data)
+        {
+            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription + "\",\"Data\":"+ data + "}";           
+        }
+
+        public static string API_Status(string statusCode,string statusDescription)
+        {
+            return "{\"StatusCode\":\""+ statusCode + "\",\"StatusDescription\":\""+ statusDescription + "\"}";
+            //return "{'StatusCode':'" + statusCode + "','StatusDescription':'" + statusDescription + "'}";
+        }
+
+        public static string AuthenticationError()
+        {
+            return API_Status("0","Invalid Token");
+        }
+
+        public static string Successful(string data)
+        {
+            return GetJSONData("1", "Successful", data);
+        }
+
+        public static string Failed(string data)
+        {
+            return GetJSONData("0", "Failed", data);
+        }
+
 
         public static string GetClientIPaddress()
         {
