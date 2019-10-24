@@ -33,7 +33,7 @@ namespace _365_Portal
 
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(1),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(7),
                 Provider = new MyAuthorizationServerProvider()
                 //,RefreshTokenProvider = new RefreshTokenProvider()
             };
