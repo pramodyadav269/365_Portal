@@ -33,37 +33,30 @@
     <script>
 
         $(document).ready(function () {
-           
+
 
         });
+        var accessToken = '<%=Session["access_token"]%>';
         function ChangePassword() {
-            var Confimed_Pass = $('#txtNewPasswordAgain').val();
-            var formdata = {};
-
-            //formdata.append('Password', Confimed_Pass);
-            //formdata.append('DeviceDetails', "");
-            //formdata.append('DeviceType', "");
-            //formdata.append('IPAddess', "");
-            
+            var Old_Password = $('#txtCurrentPassword').val();
+            var Confirmed_Password = $('#txtNewPasswordAgain').val();
+            var requestParams = { OldPassword: Old_Password, NewPassword: Confirmed_Password, DeviceDetails: "", DeviceType: "", IPAddess: "" };
             var getUrl = "/API/User/ChangePassword";
             $.ajax({
                 type: "POST",
                 url: getUrl,
+                headers: { "Authorization": "Bearer " + "bLVmFjpEJMzmfQ2SFKIcvGnJk8xrt7IpH2mMU6x1GIoLKQH1m8fpNzIxcdaTA8JYZ_1kgYYNcfLXW1-qea_guNT6DKfabr9TqUG706qlXdDdTX2ocWY3Ucyf_meR3kSdQz4e6JzvMUq_U-dF_LHBVDmpJtmUp4l_xOZE2Jj4LKlEK2jOrsoNIVbb69oVwAk1GQRK9kBOAqermGp6fUkXc18PIYlxJvQwss5v5mtKhtyN1iQirAgb3CdWgOl7jYTZGaMnpRn90SG1jOLq1VYIbQNRNiDiHF3T1PqzIk8QXjqftDaPKDupSCzGS3knCsTdPSH-9TrHhC8h-KMovnmirMw94T3EKmjY66wUYGn3JW11nEqnWWqmAU6rt0P48qOqrbtHSnx3wjbp9rrYzuu3EMOpNv9yhJ_03ToU9wje52Y" },
                 //headers: { "Authorization": "Bearer " + accessToken },
-                data: formdata,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
                 success: function (response) {
-
                     try {
                         var DataSet = $.parseJSON($.parseJSON(response));
                         if (DataSet[0].ReturnCode == "1") {
-                            alert(DataSet[0].ReturnMessage);
+                            alert(DataSet[0].StatusCode);
                         }
                         else {
-                            alert(DataSet[0].ReturnMessage);
+                            alert(DataSet[0].StatusCode);
                             ClearFields();
                         }
                     }
@@ -79,8 +72,7 @@
 
         }
 
-        function ClearFields()
-        {
+        function ClearFields() {
             $('#txtCurrentPassword').val('');
             $('#txtNewPassword').val('');
             $('#txtNewPasswordAgain').val('');

@@ -58,7 +58,7 @@ namespace _365_Portal.Controllers
                     if (objResponse.ReturnCode == "1")
                     {
                         GetAccessToken(EmailId.Trim(), UserPwd.Trim());
-                        
+
                         if (HttpContext.Current.Session["access_token"] != null)
                         {
                             objResponse.Token = HttpContext.Current.Session["access_token"].ToString();
@@ -171,25 +171,26 @@ namespace _365_Portal.Controllers
         public IHttpActionResult ChangePassword(JObject requestParams)
         {
             var data = string.Empty;
-
+            UserBO _userdetail = new UserBO();
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
             if (identity != null)
             {
-                string NewPassword = requestParams["Password"].ToString();
+                string NewPassword = requestParams["NewPassword"].ToString();
+                string OldPassword = requestParams["OldPassword"].ToString();
                 /*This fields are for the mobile Request*/
                 string DeviceDetails = requestParams["DeviceDetails"].ToString();
                 string DeviceType = requestParams["DeviceType"].ToString();
                 string IPAddess = requestParams["IPAddess"].ToString();
-                if (!string.IsNullOrEmpty(NewPassword))
+                /*Condition to check whether the entered old Password is correct or wrong*/
+                _userdetail.OldPassword = OldPassword;
+                _userdetail.NewPassword = NewPassword;//clear Text Password getting From User.                    
+                _userdetail.CompId = identity.CompId;
+                _userdetail.UserID = identity.UserID;
+                _userdetail.Token = identity.Token;
+                if (!string.IsNullOrEmpty(NewPassword) && !string.IsNullOrEmpty(OldPassword))
                 {
-
-                    UserBO _userdetail = new UserBO();
                     try
                     {
-                        _userdetail.NewPassword = NewPassword;//clear Text Password getting From User.                    
-                        _userdetail.CompId = identity.CompId;
-                        _userdetail.UserID = identity.UserID;
-                        _userdetail.Token = identity.Token;
                         if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
                         {
                             _userdetail.DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
@@ -202,26 +203,26 @@ namespace _365_Portal.Controllers
                             _userdetail.DeviceType = DeviceType;
                             _userdetail.IP_Address = IPAddess;
                         }
-                        _userdetail.CreatedBy =Convert.ToInt32(identity.UserID);
+                        _userdetail.CreatedBy = Convert.ToInt32(identity.UserID);
 
                         var ds = CommonBL.ChangePassword(_userdetail);
                         data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-
+                        data = Utility.Successful(data);
                     }
                     catch (Exception ex)
                     {
-                        data = ConstantMessages.ChangePassowrd.error_code + " || " + "Excetion occured while changing Password " + " || " + ex.Message + " || " + ex.StackTrace;
-                        //APIResult.ThrowException(ex);
-                        return new APIResult(data, Request);
+                        data = ConstantMessages.ChangePassowrd.error_code;
+                        data = Utility.Failed(data);
                     }
                 }
                 else
                 {
-                    data = "Password is cannot be empty " + ConstantMessages.ChangePassowrd.error_code + "  " + ConstantMessages.ChangePassowrd.error;
-                    return new APIResult(data, Request);
+                    data = Utility.Failed(data);
                 }
+
             }
-            else {
+            else
+            {
                 data = Utility.AuthenticationError(); ;
             }
             return new APIResult(data, Request);
