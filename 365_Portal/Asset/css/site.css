@@ -137,11 +137,11 @@ a.link, a.link:hover {
 .form-control, .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple,
 .select2-container--default.select2-container--focus .select2-selection--multiple {
     border: none;
-    padding: 0;
+    /*padding: 0;*/
     border-bottom: 1px solid rgba(0, 0, 0, 0.24);
     border-radius: 0;
     color: #000;
-    font-weight: 500;
+    /*font-weight: 500;*/
 }
 
     .select2-container .select2-selection--single, .select2-container .select2-selection--single,
@@ -157,22 +157,31 @@ a.link, a.link:hover {
         box-shadow: none;
     }
 
-.select2-container.is-valid .select2-selection--single {
-    border-color: #28a745;
-    padding-right: calc(1.5em + .75rem);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: center right calc(.375em + .1875rem);
-    background-size: calc(.75em + .375rem) calc(.75em + .375rem)
+
+    .form-control.is-valid, .was-validated .form-control:valid, .form-control.is-invalid, .was-validated .form-control:invalid {
+        padding-right: .75rem;
+        background-image: none;
+    }
+
+.custom-control-input.is-valid ~ .custom-control-label, .was-validated .custom-control-input:valid ~ .custom-control-label
+,.custom-control-input.is-invalid~.custom-control-label, .was-validated .custom-control-input:invalid~.custom-control-label{
+    color: #000;
 }
 
-.select2-container.is-invalid .select2-selection--single {
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+    margin-right: 0;
+}
+
+.select2-container.is-valid .select2-selection--single, .select2-container.is-valid .select2-selection--multiple {
+    border-color: #28a745;
+    padding-right: .75rem;
+    background-image: none;
+}
+
+.select2-container.is-invalid .select2-selection--single, .select2-container.is-invalid .select2-selection--multiple {
     border-color: #dc3545;
-    padding-right: calc(1.5em + .75rem);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center right calc(.375em + .1875rem);
-    background-size: calc(.75em + .375rem) calc(.75em + .375rem)
+    padding-right: .75rem;
+    background-image: none;
 }
 
 .custom-file-label {
@@ -185,11 +194,13 @@ a.link, a.link:hover {
     .custom-file-label::after {
         border: none;
         border-radius: 0;
+        cursor: pointer;
     }
 
 
 .form-group label {
     text-transform: uppercase;
+    display: block;
 }
 
 .form-control-bg-d .form-control, .form-control-bg-d .custom-control-label::before, .form-control-bg-d .select2-container--default .select2-selection--single {
@@ -725,8 +736,8 @@ p.anchor {
     min-height: 170px;
     align-items: center;
     display: flex;
-} 
- 
+}
+
 .flashcard-question .card {
     cursor: pointer;
 }
