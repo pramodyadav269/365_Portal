@@ -119,6 +119,7 @@ namespace _365_Portal.Code.DAL
 
         public static UserBO GetUserDetails(string UserId, string Ref1)
         {
+            /*
             UserBO objUser = new UserBO();
             objUser.UserID = "0";
             objUser.RoleID = "4";
@@ -132,47 +133,31 @@ namespace _365_Portal.Code.DAL
             objUser.Position = "EndUser";
             objUser.PasswordHash = "";
             objUser.PasswordSalt = "2019-10-12";
-
-            /*
+            */
             UserBO objUser = null;
 
-            SqlParameter[] param = new SqlParameter[3];
-            param[0] = new SqlParameter("TYPE", 1);
-            param[1] = new SqlParameter("UserId", UserId);
-            param[2] = new SqlParameter("Ref1", Ref1);
+            MySqlParameter[] param = new MySqlParameter[2];
+            param[0] = new MySqlParameter("p_EmailID", UserId);
+            param[1] = new MySqlParameter("p_Ref1", Ref1);
 
-            SqlCommand cmd = new SqlCommand();
+            MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
-            DataTable dt = DBConnection.GetDataTable("proc_GetUserDetails", cmd,"");
-            
+            DataTable dt = DBConnection.GetDataTable("spGetUserDetails", cmd, "");
+
             if (dt.Rows.Count > 0)
             {
                 objUser = new UserBO();
-                objUser.Id = Convert.ToInt64(dt.Rows[0]["ID"].ToString());
-                objUser.UserId = Convert.ToInt64(dt.Rows[0]["USERID"].ToString());
-                objUser.ProfilePicPath = dt.Rows[0]["ProfilePicPath"].ToString();
+                objUser.CompId = Convert.ToInt32(dt.Rows[0]["CompID"]);
+                objUser.UserID = dt.Rows[0]["UserID"].ToString();
+                objUser.RoleID = dt.Rows[0]["RoleID"].ToString();
+                objUser.Role = dt.Rows[0]["RoleName"].ToString();                                
                 objUser.FirstName = dt.Rows[0]["FirstName"].ToString();
                 objUser.LastName = dt.Rows[0]["LastName"].ToString();
-                objUser.EmailId = dt.Rows[0]["EmailId"].ToString();
-                objUser.UserPwd = dt.Rows[0]["UserPwd"].ToString();                
-                objUser.MobileNo = dt.Rows[0]["MobileNo"].ToString();
+                objUser.EmailID = dt.Rows[0]["EmailID"].ToString();
+                objUser.MobileNum = dt.Rows[0]["MobileNum"].ToString();
                 objUser.Position = dt.Rows[0]["Position"].ToString();
-                objUser.CreatedBy = Convert.ToInt64(dt.Rows[0]["CreatedBy"].ToString());
-                objUser.CreatedOn = dt.Rows[0]["CreatedOn"].ToString();
-                objUser.ModifiedBy = Convert.ToInt64(dt.Rows[0]["ModifiedBy"].ToString());
-                objUser.ModifiedOn = dt.Rows[0]["ModifiedOn"].ToString();
-                if (dt.Rows[0]["IsDeleted"].ToString() == "1")
-                {
-                    objUser.IsDeleted = true;
-                }
-                else
-                {
-                    objUser.IsDeleted = false;
-                }
-                objUser.DeletedBy = Convert.ToInt64(dt.Rows[0]["DeletedBy"].ToString());
-                objUser.DeletedOn = dt.Rows[0]["DeletedOn"].ToString();
-            }                       
-            */
+                objUser.ProfilePicFileID = dt.Rows[0]["ProfilePicFileID"].ToString();
+            }            
             return objUser;
         }
         public static DataSet CreateUser(UserBO userdetails)

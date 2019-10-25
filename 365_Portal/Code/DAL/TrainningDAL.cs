@@ -156,6 +156,37 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
+        public static DataSet UpdateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spUpdateContent";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_CompID", CompID);
+                cmd.Parameters.AddWithValue("p_UserID", UserID);
+                cmd.Parameters.AddWithValue("p_TopicID", TopicID);
+                cmd.Parameters.AddWithValue("p_ModuleID", ModuleID);
+                cmd.Parameters.AddWithValue("p_ContentID", ContentID);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;                
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
         public static DataSet RateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID, string Rating, string CreatedBy)
         {
             DataSet ds = new DataSet();

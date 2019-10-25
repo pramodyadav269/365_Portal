@@ -85,6 +85,20 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
+        public static DataSet UpdateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.UpdateContent(CompID, UserID, TopicID, ModuleID, ContentID);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
         public static DataSet RateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID, string Rating, string CreatedBy)
         {
             DataSet ds = new DataSet();

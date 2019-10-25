@@ -101,6 +101,37 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
+        [Route("api/Trainning/UpdateContent")]
+        [HttpPost]
+        public IHttpActionResult UpdateContent(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    string userId = identity.UserID;
+                    int topicId = Convert.ToInt32(requestParams["TopicID"].ToString());
+                    int moduleId = Convert.ToInt32(requestParams["ModuleID"].ToString());
+                    int contentId = Convert.ToInt32(requestParams["ContentID"].ToString());
+                    var ds = TrainningBL.UpdateContent(compId, userId, topicId, moduleId, contentId);
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.Successful(data);
+                }
+                catch (Exception ex)
+                {
+                    APIResult.ThrowException(ex);
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
         [Route("api/Trainning/GetContentDetails")]
         [HttpPost]
         public IHttpActionResult GetContentDetails(JObject requestParams)
