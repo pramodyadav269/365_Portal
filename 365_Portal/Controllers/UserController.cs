@@ -16,6 +16,7 @@ using System.Web.Script.Serialization;
 using static _365_Portal.Models.Login;
 using Newtonsoft.Json.Linq;
 using System.Web.Configuration;
+using System.Text.RegularExpressions;
 
 namespace _365_Portal.Controllers
 {
@@ -172,6 +173,7 @@ namespace _365_Portal.Controllers
         {
             var data = string.Empty;
             UserBO _userdetail = new UserBO();
+            Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");// Password Validation regex with atleast 1 lowercase,1 Uppercase,1 numeric,1 special charcter and 8 Charcters long  
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
             if (identity != null)
             {
@@ -180,50 +182,73 @@ namespace _365_Portal.Controllers
                 /*This fields are for the mobile Request*/
                 string DeviceDetails = requestParams["DeviceDetails"].ToString();
                 string DeviceType = requestParams["DeviceType"].ToString();
-                string IPAddess = requestParams["IPAddess"].ToString();
                 /*Condition to check whether the entered old Password is correct or wrong*/
                 _userdetail.OldPassword = OldPassword;
                 _userdetail.NewPassword = NewPassword;//clear Text Password getting From User.                    
                 _userdetail.CompId = identity.CompId;
                 _userdetail.UserID = identity.UserID;
-                _userdetail.Token = identity.Token;
+
                 if (!string.IsNullOrEmpty(NewPassword) && !string.IsNullOrEmpty(OldPassword))
                 {
-                    try
+                    var OldPasswordSalt = Utility.GetSalt();
+                    var OldPasswordHash = Utility.GetHashedPassword(OldPassword, OldPasswordSalt);
+                    var UserBO =0;
+                    if (true==true)
                     {
-                        if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
+                        Match match = regex.Match(_userdetail.NewPassword);
+                        if (match.Success)
                         {
-                            _userdetail.DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
-                            _userdetail.DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
-                            _userdetail.IP_Address = Utility.GetClientIPaddress();
+                            try
+                            {
+                                if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
+                                {
+                                    _userdetail.DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
+                                    _userdetail.DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
+
+                                }
+                                else
+                                {
+                                    _userdetail.DeviceDetails = DeviceDetails;
+                                    _userdetail.DeviceType = DeviceType;
+                                }
+                                _userdetail.IP_Address = Utility.GetClientIPaddress();
+                                _userdetail.CreatedBy = Convert.ToInt32(identity.UserID);
+
+                                var ds = CommonBL.ChangePassword(_userdetail);
+                                //if(ds.Tables)
+                                data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                                data = Utility.Successful(data);
+                            }
+                            catch (Exception ex)
+                            {
+                                data = ConstantMessages.ChangePassowrd.Error_Code;
+                                data = Utility.Failed(data);
+                            }
                         }
                         else
                         {
-                            _userdetail.DeviceDetails = DeviceDetails;
-                            _userdetail.DeviceType = DeviceType;
-                            _userdetail.IP_Address = IPAddess;
-                        }
-                        _userdetail.CreatedBy = Convert.ToInt32(identity.UserID);
 
-                        var ds = CommonBL.ChangePassword(_userdetail);
-                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                        data = Utility.Successful(data);
+                            data = ConstantMessages.ChangePassowrd.Password_Validation;
+                            data = Utility.Failed(data);
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        data = ConstantMessages.ChangePassowrd.error_code;
+                        data = ConstantMessages.ChangePassowrd.PasswordMisMatch;
                         data = Utility.Failed(data);
                     }
                 }
                 else
                 {
+                    data = ConstantMessages.ChangePassowrd.PasswordEmpty;
                     data = Utility.Failed(data);
                 }
 
             }
             else
             {
-                data = Utility.AuthenticationError(); ;
+                data = Utility.AuthenticationError();
+                data = Utility.Failed(data);
             }
             return new APIResult(data, Request);
         }

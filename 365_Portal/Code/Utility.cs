@@ -145,6 +145,6 @@ namespace _365_Portal.Code
             return Device_Details;
         }
 
-
+        
     }
 }

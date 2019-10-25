@@ -35,10 +35,13 @@ namespace _365_Portal.Models
             public static string Portal_365 = "365_Portal";
         }
         public class ChangePassowrd {
-            public static string success = "Password changed Successfully";
-            public static string success_code = "200";
-            public static string error = "Error occured while Changing Password";
-            public static string error_code = "500";
+            public static string Success = "Password changed Successfully";
+            public static string Success_Code = "200";
+            public static string Error = "Error occured while Changing Password";
+            public static string Error_Code = "500";
+            public static string Password_Validation = "Password should contain at least 1 Alphabet, 1 Number and 1 Special Character.";
+            public static string PasswordMisMatch = "Old Password entered is incorrect";
+            public static string PasswordEmpty = "Password can't be empty";
 
         }
         public class DeviceInfo

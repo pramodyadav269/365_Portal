@@ -76,42 +76,20 @@ namespace _365_Portal.Code.BL
             string PasswordSalt = string.Empty;
             string HashedPassword = string.Empty;
             DataSet ds = new DataSet();
-            Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");// Password Validation regex with atleast 1 lowercase,1 Uppercase,1 numeric,1 special charcter and 8 Charcters long  
-            if (!string.IsNullOrEmpty(userdetails.OldPassword))
+
+
+
+            PasswordSalt = Utility.GetSalt();
+            HashedPassword = Utility.GetHashedPassword(userdetails.NewPassword, PasswordSalt);
+            userdetails.PasswordSalt = PasswordSalt;
+            userdetails.NewPassword = HashedPassword; //NewPassword variable storing the Newly generated password's Hash.
+            try
             {
-
-                if (!string.IsNullOrEmpty(userdetails.NewPassword))
-                {
-                    Match match = regex.Match(userdetails.NewPassword);
-                    if (match.Success)
-                    {
-                         PasswordSalt = Utility.GetSalt();
-                         HashedPassword = Utility.GetHashedPassword(userdetails.NewPassword, PasswordSalt);
-                        userdetails.PasswordSalt = PasswordSalt;
-                        userdetails.NewPassword = HashedPassword; //NewPassword variable storing the Newly generated password's Hash.
-                        try
-                        {
-                            ds = CommonDAL.ChangePassword(userdetails);
-                        }
-                        catch (Exception ex)
-                        {
-                            Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
-                        }
-                    }
-                    else
-                    {
-                        //new ApplicationException("Password should contain at least 1 Alphabet, 1 Number and 1 Special Character.");
-                    }
-                }
-
-                else
-                {
-                    //new ApplicationException("Password Can't be empty");
-                }
+                ds = CommonDAL.ChangePassword(userdetails);
             }
-            else
+            catch (Exception ex)
             {
-
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
             return ds;
         }
