@@ -157,11 +157,9 @@ namespace _365_Portal.Code.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", u.CompId);
                 cmd.Parameters.AddWithValue("p_UserID", u.UserID);
-                //cmd.Parameters.AddWithValue("p_OldPassword", u.OldPassword);
-                //cmd.Parameters.AddWithValue("p_NewPassword", u.NewPassword);
-                cmd.Parameters.AddWithValue("p_PasswordHash", u.PasswordHash);
+                cmd.Parameters.AddWithValue("p_PasswordHash", u.NewPassword);
                 cmd.Parameters.AddWithValue("p_PasswordSalt", u.PasswordSalt);
-                cmd.Parameters.AddWithValue("p_Token", u.Token);
+                cmd.Parameters.AddWithValue("p_Token", string.Empty);
                 cmd.Parameters.AddWithValue("p_DeviceType", u.DeviceType);
                 cmd.Parameters.AddWithValue("p_DeviceDetails", u.DeviceDetails);
                 cmd.Parameters.AddWithValue("p_IPAddress", u.IP_Address);

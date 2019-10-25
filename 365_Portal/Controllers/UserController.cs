@@ -17,6 +17,7 @@ using static _365_Portal.Models.Login;
 using Newtonsoft.Json.Linq;
 using System.Web.Configuration;
 using System.Text.RegularExpressions;
+using System.Data;
 
 namespace _365_Portal.Controllers
 {
@@ -190,51 +191,78 @@ namespace _365_Portal.Controllers
 
                 if (!string.IsNullOrEmpty(NewPassword) && !string.IsNullOrEmpty(OldPassword))
                 {
-                    var OldPasswordSalt = Utility.GetSalt();
-                    var OldPasswordHash = Utility.GetHashedPassword(OldPassword, OldPasswordSalt);
-                    var UserBO =0;
-                    if (true==true)
+                    if (NewPassword.Trim().ToLower() != OldPassword.Trim().ToLower())
                     {
-                        Match match = regex.Match(_userdetail.NewPassword);
-                        if (match.Success)
+                        var UserBO = UserDAL.GetUserDetails(identity.EmailID, "");
+                        var OldPasswordSalt = UserBO.PasswordSalt;
+                        var OldPasswordHash = Utility.GetHashedPassword(OldPassword, OldPasswordSalt);
+
+                        if (OldPasswordHash == UserBO.PasswordHash)
                         {
-                            try
+                            Match match = regex.Match(_userdetail.NewPassword);
+                            if (match.Success)
                             {
-                                if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
+                                try
                                 {
-                                    _userdetail.DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
-                                    _userdetail.DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
+                                    if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
+                                    {
+                                        _userdetail.DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
+                                        _userdetail.DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
 
+                                    }
+                                    else
+                                    {
+                                        _userdetail.DeviceDetails = DeviceDetails;
+                                        _userdetail.DeviceType = DeviceType;
+                                    }
+                                    _userdetail.IP_Address = Utility.GetClientIPaddress();
+                                    _userdetail.CreatedBy = Convert.ToInt32(identity.UserID);
+
+                                    var ds = CommonBL.ChangePassword(_userdetail);
+                                    if (ds.Tables.Count > 0)
+                                    {
+                                        DataTable dt = ds.Tables["Data"];
+                                        if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                        {
+                                            data = Utility.ConvertDataSetToJSONString(dt);
+                                            data = Utility.Successful(data);
+                                        }
+                                        else
+                                        {
+
+                                            data = ConstantMessages.ChangePassowrd.Error;
+                                            data = Utility.Failed(data);
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        data = ConstantMessages.ChangePassowrd.Error;
+                                        data = Utility.Failed(data);
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    _userdetail.DeviceDetails = DeviceDetails;
-                                    _userdetail.DeviceType = DeviceType;
+                                    data = ConstantMessages.ChangePassowrd.Error;
+                                    data = Utility.Failed(data);
                                 }
-                                _userdetail.IP_Address = Utility.GetClientIPaddress();
-                                _userdetail.CreatedBy = Convert.ToInt32(identity.UserID);
-
-                                var ds = CommonBL.ChangePassword(_userdetail);
-                                //if(ds.Tables)
-                                data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                                data = Utility.Successful(data);
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                data = ConstantMessages.ChangePassowrd.Error_Code;
+
+                                data = ConstantMessages.ChangePassowrd.Password_Validation;
                                 data = Utility.Failed(data);
                             }
                         }
                         else
                         {
-
-                            data = ConstantMessages.ChangePassowrd.Password_Validation;
+                            data = ConstantMessages.ChangePassowrd.PasswordMisMatch;
                             data = Utility.Failed(data);
                         }
                     }
                     else
                     {
-                        data = ConstantMessages.ChangePassowrd.PasswordMisMatch;
+                        data = ConstantMessages.ChangePassowrd.PasswordMacth;
                         data = Utility.Failed(data);
                     }
                 }

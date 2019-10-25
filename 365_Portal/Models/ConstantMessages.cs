@@ -42,6 +42,7 @@ namespace _365_Portal.Models
             public static string Password_Validation = "Password should contain at least 1 Alphabet, 1 Number and 1 Special Character.";
             public static string PasswordMisMatch = "Old Password entered is incorrect";
             public static string PasswordEmpty = "Password can't be empty";
+            public static string PasswordMacth = "Old Password and New Password can't be same";
 
         }
         public class DeviceInfo

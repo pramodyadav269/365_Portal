@@ -51,13 +51,14 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        var DataSet = $.parseJSON($.parseJSON(response))
+                        var DataSet = $.parseJSON($.parseJSON(response));
                         console.log(response);
-                        if (DataSet[0].ReturnCode == "1") {
-                            alert(DataSet[0].StatusCode);
+                        if (DataSet.StatusCode == "1") {
+                            alert(DataSet.Data[0].ReturnMessage);
+                            ClearFields();
                         }
                         else {
-                            alert(DataSet[0].StatusCode);
+                            alert(DataSet.Data[0].ReturnMessage);
                             ClearFields();
                         }
                     }

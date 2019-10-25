@@ -157,6 +157,8 @@ namespace _365_Portal.Code.DAL
                 objUser.MobileNum = dt.Rows[0]["MobileNum"].ToString();
                 objUser.Position = dt.Rows[0]["Position"].ToString();
                 objUser.ProfilePicFileID = dt.Rows[0]["ProfilePicFileID"].ToString();
+                objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
+                objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
             }            
             return objUser;
         }
