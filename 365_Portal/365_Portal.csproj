@@ -374,6 +374,13 @@
       <DependentUpon>Topics.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserBO.cs" />
+    <Compile Include="ValidationForm.aspx.cs">
+      <DependentUpon>ValidationForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ValidationForm.aspx.designer.cs">
+      <DependentUpon>ValidationForm.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\dashboard.aspx" />
@@ -570,6 +577,7 @@
     <Content Include="Survey.aspx" />
     <Content Include="Test.html" />
     <Content Include="Topics.aspx" />
+    <Content Include="ValidationForm.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

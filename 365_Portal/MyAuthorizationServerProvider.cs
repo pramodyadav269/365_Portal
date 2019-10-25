@@ -44,6 +44,7 @@ namespace _365_Portal
                 UserBO objUser = new UserBO();
                 objUser = UserDAL.GetUserDetails(context.UserName,null);
 
+                identity.AddClaim(new Claim(UserClaim.CompId, objUser.CompId.ToString()));
                 identity.AddClaim(new Claim(UserClaim.UserID, objUser.UserID.ToString()));
                 identity.AddClaim(new Claim(UserClaim.RoleID, objUser.RoleID.ToString()));
                 identity.AddClaim(new Claim(UserClaim.Role, objUser.Role.ToString()));
@@ -88,6 +89,7 @@ namespace _365_Portal
                 {
                     //_usrDetails.UserId = new Guid(claims.Where(c => c.Type == CommonBO.UserData.UserId).Select(c => c.Value).FirstOrDefault().ToString());
                     //_usrDetails.Id = Convert.ToInt32(claims.Where(c => c.Type == UserClaim.Id).Select(c => c.Value).FirstOrDefault().ToString());
+                    _usrDetails.CompId = Convert.ToInt32(claims.Where(c => c.Type == UserClaim.CompId).Select(c => c.Value).FirstOrDefault().ToString());
                     _usrDetails.UserID = Convert.ToString(claims.Where(c => c.Type == UserClaim.UserID).Select(c => c.Value).FirstOrDefault().ToString());
                     _usrDetails.RoleID = Convert.ToString(claims.Where(c => c.Type == UserClaim.RoleID).Select(c => c.Value).FirstOrDefault());
                     _usrDetails.Role = Convert.ToString(claims.Where(c => c.Type == UserClaim.Role).Select(c => c.Value).FirstOrDefault());

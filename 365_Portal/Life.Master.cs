@@ -18,6 +18,16 @@ namespace _365_Portal
                     // This is 1st time login & user has not changed password..
                     Response.Redirect("~/settings.aspx");
                 }
+                if (HttpContext.Current.Session["IsFirstPasswordChanged"] != null)
+                {
+                    // This is 1st time login & user has not changed password..
+                    Response.Redirect("~/ChangePassword.aspx");
+                }
+
+                if (HttpContext.Current.Session["FirstName"] != null && HttpContext.Current.Session["LastName"] != null)
+                {
+                    lblUserName.Text = HttpContext.Current.Session["FirstName"].ToString() + " " + HttpContext.Current.Session["LastName"].ToString();
+                }
             }
             else
             {

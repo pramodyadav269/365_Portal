@@ -48,8 +48,8 @@ namespace _365_Portal.Controllers
                 else
                 {
                     LoginRequest objRequest = new LoginRequest();
-                    objRequest.EmailId = EmailId;
-                    objRequest.UserPwd = UserPwd;
+                    objRequest.UserName = EmailId;
+                    objRequest.Password = UserPwd;
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
 
                     objResponse = new LoginResponse();
@@ -58,7 +58,7 @@ namespace _365_Portal.Controllers
                     if (objResponse.ReturnCode == "1")
                     {
                         GetAccessToken(EmailId.Trim(), UserPwd.Trim());
-                        
+
                         if (HttpContext.Current.Session["access_token"] != null)
                         {
                             objResponse.Token = HttpContext.Current.Session["access_token"].ToString();
@@ -113,7 +113,7 @@ namespace _365_Portal.Controllers
                 string EmailId = httpRequest.Form["EmailId"];
 
                 LoginRequest objRequest = new LoginRequest();
-                objRequest.EmailId = EmailId;
+                objRequest.UserName = EmailId;
 
                 objResponse = new LoginResponse();
                 int i = UserDAL.UserLogout(objRequest);
@@ -168,66 +168,62 @@ namespace _365_Portal.Controllers
         /// </returns>
         [HttpPost]
         [Route("API/User/ChangePassword")]
-        public IHttpActionResult ChangePassword()
+        public IHttpActionResult ChangePassword(JObject requestParams)
         {
-            string data = string.Empty;
-
-            var request = HttpContext.Current.Request;
-            string NewPassword = request.Form["Password"];
-            /*This fields are for the mobile Request*/
-            string DeviceDetails = request.Form["DeviceDetails"];
-            string DeviceType = request.Form["DeviceType"];
-            string IPAddess = request.Form["IPAddess"];
-            if (!string.IsNullOrEmpty(NewPassword))
+            var data = string.Empty;
+            UserBO _userdetail = new UserBO();
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
             {
-
-                UserBO _userdetail = new UserBO();
-                //string PasswordSalt = Utility.GetSalt();
-                //string New_PasswordSalt = Utility.GetHashedPassword(NewPassword, PasswordSalt);
-                try
+                string NewPassword = requestParams["NewPassword"].ToString();
+                string OldPassword = requestParams["OldPassword"].ToString();
+                /*This fields are for the mobile Request*/
+                string DeviceDetails = requestParams["DeviceDetails"].ToString();
+                string DeviceType = requestParams["DeviceType"].ToString();
+                string IPAddess = requestParams["IPAddess"].ToString();
+                /*Condition to check whether the entered old Password is correct or wrong*/
+                _userdetail.OldPassword = OldPassword;
+                _userdetail.NewPassword = NewPassword;//clear Text Password getting From User.                    
+                _userdetail.CompId = identity.CompId;
+                _userdetail.UserID = identity.UserID;
+                _userdetail.Token = identity.Token;
+                if (!string.IsNullOrEmpty(NewPassword) && !string.IsNullOrEmpty(OldPassword))
                 {
-                    _userdetail.NewPassword = NewPassword;//clear Text Password getting From User.                    
-                    //_userdetail.CompId = Convert.ToInt32(HttpContext.Current.Session["CompID"]);
-                    _userdetail.CompId = 1;
-                    //_userdetail.UserId = Convert.ToInt32(HttpContext.Current.Session["UserId"]);
-                    _userdetail.UserID = "1";
-                    _userdetail.Token = "";
-                    if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice==false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
+                    try
                     {
-                        _userdetail.DeviceDetails = "Browser Name : "+HttpContext.Current.Request.Browser.Browser+", Browser Version : "+HttpContext.Current.Request.Browser.Version;
-                        if (HttpContext.Current.Request.Browser.IsMobileDevice == false)
+                        if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
                         {
-                            _userdetail.DeviceType = "Desktop Browser";
+                            _userdetail.DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
+                            _userdetail.DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
+                            _userdetail.IP_Address = Utility.GetClientIPaddress();
                         }
                         else
                         {
-                            _userdetail.DeviceType = "Mobile Browser";
+                            _userdetail.DeviceDetails = DeviceDetails;
+                            _userdetail.DeviceType = DeviceType;
+                            _userdetail.IP_Address = IPAddess;
                         }
-                        _userdetail.IP_Address = Utility.GetClientIPaddress();
+                        _userdetail.CreatedBy = Convert.ToInt32(identity.UserID);
+
+                        var ds = CommonBL.ChangePassword(_userdetail);
+                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                        data = Utility.Successful(data);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        _userdetail.DeviceDetails = "";
-                        _userdetail.DeviceType = "Mobile";
-                        _userdetail.IP_Address = "";
+                        data = ConstantMessages.ChangePassowrd.error_code;
+                        data = Utility.Failed(data);
                     }
-                    _userdetail.CreatedBy = 1;
-
-                    var ds = CommonBL.ChangePassword(_userdetail);
-                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-
                 }
-                catch (Exception ex)
+                else
                 {
-                    data = ConstantMessages.ChangePassowrd.error_code + " || " + "Excetion occured while changing Password " + " || " + ex.Message + " || " + ex.StackTrace;
-                    //APIResult.ThrowException(ex);
-                    return new APIResult(data, Request);
+                    data = Utility.Failed(data);
                 }
+
             }
             else
             {
-                data = "Password is cannot be empty " + ConstantMessages.ChangePassowrd.error_code +"  "+ ConstantMessages.ChangePassowrd.error;
-                return new APIResult(data, Request);
+                data = Utility.AuthenticationError(); ;
             }
             return new APIResult(data, Request);
         }

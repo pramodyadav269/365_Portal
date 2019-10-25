@@ -41,5 +41,12 @@ namespace _365_Portal.Models
             public static string error_code = "500";
 
         }
+        public class DeviceInfo
+        {
+            public static string InfoType = "Device Details";
+            public static string DeviceTypeBrowser = "Browser";
+            public static string BrowserName = "Browser Name";
+            public static string BrowserVersion = "Browser Version";
+        }
     }
 }
