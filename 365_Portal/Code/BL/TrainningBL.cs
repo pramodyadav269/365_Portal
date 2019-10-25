@@ -118,10 +118,25 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                int totalScore=0; int scoreEarned=0; int percentageEarned=0;
+                int totalScore = 10; int scoreEarned = 20; int percentageEarned = 15;
                 ds = TrainningDAL.SubmitResponse(compId, userId, surveyId, totalScore, scoreEarned, percentageEarned, Utility.GetClientIPaddress());
 
-                // Call SubmitAnswers
+                if (ds.Tables.Count > 0)
+                {
+                    // Call SubmitAnswers
+                    for (int i = 0; i <= responseDetail["Questions"].Count(); i++)
+                    {
+                        var responseId = Convert.ToInt32(ds.Tables[0].Rows[0]["ResponseID"]);
+                        var questionid = Convert.ToInt32(responseDetail["Questions"][i]["QuestionID"]);
+                        var answerIds = Convert.ToString(responseDetail["Questions"][i]["AnswerIDs"]);
+                        var fileId = 0;
+                        var value_text = Convert.ToString(responseDetail["Questions"][i]["Value_Text"]);
+                        var isCorrect = true;
+                        float correctScore = 1;
+                        float inCorrectScore = 2;
+                        TrainningDAL.SubmitAnswers(compId, userId, surveyId, responseId, questionid, answerIds, fileId, value_text, isCorrect, correctScore, inCorrectScore, "");
+                    }
+                }
             }
             catch (Exception ex)
             {
