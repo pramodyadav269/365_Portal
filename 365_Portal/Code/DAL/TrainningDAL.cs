@@ -108,7 +108,7 @@ namespace _365_Portal.Code.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", CompID);
                 cmd.Parameters.AddWithValue("p_UserID", UserID);
-                cmd.Parameters.AddWithValue("p_TopicI", TopicID);
+                cmd.Parameters.AddWithValue("p_TopicID", TopicID);
                 cmd.Parameters.AddWithValue("p_ModuleID", ModuleID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -204,7 +204,6 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_ModuleID", ModuleID);
                 cmd.Parameters.AddWithValue("p_ContentID", ContentID);
                 cmd.Parameters.AddWithValue("p_Rating", Rating);
-                cmd.Parameters.AddWithValue("p_ContentId", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -254,7 +253,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet SubmitAnswers(int compId, int userId, int surveyId, int responseId, int questionId,string answerIds, 
+        public static DataSet SubmitAnswers(int compId, string userId, int surveyId, int responseId, int questionId,string answerIds, 
             int fileId, string valueText,bool isCorrect,float correctScore, float incorrectScore, string filePath)
         {
             DataSet ds = new DataSet();

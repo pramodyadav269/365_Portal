@@ -66,20 +66,36 @@ namespace _365_Portal.Code
             return str;
         }
 
-        public static string GetJSONData(string statusCode, string statusDescription,string data)
+        public static string GetJSONData(string statusCode, string statusDescription, string data)
         {
-            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription + "\",\"Data\":"+ data + "}";           
+            if (string.IsNullOrEmpty(data))
+                data = "[]";
+            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription + "\",\"Data\":" + data + "}";
         }
 
-        public static string API_Status(string statusCode,string statusDescription)
+        public static string GetJSONData(string statusCode, string statusDescription, string contents, string questions, string flashcards)
         {
-            return "{\"StatusCode\":\""+ statusCode + "\",\"StatusDescription\":\""+ statusDescription + "\"}";
+            if (string.IsNullOrEmpty(contents))
+                contents = "[]";
+            if (string.IsNullOrEmpty(questions))
+                questions = "[]";          
+            if (string.IsNullOrEmpty(flashcards))
+                flashcards = "[]";
+            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription 
+                + "\",\"Data\":" + contents 
+                + ",\"Questions\":" + questions                
+                + ",\"Flachards\":" + flashcards + "}";
+        }
+
+        public static string API_Status(string statusCode, string statusDescription)
+        {
+            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription + "\"}";
             //return "{'StatusCode':'" + statusCode + "','StatusDescription':'" + statusDescription + "'}";
         }
 
         public static string AuthenticationError()
         {
-            return API_Status("0","Invalid Token");
+            return API_Status("0", "Invalid Token");
         }
 
         public static string Successful(string data)
