@@ -193,7 +193,7 @@ namespace _365_Portal.Controllers
                 {
                     if (NewPassword.Trim().ToLower() != OldPassword.Trim().ToLower())
                     {
-                        var UserBO = UserDAL.GetUserDetails(identity.EmailID, "");
+                        var UserBO = UserDAL.GetUserDetailsByUserID(identity.EmailID, "");
                         var OldPasswordSalt = UserBO.PasswordSalt;
                         var OldPasswordHash = Utility.GetHashedPassword(OldPassword, OldPasswordSalt);
 
@@ -340,6 +340,81 @@ namespace _365_Portal.Controllers
             return new APIResult(data, Request);
         }
 
+        [HttpPost]
+        [Route("API/User/GetUserProfileDetails")]
+        public IHttpActionResult GetUserProfileDetails()//JObject requestParams
+        {
+            var data = string.Empty;
+            UserBO _userdetail = new UserBO();            
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                var UserDetails = UserDAL.GetUserDetailsByUserID(identity.UserID, "");
+                if (UserDetails != null)
+                {
+                    _userdetail = new UserBO();
+                    _userdetail.CompId = UserDetails.CompId;
+                    _userdetail.Role = UserDetails.Role;
+                    _userdetail.FirstName = UserDetails.FirstName;
+                    _userdetail.LastName = UserDetails.LastName;
+                    _userdetail.EmailID = UserDetails.EmailID;
+                    _userdetail.MobileNum = UserDetails.MobileNum;
+                    _userdetail.Position = UserDetails.Position;
+                    _userdetail.EmailNotification = UserDetails.EmailNotification;
+                    _userdetail.PushNotification = UserDetails.PushNotification;
 
+                    _userdetail.ProfilePicFile = UserDetails.ProfilePicFile;// here will be base64 image format
+
+                    data = Utility.ConvertJsonToString(_userdetail);
+                    data = Utility.Successful(data);
+                }
+                else
+                {
+                    data = Utility.Failed(data);
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(data, Request);
+        }
+        [HttpPost]
+        [Route("API/User/UpdateUserProfileDetails")]
+        public IHttpActionResult UpdateUserProfileDetails(JObject requestParams)
+        {
+            var data = string.Empty;
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                UserBO _userdetail = new UserBO();
+                _userdetail.UserID = identity.UserID;
+                _userdetail.EmailID = (string)requestParams.SelectToken("EmailID");
+                _userdetail.Position = (string)requestParams.SelectToken("Position");                
+                _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
+                _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
+
+                _userdetail.ProfilePicFile = (string)requestParams.SelectToken("ProfilePicFileID");
+                _userdetail.ProfilePicFileID = "";//This will be available after base64 conversion
+
+                var ResponseBase = UserDAL.UpdateUserDetailsByUserID(_userdetail, "");
+                data = Utility.ConvertJsonToString(ResponseBase);
+
+                if (ResponseBase.ReturnCode == "1")
+                {
+                    HttpContext.Current.Session["IsFirstLogin"] = false;
+                    data = Utility.Successful(data);
+                }
+                else
+                {                    
+                    data = Utility.Failed(data);    
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(data, Request);
+        }
     }
 }

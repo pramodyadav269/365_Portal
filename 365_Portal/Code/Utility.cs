@@ -24,6 +24,22 @@ namespace _365_Portal.Code
             return serializer.Serialize(lst);
         }
 
+        public static string ConvertJsonToString<T>(T model)
+        {
+            string result = null;
+            try
+            {
+                System.Web.Script.Serialization.JavaScriptSerializer JSSerialzer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                var Jsonresult = JSSerialzer.Serialize(model);
+                result = JSSerialzer.ConvertToType<string>(Jsonresult);
+            }
+            catch (Exception ex)
+            {
+                result = "I am some unhandled Error";
+            }
+            return result.ToString();
+        }
+
         public static string GetHashedPassword(string value, string salt)
         {
             byte[] bytes = Encoding.Unicode.GetBytes(value);
@@ -122,6 +138,22 @@ namespace _365_Portal.Code
                 IPAddress = HttpContext.Current.Request.UserHostAddress;
             }
             return IPAddress;
+        }
+
+        public static string GetClientIPAddress_1()
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (!string.IsNullOrEmpty(ipAddress))
+            {
+                string[] addresses = ipAddress.Split(',');
+                if (addresses.Length != 0)
+                {
+                    return addresses[0];
+                }
+            }
+            return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
         public static string GetDeviceDetails(string Type)

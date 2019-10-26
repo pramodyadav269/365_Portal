@@ -24,42 +24,54 @@
                             <img class="circle user-photo" id="imgUserPic" src="Asset/images/profile.png" />
                         </div>
                         <div class="col-md-12 mt-3">
-                            <%--<a class="btn btn-outline-dark mt-1">Change Pic</a>--%>
-
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">
-                                <label class="custom-file-label" for="customFile">Change Pic</label>
+                                <label class="custom-file-label" for="customFile">Change Profile Pic</label>
                             </div>
                         </div>
+
+                        <div>
+                            <div class="col-md-12">
+                                <img class="circle user-photo" id="imgCompanyLogo" src="Asset/images/CompanyLogo.png" />
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="setImgSrc(this, 'imgCompanyLogo')">
+                                    <label class="custom-file-label" for="customFile">Change Company Logo</label>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-md-10 mt-5 form-page form-control-bg-d">
                             <div class="form-group">
-                                <label for="txtFullName">First & Last Name</label>
-                                <input type="text" class="form-control" id="txtFullName" value="Daniel Curtis" />
+                                <label for="txtFirstName">First Name</label>
+                                <input type="text" class="form-control" id="txtFirstName" disabled />
                             </div>
                             <div class="form-group">
-                                <label for="txtEmail">Email</label>
-                                <input type="email" class="form-control" id="txtEmail" value="daniel.curtis@gmail.com" />
+                                <label for="txtLastName">Last Name</label>
+                                <input type="text" class="form-control" id="txtLastName" disabled/>
                             </div>
                             <div class="form-group">
                                 <label for="txtPosition">Position</label>
-                                <input type="text" class="form-control" id="txtPosition" value="Sr. Forntend Developer" />
+                                <input type="text" class="form-control" id="txtPosition"  />
                             </div>
                             <div class="form-group">
-                                <label for="ddlSelect">Example select</label>
-                                <select class="form-control select2" id="ddlSelect">
-                                    <option></option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
+                                <label for="txtEmail">Email</label>
+                                <input type="email" class="form-control" id="txtEmail"  />
+                            </div>                            
+                            <div class="form-group">
+                                <label for="ddlGroup">Group</label>
+                                <select class="form-control select2" id="ddlGroup"disabled></select>
                             </div>
-                            <div class="mt-4">
+                            <div class="form-group" >
+                                <label for="ddlRole">Role</label>
+                                <select class="form-control select2" id="ddlRole" disabled></select>
+                            </div>
+                            <div id="divChangePassword" class="mt-4" style="display:none;">
                                 <a class="link font-weight-bold" href="ChangePassword.aspx">Change password</a>
-                            </div>
+                            </div>                            
                             <div class="text-center mt-5">
-                                <a class="btn btn-custom bg-blue font-weight-bold text-white">Save</a>
+                                <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateUserProfileDetails()">Save</a>
                             </div>
                         </div>
                     </div>
@@ -92,11 +104,126 @@
 
     <script>
 
-        function setImgSrc(ctrl, img) {
-            $('#' + img).attr('src', URL.createObjectURL(ctrl.files[0]));
+        debugger
+        var accessToken = '<%=Session["access_token"]%>';
 
-
+        var IsFirstLogin = '<%=Session["IsFirstLogin"]%>';
+        if (IsFirstLogin == 'False')
+        {
+            $('#divChangePassword').show();
         }
+
+
+        $(document).ready(function () {
+            debugger
+            //$('#divChangePassword').hide();
+            GetUserProfileDetails();
+        });
+
+
+        function GetUserProfileDetails()
+        {
+            //var requestParams = { OldPassword: '', NewPassword: '', DeviceDetails: "", DeviceType: "", IPAddess: "" };
+            var getUrl = "/API/User/GetUserProfileDetails";
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                headers: { "Authorization": "Bearer " + accessToken },
+                //data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    try {
+                        debugger
+                        var DataSet = $.parseJSON($.parseJSON(response));
+                        console.log(response);
+                        if (DataSet.StatusCode == "1") {
+                            //alert(DataSet.StatusDescription);                            
+                            BindFields(DataSet.Data);
+                        }
+                        else {
+                            alert(DataSet.StatusDescription);
+                            ClearFields();
+                        }
+                    }
+                    catch (e) {
+                        alert(response);
+                        alert(e.message);
+                    }
+                },
+                failure: function (response) {
+                    alert(response.data);
+                }
+            });
+        }
+        function ClearFields()
+        {
+            $('#txtFirstName').val('');
+            $('#txtLastName').val('');
+            $('#txtPosition').val('');
+            $('#txtEmail').val('');
+            $("#cbEmailNotifications").prop('checked', false);
+            $("#cbPushNotifications").prop('checked', false);
+        }
+        function BindFields(Data)
+        {
+            $('#txtFirstName').val(Data.FirstName);
+            $('#txtLastName').val(Data.LastName);
+            $('#txtPosition').val(Data.Position);
+            $('#txtEmail').val(Data.EmailID);
+            $("#cbEmailNotifications").prop('checked', Data.EmailNotification);
+            $("#cbPushNotifications").prop('checked', Data.PushNotification);
+
+            $("#ddlGroup").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
+            $("#ddlRole").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
+        }
+
+        function UpdateUserProfileDetails() {
+            debugger
+            var EmailID = $('#txtEmail').val();
+            var Position = $('#txtPosition').val();
+            var EmailNotification = $('#cbEmailNotifications').prop('checked');
+            var PushNotification = $('#cbPushNotifications').prop('checked');
+
+            var requestParams = { EmailID: EmailID, Position: Position, EmailNotification: EmailNotification, PushNotification: PushNotification};
+            var getUrl = "/API/User/UpdateUserProfileDetails";
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    try {
+                        debugger
+                        var DataSet = $.parseJSON($.parseJSON(response));
+                        //console.log(response);
+                        if (DataSet.StatusCode == "1") {
+                            //BindFields(DataSet.Data);
+                            alert(DataSet.Data.ReturnMessage);
+                        }
+                        else {
+                            //alert(DataSet.StatusDescription);
+                            ClearFields();
+                        }
+                    }
+                    catch (e) {
+                        alert(response);
+                        alert(e.message);
+                    }
+                },
+                failure: function (response) {
+                    alert(response.data);
+                }
+            });
+        }
+
+
+        function setImgSrc(ctrl, img) {
+            debugger
+            $('#' + img).attr('src', URL.createObjectURL(ctrl.files[0]));
+        }
+
+
 
 
     </script>

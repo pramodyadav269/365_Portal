@@ -312,7 +312,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetLoginDetails(string UserName)
+        public static DataSet GetLoginDetails(string UserName)//This will be call while creating Token
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);

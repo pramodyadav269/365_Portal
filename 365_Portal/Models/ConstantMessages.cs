@@ -19,7 +19,7 @@ namespace _365_Portal.Models
             public static string Validation = "Validation";
 
             public static string GenericErrorMsg = "There seems to be technical problem, please try again.";
-            public static string GenericErrorCode = "There seems to be technical problem, please try again.";
+            public static string GenericErrorCode = "-1";
         }
 
         public class Roles
