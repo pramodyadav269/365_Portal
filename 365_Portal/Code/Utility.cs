@@ -89,18 +89,30 @@ namespace _365_Portal.Code
             return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription + "\",\"Data\":" + data + "}";
         }
 
-        public static string GetJSONData(string statusCode, string statusDescription, string contents, string questions, string flashcards)
+        public static string GetJSONData(string statusCode, string statusDescription, string contents, string questions, string flashcardIntro, string flashcards)
         {
             if (string.IsNullOrEmpty(contents))
                 contents = "[]";
             if (string.IsNullOrEmpty(questions))
-                questions = "[]";          
+                questions = "[]";
             if (string.IsNullOrEmpty(flashcards))
                 flashcards = "[]";
-            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription 
-                + "\",\"Data\":" + contents 
-                + ",\"Questions\":" + questions                
+            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription
+                + "\"," + contents
+                + ",\"Questions\":" + questions
+                + ",\"FlachardsIntro\":" + flashcardIntro
                 + ",\"Flachards\":" + flashcards + "}";
+        }
+
+        public static string GetModulesJSONFormat(string statusCode, string statusDescription, string unlockedModules, string lockedModules)
+        {
+            if (string.IsNullOrEmpty(unlockedModules))
+                unlockedModules = "[]";
+            if (string.IsNullOrEmpty(lockedModules))
+                lockedModules = "[]";
+            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription
+                + "\",\"UnlockedItems\":" + unlockedModules
+                + ",\"LockedItems\":" + lockedModules + "}";
         }
 
         public static string API_Status(string statusCode, string statusDescription)
@@ -177,6 +189,6 @@ namespace _365_Portal.Code
             return Device_Details;
         }
 
-        
+
     }
 }

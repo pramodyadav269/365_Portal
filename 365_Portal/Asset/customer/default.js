@@ -1,47 +1,61 @@
 ﻿var app = angular.module('MasterPage', []);
 
 // CONTROLLER FUNCTIONS
-app.controller("DefaultController", function ($scope, DataService) {
+app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     objDs = DataService;
     objDs.DS_GetUserTopics();
 
     $scope.ActiveContainer = "Topic";
     $scope.NotificationText = "Notifications";
 
-    $scope.GetModulesByTopic = function () {
+    $scope.GetModulesByTopic = function (topicId) {
         $scope.ActiveContainer = "Module";
-        objDs.DS_GetModulesByTopic();
+        $scope.SelectedTopic = $rootScope.Topics.filter(function (v) {
+            return topicId == v.TopicId;
+        })[0];
+        objDs.DS_GetModulesByTopic(topicId);
     }
 
-    $scope.GetContentsByModule = function () {
+    $scope.GetContentsByModule = function (topicId, moduleId) {
         $scope.ActiveContainer = "Content";
-        objDs.DS_GetContentsByModule();
+        $scope.SelectedModule = $rootScope.Module.UnlockedItems.filter(function (v) {
+            return moduleId == v.ModuleID;
+        })[0];
+        objDs.DS_GetContentsByModule(topicId, moduleId);
     }
 
-    $scope.ViewContent = function (moduleName, type) {
+    $scope.ViewContent = function (topicId, moduleId, contentId, moduleName, type) {
         $scope.ContentGoBackText = moduleName;
+        $scope.SelectedContent = $rootScope.Content.UnlockedItems.filter(function (v) {
+            return contentId == v.ContentID;
+        })[0];
         if (type != '') {
             if (type.toLowerCase() == 'survey') {
                 $scope.ActiveContainer = "ContentSurveyView";
-                objDs.DS_GetSurveyDetails();
+                //objDs.DS_GetSurveyDetails();
+                objDs.DS_GetContentDetails(topicId, moduleId, contentId);
             }
             else if (type.toLowerCase() == 'flashcard') {
                 $scope.BeginFlashcard();
-                objDs.DS_GetFlashcardDetails();
+                // objDs.DS_GetFlashcardDetails();
+                objDs.DS_GetContentDetails(topicId, moduleId, contentId);
             }
-            else if (type.toLowerCase() == 'quiz') {
+            else if (type.toLowerCase() == 'finalquiz') {
                 $scope.ActiveContainer = "ContentQuizView";
-                objDs.DS_GetFinalQuizDetails();
+                // objDs.DS_GetFinalQuizDetails();
+                objDs.DS_GetContentDetails(topicId, moduleId, contentId);
             }
             else {
                 $scope.ActiveContainer = "ContentView";
-                objDs.DS_GetContentDetails();
+                objDs.DS_GetContentDetails(topicId, moduleId, contentId);
             }
         }
         else {
             $scope.ActiveContainer = "ContentView";
-            objDs.DS_GetContentDetails();
+            objDs.DS_GetContentDetails(topicId, moduleId, contentId);
         }
+
+        objDs.DS_UpdateContent(topicId, moduleId, contentId);
     }
 
     $scope.FlashcardPreviousClicked = function (index, total) {
@@ -116,10 +130,10 @@ app.controller("DefaultController", function ($scope, DataService) {
             $("#dvVideoRating").hide();
     }
 
-    $scope.RateVideo = function (contentId, rating) {
+    $scope.RateVideo = function (topicId, moduleId, contentId, rating) {
         //Save Rating
         $("#dvVideoRating").hide();
-        objDs.DS_RateContent(contentId, rating);
+        objDs.DS_RateContent(topicId, moduleId, contentId, rating);
         $scope.GoBack('Content');
     }
 });
@@ -129,71 +143,20 @@ app.service("DataService", function ($http, $rootScope, $compile) {
     var ds = this;
 
     ds.DS_GetUserTopics = function (userId) {
-
-        //$rootScope.Topics = [
-        //    {
-        //        "TopicID": 1,
-        //        "Title": "Employee Conduct",
-        //        "Description": "Life as an employee can be tough. Let's work together to make it easier.",
-        //        "IsCompleted": true,
-        //        "TotalModules": 10,
-        //        "CompletedModules": 4,
-        //        "Progress": "4/10",
-        //        "ProgressBarText": "4 of 10 Completed",
-        //        "SortOrder": 1
-        //    },
-        //    {
-        //        "TopicID": 2,
-        //        "Title": "Workplace Equity",
-        //        "Description": "How to be more accepting and bare with your colleagues.",
-        //        "IsCompleted": false,
-        //        "TotalModules": 10,
-        //        "CompletedModules": 4,
-        //        "Progress": "4/10",
-        //        "ProgressBarText": "4 of 10 Completed",
-        //        "SortOrder": 2
-        //    },
-        //    {
-        //        "TopicID": 3,
-        //        "Title": "Staff Efficiency",
-        //        "Description": "Increase your productivity while not losing motivation",
-        //        "IsCompleted": false,
-        //        "TotalModules": 10,
-        //        "CompletedModules": 4,
-        //        "Progress": "",
-        //        "ProgressBarText": "4 of 10 Completed",
-        //        "SortOrder": 3
-        //    }
-        //    ,
-        //    {
-        //        "TopicID": 4,
-        //        "Title": "Motivation",
-        //        "Description": "Increase your productivity while not losing motivation",
-        //        "IsCompleted": false,
-        //        "TotalModules": 10,
-        //        "CompletedModules": 4,
-        //        "Progress": "",
-        //        "ProgressBarText": "4 of 10 Completed",
-        //        "SortOrder": 4
-        //    }
-        //];
-
-        alert(userId);
-
         //var RequestParams = { UserID: userId };
         var requestParams = { contact_name: "Scott", company_name: "HP" };
-        var accessToken = '<%=Session["access_token"]%>';
         $http({
             method: "POST",
             url: "../api/Trainning/GetTopicsByUser",
-            headers: { "Authorization": "Bearer " + "bLVmFjpEJMzmfQ2SFKIcvGnJk8xrt7IpH2mMU6x1GIoLKQH1m8fpNzIxcdaTA8JYZ_1kgYYNcfLXW1-qea_guNT6DKfabr9TqUG706qlXdDdTX2ocWY3Ucyf_meR3kSdQz4e6JzvMUq_U-dF_LHBVDmpJtmUp4l_xOZE2Jj4LKlEK2jOrsoNIVbb69oVwAk1GQRK9kBOAqermGp6fUkXc18PIYlxJvQwss5v5mtKhtyN1iQirAgb3CdWgOl7jYTZGaMnpRn90SG1jOLq1VYIbQNRNiDiHF3T1PqzIk8QXjqftDaPKDupSCzGS3knCsTdPSH-9TrHhC8h-KMovnmirMw94T3EKmjY66wUYGn3JW11nEqnWWqmAU6rt0P48qOqrbtHSnx3wjbp9rrYzuu3EMOpNv9yhJ_03ToU9wje52Y" },
-            //headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer " + accessToken
+            },
             data: JSON.stringify(requestParams),
-            contentType: "application/json"
+
         }).then(function success(response) {
             var responseData = response.data;
-            $rootScope.Topics = responseData;
-           // responseData = JSON.parse(responseData);
+            $rootScope.Topics = responseData.Data;
         });
     }
 
@@ -259,21 +222,25 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             ]
         };
 
-        var RequestParams = { TopicId: topicId };
-
+        // var requestParams = { TopicId: topicId };
+        //topicId = 25;
+        var requestParams = { TopicID: topicId };
         $http({
             method: "POST",
             url: "../api/Trainning/GetModulesByTopic",
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            data: JSON.stringify({ RequestParams }),
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer " + accessToken
+            },
+            data: requestParams,
         }).then(function success(response) {
-            response = response.data;
-            response = JSON.parse(response);
+            var responseData = response.data;
+            $rootScope.Module = responseData;
         });
 
     }
 
-    ds.DS_GetContentsByModule = function (moduleId) {
+    ds.DS_GetContentsByModule = function (topicId, moduleId) {
         $rootScope.Content = {
             "ModuleID": 1,
             "ModuleTitle": "Employee Conduct",
@@ -357,9 +324,23 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                 }
             ]
         };
+
+        var requestParams = { TopicID: topicId, ModuleID: moduleId };
+        $http({
+            method: "POST",
+            url: "../api/Trainning/GetContentsByModule",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer " + accessToken
+            },
+            data: requestParams,
+        }).then(function success(response) {
+            var responseData = response.data;
+            $rootScope.Content = responseData;
+        });
     }
 
-    ds.DS_GetContentDetails = function (contentId) {
+    ds.DS_GetContentDetails = function (topicId, moduleId, contentId) {
         // Update Content Details (Mark it as completed, activate next content)
         // Check Whether content is locked or unlocked
         $rootScope.SpecialContents = {
@@ -381,22 +362,52 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             "Questions": []
         };
 
-        if ($rootScope.SpecialContents.Type == 'CONTENT') {
-            if ($rootScope.SpecialContents.FileType == 'VIDEO') {
-                $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
-                    '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath + '" type="video/mp4">' +
-                    '</video>');
-                document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
+        var requestParams = { TopicID: topicId, ModuleID: moduleId, ContentID: contentId };
+        $http({
+            method: "POST",
+            url: "../api/Trainning/GetContentDetails",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer " + accessToken
+            },
+            data: requestParams,
+        }).then(function success(response) {
+            var responseData = response.data;
+            $rootScope.SpecialContents = responseData;
+            if ($rootScope.SpecialContents.Type == 'CONTENT') {
+                if ($rootScope.SpecialContents.DocType == 'VIDEO') {
+                    $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
+                        '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath + '" type="video/mp4">' +
+                        '</video>');
+                    document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
+                }
+                else if ($rootScope.SpecialContents.DocType == 'PDF') {
+                    $("#divPDF").html('<embed id="dvPDFViewer" src="' + $rootScope.SpecialContents.FilePath + '" width="760" height="800"/>');
+                }
             }
-            else if ($rootScope.SpecialContents.FileType == 'PDF') {
-                $("#divPDF").html('<div style="width: 760px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); overflow: hidden;">' +
-                    '<embed id="dvPDFViewer" src="' + $rootScope.SpecialContents.FilePath + '" width="760" height="800">' +
-                    '</div>');
-            }
-        }
+        });
 
         // Call this to retrieve locked/unlocked contents.
         //DS_GetContentsByModule();
+    }
+
+    ds.DS_UpdateContent = function (topicId, moduleId, contentId) {
+        var requestParams = { TopicID: topicId, ModuleID: moduleId, ContentID: contentId };
+        $http({
+            method: "POST",
+            url: "../api/Trainning/UpdateContent",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer " + accessToken
+            },
+            data: requestParams,
+        }).then(function success(response) {
+            var responseData = response.data;
+
+            //ds.DS_GetUserTopics(topicId, moduleId);
+            //ds.DS_GetModulesByTopic(topicId, moduleId);
+            ds.DS_GetContentsByModule(topicId, moduleId);
+        });
     }
 
     ds.DS_GetSurveyDetails = function (contentId) {
@@ -1062,8 +1073,19 @@ app.service("DataService", function ($http, $rootScope, $compile) {
         };
     }
 
-    ds.DS_RateContent = function (contentId, rating) {
-        // Ajax Call
+    ds.DS_RateContent = function (topicId, moduleId, contentId, rating) {
+        var requestParams = { TopicID: topicId, ModuleID: moduleId, ContentID: contentId, Rating: rating };
+        $http({
+            method: "POST",
+            url: "../api/Trainning/RateContent",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer " + accessToken
+            },
+            data: requestParams,
+        }).then(function success(response) {
+            var responseData = response.data;
+        });
     }
 
     ds.DS_SubmitAnswers = function (contentId, rating) {

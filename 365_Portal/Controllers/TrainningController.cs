@@ -58,8 +58,7 @@ namespace _365_Portal.Controllers
                     string userId = identity.UserID;
                     int topicId = Convert.ToInt32(requestParams["TopicID"].ToString());
                     var ds = TrainningBL.GetModulesByTopic(compId, userId, topicId);
-                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                    data = Utility.Successful(data);
+                    data = Utility.GetModulesJSONFormat("1", "Successful", Utility.ConvertDataSetToJSONString(ds.Tables[0]), Utility.ConvertDataSetToJSONString(ds.Tables[1]));
                 }
                 catch (Exception ex)
                 {
@@ -88,8 +87,7 @@ namespace _365_Portal.Controllers
                     int topicId = Convert.ToInt32(requestParams["TopicID"].ToString());
                     int moduleId = Convert.ToInt32(requestParams["ModuleID"].ToString());
                     var ds = TrainningBL.GetContentsByModule(compId, userId, topicId, moduleId);
-                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                    data = Utility.Successful(data);
+                    data = Utility.GetModulesJSONFormat("1", "Successful", Utility.ConvertDataSetToJSONString(ds.Tables[0]), Utility.ConvertDataSetToJSONString(ds.Tables[1]));
                 }
                 catch (Exception ex)
                 {
@@ -170,6 +168,7 @@ namespace _365_Portal.Controllers
                     // Table 0: Content Information
                     // Table 1: Questions
                     // Table 2: Answer Options
+                    // Table 3: Flashcards Intro 
                     // Table 3: Flashcards     
 
                     List<Question> questionList = new List<Question>();
@@ -219,9 +218,9 @@ namespace _365_Portal.Controllers
                         question.AnswerOptions = ansOptionList.Where(p => p.QuestionID == question.QuestionID).ToList();
                     }
                     var questionJson = JsonConvert.SerializeObject(questionList);
-                    var dd = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                    dd = dd.Substring(1, dd.Length - 2);                    
-                    data = Utility.GetJSONData("1", "Successful", dd, questionJson, Utility.ConvertDataSetToJSONString(ds.Tables[3]));
+                    var contents = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    contents = contents.Substring(2, contents.Length - 4);                    
+                    data = Utility.GetJSONData("1", "Successful", contents, questionJson, Utility.ConvertDataSetToJSONString(ds.Tables[3]),Utility.ConvertDataSetToJSONString(ds.Tables[4]));
                 }
                 catch (Exception ex)
                 {
