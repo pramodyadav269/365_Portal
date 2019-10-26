@@ -57,16 +57,24 @@ namespace _365_Portal
                             HttpContext.Current.Session["FirstName"] = objResponse.FirstName;
                             HttpContext.Current.Session["LastName"] = objResponse.LastName;
 
-
-                            if (objResponse.IsFirstLogin == "1")
+                            if (objResponse.IsFirstLogin == "1" || objResponse.IsFirstPasswordChanged == "1")
                             {
-                                HttpContext.Current.Session["IsFirstLogin"] = true;
-                                Response.Redirect("~/Settings.aspx",false);
-                            }
-                            else if (objResponse.IsFirstPasswordChanged == "1")
-                            {
-                                HttpContext.Current.Session["IsFirstPasswordChanged"] = true;
-                                Response.Redirect("~/ChangePassword.aspx", false);
+                                if (objResponse.IsFirstLogin == "1")
+                                {
+                                    HttpContext.Current.Session["IsFirstLogin"] = true;                                    
+                                }
+                                if (objResponse.IsFirstPasswordChanged == "1")
+                                {
+                                    HttpContext.Current.Session["IsFirstPasswordChanged"] = true;                                    
+                                }
+                                if (objResponse.IsFirstLogin == "1")
+                                {
+                                    Response.Redirect("~/Settings.aspx", false);
+                                }
+                                else if (objResponse.IsFirstPasswordChanged == "1")
+                                {
+                                    Response.Redirect("~/ChangePassword.aspx", false);
+                                }
                             }
                             else
                             {

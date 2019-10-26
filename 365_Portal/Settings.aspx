@@ -22,15 +22,16 @@
                     <div class="row">
                         <div class="col-md-12">
                             <img class="circle user-photo" id="imgUserPic" src="Asset/images/profile.png" />
-                        </div>
+                        </div> 
                         <div class="col-md-12 mt-3">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">
+                                <%--<input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">--%>
+                                <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this)">
                                 <label class="custom-file-label" for="customFile">Change Profile Pic</label>
                             </div>
                         </div>
 
-                        <div>
+                        <div id="divCompanyLogo" style="display:none">
                             <div class="col-md-12">
                                 <img class="circle user-photo" id="imgCompanyLogo" src="Asset/images/CompanyLogo.png" />
                             </div>
@@ -108,7 +109,8 @@
         var accessToken = '<%=Session["access_token"]%>';
 
         var IsFirstLogin = '<%=Session["IsFirstLogin"]%>';
-        if (IsFirstLogin == 'False')
+        var IsFirstPasswordChanged = '<%=Session["IsFirstPasswordChanged"]%>';
+        if (IsFirstLogin != undefined && IsFirstLogin.toLowerCase() == 'false')
         {
             $('#divChangePassword').show();
         }
@@ -116,7 +118,13 @@
 
         $(document).ready(function () {
             debugger
-            //$('#divChangePassword').hide();
+
+            var Role = '<%=Session["RoleName"]%>';
+            if (Role != undefined && (Role == "superadmin" || Role == "companyadmin"))
+            {
+                $('#divCompanyLogo').show();
+            }
+
             GetUserProfileDetails();
         });
 
@@ -175,6 +183,23 @@
 
             $("#ddlGroup").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
             $("#ddlRole").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
+
+            $("#fileChangePic").attr("src", Data.ProfilePicFile);
+        }
+
+        var base64String='';
+        function encodeImagetoBase64(element) {
+            debugger
+            var file = element.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                base64String = reader.result;
+                //alert(base64String);
+                //$("#base64").attr("href", reader.result);
+                //rawString = $("#base64").text(reader.result);
+                //base64String = rawString[0].textContent.split(",").pop();
+            }
+            reader.readAsDataURL(file);
         }
 
         function UpdateUserProfileDetails() {
@@ -183,8 +208,8 @@
             var Position = $('#txtPosition').val();
             var EmailNotification = $('#cbEmailNotifications').prop('checked');
             var PushNotification = $('#cbPushNotifications').prop('checked');
-
-            var requestParams = { EmailID: EmailID, Position: Position, EmailNotification: EmailNotification, PushNotification: PushNotification};
+            
+            var requestParams = { EmailID: EmailID, Position: Position, EmailNotification: EmailNotification, PushNotification: PushNotification, ImageBase64: base64String};
             var getUrl = "/API/User/UpdateUserProfileDetails";
             $.ajax({
                 type: "POST",
@@ -200,6 +225,12 @@
                         if (DataSet.StatusCode == "1") {
                             //BindFields(DataSet.Data);
                             alert(DataSet.Data.ReturnMessage);
+                            if (IsFirstPasswordChanged != undefined && IsFirstPasswordChanged.toLowerCase() == 'true') {
+                                window.location.href = "ChangePassword.aspx";
+                            }
+                            else {
+                                location.reload();
+                            }
                         }
                         else {
                             //alert(DataSet.StatusDescription);
@@ -223,8 +254,7 @@
             $('#' + img).attr('src', URL.createObjectURL(ctrl.files[0]));
         }
 
-
-
+        
 
     </script>
 </asp:Content>
