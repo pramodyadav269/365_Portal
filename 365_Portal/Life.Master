@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 <html>
-<head runat="server"> 
+<head runat="server">
     <title></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -12,6 +12,7 @@
     <link href="Asset/css/all.css" rel="stylesheet" />
     <link href="Asset/css/gijgo.min.css" rel="stylesheet" />
     <link href="Asset/css/select2.min.css" rel="stylesheet" />
+    <link href="Asset/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="Asset/css/site.css" rel="stylesheet" />
 
     <%-- JS --%>
@@ -21,9 +22,13 @@
     <script src="Asset/js/bootstrap.min.js"></script>
     <script src="Asset/js/all.js"></script>
     <script src="Asset/js/gijgo.min.js"></script>
+    <script src="Asset/js/sweetalert.min.js"></script>
     <script src="Asset/js/bs-custom-file-input.min.js"></script>
     <script src="Asset/js/select2.min.js"></script>
+    <script src="Asset/js/jquery.dataTables.min.js"></script>
+    <script src="Asset/js/dataTables.bootstrap4.min.js"></script>
     <script src="Asset/js/site.js"></script>
+
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -58,7 +63,7 @@
 
                         <div class="profile dropdown">
                             <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="Asset/images/profile.png" class="circle" width="40" /><span class="name"><asp:Label ID="lblUserName" runat="server"  /></span>
+                                <img src="Asset/images/profile.png" class="circle" width="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" /></span>
                             </a>
                             <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
                                 <a class="dropdown-item" href="Profile.aspx">Profile</a>

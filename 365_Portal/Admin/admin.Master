@@ -5,13 +5,90 @@
 <html>
 <head runat="server">
     <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <%-- CSS --%>
+    <link href="../Asset/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Asset/css/all.css" rel="stylesheet" />
+    <link href="../Asset/css/gijgo.min.css" rel="stylesheet" />
+    <link href="../Asset/css/select2.min.css" rel="stylesheet" />
+    <link href="../Asset/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../Asset/css/site.css" rel="stylesheet" />
+
+
+    <%-- JS --%>
+    <script src="../Asset/js/jquery.min.js"></script>
+    <script src="../Asset/js/popper.min.js"></script>
+    <script src="../Asset/js/angular.min.js"></script>
+    <script src="../Asset/js/bootstrap.min.js"></script>
+    <script src="../Asset/js/all.js"></script>
+    <script src="../Asset/js/gijgo.min.js"></script>
+    <script src="../Asset/js/sweetalert.min.js"></script>
+    <script src="../Asset/js/bs-custom-file-input.min.js"></script>
+    <script src="../Asset/js/select2.min.js"></script>
+    <script src="../Asset/js/jquery.dataTables.min.js"></script>
+    <script src="../Asset/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../Asset/js/site.js"></script>
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    <form id="form1" runat="server" ng-app="MasterPage">
+
+        <div class="spinner-center d-none">
+            <div class="spinner">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
+            <div class="container">
+                <a class="navbar-brand" href="dashboard.aspx">
+                    <img src="../Asset/images/logo.svg" class="logo" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav mr-auto">
+                    </ul>
+                    <div class="form-inline nav-user">
+
+                        <%--<div class="notification dropdown">
+                            <a class="dropdown-toggle" id="navbarNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-lg"></i>Notifications <span class="badge bg-yellow circle">2</span></a>
+
+                            <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarNotification">
+                                <a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>
+                                <a class="dropdown-item unread" href="#">You’re <b>halfway</b> at completing all your modules! Congrats!</a>
+                                <a class="dropdown-item read" href="#">You just completed the <b>Staff Development topic</b></a>
+                                <a class="dropdown-item text-right font-weight-bold" href="#">Clear all</a>
+                            </div>
+                        </div>--%>
+
+                        <div class="profile dropdown">
+                            <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="../Asset/images/profile.png" class="circle" width="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" />User Name</span>
+                            </a>
+                            <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
+                                <a class="dropdown-item" href="Users.aspx">Users</a>
+                                <a class="dropdown-item" href="Topics.aspx">Topics</a>
+                                <a class="dropdown-item" href="Modules.aspx">Modules</a>
+                                <a class="dropdown-item" href="Contents.aspx">Contents</a>
+                                <a class="dropdown-item" href="#">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-5 mb-5">
+            <asp:ContentPlaceHolder ID="body" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </form>
