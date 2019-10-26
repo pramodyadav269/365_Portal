@@ -52,5 +52,9 @@ namespace _365_Portal.Models
             public static string BrowserName = "Browser Name";
             public static string BrowserVersion = "Browser Version";
         }
+        public  enum StatusCode {
+            Success=1,Failure=0
+
+        }
     }
 }

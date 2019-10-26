@@ -193,7 +193,7 @@ namespace _365_Portal.Controllers
                 {
                     if (NewPassword.Trim().ToLower() != OldPassword.Trim().ToLower())
                     {
-                        var UserBO = UserDAL.GetUserDetailsByUserID(identity.EmailID, "");
+                        var UserBO = UserDAL.GetUserDetailsByUserID(identity.UserID, "");
                         var OldPasswordSalt = UserBO.PasswordSalt;
                         var OldPasswordHash = Utility.GetHashedPassword(OldPassword, OldPasswordSalt);
 
@@ -231,54 +231,54 @@ namespace _365_Portal.Controllers
                                         {
 
                                             data = ConstantMessages.ChangePassowrd.Error;
-                                            data = Utility.Failed(data);
+                                            data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(),data);
                                         }
 
                                     }
                                     else
                                     {
                                         data = ConstantMessages.ChangePassowrd.Error;
-                                        data = Utility.Failed(data);
+                                        data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                                     }
                                 }
                                 catch (Exception ex)
                                 {
                                     data = ConstantMessages.ChangePassowrd.Error;
-                                    data = Utility.Failed(data);
+                                    data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                                 }
                             }
                             else
                             {
 
                                 data = ConstantMessages.ChangePassowrd.Password_Validation;
-                                data = Utility.Failed(data);
+                                data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                             }
                         }
                         else
                         {
                             data = ConstantMessages.ChangePassowrd.PasswordMisMatch;
-                            data = Utility.Failed(data);
+                            data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                         }
                     }
                     else
                     {
                         data = ConstantMessages.ChangePassowrd.PasswordMacth;
-                        data = Utility.Failed(data);
+                        data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                     }
                 }
                 else
                 {
                     data = ConstantMessages.ChangePassowrd.PasswordEmpty;
-                    data = Utility.Failed(data);
+                    data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                 }
 
             }
             else
             {
                 data = Utility.AuthenticationError();
-                data = Utility.Failed(data);
+                data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
             }
-            return new APIResult(data, Request);
+            return new APIResult( Request,data);
         }
 
         /// <summary>
