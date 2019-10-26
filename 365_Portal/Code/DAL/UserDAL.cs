@@ -80,7 +80,6 @@ namespace _365_Portal.Code.DAL
             objRequest = null;
             return objResponse;
         }
-
         public static int UserLogout(LoginRequest objRequest)
         {
             string constr = ConfigurationSettings.AppSettings["conString"].ToString();
@@ -117,32 +116,17 @@ namespace _365_Portal.Code.DAL
             }
         }
 
-        public static UserBO GetUserDetails(string UserId, string Ref1)
+        public static UserBO GetUserDetailsByEmailID(string EmailID, string Ref1)
         {
-            /*
-            UserBO objUser = new UserBO();
-            objUser.UserID = "0";
-            objUser.RoleID = "4";
-            objUser.Role = "EndUser";
-            objUser.IsFirstLogin = false;
-            objUser.ProfilePicFileID = "";
-            objUser.FirstName = "Pramod";
-            objUser.LastName = "Yadav";
-            objUser.EmailID = "PramodYadav269@gmail.com";
-            objUser.MobileNum = "9930315629";
-            objUser.Position = "EndUser";
-            objUser.PasswordHash = "";
-            objUser.PasswordSalt = "2019-10-12";
-            */
             UserBO objUser = null;
 
             MySqlParameter[] param = new MySqlParameter[2];
-            param[0] = new MySqlParameter("p_EmailID", UserId);
+            param[0] = new MySqlParameter("p_EmailID", EmailID);
             param[1] = new MySqlParameter("p_Ref1", Ref1);
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
-            DataTable dt = DBConnection.GetDataTable("spGetUserDetails", cmd, "");
+            DataTable dt = DBConnection.GetDataTable("spGetUserDetailsByEmailID", cmd, "");
 
             if (dt.Rows.Count > 0)
             {
@@ -162,6 +146,88 @@ namespace _365_Portal.Code.DAL
             }            
             return objUser;
         }
+        public static UserBO GetUserDetailsByUserID(string UserId, string Ref1)
+        {
+            UserBO objUser = null;
+
+            MySqlParameter[] param = new MySqlParameter[2];
+            param[0] = new MySqlParameter("p_UserID", UserId);
+            param[1] = new MySqlParameter("p_Ref1", Ref1);
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.AddRange(param);
+            DataTable dt = DBConnection.GetDataTable("spGetUserDetailsByUserID", cmd, "");
+
+            if (dt.Rows.Count > 0)
+            {
+                objUser = new UserBO();
+                objUser.CompId = Convert.ToInt32(dt.Rows[0]["CompID"]);
+                objUser.UserID = dt.Rows[0]["UserID"].ToString();
+                objUser.RoleID = dt.Rows[0]["RoleID"].ToString();
+                objUser.Role = dt.Rows[0]["RoleName"].ToString();
+                objUser.FirstName = dt.Rows[0]["FirstName"].ToString();
+                objUser.LastName = dt.Rows[0]["LastName"].ToString();
+                objUser.EmailID = dt.Rows[0]["EmailID"].ToString();
+                objUser.MobileNum = dt.Rows[0]["MobileNum"].ToString();
+                objUser.Position = dt.Rows[0]["Position"].ToString();
+                objUser.ProfilePicFileID = dt.Rows[0]["ProfilePicFileID"].ToString();
+                objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
+                objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
+
+                if (dt.Rows[0]["EmailNotification"].ToString() == "")
+                {
+                    objUser.EmailNotification = false;
+                }
+                else
+                {
+                    objUser.EmailNotification = Convert.ToBoolean(dt.Rows[0]["EmailNotification"]);
+                }
+                if (dt.Rows[0]["PushNotification"].ToString() == "")
+                {
+                    objUser.PushNotification = false;
+                }
+                else
+                {
+                    objUser.PushNotification = Convert.ToBoolean(dt.Rows[0]["PushNotification"]);
+                }                    
+            }
+            return objUser;
+        }
+
+        public static ResponseBase UpdateUserDetailsByUserID(UserBO _userdetail, string Ref1)
+        {
+            ResponseBase objResponse = null;
+
+            MySqlParameter[] param = new MySqlParameter[9];
+            param[0] = new MySqlParameter("p_UserID", _userdetail.UserID);
+            param[1] = new MySqlParameter("p_EmailID", _userdetail.EmailID);
+            param[2] = new MySqlParameter("p_FirstName", _userdetail.FirstName);
+            param[3] = new MySqlParameter("p_LastName", _userdetail.LastName);
+            param[4] = new MySqlParameter("p_Position", _userdetail.Position);
+            param[5] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
+            param[6] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
+            param[7] = new MySqlParameter("p_ProfilePicFileID", _userdetail.ProfilePicFileID);
+            param[8] = new MySqlParameter("p_Ref1", Ref1);
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.AddRange(param);
+            DataTable dt = DBConnection.GetDataTable("spUpdateUserDetailsByUserID", cmd, "");
+
+            if (dt.Rows.Count > 0)
+            {
+                objResponse = new ResponseBase();
+                objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
+                objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
+            }
+            else
+            {
+                objResponse = new ResponseBase();
+                objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorCode;
+                objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
+            }
+            return objResponse;
+        }
+
         public static DataSet CreateUser(UserBO userdetails)
         {
             DataSet ds = new DataSet();
@@ -237,9 +303,6 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-
-
-
         public static DataSet GetUsers( string UserId, string RoleId, string EmailId,string GroupId,string MobileNo, string Position, string CreatedBy)
         {
             DataSet ds = new DataSet();
@@ -275,7 +338,6 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-
         public static DataSet CreateGroup(Int32 CompId, string GroupName, string Description, string CreatedBy)
         {
             DataSet ds = new DataSet();
@@ -306,8 +368,6 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-
-
         public static DataSet DeleteGroup(Int32 CompId, Int32 GroupId, string CreatedBy)
         {
             DataSet ds = new DataSet();
@@ -337,10 +397,6 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-
-
-
-
         public static DataSet SetUserPassword(Int32 CompId, string UserId, string Password, string CreatedBy)
         {
             DataSet ds = new DataSet();

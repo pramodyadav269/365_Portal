@@ -42,7 +42,7 @@ namespace _365_Portal
             if (identity != null)
             {
                 UserBO objUser = new UserBO();
-                objUser = UserDAL.GetUserDetails(context.UserName,null);
+                objUser = UserDAL.GetUserDetailsByEmailID(context.UserName,null);
 
                 identity.AddClaim(new Claim(UserClaim.CompId, objUser.CompId.ToString()));
                 identity.AddClaim(new Claim(UserClaim.UserID, objUser.UserID.ToString()));

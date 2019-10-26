@@ -26,10 +26,8 @@ namespace _365_Portal
 
     public class UserBO
     {
-        public Int32 Id { get; set; }
         public string UserID { get; set; }
         public string UserKey { get; set; }
-        public string ProfilePicPath { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -56,15 +54,13 @@ namespace _365_Portal
         public bool PushNotification { get; set; }
         public string ThemeColor { get; set; }
         public string Logo { get; set; }
-        public string ProfilePic { get; set; }
         public string GroupId { get; set; }
         public Int32 CompId { get; set; }
         public string RoleID { get; set; }
-        public string ErrorCode { get; set; }
         public string Role { get; set; }
-        public string ErrorMessage { get; set; }
         public bool IsFirstLogin { get; set; }
         public string ProfilePicFileID { get; set; }
+        public string ProfilePicFile { get; set; }
         public string IsFirstPasswordChanged { get; set; }
     }
 }

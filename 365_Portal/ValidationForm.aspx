@@ -38,7 +38,7 @@
         <div class="col-sm-3">
             <div class="form-group">
                 <label for="select">Select</label>
-                <select class="form-control select2 required" id="select">
+                <select class="form-control select2 required" id="select" style="width: 100% !important">
                     <option></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -50,7 +50,7 @@
         <div class="col-sm-3">
             <div class="form-group">
                 <label for="selectMultiple">Select Multiple</label>
-                <select class="form-control select2 required" multiple id="selectMultiple">
+                <select class="form-control select2 required" multiple id="selectMultiple" style="width: 100% !important">
                     <option></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -101,11 +101,11 @@
 
     <script>
 
-        $(document).ready(function () {
-            $('.datetime').datetimepicker({ uiLibrary: 'bootstrap4', footer: true, format: 'yyyy-dd-mm hh:mm' });
-            $('.date').datepicker({ uiLibrary: 'bootstrap4', footer: true, format: 'yyyy-dd-mm' });
-            $('.time').timepicker({ uiLibrary: 'bootstrap4', footer: true });
+        //$(document).ready(function () {
+        //    $('.datetime').datetimepicker({ uiLibrary: 'bootstrap4', footer: true, format: 'yyyy-dd-mm hh:mm' });
+        //    $('.date').datepicker({ uiLibrary: 'bootstrap4', footer: true, format: 'yyyy-dd-mm' });
+        //    $('.time').timepicker({ uiLibrary: 'bootstrap4', footer: true });
 
-        });
+        //});
     </script>
 </asp:Content>

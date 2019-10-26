@@ -25,6 +25,26 @@ img.logo {
     border-radius: .5rem;
 }
 
+.spinner-center {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    z-index: 9999;
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.swal-footer {
+    text-align: center !important;
+}
+
+
 .page-card {
     margin: 5.5rem 0;
 }
@@ -163,8 +183,7 @@ a.link, a.link:hover {
         background-image: none;
     }
 
-.custom-control-input.is-valid ~ .custom-control-label, .was-validated .custom-control-input:valid ~ .custom-control-label
-,.custom-control-input.is-invalid~.custom-control-label, .was-validated .custom-control-input:invalid~.custom-control-label{
+.custom-control-input.is-valid ~ .custom-control-label, .was-validated .custom-control-input:valid ~ .custom-control-label, .custom-control-input.is-invalid ~ .custom-control-label, .was-validated .custom-control-input:invalid ~ .custom-control-label {
     color: #000;
 }
 
@@ -762,4 +781,9 @@ p.anchor {
 
 .b-red-2 {
     border: 2px solid #f74e35 !important
+}
+
+table.table-bordered.dataTable tbody td .svg-inline--fa {
+    margin-right: .75rem;
+    cursor: pointer;
 }

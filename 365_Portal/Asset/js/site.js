@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('select.select2').select2({
         placeholder: "Select a option",
         allowClear: true
-    }); 
+    });
 
     bsCustomFileInput.init();
 
@@ -25,9 +25,33 @@ function QueryStringValue(param) {
     }
 }
 
+function loader(acion) {
+    if (acion === 1) {
+        $('.spinner-center').removeClass('d-none');
+    } else if (acion === 0) {
+        $('.spinner-center').addClass('d-none');
+    }
+}
+
 function toggle(view, hide) {
     $('#' + view).removeClass('d-none');
     $('#' + hide).addClass('d-none');
+}
+
+
+function clearFields(container) {
+    var inputs = $(container);
+
+    inputs.find('[type=text],[type=number],[type=email],textarea').val(null);
+    inputs.find('select.select2').val(null).trigger('change');
+    inputs.find('input[type="file"]').val(null);
+    inputs.find('.custom-file .custom-file-label').text('Choose file');
+    inputs.find('[type=radio], [type=checkbox]').prop('checked', false);
+
+
+    inputs.find('.is-invalid').removeClass('is-invalid').removeClass('is-valid');
+    inputs.find('.is-valid').removeClass('is-invalid').removeClass('is-valid');
+
 }
 
 function inputValidation(container) {
