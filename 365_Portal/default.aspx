@@ -24,13 +24,13 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4 mb-3" ng-repeat="topic in Topics">
-                                <a href="#" ng-click="GetModulesByTopic()">
+                                <a href="#" ng-click="GetModulesByTopic(topic.TopicId)">
                                     <div class="card border-0 shadow mb-3">
                                         <div class="card-body">
                                             <h5 class="card-title">{{topic.Title}}</h5>
                                             <p class="card-text">{{topic.Description}}</p>
                                             <p ng-show="topic.IsCompleted == '1'" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
-                                            <p ng-show="topic.IsCompleted != '1'" class="text-right anchor">{{topic.Progress}}</p>
+                                            <p ng-show="topic.IsCompleted != '1'" class="text-right anchor">{{topic.CompletedModules + '/' + topic.TotalModules}}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -46,18 +46,18 @@
         <div id="dvModuleContainer" class="row modules" ng-show="ActiveContainer =='Module'">
             <div class="col-md-12">
                 <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>BACK TO TOPICS</a>
-                <h1 class="text-center font-weight-bold">{{Module.TopicTitle}}</h1>
+                <h1 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h1>
                 <h6 class="text-center section-title mt-3 color-0-25">TOPIC</h6>
             </div>
             <div class="col-md-6 mt-4 offset-md-3 completed-progress">
                 <div class="row">
                     <div class="col-12">
-                        <p class="float-left"><span>{{Module.CompletedModules}} of {{Module.TotalModules}}</span> modules completed</p>
+                        <p class="float-left"><span>{{SelectedTopic.CompletedModules}} of {{SelectedTopic.TotalModules}}</span> modules completed</p>
                         <i class="fas fa-trophy fa-lg float-right"></i>
                     </div>
                     <div class="col-12">
                         <div class="progress border-radius-0">
-                            <div class="progress-bar bg-green" role="progressbar" ng-style="{ 'width': Module.CompletedPercentage + '%' }"
+                            <div class="progress-bar bg-green" role="progressbar" ng-style="{ 'width': (SelectedTopic.CompletedModules / SelectedTopic.TotalModules) * 100 + '%' }"
                                 aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
@@ -72,13 +72,13 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4 mb-3" ng-repeat="module in Module.UnlockedItems">
-                                <a href="#" ng-click="GetContentsByModule()">
+                                <a href="#" ng-click="GetContentsByModule(module.TopicID,module.ModuleID)">
                                     <div class="card border-0 shadow mb-3">
                                         <div class="card-body">
                                             <h5 class="card-title">{{module.Title}}</h5>
                                             <p class="card-text">{{module.Description}}</p>
                                             <p ng-show="module.IsCompleted == 1" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
-                                            <p ng-show="module.IsCompleted != 1" class="text-right anchor">{{module.Progress}}</p>
+                                            <p ng-show="module.IsCompleted != 1" class="text-right anchor">{{module.CompletedContents + '/' + module.TotalContents}}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -113,19 +113,19 @@
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Module')"><i class="fas fa-arrow-left"></i>Back to Modules</a>
                 <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
-                <h1 class="text-center font-weight-bold">{{Content.ModuleName}}</h1>
+                <h1 class="text-center font-weight-bold">{{SelectedModule.Title}}</h1>
                 <h6 class="text-center header-sub-title mt-3">Module</h6>
             </div>
 
             <div class="col-md-6 mt-4 offset-md-3 completed-progress">
                 <div class="row">
                     <div class="col-12">
-                        <p class="float-left"><span>{{Content.CompletedModules}} of {{Content.TotalModules}}</span> modules completed</p>
+                        <p class="float-left"><span>{{SelectedModule.CompletedContents}} of {{SelectedModule.TotalContents}}</span> contents completed</p>
                         <i class="fas fa-trophy fa-lg float-right"></i>
                     </div>
                     <div class="col-12">
                         <div class="progress border-radius-0">
-                            <div class="progress-bar bg-green" role="progressbar" ng-style="{ 'width': Content.CompletedPercentage + '%' }"
+                            <div class="progress-bar bg-green" role="progressbar" ng-style="{ 'width': (SelectedModule.CompletedContents / SelectedModule.TotalContents) * 100  + '%' }"
                                 aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
@@ -144,19 +144,23 @@
                     </div>
 
                     <div class="col-md-12 mb-3" ng-repeat="content in Content.UnlockedItems">
-                        <a href="#" ng-click="ViewContent(content.Title,content.Type)">
+                        <a href="#" ng-click="ViewContent(content.TopicID,content.ModuleID,content.ContentID,content.Title,content.ContentType)">
                             <div class="card border-0 shadow mb-3">
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img src="Asset/images/pdf-file.png" />
+                                            <img ng-show="content.ContentType=='PDF'" src="Asset/images/pdf-file.png" />
+                                            <img ng-show="content.ContentType=='VIDEO'" src="Asset/images/video-file.png" />
+                                            <img ng-show="content.ContentType=='SURVEY'" src="Asset/images/survey.png" />
+                                            <img ng-show="content.ContentType=='FLASHCARD'" src="Asset/images/flash-card.png" />
+                                            <img ng-show="content.ContentType=='FINALQUIZ'" src="Asset/images/exam.png" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
                                             <p class="card-text">{{content.Description}}</p>
                                         </div>
                                         <div class="col-sm-1 col-md-1 col-lg-1">
-                                            <p class="anchor text-right"><i class="fas fa-check c-green"></i></p>
+                                            <p ng-show="content.IsCompleted =='1'" class="anchor text-right"><i class="fas fa-check c-green"></i></p>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +174,11 @@
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img src="Asset/images/pdf-file.png" />
+                                            <img ng-show="content.ContentType == 'PDF'" src="Asset/images/pdf-file.png" />
+                                            <img ng-show="content.ContentType == 'VIDEO'" src="Asset/images/video-file.png" />
+                                            <img ng-show="content.ContentType == 'SURVEY'" src="Asset/images/survey.png" />
+                                            <img ng-show="content.ContentType == 'FLASHCARD'" src="Asset/images/flash-card.png" />
+                                            <img ng-show="content.ContentType == 'FINALQUIZ'" src="Asset/images/exam.png" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
@@ -197,33 +205,32 @@
 
             <div class="col-md-10 mt-5 offset-md-1">
                 <div class="row">
-                    <div class="col-md-12 mb-3" id="pdfContent" ng-show="SpecialContents.FileType == 'PDF'">
-                        <%-- <embed src="Asset/data/test.pdf" />--%>
-                        <div class="contents-datials embed" id="divPDF">
+                    <div class="col-md-12 mb-3" id="pdfContent" ng-show="SpecialContents.DocType == 'PDF'">
+                        <div id="divPDF">
                         </div>
                         <div class="text-center mt-5">
                             <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="toggleSection('video')">Continue</a>
                         </div>
                     </div>
 
-                    <div class="col-md-10 offset-md-1 mb-3 text-center" id="videoContent" ng-show="SpecialContents.FileType == 'VIDEO'">
+                    <div class="col-md-10 offset-md-1 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
                         <div class="row">
                             <div id="dvVideoRating" style="display: none;" class="col-md-12 video-rating text-white d-none">
                                 <h2 class="font-weight-bold">How did you like the video?</h2>
                                 <dl class="row text-center">
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.ContentID,1)">
+                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,1)">
                                         <i class="far fa-grin-hearts fa-5x"></i>
                                         <span>Love it!</span>
                                     </dt>
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.ContentID,1)">
+                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,2)">
                                         <i class="far fa-grin-beam fa-5x"></i>
                                         <span>Like it!</span>
                                     </dt>
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.ContentID,1)">
+                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,3)">
                                         <i class="far fa-meh fa-5x"></i>
                                         <span>Meh</span>
                                     </dt>
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.ContentID,1)">
+                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,4)">
                                         <i class="far fa-frown fa-5x"></i>
                                         <span>Didn't like it!</span>
                                     </dt>
@@ -240,10 +247,9 @@
                                 </div>
                             </div>
                             <div class="col-md-12 mt-4 overview text-left">
-                                <h5 class="font-weight-bold text-uppercase">Goal setting - How to get over obstacles?</h5>
+                                <h5 class="font-weight-bold text-uppercase">{{SelectedContent.Title}}</h5>
                                 <p>
-                                    In this video, we’ll go through the basics of goal setting. Goals are an important aspect 
-                            of motivation and can help you a lot in the long-term.
+                                    {{SelectedContent.Description}}
                                 </p>
                             </div>
                         </div>
@@ -264,12 +270,12 @@
                             <div class="card-body question">
                                 <div class="row align-items-center content-type">
                                     <div class="col-md-2">
-                                        <h1 class="card-title display-4 font-weight-bold">{{$index}}.</h1>
+                                        <h1 class="card-title display-4 font-weight-bold">{{$index + 1}}.</h1>
                                     </div>
                                     <div class="col-md-10 question-content">
                                         <h5 class="card-title">{{question.Title}}</h5>
 
-                                        <div ng-show="question.QuestionType == 1 ">
+                                        <div ng-show="question.QuestionTypeID == 1 ">
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="checkbox" id="{{'chkAnsOption_' + $index}}" class="custom-control-input" name="ansOption.AnswerText" value="ansOption.AnswerID">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
@@ -291,31 +297,31 @@
                                             </span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                                         </div>--%>
 
-                                        <div class="form-group" data-select2-id="5" ng-show="question.QuestionType == 2 " data-select2-id="selectMultiple" tabindex="-1" aria-hidden="true">
+                                        <div class="form-group" data-select2-id="5" ng-show="question.QuestionTypeID == 2 " data-select2-id="selectMultiple" tabindex="-1" aria-hidden="true">
                                             <select class="form-control select2 select2-hidden-accessible" multiple="">
                                                 <option data-select2-id="14" ng-repeat="ansOption in question.AnswerOptions" value="ansOption.AnswerID">{{ansOption.AnswerText}}</option>
                                             </select>
                                         </div>
 
-                                        <div class="custom-control custom-radio" ng-show="question.QuestionType == 3 ">
+                                        <div class="custom-control custom-radio" ng-show="question.QuestionTypeID == 3 ">
                                             <div ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="radio" id="{{'rbAnsOption_' + $index}}" name="ansOption.AnswerText" class="custom-control-input" value="ansOption.AnswerID">
                                                 <label class="custom-control-label" for="{{'rbAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
 
-                                        <div ng-show="question.QuestionType == 9 " class="box">
+                                        <div ng-show="question.QuestionTypeID == 9 " class="box">
                                             <div ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="checkbox" id="{{'rbAnsOption_' + $index}}" name="ansOption.AnswerText" value="ansOption.AnswerID">
                                                 <label for="{{'rbAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
 
-                                        <div ng-show="question.QuestionType == 4 " class="custom-file">
+                                        <div ng-show="question.QuestionTypeID == 4 " class="custom-file">
                                             <input type="file" class="custom-file-input" id="file"><label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
 
-                                        <div ng-show="question.QuestionType == 5" class="rating">
+                                        <div ng-show="question.QuestionTypeID == 5" class="rating">
                                             <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate10" /><label for="rbSurveyRate10">10</label>
                                             <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate9" /><label for="rbSurveyRate9">9</label>
                                             <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate8" /><label for="rbSurveyRate8">8</label>
@@ -328,22 +334,22 @@
                                             <input type="radio" name="ansOption.AnswerText" value="1" id="rbSurveyRate1" /><label for="rbSurveyRate1">1</label>
                                         </div>
 
-                                        <div ng-show="question.QuestionType == 6 ">
+                                        <div ng-show="question.QuestionTypeID == 6 ">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="text" placeholder="Type your answer here">
                                             </div>
                                         </div>
 
-                                        <div ng-show="question.QuestionType == 7">
+                                        <div ng-show="question.QuestionTypeID == 7">
                                             <div class="form-group">
                                                 <textarea class="form-control" placeholder="Type your answer here" id="textarea"></textarea>
                                             </div>
                                         </div>
 
-                                        <div ng-show="question.QuestionType == 8 ">
+                                        <div ng-show="question.QuestionTypeID == 8 ">
                                             <div class="form-group">
                                                 <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group">
-                                                    <input type="text" class="form-control date" id="date" placeholder="Select Date" data-type="datepicker" data-guid="a55dfd8e-b9b5-0a16-2e0b-1268af1fae1d" data-datepicker="true" role="input"><span class="input-group-append" role="right-icon">
+                                                    <input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" data-type="datepicker" data-guid="a55dfd8e-b9b5-0a16-2e0b-1268af1fae1d" data-datepicker="true" role="input"><span class="input-group-append" role="right-icon">
                                                         <button class="btn btn-custom btn-outline-secondary border-left-0" type="button"><i class="gj-icon">event</i></button></span>
                                                 </div>
                                             </div>
@@ -380,32 +386,32 @@
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-show="ActiveSubContainer =='FlashcardIntro'">
                         <h2>Flashcard intro</h2>
-                        <h5 class="font-weight-bold">{{SpecialContents.FlashcardIntro.Title}}</h5>
+                        <h5 class="font-weight-bold">{{SpecialContents.FlashcardTitle}}</h5>
                         <ul>
-                            <li ng-repeat="highlight in SpecialContents.FlashcardIntro.Highlights">{{highlight.Content}}</li>
+                             <li ng-repeat="highlight in SpecialContents.FlachardsIntro">{{highlight.Comments}}</li>
                         </ul>
                         <div class="w-100 mt-5">
-                            <a href="#" class="link font-weight-bold float-left">Skip Flashcards</a>
+                            <a ng-show="SpecialContents.SkipFlashcards == '1'" href="#" class="link font-weight-bold float-left">Skip Flashcards</a>
                             <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white float-right" ng-click="ShowFlashcardSlides()">Let's Go</a>
                         </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 mb-3 overview" id="divFlashcard" ng-show="ActiveSubContainer =='FlashcardSlides'">
-                        <div ng-repeat="flashcardSlide in SpecialContents.FlashcardSlides" ng-show="$index == CurrIndex">
+                        <div ng-repeat="flashcardSlide in SpecialContents.Flachards" ng-show="$index == CurrIndex">
                             <div class="flashcard">
                                 <div class="card border-0">
                                     <img class="card-img-top circle mx-auto" src="Asset/images/profile.png" />
                                     <div class="card-body">
                                         <p class="card-text">
-                                            {{flashcardSlide.Content}}
+                                            {{flashcardSlide.Description}}
                                         </p>
-                                        <p class="text-right anchor">1/4</p>
+                                        <p class="text-right anchor">{{($index + 1) +'/'+ (SpecialContents.Flachards).length}}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="w-100 mt-5 text-center">
                                 <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2" id="btnPrevCard" ng-click="FlashcardPreviousClicked($index,SpecialContents.TotalFlashcardSlides)">{{$index ==0 ? 'Previous' :'Previous Card'}}</a>
                                 <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextCard" ng-click="FlashcardNextClicked($index,SpecialContents.TotalFlashcardSlides)">{{($index + 1) == SpecialContents.TotalFlashcardSlides ? 'Begin Flashcard Quiz' :'Next Card'}}</a>
-                                <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white" id="btnBeginQuiz" ng-click="FlashcardNextClicked($index,SpecialContents.TotalFlashcardSlides)">{{($index + 1) == SpecialContents.TotalFlashcardSlides ? 'Begin Flashcard Quiz' :'Next Card'}}</a>
+                                <%--                                <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white" id="btnBeginQuiz" ng-click="FlashcardNextClicked($index,SpecialContents.TotalFlashcardSlides)">{{($index + 1) == SpecialContents.TotalFlashcardSlides ? 'Begin Flashcard Quiz' :'Next Card'}}</a>--%>
                             </div>
                         </div>
                     </div>
@@ -558,6 +564,8 @@
             $('#videoControl').removeClass('d-none');
             $('#vdVideoPlayer')[0].pause();
         }
+
+        var accessToken = '<%=Session["access_token"]%>';
 
         //function VideoClicked(cntrl) {
         //    // $("#vdVideoPlayer").trigger( "click" );

@@ -37,7 +37,7 @@
 
         });
         var accessToken = '<%=Session["access_token"]%>';
-        
+
         function ChangePassword() {
             var Old_Password = $('#txtCurrentPassword').val();
             var Confirmed_Password = $('#txtNewPasswordAgain').val();
@@ -51,14 +51,24 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        var DataSet = $.parseJSON($.parseJSON(response));
+                        var DataSet = $.parseJSON(response);
                         console.log(response);
                         if (DataSet.StatusCode == "1") {
-                            alert(DataSet.Data[0].ReturnMessage);
+                            //alert(DataSet.Data[0].ReturnMessage);
+                            swal({
+                                title: "Success",
+                                text: "Password has been Changed Successfully",
+                                type: "success",
+                                icon: "success"
+                            });
                             ClearFields();
                         }
                         else {
-                            alert(DataSet.Data[0].ReturnMessage);
+                            swal({
+                                title: "Failure",
+                                text: DataSet.StatusDescription,
+                                type:"erro"
+                            });                           
                             ClearFields();
                         }
                     }
