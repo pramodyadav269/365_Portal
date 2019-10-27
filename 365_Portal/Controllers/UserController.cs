@@ -224,6 +224,7 @@ namespace _365_Portal.Controllers
                                         DataTable dt = ds.Tables["Data"];
                                         if (dt.Rows[0]["ReturnCode"].ToString() == "1")
                                         {
+                                            HttpContext.Current.Session["IsFirstPasswordChanged"] = false;
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
                                         }
@@ -231,54 +232,54 @@ namespace _365_Portal.Controllers
                                         {
 
                                             data = ConstantMessages.ChangePassowrd.Error;
-                                            data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(),data);
+                                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                                         }
 
                                     }
                                     else
                                     {
                                         data = ConstantMessages.ChangePassowrd.Error;
-                                        data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                                     }
                                 }
                                 catch (Exception ex)
                                 {
                                     data = ConstantMessages.ChangePassowrd.Error;
-                                    data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                                 }
                             }
                             else
                             {
 
                                 data = ConstantMessages.ChangePassowrd.Password_Validation;
-                                data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
                         }
                         else
                         {
                             data = ConstantMessages.ChangePassowrd.PasswordMisMatch;
-                            data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
                     }
                     else
                     {
                         data = ConstantMessages.ChangePassowrd.PasswordMacth;
-                        data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
                 }
                 else
                 {
                     data = ConstantMessages.ChangePassowrd.PasswordEmpty;
-                    data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                 }
 
             }
             else
             {
                 data = Utility.AuthenticationError();
-                data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
             }
-            return new APIResult( Request,data);
+            return new APIResult(Request, data);
         }
 
         /// <summary>
@@ -345,7 +346,7 @@ namespace _365_Portal.Controllers
         public IHttpActionResult GetUserProfileDetails()//JObject requestParams
         {
             var data = string.Empty;
-            UserBO _userdetail = new UserBO();            
+            UserBO _userdetail = new UserBO();
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
             if (identity != null)
             {
@@ -390,7 +391,7 @@ namespace _365_Portal.Controllers
                 UserBO _userdetail = new UserBO();
                 _userdetail.UserID = identity.UserID;
                 _userdetail.EmailID = (string)requestParams.SelectToken("EmailID");
-                _userdetail.Position = (string)requestParams.SelectToken("Position");                
+                _userdetail.Position = (string)requestParams.SelectToken("Position");
                 _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
                 _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
 
@@ -406,8 +407,8 @@ namespace _365_Portal.Controllers
                     data = Utility.Successful(data);
                 }
                 else
-                {                    
-                    data = Utility.Failed(data);    
+                {
+                    data = Utility.Failed(data);
                 }
             }
             else
@@ -415,6 +416,59 @@ namespace _365_Portal.Controllers
                 data = Utility.AuthenticationError();
             }
             return new APIResult(data, Request);
+        }
+
+        /// <summary>
+        /// Forgot/Reset password Api
+        /// </summary>
+        /// <param name="jsonResult"></param>
+        /// <returns>
+        /// Result as True or false 
+        /// </returns>
+        [HttpPost]
+        [Route("API/User/ForgotPassword")]
+        public IHttpActionResult ForgotPassword(JObject requestParams)
+        {
+            var data = string.Empty;
+            //UserBO _userdetail = new UserBO();
+            string EmailId = requestParams["EmailId"].ToString();
+            Regex regex = new Regex(@"^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
+            Match mtch = regex.Match(EmailId);
+            if (!string.IsNullOrEmpty(EmailId))
+            {
+                if (mtch.Success)
+                {
+                    var identity = UserDAL.GetUserDetailsByEmailID(EmailId, string.Empty);
+                    if (identity != null)//User Entered EamilId(User) is present in system or not
+                    {
+                        if (identity.IsDeleted.ToString() == ConstantMessages.ForgotPassowrd.InActiveUserCode)//User is active or Inactive
+                        {
+                            data = ConstantMessages.ForgotPassowrd.InActiveUser;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                        else
+                        {
+                            data = "";
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.ForgotPassowrd.InValidUser;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+                }
+                else
+                {
+                    data = ConstantMessages.ForgotPassowrd.EmailMisMatch;
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            else
+            {
+                data = ConstantMessages.ForgotPassowrd.EmailIdEmpty;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+            return new APIResult(Request, data);
         }
     }
 }

@@ -143,6 +143,7 @@ namespace _365_Portal.Code.DAL
                 objUser.ProfilePicFileID = dt.Rows[0]["ProfilePicFileID"].ToString();
                 objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
                 objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
+                objUser.IsDeleted = Convert.ToBoolean(dt.Rows[0]["IsActive"]);//new field added by for Forgot Password in Field Isdeleted
             }            
             return objUser;
         }

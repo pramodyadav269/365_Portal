@@ -113,5 +113,40 @@ namespace _365_Portal.Code.BL
         }
 
 
+        /// <summary>
+        /// Send OTP on provided mobile number/s
+        /// </summary>
+        /// <param name="mobileNumbers"></param>
+        /// <param name="OTP"></param>
+        /// <returns></returns>
+        public string SendPasswordLink(int CompId,int UserId, long MobileNum, string EmailId, string Type)
+        {
+            string res = "";
+            int OTP = Utility.GenerateOTP();
+            //If otp type is for success message than skip otp code..            
+                try
+                {
+                    res = "1";
+
+                }
+                catch (Exception ex)
+                {
+                    res = "0";
+                }
+            
+            if (Type == "Email")
+            {
+                // Send OTP on email-id.
+                //SendEmail(FROM_EMAIL, emailId, GetMobileOTPVerificationMail(userName, OTP.ToString()), GetMobileOTPVerificationMailSubject());
+            }
+            else if (Type == "Mobile")
+            {
+                // Send OTP on mobile phone..
+                //string template = WebConfigurationManager.AppSettings["SMS_OTP_Template"].Replace("~OTP~", OTP.ToString());
+                //SendSMS(new long[] { mobileNum }, template);
+            }
+            return res;
+        }
+
     }
 }

@@ -10,7 +10,7 @@ namespace _365_Portal.Models
         public class Login
         {
             public static string InvalidUserCode = "2";
-            public static string InvalidUser = "Invalid EmailId or Password.";            
+            public static string InvalidUser = "Invalid EmailId or Password.";
         }
         public class WebServiceLog
         {
@@ -34,7 +34,8 @@ namespace _365_Portal.Models
         {
             public static string Portal_365 = "365_Portal";
         }
-        public class ChangePassowrd {
+        public class ChangePassowrd
+        {
             public static string Success = "Password changed Successfully";
             public static string Success_Code = "200";
             public static string Error = "Error occured while Changing Password";
@@ -45,6 +46,20 @@ namespace _365_Portal.Models
             public static string PasswordMacth = "Old Password and New Password can't be same";
 
         }
+
+        public class ForgotPassowrd
+        {
+            public static string EmailIdEmpty = "Email can't be empty";
+            public static string InValidUser = "User doesn't exist";
+            public static string InActiveUser = "User is not Active";
+            public static string LockedUser = "User is Locked";
+            public static string EmailMisMatch = "EmailId is entered is not correct";
+            public static string OTPSendMsg = "Otp has been send to ur Registered Mobile No";
+            public static string EmailSendMsg = "An Eamil has been send to your Registered EmailId";
+            public static string InActiveUserCode = "0";
+            public static string Type_0 = "OTP";
+            public static string Type_1 = "Mobile";
+        }
         public class DeviceInfo
         {
             public static string InfoType = "Device Details";
@@ -52,8 +67,9 @@ namespace _365_Portal.Models
             public static string BrowserName = "Browser Name";
             public static string BrowserVersion = "Browser Version";
         }
-        public  enum StatusCode {
-            Success=1,Failure=0
+        public enum StatusCode
+        {
+            Success = 1, Failure = 0
 
         }
     }

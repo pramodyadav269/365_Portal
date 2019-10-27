@@ -1,11 +1,16 @@
 ﻿using _365_Portal.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Data;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Web;
+using SendGrid;
 
 namespace _365_Portal.Code
 {
@@ -190,5 +195,54 @@ namespace _365_Portal.Code
         }
 
 
+        public static Int32 GenerateOTP()
+        {
+            Random random = new Random();
+            int OTP = random.Next(1111, 9999);
+            return OTP;
+        }
+        /// <summary>
+        /// Email Function
+        /// </summary>
+        /// <param name="from">Sender Email address</param>
+        /// <param name="to">Recipient Email address </param>
+        /// <param name="body">Body of the Mail</param>
+        /// <param name="subject"> Subject for the Mail</param>
+        /// <returns>Returns True or False</returns>
+        public static bool SendEmail(string from, string to, string body, string subject)
+
+        {
+            try
+            {
+
+                var message = new SendGridMessage { From = new MailAddress(@from) };
+                message.AddTo(to);
+                message.Subject = subject;
+                message.Html = body;
+                //message.IsBodyHtml = true;
+                //var client = new SmtpClient();
+                //client.Send(message);
+
+                // Create credentials, specifying your user name and password.
+                var credentials = new NetworkCredential("azure_9a292e7a8ba7e144014a30bd24a38ded@azure.com", "0gu8HfsYQnWF3EK");
+
+                // Create an Web transport for sending email.
+                var transportWeb = new Web(credentials);
+                // Send the email, which returns an awaitable task.
+                Thread.Sleep(2000);
+                transportWeb.DeliverAsync(message);
+                Thread.Sleep(2000);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                StackTrace trace = new StackTrace(ex, true);
+                StackFrame stackFrame = trace.GetFrame(trace.FrameCount - 1);
+                string fileName = stackFrame.GetFileName();
+                string methodName = stackFrame.GetMethod().Name;
+                int lineNo = stackFrame.GetFileLineNumber();
+                return false;
+            }
+        }
     }
 }
