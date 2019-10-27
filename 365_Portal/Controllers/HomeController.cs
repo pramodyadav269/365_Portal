@@ -10,6 +10,7 @@ namespace _365_Portal.Controllers
     {
         public ActionResult Index()
         {
+            Response.Redirect("~/login.aspx");
             ViewBag.Title = "Home Page";
 
             return View();
