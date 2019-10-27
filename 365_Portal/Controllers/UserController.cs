@@ -25,77 +25,61 @@ namespace _365_Portal.Controllers
     {
         [HttpPost]
         [Route("api/User/LoginUser")]
-        public IHttpActionResult LoginUser()
+        public IHttpActionResult LoginUser(JObject requestParams)
         {
-            WebServiceLog objServiceLog = new WebServiceLog();
             LoginResponse objResponse = null;
-            string Response = string.Empty;
-
-            objServiceLog.RequestTime = DateTime.Now;
-            objServiceLog.ControllerName = this.GetType().Name;
-            objServiceLog.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            string data = string.Empty;
             try
             {
-                var httpRequest = HttpContext.Current.Request;
-                string EmailId = httpRequest.Form["EmailID"];
-                string UserPwd = httpRequest.Form["UserPwd"];
+                string EmailId = Convert.ToString(requestParams["UserName"]).Trim();
+                string UserPwd = Convert.ToString(requestParams["Password"]);
 
                 if (string.IsNullOrEmpty(EmailId) || string.IsNullOrEmpty(UserPwd))
                 {
-                    objResponse = new LoginResponse();
-                    objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
-                    objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
-                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                    data = Utility.API_Status("0", ConstantMessages.Login.InvalidUser);
                 }
                 else
                 {
                     LoginRequest objRequest = new LoginRequest();
                     objRequest.UserName = EmailId;
                     objRequest.Password = UserPwd;
-                    objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
 
                     objResponse = new LoginResponse();
                     objResponse = UserDAL.LoginUser(objRequest);
 
+                    // Success
                     if (objResponse.ReturnCode == "1")
                     {
-                        GetAccessToken(EmailId.Trim(), UserPwd.Trim());
+                        GetAccessToken(EmailId, UserPwd);
 
                         if (HttpContext.Current.Session["access_token"] != null)
                         {
                             objResponse.Token = HttpContext.Current.Session["access_token"].ToString();
-                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                            data = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
+                            data = Utility.Successful(data);
                         }
                         else
                         {
-                            objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
-                            objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorMsg;
-                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                            data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
                         }
                     }
                     else
                     {
-                        objResponse.ReturnMessage = objResponse.ReturnMessage;
-                        objResponse.ReturnCode = objResponse.ReturnCode;
-                        objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                        // Failed
+                        data = Utility.API_Status("0", objResponse.ReturnMessage);
                     }
                 }
-
-                Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
-                objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
-
             }
             catch (Exception ex)
             {
-                objServiceLog.ResponseString = "Exception " + ex.Message + " | " + ex.StackTrace;
-                objServiceLog.RequestType = ConstantMessages.WebServiceLog.Exception;
+                // Log Error
+                data = Utility.API_Status("0", "There might be some error. Please try again later.");
             }
             finally
             {
-                objServiceLog.ResponseTime = DateTime.Now;
-                InsertRequestLog.SaveWebServiceLog(objServiceLog);
+
             }
-            return Ok(Response);
+            return new APIResult(Request, data);
         }
 
         [HttpPost]
@@ -231,54 +215,54 @@ namespace _365_Portal.Controllers
                                         {
 
                                             data = ConstantMessages.ChangePassowrd.Error;
-                                            data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(),data);
+                                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                                         }
 
                                     }
                                     else
                                     {
                                         data = ConstantMessages.ChangePassowrd.Error;
-                                        data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                                     }
                                 }
                                 catch (Exception ex)
                                 {
                                     data = ConstantMessages.ChangePassowrd.Error;
-                                    data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                                 }
                             }
                             else
                             {
 
                                 data = ConstantMessages.ChangePassowrd.Password_Validation;
-                                data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
                         }
                         else
                         {
                             data = ConstantMessages.ChangePassowrd.PasswordMisMatch;
-                            data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
                     }
                     else
                     {
                         data = ConstantMessages.ChangePassowrd.PasswordMacth;
-                        data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
                 }
                 else
                 {
                     data = ConstantMessages.ChangePassowrd.PasswordEmpty;
-                    data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                 }
 
             }
             else
             {
                 data = Utility.AuthenticationError();
-                data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
             }
-            return new APIResult( Request,data);
+            return new APIResult(Request, data);
         }
 
         /// <summary>
@@ -311,7 +295,7 @@ namespace _365_Portal.Controllers
             {
                 data = "UserName is not entered. Please enter a UserName";
             }
-            return new APIResult(data, Request);
+            return new APIResult(Request, data);
         }
 
         [Route("API/User/CreateUser")]
@@ -337,15 +321,15 @@ namespace _365_Portal.Controllers
             {
                 data = "UserName is not entered. Please enter a UserName";
             }
-            return new APIResult(data, Request);
+            return new APIResult(Request, data);
         }
 
         [HttpPost]
-        [Route("API/User/GetUserProfileDetails")]
-        public IHttpActionResult GetUserProfileDetails()//JObject requestParams
+        [Route("API/User/GetMyProfile")]
+        public IHttpActionResult GetMyProfile()//JObject requestParams
         {
             var data = string.Empty;
-            UserBO _userdetail = new UserBO();            
+            UserBO _userdetail = new UserBO();
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
             if (identity != null)
             {
@@ -366,8 +350,8 @@ namespace _365_Portal.Controllers
 
                     if (!string.IsNullOrEmpty(_userdetail.ProfilePicFileID))
                     {
-                        byte[] imageArray = System.IO.File.ReadAllBytes(_userdetail.ProfilePicFileID);
-                        _userdetail.ProfilePicFile = Convert.ToBase64String(imageArray);
+                        //byte[] imageArray = System.IO.File.ReadAllBytes(_userdetail.ProfilePicFileID);
+                        //_userdetail.ProfilePicFile = Convert.ToBase64String(imageArray);
                         /*
                         using (System.Drawing.Image image = System.Drawing.Image.FromFile(_userdetail.ProfilePicFileID))
                         {
@@ -394,11 +378,11 @@ namespace _365_Portal.Controllers
             {
                 data = Utility.AuthenticationError();
             }
-            return new APIResult(data, Request);
+            return new APIResult(Request, data);
         }
         [HttpPost]
-        [Route("API/User/UpdateUserProfileDetails")]
-        public IHttpActionResult UpdateUserProfileDetails(JObject requestParams)
+        [Route("API/User/UpdateMyProfile")]
+        public IHttpActionResult UpdateMyProfile(JObject requestParams)
         {
             var data = string.Empty;
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
@@ -407,12 +391,12 @@ namespace _365_Portal.Controllers
                 UserBO _userdetail = new UserBO();
                 _userdetail.UserID = identity.UserID;
                 _userdetail.EmailID = (string)requestParams.SelectToken("EmailID");
-                _userdetail.Position = (string)requestParams.SelectToken("Position");                
+                _userdetail.Position = (string)requestParams.SelectToken("Position");
                 _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
                 _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
 
                 _userdetail.ProfilePicFile = Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(',')[1];
-                
+
 
                 //base64 to image conversion
                 byte[] bytes = Convert.FromBase64String(_userdetail.ProfilePicFile);
@@ -423,7 +407,7 @@ namespace _365_Portal.Controllers
                 }
 
                 string GUID = Guid.NewGuid().ToString();
-                string FileName = _userdetail.UserID +"_"+ GUID+".png";
+                string FileName = _userdetail.UserID + "_" + GUID + ".png";
                 string FullPath = HttpContext.Current.Server.MapPath("~/ProfilePic/" + FileName);
 
                 image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
@@ -441,15 +425,15 @@ namespace _365_Portal.Controllers
                     data = Utility.Successful(data);
                 }
                 else
-                {                    
-                    data = Utility.Failed(data);    
+                {
+                    data = Utility.Failed(data);
                 }
             }
             else
             {
                 data = Utility.AuthenticationError();
             }
-            return new APIResult(data, Request);
+            return new APIResult(Request, data);
         }
     }
 }
