@@ -143,7 +143,7 @@
                     $.each(response, function (i, data) {
 
                         tbl += '<tr id="' + data.id + '">';
-                        tbl += '<td>';
+                        tbl += '<td>' + (i + 1);
 
                         tbl += '<td>' + data.id;
                         tbl += '<td>' + data.employee_name;
@@ -155,13 +155,13 @@
 
                     $('#divTable').empty().append(tbl)
 
-                    var dTable = $('#tblGird').DataTable();
+                    //var dTable = $('#tblGird').DataTable();
 
-                    dTable.on('order.dt search.dt', function () {
-                        dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                            cell.innerHTML = i + 1;
-                        });
-                    }).draw();
+                    //dTable.on('order.dt search.dt', function () {
+                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    //        cell.innerHTML = i + 1;
+                    //    });
+                    //}).draw();
 
                 },
                 complete: function () {
