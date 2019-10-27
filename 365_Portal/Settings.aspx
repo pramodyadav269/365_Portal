@@ -132,7 +132,7 @@
         function GetUserProfileDetails()
         {
             //var requestParams = { OldPassword: '', NewPassword: '', DeviceDetails: "", DeviceType: "", IPAddess: "" };
-            var getUrl = "/API/User/GetUserProfileDetails";
+            var getUrl = "/API/User/GetMyProfile";
             $.ajax({
                 type: "POST",
                 url: getUrl,
@@ -142,7 +142,7 @@
                 success: function (response) {
                     try {
                         debugger
-                        var DataSet = $.parseJSON($.parseJSON(response));
+                        var DataSet = $.parseJSON(response);
                         console.log(response);
                         if (DataSet.StatusCode == "1") {
                             //alert(DataSet.StatusDescription);                            
@@ -210,7 +210,7 @@
             var PushNotification = $('#cbPushNotifications').prop('checked');
             
             var requestParams = { EmailID: EmailID, Position: Position, EmailNotification: EmailNotification, PushNotification: PushNotification, ImageBase64: base64String};
-            var getUrl = "/API/User/UpdateUserProfileDetails";
+            var getUrl = "/API/User/UpdateMyProfile";
             $.ajax({
                 type: "POST",
                 url: getUrl,
@@ -220,7 +220,7 @@
                 success: function (response) {
                     try {
                         debugger
-                        var DataSet = $.parseJSON($.parseJSON(response));
+                        var DataSet = $.parseJSON(response);
                         //console.log(response);
                         if (DataSet.StatusCode == "1") {
                             //BindFields(DataSet.Data);

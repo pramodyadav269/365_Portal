@@ -396,28 +396,68 @@ namespace _365_Portal.Controllers
                 _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
                 _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
 
-                _userdetail.ProfilePicFile = Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(',')[1];
-
-
-                //base64 to image conversion
-                byte[] bytes = Convert.FromBase64String(_userdetail.ProfilePicFile);
-                System.Drawing.Image image;
-                using (System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes))
+                try
                 {
-                    image = System.Drawing.Image.FromStream(ms);
+                    if (requestParams.SelectToken("ImageBase64") != null && Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(',').Length > 1)
+                    {
+                        _userdetail.ProfilePicFile = Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(',')[1];
+
+                        byte[] bytes = Convert.FromBase64String(_userdetail.ProfilePicFile);
+                        System.Drawing.Image image;
+                        using (System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes))
+                        {
+                            image = System.Drawing.Image.FromStream(ms);
+                        }
+
+                        string GUID = Guid.NewGuid().ToString();
+                        string extension = "." + Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(';')[0].Split('/')[1];
+                        string FileName = _userdetail.UserID + "_" + GUID + extension;
+                        string FullPath = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/" + FileName);
+
+                        switch (extension.ToLower())
+                        {
+                            case ".bmp":
+                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Bmp);
+                                break;
+                            case ".exif":
+                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Exif);
+                                break;
+                            case ".gif":
+                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Gif);
+                                break;
+                            case ".jpg":
+                            case ".jpeg":
+                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                break;
+                            case ".png":
+                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
+                                break;
+                            case ".tif":
+                            case ".tiff":
+                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Tiff);
+                                break;
+                            default:
+                                throw new NotSupportedException("Unknown file extension " + extension);                                
+                        }
+
+                        DataSet ds = UserBL.CreateFile(HttpContext.Current.Server.MapPath("~/Files/ProfilePic/"), FileName, "");
+                        if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                        {
+                            _userdetail.ProfilePicFileID = ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ResponseBase objResponse = new ResponseBase();
+                    objResponse.ReturnMessage = "Unknown file extension";
+                    data = Utility.ConvertJsonToString(objResponse);
+                    data = Utility.Failed(data);
+                    return new APIResult(Request, data);
                 }
 
-                string GUID = Guid.NewGuid().ToString();
-                string FileName = _userdetail.UserID + "_" + GUID + ".png";
-                string FullPath = HttpContext.Current.Server.MapPath("~/ProfilePic/" + FileName);
-
-                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
-                //image.Save(HttpContext.Current.Server.MapPath("~/ProfilePic/download.png"), System.Drawing.Imaging.ImageFormat.Png);                
-                //End base64 to image conversion
-
-                _userdetail.ProfilePicFileID = FullPath;//This will be available after base64 conversion
                 var ResponseBase = UserDAL.UpdateUserDetailsByUserID(_userdetail, "");
-                ResponseBase.Ref1 = _userdetail.ProfilePicFileID;
+                ResponseBase.Ref1 = _userdetail.ProfilePicFile;
                 data = Utility.ConvertJsonToString(ResponseBase);
 
                 if (ResponseBase.ReturnCode == "1")

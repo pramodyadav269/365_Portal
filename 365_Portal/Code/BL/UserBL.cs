@@ -148,5 +148,19 @@ namespace _365_Portal.Code.BL
             return res;
         }
 
+        public static DataSet CreateFile(string FilePath, string FileName, string Ref1)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = UserDAL.CreateFile(FilePath, FileName, Ref1);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
     }
 }
