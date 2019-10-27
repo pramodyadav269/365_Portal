@@ -193,7 +193,7 @@ namespace _365_Portal.Controllers
                 {
                     if (NewPassword.Trim().ToLower() != OldPassword.Trim().ToLower())
                     {
-                        var UserBO = UserDAL.GetUserDetailsByUserID(identity.EmailID, "");
+                        var UserBO = UserDAL.GetUserDetailsByUserID(identity.UserID, "");
                         var OldPasswordSalt = UserBO.PasswordSalt;
                         var OldPasswordHash = Utility.GetHashedPassword(OldPassword, OldPasswordSalt);
 
@@ -231,54 +231,54 @@ namespace _365_Portal.Controllers
                                         {
 
                                             data = ConstantMessages.ChangePassowrd.Error;
-                                            data = Utility.Failed(data);
+                                            data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(),data);
                                         }
 
                                     }
                                     else
                                     {
                                         data = ConstantMessages.ChangePassowrd.Error;
-                                        data = Utility.Failed(data);
+                                        data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                                     }
                                 }
                                 catch (Exception ex)
                                 {
                                     data = ConstantMessages.ChangePassowrd.Error;
-                                    data = Utility.Failed(data);
+                                    data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                                 }
                             }
                             else
                             {
 
                                 data = ConstantMessages.ChangePassowrd.Password_Validation;
-                                data = Utility.Failed(data);
+                                data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                             }
                         }
                         else
                         {
                             data = ConstantMessages.ChangePassowrd.PasswordMisMatch;
-                            data = Utility.Failed(data);
+                            data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                         }
                     }
                     else
                     {
                         data = ConstantMessages.ChangePassowrd.PasswordMacth;
-                        data = Utility.Failed(data);
+                        data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                     }
                 }
                 else
                 {
                     data = ConstantMessages.ChangePassowrd.PasswordEmpty;
-                    data = Utility.Failed(data);
+                    data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
                 }
 
             }
             else
             {
                 data = Utility.AuthenticationError();
-                data = Utility.Failed(data);
+                data = Utility.API_Status(ConstantMessages.StatusCode.Failure.ToString(), data);
             }
-            return new APIResult(data, Request);
+            return new APIResult( Request,data);
         }
 
         /// <summary>
@@ -362,8 +362,25 @@ namespace _365_Portal.Controllers
                     _userdetail.Position = UserDetails.Position;
                     _userdetail.EmailNotification = UserDetails.EmailNotification;
                     _userdetail.PushNotification = UserDetails.PushNotification;
+                    _userdetail.ProfilePicFileID = UserDetails.ProfilePicFileID;// here will be base64 image format
 
-                    _userdetail.ProfilePicFile = UserDetails.ProfilePicFile;// here will be base64 image format
+                    if (!string.IsNullOrEmpty(_userdetail.ProfilePicFileID))
+                    {
+                        byte[] imageArray = System.IO.File.ReadAllBytes(_userdetail.ProfilePicFileID);
+                        _userdetail.ProfilePicFile = Convert.ToBase64String(imageArray);
+                        /*
+                        using (System.Drawing.Image image = System.Drawing.Image.FromFile(_userdetail.ProfilePicFileID))
+                        {
+                            using (System.IO.MemoryStream m = new System.IO.MemoryStream())
+                            {
+                                byte[] imageBytes = m.ToArray();
+                                // Convert byte[] to Base64 String
+                                string base64String = Convert.ToBase64String(imageBytes);
+                                _userdetail.ProfilePicFile = base64String;
+                            }
+                        }
+                        */
+                    }
 
                     data = Utility.ConvertJsonToString(_userdetail);
                     data = Utility.Successful(data);
@@ -394,10 +411,28 @@ namespace _365_Portal.Controllers
                 _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
                 _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
 
-                _userdetail.ProfilePicFile = (string)requestParams.SelectToken("ProfilePicFileID");
-                _userdetail.ProfilePicFileID = "";//This will be available after base64 conversion
+                _userdetail.ProfilePicFile = Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(',')[1];
+                
 
+                //base64 to image conversion
+                byte[] bytes = Convert.FromBase64String(_userdetail.ProfilePicFile);
+                System.Drawing.Image image;
+                using (System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes))
+                {
+                    image = System.Drawing.Image.FromStream(ms);
+                }
+
+                string GUID = Guid.NewGuid().ToString();
+                string FileName = _userdetail.UserID +"_"+ GUID+".png";
+                string FullPath = HttpContext.Current.Server.MapPath("~/ProfilePic/" + FileName);
+
+                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
+                //image.Save(HttpContext.Current.Server.MapPath("~/ProfilePic/download.png"), System.Drawing.Imaging.ImageFormat.Png);                
+                //End base64 to image conversion
+
+                _userdetail.ProfilePicFileID = FullPath;//This will be available after base64 conversion
                 var ResponseBase = UserDAL.UpdateUserDetailsByUserID(_userdetail, "");
+                ResponseBase.Ref1 = _userdetail.ProfilePicFileID;
                 data = Utility.ConvertJsonToString(ResponseBase);
 
                 if (ResponseBase.ReturnCode == "1")

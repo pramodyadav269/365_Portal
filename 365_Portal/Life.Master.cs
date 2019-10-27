@@ -16,13 +16,15 @@ namespace _365_Portal
                 string CurrDirecotry = Server.MapPath("/").ToString();
                 string FullPath = CurrDirecotry + System.IO.Path.GetFileName(Request.Url.AbsolutePath);
 
-                if (HttpContext.Current.Session["IsFirstLogin"] != null && Convert.ToBoolean(HttpContext.Current.Session["IsFirstLogin"]) == true && FullPath != CurrDirecotry + "Settings.aspx")
+                if (HttpContext.Current.Session["IsFirstLogin"] != null && Convert.ToBoolean(HttpContext.Current.Session["IsFirstLogin"]) == true 
+                    && FullPath != CurrDirecotry + "Settings.aspx" && FullPath != CurrDirecotry + "ChangePassword.aspx")
                 {
-                    Response.Redirect("~/Settings.aspx");// This is 1st time login..
+                    Response.Redirect("~/Settings.aspx",true);// This is 1st time login..
                 }
-                if (HttpContext.Current.Session["IsFirstPasswordChanged"] != null && Convert.ToBoolean(HttpContext.Current.Session["IsFirstPasswordChanged"]) == true && FullPath != CurrDirecotry + "ChangePassword.aspx")
+                else if (HttpContext.Current.Session["IsFirstPasswordChanged"] != null && Convert.ToBoolean(HttpContext.Current.Session["IsFirstPasswordChanged"]) == true 
+                    && FullPath != CurrDirecotry + "ChangePassword.aspx" && FullPath != CurrDirecotry + "Settings.aspx")
                 {
-                    Response.Redirect("~/ChangePassword.aspx");// This is user has not changed password..
+                    Response.Redirect("~/ChangePassword.aspx",true);// This is user has not changed password..
                 }
                 if (HttpContext.Current.Session["FirstName"] != null && HttpContext.Current.Session["LastName"] != null)
                 {
