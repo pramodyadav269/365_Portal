@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
                     <div class="w-100"></div>
-                    <div id="divTable" class="mt-3"></div>
+                    <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
             </div>
         </div>
@@ -142,7 +142,7 @@
                     $.each(response, function (i, data) {
 
                         tbl += '<tr id="' + data.id + '">';
-                        tbl += '<td>';
+                        tbl += '<td>' + (i + 1);
 
                         tbl += '<td>' + data.id;
                         tbl += '<td>' + data.employee_name;
@@ -154,13 +154,13 @@
 
                     $('#divTable').empty().append(tbl)
 
-                    var dTable = $('#tblGird').DataTable();
+                    //var dTable = $('#tblGird').DataTable();
 
-                    dTable.on('order.dt search.dt', function () {
-                        dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                            cell.innerHTML = i + 1;
-                        });
-                    }).draw();
+                    //dTable.on('order.dt search.dt', function () {
+                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    //        cell.innerHTML = i + 1;
+                    //    });
+                    //}).draw();
 
                 },
                 complete: function () {
