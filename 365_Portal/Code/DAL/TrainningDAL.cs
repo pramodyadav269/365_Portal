@@ -219,7 +219,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet SubmitResponse(int compId, string userId, int surveyId, int totalScore, int scoreEarned, int percentageEarned, string IPAddress)
+        public static DataSet SubmitResponse(int compId, string userId, int surveyId, double totalScore, double scoreEarned, double percentageEarned, string IPAddress)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -253,8 +253,8 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet SubmitAnswers(int compId, string userId, int surveyId, int responseId, int questionId,string answerIds, 
-            int fileId, string valueText,bool isCorrect,float correctScore, float incorrectScore, string filePath)
+        public static DataSet SubmitAnswers(int compId, string userId, int surveyId, int responseId, int questionId,int answerId, 
+            int fileId, string valueText,bool isCorrect, double correctScore, double incorrectScore, string filePath)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -270,7 +270,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_SurveyID", surveyId);
                 cmd.Parameters.AddWithValue("p_ResponseID", responseId);
                 cmd.Parameters.AddWithValue("p_QuestionID", questionId);
-                cmd.Parameters.AddWithValue("p_AnswerIDs", answerIds);
+                cmd.Parameters.AddWithValue("p_AnswerID", answerId);
                 cmd.Parameters.AddWithValue("p_FileID", fileId);
                 cmd.Parameters.AddWithValue("p_Value_Text", valueText);
                 cmd.Parameters.AddWithValue("p_IsCorrect", isCorrect);

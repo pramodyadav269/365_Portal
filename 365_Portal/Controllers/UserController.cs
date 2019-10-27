@@ -25,77 +25,61 @@ namespace _365_Portal.Controllers
     {
         [HttpPost]
         [Route("api/User/LoginUser")]
-        public IHttpActionResult LoginUser()
+        public IHttpActionResult LoginUser(JObject requestParams)
         {
-            WebServiceLog objServiceLog = new WebServiceLog();
             LoginResponse objResponse = null;
-            string Response = string.Empty;
-
-            objServiceLog.RequestTime = DateTime.Now;
-            objServiceLog.ControllerName = this.GetType().Name;
-            objServiceLog.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            string data = string.Empty;
             try
             {
-                var httpRequest = HttpContext.Current.Request;
-                string EmailId = httpRequest.Form["EmailID"];
-                string UserPwd = httpRequest.Form["UserPwd"];
+                string EmailId = Convert.ToString(requestParams["UserName"]).Trim();
+                string UserPwd = Convert.ToString(requestParams["Password"]);
 
                 if (string.IsNullOrEmpty(EmailId) || string.IsNullOrEmpty(UserPwd))
                 {
-                    objResponse = new LoginResponse();
-                    objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
-                    objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
-                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                    data = Utility.API_Status("0", ConstantMessages.Login.InvalidUser);
                 }
                 else
                 {
                     LoginRequest objRequest = new LoginRequest();
                     objRequest.UserName = EmailId;
                     objRequest.Password = UserPwd;
-                    objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
 
                     objResponse = new LoginResponse();
                     objResponse = UserDAL.LoginUser(objRequest);
 
+                    // Success
                     if (objResponse.ReturnCode == "1")
                     {
-                        GetAccessToken(EmailId.Trim(), UserPwd.Trim());
+                        GetAccessToken(EmailId, UserPwd);
 
                         if (HttpContext.Current.Session["access_token"] != null)
                         {
                             objResponse.Token = HttpContext.Current.Session["access_token"].ToString();
-                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                            data = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
+                            data = Utility.Successful(data);
                         }
                         else
                         {
-                            objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
-                            objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorMsg;
-                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                            data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
                         }
                     }
                     else
                     {
-                        objResponse.ReturnMessage = objResponse.ReturnMessage;
-                        objResponse.ReturnCode = objResponse.ReturnCode;
-                        objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
+                        // Failed
+                        data = Utility.API_Status("0", objResponse.ReturnMessage);
                     }
                 }
-
-                Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
-                objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
-
             }
             catch (Exception ex)
             {
-                objServiceLog.ResponseString = "Exception " + ex.Message + " | " + ex.StackTrace;
-                objServiceLog.RequestType = ConstantMessages.WebServiceLog.Exception;
+                // Log Error
+                data = Utility.API_Status("0", "There might be some error. Please try again later.");
             }
             finally
             {
-                objServiceLog.ResponseTime = DateTime.Now;
-                InsertRequestLog.SaveWebServiceLog(objServiceLog);
+
             }
-            return Ok(Response);
+            return new APIResult(Request, data);
         }
 
         [HttpPost]
@@ -312,7 +296,7 @@ namespace _365_Portal.Controllers
             {
                 data = "UserName is not entered. Please enter a UserName";
             }
-            return new APIResult(data, Request);
+            return new APIResult(Request, data);
         }
 
         [Route("API/User/CreateUser")]
@@ -338,12 +322,12 @@ namespace _365_Portal.Controllers
             {
                 data = "UserName is not entered. Please enter a UserName";
             }
-            return new APIResult(data, Request);
+            return new APIResult(Request, data);
         }
 
         [HttpPost]
-        [Route("API/User/GetUserProfileDetails")]
-        public IHttpActionResult GetUserProfileDetails()//JObject requestParams
+        [Route("API/User/GetMyProfile")]
+        public IHttpActionResult GetMyProfile()//JObject requestParams
         {
             var data = string.Empty;
             UserBO _userdetail = new UserBO();
@@ -363,8 +347,25 @@ namespace _365_Portal.Controllers
                     _userdetail.Position = UserDetails.Position;
                     _userdetail.EmailNotification = UserDetails.EmailNotification;
                     _userdetail.PushNotification = UserDetails.PushNotification;
+                    _userdetail.ProfilePicFileID = UserDetails.ProfilePicFileID;// here will be base64 image format
 
-                    _userdetail.ProfilePicFile = UserDetails.ProfilePicFile;// here will be base64 image format
+                    if (!string.IsNullOrEmpty(_userdetail.ProfilePicFileID))
+                    {
+                        //byte[] imageArray = System.IO.File.ReadAllBytes(_userdetail.ProfilePicFileID);
+                        //_userdetail.ProfilePicFile = Convert.ToBase64String(imageArray);
+                        /*
+                        using (System.Drawing.Image image = System.Drawing.Image.FromFile(_userdetail.ProfilePicFileID))
+                        {
+                            using (System.IO.MemoryStream m = new System.IO.MemoryStream())
+                            {
+                                byte[] imageBytes = m.ToArray();
+                                // Convert byte[] to Base64 String
+                                string base64String = Convert.ToBase64String(imageBytes);
+                                _userdetail.ProfilePicFile = base64String;
+                            }
+                        }
+                        */
+                    }
 
                     data = Utility.ConvertJsonToString(_userdetail);
                     data = Utility.Successful(data);
@@ -378,11 +379,11 @@ namespace _365_Portal.Controllers
             {
                 data = Utility.AuthenticationError();
             }
-            return new APIResult(data, Request);
+            return new APIResult(Request, data);
         }
         [HttpPost]
-        [Route("API/User/UpdateUserProfileDetails")]
-        public IHttpActionResult UpdateUserProfileDetails(JObject requestParams)
+        [Route("API/User/UpdateMyProfile")]
+        public IHttpActionResult UpdateMyProfile(JObject requestParams)
         {
             var data = string.Empty;
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
@@ -395,10 +396,28 @@ namespace _365_Portal.Controllers
                 _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
                 _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
 
-                _userdetail.ProfilePicFile = (string)requestParams.SelectToken("ProfilePicFileID");
-                _userdetail.ProfilePicFileID = "";//This will be available after base64 conversion
+                _userdetail.ProfilePicFile = Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(',')[1];
 
+
+                //base64 to image conversion
+                byte[] bytes = Convert.FromBase64String(_userdetail.ProfilePicFile);
+                System.Drawing.Image image;
+                using (System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes))
+                {
+                    image = System.Drawing.Image.FromStream(ms);
+                }
+
+                string GUID = Guid.NewGuid().ToString();
+                string FileName = _userdetail.UserID + "_" + GUID + ".png";
+                string FullPath = HttpContext.Current.Server.MapPath("~/ProfilePic/" + FileName);
+
+                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
+                //image.Save(HttpContext.Current.Server.MapPath("~/ProfilePic/download.png"), System.Drawing.Imaging.ImageFormat.Png);                
+                //End base64 to image conversion
+
+                _userdetail.ProfilePicFileID = FullPath;//This will be available after base64 conversion
                 var ResponseBase = UserDAL.UpdateUserDetailsByUserID(_userdetail, "");
+                ResponseBase.Ref1 = _userdetail.ProfilePicFileID;
                 data = Utility.ConvertJsonToString(ResponseBase);
 
                 if (ResponseBase.ReturnCode == "1")
@@ -415,7 +434,7 @@ namespace _365_Portal.Controllers
             {
                 data = Utility.AuthenticationError();
             }
-            return new APIResult(data, Request);
+            return new APIResult(Request, data);
         }
 
         /// <summary>
