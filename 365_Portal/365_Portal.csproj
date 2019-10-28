@@ -658,7 +658,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="ProfilePic\" />
+    <Folder Include="Files\CompLogo\" />
+    <Folder Include="Files\Others\" />
+    <Folder Include="Files\ProfilePic\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

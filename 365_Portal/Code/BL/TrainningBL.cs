@@ -90,20 +90,20 @@ namespace _365_Portal.Code.BL
                                 select new Question()
                                 {
                                     QuestionID = Convert.ToInt32(dr["QuestionID"]),
-                                    IsMultiSelectQuestion = Convert.ToBoolean(dr["IsMultiSelectQuestion"].ToString()),
+                                    IsMultiSelectQuestion = !string.IsNullOrEmpty(dr["IsMultiSelectQuestion"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsMultiSelectQuestion"].ToString())) : true,
                                     QType = dr["QType"].ToString(),
                                     Type = dr["Type"].ToString(),
                                     QuestionTypeID = Convert.ToInt32(dr["QuestionTypeID"].ToString()),
-                                    IsMandatory = Convert.ToBoolean(dr["IsMandatory"].ToString()),
-                                    IsMultiLine = Convert.ToBoolean(dr["IsMultiLine"].ToString()),
-                                    MaxLength = Convert.ToInt32(dr["MaxLength"].ToString()),
+                                    IsMandatory = !string.IsNullOrEmpty(dr["IsMandatory"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsMandatory"].ToString())) : true,
+                                    IsMultiLine = !string.IsNullOrEmpty(dr["IsMultiLine"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsMultiLine"].ToString())) : false,
+                                    MaxLength = !string.IsNullOrEmpty(dr["MaxLength"].ToString()) ? Convert.ToInt32(dr["MaxLength"].ToString()) : 0,
                                     Title = dr["Title"].ToString(),
                                     SortOrder = Convert.ToInt32(dr["SortOrder"].ToString()),
-                                    IsAnswered = Convert.ToBoolean(dr["IsAnswered"].ToString()),
+                                    IsAnswered = !string.IsNullOrEmpty(dr["IsAnswered"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsAnswered"].ToString())) : false,
                                     ResponseID = dr["ResponseID"].ToString(),
-                                    TotalScore = Convert.ToDouble(dr["TotalScore"].ToString()),
-                                    ScoreEarned = Convert.ToDouble(dr["ScoreEarned"].ToString()),
-                                    PercentageEarned = Convert.ToDouble(dr["PercentageEarned"].ToString()),
+                                    TotalScore = !string.IsNullOrEmpty(dr["TotalScore"].ToString()) ? Convert.ToDouble(dr["TotalScore"].ToString()) : 0,
+                                    ScoreEarned = !string.IsNullOrEmpty(dr["ScoreEarned"].ToString()) ? Convert.ToDouble(dr["ScoreEarned"].ToString()) : 0,
+                                    PercentageEarned = !string.IsNullOrEmpty(dr["PercentageEarned"].ToString()) ? Convert.ToDouble(dr["PercentageEarned"].ToString()) : 0,
                                     IPAddress = dr["IPAddress"].ToString()
                                 }).ToList();
 
@@ -111,19 +111,19 @@ namespace _365_Portal.Code.BL
                 ansOptionList = (from DataRow dr in ds.Tables[2].Rows
                                  select new AnswerOption()
                                  {
-                                     QuestionID = Convert.ToInt32(dr["QuestionID"].ToString()),
-                                     IsAnswered = Convert.ToBoolean(dr["IsAnswered"].ToString()),
-                                     AnswerID =Convert.ToInt32( dr["AnswerID"].ToString()),
+                                     QuestionID = !string.IsNullOrEmpty(dr["QuestionID"].ToString()) ? Convert.ToInt32(dr["QuestionID"].ToString()) : 0,
+                                     IsAnswered = !string.IsNullOrEmpty(dr["IsAnswered"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsAnswered"].ToString())) : false,
+                                     AnswerID = !string.IsNullOrEmpty(dr["AnswerID"].ToString()) ? Convert.ToInt32(dr["AnswerID"].ToString()) : 0,
                                      AnswerText = dr["AnswerText"].ToString(),
-                                     SortOrder = Convert.ToInt32(dr["SortOrder"].ToString()),
-                                     IsCorrect = Convert.ToBoolean(dr["IsCorrect"].ToString()),
-                                     CorrectScore = Convert.ToDouble(dr["CorrectScore"].ToString()),
-                                     InCorrectScore = Convert.ToDouble(dr["InCorrectScore"].ToString()),
-                                     Value_ID = Convert.ToInt32(dr["Value_ID"].ToString()),
+                                     SortOrder = !string.IsNullOrEmpty(dr["SortOrder"].ToString()) ? Convert.ToInt32(dr["SortOrder"].ToString()) : 0,
+                                     IsCorrect = !string.IsNullOrEmpty(dr["IsCorrect"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsCorrect"].ToString())) : false,
+                                     CorrectScore = !string.IsNullOrEmpty(dr["CorrectScore"].ToString()) ? Convert.ToDouble(dr["CorrectScore"].ToString()) : 0,
+                                     InCorrectScore = !string.IsNullOrEmpty(dr["InCorrectScore"].ToString()) ? Convert.ToDouble(dr["InCorrectScore"].ToString()) : 0,
+                                     Value_ID = !string.IsNullOrEmpty(dr["Value_ID"].ToString()) ? Convert.ToInt32(dr["Value_ID"].ToString()) : 0,
                                      Value_Text = dr["Value_Text"].ToString(),
-                                     Value_IsCorrect = Convert.ToBoolean(dr["Value_IsCorrect"].ToString()),
-                                     Value_CorrectScore = Convert.ToDouble(dr["Value_CorrectScore"].ToString()),
-                                     Value_InCorrectScore = Convert.ToDouble(dr["Value_InCorrectScore"].ToString()),
+                                     Value_IsCorrect = !string.IsNullOrEmpty(dr["Value_IsCorrect"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["Value_IsCorrect"].ToString())) : false,
+                                     Value_CorrectScore = !string.IsNullOrEmpty(dr["Value_CorrectScore"].ToString()) ? Convert.ToDouble(dr["Value_CorrectScore"].ToString()) : 0,
+                                     Value_InCorrectScore = !string.IsNullOrEmpty(dr["Value_InCorrectScore"].ToString()) ? Convert.ToDouble(dr["Value_InCorrectScore"].ToString()) : 0,
                                      FilePath = dr["FilePath"].ToString()
                                  }).ToList();
                 foreach (var question in questionList)
@@ -176,93 +176,117 @@ namespace _365_Portal.Code.BL
                 var dataSet = GetContentDetails(compId, userId, Convert.ToInt32(responseDetail["TopicID"]),
                      Convert.ToInt32(responseDetail["ModuleID"]), Convert.ToInt32(responseDetail["ContentID"]), ref questionAnswerList);
 
-                double totalScore = Convert.ToDouble(dataSet.Tables[0].Rows[0]["TotalScore"].ToString());
+                double totalScore = 0;
+                double passingPercentage = 0;
+                if (Convert.ToString(responseDetail["ContentType"]) != "SURVEY")
+                {
+                    totalScore = Convert.ToDouble(dataSet.Tables[0].Rows[0]["TotalScore"].ToString());
+                }
+
+                if (!string.IsNullOrEmpty(Convert.ToString(responseDetail["PassingPercent"])))
+                {
+                    passingPercentage = Convert.ToDouble(responseDetail["PassingPercent"].ToString());
+                }
+
                 double scoreEarned = 0, percentageEarned = 0;
                 List<AnswerOption> lstAnswers = new List<AnswerOption>();
 
-                if (Convert.ToString(responseDetail["ContentType"]) != "SURVEY")
+
+                // Flashcard & Final Quiz
+                for (int i = 0; i < responseDetail["Questions"].Count(); i++)
                 {
-                    // Flashcard & Final Quiz
-                    for (int i = 0; i <= responseDetail["Questions"].Count(); i++)
+                    bool isCorrect = false;
+                    double correctScore = 0;
+                    double inCorrectScore = 0;
+                    var questionid = Convert.ToInt32(responseDetail["Questions"][i]["QuestionID"]);
+                    var answerIds = Convert.ToString(responseDetail["Questions"][i]["AnswerIDs"]);
+                    var value_text = Convert.ToString(responseDetail["Questions"][i]["Value_Text"]);
+
+                    var answer = questionAnswerList.SingleOrDefault(p => p.QuestionID == questionid);
+                    if (answer != null)
                     {
-                        bool isCorrect = false;
-                        double correctScore = 0;
-                        double inCorrectScore = 0;
-                        var questionid = Convert.ToInt32(responseDetail["Questions"][i]["QuestionID"]);
-                        var answerIds = Convert.ToString(responseDetail["Questions"][i]["AnswerIDs"]);
-                        var value_text = Convert.ToString(responseDetail["Questions"][i]["Value_Text"]);
-
-                        AnswerOption ansOption = new AnswerOption();
-                        ansOption.QuestionID = questionid;
-                        ansOption.Value_Text = value_text;
-
-                        var answer = questionAnswerList.SingleOrDefault(p => p.QuestionID == questionid);
-                        if (answer != null)
+                        // Single Select
+                        if (answer.QuestionTypeID == 2 || answer.QuestionTypeID == 3)
                         {
-                            // Single Select
-                            if (answer.QuestionTypeID == 2 && answer.QuestionTypeID == 3)
+                            var correctAnswer = answer.AnswerOptions.SingleOrDefault(p => p.AnswerID == Convert.ToInt32(answerIds));
+                            if (correctAnswer != null)
                             {
-                                var correctAnswer = answer.AnswerOptions.SingleOrDefault(p => p.IsCorrect == true);
-                                if (correctAnswer != null)
+                                if (correctAnswer.IsCorrect)
                                 {
-                                    if (correctAnswer.AnswerID.ToString() == answerIds)
+                                    // Correct Answer
+                                    correctScore = correctAnswer.CorrectScore;
+                                    isCorrect = true;
+                                }
+                                else
+                                {
+                                    // Incorrect Answer
+                                    inCorrectScore = correctAnswer.InCorrectScore;
+                                    isCorrect = false;
+                                }
+                                AnswerOption ansOption = new AnswerOption();
+                                ansOption.QuestionID = questionid;
+                                ansOption.Value_Text = value_text;
+                                ansOption.AnswerID = correctAnswer.AnswerID;
+                                ansOption.IsCorrect = isCorrect;
+                                ansOption.CorrectScore = correctAnswer.CorrectScore;
+                                ansOption.InCorrectScore = correctAnswer.InCorrectScore;
+                                lstAnswers.Add(ansOption);
+                            }
+                        }
+                        // Multiple Select
+                        else if (answer.QuestionTypeID == 1)
+                        {
+                            var selectedAnswerIds = answerIds.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                            var allAnswers = answer.AnswerOptions;
+                            foreach (var answerOption in allAnswers)
+                            {
+                                if (selectedAnswerIds.Contains(answerOption.AnswerID.ToString()))
+                                {
+                                    if (answerOption.IsCorrect)
                                     {
                                         // Correct Answer
-                                        correctScore = correctAnswer.CorrectScore;
+                                        correctScore += answerOption.CorrectScore;
                                         isCorrect = true;
                                     }
                                     else
                                     {
                                         // Incorrect Answer
-                                        inCorrectScore = correctAnswer.InCorrectScore;
+                                        inCorrectScore += answerOption.InCorrectScore;
                                         isCorrect = false;
                                     }
-
-                                    ansOption.AnswerID = correctAnswer.AnswerID;
+                                    AnswerOption ansOption = new AnswerOption();
+                                    ansOption.QuestionID = questionid;
+                                    ansOption.Value_Text = value_text;
+                                    ansOption.AnswerID = answerOption.AnswerID;
                                     ansOption.IsCorrect = isCorrect;
-                                    ansOption.CorrectScore = correctAnswer.CorrectScore;
-                                    ansOption.InCorrectScore = correctAnswer.InCorrectScore;
+                                    ansOption.CorrectScore = answerOption.CorrectScore;
+                                    ansOption.InCorrectScore = answerOption.InCorrectScore;
                                     lstAnswers.Add(ansOption);
                                 }
                             }
-                            // Multiple Select
-                            else if (answer.QuestionTypeID == 1)
-                            {
-                                var selectedAnswerIds = answerIds.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                                var allAnswers = answer.AnswerOptions;
-                                foreach (var answerOption in allAnswers)
-                                {
-                                    if (selectedAnswerIds.Contains(answerOption.AnswerID.ToString()))
-                                    {
-                                        if (answerOption.IsCorrect)
-                                        {
-                                            // Correct Answer
-                                            correctScore += answerOption.CorrectScore;
-                                            isCorrect = true;
-                                        }
-                                        else
-                                        {
-                                            // Incorrect Answer
-                                            inCorrectScore += answerOption.InCorrectScore;
-                                            isCorrect = false;
-                                        }
-
-                                        ansOption.AnswerID = answerOption.AnswerID;
-                                        ansOption.IsCorrect = isCorrect;
-                                        ansOption.CorrectScore = answerOption.CorrectScore;
-                                        ansOption.InCorrectScore = answerOption.InCorrectScore;
-                                        lstAnswers.Add(ansOption);
-                                    }
-                                }
-                            }
                         }
-                        scoreEarned += correctScore - inCorrectScore;
+                        else
+                        {
+                            AnswerOption ansOption = new AnswerOption();
+                            ansOption.QuestionID = questionid;
+                            ansOption.Value_Text = value_text;
+                            lstAnswers.Add(ansOption);
+                        }
                     }
+                    scoreEarned += correctScore - inCorrectScore;
                 }
-                percentageEarned = (scoreEarned / totalScore) * 100;
+
+                if (totalScore == 0)
+                    percentageEarned = 0;
+                else
+                    percentageEarned = (scoreEarned / totalScore) * 100;
+
+                var isPassed = false;
+                if (percentageEarned >= passingPercentage)
+                    isPassed = true;
 
                 //Submit response in DB
-                ds = TrainningDAL.SubmitResponse(compId, userId, surveyId, totalScore, scoreEarned, percentageEarned, Utility.GetClientIPaddress());
+                ds = TrainningDAL.SubmitResponse(compId, userId, surveyId, totalScore, scoreEarned, percentageEarned, isPassed, Utility.GetClientIPaddress());
 
                 if (ds.Tables.Count > 0)
                 {

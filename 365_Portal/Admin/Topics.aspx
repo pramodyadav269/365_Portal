@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Topics" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="Topics.aspx.cs" Inherits="_365_Portal.Admin.Topics" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -13,7 +14,7 @@
                 <div class="card-body">
                     <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
                     <div class="w-100"></div>
-                    <div id="divTable" class="mt-3"></div>
+                    <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
             </div>
         </div>
@@ -26,76 +27,23 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="text">Text</label>
-                                <input type="text" class="form-control required" id="text" placeholder="Text" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input type="text" class="form-control date required" id="date" placeholder="Select Date" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>File</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input required" id="file">
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="textarea">Textarea</label>
-                                <textarea class="form-control required" placeholder="Textarea" id="textarea"></textarea>
+                                <label for="txtTitle">Title</label>
+                                <input type="text" class="form-control required" id="txtTitle" placeholder="Title" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="select">Select</label>
-                                <select class="form-control select2 required" id="select" style="width: 100% !important">
-                                    <option></option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
+                                <label for="txtDescription">Description</label>
+                                <textarea class="form-control required" placeholder="Description" id="txtDescription"></textarea>
                             </div>
                         </div>
-
-
-                        <div class="col-md-3">
-                            <div class="form-group radio required">
-                                <label>Radio</label>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="rbQQ1" name="rgQuestion" class="custom-control-input">
-                                    <label class="custom-control-label" for="rbQQ1">Yes</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="rbQQ2" name="rgQuestion" class="custom-control-input">
-                                    <label class="custom-control-label" for="rbQQ2">No</label>
-                                </div>
-                            </div>
-                        </div>
-
 
                         <div class="col-md-3">
                             <div class="form-group checkbox required">
-                                <label>Checkbox</label>
+                                <label>Is Published</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbQ1" name="cgQuestion" class="custom-control-input">
-                                    <label class="custom-control-label" for="cbQ1">A</label>
-                                </div>
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbQ2" name="cgQuestion" class="custom-control-input">
-                                    <label class="custom-control-label" for="cbQ2">B</label>
-                                </div>
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbQ3" name="cgQuestion" class="custom-control-input">
-                                    <label class="custom-control-label" for="cbQ3">C</label>
+                                    <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="cbIsPublished">Yes</label>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +68,7 @@
             loader(1)
             $.ajax({
                 type: "GET",
-                url: "http://dummy.restapiexample.com/api/v1/employees",
+                url: "https://reqres.in/api/users?page=1",
                 contentType: false,
                 dataType: "json",
                 processData: false,
@@ -131,36 +79,36 @@
                     var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
                     tbl += '<thead><tr>';
                     tbl += '<th>#';
-                    tbl += '<th>ID';
-                    tbl += '<th>NAME';
-                    tbl += '<th>SALARY';
-                    tbl += '<th>AGE';
+                    tbl += '<th>Title';
+                    tbl += '<th>Description';
+                    tbl += '<th>Is Published';
+                    tbl += '<th>Total Modules';
                     tbl += '<th>ACTION';
 
                     tbl += '<tbody>';
 
-                    $.each(response, function (i, data) {
+                    $.each(response.data, function (i, data) {
 
                         tbl += '<tr id="' + data.id + '">';
-                        tbl += '<td>';
+                        tbl += '<td>' + (i + 1);
 
-                        tbl += '<td>' + data.id;
-                        tbl += '<td>' + data.employee_name;
-                        tbl += '<td>' + data.employee_salary;
-                        tbl += '<td>' + data.employee_age;
+                        tbl += '<td>' + data.first_name;
+                        tbl += '<td>' + data.last_name;
+                        tbl += '<td>Yes' // + data.IsPublished;
+                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
                         tbl += '<td><i title="Edit" onclick="Edit(this);" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this);" class="fas fa-trash text-danger"></i>';
 
                     });
 
                     $('#divTable').empty().append(tbl)
 
-                    var dTable = $('#tblGird').DataTable();
+                    //var dTable = $('#tblGird').DataTable();
 
-                    dTable.on('order.dt search.dt', function () {
-                        dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                            cell.innerHTML = i + 1;
-                        });
-                    }).draw();
+                    //dTable.on('order.dt search.dt', function () {
+                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    //        cell.innerHTML = i + 1;
+                    //    });
+                    //}).draw();
 
                 },
                 complete: function () {

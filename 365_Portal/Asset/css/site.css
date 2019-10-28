@@ -783,7 +783,12 @@ p.anchor {
     border: 2px solid #f74e35 !important
 }
 
-table.table-bordered.dataTable tbody td .svg-inline--fa {
+.table td, .table th {
+    padding: .25rem .75rem;
+}
+
+
+table.table-bordered tbody td .svg-inline--fa {
     margin-right: .75rem;
     cursor: pointer;
 }

@@ -57,6 +57,16 @@ namespace _365_Portal
                             HttpContext.Current.Session["FirstName"] = objResponse.FirstName;
                             HttpContext.Current.Session["LastName"] = objResponse.LastName;
 
+                            //For ProfilePic,CompanyProfilePic & Theme
+                            var UserDetails = UserDAL.GetUserDetailsByUserID(objResponse.UserID, "");
+                            if (UserDetails != null && !string.IsNullOrEmpty(UserDetails.ProfilePicFileID))
+                            {
+                                HttpContext.Current.Session["ProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.ProfilePicFileID, "~/Files/ProfilePic/");
+                                HttpContext.Current.Session["CompanyProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.CompanyProfilePicFileID, "~/Files/CompLogo/");
+                                HttpContext.Current.Session["ThemeColor"] = UserDetails.ThemeColor;
+                            }
+                            //End For ProfilePic,CompanyProfilePic & Theme
+
                             if (objResponse.IsFirstLogin == "1" || objResponse.IsFirstPasswordChanged == "1")
                             {
                                 if (objResponse.IsFirstLogin == "1")
@@ -98,7 +108,7 @@ namespace _365_Portal
             }
             catch (Exception ex)
             {
-
+                lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
             }
         }
     }

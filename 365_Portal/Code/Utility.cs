@@ -45,6 +45,28 @@ namespace _365_Portal.Code
             return result.ToString();
         }
 
+        public static string GetBase64ImageByFileID(string FileID,string Directory)
+        {
+            string Base64String = string.Empty;
+            try
+            {
+                using (System.Drawing.Image image = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath(Directory) + FileID))
+                {
+                    using (System.IO.MemoryStream m = new System.IO.MemoryStream())
+                    {
+                        image.Save(m, image.RawFormat);
+                        byte[] imageBytes = m.ToArray();
+                        Base64String = Convert.ToBase64String(imageBytes);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Base64String;
+        }
+
         public static string GetHashedPassword(string value, string salt)
         {
             byte[] bytes = Encoding.Unicode.GetBytes(value);
@@ -109,14 +131,15 @@ namespace _365_Portal.Code
                 + ",\"Flachards\":" + flashcards + "}";
         }
 
-        public static string GetModulesJSONFormat(string statusCode, string statusDescription, string unlockedModules, string lockedModules)
+        public static string GetModulesJSONFormat(string statusCode, string statusDescription,string data, string unlockedModules, string lockedModules)
         {
             if (string.IsNullOrEmpty(unlockedModules))
                 unlockedModules = "[]";
             if (string.IsNullOrEmpty(lockedModules))
                 lockedModules = "[]";
             return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription
-                + "\",\"UnlockedItems\":" + unlockedModules
+                 + "\"," + data
+                + ",\"UnlockedItems\":" + unlockedModules
                 + ",\"LockedItems\":" + lockedModules + "}";
         }
 
