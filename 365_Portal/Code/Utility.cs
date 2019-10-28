@@ -244,5 +244,60 @@ namespace _365_Portal.Code
                 return false;
             }
         }
+
+
+        /// <summary>
+        /// Send Sms Function
+        /// </summary>
+        /// <param name="mobileNo"></param>
+        /// <param name="msg"></param>
+        /// <returns>True of False</returns>
+        public static string SendSMS(string mobileNo, string msg)
+        {
+            string api_Response = string.Empty;
+            string sender_Code = string.Empty;
+            try
+            {
+                /*
+                                string url = baseURL + string.Format("sms.php?uid={0}&pin={1}&senderid={2}&route={3}&mobile={4}&message={5}&pushid={6}"
+                              , champRechargeLoginId, champRechargePassword, champRechargeSenderid, champRechargeroute, mobileNo, msg, champRechargepushid);
+
+                                var request = (HttpWebRequest)WebRequest.Create(url);
+                                var response = (HttpWebResponse)request.GetResponse();
+                                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                                {
+                                    var result = streamReader.ReadToEnd();
+
+                                    var respDocument = new XmlDocument();
+                                    respDocument.LoadXml(result);
+
+                                    var status = respDocument.GetElementsByTagName("status").Item(0).InnerText;
+                                    var errorCode = respDocument.GetElementsByTagName("error_code").Item(0).InnerText;
+                                    var message = respDocument.GetElementsByTagName("message").Item(0).InnerText;
+                                    var senderId = respDocument.GetElementsByTagName("senderid").Item(0).InnerText;
+
+                                    //    //check errorcode return by api
+                                    if (!string.IsNullOrEmpty(errorCode))
+                                    {
+                                        api_Response = errorCode;
+                                        if (api_Response == Constants.StatusMessage.Sender.SenderRegistrationSubmissionCode)
+                                        {
+                                            sender_Code = senderId;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        api_Response = Constants.StatusMessage.Common.Exception;
+                                    }
+                                }
+                                */
+            }
+            catch (Exception ex)
+            {
+                api_Response = null;
+            }
+            return null;
+
+        }
     }
 }
