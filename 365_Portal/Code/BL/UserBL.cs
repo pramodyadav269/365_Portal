@@ -148,12 +148,12 @@ namespace _365_Portal.Code.BL
             return res;
         }
 
-        public static DataSet CreateFile(string FilePath, string FileName, string Ref1)
+        public static DataSet CreateFile(string FilePath, string FileDirectory, string Ref1)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = UserDAL.CreateFile(FilePath, FileName, Ref1);
+                ds = UserDAL.CreateFile(FilePath, FileDirectory, Ref1);
             }
             catch (Exception ex)
             {

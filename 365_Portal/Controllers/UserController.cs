@@ -177,7 +177,7 @@ namespace _365_Portal.Controllers
                 {
                     if (NewPassword.Trim().ToLower() != OldPassword.Trim().ToLower())
                     {
-                        var UserBO = UserDAL.GetUserDetailsByUserID(identity.UserID, "");
+                        var UserBO = UserDAL.GetAuthenticatedUserDetails(identity.UserID, "");
                         var OldPasswordSalt = UserBO.PasswordSalt;
                         var OldPasswordHash = Utility.GetHashedPassword(OldPassword, OldPasswordSalt);
 
@@ -347,24 +347,16 @@ namespace _365_Portal.Controllers
                     _userdetail.Position = UserDetails.Position;
                     _userdetail.EmailNotification = UserDetails.EmailNotification;
                     _userdetail.PushNotification = UserDetails.PushNotification;
-                    _userdetail.ProfilePicFileID = UserDetails.ProfilePicFileID;// here will be base64 image format
+                    _userdetail.ProfilePicFileID = UserDetails.ProfilePicFileID;
+                    _userdetail.CompanyProfilePicFileID = UserDetails.CompanyProfilePicFileID;
 
                     if (!string.IsNullOrEmpty(_userdetail.ProfilePicFileID))
                     {
-                        //byte[] imageArray = System.IO.File.ReadAllBytes(_userdetail.ProfilePicFileID);
-                        //_userdetail.ProfilePicFile = Convert.ToBase64String(imageArray);
-                        /*
-                        using (System.Drawing.Image image = System.Drawing.Image.FromFile(_userdetail.ProfilePicFileID))
-                        {
-                            using (System.IO.MemoryStream m = new System.IO.MemoryStream())
-                            {
-                                byte[] imageBytes = m.ToArray();
-                                // Convert byte[] to Base64 String
-                                string base64String = Convert.ToBase64String(imageBytes);
-                                _userdetail.ProfilePicFile = base64String;
-                            }
-                        }
-                        */
+                        _userdetail.ProfilePicFile = Utility.GetBase64ImageByFileID(_userdetail.ProfilePicFileID, "~/Files/ProfilePic/");
+                    }
+                    if (!string.IsNullOrEmpty(_userdetail.CompanyProfilePicFileID))
+                    {
+                        _userdetail.CompanyProfilePicFile = Utility.GetBase64ImageByFileID(_userdetail.CompanyProfilePicFileID, "~/Files/CompLogo/");
                     }
 
                     data = Utility.ConvertJsonToString(_userdetail);
@@ -394,13 +386,13 @@ namespace _365_Portal.Controllers
                 _userdetail.EmailID = (string)requestParams.SelectToken("EmailID");
                 _userdetail.Position = (string)requestParams.SelectToken("Position");
                 _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
-                _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
+                _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");                
 
                 try
                 {
-                    if (requestParams.SelectToken("ImageBase64") != null && Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(',').Length > 1)
+                    if (requestParams.SelectToken("UserProfileImageBase64") != null && Convert.ToString(requestParams.SelectToken("UserProfileImageBase64")).Split(',').Length > 1)
                     {
-                        _userdetail.ProfilePicFile = Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(',')[1];
+                        _userdetail.ProfilePicFile = Convert.ToString(requestParams.SelectToken("UserProfileImageBase64")).Split(',')[1];
 
                         byte[] bytes = Convert.FromBase64String(_userdetail.ProfilePicFile);
                         System.Drawing.Image image;
@@ -410,47 +402,50 @@ namespace _365_Portal.Controllers
                         }
 
                         string GUID = Guid.NewGuid().ToString();
-                        string extension = "." + Convert.ToString(requestParams.SelectToken("ImageBase64")).Split(';')[0].Split('/')[1];
+                        string extension = "." + Convert.ToString(requestParams.SelectToken("UserProfileImageBase64")).Split(';')[0].Split('/')[1];
                         string FileName = _userdetail.UserID + "_" + GUID + extension;
                         string FullPath = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/" + FileName);
-
-                        switch (extension.ToLower())
-                        {
-                            case ".bmp":
-                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Bmp);
-                                break;
-                            case ".exif":
-                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Exif);
-                                break;
-                            case ".gif":
-                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Gif);
-                                break;
-                            case ".jpg":
-                            case ".jpeg":
-                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Jpeg);
-                                break;
-                            case ".png":
-                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
-                                break;
-                            case ".tif":
-                            case ".tiff":
-                                image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Tiff);
-                                break;
-                            default:
-                                throw new NotSupportedException("Unknown file extension " + extension);                                
-                        }
-
-                        DataSet ds = UserBL.CreateFile(HttpContext.Current.Server.MapPath("~/Files/ProfilePic/"), FileName, "");
+                        image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
+                        
+                        DataSet ds = UserBL.CreateFile(FileName,HttpContext.Current.Server.MapPath("~/Files/ProfilePic/"), "");
                         if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                         {
                             _userdetail.ProfilePicFileID = ds.Tables[0].Rows[0]["UniqueID"].ToString();
                         }
                     }
+                    if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
+                    {
+                        if (requestParams.SelectToken("CompanyProfileImageBase64") != null && Convert.ToString(requestParams.SelectToken("CompanyProfileImageBase64")).Split(',').Length > 1)
+                        {
+                            _userdetail.CompanyProfilePicFile = Convert.ToString(requestParams.SelectToken("CompanyProfileImageBase64")).Split(',')[1];
+
+                            byte[] bytes = Convert.FromBase64String(_userdetail.CompanyProfilePicFile);
+                            System.Drawing.Image image;
+                            using (System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes))
+                            {
+                                image = System.Drawing.Image.FromStream(ms);
+                            }
+
+                            string GUID = Guid.NewGuid().ToString();
+                            string extension = "." + Convert.ToString(requestParams.SelectToken("CompanyProfileImageBase64")).Split(';')[0].Split('/')[1];
+                            string FileName = _userdetail.UserID + "_" + GUID + extension;
+                            string FullPath = HttpContext.Current.Server.MapPath("~/Files/CompLogo/" + FileName);
+                            image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
+
+                            DataSet ds = UserBL.CreateFile(FileName, HttpContext.Current.Server.MapPath("~/Files/CompLogo/"), "");
+                            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                            {
+                                _userdetail.CompanyProfilePicFileID = ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                            }
+                        }
+                        _userdetail.ThemeColor = (string)requestParams.SelectToken("CompanyThemeColor");
+                    }
                 }
                 catch (Exception ex)
                 {
                     ResponseBase objResponse = new ResponseBase();
-                    objResponse.ReturnMessage = "Unknown file extension";
+                    objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorCode;
+                    objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
                     data = Utility.ConvertJsonToString(objResponse);
                     data = Utility.Failed(data);
                     return new APIResult(Request, data);

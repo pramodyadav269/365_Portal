@@ -26,7 +26,7 @@
                         <div class="col-md-12 mt-3">
                             <div class="custom-file">
                                 <%--<input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">--%>
-                                <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this)">
+                                <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
                                 <label class="custom-file-label" for="customFile">Change Profile Pic</label>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="setImgSrc(this, 'imgCompanyLogo')">
+                                    <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
                                     <label class="custom-file-label" for="customFile">Change Company Logo</label>
                                 </div>
                             </div>
@@ -107,6 +107,7 @@
 
         debugger
         var accessToken = '<%=Session["access_token"]%>';
+        var Role = '<%=Session["RoleName"]%>';
 
         var IsFirstLogin = '<%=Session["IsFirstLogin"]%>';
         var IsFirstPasswordChanged = '<%=Session["IsFirstPasswordChanged"]%>';
@@ -116,15 +117,11 @@
         }
 
 
-        $(document).ready(function () {
-            debugger
-
-            var Role = '<%=Session["RoleName"]%>';
+        $(document).ready(function () {                        
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin"))
             {
                 $('#divCompanyLogo').show();
             }
-
             GetUserProfileDetails();
         });
 
@@ -184,20 +181,41 @@
             $("#ddlGroup").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
             $("#ddlRole").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
 
-            $("#fileChangePic").attr("src", Data.ProfilePicFile);
+            if (Data.ProfilePicFile != undefined && Data.ProfilePicFile != '')
+            {
+                document.getElementById('imgUserPic')
+                .setAttribute(
+                    'src', 'data:image/png;base64,' + Data.ProfilePicFile
+                );
+            }
+
+            if (Role != undefined && (Role == "superadmin" || Role == "companyadmin") && Data.CompanyProfilePicFile != undefined && Data.CompanyProfilePicFile != '')
+            {
+                document.getElementById('imgCompanyLogo')
+                .setAttribute(
+                    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
+                );
+            }
         }
 
-        var base64String='';
-        function encodeImagetoBase64(element) {
+        var base64UserProfileString = '';
+        var base64CompanyProfileString = '';
+        function encodeImagetoBase64(element,flag) {
             debugger
             var file = element.files[0];
             var reader = new FileReader();
             reader.onloadend = function () {
-                base64String = reader.result;
-                //alert(base64String);
+
+                if (flag == 'userpic') {
+                    base64UserProfileString = reader.result;
+                }
+                else if (flag == 'companypic') {                
+                    base64CompanyProfileString = reader.result;
+                }
+                //alert(base64UserProfileString);
                 //$("#base64").attr("href", reader.result);
                 //rawString = $("#base64").text(reader.result);
-                //base64String = rawString[0].textContent.split(",").pop();
+                //base64UserProfileString = rawString[0].textContent.split(",").pop();
             }
             reader.readAsDataURL(file);
         }
@@ -208,8 +226,9 @@
             var Position = $('#txtPosition').val();
             var EmailNotification = $('#cbEmailNotifications').prop('checked');
             var PushNotification = $('#cbPushNotifications').prop('checked');
-            
-            var requestParams = { EmailID: EmailID, Position: Position, EmailNotification: EmailNotification, PushNotification: PushNotification, ImageBase64: base64String};
+            var ThemeColor = '#ffffff';
+
+            var requestParams = { EmailID: EmailID, Position: Position, EmailNotification: EmailNotification, PushNotification: PushNotification, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString,CompanyThemeColor:ThemeColor };
             var getUrl = "/API/User/UpdateMyProfile";
             $.ajax({
                 type: "POST",
