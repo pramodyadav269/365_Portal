@@ -252,7 +252,7 @@ namespace _365_Portal.Controllers
                     var ds = TrainningBL.SubmitAnswers(compId, userId, surveyId, requestParams);
                     if (ds.Tables.Count > 0)
                     {
-                        if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
+                        if (Convert.ToInt32(ds.Tables[0].Rows[0]["ResponseID"].ToString()) > 0)
                         {
                             // Successful
                             data = Utility.Successful("");
