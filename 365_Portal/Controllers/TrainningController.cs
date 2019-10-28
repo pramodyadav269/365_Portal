@@ -59,7 +59,9 @@ namespace _365_Portal.Controllers
                     string userId = identity.UserID;
                     int topicId = Convert.ToInt32(requestParams["TopicID"].ToString());
                     var ds = TrainningBL.GetModulesByTopic(compId, userId, topicId);
-                    data = Utility.GetModulesJSONFormat("1", "Successful", Utility.ConvertDataSetToJSONString(ds.Tables[0]), Utility.ConvertDataSetToJSONString(ds.Tables[1]));
+                    var sourceInfo = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    sourceInfo = sourceInfo.Substring(2, sourceInfo.Length - 4);
+                    data = Utility.GetModulesJSONFormat("1", "Successful", sourceInfo, Utility.ConvertDataSetToJSONString(ds.Tables[1]), Utility.ConvertDataSetToJSONString(ds.Tables[2]));
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +90,9 @@ namespace _365_Portal.Controllers
                     int topicId = Convert.ToInt32(requestParams["TopicID"].ToString());
                     int moduleId = Convert.ToInt32(requestParams["ModuleID"].ToString());
                     var ds = TrainningBL.GetContentsByModule(compId, userId, topicId, moduleId);
-                    data = Utility.GetModulesJSONFormat("1", "Successful", Utility.ConvertDataSetToJSONString(ds.Tables[0]), Utility.ConvertDataSetToJSONString(ds.Tables[1]));
+                    var sourceInfo = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    sourceInfo = sourceInfo.Substring(2, sourceInfo.Length - 4);
+                    data = Utility.GetModulesJSONFormat("1", "Successful", sourceInfo, Utility.ConvertDataSetToJSONString(ds.Tables[1]), Utility.ConvertDataSetToJSONString(ds.Tables[2]));
                 }
                 catch (Exception ex)
                 {
@@ -246,6 +250,7 @@ namespace _365_Portal.Controllers
                 {
                     int compId = identity.CompId;
                     string userId = identity.UserID;
+                    int topicId = Convert.ToInt32(requestParams["TopicID"].ToString());
                     int surveyId = Convert.ToInt32(requestParams["SurveyID"].ToString());
                     int moduleId = Convert.ToInt32(requestParams["ModuleID"].ToString());
                     int contentId = Convert.ToInt32(requestParams["ContentID"].ToString());
@@ -254,8 +259,13 @@ namespace _365_Portal.Controllers
                     {
                         if (Convert.ToInt32(ds.Tables[0].Rows[0]["ResponseID"].ToString()) > 0)
                         {
-                            // Successful
-                            data = Utility.Successful("");
+                            List<Question> questionList = new List<Question>();
+                            var dsContent = TrainningBL.GetContentDetails(compId, userId, topicId, moduleId, contentId, ref questionList);
+                            var questionJson = JsonConvert.SerializeObject(questionList);
+                            var contents = Utility.ConvertDataSetToJSONString(dsContent.Tables[0]);
+                            contents = contents.Substring(2, contents.Length - 4);
+                            data = Utility.GetJSONData("1", "Successful", contents, questionJson,
+                                Utility.ConvertDataSetToJSONString(dsContent.Tables[3]), Utility.ConvertDataSetToJSONString(dsContent.Tables[4]));
                         }
                         else
                         {

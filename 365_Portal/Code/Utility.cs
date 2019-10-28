@@ -109,14 +109,15 @@ namespace _365_Portal.Code
                 + ",\"Flachards\":" + flashcards + "}";
         }
 
-        public static string GetModulesJSONFormat(string statusCode, string statusDescription, string unlockedModules, string lockedModules)
+        public static string GetModulesJSONFormat(string statusCode, string statusDescription,string data, string unlockedModules, string lockedModules)
         {
             if (string.IsNullOrEmpty(unlockedModules))
                 unlockedModules = "[]";
             if (string.IsNullOrEmpty(lockedModules))
                 lockedModules = "[]";
             return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription
-                + "\",\"UnlockedItems\":" + unlockedModules
+                 + "\"," + data
+                + ",\"UnlockedItems\":" + unlockedModules
                 + ",\"LockedItems\":" + lockedModules + "}";
         }
 
