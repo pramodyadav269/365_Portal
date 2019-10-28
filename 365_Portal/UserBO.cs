@@ -60,7 +60,9 @@ namespace _365_Portal
         public string Role { get; set; }
         public bool IsFirstLogin { get; set; }
         public string ProfilePicFileID { get; set; }
+        public string CompanyProfilePicFileID { get; set; }
         public string ProfilePicFile { get; set; }
+        public string CompanyProfilePicFile { get; set; }
         public string IsFirstPasswordChanged { get; set; }
     }
 }

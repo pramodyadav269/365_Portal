@@ -172,6 +172,8 @@ namespace _365_Portal.Code.DAL
                 objUser.MobileNum = dt.Rows[0]["MobileNum"].ToString();
                 objUser.Position = dt.Rows[0]["Position"].ToString();
                 objUser.ProfilePicFileID = dt.Rows[0]["ProfilePicFileID"].ToString();
+                objUser.CompanyProfilePicFileID = dt.Rows[0]["CompanyProfilePicFileID"].ToString();
+                objUser.ThemeColor = dt.Rows[0]["ThemeColor"].ToString();
                 objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
                 objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
 
@@ -195,11 +197,41 @@ namespace _365_Portal.Code.DAL
             return objUser;
         }
 
+        public static UserBO GetAuthenticatedUserDetails(string UserId, string Ref1)
+        {
+            UserBO objUser = null;
+
+            MySqlParameter[] param = new MySqlParameter[2];
+            param[0] = new MySqlParameter("p_UserID", UserId);
+            param[1] = new MySqlParameter("p_Ref1", Ref1);
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.AddRange(param);
+            DataTable dt = DBConnection.GetDataTable("spGetAuthenticatedUserDetails", cmd, "");
+
+            if (dt.Rows.Count > 0)
+            {
+                objUser = new UserBO();
+                objUser.CompId = Convert.ToInt32(dt.Rows[0]["CompID"]);
+                objUser.UserID = dt.Rows[0]["UserID"].ToString();
+                objUser.RoleID = dt.Rows[0]["RoleID"].ToString();
+                objUser.Role = dt.Rows[0]["RoleName"].ToString();
+                objUser.FirstName = dt.Rows[0]["FirstName"].ToString();
+                objUser.LastName = dt.Rows[0]["LastName"].ToString();
+                objUser.EmailID = dt.Rows[0]["EmailID"].ToString();
+                objUser.MobileNum = dt.Rows[0]["MobileNum"].ToString();
+                objUser.Position = dt.Rows[0]["Position"].ToString();
+                objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
+                objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic           
+            }
+            return objUser;
+        }
+
         public static ResponseBase UpdateUserDetailsByUserID(UserBO _userdetail, string Ref1)
         {
             ResponseBase objResponse = null;
 
-            MySqlParameter[] param = new MySqlParameter[9];
+            MySqlParameter[] param = new MySqlParameter[11];
             param[0] = new MySqlParameter("p_UserID", _userdetail.UserID);
             param[1] = new MySqlParameter("p_EmailID", _userdetail.EmailID);
             param[2] = new MySqlParameter("p_FirstName", _userdetail.FirstName);
@@ -208,7 +240,9 @@ namespace _365_Portal.Code.DAL
             param[5] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
             param[6] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
             param[7] = new MySqlParameter("p_ProfilePicFileID", _userdetail.ProfilePicFileID);
-            param[8] = new MySqlParameter("p_Ref1", Ref1);
+            param[8] = new MySqlParameter("p_CompanyProfilePicFileID", _userdetail.CompanyProfilePicFileID);
+            param[9] = new MySqlParameter("p_ThemeColor", _userdetail.ThemeColor);
+            param[10] = new MySqlParameter("p_Ref1", Ref1);
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
@@ -429,7 +463,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet CreateFile(string FilePath, string FileName,string Ref1)
+        public static DataSet CreateFile(string FilePath, string FileDirectory, string Ref1)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -440,7 +474,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_FilePath", FilePath);
-                cmd.Parameters.AddWithValue("p_FileName", FileName);
+                cmd.Parameters.AddWithValue("p_FileDirectory", FileDirectory);
                 cmd.Parameters.AddWithValue("p_Ref1", Ref1);               
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
