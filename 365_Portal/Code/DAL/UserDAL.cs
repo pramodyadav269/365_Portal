@@ -174,6 +174,7 @@ namespace _365_Portal.Code.DAL
                 objUser.ProfilePicFileID = dt.Rows[0]["ProfilePicFileID"].ToString();
                 objUser.CompanyProfilePicFileID = dt.Rows[0]["CompanyProfilePicFileID"].ToString();
                 objUser.ThemeColor = dt.Rows[0]["ThemeColor"].ToString();
+                objUser.GroupName = dt.Rows[0]["GroupName"].ToString();
                 objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
                 objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
 
