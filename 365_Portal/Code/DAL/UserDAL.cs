@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using static _365_Portal.Models.Login;
 using _365_Portal.Code;
+using _365_Portal.Code.BO;
 
 namespace _365_Portal.Code.DAL
 {
@@ -174,6 +175,7 @@ namespace _365_Portal.Code.DAL
                 objUser.ProfilePicFileID = dt.Rows[0]["ProfilePicFileID"].ToString();
                 objUser.CompanyProfilePicFileID = dt.Rows[0]["CompanyProfilePicFileID"].ToString();
                 objUser.ThemeColor = dt.Rows[0]["ThemeColor"].ToString();
+                objUser.GroupName = dt.Rows[0]["GroupName"].ToString();
                 objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
                 objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
 
@@ -231,18 +233,18 @@ namespace _365_Portal.Code.DAL
         {
             ResponseBase objResponse = null;
 
-            MySqlParameter[] param = new MySqlParameter[11];
+            MySqlParameter[] param = new MySqlParameter[9];
             param[0] = new MySqlParameter("p_UserID", _userdetail.UserID);
             param[1] = new MySqlParameter("p_EmailID", _userdetail.EmailID);
             param[2] = new MySqlParameter("p_FirstName", _userdetail.FirstName);
             param[3] = new MySqlParameter("p_LastName", _userdetail.LastName);
             param[4] = new MySqlParameter("p_Position", _userdetail.Position);
-            param[5] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
-            param[6] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
-            param[7] = new MySqlParameter("p_ProfilePicFileID", _userdetail.ProfilePicFileID);
-            param[8] = new MySqlParameter("p_CompanyProfilePicFileID", _userdetail.CompanyProfilePicFileID);
-            param[9] = new MySqlParameter("p_ThemeColor", _userdetail.ThemeColor);
-            param[10] = new MySqlParameter("p_Ref1", Ref1);
+            //param[5] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
+            //param[6] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
+            param[5] = new MySqlParameter("p_ProfilePicFileID", _userdetail.ProfilePicFileID);
+            param[6] = new MySqlParameter("p_CompanyProfilePicFileID", _userdetail.CompanyProfilePicFileID);
+            param[7] = new MySqlParameter("p_ThemeColor", _userdetail.ThemeColor);
+            param[8] = new MySqlParameter("p_Ref1", Ref1);
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
@@ -261,6 +263,67 @@ namespace _365_Portal.Code.DAL
                 objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
             }
             return objResponse;
+        }
+
+        public static ResponseBase UpdateNotificationByUserID(UserBO _userdetail, string Ref1)
+        {
+            ResponseBase objResponse = null;
+
+            MySqlParameter[] param = new MySqlParameter[4];
+            param[0] = new MySqlParameter("p_UserID", _userdetail.UserID);
+            param[1] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
+            param[2] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
+            param[3] = new MySqlParameter("p_Ref1", Ref1);
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.AddRange(param);
+            DataTable dt = DBConnection.GetDataTable("spUpdateNotificationByUserID", cmd, "");
+
+            if (dt.Rows.Count > 0)
+            {
+                objResponse = new ResponseBase();
+                objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
+                objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
+            }
+            else
+            {
+                objResponse = new ResponseBase();
+                objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorCode;
+                objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
+            }
+            return objResponse;
+        }
+
+        public static void InsertLoginLogoutHistory(LoginLogout _loginLogout, string Ref1)
+        {
+            MySqlParameter[] param = new MySqlParameter[5];
+            param[0] = new MySqlParameter("p_UserID", _loginLogout.UserID);
+            param[1] = new MySqlParameter("p_CompID", _loginLogout.CompID);
+            param[2] = new MySqlParameter("p_Type", _loginLogout.Type);
+            param[3] = new MySqlParameter("p_IPAddress", _loginLogout.IP_Address);
+            param[4] = new MySqlParameter("p_Ref1", _loginLogout.Ref1);
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.AddRange(param);
+            DataTable dt = DBConnection.GetDataTable("spLoginLogoutHistory", cmd, "");
+
+            /*
+            ResponseBase objResponse = null;
+            DataTable dt = DBConnection.GetDataTable("spLoginLogoutHistory", cmd, "");
+            if (dt.Rows.Count > 0)
+            {
+                objResponse = new ResponseBase();
+                objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
+                objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
+            }
+            else
+            {
+                objResponse = new ResponseBase();
+                objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorCode;
+                objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
+            }
+            return objResponse;
+            */
         }
 
         public static DataSet CreateUser(UserBO userdetails)

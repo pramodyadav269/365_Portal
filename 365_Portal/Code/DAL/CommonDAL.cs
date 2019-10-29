@@ -341,7 +341,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet ForgotPassword(UserBO u)
+        public static DataSet ChangePassword(UserBO u)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -374,5 +374,6 @@ namespace _365_Portal.Code.DAL
             }
             return ds;
         }
+        */
     }
 }

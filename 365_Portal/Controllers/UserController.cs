@@ -18,6 +18,7 @@ using Newtonsoft.Json.Linq;
 using System.Web.Configuration;
 using System.Text.RegularExpressions;
 using System.Data;
+using _365_Portal.Code.BO;
 
 namespace _365_Portal.Controllers
 {
@@ -349,6 +350,7 @@ namespace _365_Portal.Controllers
                     _userdetail.PushNotification = UserDetails.PushNotification;
                     _userdetail.ProfilePicFileID = UserDetails.ProfilePicFileID;
                     _userdetail.CompanyProfilePicFileID = UserDetails.CompanyProfilePicFileID;
+                    _userdetail.GroupName = UserDetails.GroupName;
 
                     if (!string.IsNullOrEmpty(_userdetail.ProfilePicFileID))
                     {
@@ -373,6 +375,7 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
+
         [HttpPost]
         [Route("API/User/UpdateMyProfile")]
         public IHttpActionResult UpdateMyProfile(JObject requestParams)
@@ -386,7 +389,7 @@ namespace _365_Portal.Controllers
                 _userdetail.EmailID = (string)requestParams.SelectToken("EmailID");
                 _userdetail.Position = (string)requestParams.SelectToken("Position");
                 _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
-                _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
+                _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");                
 
                 try
                 {
@@ -458,6 +461,37 @@ namespace _365_Portal.Controllers
                 if (ResponseBase.ReturnCode == "1")
                 {
                     HttpContext.Current.Session["IsFirstLogin"] = false;
+                    data = Utility.Successful(data);
+                }
+                else
+                {
+                    data = Utility.Failed(data);
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [HttpPost]
+        [Route("API/User/UpdateNotification")]
+        public IHttpActionResult UpdateNotification(JObject requestParams)
+        {
+            var data = string.Empty;
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                UserBO _userdetail = new UserBO();
+                _userdetail.UserID = identity.UserID;
+                _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
+                _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
+
+                var ResponseBase = UserDAL.UpdateNotificationByUserID(_userdetail, "");                
+                if (ResponseBase.ReturnCode == "1")
+                {
+                    data = Utility.ConvertJsonToString(ResponseBase);
                     data = Utility.Successful(data);
                 }
                 else
