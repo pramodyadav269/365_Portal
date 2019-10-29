@@ -219,7 +219,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet SubmitResponse(int compId, string userId, int surveyId, double totalScore, double scoreEarned, double percentageEarned, string IPAddress)
+        public static DataSet SubmitResponse(int compId, string userId, int surveyId, double totalScore, double scoreEarned, double percentageEarned,bool isPassed, string IPAddress)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -235,6 +235,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_SurveyID", surveyId);
                 cmd.Parameters.AddWithValue("p_TotalScore", totalScore);
                 cmd.Parameters.AddWithValue("p_ScoreEarned", scoreEarned);
+                cmd.Parameters.AddWithValue("p_IsPassed", isPassed);
                 cmd.Parameters.AddWithValue("p_PercentageEarned", percentageEarned);
                 cmd.Parameters.AddWithValue("p_IPAddress", IPAddress);
 

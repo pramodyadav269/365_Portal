@@ -177,10 +177,17 @@ namespace _365_Portal.Code.BL
                      Convert.ToInt32(responseDetail["ModuleID"]), Convert.ToInt32(responseDetail["ContentID"]), ref questionAnswerList);
 
                 double totalScore = 0;
+                double passingPercentage = 0;
                 if (Convert.ToString(responseDetail["ContentType"]) != "SURVEY")
                 {
                     totalScore = Convert.ToDouble(dataSet.Tables[0].Rows[0]["TotalScore"].ToString());
                 }
+
+                if (!string.IsNullOrEmpty(Convert.ToString(responseDetail["PassingPercent"])))
+                {
+                    passingPercentage = Convert.ToDouble(responseDetail["PassingPercent"].ToString());
+                }
+
                 double scoreEarned = 0, percentageEarned = 0;
                 List<AnswerOption> lstAnswers = new List<AnswerOption>();
 
@@ -269,10 +276,17 @@ namespace _365_Portal.Code.BL
                     scoreEarned += correctScore - inCorrectScore;
                 }
 
-                percentageEarned = (scoreEarned / (totalScore == 0 ? 1 : totalScore)) * 100;
+                if (totalScore == 0)
+                    percentageEarned = 0;
+                else
+                    percentageEarned = (scoreEarned / totalScore) * 100;
+
+                var isPassed = false;
+                if (percentageEarned >= passingPercentage)
+                    isPassed = true;
 
                 //Submit response in DB
-                ds = TrainningDAL.SubmitResponse(compId, userId, surveyId, totalScore, scoreEarned, percentageEarned, Utility.GetClientIPaddress());
+                ds = TrainningDAL.SubmitResponse(compId, userId, surveyId, totalScore, scoreEarned, percentageEarned, isPassed, Utility.GetClientIPaddress());
 
                 if (ds.Tables.Count > 0)
                 {

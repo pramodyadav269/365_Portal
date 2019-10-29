@@ -50,15 +50,17 @@ namespace _365_Portal.Models
         public class ForgotPassowrd
         {
             public static string EmailIdEmpty = "Email can't be empty";
+            public static string InvalidEmailId = "Email entered is Invalid";
             public static string InValidUser = "User doesn't exist";
             public static string InActiveUser = "User is not Active";
             public static string LockedUser = "User is Locked";
             public static string EmailMisMatch = "EmailId is entered is not correct";
             public static string OTPSendMsg = "Otp has been send to ur Registered Mobile No";
-            public static string EmailSendMsg = "An Eamil has been send to your Registered EmailId";
-            public static string InActiveUserCode = "0";
+            public static string EmailSendMsg = "An Email has been send to your Registered EmailId";
+            public static string InActiveUserCode = "0";            
             public static string Type_0 = "OTP";
             public static string Type_1 = "Mobile";
+            public static string Error = "Oops! An Error occured";
         }
         public class DeviceInfo
         {

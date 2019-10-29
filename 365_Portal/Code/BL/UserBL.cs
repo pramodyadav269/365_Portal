@@ -1,4 +1,5 @@
 ﻿using _365_Portal.Code.DAL;
+using _365_Portal.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -119,33 +120,33 @@ namespace _365_Portal.Code.BL
         /// <param name="mobileNumbers"></param>
         /// <param name="OTP"></param>
         /// <returns></returns>
-        public string SendPasswordLink(int CompId,int UserId, long MobileNum, string EmailId, string Type)
+        public static DataSet ResetPassword(int CompId,int UserId, long MobileNum, string EmailId, string Type,string DeviceDetails,string DeviceType,string IpAddress)
         {
-            string res = "";
+            DataSet data = new DataSet();
             int OTP = Utility.GenerateOTP();
             //If otp type is for success message than skip otp code..            
                 try
                 {
-                    res = "1";
+                    data = null;
 
                 }
                 catch (Exception ex)
                 {
-                    res = "0";
+                    data =null;
                 }
             
-            if (Type == "Email")
+            if (Type == ConstantMessages.ForgotPassowrd.Type_0)
             {
                 // Send OTP on email-id.
                 //SendEmail(FROM_EMAIL, emailId, GetMobileOTPVerificationMail(userName, OTP.ToString()), GetMobileOTPVerificationMailSubject());
             }
-            else if (Type == "Mobile")
+            else if (Type == ConstantMessages.ForgotPassowrd.Type_1)
             {
                 // Send OTP on mobile phone..
                 //string template = WebConfigurationManager.AppSettings["SMS_OTP_Template"].Replace("~OTP~", OTP.ToString());
                 //SendSMS(new long[] { mobileNum }, template);
             }
-            return res;
+            return data;
         }
 
         public static DataSet CreateFile(string FilePath, string FileDirectory, string Ref1)

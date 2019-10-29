@@ -484,7 +484,10 @@ namespace _365_Portal.Controllers
         public IHttpActionResult ForgotPassword(JObject requestParams)
         {
             var data = string.Empty;
-            //UserBO _userdetail = new UserBO();
+
+            string DeviceDetails = string.Empty;
+            string DeviceType = string.Empty;
+            string IP_Address = string.Empty;
             string EmailId = requestParams["EmailId"].ToString();
             Regex regex = new Regex(@"^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
             Match mtch = regex.Match(EmailId);
@@ -502,7 +505,23 @@ namespace _365_Portal.Controllers
                         }
                         else
                         {
-                            data = "";
+                            if (EmailId == identity.EmailID)
+                            {
+                                try
+                                {
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    data = ConstantMessages.ForgotPassowrd.Error;
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+                            }
+                            else
+                            {
+                                data = ConstantMessages.ForgotPassowrd.InvalidEmailId;
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
                         }
                     }
                     else
