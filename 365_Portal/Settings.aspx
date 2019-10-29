@@ -94,7 +94,7 @@
                             </div>
 
                             <div class="text-center mt-5">
-                                <a class="btn btn-custom bg-blue font-weight-bold text-white">Save</a>
+                                <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateNotification()">Save</a>
                             </div>
                         </div>
                     </div>
@@ -178,7 +178,7 @@
             $("#cbEmailNotifications").prop('checked', Data.EmailNotification);
             $("#cbPushNotifications").prop('checked', Data.PushNotification);
 
-            $("#ddlGroup").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
+            $("#ddlGroup").append("<option value='" + Data.GroupName + "'selected >" + Data.GroupName + "</option>");
             $("#ddlRole").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
 
             if (Data.ProfilePicFile != undefined && Data.ProfilePicFile != '')
@@ -220,15 +220,14 @@
             reader.readAsDataURL(file);
         }
 
-        function UpdateUserProfileDetails() {
-            debugger
+        function UpdateUserProfileDetails() {            
             var EmailID = $('#txtEmail').val();
             var Position = $('#txtPosition').val();
-            var EmailNotification = $('#cbEmailNotifications').prop('checked');
-            var PushNotification = $('#cbPushNotifications').prop('checked');
+            //var EmailNotification = $('#cbEmailNotifications').prop('checked');
+            //var PushNotification = $('#cbPushNotifications').prop('checked');
             var ThemeColor = '#ffffff';
 
-            var requestParams = { EmailID: EmailID, Position: Position, EmailNotification: EmailNotification, PushNotification: PushNotification, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString,CompanyThemeColor:ThemeColor };
+            var requestParams = { EmailID: EmailID, Position: Position, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString,CompanyThemeColor:ThemeColor };
             var getUrl = "/API/User/UpdateMyProfile";
             $.ajax({
                 type: "POST",
@@ -253,6 +252,43 @@
                         }
                         else {
                             //alert(DataSet.StatusDescription);
+                            ClearFields();
+                        }
+                    }
+                    catch (e) {
+                        alert(response);
+                        alert(e.message);
+                    }
+                },
+                failure: function (response) {
+                    alert(response.data);
+                }
+            });
+        }
+
+        function UpdateNotification()
+        {
+            debugger
+            var EmailNotification = $('#cbEmailNotifications').prop('checked');
+            var PushNotification = $('#cbPushNotifications').prop('checked');
+            var requestParams = { EmailNotification: EmailNotification, PushNotification: PushNotification};
+            var getUrl = "/API/User/UpdateNotification";
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    try {
+                        debugger
+                        var DataSet = $.parseJSON(response);
+                        if (DataSet.StatusCode == "1")
+                        {
+                            alert(DataSet.Data.ReturnMessage);
+                            location.reload();
+                        }
+                        else {
                             ClearFields();
                         }
                     }

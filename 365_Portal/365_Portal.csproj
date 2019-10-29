@@ -305,6 +305,7 @@
     <Compile Include="Code\BL\TrainningBL.cs" />
     <Compile Include="Code\BL\UserBL.cs" />
     <Compile Include="Code\BO\ContentBO.cs" />
+    <Compile Include="Code\BO\LoginLogout.cs" />
     <Compile Include="Code\BO\TrainningBO.cs" />
     <Compile Include="Code\ConnectionManager.cs" />
     <Compile Include="Code\DAL\AchivementDAL.cs" />

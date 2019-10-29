@@ -340,7 +340,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-
+        /*
         public static DataSet ChangePassword(UserBO u)
         {
             DataSet ds = new DataSet();
@@ -374,5 +374,6 @@ namespace _365_Portal.Code.DAL
             }
             return ds;
         }
+        */
     }
 }
