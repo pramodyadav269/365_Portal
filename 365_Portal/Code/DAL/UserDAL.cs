@@ -31,11 +31,11 @@ namespace _365_Portal.Code.DAL
             param[0] = new MySqlParameter("p_TYPE", 1);
             param[1] = new MySqlParameter("p_EmailId", objRequest.UserName);
             param[2] = new MySqlParameter("p_UserPwd", objRequest.Password);
-            
+
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
             DataTable dt = DBConnection.GetDataTable("spLogin", cmd, "");
-            
+
             if (dt.Rows.Count > 0)
             {
                 objResponse = new LoginResponse();
@@ -46,7 +46,7 @@ namespace _365_Portal.Code.DAL
                 {
                     string HashPassword = Utility.GetHashedPassword(objRequest.Password, dt.Rows[0]["PasswordSalt"].ToString());
                     if (HashPassword == dt.Rows[0]["PasswordHash"].ToString())
-                    {                        
+                    {
                         objResponse.CompID = dt.Rows[0]["CompID"].ToString();
                         objResponse.UserID = dt.Rows[0]["UserID"].ToString();
                         objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
@@ -62,7 +62,7 @@ namespace _365_Portal.Code.DAL
                         objResponse = new LoginResponse();
                         objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
                         objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
-                    }                 
+                    }
                 }
                 else
                 {
@@ -134,7 +134,7 @@ namespace _365_Portal.Code.DAL
                 objUser.CompId = Convert.ToInt32(dt.Rows[0]["CompID"]);
                 objUser.UserID = dt.Rows[0]["UserID"].ToString();
                 objUser.RoleID = dt.Rows[0]["RoleID"].ToString();
-                objUser.Role = dt.Rows[0]["RoleName"].ToString();                                
+                objUser.Role = dt.Rows[0]["RoleName"].ToString();
                 objUser.FirstName = dt.Rows[0]["FirstName"].ToString();
                 objUser.LastName = dt.Rows[0]["LastName"].ToString();
                 objUser.EmailID = dt.Rows[0]["EmailID"].ToString();
@@ -144,7 +144,7 @@ namespace _365_Portal.Code.DAL
                 objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
                 objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
                 objUser.IsDeleted = Convert.ToBoolean(dt.Rows[0]["IsActive"]);//new field added by for Forgot Password in Field Isdeleted
-            }            
+            }
             return objUser;
         }
         public static UserBO GetUserDetailsByUserID(string UserId, string Ref1)
@@ -192,7 +192,7 @@ namespace _365_Portal.Code.DAL
                 else
                 {
                     objUser.PushNotification = Convert.ToBoolean(dt.Rows[0]["PushNotification"]);
-                }                    
+                }
             }
             return objUser;
         }
@@ -277,11 +277,11 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_UserID", userdetails.UserID);
                 cmd.Parameters.AddWithValue("p_CompID", userdetails.CompId);
                 cmd.Parameters.AddWithValue("p_FirstName", userdetails.FirstName);
-                cmd.Parameters.AddWithValue("p_LastName", userdetails.LastName);                
+                cmd.Parameters.AddWithValue("p_LastName", userdetails.LastName);
                 cmd.Parameters.AddWithValue("p_RoleID", userdetails.RoleID);
                 cmd.Parameters.AddWithValue("p_EmailID", userdetails.EmailID);
                 cmd.Parameters.AddWithValue("p_MobileNum", userdetails.MobileNum);
-                cmd.Parameters.AddWithValue("p_Position", userdetails.Position);                
+                cmd.Parameters.AddWithValue("p_Position", userdetails.Position);
                 cmd.Parameters.AddWithValue("p_ProfilePicFileID", userdetails.ProfilePicFileID);
                 cmd.Parameters.AddWithValue("p_CreatedBy", userdetails.UserID);
                 cmd.Parameters.AddWithValue("p_PasswordSalt", userdetails.PasswordSalt);
@@ -338,7 +338,7 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-        public static DataSet GetUsers( string UserId, string RoleId, string EmailId,string GroupId,string MobileNo, string Position, string CreatedBy)
+        public static DataSet GetUsers(string UserId, string RoleId, string EmailId, string GroupId, string MobileNo, string Position, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -415,7 +415,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompId", CompId);
-                cmd.Parameters.AddWithValue("p_GroupId", GroupId);                
+                cmd.Parameters.AddWithValue("p_GroupId", GroupId);
                 cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -475,7 +475,7 @@ namespace _365_Portal.Code.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_FilePath", FilePath);
                 cmd.Parameters.AddWithValue("p_FileDirectory", FileDirectory);
-                cmd.Parameters.AddWithValue("p_Ref1", Ref1);               
+                cmd.Parameters.AddWithValue("p_Ref1", Ref1);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -488,6 +488,78 @@ namespace _365_Portal.Code.DAL
             {
                 conn.Close();
             }
+            return ds;
+        }
+
+        public static DataSet UserResetPassword(int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress, int OTP, string token_url)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spUserResetPassword";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_CompId", CompId);
+                cmd.Parameters.AddWithValue("p_UserId", UserId);
+                cmd.Parameters.AddWithValue("p_MobileNum", MobileNum);
+                cmd.Parameters.AddWithValue("p_EmailId", EmailId);
+                cmd.Parameters.AddWithValue("p_Type", Type);
+                cmd.Parameters.AddWithValue("p_DeviceDetails", DeviceDetails);
+                cmd.Parameters.AddWithValue("p_DeviceType", DeviceType);
+                cmd.Parameters.AddWithValue("p_IpAddress", IpAddress);
+                if (Type == ConstantMessages.ForgotPassowrd.Type_0)
+                {
+                    cmd.Parameters.AddWithValue("p_Token", OTP);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("p_Token", token_url);
+                }
+               
+
+                DataTable dt = ds.Tables.Add("Data");
+                dt.Clear();
+                dt.Columns.Add("ReturnCode");
+                dt.Columns.Add("ReturnMessage");
+                DataRow _row = dt.NewRow();
+                _row["ReturnCode"] = "1";
+                _row["ReturnMessage"] = "Success";
+                dt.Rows.Add(_row);
+                
+                //da.Fill(_ds, "Data");
+                //MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                //
+                // DataTable dt = ds.Tables["Data"];
+                /*
+                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                {
+                    if (Type == ConstantMessages.ForgotPassowrd.Type_1)
+                    {
+                        // Send OTP on email-id.
+                        //SendEmail(FROM_EMAIL, emailId, GetMobileOTPVerificationMail(userName, OTP.ToString()), GetMobileOTPVerificationMailSubject());
+                    }
+                    else if (Type == ConstantMessages.ForgotPassowrd.Type_0)
+                    {
+                        // Send OTP on mobile phone..x`
+                        //string template = WebConfigurationManager.AppSettings["SMS_OTP_Template"].Replace("~OTP~", OTP.ToString());
+                        //SendSMS(new long[] { mobileNum }, template);
+                    }
+                }
+                */
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
             return ds;
         }
 

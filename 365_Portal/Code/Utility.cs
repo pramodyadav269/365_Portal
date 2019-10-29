@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using SendGrid;
+using System.IO;
 
 namespace _365_Portal.Code
 {
@@ -218,11 +219,23 @@ namespace _365_Portal.Code
         }
 
 
-        public static Int32 GenerateOTP()
+        public static int GenerateOTP(int length)
         {
-            Random random = new Random();
-            int OTP = random.Next(1111, 9999);
-            return OTP;
+            string numbers = "1234567890";
+            string characters = numbers;
+            string otp = string.Empty;
+            for (int i = 0; i < length; i++)
+            {
+                string character = string.Empty;
+                do
+                {
+                    int index = new Random().Next(0, characters.Length);
+                    character = characters.ToCharArray()[index].ToString();
+                } while (otp.IndexOf(character) != -1);
+                otp += character;
+            }
+
+            return Convert.ToInt32(otp);
         }
         /// <summary>
         /// Email Function
@@ -321,6 +334,31 @@ namespace _365_Portal.Code
             }
             return null;
 
+        }
+
+        public static string urlNewShorter(string Url)
+        {
+            try
+            {
+
+                if (!Url.ToLower().StartsWith("http") && !Url.ToLower().StartsWith("ftp"))
+                {
+                    Url = "http://" + Url;
+                }
+                var request = WebRequest.Create("http://tinyurl.com/api-create.php?url=" + Url);
+                var res = request.GetResponse();
+                string text;
+                using (var reader = new StreamReader(res.GetResponseStream()))
+                {
+                    text = reader.ReadToEnd();
+                }
+                return text;
+            }
+            catch (Exception ex)
+            {
+                //Add Exception Code
+                return Url;
+            }
         }
     }
 }

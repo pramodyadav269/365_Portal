@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server"> 
+<head runat="server">
     <title>Login</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                     <label for="txtUserEmail">Email</label>
                                     <%--<input type="email" class="form-control" id="txtUserEmail" placeholder="Your email" />--%>
-                                    <asp:TextBox ID="txtUserEmail" runat="server" TextMode="Email" class="form-control"  placeholder="Your EmailId" />
+                                    <asp:TextBox ID="txtUserEmail" runat="server" TextMode="Email" class="form-control" placeholder="Your EmailId" />
                                 </div>
                                 <div class="form-group">
                                     <label for="txtUserPassword">Password</label>
@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="text-center mt-4">
                                     <%--<a class="btn btn-custom bg-yellow font-weight-bold" onclick="login(this)">Log In</a>--%>
-                                    <asp:Button ID="btnLogin" runat="server" class="btn btn-custom bg-yellow font-weight-bold" Text="Log In" OnClientClick="return login(this);" OnClick="btnLogin_Click" />  
+                                    <asp:Button ID="btnLogin" runat="server" class="btn btn-custom bg-yellow font-weight-bold" Text="Log In" OnClientClick="return login(this);" OnClick="btnLogin_Click" />
                                 </div>
 
                                 <asp:Label runat="server" ID="lblError" ForeColor="Red" />
@@ -130,7 +130,7 @@
                                     <input type="email" class="form-control" id="txtRecoverEmail" placeholder="Your email" />
                                 </div>
                                 <div class="text-center mt-5">
-                                    <a class="btn btn-custom bg-yellow font-weight-bold">Recover</a>
+                                    <a class="btn btn-custom bg-yellow font-weight-bold" onclick="Recovery()">Recover</a>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +166,7 @@
             //getController(formdata, "/API/Payment/GetPaymentRequest", "");
         });
 
-        function getController(formdata, getUrl, flag) {            
+        function getController(formdata, getUrl, flag) {
             //var accessToken = '<%=Session["access_token"]%>';
             $.ajax({
                 type: "POST",
@@ -181,11 +181,11 @@
 
                 success: function (response) {
                     var length = 0;
-                    
+
                     var DataSet = $.parseJSON(response);
 
                 },
-                failure: function(response) {
+                failure: function (response) {
                     alert(response.d);
                 }
                 /*
@@ -199,6 +199,37 @@
             });
         }
 
+        function Recovery() {
+            var emailId = $('#txtRecoverEmail').val();
+            var requestParams;
+            if (emailId != null && emailId != '') {
+                requestParams = { EmailId: emailId, MobileNum: '', DeviceDetails: '', DeviceType: '' };
+            }
+            var getUrl = "/API/User/ForgotPassword";
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    var length = 0;
+
+                    var DataSet = $.parseJSON(response);
+
+                },
+                failure: function (response) {
+                    alert(response.d);
+                }
+                /*
+                ,
+                failure: AjaxUDFailure,
+                error: AjaxUDError,
+                complete: function () {
+                    isAction = false;
+                }
+                */
+            });
+        }
 
     </script>
 
