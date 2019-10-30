@@ -133,18 +133,18 @@ namespace _365_Portal.Controllers
         }
 
         //Get request api to autheticate user
-        [HttpGet]
-        [Route("api/User/GetForAuthenticate")]
-        public IHttpActionResult GetForAuthenticate()
-        {
-            //var identity = (ClaimsIdentity)User.Identity;
-            var identity = MyAuthorizationServerProvider.AuthenticateUser();
-            if (identity != null)
-            {
-                var twest = identity.UserID;
-            }
-            return Ok("Hello " + identity.FirstName);
-        }
+        //[HttpGet]
+        //[Route("api/User/GetForAuthenticate")]
+        //public IHttpActionResult GetForAuthenticate()
+        //{
+        //    //var identity = (ClaimsIdentity)User.Identity;
+        //    var identity = MyAuthorizationServerProvider.AuthenticateUser();
+        //    if (identity != null)
+        //    {
+        //        var twest = identity.UserID;
+        //    }
+        //    return Ok("Hello " + identity.FirstName);
+        //}
 
         /// <summary>
         /// Change password Api

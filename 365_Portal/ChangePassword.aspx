@@ -43,7 +43,7 @@
             var Confirmed_Password = $('#txtNewPasswordAgain').val();
             var requestParams = { OldPassword: Old_Password, NewPassword: Confirmed_Password, DeviceDetails: "", DeviceType: "", IPAddess: "" };
             var getUrl = "/API/User/ChangePassword";
-            loader(1);
+            showLoader();;
             $.ajax({
                 type: "POST",
                 url: getUrl,
@@ -52,7 +52,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        loader(0);
+                        hideLoader();;
                         var DataSet = $.parseJSON(response);
                         console.log(response);
                         if (DataSet.StatusCode == "1") {

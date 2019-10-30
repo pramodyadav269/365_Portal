@@ -42,20 +42,20 @@ namespace _365_Portal
             if (identity != null)
             {
                 UserBO objUser = new UserBO();
-                objUser = UserDAL.GetUserDetailsByEmailID(context.UserName,null);
+                objUser = UserDAL.GetUserDetailsByEmailID(context.UserName, null);
 
                 identity.AddClaim(new Claim(UserClaim.CompId, objUser.CompId.ToString()));
                 identity.AddClaim(new Claim(UserClaim.UserID, objUser.UserID.ToString()));
                 identity.AddClaim(new Claim(UserClaim.RoleID, objUser.RoleID.ToString()));
                 identity.AddClaim(new Claim(UserClaim.Role, objUser.Role.ToString()));
-                identity.AddClaim(new Claim(UserClaim.IsFirstLogin, objUser.IsFirstLogin.ToString()));
-                identity.AddClaim(new Claim(UserClaim.ProfilePicFileID, objUser.ProfilePicFileID));
-                identity.AddClaim(new Claim(UserClaim.FirstName, objUser.FirstName));
-                identity.AddClaim(new Claim(UserClaim.LastName, objUser.LastName));
-                identity.AddClaim(new Claim(UserClaim.EmailID, objUser.EmailID));
-                identity.AddClaim(new Claim(UserClaim.MobileNum, objUser.MobileNum));
-                identity.AddClaim(new Claim(UserClaim.Position, objUser.Position));
-                
+                //identity.AddClaim(new Claim(UserClaim.IsFirstLogin, objUser.IsFirstLogin.ToString()));
+                //identity.AddClaim(new Claim(UserClaim.ProfilePicFileID, objUser.ProfilePicFileID));
+                //identity.AddClaim(new Claim(UserClaim.FirstName, objUser.FirstName));
+                //identity.AddClaim(new Claim(UserClaim.LastName, objUser.LastName));
+                //identity.AddClaim(new Claim(UserClaim.EmailID, objUser.EmailID));
+                //identity.AddClaim(new Claim(UserClaim.MobileNum, objUser.MobileNum));
+                //identity.AddClaim(new Claim(UserClaim.Position, objUser.Position));
+
                 //context.Validated(identity);
                 var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
@@ -93,13 +93,13 @@ namespace _365_Portal
                     _usrDetails.UserID = Convert.ToString(claims.Where(c => c.Type == UserClaim.UserID).Select(c => c.Value).FirstOrDefault().ToString());
                     _usrDetails.RoleID = Convert.ToString(claims.Where(c => c.Type == UserClaim.RoleID).Select(c => c.Value).FirstOrDefault());
                     _usrDetails.Role = Convert.ToString(claims.Where(c => c.Type == UserClaim.Role).Select(c => c.Value).FirstOrDefault());
-                    _usrDetails.ProfilePicFileID = Convert.ToString(claims.Where(c => c.Type == UserClaim.ProfilePicFileID).Select(c => c.Value).FirstOrDefault());                    
-                    _usrDetails.FirstName = Convert.ToString(claims.Where(c => c.Type == UserClaim.FirstName).Select(c => c.Value).FirstOrDefault());
-                    _usrDetails.LastName = Convert.ToString(claims.Where(c => c.Type == UserClaim.LastName).Select(c => c.Value).FirstOrDefault());
-                    _usrDetails.EmailID = Convert.ToString(claims.Where(c => c.Type == UserClaim.EmailID).Select(c => c.Value).FirstOrDefault());
-                    _usrDetails.MobileNum = Convert.ToString(claims.Where(c => c.Type == UserClaim.MobileNum).Select(c => c.Value).FirstOrDefault());
-                    _usrDetails.Position = Convert.ToString(claims.Where(c => c.Type == UserClaim.Position).Select(c => c.Value).FirstOrDefault());
-                    
+                    //_usrDetails.ProfilePicFileID = Convert.ToString(claims.Where(c => c.Type == UserClaim.ProfilePicFileID).Select(c => c.Value).FirstOrDefault());
+                    //_usrDetails.FirstName = Convert.ToString(claims.Where(c => c.Type == UserClaim.FirstName).Select(c => c.Value).FirstOrDefault());
+                    //_usrDetails.LastName = Convert.ToString(claims.Where(c => c.Type == UserClaim.LastName).Select(c => c.Value).FirstOrDefault());
+                    //_usrDetails.EmailID = Convert.ToString(claims.Where(c => c.Type == UserClaim.EmailID).Select(c => c.Value).FirstOrDefault());
+                    //_usrDetails.MobileNum = Convert.ToString(claims.Where(c => c.Type == UserClaim.MobileNum).Select(c => c.Value).FirstOrDefault());
+                    //_usrDetails.Position = Convert.ToString(claims.Where(c => c.Type == UserClaim.Position).Select(c => c.Value).FirstOrDefault());
+
                     return _usrDetails;
                 }
                 return null;

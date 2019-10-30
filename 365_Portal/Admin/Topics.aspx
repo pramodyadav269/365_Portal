@@ -12,9 +12,9 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
+                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right">Save Changes</a>
                     <div class="w-100"></div>
-                    <div id="divTable" class="mt-3 table-responsive"></div>
+                    <div id="divTable" class="mt-5 table-responsive"></div>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
 
 
 
-            loader(1)
+            showLoader();
             $.ajax({
                 type: "GET",
                 url: "https://reqres.in/api/users?page=1",
@@ -102,6 +102,8 @@
 
                     $('#divTable').empty().append(tbl)
 
+                    $('#tblGird').tableDnD()
+
                     //var dTable = $('#tblGird').DataTable();
 
                     //dTable.on('order.dt search.dt', function () {
@@ -110,9 +112,11 @@
                     //    });
                     //}).draw();
 
+
+
                 },
                 complete: function () {
-                    loader(0)
+                    hideLoader();
                 }
             });
         });

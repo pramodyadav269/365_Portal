@@ -792,3 +792,7 @@ table.table-bordered tbody td .svg-inline--fa {
     margin-right: .75rem;
     cursor: pointer;
 }
+
+table tr.tDnD_whileDrag {
+    background: #eee;
+}

@@ -11,18 +11,18 @@ namespace _365_Portal.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (HttpContext.Current.Session["UserId"] != null)
-            {
-                if (HttpContext.Current.Session["IsFirstTimeLogin"] != null)
-                {
-                    // This is 1st time login & user has not changed password..
-                    Response.Redirect("~/settings.aspx");
-                }
-            }
-            else
-            {
-                Response.Redirect("~/login.aspx");
-            }
+            //if (HttpContext.Current.Session["UserId"] != null)
+            //{
+            //    if (HttpContext.Current.Session["IsFirstTimeLogin"] != null)
+            //    {
+            //        // This is 1st time login & user has not changed password..
+            //        Response.Redirect("~/settings.aspx");
+            //    }
+            //}
+            //else
+            //{
+            //    Response.Redirect("~/login.aspx");
+            //}
         }
     }
 }
