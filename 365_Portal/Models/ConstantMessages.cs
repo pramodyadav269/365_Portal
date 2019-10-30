@@ -59,10 +59,12 @@ namespace _365_Portal.Models
             public static string EmailMisMatch = "EmailId is entered is not correct";
             public static string OTPSendMsg = "Otp has been send to ur Registered Mobile No";
             public static string EmailSendMsg = "An Email has been send to your Registered EmailId";
-            public static string InActiveUserCode = "0";            
+            public static string InActiveUserCode = "0";
             public static string Type_0 = "OTP";
             public static string Type_1 = "EMAIL";
             public static string Error = "Oops! An Error occured";
+            public static string PasswordTokenEmpty = "Password and Token can't be Empty";
+            public static string InvalidToken = "Invalid Token or Token Expired";
         }
         public class DeviceInfo
         {

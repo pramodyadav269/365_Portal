@@ -388,8 +388,8 @@ namespace _365_Portal.Controllers
                 _userdetail.UserID = identity.UserID;
                 _userdetail.EmailID = (string)requestParams.SelectToken("EmailID");
                 _userdetail.Position = (string)requestParams.SelectToken("Position");
-                //_userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
-                //_userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");                
+                _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
+                _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
 
                 try
                 {
@@ -488,7 +488,7 @@ namespace _365_Portal.Controllers
                 _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
                 _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
 
-                var ResponseBase = UserDAL.UpdateNotificationByUserID(_userdetail, "");                
+                var ResponseBase = UserDAL.UpdateNotificationByUserID(_userdetail, "");
                 if (ResponseBase.ReturnCode == "1")
                 {
                     data = Utility.ConvertJsonToString(ResponseBase);
@@ -520,11 +520,11 @@ namespace _365_Portal.Controllers
             var data = string.Empty;
             int CompId = 0;
             string UserId = string.Empty;
-            
+
             string Type = string.Empty;
             string IP_Address = string.Empty;
             /*Both values are taken as input whatever the logic needs to impemented*/
-            string EmailId = requestParams["EmailId"].ToString();           
+            string EmailId = requestParams["EmailId"].ToString();
             string MobileNum = requestParams["MobileNum"].ToString();
             /*This fields are for the mobile Request*/
             string DeviceDetails = requestParams["DeviceDetails"].ToString();
@@ -532,7 +532,7 @@ namespace _365_Portal.Controllers
             Regex regex_Email = new Regex(@"^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$");
             Regex regex_Mobile_Num = new Regex(@"^[0-9]{10}$");
             Match mtch_Email = regex_Email.Match(EmailId);
-            Match mtch_Mobile=regex_Mobile_Num.Match(MobileNum);
+            Match mtch_Mobile = regex_Mobile_Num.Match(MobileNum);
             try
             {
                 if (!string.IsNullOrEmpty(EmailId) || !string.IsNullOrEmpty(MobileNum))
@@ -637,5 +637,127 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
+        /// <summary>
+        /// Password Changed API which will Change the PAssword
+        /// </summary>
+        /// <param name="requestParams"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("API/User/ResetPassword")]
+        public IHttpActionResult ResetPassword(JObject requestParams)
+        {
+            var data = string.Empty;
+            try
+            {
+
+                string Password = requestParams["Password"].ToString();
+                string Token = requestParams["Token"].ToString();
+                /*This fields are for the mobile Request*/
+                string DeviceDetails = requestParams["DeviceDetails"].ToString();
+                string DeviceType = requestParams["DeviceType"].ToString();
+                if (!string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Token))
+                {
+                    //var Token = UserDAL.GetUserDetailsByToken(Token);
+                    var db_Token = string.Empty;
+                    //if (Token.ToUpper().ToString() == db_Token["Token"].ToUpper().ToString())
+                    if (Token.ToUpper().ToString() == db_Token.ToUpper().ToString())
+                    {
+                        Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");// Password Validation regex with atleast 1 lowercase,1 Uppercase,1 numeric,1 special charcter and 8 Charcters long  
+                        Match m = regex.Match(Password);
+                        if (m.Success)
+                        {
+                            UserBO _details = new UserBO();
+                            _details.CompId = 0;
+                            _details.UserID = string.Empty;
+                            _details.Token = Token;
+                            _details.NewPassword = Password;
+                            _details.IP_Address = Utility.GetClientIPaddress();
+                            if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
+                            {
+                                _details.DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
+                                _details.DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
+                            }
+                            var ds = CommonBL.ChangePassword(_details);
+                            if (ds.Tables.Count > 0)
+                            {
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = ConstantMessages.ChangePassowrd.Error;
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
+                            }
+                            else
+                            {
+                                data = ConstantMessages.ChangePassowrd.Error;
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+                        }
+                        else
+                        {
+                            data = ConstantMessages.ChangePassowrd.Password_Validation;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.ForgotPassowrd.InvalidToken;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = ConstantMessages.ForgotPassowrd.PasswordTokenEmpty;
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+
+            return new APIResult(Request, data);
+        }
+        /// <summary>
+        /// Token Verification 
+        /// </summary>
+        /// <param name="requestParams"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("API/User/TokenVerification")]
+        public IHttpActionResult TokenVerification(JObject requestParams)
+        {
+            var data = string.Empty;
+            try
+            {
+                string Token = requestParams["Token"].ToString();
+                if (!string.IsNullOrEmpty(Token))
+                {
+                    var ds = string.Empty;
+                }
+                else
+                {
+                    data = ConstantMessages.ForgotPassowrd.InvalidToken;
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+
+            return new APIResult(Request, data);
+        }
+
     }
 }

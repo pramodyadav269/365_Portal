@@ -160,7 +160,14 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_UserID", u.UserID);
                 cmd.Parameters.AddWithValue("p_PasswordHash", u.NewPassword);
                 cmd.Parameters.AddWithValue("p_PasswordSalt", u.PasswordSalt);
-                cmd.Parameters.AddWithValue("p_Token", string.Empty);
+                if (!string.IsNullOrEmpty(u.Token))
+                {
+                    cmd.Parameters.AddWithValue("p_Token", u.Token);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("p_Token", string.Empty);
+                }
                 cmd.Parameters.AddWithValue("p_DeviceType", u.DeviceType);
                 cmd.Parameters.AddWithValue("p_DeviceDetails", u.DeviceDetails);
                 cmd.Parameters.AddWithValue("p_IPAddress", u.IP_Address);
