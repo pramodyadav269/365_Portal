@@ -25,6 +25,15 @@ function QueryStringValue(param) {
     }
 }
 
+
+function showLoader() {
+    loader(1);
+}
+
+function hideLoader() {
+    loader(0);
+}
+
 function loader(acion) {
     if (acion === 1) {
         $('.spinner-center').removeClass('d-none');

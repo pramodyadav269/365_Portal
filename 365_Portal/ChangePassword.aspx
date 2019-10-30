@@ -43,6 +43,7 @@
             var Confirmed_Password = $('#txtNewPasswordAgain').val();
             var requestParams = { OldPassword: Old_Password, NewPassword: Confirmed_Password, DeviceDetails: "", DeviceType: "", IPAddess: "" };
             var getUrl = "/API/User/ChangePassword";
+            showLoader();;
             $.ajax({
                 type: "POST",
                 url: getUrl,
@@ -51,6 +52,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
+                        hideLoader();;
                         var DataSet = $.parseJSON(response);
                         console.log(response);
                         if (DataSet.StatusCode == "1") {
@@ -60,6 +62,23 @@
                                 text: "Password has been Changed Successfully",
                                 type: "success",
                                 icon: "success"
+                            }).then((value) => {
+                                if (value) {
+                                    swal({
+                                        text: "Please Select any Option for move forward",
+                                        icon: "warning",
+                                        buttons: ["Keep me logged in", "Log Out"],
+                                        dangerMode: true,
+                                    }).then((login) => {
+                                        if (login) {
+                                            Logout();
+                                        }
+                                        else {
+                                            var uri = "dashboard.aspx";
+                                            window.location.replace(uri);
+                                        }
+                                    });
+                                }
                             });
                             ClearFields();
                         }
@@ -67,8 +86,8 @@
                             swal({
                                 title: "Failure",
                                 text: DataSet.StatusDescription,
-                                type:"erro"
-                            });                           
+                                type: "erro"
+                            });
                             ClearFields();
                         }
                     }
@@ -88,6 +107,30 @@
             $('#txtCurrentPassword').val('');
             $('#txtNewPassword').val('');
             $('#txtNewPasswordAgain').val('');
+        }
+        function Logout() {
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    try {
+                        var DataSet = $.parseJSON(response);
+                        console.log(response);
+                        if (DataSet.StatusCode == "1") {
+                            var uri = "Login.aspx";
+                            window.location.replace(uri);
+                        }
+                    }
+                    catch (ex)
+                    { }
+                },
+                failure: function (response) {
+                    alert(response.data);
+                }
+            });
         }
 
     </script>

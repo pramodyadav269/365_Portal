@@ -305,6 +305,7 @@
     <Compile Include="Code\BL\TrainningBL.cs" />
     <Compile Include="Code\BL\UserBL.cs" />
     <Compile Include="Code\BO\ContentBO.cs" />
+    <Compile Include="Code\BO\LoginLogout.cs" />
     <Compile Include="Code\BO\TrainningBO.cs" />
     <Compile Include="Code\ConnectionManager.cs" />
     <Compile Include="Code\DAL\AchivementDAL.cs" />
@@ -474,6 +475,7 @@
     <Content Include="Asset\js\gijgo.min.js" />
     <Content Include="Asset\js\jquery.dataTables.min.js" />
     <Content Include="Asset\js\jquery.min.js" />
+    <Content Include="Asset\js\jquery.tablednd.js" />
     <Content Include="Asset\js\moment.js" />
     <Content Include="Asset\js\popper.min.js" />
     <Content Include="Asset\js\select2.min.js" />

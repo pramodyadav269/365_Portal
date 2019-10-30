@@ -1,5 +1,6 @@
 ﻿using _365_Portal.Code;
 using _365_Portal.Code.BL;
+using _365_Portal.Code.BO;
 using _365_Portal.Code.DAL;
 using _365_Portal.Models;
 using System;
@@ -42,6 +43,15 @@ namespace _365_Portal
 
                     if (objResponse.ReturnCode == "1")
                     {
+                        //Login Log
+                        LoginLogout _loginLogout = new LoginLogout();
+                        _loginLogout.UserID = objResponse.UserID;
+                        _loginLogout.CompID = objResponse.CompID;
+                        _loginLogout.Type = "login";
+                        _loginLogout.IP_Address = Utility.GetClientIPaddress();
+                        UserDAL.InsertLoginLogoutHistory(_loginLogout,"");
+                        //End Login Log
+
                         GetAccessToken(txtUserEmail.Text.Trim(), txtUserPassword.Text.Trim());
 
                         if (HttpContext.Current.Session["access_token"] == null)

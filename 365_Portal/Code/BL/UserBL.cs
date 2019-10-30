@@ -1,4 +1,5 @@
 ﻿using _365_Portal.Code.DAL;
+using _365_Portal.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -48,7 +49,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = UserDAL.DeleteUser(CompId,UserId,UserKey,CreatedBy);
+                ds = UserDAL.DeleteUser(CompId, UserId, UserKey, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -62,7 +63,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = UserDAL.GetUsers( UserId,RoleId,EmailId,GroupId,MobileNo,Position, CreatedBy);
+                ds = UserDAL.GetUsers(UserId, RoleId, EmailId, GroupId, MobileNo, Position, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -76,7 +77,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = UserDAL.CreateGroup(CompId,GroupName,Description,CreatedBy);
+                ds = UserDAL.CreateGroup(CompId, GroupName, Description, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -119,33 +120,33 @@ namespace _365_Portal.Code.BL
         /// <param name="mobileNumbers"></param>
         /// <param name="OTP"></param>
         /// <returns></returns>
-        public string SendPasswordLink(int CompId,int UserId, long MobileNum, string EmailId, string Type)
+        public static DataSet ResetPassword(int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress)
         {
-            string res = "";
-            int OTP = Utility.GenerateOTP();
+            DataSet data = new DataSet();
+            int OTP = 0;
+            var token_url="";
+            if (Type == ConstantMessages.ForgotPassowrd.Type_0)
+            {
+                 OTP = Utility.GenerateOTP(4);
+            }
+            else {
+                var g = Guid.NewGuid();
+                token_url = Utility.urlNewShorter("http://localhost:54500/ResetPassword.aspx?Token=" + g);
+            }
             //If otp type is for success message than skip otp code..            
-                try
-                {
-                    res = "1";
+            try
+            {
+                data = UserDAL.UserResetPassword( CompId,  UserId,  MobileNum,  EmailId,  Type,  DeviceDetails,  DeviceType,  IpAddress, OTP, token_url);
+                
 
-                }
-                catch (Exception ex)
-                {
-                    res = "0";
-                }
-            
-            if (Type == "Email")
-            {
-                // Send OTP on email-id.
-                //SendEmail(FROM_EMAIL, emailId, GetMobileOTPVerificationMail(userName, OTP.ToString()), GetMobileOTPVerificationMailSubject());
             }
-            else if (Type == "Mobile")
+            catch (Exception ex)
             {
-                // Send OTP on mobile phone..
-                //string template = WebConfigurationManager.AppSettings["SMS_OTP_Template"].Replace("~OTP~", OTP.ToString());
-                //SendSMS(new long[] { mobileNum }, template);
+                data = null;
             }
-            return res;
+
+
+            return data;
         }
 
         public static DataSet CreateFile(string FilePath, string FileDirectory, string Ref1)

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using SendGrid;
+using System.IO;
 
 namespace _365_Portal.Code
 {
@@ -218,11 +219,23 @@ namespace _365_Portal.Code
         }
 
 
-        public static Int32 GenerateOTP()
+        public static int GenerateOTP(int length)
         {
-            Random random = new Random();
-            int OTP = random.Next(1111, 9999);
-            return OTP;
+            string numbers = "1234567890";
+            string characters = numbers;
+            string otp = string.Empty;
+            for (int i = 0; i < length; i++)
+            {
+                string character = string.Empty;
+                do
+                {
+                    int index = new Random().Next(0, characters.Length);
+                    character = characters.ToCharArray()[index].ToString();
+                } while (otp.IndexOf(character) != -1);
+                otp += character;
+            }
+
+            return Convert.ToInt32(otp);
         }
         /// <summary>
         /// Email Function
@@ -265,6 +278,86 @@ namespace _365_Portal.Code
                 string methodName = stackFrame.GetMethod().Name;
                 int lineNo = stackFrame.GetFileLineNumber();
                 return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Send Sms Function
+        /// </summary>
+        /// <param name="mobileNo"></param>
+        /// <param name="msg"></param>
+        /// <returns>True of False</returns>
+        public static string SendSMS(string mobileNo, string msg)
+        {
+            string api_Response = string.Empty;
+            string sender_Code = string.Empty;
+            try
+            {
+                /*
+                                string url = baseURL + string.Format("sms.php?uid={0}&pin={1}&senderid={2}&route={3}&mobile={4}&message={5}&pushid={6}"
+                              , champRechargeLoginId, champRechargePassword, champRechargeSenderid, champRechargeroute, mobileNo, msg, champRechargepushid);
+
+                                var request = (HttpWebRequest)WebRequest.Create(url);
+                                var response = (HttpWebResponse)request.GetResponse();
+                                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                                {
+                                    var result = streamReader.ReadToEnd();
+
+                                    var respDocument = new XmlDocument();
+                                    respDocument.LoadXml(result);
+
+                                    var status = respDocument.GetElementsByTagName("status").Item(0).InnerText;
+                                    var errorCode = respDocument.GetElementsByTagName("error_code").Item(0).InnerText;
+                                    var message = respDocument.GetElementsByTagName("message").Item(0).InnerText;
+                                    var senderId = respDocument.GetElementsByTagName("senderid").Item(0).InnerText;
+
+                                    //    //check errorcode return by api
+                                    if (!string.IsNullOrEmpty(errorCode))
+                                    {
+                                        api_Response = errorCode;
+                                        if (api_Response == Constants.StatusMessage.Sender.SenderRegistrationSubmissionCode)
+                                        {
+                                            sender_Code = senderId;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        api_Response = Constants.StatusMessage.Common.Exception;
+                                    }
+                                }
+                                */
+            }
+            catch (Exception ex)
+            {
+                api_Response = null;
+            }
+            return null;
+
+        }
+
+        public static string urlNewShorter(string Url)
+        {
+            try
+            {
+
+                if (!Url.ToLower().StartsWith("http") && !Url.ToLower().StartsWith("ftp"))
+                {
+                    Url = "http://" + Url;
+                }
+                var request = WebRequest.Create("http://tinyurl.com/api-create.php?url=" + Url);
+                var res = request.GetResponse();
+                string text;
+                using (var reader = new StreamReader(res.GetResponseStream()))
+                {
+                    text = reader.ReadToEnd();
+                }
+                return text;
+            }
+            catch (Exception ex)
+            {
+                //Add Exception Code
+                return Url;
             }
         }
     }

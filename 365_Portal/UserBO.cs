@@ -55,6 +55,7 @@ namespace _365_Portal
         public string ThemeColor { get; set; }
         public string Logo { get; set; }
         public string GroupId { get; set; }
+        public string GroupName { get; set; }
         public Int32 CompId { get; set; }
         public string RoleID { get; set; }
         public string Role { get; set; }

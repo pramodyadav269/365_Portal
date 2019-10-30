@@ -28,6 +28,7 @@
     <script src="../Asset/js/select2.min.js"></script>
     <script src="../Asset/js/jquery.dataTables.min.js"></script>
     <script src="../Asset/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../Asset/js/jquery.tablednd.js"></script>
     <script src="../Asset/js/site.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
