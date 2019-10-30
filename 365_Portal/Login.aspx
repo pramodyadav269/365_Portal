@@ -219,6 +219,12 @@
                 },
                 failure: function (response) {
                     alert(response.d);
+                    var DataSet = $.parseJSON(response);
+                    swal({
+                        title: "Failure",
+                        text: DataSet.StatusDescription,
+                        type: "erro"
+                    });
                 }
                 /*
                 ,

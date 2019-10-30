@@ -136,7 +136,7 @@ namespace _365_Portal.Code.BL
             //If otp type is for success message than skip otp code..            
             try
             {
-                data = UserDAL.UserResetPassword( CompId,  UserId,  MobileNum,  EmailId,  Type,  DeviceDetails,  DeviceType,  IpAddress, OTP, token_url);
+                data = CommonDAL.UserResetPassword( CompId,  UserId,  MobileNum,  EmailId,  Type,  DeviceDetails,  DeviceType,  IpAddress, OTP, token_url);
                 
 
             }
