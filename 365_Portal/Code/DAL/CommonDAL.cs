@@ -341,39 +341,38 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet ChangePassword(UserBO u)
-        {
-            DataSet ds = new DataSet();
-            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+        //public static DataSet ChangePassword(UserBO u)
+        //{
+        //    DataSet ds = new DataSet();
+        //    MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
 
-            try
-            {
-                conn.Open();
-                string stm = "spChangePassword";
-                MySqlCommand cmd = new MySqlCommand(stm, conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompID", u.CompId);
-                cmd.Parameters.AddWithValue("p_UserID", u.UserID);
-                cmd.Parameters.AddWithValue("p_Token", u.Token);
-                cmd.Parameters.AddWithValue("p_EmailId", u.EmailID);
-                cmd.Parameters.AddWithValue("p_DeviceType", u.DeviceType);
-                cmd.Parameters.AddWithValue("p_DeviceDetails", u.DeviceDetails);
-                cmd.Parameters.AddWithValue("p_IPAddress", u.IP_Address);
-                cmd.Parameters.AddWithValue("p_CreatedBy", u.CreatedBy);
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                da.Fill(ds, "Data");
-                return ds;
-            }
-            catch (Exception ex)
-            {
-                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return ds;
-        }
-        */
+        //    try
+        //    {
+        //        conn.Open();
+        //        string stm = "spChangePassword";
+        //        MySqlCommand cmd = new MySqlCommand(stm, conn);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.AddWithValue("p_CompID", u.CompId);
+        //        cmd.Parameters.AddWithValue("p_UserID", u.UserID);
+        //        cmd.Parameters.AddWithValue("p_Token", u.Token);
+        //        cmd.Parameters.AddWithValue("p_EmailId", u.EmailID);
+        //        cmd.Parameters.AddWithValue("p_DeviceType", u.DeviceType);
+        //        cmd.Parameters.AddWithValue("p_DeviceDetails", u.DeviceDetails);
+        //        cmd.Parameters.AddWithValue("p_IPAddress", u.IP_Address);
+        //        cmd.Parameters.AddWithValue("p_CreatedBy", u.CreatedBy);
+        //        MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+        //        da.Fill(ds, "Data");
+        //        return ds;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        //    }
+        //    finally
+        //    {
+        //        conn.Close();
+        //    }
+        //    return ds;
+        //}
     }
 }

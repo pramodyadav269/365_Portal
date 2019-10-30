@@ -117,7 +117,7 @@
 
 
 
-            loader(1)
+            showLoader();
             $.ajax({
                 type: "GET",
                 url: "https://reqres.in/api/users?page=1",
@@ -174,7 +174,7 @@
 
                 },
                 complete: function () {
-                    loader(0)
+                    hideLoader();
                 }
             });
         });
