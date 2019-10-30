@@ -128,7 +128,8 @@
 
         function GetUserProfileDetails()
         {
-            //var requestParams = { OldPassword: '', NewPassword: '', DeviceDetails: "", DeviceType: "", IPAddess: "" };
+            showLoader();
+
             var getUrl = "/API/User/GetMyProfile";
             $.ajax({
                 type: "POST",
@@ -140,10 +141,10 @@
                     try {
                         debugger
                         var DataSet = $.parseJSON(response);
-                        console.log(response);
+                        hideLoader();
                         if (DataSet.StatusCode == "1") {
                             //alert(DataSet.StatusDescription);                            
-                            BindFields(DataSet.Data);
+                            BindFields(DataSet.Data);                            
                         }
                         else {
                             alert(DataSet.StatusDescription);
@@ -151,12 +152,14 @@
                         }
                     }
                     catch (e) {
+                        hideLoader();
                         alert(response);
-                        alert(e.message);
+                        alert(e.message);                        
                     }
                 },
                 failure: function (response) {
-                    alert(response.data);
+                    hideLoader();
+                    alert(response.data);                    
                 }
             });
         }
@@ -220,7 +223,9 @@
             reader.readAsDataURL(file);
         }
 
-        function UpdateUserProfileDetails() {            
+        function UpdateUserProfileDetails()
+        {
+            showLoader();
             var EmailID = $('#txtEmail').val();
             var Position = $('#txtPosition').val();
             //var EmailNotification = $('#cbEmailNotifications').prop('checked');
@@ -241,7 +246,7 @@
                         var DataSet = $.parseJSON(response);
                         //console.log(response);
                         if (DataSet.StatusCode == "1") {
-                            //BindFields(DataSet.Data);
+                            hideLoader();
                             alert(DataSet.Data.ReturnMessage);
                             if (IsFirstPasswordChanged != undefined && IsFirstPasswordChanged.toLowerCase() == 'true') {
                                 window.location.href = "ChangePassword.aspx";
@@ -251,16 +256,18 @@
                             }
                         }
                         else {
-                            //alert(DataSet.StatusDescription);
-                            ClearFields();
+                            hideLoader();
+                            ClearFields();                            
                         }
                     }
                     catch (e) {
+                        hideLoader();
                         alert(response);
                         alert(e.message);
                     }
                 },
                 failure: function (response) {
+                    hideLoader();
                     alert(response.data);
                 }
             });
@@ -269,6 +276,7 @@
         function UpdateNotification()
         {
             debugger
+            showLoader();
             var EmailNotification = $('#cbEmailNotifications').prop('checked');
             var PushNotification = $('#cbPushNotifications').prop('checked');
             var requestParams = { EmailNotification: EmailNotification, PushNotification: PushNotification};
@@ -282,9 +290,10 @@
                 success: function (response) {
                     try {
                         debugger
+                        hideLoader();
                         var DataSet = $.parseJSON(response);
                         if (DataSet.StatusCode == "1")
-                        {
+                        {                            
                             alert(DataSet.Data.ReturnMessage);
                             location.reload();
                         }
@@ -293,11 +302,13 @@
                         }
                     }
                     catch (e) {
+                        hideLoader();
                         alert(response);
                         alert(e.message);
                     }
                 },
                 failure: function (response) {
+                    hideLoader();
                     alert(response.data);
                 }
             });

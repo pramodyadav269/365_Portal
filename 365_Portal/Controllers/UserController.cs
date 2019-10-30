@@ -388,8 +388,8 @@ namespace _365_Portal.Controllers
                 _userdetail.UserID = identity.UserID;
                 _userdetail.EmailID = (string)requestParams.SelectToken("EmailID");
                 _userdetail.Position = (string)requestParams.SelectToken("Position");
-                _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
-                _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");                
+                //_userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
+                //_userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");                
 
                 try
                 {
