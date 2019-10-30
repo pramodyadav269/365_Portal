@@ -233,18 +233,19 @@ namespace _365_Portal.Code.DAL
         {
             ResponseBase objResponse = null;
 
-            MySqlParameter[] param = new MySqlParameter[9];
-            param[0] = new MySqlParameter("p_UserID", _userdetail.UserID);
-            param[1] = new MySqlParameter("p_EmailID", _userdetail.EmailID);
-            param[2] = new MySqlParameter("p_FirstName", _userdetail.FirstName);
-            param[3] = new MySqlParameter("p_LastName", _userdetail.LastName);
-            param[4] = new MySqlParameter("p_Position", _userdetail.Position);
+            MySqlParameter[] param = new MySqlParameter[10];
+            param[0] = new MySqlParameter("p_CompID", _userdetail.CompId);
+            param[1] = new MySqlParameter("p_UserID", _userdetail.UserID);
+            param[2] = new MySqlParameter("p_EmailID", _userdetail.EmailID);
+            param[3] = new MySqlParameter("p_FirstName", _userdetail.FirstName);
+            param[4] = new MySqlParameter("p_LastName", _userdetail.LastName);
+            param[5] = new MySqlParameter("p_Position", _userdetail.Position);
             //param[5] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
             //param[6] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
-            param[5] = new MySqlParameter("p_ProfilePicFileID", _userdetail.ProfilePicFileID);
-            param[6] = new MySqlParameter("p_CompanyProfilePicFileID", _userdetail.CompanyProfilePicFileID);
-            param[7] = new MySqlParameter("p_ThemeColor", _userdetail.ThemeColor);
-            param[8] = new MySqlParameter("p_Ref1", Ref1);
+            param[6] = new MySqlParameter("p_ProfilePicFileID", _userdetail.ProfilePicFileID);
+            param[7] = new MySqlParameter("p_CompanyProfilePicFileID", _userdetail.CompanyProfilePicFileID);
+            param[8] = new MySqlParameter("p_ThemeColor", _userdetail.ThemeColor);
+            param[9] = new MySqlParameter("p_Ref1", Ref1);
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
@@ -269,11 +270,12 @@ namespace _365_Portal.Code.DAL
         {
             ResponseBase objResponse = null;
 
-            MySqlParameter[] param = new MySqlParameter[4];
-            param[0] = new MySqlParameter("p_UserID", _userdetail.UserID);
-            param[1] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
-            param[2] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
-            param[3] = new MySqlParameter("p_Ref1", Ref1);
+            MySqlParameter[] param = new MySqlParameter[5];
+            param[0] = new MySqlParameter("p_CompID", _userdetail.CompId);
+            param[1] = new MySqlParameter("p_UserID", _userdetail.UserID);
+            param[2] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
+            param[3] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
+            param[4] = new MySqlParameter("p_Ref1", Ref1);
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
