@@ -46,7 +46,7 @@ namespace _365_Portal
 
                 identity.AddClaim(new Claim(UserClaim.CompId, objUser.CompId.ToString()));
                 identity.AddClaim(new Claim(UserClaim.UserID, objUser.UserID.ToString()));
-                //identity.AddClaim(new Claim(UserClaim.RoleID, objUser.RoleID.ToString()));
+                identity.AddClaim(new Claim(UserClaim.RoleID, objUser.RoleID.ToString()));
                 identity.AddClaim(new Claim(UserClaim.Role, objUser.Role.ToString()));
                 //identity.AddClaim(new Claim(UserClaim.IsFirstLogin, objUser.IsFirstLogin.ToString()));
                 //identity.AddClaim(new Claim(UserClaim.ProfilePicFileID, objUser.ProfilePicFileID));
