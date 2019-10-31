@@ -86,7 +86,7 @@
                             swal({
                                 title: "Failure",
                                 text: DataSet.StatusDescription,
-                                type: "erro"
+                                type: "error"
                             });
                             ClearFields();
                         }
