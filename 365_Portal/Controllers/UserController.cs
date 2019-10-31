@@ -350,6 +350,7 @@ namespace _365_Portal.Controllers
                     _userdetail.PushNotification = UserDetails.PushNotification;
                     _userdetail.ProfilePicFileID = UserDetails.ProfilePicFileID;
                     _userdetail.CompanyProfilePicFileID = UserDetails.CompanyProfilePicFileID;
+                    _userdetail.ThemeColor = UserDetails.ThemeColor;
                     _userdetail.GroupName = UserDetails.GroupName;
 
                     if (!string.IsNullOrEmpty(_userdetail.ProfilePicFileID))

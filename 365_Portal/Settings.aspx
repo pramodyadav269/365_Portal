@@ -43,6 +43,11 @@
                             </div>
                         </div>
 
+                                               
+                        <div id="divCompanyTheme" style="display:none;padding-top:20px;">
+                        </div>
+
+                        
                         <div class="col-md-10 mt-5 form-page form-control-bg-d">
                             <div class="form-group">
                                 <label for="txtFirstName">First Name</label>
@@ -72,7 +77,7 @@
                                 <a class="link font-weight-bold" href="ChangePassword.aspx">Change password</a>
                             </div>                            
                             <div class="text-center mt-5">
-                                <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateUserProfileDetails()">Save</a>
+                                <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateUserProfileDetails()">Save</a>                                
                             </div>
                         </div>
                     </div>
@@ -105,7 +110,7 @@
 
     <script>
 
-        debugger
+        //debugger
         var accessToken = '<%=Session["access_token"]%>';
         var Role = '<%=Session["RoleName"]%>';
 
@@ -120,7 +125,9 @@
         $(document).ready(function () {                        
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin"))
             {
-                $('#divCompanyLogo').show();
+                $('#divCompanyLogo').show();                
+                $('#divCompanyTheme').append('<div class="col-md-12">Choose your theme color <input type="color" value="#000000" id="ThemeColor"></div>');
+                $('#divCompanyTheme').show();
             }
             GetUserProfileDetails();
         });
@@ -139,7 +146,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        debugger
+                        //debugger
                         var DataSet = $.parseJSON(response);
                         hideLoader();
                         if (DataSet.StatusCode == "1") {
@@ -198,13 +205,15 @@
                 .setAttribute(
                     'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
                 );
+
+                $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme color <input type="color" id="ThemeColor" name="head" value="' + Data.ThemeColor + '"></div>');
             }
         }
 
         var base64UserProfileString = '';
         var base64CompanyProfileString = '';
         function encodeImagetoBase64(element,flag) {
-            debugger
+            //debugger
             var file = element.files[0];
             var reader = new FileReader();
             reader.onloadend = function () {
@@ -230,7 +239,10 @@
             var Position = $('#txtPosition').val();
             //var EmailNotification = $('#cbEmailNotifications').prop('checked');
             //var PushNotification = $('#cbPushNotifications').prop('checked');
-            var ThemeColor = '#ffffff';
+
+            var theInput = document.getElementById("ThemeColor");
+            var ThemeColor = theInput.value;
+            //var ThemeColor = '#ffffff';
 
             var requestParams = { EmailID: EmailID, Position: Position, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString,CompanyThemeColor:ThemeColor };
             var getUrl = "/API/User/UpdateMyProfile";
@@ -242,7 +254,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        debugger
+                        //debugger
                         var DataSet = $.parseJSON(response);
                         //console.log(response);
                         if (DataSet.StatusCode == "1") {
@@ -275,7 +287,7 @@
 
         function UpdateNotification()
         {
-            debugger
+            //debugger
             showLoader();
             var EmailNotification = $('#cbEmailNotifications').prop('checked');
             var PushNotification = $('#cbPushNotifications').prop('checked');
@@ -289,7 +301,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        debugger
+                        //debugger
                         hideLoader();
                         var DataSet = $.parseJSON(response);
                         if (DataSet.StatusCode == "1")
@@ -316,11 +328,12 @@
 
 
         function setImgSrc(ctrl, img) {
-            debugger
+            //debugger
             $('#' + img).attr('src', URL.createObjectURL(ctrl.files[0]));
         }
 
         
+
 
     </script>
 </asp:Content>
