@@ -37,70 +37,83 @@
 
         });
         var accessToken = '<%=Session["access_token"]%>';
-
         function ChangePassword() {
-            var Old_Password = $('#txtCurrentPassword').val();
-            var Confirmed_Password = $('#txtNewPasswordAgain').val();
-            var requestParams = { OldPassword: Old_Password, NewPassword: Confirmed_Password, DeviceDetails: "", DeviceType: "", IPAddess: "" };
-            var getUrl = "/API/User/ChangePassword";
-            showLoader();;
-            $.ajax({
-                type: "POST",
-                url: getUrl,
-                headers: { "Authorization": "Bearer " + accessToken },
-                data: JSON.stringify(requestParams),
-                contentType: "application/json",
-                success: function (response) {
-                    try {
-                        hideLoader();;
-                        var DataSet = $.parseJSON(response);
-                        console.log(response);
-                        if (DataSet.StatusCode == "1") {
-                            //alert(DataSet.Data[0].ReturnMessage);
-                            swal({
-                                title: "Success",
-                                text: "Password has been Changed Successfully",
-                                type: "success",
-                                icon: "success"
-                            }).then((value) => {
-                                if (value) {
-                                    swal({
-                                        text: "Please Select any Option for move forward",
-                                        icon: "warning",
-                                        buttons: ["Keep me logged in", "Log Out"],
-                                        dangerMode: true,
-                                    }).then((login) => {
-                                        if (login) {
-                                            Logout();
-                                        }
-                                        else {
-                                            var uri = "dashboard.aspx";
-                                            window.location.replace(uri);
-                                        }
-                                    });
-                                }
-                            });
-                            ClearFields();
-                        }
-                        else {
-                            swal({
-                                title: "Failure",
-                                text: DataSet.StatusDescription,
-                                type: "error"
-                            });
-                            ClearFields();
-                        }
-                    }
-                    catch (e) {
-                        alert(response);
-                        alert(e.message);
-                    }
-                },
-                failure: function (response) {
-                    alert(response.data);
-                }
-            });
+            showLoader();
+            if (inputValidation('.input-validation')) {
+                var Old_Password = $('#txtCurrentPassword').val();
+                var Confirmed_Password = $('#txtNewPasswordAgain').val();
+                var requestParams = { OldPassword: Old_Password, NewPassword: Confirmed_Password, DeviceDetails: "", DeviceType: "", IPAddess: "" };
+                var getUrl = "/API/User/ChangePassword";
 
+                $.ajax({
+                    type: "POST",
+                    url: getUrl,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    success: function (response) {
+                        try {
+
+                            var DataSet = $.parseJSON(response);
+                            console.log(response);
+                            if (DataSet.StatusCode == "1") {
+                                //alert(DataSet.Data[0].ReturnMessage);
+                                swal({
+                                    title: "Success",
+                                    text: "Password has been Changed Successfully",
+                                    type: "success",
+                                    icon: "success"
+                                }).then((value) => {
+                                    if (value) {
+                                        swal({
+                                            text: "Please Select any Option for move forward",
+                                            icon: "warning",
+                                            buttons: ["Keep me logged in", "Log Out"],
+                                            dangerMode: true,
+                                        }).then((login) => {
+                                            if (login) {
+                                                Logout();
+                                            }
+                                            else {
+                                                var uri = "dashboard.aspx";
+                                                window.location.replace(uri);
+                                            }
+                                        });
+                                    }
+                                });
+                                ClearFields();
+                            }
+                            else {
+                                swal({
+                                    title: "Failure",
+                                    text: DataSet.StatusDescription,
+                                    type: "error"
+                                });
+                                ClearFields();
+                            }
+                        }
+                        catch (e) {
+                            alert(response);
+                            alert(e.message);
+                        }
+                    },
+                    complete: function () {
+                        hideLoader();
+                    },
+                    failure: function (response) {
+                        hideLoader();
+                        alert(response.data);
+                    }
+                });
+            }
+            else {
+                swal({
+                    title: "Alert",
+                    text: "Fill all fields",
+                    icon: "error",
+                    button: "Ok",
+                });
+            }
         }
 
         function ClearFields() {
@@ -109,28 +122,31 @@
             $('#txtNewPasswordAgain').val('');
         }
         function Logout() {
-            $.ajax({
-                type: "POST",
-                url: getUrl,
-                headers: { "Authorization": "Bearer " + accessToken },
-                data: JSON.stringify(requestParams),
-                contentType: "application/json",
-                success: function (response) {
-                    try {
-                        var DataSet = $.parseJSON(response);
-                        console.log(response);
-                        if (DataSet.StatusCode == "1") {
-                            var uri = "Login.aspx";
-                            window.location.replace(uri);
-                        }
-                    }
-                    catch (ex)
-                    { }
-                },
-                failure: function (response) {
-                    alert(response.data);
-                }
-            });
+            var uri = "Login.aspx";
+            window.location.replace(uri);
+            //var _getUrl = "api/User/UserLogout";
+            //$.ajax({
+            //    type: "POST",
+            //    url: _getUrl,
+            //    headers: { "Authorization": "Bearer " + accessToken },
+            //    data: formdata,
+            //    contentType: "application/json",
+            //    success: function (response) {
+            //        try {
+            //            var DataSet = $.parseJSON(response);
+            //            console.log(response);
+            //            if (DataSet.StatusCode == "1") {
+            //                var uri = "Login.aspx";
+            //                window.location.replace(uri);
+            //            }
+            //        }
+            //        catch (ex)
+            //        { }
+            //    },
+            //    failure: function (response) {
+            //        alert(response.data);
+            //    }
+            //});
         }
 
     </script>

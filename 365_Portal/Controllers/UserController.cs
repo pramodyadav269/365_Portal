@@ -520,13 +520,14 @@ namespace _365_Portal.Controllers
         {
             var data = string.Empty;
             int CompId = 0;
+            int Action ;
             string UserId = string.Empty;
-
             string Type = string.Empty;
             string IP_Address = string.Empty;
             /*Both values are taken as input whatever the logic needs to impemented*/
             string EmailId = requestParams["EmailId"].ToString();
             string MobileNum = requestParams["MobileNum"].ToString();
+             Action = Convert.ToInt32(requestParams["Action"]);
             /*This fields are for the mobile Request*/
             string DeviceDetails = requestParams["DeviceDetails"].ToString();
             string DeviceType = requestParams["DeviceType"].ToString();
@@ -562,8 +563,15 @@ namespace _365_Portal.Controllers
                                             DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
                                             DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
                                         }
-                                        Type = ConstantMessages.ForgotPassowrd.Type_1;
-                                        var ds = UserBL.ResetPassword(CompId, UserId, MobileNum, EmailId, Type, DeviceDetails, DeviceType, IP_Address);
+                                        if (Action == Convert.ToInt32(ConstantMessages.StatusCode.Failure))
+                                        {
+                                            Type = ConstantMessages.ForgotPassowrd.Type_0;
+                                        }
+                                        else
+                                        {
+                                            Type = ConstantMessages.ForgotPassowrd.Type_1;
+                                        }
+                                        var ds = UserBL.ResetPassword(Action,CompId, UserId, MobileNum, EmailId, Type, DeviceDetails, DeviceType, IP_Address);
                                         if (ds.Tables.Count > 0)
                                         {
                                             DataTable dt = ds.Tables["Data"];
@@ -658,52 +666,70 @@ namespace _365_Portal.Controllers
                 string DeviceType = requestParams["DeviceType"].ToString();
                 if (!string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Token))
                 {
-                    //var Token = UserDAL.GetUserDetailsByToken(Token);
-                    var db_Token = string.Empty;
-                    //if (Token.ToUpper().ToString() == db_Token["Token"].ToUpper().ToString())
-                    if (Token.ToUpper().ToString() == db_Token.ToUpper().ToString())
+                    var User_details = UserDAL.GetUserDetailsByToken(Token,string.Empty);
+
+                    if (Token.ToUpper().ToString() == User_details.Token.ToUpper().ToString())
                     {
-                        Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");// Password Validation regex with atleast 1 lowercase,1 Uppercase,1 numeric,1 special charcter and 8 Charcters long  
-                        Match m = regex.Match(Password);
-                        if (m.Success)
+                        var _ds = CommonDAL.UserResetPassword((int)4, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0,string.Empty, User_details.Token);
+                        if (_ds.Tables.Count > 0)
                         {
-                            UserBO _details = new UserBO();
-                            _details.CompId = 0;
-                            _details.UserID = string.Empty;
-                            _details.Token = Token;
-                            _details.NewPassword = Password;
-                            _details.IP_Address = Utility.GetClientIPaddress();
-                            if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
+                            DataTable _dt = _ds.Tables["Data"];
+                            if (_dt.Rows[0]["ReturnCode"].ToString() == "1")
                             {
-                                _details.DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
-                                _details.DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
-                            }
-                            var ds = CommonBL.ChangePassword(_details);
-                            if (ds.Tables.Count > 0)
-                            {
-                                DataTable dt = ds.Tables["Data"];
-                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");// Password Validation regex with atleast 1 lowercase,1 Uppercase,1 numeric,1 special charcter and 8 Charcters long  
+                                Match m = regex.Match(Password);
+                                if (m.Success)
                                 {
-                                    data = Utility.ConvertDataSetToJSONString(dt);
-                                    data = Utility.Successful(data);
+                                    UserBO _details = new UserBO();
+                                    _details.CompId = User_details.CompId;
+                                    _details.UserID = User_details.UserID;
+                                    _details.Token = Token;
+                                    _details.NewPassword = Password;
+                                    _details.IP_Address = Utility.GetClientIPaddress();
+                                    if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
+                                    {
+                                        _details.DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
+                                        _details.DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
+                                    }
+                                    var ds = CommonBL.ChangePassword(_details);
+                                    if (ds.Tables.Count > 0)
+                                    {
+                                        DataTable dt = ds.Tables["Data"];
+                                        if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                        {
+                                            data = Utility.ConvertDataSetToJSONString(dt);
+                                            data = Utility.Successful(data);
+                                        }
+                                        else
+                                        {
+
+                                            data = ConstantMessages.ChangePassowrd.Error;
+                                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        data = ConstantMessages.ChangePassowrd.Error;
+                                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                    }
                                 }
                                 else
                                 {
-
-                                    data = ConstantMessages.ChangePassowrd.Error;
+                                    data = ConstantMessages.ChangePassowrd.Password_Validation;
                                     data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                                 }
-
                             }
                             else
                             {
-                                data = ConstantMessages.ChangePassowrd.Error;
+
+                                data = Utility.ConvertDataSetToJSONString(_dt);
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
                         }
                         else
                         {
-                            data = ConstantMessages.ChangePassowrd.Password_Validation;
+                            data = ConstantMessages.ChangePassowrd.Error;
                             data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
                     }
@@ -743,7 +769,31 @@ namespace _365_Portal.Controllers
                 string Token = requestParams["Token"].ToString();
                 if (!string.IsNullOrEmpty(Token))
                 {
-                    var ds = string.Empty;
+                    
+                    var User_details = UserDAL.GetUserDetailsByToken(Token,string.Empty);
+                    var ds = CommonDAL.UserResetPassword((int)4, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0,string.Empty, User_details.Token);
+                    if (ds.Tables.Count > 0)
+                    {
+                        DataTable dt = ds.Tables["Data"];
+                        if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                        {
+                            data = Utility.ConvertDataSetToJSONString(dt);
+                            data = Utility.Successful(data);
+                        }
+                        else
+                        {
+
+                            data = Utility.ConvertDataSetToJSONString(dt);
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+
+                    }
+                    else
+                    {
+                        data = ConstantMessages.ChangePassowrd.Error;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+                    
                 }
                 else
                 {

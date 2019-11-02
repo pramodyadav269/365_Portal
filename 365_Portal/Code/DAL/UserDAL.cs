@@ -556,6 +556,28 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
+        public static UserBO GetUserDetailsByToken(string Token, string Ref1)
+        {
+            UserBO objUser = null;
+
+            MySqlParameter[] param = new MySqlParameter[2];
+            param[0] = new MySqlParameter("p_Token", Token);
+            param[1] = new MySqlParameter("p_Ref1", Ref1);
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.AddRange(param);
+            DataTable dt = DBConnection.GetDataTable("spGetUserDetailsbyToken", cmd, "");
+
+            if (dt.Rows.Count > 0)
+            {
+                objUser = new UserBO();
+                objUser.CompId = Convert.ToInt32(dt.Rows[0]["CompID"]);
+                objUser.UserID = dt.Rows[0]["UserID"].ToString();
+                objUser.EmailID = dt.Rows[0]["EmailID"].ToString();
+                objUser.Token = dt.Rows[0]["Token"].ToString();
+            }
+            return objUser;
+        }
 
         /*
         public static string GetUserMenu(int UserId)

@@ -16,6 +16,7 @@
     <%-- JS --%>
     <script src="Asset/js/jquery.min.js"></script>
     <script src="Asset/js/popper.min.js"></script>
+    <script src="Asset/js/sweetalert.min.js"></script>
     <script src="Asset/js/bootstrap.min.js"></script>
     <script src="Asset/js/bs-custom-file-input.min.js"></script>
     <script src="Asset/js/all.js"></script>
@@ -54,9 +55,10 @@
         </div>
     </form>
     <script>
+        var t;
         $(document).ready(function () {
 
-            var t = GetParameterValues('Token');
+            t = GetParameterValues('Token');
             verify(t);
             console.log(t);
         });
@@ -73,7 +75,7 @@
 
         function verify(token) {
             var requestParams;
-            if (emailId != null && emailId != '') {
+            if (token != null && token != '') {
                 requestParams = { Token: token };
             }
             var getUrl = "/API/User/TokenVerification";
@@ -114,7 +116,7 @@
         function ChangePassword() {
             if ((($('#txtRegPassword').val() != '' && $('#txtRegPassword').val() != undefined) && ($('#txtRegPasswordAgain').val() != '' && $('#txtRegPasswordAgain').val() != undefined))
                 && ($('#txtRegPassword').val().toUpperCase().toString() == $('#txtRegPasswordAgain').val().toUpperCase().toString())) {
-                var requestParams = { Password: $('#txtRegPasswordAgain').val(), Token: t, DeviceDetails: "", DeviceType :""};
+                var requestParams = { Password: $('#txtRegPasswordAgain').val(), Token: t, DeviceDetails: "", DeviceType: "" };
                 var getUrl = "/API/User/ResetPassword";
                 $.ajax({
                     type: "POST",
@@ -129,7 +131,6 @@
                             swal({
                                 title: "Success",
                                 text: "Password has been Changed Successfully",
-                                type: "success",
                                 icon: "success"
                             }).then((value) => {
                                 if (value) {
@@ -141,7 +142,7 @@
                             swal({
                                 title: "Failure",
                                 text: DataSet.StatusDescription,
-                                type: "error"
+                                icon: "error"
                             });
 
                         }
@@ -152,7 +153,7 @@
                         swal({
                             title: "Failure",
                             text: DataSet.StatusDescription,
-                            type: "error"
+                            icon: "error"
                         });
                     }
                 });

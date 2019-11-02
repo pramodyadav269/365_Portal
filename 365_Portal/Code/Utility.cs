@@ -260,7 +260,7 @@ namespace _365_Portal.Code
                 //client.Send(message);
 
                 // Create credentials, specifying your user name and password.
-                var credentials = new NetworkCredential("azure_9a292e7a8ba7e144014a30bd24a38ded@azure.com", "0gu8HfsYQnWF3EK");
+                var credentials = new NetworkCredential("", "");
 
                 // Create an Web transport for sending email.
                 var transportWeb = new Web(credentials);

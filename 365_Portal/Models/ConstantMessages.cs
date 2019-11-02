@@ -20,6 +20,8 @@ namespace _365_Portal.Models
 
             public static string GenericErrorMsg = "There seems to be technical problem, please try again.";
             public static string GenericErrorCode = "-1";
+            public static string InValidValues = "Details provided  are invalid.Please try again";
+
         }
 
         public class Roles
@@ -73,10 +75,13 @@ namespace _365_Portal.Models
             public static string BrowserName = "Browser Name";
             public static string BrowserVersion = "Browser Version";
         }
+        
         public enum StatusCode
         {
             Success = 1, Failure = 0
-
         }
+        
+
+
     }
 }

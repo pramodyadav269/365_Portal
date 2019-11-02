@@ -8,7 +8,7 @@ using System.Data;
 
 namespace _365_Portal.Controllers
 {
-    public class ModuleController : ApiController
+    public class TopicsController : ApiController
     {
         /// <summary>
         /// All Actions for Module password Api
@@ -18,20 +18,20 @@ namespace _365_Portal.Controllers
         /// Result as True or false 
         /// </returns>
         [HttpPost]
-        [Route("API/Module/ModuleAllAction")]
-        public IHttpActionResult AddModule(JObject requestParams)
+        [Route("API/Topics/TopicsAllAction")]
+        public IHttpActionResult TopicsAllAction(JObject requestParams)
         {
             var data = string.Empty;
             int Action;
             int TopicID;
-            int ModuleID;
             int CompId;
             int SrNo;
+            int MinUnlockedModules;
             string Title = string.Empty;
-            string Overview = string.Empty;
             string Description = string.Empty;
             string CreatedBy = string.Empty;
             bool IsPublished;
+
 
             try
             {
@@ -42,15 +42,12 @@ namespace _365_Portal.Controllers
                     CreatedBy = identity.UserID;
                     Action = Convert.ToInt32(requestParams["Action"]);
                     TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                    ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
                     SrNo = Convert.ToInt32(requestParams["SrNo"]);
-                    Overview = requestParams["Overview"].ToString();
-                    Title = requestParams["Title"].ToString();
-                    Description = requestParams["Description"].ToString();
+                    MinUnlockedModules = Convert.ToInt32(requestParams["MinUnlockedModules"]);
                     IsPublished = Convert.ToBoolean(requestParams["IsPublished"]);
-                    if ((Action != 0 && TopicID != 0 && SrNo != 0 && !string.IsNullOrEmpty(Title)&& !string.IsNullOrEmpty(Overview)&& !string.IsNullOrEmpty(Description)))
+                    if ((Action != 0 && TopicID != 0 && SrNo != 0 && MinUnlockedModules != 0))
                     {
-                        var ds = ModulesBL.ModulesAllAction(Action,ModuleID, TopicID, CompId, Title,Overview, Description, SrNo, IsPublished, CreatedBy);
+                        var ds = TopicsBL.TopicsAllAction(Action, TopicID, CompId, Title, Description, SrNo, MinUnlockedModules, IsPublished, CreatedBy);
                         if (ds.Tables.Count > 0)
                         {
                             DataTable dt = ds.Tables["Data"];
@@ -78,7 +75,6 @@ namespace _365_Portal.Controllers
                         data = ConstantMessages.WebServiceLog.InValidValues;
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
-
                 }
                 else
                 {

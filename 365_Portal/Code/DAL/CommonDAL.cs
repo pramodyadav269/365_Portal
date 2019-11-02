@@ -349,7 +349,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet UserResetPassword(int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress, int OTP, string token_url)
+        public static DataSet UserResetPassword(int Action,int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress, int OTP, string token_url,string Token)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -357,41 +357,37 @@ namespace _365_Portal.Code.DAL
             try
             {
                 conn.Open();
-                string stm = "spUserResetPassword";
+                string stm = "spPasswordRecovery";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_Action", Action);
                 cmd.Parameters.AddWithValue("p_CompId", CompId);
                 cmd.Parameters.AddWithValue("p_UserId", UserId);
-                cmd.Parameters.AddWithValue("p_MobileNum", MobileNum);
-                cmd.Parameters.AddWithValue("p_EmailId", EmailId);
-                cmd.Parameters.AddWithValue("p_Type", Type);
-                cmd.Parameters.AddWithValue("p_DeviceDetails", DeviceDetails);
-                cmd.Parameters.AddWithValue("p_DeviceType", DeviceType);
-                cmd.Parameters.AddWithValue("p_IpAddress", IpAddress);
                 if (Type == ConstantMessages.ForgotPassowrd.Type_0)
                 {
                     cmd.Parameters.AddWithValue("p_Token", OTP);
                 }
                 else
                 {
-                    cmd.Parameters.AddWithValue("p_Token", token_url);
+                    cmd.Parameters.AddWithValue("p_Token", Token);
                 }
+                if (Type == ConstantMessages.ForgotPassowrd.Type_0)
+                {
+                    cmd.Parameters.AddWithValue("p_EmailID", MobileNum);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("p_EmailID", EmailId);
+                }
+                //cmd.Parameters.AddWithValue("p_DeviceDetails", DeviceDetails);
+                //cmd.Parameters.AddWithValue("p_DeviceType", DeviceType);
+                //cmd.Parameters.AddWithValue("p_IpAddress", IpAddress);
 
-
-                DataTable dt = ds.Tables.Add("Data");
-                dt.Clear();
-                dt.Columns.Add("ReturnCode");
-                dt.Columns.Add("ReturnMessage");
-                DataRow _row = dt.NewRow();
-                _row["ReturnCode"] = "1";
-                _row["ReturnMessage"] = "Success";
-                dt.Rows.Add(_row);
-
-                //da.Fill(_ds, "Data");
-                //MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                //
-                // DataTable dt = ds.Tables["Data"];
-                /*
+                cmd.Parameters.AddWithValue("p_Ref1", Type);
+                cmd.Parameters.AddWithValue("p_Ref2", Type);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                DataTable dt = ds.Tables["Data"];                
                 if (dt.Rows[0]["ReturnCode"].ToString() == "1")
                 {
                     if (Type == ConstantMessages.ForgotPassowrd.Type_1)
@@ -401,12 +397,12 @@ namespace _365_Portal.Code.DAL
                     }
                     else if (Type == ConstantMessages.ForgotPassowrd.Type_0)
                     {
-                        // Send OTP on mobile phone..x`
+                         //Send OTP on mobile phone..x`
                         //string template = WebConfigurationManager.AppSettings["SMS_OTP_Template"].Replace("~OTP~", OTP.ToString());
                         //SendSMS(new long[] { mobileNum }, template);
                     }
                 }
-                */
+                
                 return ds;
             }
             catch (Exception ex)

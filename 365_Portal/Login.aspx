@@ -17,6 +17,7 @@
     <script src="Asset/js/jquery.min.js"></script>
     <script src="Asset/js/popper.min.js"></script>
     <script src="Asset/js/bootstrap.min.js"></script>
+    <script src="Asset/js/sweetalert.min.js"></script>
     <script src="Asset/js/bs-custom-file-input.min.js"></script>
     <script src="Asset/js/all.js"></script>
     <script src="Asset/js/select2.min.js"></script>
@@ -200,10 +201,11 @@
         }
 
         function Recovery() {
+            const _Action = 1;
             var emailId = $('#txtRecoverEmail').val();
             var requestParams;
             if (emailId != null && emailId != '') {
-                requestParams = { EmailId: emailId, MobileNum: '', DeviceDetails: '', DeviceType: '' };
+                requestParams = { EmailId: emailId, MobileNum: '', DeviceDetails: '', DeviceType: '', Action: _Action };
             }
             var getUrl = "/API/User/ForgotPassword";
             $.ajax({
@@ -215,6 +217,22 @@
                     var length = 0;
 
                     var DataSet = $.parseJSON(response);
+                    console.log(response);
+                    if (DataSet.StatusCode == "1") {
+                        swal({
+                            title: "Success",
+                            text: "Email has been sent to your registered EmailID",
+                            type: "success",
+                            icon: "success"
+                        });
+                        clearFields();
+                    } else {
+                        swal({
+                            title: "Failure",
+                            text: DataSet.StatusDescription,
+                            type: "erro"
+                        });
+                    }
 
                 },
                 failure: function (response) {

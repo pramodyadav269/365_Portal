@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Modules" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="Modules.aspx.cs" Inherits="_365_Portal.Admin.Modules" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -74,7 +75,7 @@
                         </div>
 
 
-                        
+
                         <div class="w-100"></div>
 
                         <div class="col-md-12 mt-4">
@@ -91,12 +92,14 @@
         $(document).ready(function () {
 
 
-
+            var url = "API/Module/ModuleAllAction";
             showLoader();
             $.ajax({
                 type: "GET",
                 url: "https://reqres.in/api/users?page=1",
-                contentType: false,
+               // type: "POST",
+                //url: url,
+                contentType: "",
                 dataType: "json",
                 processData: false,
                 beforeSend: function () {
@@ -168,14 +171,63 @@
         }
 
         function Submit() {
-
+            showLoader();
             if (inputValidation('.input-validation')) {
-                swal({
-                    title: "Good job!",
-                    text: "You clicked the button!",
-                    icon: "success",
-                    button: "Ok",
+                var _Action = INSERT;
+                var _Topic_Id = $('#ddlTopic option:selected').val();
+                var _Title = $('#txtTitle').val();
+                var _Overview = $('#txtOverview').val();
+                var _Description = $('#txtDescription').val();
+                var _IsPublished = $('#cbIsPublished').val();
+                var _SkipFlashcard = $('#cbSkipFlashcard').val();
+
+                var requestParams = { Action: _Action, TopicID: _Topic_Id, Title: _Title, Overview: _Overview, Description: _Description, IsPublished: _IsPublished, _SkipFlashcard: "" };
+                var getUrl = "/API/Module/ModuleAllAction";
+
+                $.ajax({
+                    type: "POST",
+                    url: getUrl,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    success: function (response) {
+                        try {
+
+                            var DataSet = $.parseJSON(response);
+                            console.log(response);
+                            if (DataSet.StatusCode == "1") {
+                                swal({
+                                    title: "Good job!",
+                                    text: "You clicked the button!",
+                                    icon: "success",
+                                    button: "Ok",
+                                });
+
+                                clearFields('.input-validation');
+                            }
+                            else {
+                                swal({
+                                    title: "Failure",
+                                    text: DataSet.StatusDescription,
+                                    type: "error"
+                                });
+                                clearFields('.input-validation');
+                            }
+                        }
+                        catch (e) {
+                            alert(response);
+                            alert(e.message);
+                        }
+                    },
+                    complete: function () {
+                        hideLoader();
+                    },
+                    failure: function (response) {
+                        hideLoader();
+                        alert(response.data);
+                    }
                 });
+
             } else {
                 swal({
                     title: "Alert",
