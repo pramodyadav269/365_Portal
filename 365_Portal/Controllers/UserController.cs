@@ -520,14 +520,14 @@ namespace _365_Portal.Controllers
         {
             var data = string.Empty;
             int CompId = 0;
-            int Action ;
+            int Action;
             string UserId = string.Empty;
             string Type = string.Empty;
             string IP_Address = string.Empty;
             /*Both values are taken as input whatever the logic needs to impemented*/
             string EmailId = requestParams["EmailId"].ToString();
             string MobileNum = requestParams["MobileNum"].ToString();
-             Action = Convert.ToInt32(requestParams["Action"]);
+            Action = Convert.ToInt32(requestParams["Action"]);
             /*This fields are for the mobile Request*/
             string DeviceDetails = requestParams["DeviceDetails"].ToString();
             string DeviceType = requestParams["DeviceType"].ToString();
@@ -571,7 +571,7 @@ namespace _365_Portal.Controllers
                                         {
                                             Type = ConstantMessages.ForgotPassowrd.Type_1;
                                         }
-                                        var ds = UserBL.ResetPassword(Action,CompId, UserId, MobileNum, EmailId, Type, DeviceDetails, DeviceType, IP_Address);
+                                        var ds = UserBL.ResetPassword(Action, CompId, UserId, MobileNum, EmailId, Type, DeviceDetails, DeviceType, IP_Address);
                                         if (ds.Tables.Count > 0)
                                         {
                                             DataTable dt = ds.Tables["Data"];
@@ -666,11 +666,11 @@ namespace _365_Portal.Controllers
                 string DeviceType = requestParams["DeviceType"].ToString();
                 if (!string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Token))
                 {
-                    var User_details = UserDAL.GetUserDetailsByToken(Token,string.Empty);
+                    var User_details = UserDAL.GetUserDetailsByToken(Token, string.Empty);
 
                     if (Token.ToUpper().ToString() == User_details.Token.ToUpper().ToString())
                     {
-                        var _ds = CommonDAL.UserResetPassword((int)4, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0,string.Empty, User_details.Token);
+                        var _ds = CommonDAL.UserResetPassword((int)4, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0, string.Empty, User_details.Token);
                         if (_ds.Tables.Count > 0)
                         {
                             DataTable _dt = _ds.Tables["Data"];
@@ -699,6 +699,21 @@ namespace _365_Portal.Controllers
                                         {
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
+                                            var ds_ = CommonDAL.UserResetPassword((int)5, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0, string.Empty, User_details.Token);
+                                            if (ds_.Tables.Count > 0)
+                                            {
+                                                DataTable dt_ = ds_.Tables["Data"];
+                                                if (dt_.Rows[0]["ReturnCode"].ToString() != "1")
+                                                {
+                                                    data = ConstantMessages.ChangePassowrd.Error;
+                                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                data = ConstantMessages.ChangePassowrd.Error;
+                                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                            }
                                         }
                                         else
                                         {
@@ -769,9 +784,9 @@ namespace _365_Portal.Controllers
                 string Token = requestParams["Token"].ToString();
                 if (!string.IsNullOrEmpty(Token))
                 {
-                    
-                    var User_details = UserDAL.GetUserDetailsByToken(Token,string.Empty);
-                    var ds = CommonDAL.UserResetPassword((int)4, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0,string.Empty, User_details.Token);
+
+                    var User_details = UserDAL.GetUserDetailsByToken(Token, string.Empty);
+                    var ds = CommonDAL.UserResetPassword((int)4, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0, string.Empty, User_details.Token);
                     if (ds.Tables.Count > 0)
                     {
                         DataTable dt = ds.Tables["Data"];
@@ -793,7 +808,7 @@ namespace _365_Portal.Controllers
                         data = ConstantMessages.ChangePassowrd.Error;
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
-                    
+
                 }
                 else
                 {

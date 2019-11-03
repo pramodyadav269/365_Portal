@@ -114,51 +114,62 @@
         }
 
         function ChangePassword() {
-            if ((($('#txtRegPassword').val() != '' && $('#txtRegPassword').val() != undefined) && ($('#txtRegPasswordAgain').val() != '' && $('#txtRegPasswordAgain').val() != undefined))
-                && ($('#txtRegPassword').val().toUpperCase().toString() == $('#txtRegPasswordAgain').val().toUpperCase().toString())) {
-                var requestParams = { Password: $('#txtRegPasswordAgain').val(), Token: t, DeviceDetails: "", DeviceType: "" };
-                var getUrl = "/API/User/ResetPassword";
-                $.ajax({
-                    type: "POST",
-                    url: getUrl,
-                    data: JSON.stringify(requestParams),
-                    contentType: "application/json",
-                    success: function (response) {
-                        var length = 0;
+            if (inputValidation('.input-validation')) {
+                if ((($('#txtRegPassword').val() != '' && $('#txtRegPassword').val() != undefined) && ($('#txtRegPasswordAgain').val() != '' && $('#txtRegPasswordAgain').val() != undefined))
+                    && ($('#txtRegPassword').val().toUpperCase().toString() == $('#txtRegPasswordAgain').val().toUpperCase().toString())) {
+                    var requestParams = { Password: $('#txtRegPasswordAgain').val(), Token: t, DeviceDetails: "", DeviceType: "" };
+                    var getUrl = "/API/User/ResetPassword";
+                    $.ajax({
+                        type: "POST",
+                        url: getUrl,
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                        success: function (response) {
+                            var length = 0;
 
-                        var DataSet = $.parseJSON(response);
-                        if (DataSet.StatusCode == "1") {
-                            swal({
-                                title: "Success",
-                                text: "Password has been Changed Successfully",
-                                icon: "success"
-                            }).then((value) => {
-                                if (value) {
-                                    window.location('Login.aspx');
-                                }
-                            });
-                        }
-                        else {
+                            var DataSet = $.parseJSON(response);
+                            if (DataSet.StatusCode == "1") {
+                                swal({
+                                    title: "Success",
+                                    text: "Password has been Changed Successfully",
+                                    icon: "success"
+                                }).then((value) => {
+                                    if (value) {
+                                        clearFields('.input-validation');
+                                        window.location('Login.aspx');
+                                    }
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: "Failure",
+                                    text: DataSet.StatusDescription,
+                                    icon: "error"
+                                });
+
+                            }
+
+                        },
+                        failure: function (response) {
+                            var DataSet = $.parseJSON(response);
                             swal({
                                 title: "Failure",
                                 text: DataSet.StatusDescription,
                                 icon: "error"
                             });
-
                         }
+                    });
+                } else {
 
-                    },
-                    failure: function (response) {
-                        var DataSet = $.parseJSON(response);
-                        swal({
-                            title: "Failure",
-                            text: DataSet.StatusDescription,
-                            icon: "error"
-                        });
-                    }
+                }
+            }
+            else {
+                swal({
+                    title: "Alert",
+                    text: "Fill all fields",
+                    icon: "error",
+                    button: "Ok",
                 });
-            } else {
-
             }
         }
     </script>
