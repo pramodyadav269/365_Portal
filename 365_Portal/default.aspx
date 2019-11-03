@@ -297,16 +297,34 @@
                                             </span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                                         </div>--%>
 
-                                        <div class="form-group" data-select2-id="5" ng-show="question.QuestionTypeID == 2 " data-select2-id="selectMultiple" tabindex="-1" aria-hidden="true">
-                                            <select class="form-control select2 select2-hidden-accessible" multiple="">
-                                                <option data-select2-id="14" ng-repeat="ansOption in question.AnswerOptions" value="ansOption.AnswerID">{{ansOption.AnswerText}}</option>
+
+                                        <div class="form-group" ng-show="question.QuestionTypeID == 2 ">
+                                            <select class="form-control select2" multiple>
+                                                <option></option>
+                                                <option value="ansOption.AnswerID" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
                                         </div>
 
-                                        <div class="custom-control custom-radio" ng-show="question.QuestionTypeID == 3 ">
-                                            <div ng-repeat="ansOption in question.AnswerOptions">
+                                        <%--<div class="form-group" data-select2-id="5" ng-show="question.QuestionTypeID == 2 " data-select2-id="selectMultiple" tabindex="-1" aria-hidden="true">
+                                            <select class="form-control select2 select2-hidden-accessible" multiple="">
+                                                <option data-select2-id="14" ng-repeat="ansOption in question.AnswerOptions" value="ansOption.AnswerID">{{ansOption.AnswerText}}</option>
+                                            </select>
+                                        </div>--%>
+
+
+
+                                        <%--                                        <div ng-show="question.QuestionTypeID == 3 ">
+                                            <div ng-repeat="ansOption in question.AnswerOptions" class="custom-control custom-radio" >
                                                 <input type="radio" id="{{'rbAnsOption_' + $index}}" name="ansOption.AnswerText" class="custom-control-input" value="ansOption.AnswerID">
                                                 <label class="custom-control-label" for="{{'rbAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
+                                            </div>
+                                        </div>--%>
+
+
+                                        <div ng-show="question.QuestionTypeID == 3 ">
+                                            <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
+                                                <input type="radio" id="{{'rbSVAnsOption_' + $index}}" class="custom-control-input" name="ansOption.AnswerText" value="ansOption.AnswerID">
+                                                <label class="custom-control-label" for="{{'rbSVAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
 
@@ -322,14 +340,14 @@
                                         </div>
 
                                         <div ng-show="question.QuestionTypeID == 5" class="rating">
-                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate10" /><label for="rbSurveyRate10">10</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate9" /><label for="rbSurveyRate9">9</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate8" /><label for="rbSurveyRate8">8</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate7" /><label for="rbSurveyRate7">7</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate6" /><label for="rbSurveyRate6">6</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate5" /><label for="rbSurveyRate5">5</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate4" /><label for="rbSurveyRate4">4</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate3" /><label for="rbSurveyRate3">3</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="10" id="rbSurveyRate10" /><label for="rbSurveyRate10">10</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="9" id="rbSurveyRate9" /><label for="rbSurveyRate9">9</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="8" id="rbSurveyRate8" /><label for="rbSurveyRate8">8</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="7" id="rbSurveyRate7" /><label for="rbSurveyRate7">7</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="6" id="rbSurveyRate6" /><label for="rbSurveyRate6">6</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="5" id="rbSurveyRate5" /><label for="rbSurveyRate5">5</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="4" id="rbSurveyRate4" /><label for="rbSurveyRate4">4</label>
+                                            <input type="radio" name="ansOption.AnswerText" value="3" id="rbSurveyRate3" /><label for="rbSurveyRate3">3</label>
                                             <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate2" /><label for="rbSurveyRate2">2</label>
                                             <input type="radio" name="ansOption.AnswerText" value="1" id="rbSurveyRate1" /><label for="rbSurveyRate1">1</label>
                                         </div>
@@ -348,10 +366,13 @@
 
                                         <div ng-show="question.QuestionTypeID == 8 ">
                                             <div class="form-group">
-                                                <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group">
+                                                <%--<input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" />--%>
+                                                <input type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" />
+
+                                                <%--                                                <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group">
                                                     <input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" data-type="datepicker" data-guid="a55dfd8e-b9b5-0a16-2e0b-1268af1fae1d" data-datepicker="true" role="input"><span class="input-group-append" role="right-icon">
-                                                        <button class="btn btn-custom btn-outline-secondary border-left-0" type="button"><i class="gj-icon">event</i></button></span>
-                                                </div>
+                                                        <button class="btn btn-outline-secondary border-left-0" type="button"><i class="gj-icon">event</i></button></span>
+                                                </div>--%>
                                             </div>
                                         </div>
 
@@ -388,7 +409,7 @@
                         <h2>Flashcard intro</h2>
                         <h5 class="font-weight-bold">{{SpecialContents.FlashcardTitle}}</h5>
                         <ul>
-                             <li ng-repeat="highlight in SpecialContents.FlachardsIntro">{{highlight.Comments}}</li>
+                            <li ng-repeat="highlight in SpecialContents.FlachardsIntro">{{highlight.Comments}}</li>
                         </ul>
                         <div class="w-100 mt-5">
                             <a ng-show="SpecialContents.SkipFlashcards == '1'" href="#" class="link font-weight-bold float-left">Skip Flashcards</a>
@@ -542,7 +563,10 @@
 
     <script>
         $(document).ready(function () {
-
+            $('select.select2').select2({
+                placeholder: "Select a option",
+                allowClear: true
+            });
         });
 
         function VideoFinished(e) {

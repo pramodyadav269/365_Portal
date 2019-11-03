@@ -155,6 +155,11 @@ namespace _365_Portal.Code
             return API_Status("0", "Invalid Token");
         }
 
+        public static string Exception(Exception ex)
+        {
+            return API_Status("0", "There might be some error " +ex.Message);
+        }
+
         public static string Successful(string data)
         {
             return GetJSONData("1", "Successful", data);

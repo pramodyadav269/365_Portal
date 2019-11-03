@@ -35,7 +35,7 @@ namespace _365_Portal.Controllers
                 }
                 catch (Exception ex)
                 {
-                    APIResult.ThrowException(ex);
+                    data = Utility.Exception(ex); ;
                 }
             }
             else
@@ -65,7 +65,7 @@ namespace _365_Portal.Controllers
                 }
                 catch (Exception ex)
                 {
-                    APIResult.ThrowException(ex);
+                    data = Utility.Exception(ex); ;
                 }
             }
             else
@@ -96,7 +96,7 @@ namespace _365_Portal.Controllers
                 }
                 catch (Exception ex)
                 {
-                    APIResult.ThrowException(ex);
+                    data = Utility.Exception(ex); ;
                 }
             }
             else
@@ -138,12 +138,12 @@ namespace _365_Portal.Controllers
                     else
                     {
                         // Unknown Error
-                        data = Utility.API_Status("1", "Unknown Error");
+                        data = Utility.API_Status("0", "No Records Found.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    APIResult.ThrowException(ex);
+                    data = Utility.Exception(ex); ;
                 }
             }
             else
@@ -171,16 +171,24 @@ namespace _365_Portal.Controllers
 
                     List<Question> questionList = new List<Question>();
                     var ds = TrainningBL.GetContentDetails(compId, userId, topicId, moduleId, contentId, ref questionList);
-
-                    var questionJson = JsonConvert.SerializeObject(questionList);
-                    var contents = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                    contents = contents.Substring(2, contents.Length - 4);
-                    data = Utility.GetJSONData("1", "Successful", contents, questionJson,
-                        Utility.ConvertDataSetToJSONString(ds.Tables[3]), Utility.ConvertDataSetToJSONString(ds.Tables[4]));
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        var questionJson = JsonConvert.SerializeObject(questionList);
+                        var contents = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                        if (contents != "[]")
+                            contents = contents.Substring(2, contents.Length - 4);
+                        data = Utility.GetJSONData("1", "Successful", contents, questionJson,
+                            Utility.ConvertDataSetToJSONString(ds.Tables[3]), Utility.ConvertDataSetToJSONString(ds.Tables[4]));
+                    }
+                    else
+                    {
+                        // Unknown Error
+                        data = Utility.API_Status("0", "No Records Found.");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    APIResult.ThrowException(ex);
+                    data = Utility.Exception(ex);
                 }
             }
             else
@@ -228,7 +236,7 @@ namespace _365_Portal.Controllers
                 }
                 catch (Exception ex)
                 {
-                    APIResult.ThrowException(ex);
+                    data = Utility.Exception(ex); ;
                 }
             }
             else
@@ -281,7 +289,7 @@ namespace _365_Portal.Controllers
                 }
                 catch (Exception ex)
                 {
-                    APIResult.ThrowException(ex);
+                    data = Utility.Exception(ex); ;
                 }
             }
             else
