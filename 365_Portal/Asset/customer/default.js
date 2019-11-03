@@ -1110,7 +1110,6 @@ app.directive('myPostRepeatDirective', function () {
             $('.custom-range').on('change', function () {
                 $('label[for=' + this.id + ']').text('Value : ' + $(this).val());
             });
-            element.parent().css('border', '1px solid black');
         }
     };
 });
