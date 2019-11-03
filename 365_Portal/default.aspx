@@ -301,7 +301,7 @@
                                         <div class="form-group" ng-show="question.QuestionTypeID == 2 ">
                                             <select class="form-control select2" multiple>
                                                 <option></option>
-                                                <option value="ansOption.AnswerID">{{ansOption.AnswerText}}</option>
+                                                <option value="ansOption.AnswerID" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
                                         </div>
 
@@ -313,10 +313,18 @@
 
 
 
-                                        <div class="custom-control custom-radio" ng-show="question.QuestionTypeID == 3 ">
-                                            <div ng-repeat="ansOption in question.AnswerOptions">
+                                        <%--                                        <div ng-show="question.QuestionTypeID == 3 ">
+                                            <div ng-repeat="ansOption in question.AnswerOptions" class="custom-control custom-radio" >
                                                 <input type="radio" id="{{'rbAnsOption_' + $index}}" name="ansOption.AnswerText" class="custom-control-input" value="ansOption.AnswerID">
                                                 <label class="custom-control-label" for="{{'rbAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
+                                            </div>
+                                        </div>--%>
+
+
+                                        <div ng-show="question.QuestionTypeID == 3 ">
+                                            <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
+                                                <input type="radio" id="{{'rbSVAnsOption_' + $index}}" class="custom-control-input" name="ansOption.AnswerText" value="ansOption.AnswerID">
+                                                <label class="custom-control-label" for="{{'rbSVAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
 
@@ -358,7 +366,8 @@
 
                                         <div ng-show="question.QuestionTypeID == 8 ">
                                             <div class="form-group">
-                                                <input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" />
+                                                <%--<input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" />--%>
+                                                <input type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" />
 
                                                 <%--                                                <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group">
                                                     <input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" data-type="datepicker" data-guid="a55dfd8e-b9b5-0a16-2e0b-1268af1fae1d" data-datepicker="true" role="input"><span class="input-group-append" role="right-icon">
