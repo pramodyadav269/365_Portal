@@ -209,7 +209,7 @@ namespace _365_Portal.Controllers
                                         DataTable dt = ds.Tables["Data"];
                                         if (dt.Rows[0]["ReturnCode"].ToString() == "1")
                                         {
-                                            HttpContext.Current.Session["IsFirstPasswordChanged"] = false;
+                                            HttpContext.Current.Session["IsFirstPasswordNotChanged"] = false;
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
                                         }

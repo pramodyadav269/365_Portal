@@ -77,21 +77,21 @@ namespace _365_Portal
                             }
                             //End For ProfilePic,CompanyProfilePic & Theme
 
-                            if (objResponse.IsFirstLogin == "1" || objResponse.IsFirstPasswordChanged == "1")
+                            if (objResponse.IsFirstLogin == "1" || objResponse.IsFirstPasswordNotChanged == "1")
                             {
                                 if (objResponse.IsFirstLogin == "1")
                                 {
                                     HttpContext.Current.Session["IsFirstLogin"] = true;                                    
                                 }
-                                if (objResponse.IsFirstPasswordChanged == "1")
+                                if (objResponse.IsFirstPasswordNotChanged == "1")
                                 {
-                                    HttpContext.Current.Session["IsFirstPasswordChanged"] = true;                                    
+                                    HttpContext.Current.Session["IsFirstPasswordNotChanged"] = true;                                    
                                 }
                                 if (objResponse.IsFirstLogin == "1")
                                 {
                                     Response.Redirect("~/Settings.aspx", false);
                                 }
-                                else if (objResponse.IsFirstPasswordChanged == "1")
+                                else if (objResponse.IsFirstPasswordNotChanged == "1")
                                 {
                                     Response.Redirect("~/ChangePassword.aspx", false);
                                 }

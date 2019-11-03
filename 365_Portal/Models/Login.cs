@@ -33,7 +33,7 @@ namespace _365_Portal.Models
             public string MobileNum { get; set; }
             public string Position { get; set; }
             public string Token { get; set; }
-            public string IsFirstPasswordChanged { get; set; }
+            public string IsFirstPasswordNotChanged { get; set; }
             
         }
 

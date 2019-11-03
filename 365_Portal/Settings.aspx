@@ -115,7 +115,7 @@
         var Role = '<%=Session["RoleName"]%>';
 
         var IsFirstLogin = '<%=Session["IsFirstLogin"]%>';
-        var IsFirstPasswordChanged = '<%=Session["IsFirstPasswordChanged"]%>';
+        var IsFirstPasswordNotChanged = '<%=Session["IsFirstPasswordNotChanged"]%>';
         if (IsFirstLogin != undefined && IsFirstLogin.toLowerCase() == 'false')
         {
             $('#divChangePassword').show();
@@ -260,7 +260,7 @@
                         if (DataSet.StatusCode == "1") {
                             hideLoader();
                             alert(DataSet.Data.ReturnMessage);
-                            if (IsFirstPasswordChanged != undefined && IsFirstPasswordChanged.toLowerCase() == 'true') {
+                            if (IsFirstPasswordNotChanged != undefined && IsFirstPasswordNotChanged.toLowerCase() == 'true') {
                                 window.location.href = "ChangePassword.aspx";
                             }
                             else {

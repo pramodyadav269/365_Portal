@@ -19,7 +19,7 @@ namespace _365_Portal
         public const string EmailID = "EmailID";
         public const string MobileNum = "MobileNum";
         public const string Position = "Position";
-        public const string IsFirstPasswordChanged = "IsFirstPasswordChanged";
+        public const string IsFirstPasswordNotChanged = "IsFirstPasswordNotChanged";
         //public const string PasswordHash = "PasswordHash";
         //public const string PasswordSalt = "PasswordSalt";
     }
@@ -64,6 +64,6 @@ namespace _365_Portal
         public string CompanyProfilePicFileID { get; set; }
         public string ProfilePicFile { get; set; }
         public string CompanyProfilePicFile { get; set; }
-        public string IsFirstPasswordChanged { get; set; }
+        public string IsFirstPasswordNotChanged { get; set; }
     }
 }

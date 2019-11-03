@@ -21,7 +21,7 @@ namespace _365_Portal
                 {
                     Response.Redirect("~/Settings.aspx", true);// This is 1st time login..
                 }
-                else if (HttpContext.Current.Session["IsFirstPasswordChanged"] != null && Convert.ToBoolean(HttpContext.Current.Session["IsFirstPasswordChanged"]) == true
+                else if (HttpContext.Current.Session["IsFirstPasswordNotChanged"] != null && Convert.ToBoolean(HttpContext.Current.Session["IsFirstPasswordNotChanged"]) == true
                     && FullPath != CurrDirecotry + "ChangePassword.aspx" && FullPath != CurrDirecotry + "Settings.aspx")
                 {
                     Response.Redirect("~/ChangePassword.aspx", true);// This is user has not changed password..
