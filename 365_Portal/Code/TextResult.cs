@@ -63,8 +63,7 @@ public class APIResult : IHttpActionResult
     {
         HttpResponseMessage msg = new HttpResponseMessage(HttpStatusCode.InternalServerError);
         msg.Content = new StringContent(ex.Message);
-
-            throw new HttpResponseException(msg);
+        throw new HttpResponseException(msg);
     }
 
     public APIResult(string statusCode, string statusDescription, HttpRequestMessage request)
