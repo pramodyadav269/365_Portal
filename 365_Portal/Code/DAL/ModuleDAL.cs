@@ -15,7 +15,7 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        public static DataSet ModulessAllAction(int Action, int ModuleID, int TopicID, int CompId, string Title, string Overview, string Description,int SrNo,bool IsPublished, string CreatedBy)
+        public static DataSet ModulessAllAction(int Action, int ModuleID, int TopicID, int CompId, string Title, string Overview, string Description,string SrNo,string IsPublished, string SkipFlashcard, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -33,7 +33,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_Title", Title);
                 cmd.Parameters.AddWithValue("p_Overview", Overview);
                 cmd.Parameters.AddWithValue("p_Description", Description);
-                cmd.Parameters.AddWithValue("p_SrNo", SrNo);
+                //cmd.Parameters.AddWithValue("p_SrNo", SrNo);
                 cmd.Parameters.AddWithValue("p_IsPublished", IsPublished);        
                 cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);

@@ -15,13 +15,13 @@ namespace _365_Portal.Code.BL
             Logger.Log(ex, "ModulesBL", methodName);
         }
 
-        public static DataSet ModulesAllAction(int Action, int ModuleID, int TopicID, int CompId, string Title, string Overview, string Description, int SrNo, bool IsPublished, string CreatedBy)
+        public static DataSet ModulesAllAction(int Action, int ModuleID, int TopicID, int CompId, string Title, string Overview, string Description, string SrNo, string IsPublished,string SkipFlashcard, string CreatedBy)
         {
             DataSet data = new DataSet();
             try
             {
 
-                data = ModuleDAL.ModulessAllAction(Action, ModuleID, TopicID, CompId, Title, Overview, Description, SrNo, IsPublished, CreatedBy);
+                data = ModuleDAL.ModulessAllAction(Action, ModuleID, TopicID, CompId, Title, Overview, Description, SrNo, IsPublished, SkipFlashcard, CreatedBy);
             }
             catch (Exception ex)
             {

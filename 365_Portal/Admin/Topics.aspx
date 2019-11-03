@@ -62,9 +62,61 @@
     <script>
 
         $(document).ready(function () {
+            //var s; $('#tblGird').find('tr').each(function i(i, index) { if (this.id != "") { s = s + this.id + ','; } console.log(this.id); }); console.log(s.length);
 
 
+            View();
+        });
+        var accessToken = '<%=Session["access_token"]%>';
 
+        function AddNew() {
+            clearFields('.input-validation')
+            toggle('divForm', 'divGird')
+        }
+
+        function Submit() {
+
+            if (inputValidation('.input-validation')) {
+                swal({
+                    title: "Good job!",
+                    text: "You clicked the button!",
+                    icon: "success",
+                    button: "Ok",
+                });
+            } else {
+                swal({
+                    title: "Alert",
+                    text: "Fill all fields",
+                    icon: "error",
+                    button: "Ok",
+                });
+            }
+        }
+
+        function Edit(ctrl) {
+            var id = $(ctrl).closest('tr').attr('id')
+            toggle('divForm', 'divGird');
+        }
+
+        function Delete(ctrl) {
+            var id = $(ctrl).closest('tr').attr('id')
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                    }
+                });
+        }
+        function View()
+        {
             showLoader();
             $.ajax({
                 type: "GET",
@@ -119,55 +171,6 @@
                     hideLoader();
                 }
             });
-        });
-
-
-        function AddNew() {
-            clearFields('.input-validation')
-            toggle('divForm', 'divGird')
         }
-
-        function Submit() {
-
-            if (inputValidation('.input-validation')) {
-                swal({
-                    title: "Good job!",
-                    text: "You clicked the button!",
-                    icon: "success",
-                    button: "Ok",
-                });
-            } else {
-                swal({
-                    title: "Alert",
-                    text: "Fill all fields",
-                    icon: "error",
-                    button: "Ok",
-                });
-            }
-        }
-
-        function Edit(ctrl) {
-            var id = $(ctrl).closest('tr').attr('id')
-            toggle('divForm', 'divGird');
-        }
-
-        function Delete(ctrl) {
-            var id = $(ctrl).closest('tr').attr('id')
-            swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this imaginary file!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("Poof! Your imaginary file has been deleted!", {
-                            icon: "success",
-                        });
-                    }
-                });
-        }
-
     </script>
 </asp:Content>
