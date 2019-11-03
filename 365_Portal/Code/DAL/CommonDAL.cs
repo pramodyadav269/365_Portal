@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using _365_Portal.Models;
 using System;
 using System.Data;
 using System.IO;
@@ -159,7 +160,14 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_UserID", u.UserID);
                 cmd.Parameters.AddWithValue("p_PasswordHash", u.NewPassword);
                 cmd.Parameters.AddWithValue("p_PasswordSalt", u.PasswordSalt);
-                cmd.Parameters.AddWithValue("p_Token", string.Empty);
+                if (!string.IsNullOrEmpty(u.Token))
+                {
+                    cmd.Parameters.AddWithValue("p_Token", u.Token);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("p_Token", string.Empty);
+                }
                 cmd.Parameters.AddWithValue("p_DeviceType", u.DeviceType);
                 cmd.Parameters.AddWithValue("p_DeviceDetails", u.DeviceDetails);
                 cmd.Parameters.AddWithValue("p_IPAddress", u.IP_Address);
@@ -341,38 +349,73 @@ namespace _365_Portal.Code.DAL
         }
 
 
-        //public static DataSet ChangePassword(UserBO u)
-        //{
-        //    DataSet ds = new DataSet();
-        //    MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+        public static DataSet UserResetPassword(int Action,int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress, int OTP, string token_url,string Token)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
 
-        //    try
-        //    {
-        //        conn.Open();
-        //        string stm = "spChangePassword";
-        //        MySqlCommand cmd = new MySqlCommand(stm, conn);
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("p_CompID", u.CompId);
-        //        cmd.Parameters.AddWithValue("p_UserID", u.UserID);
-        //        cmd.Parameters.AddWithValue("p_Token", u.Token);
-        //        cmd.Parameters.AddWithValue("p_EmailId", u.EmailID);
-        //        cmd.Parameters.AddWithValue("p_DeviceType", u.DeviceType);
-        //        cmd.Parameters.AddWithValue("p_DeviceDetails", u.DeviceDetails);
-        //        cmd.Parameters.AddWithValue("p_IPAddress", u.IP_Address);
-        //        cmd.Parameters.AddWithValue("p_CreatedBy", u.CreatedBy);
-        //        MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-        //        da.Fill(ds, "Data");
-        //        return ds;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
-        //    }
-        //    finally
-        //    {
-        //        conn.Close();
-        //    }
-        //    return ds;
-        //}
+            try
+            {
+                conn.Open();
+                string stm = "spPasswordRecovery";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_Action", Action);
+                cmd.Parameters.AddWithValue("p_CompId", CompId);
+                cmd.Parameters.AddWithValue("p_UserId", UserId);
+                if (Type == ConstantMessages.ForgotPassowrd.Type_0)
+                {
+                    cmd.Parameters.AddWithValue("p_Token", OTP);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("p_Token", Token);
+                }
+                if (Type == ConstantMessages.ForgotPassowrd.Type_0)
+                {
+                    cmd.Parameters.AddWithValue("p_EmailID", MobileNum);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("p_EmailID", EmailId);
+                }
+                //cmd.Parameters.AddWithValue("p_DeviceDetails", DeviceDetails);
+                //cmd.Parameters.AddWithValue("p_DeviceType", DeviceType);
+                //cmd.Parameters.AddWithValue("p_IpAddress", IpAddress);
+
+                cmd.Parameters.AddWithValue("p_Ref1", Type);
+                cmd.Parameters.AddWithValue("p_Ref2", Type);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                DataTable dt = ds.Tables["Data"];                
+                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                {
+                    if (Type == ConstantMessages.ForgotPassowrd.Type_1)
+                    {
+                        // Send OTP on email-id.
+                        //SendEmail(FROM_EMAIL, emailId, GetMobileOTPVerificationMail(userName, OTP.ToString()), GetMobileOTPVerificationMailSubject());
+                    }
+                    else if (Type == ConstantMessages.ForgotPassowrd.Type_0)
+                    {
+                         //Send OTP on mobile phone..x`
+                        //string template = WebConfigurationManager.AppSettings["SMS_OTP_Template"].Replace("~OTP~", OTP.ToString());
+                        //SendSMS(new long[] { mobileNum }, template);
+                    }
+                }
+                
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+
     }
 }

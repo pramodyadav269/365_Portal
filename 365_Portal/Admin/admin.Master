@@ -93,5 +93,11 @@
             </asp:ContentPlaceHolder>
         </div>
     </form>
+        <script>
+        const INSERT = 1;
+        const EDIT = 2;
+        const DELETE = 3;
+        const VIEW = 4;
+    </script>
 </body>
 </html>

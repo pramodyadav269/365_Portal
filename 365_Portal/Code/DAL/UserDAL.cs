@@ -233,18 +233,19 @@ namespace _365_Portal.Code.DAL
         {
             ResponseBase objResponse = null;
 
-            MySqlParameter[] param = new MySqlParameter[9];
-            param[0] = new MySqlParameter("p_UserID", _userdetail.UserID);
-            param[1] = new MySqlParameter("p_EmailID", _userdetail.EmailID);
-            param[2] = new MySqlParameter("p_FirstName", _userdetail.FirstName);
-            param[3] = new MySqlParameter("p_LastName", _userdetail.LastName);
-            param[4] = new MySqlParameter("p_Position", _userdetail.Position);
+            MySqlParameter[] param = new MySqlParameter[10];
+            param[0] = new MySqlParameter("p_CompID", _userdetail.CompId);
+            param[1] = new MySqlParameter("p_UserID", _userdetail.UserID);
+            param[2] = new MySqlParameter("p_EmailID", _userdetail.EmailID);
+            param[3] = new MySqlParameter("p_FirstName", _userdetail.FirstName);
+            param[4] = new MySqlParameter("p_LastName", _userdetail.LastName);
+            param[5] = new MySqlParameter("p_Position", _userdetail.Position);
             //param[5] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
             //param[6] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
-            param[5] = new MySqlParameter("p_ProfilePicFileID", _userdetail.ProfilePicFileID);
-            param[6] = new MySqlParameter("p_CompanyProfilePicFileID", _userdetail.CompanyProfilePicFileID);
-            param[7] = new MySqlParameter("p_ThemeColor", _userdetail.ThemeColor);
-            param[8] = new MySqlParameter("p_Ref1", Ref1);
+            param[6] = new MySqlParameter("p_ProfilePicFileID", _userdetail.ProfilePicFileID);
+            param[7] = new MySqlParameter("p_CompanyProfilePicFileID", _userdetail.CompanyProfilePicFileID);
+            param[8] = new MySqlParameter("p_ThemeColor", _userdetail.ThemeColor);
+            param[9] = new MySqlParameter("p_Ref1", Ref1);
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
@@ -269,11 +270,12 @@ namespace _365_Portal.Code.DAL
         {
             ResponseBase objResponse = null;
 
-            MySqlParameter[] param = new MySqlParameter[4];
-            param[0] = new MySqlParameter("p_UserID", _userdetail.UserID);
-            param[1] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
-            param[2] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
-            param[3] = new MySqlParameter("p_Ref1", Ref1);
+            MySqlParameter[] param = new MySqlParameter[5];
+            param[0] = new MySqlParameter("p_CompID", _userdetail.CompId);
+            param[1] = new MySqlParameter("p_UserID", _userdetail.UserID);
+            param[2] = new MySqlParameter("p_EmailNotification", _userdetail.EmailNotification);
+            param[3] = new MySqlParameter("p_PushNotification", _userdetail.PushNotification);
+            param[4] = new MySqlParameter("p_Ref1", Ref1);
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
@@ -554,76 +556,27 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet UserResetPassword(int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress, int OTP, string token_url)
+        public static UserBO GetUserDetailsByToken(string Token, string Ref1)
         {
-            DataSet ds = new DataSet();
-            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+            UserBO objUser = null;
 
-            try
-            {
-                conn.Open();
-                string stm = "spUserResetPassword";
-                MySqlCommand cmd = new MySqlCommand(stm, conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", CompId);
-                cmd.Parameters.AddWithValue("p_UserId", UserId);
-                cmd.Parameters.AddWithValue("p_MobileNum", MobileNum);
-                cmd.Parameters.AddWithValue("p_EmailId", EmailId);
-                cmd.Parameters.AddWithValue("p_Type", Type);
-                cmd.Parameters.AddWithValue("p_DeviceDetails", DeviceDetails);
-                cmd.Parameters.AddWithValue("p_DeviceType", DeviceType);
-                cmd.Parameters.AddWithValue("p_IpAddress", IpAddress);
-                if (Type == ConstantMessages.ForgotPassowrd.Type_0)
-                {
-                    cmd.Parameters.AddWithValue("p_Token", OTP);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Token", token_url);
-                }
-               
+            MySqlParameter[] param = new MySqlParameter[2];
+            param[0] = new MySqlParameter("p_Token", Token);
+            param[1] = new MySqlParameter("p_Ref1", Ref1);
 
-                DataTable dt = ds.Tables.Add("Data");
-                dt.Clear();
-                dt.Columns.Add("ReturnCode");
-                dt.Columns.Add("ReturnMessage");
-                DataRow _row = dt.NewRow();
-                _row["ReturnCode"] = "1";
-                _row["ReturnMessage"] = "Success";
-                dt.Rows.Add(_row);
-                
-                //da.Fill(_ds, "Data");
-                //MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                //
-                // DataTable dt = ds.Tables["Data"];
-                /*
-                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
-                {
-                    if (Type == ConstantMessages.ForgotPassowrd.Type_1)
-                    {
-                        // Send OTP on email-id.
-                        //SendEmail(FROM_EMAIL, emailId, GetMobileOTPVerificationMail(userName, OTP.ToString()), GetMobileOTPVerificationMailSubject());
-                    }
-                    else if (Type == ConstantMessages.ForgotPassowrd.Type_0)
-                    {
-                        // Send OTP on mobile phone..x`
-                        //string template = WebConfigurationManager.AppSettings["SMS_OTP_Template"].Replace("~OTP~", OTP.ToString());
-                        //SendSMS(new long[] { mobileNum }, template);
-                    }
-                }
-                */
-                return ds;
-            }
-            catch (Exception ex)
-            {
-                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
-            }
-            finally
-            {
-                conn.Close();
-            }
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.AddRange(param);
+            DataTable dt = DBConnection.GetDataTable("spGetUserDetailsbyToken", cmd, "");
 
-            return ds;
+            if (dt.Rows.Count > 0)
+            {
+                objUser = new UserBO();
+                objUser.CompId = Convert.ToInt32(dt.Rows[0]["CompID"]);
+                objUser.UserID = dt.Rows[0]["UserID"].ToString();
+                objUser.EmailID = dt.Rows[0]["EmailID"].ToString();
+                objUser.Token = dt.Rows[0]["Token"].ToString();
+            }
+            return objUser;
         }
 
         /*

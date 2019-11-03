@@ -120,11 +120,12 @@ namespace _365_Portal.Code.BL
         /// <param name="mobileNumbers"></param>
         /// <param name="OTP"></param>
         /// <returns></returns>
-        public static DataSet ResetPassword(int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress)
+        public static DataSet ResetPassword(int Action,int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress)
         {
             DataSet data = new DataSet();
             int OTP = 0;
             var token_url="";
+            var token = "";
             if (Type == ConstantMessages.ForgotPassowrd.Type_0)
             {
                  OTP = Utility.GenerateOTP(4);
@@ -132,17 +133,18 @@ namespace _365_Portal.Code.BL
             else {
                 var g = Guid.NewGuid();
                 token_url = Utility.urlNewShorter("http://localhost:54500/ResetPassword.aspx?Token=" + g);
+                token = g.ToString();
             }
             //If otp type is for success message than skip otp code..            
             try
             {
-                data = UserDAL.UserResetPassword( CompId,  UserId,  MobileNum,  EmailId,  Type,  DeviceDetails,  DeviceType,  IpAddress, OTP, token_url);
+                data = CommonDAL.UserResetPassword( Action, CompId,  UserId,  MobileNum,  EmailId,  Type,  DeviceDetails,  DeviceType,  IpAddress, OTP, token_url, token);
                 
 
             }
             catch (Exception ex)
             {
-                data = null;
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
 
 

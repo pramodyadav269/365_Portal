@@ -301,7 +301,9 @@
     <Compile Include="Code\BL\CommonBL.cs" />
     <Compile Include="Code\BL\ContentBL.cs" />
     <Compile Include="Code\BL\FlashcardBL.cs" />
+    <Compile Include="Code\BL\ModulesBL.cs" />
     <Compile Include="Code\BL\SurveyBL.cs" />
+    <Compile Include="Code\BL\TopicsBL.cs" />
     <Compile Include="Code\BL\TrainningBL.cs" />
     <Compile Include="Code\BL\UserBL.cs" />
     <Compile Include="Code\BO\ContentBO.cs" />
@@ -312,7 +314,9 @@
     <Compile Include="Code\DAL\CommonDAL.cs" />
     <Compile Include="Code\DAL\ContentDAL.cs" />
     <Compile Include="Code\DAL\FlashcardDAL.cs" />
+    <Compile Include="Code\DAL\ModuleDAL.cs" />
     <Compile Include="Code\DAL\SurveyDAL.cs" />
+    <Compile Include="Code\DAL\TopicsDAL.cs" />
     <Compile Include="Code\DAL\TrainningDAL.cs" />
     <Compile Include="Code\DAL\UserDAL.cs" />
     <Compile Include="Code\Logger.cs" />
@@ -336,6 +340,8 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ModuleController.cs" />
+    <Compile Include="Controllers\TopicsController.cs" />
     <Compile Include="Controllers\TrainningController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -403,6 +409,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="RefreshTokenProvider.cs" />
+    <Compile Include="ResetPassword.aspx.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ResetPassword.aspx.designer.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Settings.aspx.cs">
       <DependentUpon>Settings.aspx</DependentUpon>
@@ -579,6 +592,7 @@
     <Content Include="Login.aspx" />
     <Content Include="Modules.aspx" />
     <Content Include="Profile.aspx" />
+    <Content Include="ResetPassword.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -663,6 +677,7 @@
     <Folder Include="Files\CompLogo\" />
     <Folder Include="Files\Others\" />
     <Folder Include="Files\ProfilePic\" />
+    <Folder Include="Views\Modules\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
