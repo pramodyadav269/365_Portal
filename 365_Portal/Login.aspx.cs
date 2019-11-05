@@ -25,8 +25,9 @@ namespace _365_Portal
         {
             try
             {
-                lblError.Text = "";
+                Utility.DestroyAllSession();
 
+                lblError.Text = "";                
                 if (string.IsNullOrEmpty(txtUserEmail.Text.Trim()) || string.IsNullOrEmpty(txtUserPassword.Text.Trim()))
                 {
                     lblError.Text = ConstantMessages.Login.InvalidUser;
@@ -38,7 +39,7 @@ namespace _365_Portal
                     objRequest.UserName = txtUserEmail.Text.Trim();
                     objRequest.Password = txtUserPassword.Text;
 
-                    LoginResponse objResponse = new LoginResponse();
+                    UserBO objResponse = new UserBO();
                     objResponse = UserDAL.LoginUser(objRequest);
 
                     if (objResponse.ReturnCode == "1")
@@ -46,7 +47,7 @@ namespace _365_Portal
                         //Login Log
                         LoginLogout _loginLogout = new LoginLogout();
                         _loginLogout.UserID = objResponse.UserID;
-                        _loginLogout.CompID = objResponse.CompID;
+                        _loginLogout.CompID = objResponse.CompId.ToString();
                         _loginLogout.Type = "login";
                         _loginLogout.IP_Address = Utility.GetClientIPaddress();
                         UserDAL.InsertLoginLogoutHistory(_loginLogout,"");
@@ -76,7 +77,7 @@ namespace _365_Portal
                                 HttpContext.Current.Session["ThemeColor"] = UserDetails.ThemeColor;
                             }
                             //End For ProfilePic,CompanyProfilePic & Theme
-
+                            
                             if (objResponse.IsFirstLogin == "1" || objResponse.IsFirstPasswordNotChanged == "1")
                             {
                                 if (objResponse.IsFirstLogin == "1")
