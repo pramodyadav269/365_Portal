@@ -136,7 +136,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
                     "QuestionID": question.QuestionID,
                     "AnswerIDs": question.Value_Text,
                     "FilePath": question.FilePath,// Base64
-                    "Value_Text": question.Value_Text
+                    "Value_Text": question.QuestionTypeID == '8' ? GetFormattedDate(question.Value_Text) : question.Value_Text
                 });
             }
             else {
@@ -159,6 +159,10 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
             , Questions: questionList
         };
         objDs.DS_SubmitAnswers(requestParams);
+    }
+
+    $scope.GetFormattedDate = function (date) {
+        return date.split("/").reverse().join("-");
     }
 
     $scope.ShowFlashcardQuiz = function () {

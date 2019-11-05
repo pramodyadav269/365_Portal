@@ -286,10 +286,10 @@
                                         <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
                                             <select class="form-control select2" ng-model="question.Value_Text">
-                                                <option value="{{ansOption.AnswerID}}" ng-model="question.Value_Text"   ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
+                                                <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
                                             <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                             Selected:{{question.Value_Text}}
+                                            Selected:{{question.Value_Text}}
                                         </div>
 
                                         <%--Radio Button List--%>
@@ -298,7 +298,7 @@
                                                 <input type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText_3" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
-                                          <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
+                                            <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
                                             Selected:{{question.Value_Text}}
                                         </div>
 
@@ -314,8 +314,8 @@
 
                                         <%--File Upload Control--%>
                                         <div ng-if="question.QuestionTypeID == 4 " class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file" ng-model="question.Value_Text"><label class="custom-file-label" for="customFile">Choose file</label>
-                                            Selected:{{question.Value_Text}}
+                                            <input type="file" class="custom-file-input" questionid="{{question.QuestionID}}" onchange="ChangeFileName(this)" id="file" ng-model="question.Value_Text"><label class="custom-file-label" for="customFile">Choose file</label>
+                                            <div>{{question.Value_Text}}</div>
                                         </div>
 
                                         <%--Scale Range Selector--%>
@@ -353,7 +353,7 @@
                                         <div ng-if="question.QuestionTypeID == 8 ">
                                             <div class="form-group">
                                                 <%--<input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" />--%>
-                                                <input type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 25%;" ng-model="question.Value_Text" />
+                                                <input ng-init="question.Value_Text = GetFormattedDate(question.Value_Text)" value="{{question.Value_Text}}" type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 25%;" ng-model="question.Value_Text" />
                                                 Selected: {{question.Value_Text}}
                                             </div>
                                         </div>
@@ -366,8 +366,9 @@
                 </div>
                 <div class="text-center mt-4">
                     <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">Previous</a>
-                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">Finish</a>
-                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="SubmitAnswers()">Submit Survey</a>
+                    <%--     <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">Finish</a>--%>
+                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==0" ng-click="SubmitAnswers()">Submit Survey</a>
+                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==1" ng-click="SubmitAnswers()">Next</a>
                 </div>
             </div>
         </div>
@@ -392,7 +393,7 @@
                         <h2>Flashcard intro</h2>
                         <h5 class="font-weight-bold">{{SpecialContents.FlashcardTitle}}</h5>
                         <ul>
-                            <li ng-repeat="highlight in SpecialContents.FlachardsIntro">{{highlight.Comments}}</li>
+                            <li ng-repeat="highlight in SpecialContents.FlashcardsIntro">{{highlight.Comments}}</li>
                         </ul>
                         <div class="w-100 mt-5">
                             <a ng-if="SpecialContents.SkipFlashcards == '1'" href="#" class="link font-weight-bold float-left">Skip Flashcards</a>
@@ -400,7 +401,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 mb-3 overview" id="divFlashcard" ng-if="ActiveSubContainer =='FlashcardSlides'">
-                        <div ng-repeat="flashcardSlide in SpecialContents.Flachards" ng-if="$index == CurrIndex">
+                        <div ng-repeat="flashcardSlide in SpecialContents.Flashcards" ng-if="$index == CurrIndex">
                             <div class="flashcard">
                                 <div class="card border-0">
                                     <img class="card-img-top circle mx-auto" src="Asset/images/profile.png" />
@@ -408,7 +409,7 @@
                                         <p class="card-text">
                                             {{flashcardSlide.Description}}
                                         </p>
-                                        <p class="text-right anchor">{{($index + 1) +'/'+ (SpecialContents.Flachards).length}}</p>
+                                        <p class="text-right anchor">{{($index + 1) +'/'+ (SpecialContents.Flashcards).length}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -466,33 +467,45 @@
                                     <div class="media-body pr-4">
                                         <h5 class="mt-0 mb-4">{{question.Title}}</h5>
 
+                                        <%--Checkbox List--%>
                                         <div ng-if="question.QuestionTypeID == 1 ">
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input type="checkbox" id="{{'chkAnsOption_' + $index}}" class="custom-control-input" name="ansOption.AnswerText0000" value="ansOption.AnswerID">
-                                                <label class="custom-control-label" for="{{'chkAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
+                                                <input type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
+                                                <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
+                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{Message}}
                                         </div>
 
+                                        <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
-                                            <select class="form-control select2">
-                                                <option></option>
-                                                <option value="ansOption.AnswerID" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
+                                            <select class="form-control select2" ng-model="question.Value_Text">
+                                                <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
+                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}
                                         </div>
 
+                                        <%--Radio Button List--%>
                                         <div ng-if="question.QuestionTypeID == 3 ">
                                             <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input type="radio" id="{{'rbSVAnsOption_' + $index}}" class="custom-control-input" name="ansOption.AnswerText" value="ansOption.AnswerID">
-                                                <label class="custom-control-label" for="{{'rbSVAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
+                                                <input type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText_3" value="{{ansOption.AnswerID}}">
+                                                <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
+                                            <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
+                                            Selected:{{question.Value_Text}}
                                         </div>
 
+                                        <%--Radio Button List with box--%>
                                         <div ng-if="question.QuestionTypeID == 9 " class="box">
                                             <div ng-repeat="ansOption in question.AnswerOptions">
-                                                <input type="checkbox" id="{{'rbAnsOption_' + $index}}" name="ansOption.AnswerText" value="ansOption.AnswerID">
-                                                <label for="{{'rbAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
+                                                <input type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
+                                                <label for="{{'rbAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
+                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}
                                         </div>
+
                                     </div>
 
                                     <p class="anchor"></p>
@@ -509,6 +522,7 @@
 
                         <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">TAKE THE TEST AGAIN</a>
                         <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">CHECK ANSWERS | CONTINUE</a>
+                        <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="SubmitAnswers()">Check Answers</a>
                     </div>
                 </div>
             </div>
@@ -581,10 +595,30 @@
 
         var accessToken = '<%=Session["access_token"]%>';
 
-        //function VideoClicked(cntrl) {
-        //    // $("#vdVideoPlayer").trigger( "click" );
-        //    cntrl.paused ? cntrl.play() : cntrl.pause();
-        //}
+
+        function ChangeFileName(cntrl) {
+            var scope = angular.element(cntrl).scope();
+            var selectedQuestion = jQuery.grep(scope.SpecialContents.Questions, function (obj) {
+                return obj.QuestionID === parseInt($(cntrl).attr("questionid"));
+            });
+
+            selectedQuestion[0].Value_Text = cntrl.files[0].name;
+            //selectedQuestion.Value_Text = cntrl.files[0].name;
+        }
+
+        function GetFormattedDate(date) {
+            var todayTime = date;
+            var month = format(todayTime.getMonth() + 1);
+            var day = format(todayTime.getDate());
+            var year = format(todayTime.getFullYear());
+            return day + "/" + month + "/" + year;
+        }
+
+        function format(str) {
+            return str < 10 ? "0" + str : str;
+        }
+
+
     </script>
 </asp:Content>
 
