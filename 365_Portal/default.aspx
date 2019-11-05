@@ -44,7 +44,7 @@
 
         <%--Start Modules--%>
         <div id="dvModuleContainer" class="row modules" ng-if="ActiveContainer =='Module'">
-            <div class="col-md-12">
+            <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>BACK TO TOPICS</a>
                 <h1 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h1>
                 <h6 class="text-center section-title mt-3 color-0-25">TOPIC</h6>
