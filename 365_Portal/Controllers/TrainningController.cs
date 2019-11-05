@@ -299,5 +299,100 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
+        [Route("api/Trainning/GetNotifications")]
+        [HttpPost]
+        public IHttpActionResult GetNotifications(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    string userId = identity.UserID;
+                    var ds = TrainningBL.GetNotifications(compId, userId);
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.Successful(data);
+                }
+                catch (Exception ex)
+                {
+                    data = Utility.Exception(ex); ;
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("api/Trainning/GetAchievementNGifts")]
+        [HttpPost]
+        public IHttpActionResult GetAchievementNGifts(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    string userId = identity.UserID;
+                    var ds = TrainningBL.GetAchievementGifts(compId, userId);
+                    data = Utility.GetAchievementGiftsJSONFormat("1", "Success",
+                        Utility.ConvertDataSetToJSONString(ds.Tables[0]),
+                        Utility.ConvertDataSetToJSONString(ds.Tables[1]));
+                }
+                catch (Exception ex)
+                {
+                    data = Utility.Exception(ex); ;
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("api/Trainning/IsUserOnline")]
+        [HttpPost]
+        public IHttpActionResult IsUserOnline(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    string userId = identity.UserID;
+                    DateTime startDate = DateTime.Now;
+                    DateTime endDate = DateTime.Now;
+                    int totalTime = 0;
+                    int type = Convert.ToInt32(requestParams["Type"].ToString());
+                    if (type == 2)
+                    {
+                        startDate = Convert.ToDateTime(requestParams["StartDate"].ToString());
+                        endDate = Convert.ToDateTime(requestParams["EndDate"].ToString());
+                        totalTime = Convert.ToInt32(requestParams["TotalTime"].ToString());
+                    }
+                    var ds = TrainningBL.IsUserOnline(compId, userId, type, startDate, endDate, totalTime);
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.Successful(data);
+                }
+                catch (Exception ex)
+                {
+                    data = Utility.Exception(ex); ;
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
     }
 }
