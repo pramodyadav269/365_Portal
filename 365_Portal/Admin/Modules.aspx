@@ -95,8 +95,7 @@
             bindTopics();
         });
         var accessToken = '<%=Session["access_token"]%>';
-        function bindTopics()
-        {
+        function bindTopics() {
 
         }
 
@@ -104,16 +103,17 @@
             clearFields('.input-validation')
             toggle('divForm', 'divGird');
             $('#submit').attr('name', INSERT);
+            //Submit button name attribute changed to Insert;
         }
 
         function Submit() {
+            var getUrl;
             showLoader();
             if (inputValidation('.input-validation')) {
-                //if ($('#Submit').name)
                 if ($('#submit')[0].name == INSERT) {
-                    var _Action = INSERT;
+                    getUrl = "/API/Content/CreateModule";
                 } else {
-                    var _Action = EDIT;
+                    getUrl = "API/Content/ModifyModule";
                 }
                 var _Topic_Id = $('#ddlTopic option:selected').val();
                 var _Title = $('#txtTitle').val();
@@ -123,8 +123,8 @@
                 var _SkipFlashcard = $('#cbSkipFlashcard').val();
                 var _SrNo = "";
                 try {
-                    var requestParams = { Action: _Action, TopicID: _Topic_Id, Title: _Title, Overview: _Overview, Description: _Description, IsPublished: _IsPublished, _SkipFlashcard: _SkipFlashcard, SrNo: _SrNo };
-                    var getUrl = "/API/Module/ModuleAllAction";
+                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo };
+
 
                     $.ajax({
                         type: "POST",
@@ -161,8 +161,6 @@
                             }
                             catch (e) {
                                 hideLoader();
-                                //alert(response);
-                                //alert(e.message);
                                 swal({
                                     title: "Failure",
                                     text: "Please try Again",
@@ -193,7 +191,8 @@
                         button: "Ok",
                     });
                 }
-            } else {
+            }
+            else {
                 hideLoader();
                 swal({
                     title: "Alert",
@@ -208,13 +207,14 @@
             var id = $(ctrl).closest('tr').attr('id');
             toggle('divForm', 'divGird');
             $('#submit').attr('name', EDIT);
+            //Submit button name attribute changed to EDIT(Modify);
         }
 
         function Delete(ctrl) {
-            var id = $(ctrl).closest('tr').attr('id')
+            var id = $(ctrl).closest('tr').attr('id');
             swal({
                 title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this imaginary file!",
+                text: "Once deleted, you will not be able to revert changes!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -223,8 +223,8 @@
                     if (willDelete) {
                         showLoader();
                         try {
-                            var requestParams = { Action: DELETE, TopicID: id, Title: "", Overview: "", Description: "", IsPublished: "0", _SkipFlashcard: "", SrNo: "" };
-                            var getUrl = "/API/Module/ModuleAllAction";
+                            var requestParams = { TopicID: id, ModuleID: 1 };
+                            var getUrl = "/API/Content/DeleteModule";
 
                             $.ajax({
                                 type: "POST",
@@ -297,9 +297,9 @@
         }
 
         function View() {
-            var url = "/API/Module/ModuleAllAction";
-            var _Action = VIEW;
-            var requestParams = { Action: _Action, TopicID: "0", ModuleID: "0", SrNo: "", Title: "", Overview: "", Description: "", IsPublished: "0", _SkipFlashcard: "" };
+            var url = "/API/Content/GetModules";
+
+            var requestParams = { TopicID: "0", ModuleID: "0", ModuleTitle: "", IsPublished: "" };
             showLoader();
             try {
                 $.ajax({

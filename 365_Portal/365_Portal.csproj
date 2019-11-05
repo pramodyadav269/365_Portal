@@ -341,7 +341,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
-    <Compile Include="Controllers\TopicsController.cs" />
+    <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\TrainningController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
