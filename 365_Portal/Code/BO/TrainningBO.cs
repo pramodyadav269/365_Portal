@@ -19,6 +19,7 @@ namespace _365_Portal.Code.BO
         public double CorrectScore { get; set; }
         public double InCorrectScore { get; set; }
         public int Value_ID { get; set; }
+        public bool IsSelected { get; set; }
         public string Value_Text { get; set; }
         public bool Value_IsCorrect { get; set; }
         public double Value_CorrectScore { get; set; }
@@ -44,6 +45,7 @@ namespace _365_Portal.Code.BO
         public double ScoreEarned { get; set; }
         public double PercentageEarned { get; set; }
         public string IPAddress { get; set; }
+        public string Value_Text { get; set; }
         public List<AnswerOption> AnswerOptions { get; set; }
     }
 }
