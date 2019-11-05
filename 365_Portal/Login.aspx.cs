@@ -100,7 +100,7 @@ namespace _365_Portal
                             {
                                 if (objResponse.Role.ToLower() == "enduser")
                                 {
-                                    Response.Redirect("~/Topics.aspx",false);
+                                    Response.Redirect("~/default.aspx",false);
                                 }
                                 else if (objResponse.Role.ToLower() == "superadmin" || objResponse.Role.ToLower() == "companyadmin" || objResponse.Role.ToLower() == "subadmin")
                                 {

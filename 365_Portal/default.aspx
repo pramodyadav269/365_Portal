@@ -273,67 +273,84 @@
                                     <div class="media-body pr-4">
                                         <h5 class="mt-0 mb-4">{{question.Title}}</h5>
 
+                                        <%--Checkbox List--%>
                                         <div ng-if="question.QuestionTypeID == 1 ">
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input type="checkbox" id="{{'chkAnsOption_' + $index}}" class="custom-control-input" name="ansOption.AnswerText0000" value="ansOption.AnswerID">
+                                                <input type="checkbox" ng-model="question.Value_Text" id="{{'chkAnsOption_' + $index}}" class="custom-control-input" name="ansOption.AnswerText0000" value="ansOption.AnswerID">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
+                                            Selected:{{question.Value_Text}}
                                         </div>
 
+                                        <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
-                                            <select class="form-control select2">
-                                                <option></option>
-                                                <option value="ansOption.AnswerID" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
+                                            <select class="form-control select2" ng-model="question.Value_Text">
+                                                <option value="ansOption.AnswerID"  ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
+                                            Selected:{{question.Value_Text}}
                                         </div>
 
+                                        <%--Radio Button List--%>
                                         <div ng-if="question.QuestionTypeID == 3 ">
                                             <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input type="radio" id="{{'rbSVAnsOption_' + $index}}" class="custom-control-input" name="ansOption.AnswerText" value="ansOption.AnswerID">
+                                                <input type="radio" id="{{'rbSVAnsOption_' + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText" value="ansOption.AnswerID">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
+                                            Selected:{{question.Value_Text}}
                                         </div>
 
+                                        <%--Radio Button List with box--%>
                                         <div ng-if="question.QuestionTypeID == 9 " class="box">
                                             <div ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="checkbox" id="{{'rbAnsOption_' + $index}}" name="ansOption.AnswerText" value="ansOption.AnswerID">
                                                 <label for="{{'rbAnsOption_' + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
+                                            Selected:{{question.Value_Text}}
                                         </div>
 
+                                        <%--File Upload Control--%>
                                         <div ng-if="question.QuestionTypeID == 4 " class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file"><label class="custom-file-label" for="customFile">Choose file</label>
+                                            <input type="file" class="custom-file-input" id="file" ng-model="question.Value_Text"><label class="custom-file-label" for="customFile">Choose file</label>
+                                            Selected:{{question.Value_Text}}
                                         </div>
 
+                                        <%--Scale Range Selector--%>
                                         <div ng-if="question.QuestionTypeID == 5" class="rating">
-                                            <input type="radio" name="ansOption.AnswerText" value="10" id="rbSurveyRate10" /><label for="rbSurveyRate10">10</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="9" id="rbSurveyRate9" /><label for="rbSurveyRate9">9</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="8" id="rbSurveyRate8" /><label for="rbSurveyRate8">8</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="7" id="rbSurveyRate7" /><label for="rbSurveyRate7">7</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="6" id="rbSurveyRate6" /><label for="rbSurveyRate6">6</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="5" id="rbSurveyRate5" /><label for="rbSurveyRate5">5</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="4" id="rbSurveyRate4" /><label for="rbSurveyRate4">4</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="3" id="rbSurveyRate3" /><label for="rbSurveyRate3">3</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="2" id="rbSurveyRate2" /><label for="rbSurveyRate2">2</label>
-                                            <input type="radio" name="ansOption.AnswerText" value="1" id="rbSurveyRate1" /><label for="rbSurveyRate1">1</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="10" id="rbSurveyRate10" /><label for="rbSurveyRate10">10</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="9" id="rbSurveyRate9" /><label for="rbSurveyRate9">9</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="8" id="rbSurveyRate8" /><label for="rbSurveyRate8">8</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="7" id="rbSurveyRate7" /><label for="rbSurveyRate7">7</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="6" id="rbSurveyRate6" /><label for="rbSurveyRate6">6</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="5" id="rbSurveyRate5" /><label for="rbSurveyRate5">5</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="4" id="rbSurveyRate4" /><label for="rbSurveyRate4">4</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="3" id="rbSurveyRate3" /><label for="rbSurveyRate3">3</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="2" id="rbSurveyRate2" /><label for="rbSurveyRate2">2</label>
+                                            <input type="radio" name="ansOption.AnswerText" ng-model="question.Value_Text" value="1" id="rbSurveyRate1" /><label for="rbSurveyRate1">1</label>
+                                            Selected:{{question.Value_Text}}
                                         </div>
 
+                                        <%--Textbox--%>
                                         <div ng-if="question.QuestionTypeID == 6 ">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="text" placeholder="Type your answer here">
+                                                <input type="text" class="form-control" id="text" placeholder="Type your answer here" ng-model="question.Value_Text">
+                                                Selected: {{question.Value_Text}}
                                             </div>
                                         </div>
 
+                                        <%--Text Area--%>
                                         <div ng-if="question.QuestionTypeID == 7">
                                             <div class="form-group">
-                                                <textarea class="form-control" placeholder="Type your answer here" id="textarea"></textarea>
+                                                <textarea class="form-control" placeholder="Type your answer here" id="textarea" ng-model="question.Value_Text"></textarea>
+                                                Selected: {{question.Value_Text}}
                                             </div>
                                         </div>
 
+                                        <%--Date Picker--%>
                                         <div ng-if="question.QuestionTypeID == 8 ">
                                             <div class="form-group">
                                                 <%--<input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" />--%>
-                                                <input type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 25%;" />
+                                                <input type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 25%;" ng-model="question.Value_Text" />
+                                                Selected: {{question.Value_Text}}
                                             </div>
                                         </div>
 
@@ -472,7 +489,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                  
+
                                     <p class="anchor"></p>
                                     <i ng-if="question.IsAnswered ==true && ansOption.IsCorrect ==false" class="fas fa-times c-red"></i>
                                     <i ng-if="question.IsAnswered ==true && ansOption.IsCorrect ==true" class="fas fa-check c-green"></i>
