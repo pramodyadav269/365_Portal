@@ -58,12 +58,14 @@ namespace _365_Portal
         public string GroupName { get; set; }
         public Int32 CompId { get; set; }
         public string RoleID { get; set; }
-        public string Role { get; set; }
-        public bool IsFirstLogin { get; set; }
+        public string Role { get; set; }                
         public string ProfilePicFileID { get; set; }
         public string CompanyProfilePicFileID { get; set; }
         public string ProfilePicFile { get; set; }
         public string CompanyProfilePicFile { get; set; }
+        public string IsFirstLogin { get; set; }
         public string IsFirstPasswordNotChanged { get; set; }
+        public string ReturnCode { get; set; }
+        public string ReturnMessage { get; set; }
     }
 }
