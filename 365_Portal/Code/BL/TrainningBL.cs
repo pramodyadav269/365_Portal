@@ -133,6 +133,15 @@ namespace _365_Portal.Code.BL
                 {
                     List<AnswerOption> ansOptions = new List<AnswerOption>();
                     question.AnswerOptions = ansOptionList.Where(p => p.QuestionID == question.QuestionID).ToList();
+                    if (question.QuestionTypeID == 2 || question.QuestionTypeID == 3)
+                        question.TotalScore = question.AnswerOptions.Max(p => p.CorrectScore);
+                    else if (question.QuestionTypeID == 1)
+                        question.TotalScore = question.AnswerOptions.Where(p => p.IsCorrect == true).Sum(p => p.CorrectScore);
+                    question.ScoreEarned = question.AnswerOptions.Sum(p => p.Value_CorrectScore);
+                    if (question.AnswerOptions.Count(p => p.Value_IsCorrect == true) > 0)
+                        question.IsCorrect = true;
+                    else
+                        question.IsCorrect = false;
                 }
             }
             catch (Exception ex)
@@ -176,8 +185,8 @@ namespace _365_Portal.Code.BL
             try
             {
                 List<Question> questionAnswerList = new List<Question>();
-                var dataSet = GetContentDetails(compId, userId, Convert.ToInt32(responseDetail["topicId"]),
-                     Convert.ToInt32(responseDetail["moduleId"]), Convert.ToInt32(responseDetail["ContentID"]), ref questionAnswerList);
+                var dataSet = GetContentDetails(compId, userId, Convert.ToInt32(responseDetail["TopicID"]),
+                     Convert.ToInt32(responseDetail["ModuleID"]), Convert.ToInt32(responseDetail["ContentID"]), ref questionAnswerList);
 
                 double totalScore = 0;
                 double passingPercentage = 0;
@@ -186,9 +195,9 @@ namespace _365_Portal.Code.BL
                     totalScore = Convert.ToDouble(dataSet.Tables[0].Rows[0]["TotalScore"].ToString());
                 }
 
-                if (!string.IsNullOrEmpty(Convert.ToString(responseDetail["PassingPercent"])))
+                if (Convert.ToString(responseDetail["ContentType"]) == "FINALQUIZ")
                 {
-                    passingPercentage = Convert.ToDouble(responseDetail["PassingPercent"].ToString());
+                    passingPercentage = Convert.ToDouble(dataSet.Tables[0].Rows[0]["PassingPercent"].ToString());
                 }
 
                 double scoreEarned = 0, percentageEarned = 0;
@@ -330,6 +339,20 @@ namespace _365_Portal.Code.BL
             try
             {
                 ds = TrainningDAL.GetAchievementGifts(compId, userId);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet ClearAnswers(int compId, string userId,string surveyId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.ClearAnswers(compId, userId,surveyId);
             }
             catch (Exception ex)
             {

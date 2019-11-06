@@ -137,9 +137,7 @@
                     <div class="col-md-12 mb-4 overview">
                         <h4 class="font-weight-bold">Overview</h4>
                         <p>
-                            In the employee motivation module, will guide you through a number of 
-            techniques that you can use to keep yourself motivated. As a result
-            you will hopefully stay much more motivated in your office and have more fun.
+                           {{SelectedModule.Overview}}
                         </p>
                     </div>
 
@@ -366,9 +364,8 @@
                 </div>
                 <div class="text-center mt-4">
                     <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">Previous</a>
-                    <%--     <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">Finish</a>--%>
                     <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==0" ng-click="SubmitAnswers()">Submit Survey</a>
-                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==1" ng-click="SubmitAnswers()">Next</a>
+                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==1" ng-click="ShowFlashcardIntro()">Next</a>
                 </div>
             </div>
         </div>
@@ -376,19 +373,19 @@
         <div class="row flashcards" ng-if="ActiveContainer =='ContentFlashcardView'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
-                <h1 class="text-center font-weight-bold">Employee Motivation</h1>
+                <h1 class="text-center font-weight-bold">{{SpecialContents.Title}}</h1>
                 <h6 class="text-center header-sub-title mt-3">Flashcards</h6>
             </div>
             <div class="col-md-10 mt-4 offset-md-1">
                 <div class="row justify-content-center">
-                    <div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-if="ActiveSubContainer =='BeginFlashcard'">
+                    <%--<div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-if="ActiveSubContainer =='BeginFlashcard'">
                         You have completed all the videos/pdfs in this module.
             <h1>UP NEXT:</h1>
                         <div>FLASHCARD ICON</div>
                         <div>FLASHCARD TITLE</div>
                         <a ng-if="SpecialContents.SkipFlashcards == '1'" href="#" class="link font-weight-bold float-left">Skip Flashcards</a>
                         <a class="btn btn-custom bg-blue font-weight-bold text-white float-right" ng-click="ShowFlashcardIntro()">BEGIN FLASHCARD</a>
-                    </div>
+                    </div>--%>
                     <div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-if="ActiveSubContainer =='FlashcardIntro'">
                         <h2>Flashcard intro</h2>
                         <h5 class="font-weight-bold">{{SpecialContents.FlashcardTitle}}</h5>
@@ -396,7 +393,8 @@
                             <li ng-repeat="highlight in SpecialContents.FlashcardsIntro">{{highlight.Comments}}</li>
                         </ul>
                         <div class="w-100 mt-5">
-                            <a ng-if="SpecialContents.SkipFlashcards == '1'" href="#" class="link font-weight-bold float-left">Skip Flashcards</a>
+                            <a ng-if="SpecialContents.SkipFlashcards == '1'" href="#" class="link font-weight-bold float-left"
+                                ng-click="SkipFlashcard(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID)">Skip Flashcards</a>
                             <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white float-right" ng-click="ShowFlashcardSlides()">Let's Go</a>
                         </div>
                     </div>
@@ -440,8 +438,11 @@
                                     </div>
                                 </div>
                                 <div class="w-100 mt-5 text-center">
-                                    <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2" id="btnPrevQuestion" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">{{ $index == 0 ? 'Previous' :'Previous Question'}}</a>
-                                    <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextQuestion" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">{{($index + 1) == SpecialContents.TotalQuestions ? 'Begin Final Quiz' :'Next Question'}}</a>
+                                    <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2"
+                                        id="btnPrevQuestion" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">{{ $index == 0 ? 'Previous' :'Previous Question'}}</a>
+                                    <a href="#" class="btn btn-custom bg-yellow font-weight-bold"
+                                        id="btnNextQuestion"
+                                        ng-click="FlashcardQuestionNextClicked(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,$index,SpecialContents.TotalQuestions)">{{($index + 1) == SpecialContents.TotalQuestions ? 'Begin Final Quiz' :'Next Question'}}</a>
                                 </div>
                             </div>
                         </div>
@@ -459,6 +460,12 @@
 
             <div class="col-md-10 mt-5 offset-md-1">
                 <div class="row" id="finalQuiz">
+                    IsAnswered: {{SpecialContents.IsAnswered}}
+PassingScore:{{SpecialContents.PassingScore}}
+TotalScore:{{SpecialContents.TotalScore}}
+ScoreEarned:{{SpecialContents.ScoreEarned}}
+IsPassed:{{SpecialContents.IsPassed}}
+                    PercentageEarned:{{SpecialContents.PercentageEarned}}
                     <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="ng-class: 'card border-0 shadow mb-3 ' + (question.IsAnswered == true ? (question.IsCorrect ==true ? 'b-green-2' : 'b-red-2'):'' );">
                             <div class="card-body question">
@@ -472,6 +479,7 @@
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
+                                                IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}
                                             </div>
                                             <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
                                             Selected:{{Message}}
@@ -480,7 +488,7 @@
                                         <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
                                             <select class="form-control select2" ng-model="question.Value_Text">
-                                                <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
+                                                <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}  IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}</option>
                                             </select>
                                             <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
                                             Selected:{{question.Value_Text}}
@@ -491,6 +499,7 @@
                                             <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText_3" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
+                                                IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}
                                             </div>
                                             <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
                                             Selected:{{question.Value_Text}}
@@ -501,28 +510,32 @@
                                             <div ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'rbAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
+                                                IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}
                                             </div>
                                             <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
                                             Selected:{{question.Value_Text}}
                                         </div>
 
                                     </div>
-
+                                    IsAnswered:  {{question.IsAnswered}}
+                                   TotalScore: {{question.TotalScore}}
+                                    ScoreEarned: {{question.ScoreEarned}}
+                                  IsCorrect:  {{question.IsCorrect}}
                                     <p class="anchor"></p>
-                                    <i ng-if="question.IsAnswered ==true && ansOption.IsCorrect ==false" class="fas fa-times c-red"></i>
-                                    <i ng-if="question.IsAnswered ==true && ansOption.IsCorrect ==true" class="fas fa-check c-green"></i>
+                                    <i ng-if="SpecialContents.IsAnswered ==true && question.IsCorrect ==false" class="fas fa-times c-red"></i>
+                                    <i ng-if="SpecialContents.IsAnswered ==true && question.IsCorrect ==true" class="fas fa-check c-green"></i>
 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center mt-4">
-                        <%-- <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">Previous</a>
-                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">Finish</a>--%>
-
-                        <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionPrevioustClicked($index,SpecialContents.TotalQuestions)">TAKE THE TEST AGAIN</a>
-                        <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="FlashcardQuestionNextClicked($index,SpecialContents.TotalQuestions)">CHECK ANSWERS | CONTINUE</a>
-                        <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="SubmitAnswers()">Check Answers</a>
+                    <div class="w-100 mt-4 text-center">
+                        <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==true && SpecialContents.IsPassed==false"
+                            ng-click="RetakeTest(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,SpecialContents.SurveyID)">TAKE THE TEST AGAIN</a>
+                        <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==false && SpecialContents.IsPassed==false"
+                            ng-click="SubmitAnswers()">Check Answers</a>
+                        <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsPassed==true"
+                            ng-click="UpdateContent(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID)">Continue</a>
                     </div>
                 </div>
             </div>

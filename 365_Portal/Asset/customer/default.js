@@ -29,33 +29,28 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         $scope.SelectedContent = $rootScope.Content.UnlockedItems.filter(function (v) {
             return contentId == v.ContentID;
         })[0];
-        if (type != '') {
-            if (type.toLowerCase() == 'survey') {
-                $scope.ActiveContainer = "ContentSurveyView";
-                //objDs.DS_GetSurveyDetails();
-                objDs.DS_GetContentDetails(topicId, moduleId, contentId);
-            }
-            else if (type.toLowerCase() == 'flashcard') {
-                $scope.BeginFlashcard();
-                // objDs.DS_GetFlashcardDetails();
-                objDs.DS_GetContentDetails(topicId, moduleId, contentId);
-            }
-            else if (type.toLowerCase() == 'finalquiz') {
-                $scope.ActiveContainer = "ContentQuizView";
-                // objDs.DS_GetFinalQuizDetails();
-                objDs.DS_GetContentDetails(topicId, moduleId, contentId);
-            }
-            else {
-                $scope.ActiveContainer = "ContentView";
-                objDs.DS_GetContentDetails(topicId, moduleId, contentId);
-            }
+
+        objDs.DS_GetContentDetails(topicId, moduleId, contentId);
+        if (type.toLowerCase() == 'survey') {
+            $scope.ActiveContainer = "ContentSurveyView";
+        }
+        else if (type.toLowerCase() == 'flashcard') {
+            $scope.BeginFlashcard();
+        }
+        else if (type.toLowerCase() == 'finalquiz') {
+            $scope.ActiveContainer = "ContentQuizView";
         }
         else {
             $scope.ActiveContainer = "ContentView";
-            objDs.DS_GetContentDetails(topicId, moduleId, contentId);
+            //Unlock Next Content
+            objDs.DS_UpdateContent(topicId, moduleId, contentId);
         }
+    }
 
+    // Module Completed...
+    $scope.UpdateContent = function (topicId, moduleId, contentId) {
         objDs.DS_UpdateContent(topicId, moduleId, contentId);
+        $scope.GetModulesByTopic(topicId);
     }
 
     $scope.FlashcardPreviousClicked = function (index, total) {
@@ -66,6 +61,11 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
             $scope.ShowFlashcardSlides();
             $scope.CurrIndex = index - 1;
         }
+    }
+
+    $scope.SkipFlashcard = function (topicId, moduleId, contentId) {
+        //Unlock Next Content
+        objDs.DS_UpdateContent(topicId, moduleId, contentId);
     }
 
     $scope.FlashcardNextClicked = function (index, total) {
@@ -88,9 +88,11 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         }
     }
 
-    $scope.FlashcardQuestionNextClicked = function (index, total) {
+    $scope.FlashcardQuestionNextClicked = function (topicId, moduleId, contentId,index, total) {
         if ((index + 1) == total) {
             $scope.ShowFinalQuizIntro();
+            //Unlock Next Content
+            objDs.DS_UpdateContent(topicId, moduleId, contentId);
         }
         else {
             $scope.ShowFlashcardQuiz();
@@ -105,7 +107,8 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
 
     $scope.BeginFlashcard = function () {
         $scope.ActiveContainer = "ContentFlashcardView";
-        $scope.ActiveSubContainer = "BeginFlashcard";
+       // $scope.ActiveSubContainer = "BeginFlashcard";
+        $scope.ActiveSubContainer = "FlashcardIntro";
     }
 
     $scope.ShowFlashcardSlides = function () {
@@ -159,6 +162,10 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
             , Questions: questionList
         };
         objDs.DS_SubmitAnswers(requestParams);
+    }
+
+    $scope.RetakeTest = function (topicId, moduleId, contentId, surveyId) {
+        objDs.DS_RetakeTest(topicId, moduleId, contentId, surveyId);
     }
 
     $scope.GetFormattedDate = function (date) {
@@ -324,6 +331,33 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             data: requestParams,
         }).then(function success(response) {
             var responseData = response.data;
+            if (requestParams.ContentType == "SURVEY") {
+                // Unlock Flashcard
+                ds.DS_UpdateContent(requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
+            }
+            else if (requestParams.ContentType == "FLASHCARD") {
+                // Nothing to do
+            }
+            else if (requestParams.ContentType == "FINALQUIZ") {
+                //To see answers
+                ds.DS_GetContentDetails(requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
+            }
+        });
+    }
+
+    ds.DS_RetakeTest = function (topicId, moduleId, contentId, surveyId) {
+        var requestParams = { SurveyID: surveyId };
+        $http({
+            method: "POST",
+            url: "../api/Trainning/RetakeTest",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer " + accessToken
+            },
+            data: requestParams,
+        }).then(function success(response) {
+            var responseData = response.data;
+            ds.DS_GetContentDetails(topicId, moduleId, contentId);
         });
     }
 });

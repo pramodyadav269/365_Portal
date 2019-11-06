@@ -40,6 +40,7 @@ namespace _365_Portal.Code.BO
         public string Title { get; set; }
         public int SortOrder { get; set; }
         public bool IsAnswered { get; set; }
+        public bool IsCorrect { get; set; }
         public string ResponseID { get; set; }
         public double TotalScore { get; set; }
         public double ScoreEarned { get; set; }
