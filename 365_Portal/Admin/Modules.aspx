@@ -12,7 +12,7 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrdid();">Save Changes</a>
+                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
@@ -79,8 +79,8 @@
                         <div class="w-100"></div>
 
                         <div class="col-md-12 mt-4">
-                            <a class="btn bg-yellow float-left" onclick="back()">Back</a>
-                            <a class="btn bg-yellow float-right" id="submit" onclick="Submit();">Submit</a>
+                            <a class="btn bg-yellow float-left" onclick="toggle('divGird', 'divForm')">Back</a>
+                            <a class="btn bg-yellow float-right" onclick="Submit();">Submit</a>
                         </div>
                     </div>
                 </div>
@@ -91,109 +91,144 @@
 
         $(document).ready(function () {
 
-            View();
-            bindTopics();
-        });
-        var accessToken = '<%=Session["access_token"]%>';
-        function bindTopics() {
 
-        }
+            var url = "API/Module/ModuleAllAction";
+            ShowLoader();
+            $.ajax({
+                type: "GET",
+                url: "https://reqres.in/api/users?page=1",
+               // type: "POST",
+                //url: url,
+                contentType: "",
+                dataType: "json",
+                processData: false,
+                beforeSend: function () {
+                },
+                success: function (response) {
+
+                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                    tbl += '<thead><tr>';
+                    tbl += '<th>#';
+                    tbl += '<th>Topic';
+                    tbl += '<th>Title';
+                    tbl += '<th>Overview';
+                    tbl += '<th>Description';
+                    tbl += '<th>Is Published';
+                    tbl += '<th>Skip Flashcard';
+                    tbl += '<th>Total Contents';
+                    tbl += '<th>Survey';
+                    tbl += '<th>Flashcards';
+                    tbl += '<th>Flashcard Quiz';
+                    tbl += '<th>Final Quiz';
+                    tbl += '<th>Personal Gifts';
+                    tbl += '<th>ACTION';
+
+                    tbl += '<tbody>';
+
+
+                    $.each(response.data, function (i, data) {
+
+                        tbl += '<tr id="' + data.id + '">';
+                        tbl += '<td>' + (i + 1);
+
+                        tbl += '<td>' + data.first_name;
+                        tbl += '<td>' + data.first_name;
+                        tbl += '<td>' + data.last_name;
+                        tbl += '<td>' + data.last_name;
+                        tbl += '<td>Yes' // + data.IsPublished;
+                        tbl += '<td>No' // + data.IsPublished;
+                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                        tbl += '<td><i title="Edit" onclick="Edit(this);" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this);" class="fas fa-trash text-danger"></i>';
+
+                    });
+
+                    $('#divTable').empty().append(tbl)
+
+                    //var dTable = $('#tblGird').DataTable();
+
+                    //dTable.on('order.dt search.dt', function () {
+                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    //        cell.innerHTML = i + 1;
+                    //    });
+                    //}).draw();
+
+                },
+                complete: function () {
+                    HideLoader();
+                }
+            });
+        });
+
 
         function AddNew() {
             clearFields('.input-validation')
-            toggle('divForm', 'divGird');
-            $('#submit').attr('name', INSERT);
-            //Submit button name attribute changed to Insert;
+            toggle('divForm', 'divGird')
         }
 
         function Submit() {
-            var getUrl;
-            showLoader();
+            ShowLoader();
             if (inputValidation('.input-validation')) {
-                if ($('#submit')[0].name == INSERT) {
-                    getUrl = "/API/Content/CreateModule";
-                } else {
-                    getUrl = "API/Content/ModifyModule";
-                }
+                var _Action = INSERT;
                 var _Topic_Id = $('#ddlTopic option:selected').val();
                 var _Title = $('#txtTitle').val();
                 var _Overview = $('#txtOverview').val();
                 var _Description = $('#txtDescription').val();
                 var _IsPublished = $('#cbIsPublished').val();
                 var _SkipFlashcard = $('#cbSkipFlashcard').val();
-                var _SrNo = "";
-                try {
-                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo };
 
+                var requestParams = { Action: _Action, TopicID: _Topic_Id, Title: _Title, Overview: _Overview, Description: _Description, IsPublished: _IsPublished, _SkipFlashcard: "" };
+                var getUrl = "/API/Module/ModuleAllAction";
 
-                    $.ajax({
-                        type: "POST",
-                        url: getUrl,
-                        headers: { "Authorization": "Bearer " + accessToken },
-                        data: JSON.stringify(requestParams),
-                        contentType: "application/json",
-                        success: function (response) {
-                            try {
+                $.ajax({
+                    type: "POST",
+                    url: getUrl,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    success: function (response) {
+                        try {
 
-                                var DataSet = $.parseJSON(response);
-                                console.log(response);
-                                if (DataSet.StatusCode == "1") {
-                                    clearFields('.input-validation');
-                                    hideLoader();
-                                    swal({
-                                        title: "Success",
-                                        text: DataSet.StatusDescription,
-                                        icon: "success",
-                                        button: "Ok",
-                                    });
+                            var DataSet = $.parseJSON(response);
+                            console.log(response);
+                            if (DataSet.StatusCode == "1") {
+                                swal({
+                                    title: "Good job!",
+                                    text: "You clicked the button!",
+                                    icon: "success",
+                                    button: "Ok",
+                                });
 
-
-                                }
-                                else {
-                                    hideLoader();
-                                    swal({
-                                        title: "Failure",
-                                        text: DataSet.StatusDescription,
-                                        type: "error"
-                                    });
-                                    clearFields('.input-validation');
-                                }
+                                clearFields('.input-validation');
                             }
-                            catch (e) {
-                                hideLoader();
+                            else {
                                 swal({
                                     title: "Failure",
-                                    text: "Please try Again",
+                                    text: DataSet.StatusDescription,
                                     type: "error"
                                 });
+                                clearFields('.input-validation');
                             }
-                        },
-                        complete: function () {
-                            hideLoader();
-                        },
-                        failure: function (response) {
-                            hideLoader();
-                            alert(response.data);
-                            swal({
-                                title: "Failure",
-                                text: "Please try Again",
-                                type: "error"
-                            });
                         }
-                    });
-                }
-                catch (e) {
-                    hideLoader();
-                    swal({
-                        title: "Alert",
-                        text: "Oops! An Occured. Please try again",
-                        icon: "error",
-                        button: "Ok",
-                    });
-                }
-            }
-            else {
-                hideLoader();
+                        catch (e) {
+                            alert(response);
+                            alert(e.message);
+                        }
+                    },
+                    complete: function () {
+                        HideLoader();
+                    },
+                    failure: function (response) {
+                        HideLoader();
+                        alert(response.data);
+                    }
+                });
+
+            } else {
                 swal({
                     title: "Alert",
                     text: "Fill all fields",
@@ -204,211 +239,26 @@
         }
 
         function Edit(ctrl) {
-            var id = $(ctrl).closest('tr').attr('id');
+            var id = $(ctrl).closest('tr').attr('id')
             toggle('divForm', 'divGird');
-            $('#submit').attr('name', EDIT);
-            //Submit button name attribute changed to EDIT(Modify);
         }
 
         function Delete(ctrl) {
-            var id = $(ctrl).closest('tr').attr('id');
+            var id = $(ctrl).closest('tr').attr('id')
             swal({
                 title: "Are you sure?",
-                text: "Once deleted, you will not be able to revert changes!",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        showLoader();
-                        try {
-                            var requestParams = { TopicID: id, ModuleID: 1 };
-                            var getUrl = "/API/Content/DeleteModule";
-
-                            $.ajax({
-                                type: "POST",
-                                url: getUrl,
-                                headers: { "Authorization": "Bearer " + accessToken },
-                                data: JSON.stringify(requestParams),
-                                contentType: "application/json",
-                                success: function (response) {
-                                    try {
-
-                                        var DataSet = $.parseJSON(response);
-                                        console.log(response);
-                                        if (DataSet.StatusCode == "1") {
-                                            hideLoader();
-                                            swal({
-                                                title: "Success",
-                                                text: DataSet.StatusDescription,
-                                                icon: "success",
-                                                button: "Ok",
-                                            });
-
-
-                                        }
-                                        else {
-                                            hideLoader();
-                                            swal({
-                                                title: "Failure",
-                                                text: DataSet.StatusDescription,
-                                                type: "error"
-                                            });
-                                        }
-                                    }
-                                    catch (e) {
-                                        hideLoader();
-                                        //alert(response);
-                                        //alert(e.message);
-                                        swal({
-                                            title: "Failure",
-                                            text: "Please try Again",
-                                            type: "error"
-                                        });
-                                    }
-                                },
-                                complete: function () {
-                                    hideLoader();
-                                },
-                                failure: function (response) {
-                                    hideLoader();
-                                    alert(response.data);
-                                    swal({
-                                        title: "Failure",
-                                        text: "Please try Again",
-                                        type: "error"
-                                    });
-                                }
-                            });
-                        }
-                        catch (e) {
-                            hideLoader();
-                            swal({
-                                title: "Alert",
-                                text: "Oops! An Occured. Please try again",
-                                icon: "error",
-                                button: "Ok",
-                            });
-                        }
-
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
                     }
                 });
-        }
-
-        function View() {
-            var url = "/API/Content/GetModules";
-
-            var requestParams = { TopicID: "0", ModuleID: "0", ModuleTitle: "", IsPublished: "" };
-            showLoader();
-            try {
-                $.ajax({
-                    //type: "GET",
-                    //url: "https://reqres.in/api/users?page=1",
-                    type: "POST",
-                    url: url,
-                    headers: { "Authorization": "Bearer " + accessToken },
-                    data: JSON.stringify(requestParams),
-                    contentType: "application/json",
-                    processData: false,
-                    success: function (response) {
-                        var DataSet = $.parseJSON(response);
-                        console.log(response);
-                        if (DataSet.StatusCode == "1") {
-                            var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                            tbl += '<thead><tr>';
-                            tbl += '<th>#';
-                            tbl += '<th>Topic';
-                            tbl += '<th>Title';
-                            tbl += '<th>Overview';
-                            tbl += '<th>Description';
-                            tbl += '<th>Is Published';
-                            tbl += '<th>Skip Flashcard';
-                            tbl += '<th>Total Contents';
-                            tbl += '<th>Survey';
-                            tbl += '<th>Flashcards';
-                            tbl += '<th>Flashcard Quiz';
-                            tbl += '<th>Final Quiz';
-                            tbl += '<th>Personal Gifts';
-                            tbl += '<th>ACTION';
-
-                            tbl += '<tbody>';
-
-
-                            $.each(response.data, function (i, data) {
-
-                                tbl += '<tr id="' + data.id + '">';
-                                tbl += '<td>' + (i + 1);
-
-                                tbl += '<td>' + data.first_name;
-                                tbl += '<td>' + data.first_name;
-                                tbl += '<td>' + data.last_name;
-                                tbl += '<td>' + data.last_name;
-                                tbl += '<td>Yes' // + data.IsPublished;
-                                tbl += '<td>No' // + data.IsPublished;
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><i title="Edit" onclick="Edit(this);" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this);" class="fas fa-trash text-danger"></i>';
-
-
-                            });
-
-                            $('#divTable').empty().append(tbl)
-
-                            $('#tblGird').tableDnD()
-                        }
-                        else {
-                            swal({
-                                title: "Warning",
-                                text: DataSet.StatusDescription,
-                                icon: "error",
-                                button: "Ok",
-                            });
-                        }
-                    },
-                    //var dTable = $('#tblGird').DataTable();
-
-                    //dTable.on('order.dt search.dt', function () {
-                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                    //        cell.innerHTML = i + 1;
-                    //    });
-                    //}).draw();
-
-
-                    complete: function () {
-                        hideLoader();
-                    }
-                });
-            }
-            catch (e) {
-                swal({
-                    title: "Failure",
-                    text: "Please try Again",
-                    type: "error"
-                });
-            }
-        }
-
-        function SaveGrdid() {
-
-            var s;
-            $('#tblGird').find('tr').each(function i(i, index) {
-                if (this.id != "") {
-                    s = s + this.id + ',';
-                }
-                console.log(this.id);
-            });
-            console.log(s.length);
-            var _SrNo = s;
-
-        }
-        function back() {
-            toggle('divGird', 'divForm');
-            View();
         }
 
     </script>

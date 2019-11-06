@@ -26,11 +26,11 @@ function QueryStringValue(param) {
 }
 
 
-function showLoader() {
+function ShowLoader() {
     loader(1);
 }
 
-function hideLoader() {
+function HideLoader() {
     loader(0);
 }
 

@@ -27,19 +27,19 @@
                 <div class="col-md-12 scroll">
                     <dl class="row text-center">
                         <dt class="col" onclick="openModal();">
-                            <img src="Asset/images/diploma.png" />
+                            <img src="Asset/images/quiz-master-c-icon.svg" />
                             <span>Quiz Master</span>
                         </dt>
                         <dt class="col" onclick="openModal();">
-                            <img src="Asset/images/target.png" />
+                            <img src="Asset/images/perfectionist-c-icon.svg" />
                             <span>Perfectionist</span>
                         </dt>
                         <dt class="col" onclick="openModal();">
-                            <img src="Asset/images/diploma.png" />
+                            <img src="Asset/images/wordsmith-c-icon.svg" />
                             <span>Wordsmith</span>
                         </dt>
                         <dt class="col" onclick="openModal();">
-                            <img src="Asset/images/diploma.png" class="disabled" />
+                            <img src="Asset/images/engager-icon.svg" class="disabled" />
                             <span>Engager</span>
                         </dt>
                         <dt class="col" onclick="openModal();">
@@ -80,15 +80,15 @@
                 <div class="col-md-12 scroll">
                     <dl class="row text-center">
                         <dt class="col-md-3">
-                            <img src="Asset/images/pdf-file.png" />
+                            <img src="Asset/images/next-pdf-icon.svg" />
                             <span>Improve your skills at the company</span>
                         </dt>
                         <dt class="col-md-3">
-                            <img src="Asset/images/video-file.png" />
+                            <img src="Asset/images/next-video-icon.svg" />
                             <span>Personal greeting from Jared Green</span>
                         </dt>
                         <dt class="col-md-3">
-                            <img src="Asset/images/contract-file.png" />
+                            <img src="Asset/images/next-flashcard-icon.svg" />
                             <span>Tips for Effective Goal-Setting</span>
                         </dt>
                     </dl>
@@ -106,7 +106,7 @@
                             <div class="col-md-10 offset-md-1">
                                 <div class="row mt-3">
                                     <div class="col-md-3 mt-3 text-right">
-                                        <img src="Asset/images/diploma.png" class="img-achievements disabled" />
+                                        <img src="Asset/images/engager-icon.svg" class="img-achievements disabled" />
                                     </div>
                                     <div class="col-md-9">
                                         <h3 class="font-weight-bold modal-title">The Engager</h3>
@@ -134,7 +134,7 @@
                                         <h5 class="section-title">Your Reward on completion</h5>
                                     </div>
                                     <div class="col-md-12 text-center mt-3">
-                                        <img src="Asset/images/giftbox.png" class="img-achievements" />
+                                        <img src="Asset/images/reward-icon.svg" class="img-achievements" />
                                     </div>
                                     <div class="col-md-12 text-center mt-5 mb-4">
                                         <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>

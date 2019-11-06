@@ -12,7 +12,7 @@
             <div class="row" id="surveyQuestion">
             </div>
             <div class="text-center mt-4">
-                <a href="Flashcards.aspx" class="btn btn-custom bg-blue font-weight-bold text-white">Finsh</a>
+                <a  onclick="checkAnwsers();" class="btn btn-custom bg-blue font-weight-bold text-white">Finsh</a>
             </div>
         </div>
     </div>
@@ -34,18 +34,18 @@
                 if (value === 1) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
-                    question += '<input type="text" class="form-control" id="text" placeholder="Type your answer here" />';
+                    question += '<input type="text" class="form-control required" id="text" placeholder="Type your answer here" />';
                     question += '</div>';
 
                 } else if (value === 2) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
-                    question += '<textarea class="form-control" placeholder="Type your answer here" id="textarea"></textarea>';
+                    question += '<textarea class="form-control required" placeholder="Type your answer here" id="textarea"></textarea>';
                     question += '</div>';
                 } else if (value === 3) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
-                    question += '<select class="form-control select2" id="select">';
+                    question += '<select class="form-control select2 required" id="select">';
                     question += '<option></option>';
                     question += '<option value="1">1</option>';
                     question += '<option value="2">2</option>';
@@ -56,7 +56,7 @@
                 } else if (value === 4) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
-                    question += '<select class="form-control select2" multiple id="selectMultiple">';
+                    question += '<select class="form-control select2 required" multiple id="selectMultiple">';
                     question += '<option></option>';
                     question += '<option value="1">1</option>';
                     question += '<option value="2">2</option>';
@@ -66,6 +66,7 @@
 
                 } else if (value === 5) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
+                    question += '<div class="form-group radio required">';
                     question += '<div class="custom-control custom-radio">';
                     question += '<input type="radio" id="rbQQ1" name="rgQuestion" class="custom-control-input">';
                     question += '<label class="custom-control-label" for="rbQQ1">Yes</label>';
@@ -74,9 +75,11 @@
                     question += '<input type="radio" id="rbQQ2" name="rgQuestion" class="custom-control-input">';
                     question += '<label class="custom-control-label" for="rbQQ2">No</label>';
                     question += '</div>';
+                    question += '</div>';
 
                 } else if (value === 6) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
+                    question += '<div class="form-group checkbox required">';
                     question += '<div class="custom-control custom-checkbox">';
                     question += '<input type="checkbox" id="cbQ1" name="cgQuestion" class="custom-control-input">';
                     question += '<label class="custom-control-label" for="cbQ1">A</label>';
@@ -89,6 +92,7 @@
                     question += '<input type="checkbox" id="cbQ3" name="cgQuestion" class="custom-control-input">';
                     question += '<label class="custom-control-label" for="cbQ3">C</label>';
                     question += '</div>';
+                    question += '</div>';
 
                 } else if (value === 7) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
@@ -100,18 +104,18 @@
                 } else if (value === 8) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="custom-file">';
-                    question += '<input type="file" class="custom-file-input" id="file">';
+                    question += '<input type="file" class="custom-file-input required" id="file">';
                     question += '<label class="custom-file-label" for="customFile">Choose file</label>';
                     question += '</div>';
                 } else if (value === 9) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
-                    question += '<input type="text" class="form-control date" id="date" placeholder="Select Date" />';
+                    question += '<input type="text" class="form-control date required" id="date" placeholder="Select Date" />';
                     question += '</div>';
 
                 } else if (value === 10) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
-                    question += '<div class="rating">';
+                    question += '<div class="form-group radio required rating">';
                     question += '<input type="radio" id="rbQ10" name="rgQuestion" value="10">';
                     question += '<label for="rbQ10">10</label>';
                     question += '<input type="radio" id="rbQ9" name="rgQuestion" value="9">';
@@ -137,7 +141,7 @@
 
                 } else if (value === 11) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
-                    question += '<div class="box">';
+                    question += '<div class="form-group radio required  box">';
                     question += '<input type="radio" id="rbY" name="rgYN" value="1">';
                     question += '<label for="rbY">Yes</label>';
                     question += '<input type="radio" id="rbN" name="rgYN" value="0">';
@@ -146,7 +150,7 @@
 
                 } else if (value === 12) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
-                    question += '<div class="box inline-box">';
+                    question += '<div class="form-group radio required box inline-box">';
                     question += '<input type="radio" id="rbT" name="rgTF" value="1">';
                     question += '<label for="rbT">True</label>';
                     question += '<input type="radio" id="rbF" name="rgTF" value="0">';
@@ -155,7 +159,7 @@
 
                 } else if (value === 13) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
-                    question += '<div class="box">';
+                    question += '<div class="form-group checkbox required box">';
                     question += '<input type="checkbox" id="cbY" name="cgYN" value="1">';
                     question += '<label for="cbY">Yes</label>';
                     question += '<input type="checkbox" id="cbN" name="cgYN" value="0">';
@@ -164,7 +168,7 @@
 
                 } else if (value === 14) {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
-                    question += '<div class="box inline-box">';
+                    question += '<div class="form-group checkbox required  box inline-box">';
                     question += '<input type="checkbox" id="cbT" name="cgTF" value="1">';
                     question += '<label for="cbT">True</label>';
                     question += '<input type="checkbox" id="cbF" name="cgTF" value="0">';
@@ -175,7 +179,7 @@
                 } else {
                     question += '<h4 class="mt-0 mb-4">What was your manager like when you argued with him?</h4>';
                     question += '<div class="form-group">';
-                    question += '<textarea class="form-control" placeholder="Type your answer here" id="textarea"></textarea>';
+                    question += '<textarea class="form-control required" placeholder="Type your answer here" id="textarea"></textarea>';
                     question += '</div>';
                 }
 
@@ -202,6 +206,20 @@
 
 
         });
+
+
+
+        function checkAnwsers() {
+
+            inputValidation('#surveyQuestion');
+
+            //$.each($('#surveyQuestion .card'), function (index, el) {
+               
+            //        $(el).addClass('b-red-2')
+            //    //$(el).addClass('b-green-2')
+                
+            //});
+        }
     </script>
 
 </asp:Content>

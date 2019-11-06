@@ -183,7 +183,8 @@ a.link, a.link:hover {
         background-image: none;
     }
 
-.custom-control-input.is-valid ~ .custom-control-label, .was-validated .custom-control-input:valid ~ .custom-control-label, .custom-control-input.is-invalid ~ .custom-control-label, .was-validated .custom-control-input:invalid ~ .custom-control-label {
+.custom-control-input.is-valid ~ .custom-control-label, .was-validated .custom-control-input:valid ~ .custom-control-label,
+.custom-control-input.is-invalid ~ .custom-control-label, .was-validated .custom-control-input:invalid ~ .custom-control-label {
     color: #000;
 }
 
@@ -201,6 +202,10 @@ a.link, a.link:hover {
     border-color: #dc3545;
     padding-right: .75rem;
     background-image: none;
+}
+
+.checkbox.box .is-invalid ~ label, .radio.box .is-invalid ~ label, .radio.rating .is-invalid ~ label {
+    border-color: #dc3545;
 }
 
 .custom-file-label {
@@ -440,7 +445,7 @@ a.link, a.link:hover {
 }
 
 .user-details .achievements .scroll, .user-details .gifts .scroll {
-    max-height: 190px;
+    max-height: 206px;
     overflow: auto;
 }
 
@@ -449,7 +454,7 @@ a.link, a.link:hover {
 }
 
     .user-details .achievements dt img, .user-details .gifts dt img {
-        width: 82px;
+        height: 82px;
         margin-top: 2rem;
     }
 
@@ -547,7 +552,7 @@ p.anchor {
 }
 
 .contents .card .content-type img {
-    width: 54px;
+    height: 48px;
 }
 
 
