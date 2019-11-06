@@ -19,38 +19,39 @@ namespace _365_Portal.Controllers
         /// </returns>
         [HttpPost]
         [Route("API/Module/ModuleAllAction")]
-        public IHttpActionResult AddModule(JObject requestParams)
+        public IHttpActionResult ModuleAllAction(JObject requestParams)
         {
             var data = string.Empty;
             int Action;
             int TopicID;
             int ModuleID;
             int CompId;
-            int SrNo;
+            string SrNo= string.Empty;
             string Title = string.Empty;
             string Overview = string.Empty;
             string Description = string.Empty;
             string CreatedBy = string.Empty;
-            bool IsPublished;
-
+            string IsPublished = string.Empty;
+            string SkipFlashcard = string.Empty;
             try
             {
                 var identity = MyAuthorizationServerProvider.AuthenticateUser();
                 if (identity != null)
                 {
-                    CompId = identity.CompId;
-                    CreatedBy = identity.UserID;
-                    Action = Convert.ToInt32(requestParams["Action"]);
-                    TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                    ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
-                    SrNo = Convert.ToInt32(requestParams["SrNo"]);
-                    Overview = requestParams["Overview"].ToString();
-                    Title = requestParams["Title"].ToString();
-                    Description = requestParams["Description"].ToString();
-                    IsPublished = Convert.ToBoolean(requestParams["IsPublished"]);
-                    if ((Action != 0 && TopicID != 0 && SrNo != 0 && !string.IsNullOrEmpty(Title)&& !string.IsNullOrEmpty(Overview)&& !string.IsNullOrEmpty(Description)))
+
+                    if ((Convert.ToInt32(requestParams["Action"]) != 4 && Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["Title"].ToString()) && !string.IsNullOrEmpty(requestParams["Overview"].ToString()) && !string.IsNullOrEmpty(requestParams["Description"].ToString())))
                     {
-                        var ds = ModulesBL.ModulesAllAction(Action,ModuleID, TopicID, CompId, Title,Overview, Description, SrNo, IsPublished, CreatedBy);
+                        CompId = identity.CompId;
+                        CreatedBy = identity.UserID;
+                        Action = Convert.ToInt32(requestParams["Action"]);
+                        TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
+                        SrNo = requestParams["SrNo"].ToString();
+                        Overview = requestParams["Overview"].ToString();
+                        Title = requestParams["Title"].ToString();
+                        Description = requestParams["Description"].ToString();
+                        IsPublished = requestParams["IsPublished"].ToString();
+                        var ds = ModulesBL.ModulesAllAction(Action, ModuleID, TopicID, CompId, Title, Overview, Description, SrNo, IsPublished, SkipFlashcard, CreatedBy);
                         if (ds.Tables.Count > 0)
                         {
                             DataTable dt = ds.Tables["Data"];
@@ -73,6 +74,39 @@ namespace _365_Portal.Controllers
                             data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
                     }
+                    else if(Convert.ToInt32(requestParams["Action"]) ==4)
+                    {
+                        CompId = identity.CompId;
+                        CreatedBy = identity.UserID;
+                        Action = Convert.ToInt32(requestParams["Action"]);
+                        TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
+                        IsPublished = requestParams["IsPublished"].ToString();
+                        var ds = ModulesBL.ModulesAllAction(Action, ModuleID, TopicID, CompId, Title, Overview, Description, SrNo, IsPublished, SkipFlashcard, CreatedBy);
+                        if (ds.Tables.Count > 0)
+                        {
+                            DataTable dt = ds.Tables["Data1"];
+                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            {
+                                DataTable _dt = ds.Tables["Data"];
+                                data = Utility.ConvertDataSetToJSONString(_dt);
+                                data = Utility.Successful(data);
+                            }
+                            else
+                            {
+
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+
+                        }
+                        else
+                        {
+                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+
                     else
                     {
                         data = ConstantMessages.WebServiceLog.InValidValues;
@@ -93,5 +127,7 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
+
+
     }
 }

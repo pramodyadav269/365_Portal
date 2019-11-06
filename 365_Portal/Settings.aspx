@@ -66,12 +66,12 @@
                                 <input type="email" class="form-control" id="txtEmail"  />
                             </div>                            
                             <div class="form-group">
-                                <label for="ddlGroup">Group</label>
-                                <select class="form-control select2" id="ddlGroup"disabled></select>
+                                <label for="txtGroup">Group</label>
+                                <input type="text" class="form-control" id="txtGroup" disabled />
                             </div>
                             <div class="form-group" >
                                 <label for="ddlRole">Role</label>
-                                <select class="form-control select2" id="ddlRole" disabled></select>
+                                <input type="text" class="form-control" id="txtRole" disabled />
                             </div>
                             <div id="divChangePassword" class="mt-4" style="display:none;">
                                 <a class="link font-weight-bold" href="ChangePassword.aspx">Change password</a>
@@ -115,7 +115,7 @@
         var Role = '<%=Session["RoleName"]%>';
 
         var IsFirstLogin = '<%=Session["IsFirstLogin"]%>';
-        var IsFirstPasswordChanged = '<%=Session["IsFirstPasswordChanged"]%>';
+        var IsFirstPasswordNotChanged = '<%=Session["IsFirstPasswordNotChanged"]%>';
         if (IsFirstLogin != undefined && IsFirstLogin.toLowerCase() == 'false')
         {
             $('#divChangePassword').show();
@@ -188,24 +188,30 @@
             $("#cbEmailNotifications").prop('checked', Data.EmailNotification);
             $("#cbPushNotifications").prop('checked', Data.PushNotification);
 
-            $("#ddlGroup").append("<option value='" + Data.GroupName + "'selected >" + Data.GroupName + "</option>");
-            $("#ddlRole").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
+            //$("#ddlGroup").append("<option value='" + Data.GroupName + "'selected >" + Data.GroupName + "</option>");
+            //$("#ddlRole").append("<option value='" + Data.Role + "'selected >" + Data.Role + "</option>");
+
+            $("#txtGroup").val(Data.GroupName);
+            $("#txtRole").val(Data.Role);
 
             if (Data.ProfilePicFile != undefined && Data.ProfilePicFile != '')
             {
-                document.getElementById('imgUserPic')
-                .setAttribute(
-                    'src', 'data:image/png;base64,' + Data.ProfilePicFile
-                );
+                //document.getElementById('imgUserPic')
+                //.setAttribute(                    
+                //    'src', 'data:image/png;base64,' + Data.ProfilePicFile
+                //);
+                $("#imgUserPic").attr("src", "Files/ProfilePic/" + Data.ProfilePicFile);
             }
 
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin") && Data.CompanyProfilePicFile != undefined && Data.CompanyProfilePicFile != '')
             {
                 document.getElementById('imgCompanyLogo')
                 .setAttribute(
-                    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
+                    'src',  Data.CompanyProfilePicFile
+                //    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
                 );
 
+                $("#imgCompanyLogo").attr("src", "Files/CompLogo/" + Data.CompanyProfilePicFile);
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme color <input type="color" id="ThemeColor" name="head" value="' + Data.ThemeColor + '"></div>');
             }
         }
@@ -240,10 +246,12 @@
             //var EmailNotification = $('#cbEmailNotifications').prop('checked');
             //var PushNotification = $('#cbPushNotifications').prop('checked');
 
-            var theInput = document.getElementById("ThemeColor");
-            var ThemeColor = theInput.value;
-            //var ThemeColor = '#ffffff';
-
+            var ThemeColor = '';
+            if (Role != undefined && (Role == "superadmin" || Role == "companyadmin")) {
+                var theInput = document.getElementById("ThemeColor");
+                ThemeColor = theInput.value;
+            }
+            
             var requestParams = { EmailID: EmailID, Position: Position, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString,CompanyThemeColor:ThemeColor };
             var getUrl = "/API/User/UpdateMyProfile";
             $.ajax({
@@ -260,7 +268,7 @@
                         if (DataSet.StatusCode == "1") {
                             HideLoader();
                             alert(DataSet.Data.ReturnMessage);
-                            if (IsFirstPasswordChanged != undefined && IsFirstPasswordChanged.toLowerCase() == 'true') {
+                            if (IsFirstPasswordNotChanged != undefined && IsFirstPasswordNotChanged.toLowerCase() == 'true') {
                                 window.location.href = "ChangePassword.aspx";
                             }
                             else {

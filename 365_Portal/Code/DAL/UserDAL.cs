@@ -24,9 +24,9 @@ namespace _365_Portal.Code.DAL
         }
         public static int UserID = 0;//commit1
 
-        public static LoginResponse LoginUser(LoginRequest objRequest)
+        public static UserBO LoginUser(LoginRequest objRequest)
         {
-            LoginResponse objResponse = null;
+            UserBO objResponse = null;
 
             MySqlParameter[] param = new MySqlParameter[3];
             param[0] = new MySqlParameter("p_TYPE", 1);
@@ -39,7 +39,7 @@ namespace _365_Portal.Code.DAL
 
             if (dt.Rows.Count > 0)
             {
-                objResponse = new LoginResponse();
+                objResponse = new UserBO();
                 objResponse.ReturnCode = dt.Rows[0]["ReturnCode"].ToString();
                 objResponse.ReturnMessage = dt.Rows[0]["ReturnMessage"].ToString();
 
@@ -48,33 +48,34 @@ namespace _365_Portal.Code.DAL
                     string HashPassword = Utility.GetHashedPassword(objRequest.Password, dt.Rows[0]["PasswordSalt"].ToString());
                     if (HashPassword == dt.Rows[0]["PasswordHash"].ToString())
                     {
-                        objResponse.CompID = dt.Rows[0]["CompID"].ToString();
+                        objResponse.CompId = Convert.ToInt32(dt.Rows[0]["CompID"]);
                         objResponse.UserID = dt.Rows[0]["UserID"].ToString();
-                        objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
+                        //objResponse.RoleID = dt.Rows[0]["RoleID"].ToString();
                         objResponse.Role = dt.Rows[0]["RoleName"].ToString();
                         objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
                         objResponse.FirstName = dt.Rows[0]["FirstName"].ToString();
-                        objResponse.LastName = dt.Rows[0]["LastName"].ToString();
+                        objResponse.LastName = dt.Rows[0]["LastName"].ToString();                        
                         objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
-                        objResponse.IsFirstPasswordChanged = dt.Rows[0]["IsFirstPasswordChanged"].ToString();
+                        
+                        objResponse.IsFirstPasswordNotChanged = dt.Rows[0]["IsFirstPasswordNotChanged"].ToString();
                     }
                     else
                     {
-                        objResponse = new LoginResponse();
+                        objResponse = new UserBO();
                         objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
                         objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
                     }
                 }
                 else
                 {
-                    objResponse = new LoginResponse();
+                    objResponse = new UserBO();
                     objResponse.ReturnCode = ConstantMessages.Login.InvalidUserCode;
                     objResponse.ReturnMessage = ConstantMessages.Login.InvalidUser;
                 }
             }
             else
             {
-                objResponse = new LoginResponse();
+                objResponse = new UserBO();
                 objResponse.ReturnCode = ConstantMessages.WebServiceLog.GenericErrorCode;
                 objResponse.ReturnMessage = ConstantMessages.WebServiceLog.GenericErrorMsg;
             }

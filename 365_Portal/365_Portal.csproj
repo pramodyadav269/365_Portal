@@ -309,6 +309,7 @@
     <Compile Include="Code\BO\ContentBO.cs" />
     <Compile Include="Code\BO\LoginLogout.cs" />
     <Compile Include="Code\BO\TrainningBO.cs" />
+    <Compile Include="Code\BO\UserProfile.cs" />
     <Compile Include="Code\ConnectionManager.cs" />
     <Compile Include="Code\DAL\AchivementDAL.cs" />
     <Compile Include="Code\DAL\CommonDAL.cs" />
@@ -341,7 +342,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
-    <Compile Include="Controllers\TopicsController.cs" />
+    <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\TrainningController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

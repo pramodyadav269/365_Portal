@@ -46,7 +46,7 @@ namespace _365_Portal.Code
             return result.ToString();
         }
 
-        public static string GetBase64ImageByFileID(string FileID,string Directory)
+        public static string GetBase64ImageByFileID(string FileID, string Directory)
         {
             string Base64String = string.Empty;
             try
@@ -128,11 +128,23 @@ namespace _365_Portal.Code
             return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription
                 + "\"," + contents
                 + ",\"Questions\":" + questions
-                + ",\"FlachardsIntro\":" + flashcardIntro
-                + ",\"Flachards\":" + flashcards + "}";
+                + ",\"FlashcardsIntro\":" + flashcardIntro
+                + ",\"Flashcards\":" + flashcards + "}";
         }
 
-        public static string GetModulesJSONFormat(string statusCode, string statusDescription,string data, string unlockedModules, string lockedModules)
+        public static string GetAchievementGiftsJSONFormat(string statusCode, string statusDescription, string achievements, string gifts)
+        {
+            if (string.IsNullOrEmpty(achievements))
+                achievements = "[]";
+            if (string.IsNullOrEmpty(gifts))
+                gifts = "[]";
+            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription
+                 + "\""
+                + ",\"Achievements\":" + achievements
+                + ",\"Gifts\":" + gifts + "}";
+        }
+
+        public static string GetModulesJSONFormat(string statusCode, string statusDescription, string data, string unlockedModules, string lockedModules)
         {
             if (string.IsNullOrEmpty(unlockedModules))
                 unlockedModules = "[]";
@@ -157,7 +169,7 @@ namespace _365_Portal.Code
 
         public static string Exception(Exception ex)
         {
-            return API_Status("0", "There might be some error " +ex.Message);
+            return API_Status("0", "There might be some error " + ex.Message);
         }
 
         public static string Successful(string data)
@@ -364,6 +376,12 @@ namespace _365_Portal.Code
                 //Add Exception Code
                 return Url;
             }
+        }
+
+        public static void DestroyAllSession()
+        {
+            System.Web.HttpContext.Current.Session.Clear();
+            //System.Web.HttpContext.Current.Session.Abandon(); //Commented because this is does not allowing to create sessnio
         }
     }
 }

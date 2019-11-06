@@ -77,40 +77,48 @@
             var requestParams;
             if (token != null && token != '') {
                 requestParams = { Token: token };
-            }
-            var getUrl = "/API/User/TokenVerification";
-            $.ajax({
-                type: "POST",
-                url: getUrl,
-                data: JSON.stringify(requestParams),
-                contentType: "application/json",
-                success: function (response) {
-                    var length = 0;
+                var getUrl = "/API/User/TokenVerification";
+                $.ajax({
+                    type: "POST",
+                    url: getUrl,
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    success: function (response) {
+                        var length = 0;
 
-                    var DataSet = $.parseJSON(response);
-                    if (DataSet.StatusCode == "1") {
-                        $('#divRegPassword').removeClass('d-none');
-                    }
-                    else {
+                        var DataSet = $.parseJSON(response);
+                        if (DataSet.StatusCode == "1") {
+                            $('#divRegPassword').removeClass('d-none');
+                        }
+                        else {
+                            swal({
+                                title: "Failure",
+                                text: DataSet.StatusDescription,
+                                type: "error"
+                            });
+
+                        }
+
+                    },
+                    failure: function (response) {
+                        alert(response.d);
+                        var DataSet = $.parseJSON(response);
                         swal({
                             title: "Failure",
                             text: DataSet.StatusDescription,
                             type: "error"
                         });
-
                     }
+                });
+            }
+            else {
+                swal({
+                    title: "Failure",
+                    text:"Oops an error Occured!.Please try again",
+                    type: "error"
+                });
+            }
 
-                },
-                failure: function (response) {
-                    alert(response.d);
-                    var DataSet = $.parseJSON(response);
-                    swal({
-                        title: "Failure",
-                        text: DataSet.StatusDescription,
-                        type: "error"
-                    });
-                }
-            });
         }
 
         function ChangePassword() {
@@ -136,7 +144,7 @@
                                 }).then((value) => {
                                     if (value) {
                                         clearFields('.input-validation');
-                                        window.location('Login.aspx');
+                                        window.location = 'Login.aspx';
                                     }
                                 });
                             }
@@ -159,7 +167,8 @@
                             });
                         }
                     });
-                } else {
+                }
+                else {
 
                 }
             }

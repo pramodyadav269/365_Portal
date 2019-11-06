@@ -217,20 +217,19 @@
                     var length = 0;
 
                     var DataSet = $.parseJSON(response);
-                    console.log(response);
                     if (DataSet.StatusCode == "1") {
+                        $('#txtRecoverEmail').val('');
                         swal({
                             title: "Success",
                             text: "Email has been sent to your registered EmailID",
-                            type: "success",
                             icon: "success"
                         });
-                        clearFields();
+                        
                     } else {
                         swal({
                             title: "Failure",
                             text: DataSet.StatusDescription,
-                            type: "erro"
+                            icon: "error"
                         });
                     }
 
@@ -241,7 +240,7 @@
                     swal({
                         title: "Failure",
                         text: DataSet.StatusDescription,
-                        type: "erro"
+                        icon: "error"
                     });
                 }
                 /*

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 
 namespace Life
 {
@@ -7,7 +8,7 @@ namespace Life
         protected void Page_Load(object sender, EventArgs e)
         {
             // Take UserName from Session.
-            dvUserName.InnerText = "Hello, Daniel!";
+            dvUserName.InnerText = "Hello, " +  HttpContext.Current.Session["FirstName"] + "!";
         }
     }
 }

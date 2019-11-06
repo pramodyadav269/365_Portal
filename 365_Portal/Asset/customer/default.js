@@ -114,6 +114,57 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         $scope.CurrIndex = 0;
     }
 
+    $scope.GetSelectedValues = function (items) {
+        var ids = "";
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].IsSelected) {
+                ids += items[i].AnswerID + ",";
+            }
+        }
+        ids = ids.replace(/,\s*$/, "");
+        return ids;
+    }
+
+    $scope.SubmitAnswers = function () {
+        var cloneObj = $rootScope.SpecialContents;
+        var questionList = [];
+
+        $.each(cloneObj.Questions, function (key, question) {
+            if (question.QuestionTypeID != '1') {
+                // Single Selection
+                questionList.push({
+                    "QuestionID": question.QuestionID,
+                    "AnswerIDs": question.Value_Text,
+                    "FilePath": question.FilePath,// Base64
+                    "Value_Text": question.QuestionTypeID == '8' ? GetFormattedDate(question.Value_Text) : question.Value_Text
+                });
+            }
+            else {
+                //Multiple Selection
+                questionList.push({
+                    "QuestionID": question.QuestionID,
+                    "AnswerIDs": $scope.GetSelectedValues(question.AnswerOptions),
+                    "FilePath": question.FilePath,// Base64
+                    "Value_Text": question.Value_Text
+                });
+            }
+        });
+
+        var requestParams = {
+            TopicID: cloneObj.TopicID
+            , ModuleID: cloneObj.ModuleID
+            , ContentID: cloneObj.ContentID
+            , SurveyID: cloneObj.SurveyID
+            , ContentType: cloneObj.Type
+            , Questions: questionList
+        };
+        objDs.DS_SubmitAnswers(requestParams);
+    }
+
+    $scope.GetFormattedDate = function (date) {
+        return date.split("/").reverse().join("-");
+    }
+
     $scope.ShowFlashcardQuiz = function () {
         $scope.ActiveContainer = "ContentFlashcardView";
         $scope.ActiveSubContainer = "FlashcardQuiz";
@@ -161,66 +212,6 @@ app.service("DataService", function ($http, $rootScope, $compile) {
     }
 
     ds.DS_GetModulesByTopic = function (topicId) {
-        $rootScope.Module = {
-            "TopicId": 1,
-            "TopicTitle": "Employee Conduct",
-            "TopicDescription": "Employee Conduct",
-            "TotalModules": 10, "CompletedModules": 4, "IsCompleted": false,
-            "ProgressBarText": "4 of 10 Completed",
-            "CompletedPercentage": (4 / 10) * 100,
-            "UnlockedItems": [
-                {
-                    "ModuleId": 1,
-                    "Title": "Introduction",
-                    "Islocked": false,
-                    "Description": "Life as an employee can be tough. Let's work together to make it easier.",
-                    "IsCompleted": true,
-                    "TotalContents": 10,
-                    "CompletedContents": 4,
-                    "Progress": "4/10",
-                    "ProgressBarText": "4 of 10 Completed",
-                    "SortOrder": 1
-                },
-                {
-                    "ModuleId": 1,
-                    "Title": "Employee Motivation",
-                    "Islocked": false,
-                    "Description": "How to be more accepting and bare with your colleagues.",
-                    "IsCompleted": false,
-                    "TotalContents": 10,
-                    "CompletedContents": 4,
-                    "Progress": "4/10",
-                    "ProgressBarText": "4 of 10 Completed",
-                    "SortOrder": 2
-                },
-                {
-                    "ModuleId": 1,
-                    "Title": "Ethical Excellence",
-                    "Islocked": false,
-                    "Description": "Increase your productivity while not losing motivation",
-                    "IsCompleted": false,
-                    "TotalContents": 10,
-                    "CompletedContents": 4,
-                    "Progress": "4/10",
-                    "ProgressBarText": "4 of 10 Completed",
-                    "SortOrder": 3
-                }
-            ],
-            "LockedItems": [
-                {
-                    "ModuleId": 1,
-                    "Title": "Motivation",
-                    "Islocked": true,
-                    "Description": "Increase your productivity while not losing motivation",
-                    "IsCompleted": false,
-                    "TotalContents": 10,
-                    "CompletedContents": 4,
-                    "Progress": "4/10",
-                    "ProgressBarText": "4 of 10 Completed",
-                    "SortOrder": 4
-                }
-            ]
-        };
 
         // var requestParams = { TopicId: topicId };
         //topicId = 25;
@@ -241,89 +232,6 @@ app.service("DataService", function ($http, $rootScope, $compile) {
     }
 
     ds.DS_GetContentsByModule = function (topicId, moduleId) {
-        $rootScope.Content = {
-            "ModuleID": 1,
-            "ModuleTitle": "Employee Conduct",
-            "ModuleDescription": "Employee Conduct",
-            "TotalContents": 10,
-            "CompletedContents": 4,
-            "IsLocked": false,
-            "IsCompleted": false,
-            "Progress": "4/10",
-            "ProgressBarText": "4 of 10 Completed",
-            "UnlockedItems": [
-                {
-                    "ContentId": 1,
-                    "Title": "Content 1",
-                    "Islocked": false,
-                    "IsCompleted": false,
-                    "FilePath": "FilePath",
-                    "FileType": "Video",
-                    "Type": "Content",
-                    "Description": "Life as an employee can be tough. Let's work together to make it easier.",
-                }],
-            "LockedItems": [
-                {
-                    "Title": "Content 2",
-                    "Islocked": false,
-                    "IsCompleted": false,
-                    "FilePath": "FilePath",
-                    "FileType": "Video",
-                    "Type": "Content",
-                    "Description": "How to be more accepting and bare with your colleagues.",
-
-                },
-                {
-                    "Title": "Content 3",
-                    "Islocked": false,
-                    "IsCompleted": false,
-                    "FilePath": "FilePath",
-                    "FileType": "Video",
-                    "Type": "Content",
-                    "Description": "Increase your productivity while not losing motivation",
-                }
-                ,
-                {
-                    "Title": "Content 4",
-                    "Islocked": true,
-                    "IsCompleted": false,
-                    "FilePath": "FilePath",
-                    "FileType": "",
-                    "Type": "Flashcard",
-                    "Description": "Increase your productivity while not losing motivation",
-                }
-                ,
-                {
-                    "Title": "Survey",
-                    "Islocked": false,
-                    "IsCompleted": false,
-                    "FilePath": "FilePath",
-                    "FileType": "",
-                    "Type": "Survey",
-                    "Description": "Increase your productivity while not losing motivation",
-                }
-                ,
-                {
-                    "Title": "Flashcard",
-                    "Islocked": true,
-                    "IsCompleted": false,
-                    "FilePath": "FilePath",
-                    "FileType": "",
-                    "Type": "Flashcard",
-                    "Description": "Increase your productivity while not losing motivation",
-                }
-                ,
-                {
-                    "Title": "Quiz",
-                    "Islocked": true,
-                    "IsCompleted": false,
-                    "FilePath": "FilePath",
-                    "FileType": "",
-                    "Type": "Quiz",
-                    "Description": "Increase your productivity while not losing motivation",
-                }
-            ]
-        };
 
         var requestParams = { TopicID: topicId, ModuleID: moduleId };
         $http({
@@ -341,26 +249,6 @@ app.service("DataService", function ($http, $rootScope, $compile) {
     }
 
     ds.DS_GetContentDetails = function (topicId, moduleId, contentId) {
-        // Update Content Details (Mark it as completed, activate next content)
-        // Check Whether content is locked or unlocked
-        $rootScope.SpecialContents = {
-            "ContentID": 1,
-            "Type": "CONTENT",
-            "ContentTitle": "Employee Conduct",
-            "ContentDescription": "Employee Conduct",
-            //"FilePath": "http://18.209.29.195/ClientContents/User_1/Topic_1/Module_1/Content_1/PDFs/test.pdf#toolbar=0",
-            "FilePath": "http://18.209.29.195/ClientContents/User_1/Topic_1/Module_1/Content_1/Videos/test.mp4",
-            "FileType": "VIDEO",
-            "IsLocked": false,
-            "IsCompleted": false,
-            "DisplaySkipFlashcard": true,
-            "PassingPercentage": 70,
-            "FlashcardIntro": {},
-            "TotalFlashcardSlides": 2,
-            "FlashcardSlides": [],
-            "TotalQuestions": 8,
-            "Questions": []
-        };
 
         var requestParams = { TopicID: topicId, ModuleID: moduleId, ContentID: contentId };
         $http({
@@ -410,669 +298,6 @@ app.service("DataService", function ($http, $rootScope, $compile) {
         });
     }
 
-    ds.DS_GetSurveyDetails = function (contentId) {
-        $rootScope.SpecialContents = {
-            "ContentID": 1,
-            "Type": "Survey",
-            "ContentTitle": "Employee Conduct",
-            "ContentDescription": "Employee Conduct",
-            "FilePath": "",
-            "FileType": "",
-            "IsLocked": false,
-            "IsCompleted": false,
-            "DisplaySkipFlashcard": true,
-            "PassingPercentage": 70,
-            "FlashcardIntro": {},
-            "TotalFlashcardSlides": 2,
-            "FlashcardSlides": [],
-            "TotalQuestions": 8,
-            "Questions": [
-                {
-                    "QuestionID": 1,
-                    "Title": "Multiple Choice Question",
-                    "QuestionType": "1",
-                    "IsAnswered": false,
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Choice 1",
-                            "SortOrder": 1,
-                            "Score": 1,
-                            "IsCorrect": true,
-                            "IsSelected": false,
-                        },
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Choice 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false,
-                            "IsSelected": false,
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                },
-                {
-                    "QuestionID": 2,
-                    "Title": "Dropdown",
-                    "QuestionType": "2",
-                    "IsAnswered": false,
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Item 1",
-                            "SortOrder": 1,
-                            "IsCorrect": false,
-                            "IsSelected": false,
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Item 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false,
-                            "IsSelected": false,
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Item 3",
-                            "SortOrder": 1,
-                            "IsCorrect": false,
-                            "IsSelected": false,
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                },
-                {
-                    "QuestionID": 3,
-                    "Title": "Radio Button",
-                    "QuestionType": "3",
-                    "IsAnswered": false,
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Option 1",
-                            "SortOrder": 1,
-                            "IsCorrect": false,
-                            "IsSelected": false,
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Option 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false,
-                            "IsSelected": false,
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": "3A",
-                    "Title": "Radio Button",
-                    "QuestionType": "9",
-                    "IsAnswered": false,
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Option 1",
-                            "SortOrder": 1,
-                            "IsCorrect": false,
-                            "IsSelected": false,
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Option 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false,
-                            "IsSelected": false,
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 4,
-                    "Title": "File Upload",
-                    "QuestionType": "4",
-                    "IsAnswered": false,
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 4,
-                    "Title": "Rating Scale",
-                    "QuestionType": "5",
-                    "IsAnswered": false,
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 6,
-                    "Title": "TextBox",
-                    "QuestionType": "6",
-                    "IsAnswered": false,
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 7,
-                    "Title": "Paragraphs",
-                    "QuestionType": "7",
-                    "IsAnswered": false,
-                    "IsMandatory": false,
-                    "IsMultipleLine": true,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 8,
-                    "Title": "Date Time",
-                    "QuestionType": "8",
-                    "IsAnswered": false,
-                    "IsMandatory": false,
-                    "IsMultipleLine": true,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-            ]
-        };
-    }
-
-    ds.DS_GetFlashcardDetails = function (contentId) {
-        $rootScope.SpecialContents = {
-            "ContentID": 1,
-            "Type": "FLASHCARD",
-            "ContentTitle": "Employee Conduct",
-            "ContentDescription": "Employee Conduct",
-            "FilePath": "http://18.209.29.195/ClientContents/User_1/Topic_1/Module_1/Content_1/Videos/test.mp4",
-            "FileType": "VIDEO",
-            "IsLocked": false,
-            "IsCompleted": false,
-            "DisplaySkipFlashcard": true,
-            "PassingPercentage": 70,
-            "FlashcardIntro": {
-                "Title": "In this flashcard, we will answer",
-                "Highlights": [
-                    {
-                        "Content": "What makes a good communicator?",
-                        "SortOrder": 1
-                    },
-                    {
-                        "Content": "How to motivate yourself being in the office?",
-                        "SortOrder": 2
-                    },
-                    {
-                        "Content": "How to be more proactive?",
-                        "SortOrder": 3
-                    }
-                ]
-            },
-            "TotalFlashcardSlides": 3,
-            "FlashcardSlides": [
-                {
-                    "Content": "This is flashcard content 1.",
-                    "SortOrder": 1
-                },
-                {
-                    "Content": "This is flashcard content 2.",
-                    "SortOrder": 2
-                }
-                ,
-                {
-                    "Content": "This is flashcard content 3.",
-                    "SortOrder": 3
-                }
-            ],
-            "TotalQuestions": 8,
-            "Questions": [
-                {
-                    "QuestionID": 1,
-                    "Title": "Multiple Choice Question",
-                    "QuestionType": "1",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Choice 1",
-                            "SortOrder": 1,
-                            "Score": 1,
-                            "IsCorrect": true
-                        },
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Choice 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                },
-                {
-                    "QuestionID": 2,
-                    "Title": "Dropdown",
-                    "QuestionType": "2",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Item 1",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Item 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Item 3",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                },
-                {
-                    "QuestionID": 3,
-                    "Title": "Radio Button",
-                    "QuestionType": "3",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Option 1",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Option 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 4,
-                    "Title": "File Upload",
-                    "QuestionType": "4",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 4,
-                    "Title": "Rating Scale",
-                    "QuestionType": "5",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 6,
-                    "Title": "TextBox",
-                    "QuestionType": "6",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 7,
-                    "Title": "Paragraphs",
-                    "QuestionType": "7",
-                    "IsMandatory": false,
-                    "IsMultipleLine": true,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 8,
-                    "Title": "Date Time",
-                    "QuestionType": "8",
-                    "IsMandatory": false,
-                    "IsMultipleLine": true,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-            ]
-        };
-    }
-
-    ds.DS_GetFinalQuizDetails = function (contentId) {
-        $rootScope.SpecialContents = {
-            "ContentID": 1,
-            "Type": "FINALQUIZ",
-            "ContentTitle": "Employee Conduct",
-            "ContentDescription": "Employee Conduct",
-            "FilePath": "http://18.209.29.195/ClientContents/User_1/Topic_1/Module_1/Content_1/PDFs/test.pdf#toolbar=0",
-            "FileType": "",
-            "IsLocked": false,
-            "IsCompleted": false,
-            "DisplaySkipFlashcard": true,
-            "PassingPercentage": 70,
-            "FlashcardIntro": {},
-            "TotalFlashcardSlides": 2,
-            "FlashcardSlides": [],
-            "TotalQuestions": 8,
-            "Questions": [
-                {
-                    "QuestionID": 1,
-                    "Title": "Multiple Choice Question",
-                    "QuestionType": "1",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Choice 1",
-                            "SortOrder": 1,
-                            "Score": 1,
-                            "IsCorrect": true
-                        },
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Choice 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                },
-                {
-                    "QuestionID": 2,
-                    "Title": "Dropdown",
-                    "QuestionType": "2",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Item 1",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Item 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Item 3",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                },
-                {
-                    "QuestionID": 3,
-                    "Title": "Radio Button",
-                    "QuestionType": "3",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [
-                        {
-                            "AnswerID": 1,
-                            "AnswerText": "Option 1",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                        ,
-                        {
-                            "AnswerID": 2,
-                            "AnswerText": "Option 2",
-                            "SortOrder": 1,
-                            "IsCorrect": false
-                        }
-                    ],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 4,
-                    "Title": "File Upload",
-                    "QuestionType": "4",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 4,
-                    "Title": "Rating Scale",
-                    "QuestionType": "5",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 6,
-                    "Title": "TextBox",
-                    "QuestionType": "6",
-                    "IsMandatory": false,
-                    "IsMultipleLine": false,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 7,
-                    "Title": "Paragraphs",
-                    "QuestionType": "7",
-                    "IsMandatory": false,
-                    "IsMultipleLine": true,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-                ,
-                {
-                    "QuestionID": 8,
-                    "Title": "Date Time",
-                    "QuestionType": "8",
-                    "IsMandatory": false,
-                    "IsMultipleLine": true,
-                    "MaxLength": "150",
-                    "SortOrder": 1,
-                    "AnswerOptions": [],
-                    "IsCorrect": false,
-                    "ScoreEarned": 0,
-                    "Value_Text": "",
-                    "FileName": "",
-                    "FilePath": ""
-                }
-            ]
-        };
-    }
-
     ds.DS_RateContent = function (topicId, moduleId, contentId, rating) {
         var requestParams = { TopicID: topicId, ModuleID: moduleId, ContentID: contentId, Rating: rating };
         $http({
@@ -1088,8 +313,18 @@ app.service("DataService", function ($http, $rootScope, $compile) {
         });
     }
 
-    ds.DS_SubmitAnswers = function (contentId, rating) {
-        // Ajax Call
+    ds.DS_SubmitAnswers = function (requestParams) {
+        $http({
+            method: "POST",
+            url: "../api/Trainning/SubmitAnswers",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer " + accessToken
+            },
+            data: requestParams,
+        }).then(function success(response) {
+            var responseData = response.data;
+        });
     }
 });
 
@@ -1110,7 +345,6 @@ app.directive('myPostRepeatDirective', function () {
             $('.custom-range').on('change', function () {
                 $('label[for=' + this.id + ']').text('Value : ' + $(this).val());
             });
-            element.parent().css('border', '1px solid black');
         }
     };
 });
