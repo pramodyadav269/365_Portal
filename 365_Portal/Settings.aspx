@@ -135,7 +135,7 @@
 
         function GetUserProfileDetails()
         {
-            showLoader();
+            ShowLoader();
 
             var getUrl = "/API/User/GetMyProfile";
             $.ajax({
@@ -148,7 +148,7 @@
                     try {
                         //debugger
                         var DataSet = $.parseJSON(response);
-                        hideLoader();
+                        HideLoader();
                         if (DataSet.StatusCode == "1") {
                             //alert(DataSet.StatusDescription);                            
                             BindFields(DataSet.Data);                            
@@ -159,13 +159,13 @@
                         }
                     }
                     catch (e) {
-                        hideLoader();
+                        HideLoader();
                         alert(response);
                         alert(e.message);                        
                     }
                 },
                 failure: function (response) {
-                    hideLoader();
+                    HideLoader();
                     alert(response.data);                    
                 }
             });
@@ -234,7 +234,7 @@
 
         function UpdateUserProfileDetails()
         {
-            showLoader();
+            ShowLoader();
             var EmailID = $('#txtEmail').val();
             var Position = $('#txtPosition').val();
             //var EmailNotification = $('#cbEmailNotifications').prop('checked');
@@ -258,7 +258,7 @@
                         var DataSet = $.parseJSON(response);
                         //console.log(response);
                         if (DataSet.StatusCode == "1") {
-                            hideLoader();
+                            HideLoader();
                             alert(DataSet.Data.ReturnMessage);
                             if (IsFirstPasswordChanged != undefined && IsFirstPasswordChanged.toLowerCase() == 'true') {
                                 window.location.href = "ChangePassword.aspx";
@@ -268,18 +268,18 @@
                             }
                         }
                         else {
-                            hideLoader();
+                            HideLoader();
                             ClearFields();                            
                         }
                     }
                     catch (e) {
-                        hideLoader();
+                        HideLoader();
                         alert(response);
                         alert(e.message);
                     }
                 },
                 failure: function (response) {
-                    hideLoader();
+                    HideLoader();
                     alert(response.data);
                 }
             });
@@ -288,7 +288,7 @@
         function UpdateNotification()
         {
             //debugger
-            showLoader();
+            ShowLoader();
             var EmailNotification = $('#cbEmailNotifications').prop('checked');
             var PushNotification = $('#cbPushNotifications').prop('checked');
             var requestParams = { EmailNotification: EmailNotification, PushNotification: PushNotification};
@@ -302,7 +302,7 @@
                 success: function (response) {
                     try {
                         //debugger
-                        hideLoader();
+                        HideLoader();
                         var DataSet = $.parseJSON(response);
                         if (DataSet.StatusCode == "1")
                         {                            
@@ -314,13 +314,13 @@
                         }
                     }
                     catch (e) {
-                        hideLoader();
+                        HideLoader();
                         alert(response);
                         alert(e.message);
                     }
                 },
                 failure: function (response) {
-                    hideLoader();
+                    HideLoader();
                     alert(response.data);
                 }
             });

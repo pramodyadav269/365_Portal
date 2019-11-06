@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="90px" height="97px" viewBox="0 0 90 97" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 54.1 (76490) - https://sketchapp.com -->
+    <title>FE569F5D-17A1-400A-9980-315EE0D36D86</title>
+    <desc>Created with sketchtool.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Profile" transform="translate(-685.000000, -484.000000)">
+            <g id="wordsmith-c-icon" transform="translate(670.000000, 476.000000)">
+                <g>
+                    <path d="M54.8502615,108.263686 C79.9551318,108.263686 100.30665,87.6639778 100.30665,62.2529506 C100.30665,36.8419233 79.9551318,16.2422156 54.8502615,16.2422156 C46.5644672,16.2422156 38.7964613,18.4861667 32.1070361,22.4064376" id="Oval-2-Copy-7" stroke="#15BC7F" stroke-width="5" stroke-linecap="round" transform="translate(66.206843, 62.252951) rotate(-330.000000) translate(-66.206843, -62.252951) "></path>
+                    <g id="Group-2-Copy-2" transform="translate(56.257042, 56.440054) rotate(-330.000000) translate(-56.257042, -56.440054) translate(15.257042, 14.940054)">
+                        <ellipse id="Oval-2-Copy-5" fill="#363D72" cx="41" cy="41.5" rx="41" ry="41.5"></ellipse>
+                        <path d="M41,83 C63.6436747,83 82,64.4198171 82,41.5 C82,18.5801829 63.6436747,0 41,0" id="Oval-2-Copy-5" fill="#5B6BE2" opacity="0.312103714"></path>
+                    </g>
+                    <text id="A-Copy" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-size="33" font-weight="bold" fill="#F0FFC5">
+                        <tspan x="56.0842285" y="74">A</tspan>
+                    </text>
+                    <g id="Group-4-Copy" transform="translate(50.562150, 48.812731) rotate(-13.000000) translate(-50.562150, -48.812731) translate(31.562150, 30.812731)" fill="#EAD06E" fill-rule="nonzero">
+                        <polygon id="Shape" points="38 17.2440782 30.8055326 9.98955971 32.4091607 8.2895384 27.8043109 3.64672158 26.1192921 5.26326598 22.5432199 1.65781389 14.9790064 0 11.0322581 3.97875332 31.0934229 24.2068966"></polygon>
+                        <path d="M22.0645161,18.7282312 L17.055418,13.6551724 L0.897477919,29.2581613 C-0.392606276,30.8889027 -0.291932333,33.2734295 1.19995529,34.7846908 C2.69184291,36.2954908 5.04697542,36.397441 6.65730298,35.0919252 L22.0645161,18.7282312 Z" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

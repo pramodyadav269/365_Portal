@@ -93,7 +93,7 @@
 
 
             var url = "API/Module/ModuleAllAction";
-            showLoader();
+            ShowLoader();
             $.ajax({
                 type: "GET",
                 url: "https://reqres.in/api/users?page=1",
@@ -159,7 +159,7 @@
 
                 },
                 complete: function () {
-                    hideLoader();
+                    HideLoader();
                 }
             });
         });
@@ -171,7 +171,7 @@
         }
 
         function Submit() {
-            showLoader();
+            ShowLoader();
             if (inputValidation('.input-validation')) {
                 var _Action = INSERT;
                 var _Topic_Id = $('#ddlTopic option:selected').val();
@@ -220,10 +220,10 @@
                         }
                     },
                     complete: function () {
-                        hideLoader();
+                        HideLoader();
                     },
                     failure: function (response) {
-                        hideLoader();
+                        HideLoader();
                         alert(response.data);
                     }
                 });

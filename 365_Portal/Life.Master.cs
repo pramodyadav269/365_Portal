@@ -32,9 +32,9 @@ namespace _365_Portal
                 }
             }
             else
-            {             
-                    Response.Redirect("~/login.aspx");
-                
+            {
+                Response.Redirect("~/login.aspx");
+
             }
         }
     }
