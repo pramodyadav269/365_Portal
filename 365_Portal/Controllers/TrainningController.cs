@@ -394,5 +394,50 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
+        [Route("api/Trainning/RetakeTest")]
+        [HttpPost]
+        public IHttpActionResult RetakeTest(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    string userId = identity.UserID;
+                    string surveyId = requestParams["SurveyID"].ToString();
+                    var ds = TrainningBL.ClearAnswers(compId, userId, surveyId);
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
+                        {
+                            // Successful
+                            data = Utility.Successful("");
+                        }
+                        else
+                        {
+                            // Error. Check Logs
+                            data = Utility.API_Status("1", "There might be some error. Please try again later");
+                        }
+                    }
+                    else
+                    {
+                        // Unknown Error
+                        data = Utility.API_Status("0", "No Records Found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    data = Utility.Exception(ex); ;
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
     }
 }

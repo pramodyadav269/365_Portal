@@ -221,6 +221,27 @@
     <Compile Include="Admin\admin.Master.designer.cs">
       <DependentUpon>admin.Master</DependentUpon>
     </Compile>
+    <Compile Include="Admin\quiz.aspx.cs">
+      <DependentUpon>quiz.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\quiz.aspx.designer.cs">
+      <DependentUpon>quiz.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\flashcards.aspx.cs">
+      <DependentUpon>flashcards.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\flashcards.aspx.designer.cs">
+      <DependentUpon>flashcards.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ContentList.aspx.cs">
+      <DependentUpon>ContentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ContentList.aspx.designer.cs">
+      <DependentUpon>ContentList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Contents.aspx.cs">
       <DependentUpon>Contents.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -450,6 +471,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\quiz.aspx" />
+    <Content Include="Admin\flashcards.aspx" />
+    <Content Include="Admin\ContentList.aspx" />
     <Content Include="Admin\Contents.aspx" />
     <Content Include="Admin\dashboard.aspx" />
     <Content Include="Admin\Modules.aspx" />
@@ -471,15 +495,29 @@
     <Content Include="Asset\images\close-button.png" />
     <Content Include="Asset\images\contract-file.png" />
     <Content Include="Asset\images\diploma.png" />
+    <Content Include="Asset\images\employee-illustration.svg" />
+    <Content Include="Asset\images\engager-icon.svg" />
     <Content Include="Asset\images\exam.png" />
     <Content Include="Asset\images\flash-card.png" />
+    <Content Include="Asset\images\flashcard-icon.svg" />
     <Content Include="Asset\images\giftbox.png" />
     <Content Include="Asset\images\logo.svg" />
+    <Content Include="Asset\images\next-flashcard-icon.svg" />
+    <Content Include="Asset\images\next-pdf-icon.svg" />
+    <Content Include="Asset\images\next-video-icon.svg" />
     <Content Include="Asset\images\pdf-file.png" />
+    <Content Include="Asset\images\pdf-icon.svg" />
+    <Content Include="Asset\images\perfectionist-c-icon.svg" />
     <Content Include="Asset\images\profile.png" />
+    <Content Include="Asset\images\quiz-icon.svg" />
+    <Content Include="Asset\images\quiz-master-c-icon.svg" />
+    <Content Include="Asset\images\reward-icon.svg" />
+    <Content Include="Asset\images\survey-icon.svg" />
     <Content Include="Asset\images\survey.png" />
     <Content Include="Asset\images\target.png" />
     <Content Include="Asset\images\video-file.png" />
+    <Content Include="Asset\images\video-icon.svg" />
+    <Content Include="Asset\images\wordsmith-c-icon.svg" />
     <Content Include="Asset\js\all.js" />
     <Content Include="Asset\js\angular.min.js" />
     <Content Include="Asset\js\bootstrap.js" />

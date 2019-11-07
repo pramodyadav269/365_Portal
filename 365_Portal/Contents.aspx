@@ -38,7 +38,7 @@
                             <div class="card-body">
                                 <div class="row align-items-center content-type">
                                     <div class="col-sm-2 col-md-2 col-lg-1">
-                                        <img src="Asset/images/pdf-file.png" />
+                                        <img src="Asset/images/pdf-icon.svg" />
                                     </div>
                                     <div class="col-sm-9 col-md-9 col-lg-10">
                                         <h5 class="card-title">Goal setting</h5>
@@ -58,7 +58,7 @@
                             <div class="card-body">
                                 <div class="row align-items-center content-type">
                                     <div class="col-sm-2 col-md-2 col-lg-1">
-                                        <img src="Asset/images/video-file.png" />
+                                        <img src="Asset/images/video-icon.svg" />
                                     </div>
                                     <div class="col-sm-9 col-md-9 col-lg-10">
                                         <h5 class="card-title">Psychology of motivation part 1</h5>
@@ -78,7 +78,7 @@
                             <div class="card-body">
                                 <div class="row align-items-center content-type">
                                     <div class="col-sm-2 col-md-2 col-lg-1">
-                                        <img src="Asset/images/pdf-file.png" />
+                                       <img src="Asset/images/pdf-icon.svg" />
                                     </div>
                                     <div class="col-sm-9 col-md-9 col-lg-10">
                                         <h5 class="card-title">Stay positive, stay motivated</h5>
@@ -98,7 +98,7 @@
                             <div class="card-body">
                                 <div class="row align-items-center content-type">
                                     <div class="col-sm-2 col-md-2 col-lg-1">
-                                        <img src="Asset/images/video-file.png" />
+                                        <img src="Asset/images/video-icon.svg" />
                                     </div>
                                     <div class="col-sm-9 col-md-9 col-lg-10">
                                         <h5 class="card-title">Psychology of motivation part 2</h5>
@@ -118,7 +118,7 @@
                             <div class="card-body">
                                 <div class="row align-items-center content-type">
                                     <div class="col-sm-2 col-md-2 col-lg-1">
-                                        <img src="Asset/images/survey.png" />
+                                        <img src="Asset/images/survey-icon.svg" />
                                     </div>
                                     <div class="col-sm-9 col-md-9 col-lg-10">
                                         <h5 class="card-title">Daily habits, that can increase mindfulness</h5>
@@ -138,7 +138,7 @@
                             <div class="card-body">
                                 <div class="row align-items-center content-type">
                                     <div class="col-sm-2 col-md-2 col-lg-1">
-                                        <img src="Asset/images/flash-card.png" />
+                                        <img src="Asset/images/flashcard-icon.svg" />
                                     </div>
                                     <div class="col-sm-9 col-md-9 col-lg-10">
                                         <h5 class="card-title">Daily habits, that can increase mindfulness</h5>
@@ -158,7 +158,7 @@
                             <div class="card-body">
                                 <div class="row align-items-center content-type">
                                     <div class="col-sm-2 col-md-2 col-lg-1">
-                                        <img src="Asset/images/exam.png" />
+                                        <img src="Asset/images/quiz-icon.svg" />
                                     </div>
                                     <div class="col-sm-9 col-md-9 col-lg-10">
                                         <h5 class="card-title">Daily habits, that can increase mindfulness</h5>
