@@ -221,6 +221,27 @@
     <Compile Include="Admin\admin.Master.designer.cs">
       <DependentUpon>admin.Master</DependentUpon>
     </Compile>
+    <Compile Include="Admin\quiz.aspx.cs">
+      <DependentUpon>quiz.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\quiz.aspx.designer.cs">
+      <DependentUpon>quiz.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\flashcards.aspx.cs">
+      <DependentUpon>flashcards.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\flashcards.aspx.designer.cs">
+      <DependentUpon>flashcards.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ContentList.aspx.cs">
+      <DependentUpon>ContentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ContentList.aspx.designer.cs">
+      <DependentUpon>ContentList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Contents.aspx.cs">
       <DependentUpon>Contents.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -450,6 +471,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\quiz.aspx" />
+    <Content Include="Admin\flashcards.aspx" />
+    <Content Include="Admin\ContentList.aspx" />
     <Content Include="Admin\Contents.aspx" />
     <Content Include="Admin\dashboard.aspx" />
     <Content Include="Admin\Modules.aspx" />
