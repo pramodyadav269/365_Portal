@@ -124,10 +124,17 @@ namespace _365_Portal.Controllers
                     var ds = TrainningBL.UpdateContent(compId, userId, topicId, moduleId, contentId);
                     if (ds.Tables.Count > 0)
                     {
-                        if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
+                        string isGift = "0";
+                        if (ds.Tables.Count == 2)
                         {
-                            // Successful
-                            data = Utility.Successful("");
+                            // Successful -  Unlocked a gift
+                            isGift = "1";
+                            data = Utility.ContentUpdated("1", "Success", isGift, Utility.ConvertDataSetToJSONString(ds.Tables[0]));
+                        }
+                        else if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
+                        {
+                            // Successful - Without Gift
+                            data = Utility.ContentUpdated("1", "Success", isGift, "");
                         }
                         else
                         {
@@ -339,10 +346,11 @@ namespace _365_Portal.Controllers
                 {
                     int compId = identity.CompId;
                     string userId = identity.UserID;
-                    var ds = TrainningBL.GetAchievementGifts(compId, userId);
+                    List<Achievement> achievementList = new List<Achievement>();
+                    var ds = TrainningBL.GetAchievementGifts(compId, userId, ref achievementList);
                     data = Utility.GetAchievementGiftsJSONFormat("1", "Success",
-                        Utility.ConvertDataSetToJSONString(ds.Tables[0]),
-                        Utility.ConvertDataSetToJSONString(ds.Tables[1]));
+                        JsonConvert.SerializeObject(achievementList),
+                        Utility.ConvertDataSetToJSONString(ds.Tables[2]));
                 }
                 catch (Exception ex)
                 {

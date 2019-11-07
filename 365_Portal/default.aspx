@@ -79,6 +79,7 @@
                                             <p class="card-text">{{module.Description}}</p>
                                             <p ng-if="module.IsCompleted == 1" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
                                             <p ng-if="module.IsCompleted != 1" class="text-right anchor">{{module.CompletedContents + '/' + module.TotalContents}}</p>
+                                            TopicID:{{SelectedTopic.TopicId}},ModuleID:{{module.ModuleID}}
                                         </div>
                                     </div>
                                 </a>
@@ -466,6 +467,7 @@ TotalScore:{{SpecialContents.TotalScore}}
 ScoreEarned:{{SpecialContents.ScoreEarned}}
 IsPassed:{{SpecialContents.IsPassed}}
                     PercentageEarned:{{SpecialContents.PercentageEarned}}
+                    ContentID: {{SpecialContents.ContentID}}
                     <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="ng-class: 'card border-0 shadow mb-3 ' + (question.IsAnswered == true ? (question.IsCorrect ==true ? 'b-green-2' : 'b-red-2'):'' );">
                             <div class="card-body question">
@@ -536,6 +538,7 @@ IsPassed:{{SpecialContents.IsPassed}}
                             ng-click="SubmitAnswers()">Check Answers</a>
                         <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsPassed==true"
                             ng-click="UpdateContent(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID)">Continue</a>
+                       
                     </div>
                 </div>
             </div>

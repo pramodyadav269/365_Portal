@@ -48,8 +48,8 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     }
 
     // Module Completed...
-    $scope.UpdateContent = function (topicId, moduleId, contentId) {
-        objDs.DS_UpdateContent(topicId, moduleId, contentId);
+    $scope.UpdateContent = function (topicId, moduleId, contentIddd) {
+        objDs.DS_UpdateContent(topicId, moduleId, contentIddd);
         $scope.GetModulesByTopic(topicId);
     }
 
@@ -298,10 +298,12 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             data: requestParams,
         }).then(function success(response) {
             var responseData = response.data;
-
-            //ds.DS_GetUserTopics(topicId, moduleId);
-            //ds.DS_GetModulesByTopic(topicId, moduleId);
             ds.DS_GetContentsByModule(topicId, moduleId);
+
+            if (responseData.IsGift == true) {
+                alert("Gift Received");
+                $rootScope.ActiveContainer = "GiftReceived";
+            }
         });
     }
 

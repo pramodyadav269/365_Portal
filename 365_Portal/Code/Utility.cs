@@ -177,6 +177,13 @@ namespace _365_Portal.Code
             return GetJSONData("1", "Successful", data);
         }
 
+        public static string ContentUpdated(string statusCode, string statusDescription, string isGift, string data)
+        {
+            if (string.IsNullOrEmpty(data))
+                data = "[]";
+            return "{\"StatusCode\":\"" + statusCode + "\",\"StatusDescription\":\"" + statusDescription + "\",\"IsGift\":\"" + isGift + "\",\"Data\":" + data + "}";
+        }
+
         public static string Failed(string data)
         {
             return GetJSONData("0", "Failed", data);

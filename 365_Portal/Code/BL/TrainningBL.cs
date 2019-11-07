@@ -333,12 +333,42 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetAchievementGifts(int compId, string userId)
+        public static DataSet GetAchievementGifts(int compId, string userId, ref List<Achievement> achievementList)
         {
             DataSet ds = new DataSet();
             try
             {
                 ds = TrainningDAL.GetAchievementGifts(compId, userId);
+
+                // Table 0: Achievements
+                // Table 1: Achievement Requirements
+                // Table 2: Gifts  
+
+                achievementList = new List<Achievement>();
+                achievementList = (from DataRow dr in ds.Tables[0].Rows
+                                   select new Achievement()
+                                   {
+                                       AchievementID = Convert.ToInt32(dr["AchievementID"]),
+                                       AchievedPercentage = Convert.ToDouble(Convert.ToString(dr["AchievedPercentage"])),
+                                       UserTitle = dr["UserTitle"].ToString(),
+                                       UserMessage = dr["UserMessage"].ToString(),
+                                       Title = dr["Title"].ToString(),
+                                       Description = dr["Description"].ToString(),
+                                   }).ToList();
+
+                List<Requirement> requirementList = new List<Requirement>();
+                requirementList = (from DataRow dr in ds.Tables[1].Rows
+                                   select new Requirement()
+                                   {
+                                       AchievementID = Convert.ToInt32(dr["AchievementID"]),
+                                       SortOrder = Convert.ToInt32(dr["SortOrder"]),
+                                       Description = dr["Description"].ToString()
+
+                                   }).ToList();
+                foreach (var achievement in achievementList)
+                {
+                    achievement.Requirements = requirementList.Where(p => p.AchievementID == achievement.AchievementID).ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -347,12 +377,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet ClearAnswers(int compId, string userId,string surveyId)
+        public static DataSet ClearAnswers(int compId, string userId, string surveyId)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.ClearAnswers(compId, userId,surveyId);
+                ds = TrainningDAL.ClearAnswers(compId, userId, surveyId);
             }
             catch (Exception ex)
             {
