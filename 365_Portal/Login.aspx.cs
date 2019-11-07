@@ -15,9 +15,10 @@ namespace _365_Portal
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
-            {               
-                HttpContext.Current.Session["UserId"] = null;
-                HttpContext.Current.Session["RoleName"] = null;
+            {
+                //HttpContext.Current.Session["UserId"] = null;
+                //HttpContext.Current.Session["RoleName"] = null;
+                Utility.DestroyAllSession();
             }
         }
 
@@ -25,8 +26,6 @@ namespace _365_Portal
         {
             try
             {
-                Utility.DestroyAllSession();
-
                 lblError.Text = "";                
                 if (string.IsNullOrEmpty(txtUserEmail.Text.Trim()) || string.IsNullOrEmpty(txtUserPassword.Text.Trim()))
                 {
@@ -63,18 +62,17 @@ namespace _365_Portal
                         else
                         {
                             // Call Login Business Layer Function to record message
-                            HttpContext.Current.Session["UserId"] = objResponse.UserID;
-                            HttpContext.Current.Session["RoleName"] = objResponse.Role;
-                            HttpContext.Current.Session["FirstName"] = objResponse.FirstName;
-                            HttpContext.Current.Session["LastName"] = objResponse.LastName;
+                            Utility.CreateUserSession(objResponse.UserID, objResponse.Role, objResponse.FirstName, objResponse.LastName);
 
                             //For ProfilePic,CompanyProfilePic & Theme
                             var UserDetails = UserDAL.GetUserDetailsByUserID(objResponse.UserID, "");
                             if (UserDetails != null && !string.IsNullOrEmpty(UserDetails.ProfilePicFileID))
                             {
-                                HttpContext.Current.Session["ProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.ProfilePicFileID, "~/Files/ProfilePic/");
-                                HttpContext.Current.Session["CompanyProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.CompanyProfilePicFileID, "~/Files/CompLogo/");
-                                HttpContext.Current.Session["ThemeColor"] = UserDetails.ThemeColor;
+                                //HttpContext.Current.Session["ProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.ProfilePicFileID, "~/Files/ProfilePic/");
+                                //HttpContext.Current.Session["CompanyProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.CompanyProfilePicFileID, "~/Files/CompLogo/");
+                                //HttpContext.Current.Session["ThemeColor"] = UserDetails.ThemeColor;
+
+                                Utility.CreateProfileAndThemeSession(UserDetails.ProfilePicFileID, UserDetails.CompanyProfilePicFileID, UserDetails.ThemeColor);
                             }
                             //End For ProfilePic,CompanyProfilePic & Theme
                             
@@ -82,11 +80,13 @@ namespace _365_Portal
                             {
                                 if (objResponse.IsFirstLogin == "1")
                                 {
-                                    HttpContext.Current.Session["IsFirstLogin"] = true;                                    
+                                    Utility.CreateFirstLoginSession(true);
+                                    //HttpContext.Current.Session["IsFirstLogin"] = true;                                    
                                 }
                                 if (objResponse.IsFirstPasswordNotChanged == "1")
                                 {
-                                    HttpContext.Current.Session["IsFirstPasswordNotChanged"] = true;                                    
+                                    Utility.CreateFirstPasswordNotChangedSession(true);
+                                    //HttpContext.Current.Session["IsFirstPasswordNotChanged"] = true;                                    
                                 }
                                 if (objResponse.IsFirstLogin == "1")
                                 {

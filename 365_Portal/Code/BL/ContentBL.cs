@@ -1,4 +1,5 @@
 ﻿using _365_Portal.Code.DAL;
+using _365_Portal.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +22,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateTopic(content);
+                ds = ContentDAL.CreateTopic(Convert.ToInt32(ConstantMessages.Action.INSERT),content);
             }
             catch (Exception ex)
             {
@@ -34,7 +35,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateTopic(content);
+                ds = ContentDAL.CreateTopic(Convert.ToInt32(ConstantMessages.Action.MODIFY),content);
             }
             catch (Exception ex)
             {
@@ -86,7 +87,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateModule(content);
+                ds = ContentDAL.CreateModule( Convert.ToInt32(ConstantMessages.Action.INSERT),content);
             }
             catch (Exception ex)
             {
@@ -99,7 +100,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateModule(content);
+                ds = ContentDAL.CreateModule(Convert.ToInt32(ConstantMessages.Action.INSERT), content);
             }
             catch (Exception ex)
             {

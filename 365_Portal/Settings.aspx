@@ -207,8 +207,7 @@
             {
                 document.getElementById('imgCompanyLogo')
                 .setAttribute(
-                    'src',  Data.CompanyProfilePicFile
-                //    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
+                    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
                 );
 
                 $("#imgCompanyLogo").attr("src", "Files/CompLogo/" + Data.CompanyProfilePicFile);
