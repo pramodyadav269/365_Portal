@@ -123,7 +123,7 @@
                 var _SkipFlashcard = $('#cbSkipFlashcard').val();
                 var _SrNo = "";
                 try {
-                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo };
+                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, UserID: "", IsActive: "", ModuleID :"1"};
 
 
                     $.ajax({
@@ -299,7 +299,7 @@
         function View() {
             var url = "/API/Content/GetModules";
 
-            var requestParams = { TopicID: "0", ModuleID: "0", ModuleTitle: "", IsPublished: "" };
+            var requestParams = { TopicID: "", ModuleID:"1",ModuleTitle: "", ModuleOverview: "", ModuleDescription: "", IsPublished: "", SrNo: "", UserID: "", IsActive: "" };
             showLoader();
             try {
                 $.ajax({
@@ -335,7 +335,7 @@
                             tbl += '<tbody>';
 
 
-                            $.each(response.data, function (i, data) {
+                            $.each(DataSet.data, function (i, data) {
 
                                 tbl += '<tr id="' + data.id + '">';
                                 tbl += '<td>' + (i + 1);

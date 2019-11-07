@@ -80,8 +80,11 @@ namespace _365_Portal.Models
         {
             Success = 1, Failure = 0
         }
-        
 
+        public enum Action
+        {
+            INSERT = 1, MODIFY = 2, DELETE = 3, VIEW = 4, EDIT = 5, EXCEPTION = 6, SEARCH = 7, SEARCH_2 = 8
+        }
 
     }
 }

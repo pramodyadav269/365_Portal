@@ -37,6 +37,7 @@
 
         });
         var accessToken = '<%=Session["access_token"]%>';
+                var UserRole = '<%=Session["RoleName"]%>';
         function ChangePassword() {
             showLoader();
             if (inputValidation('.input-validation')) {
@@ -65,6 +66,7 @@
                                     icon: "success"
                                 }).then((value) => {
                                     if (value) {
+                                        var uri;
                                         swal({
                                             text: "Please Select any Option for move forward",
                                             icon: "warning",
@@ -75,8 +77,16 @@
                                                 Logout();
                                             }
                                             else {
-                                                var uri = "dashboard.aspx";
-                                                window.location.replace(uri);
+                                                if (UserRole.toUpperCase() == 'ENDUSER')
+                                                {
+                                                    uri = "default.aspx";
+                                                }
+                                                else
+                                                {
+                                                    uri = "./admin/dashboard.aspx";
+                                                }
+                                               
+                                                window.location.href=uri    ;
                                             }
                                         });
                                     }
@@ -122,31 +132,31 @@
             $('#txtNewPasswordAgain').val('');
         }
         function Logout() {
-            var uri = "Login.aspx";
-            window.location.replace(uri);
-            //var _getUrl = "api/User/UserLogout";
-            //$.ajax({
-            //    type: "POST",
-            //    url: _getUrl,
-            //    headers: { "Authorization": "Bearer " + accessToken },
-            //    data: formdata,
-            //    contentType: "application/json",
-            //    success: function (response) {
-            //        try {
-            //            var DataSet = $.parseJSON(response);
-            //            console.log(response);
-            //            if (DataSet.StatusCode == "1") {
-            //                var uri = "Login.aspx";
-            //                window.location.replace(uri);
-            //            }
-            //        }
-            //        catch (ex)
-            //        { }
-            //    },
-            //    failure: function (response) {
-            //        alert(response.data);
-            //    }
-            //});
+            //var uri = "Login.aspx";
+            //window.location.replace(uri);
+            var _getUrl = "api/User/UserLogout";
+            $.ajax({
+                type: "POST",
+                url: _getUrl,
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: formdata,
+                contentType: "application/json",
+                success: function (response) {
+                    try {
+                        var DataSet = $.parseJSON(response);
+                        console.log(response);
+                        if (DataSet.StatusCode == "1") {
+                            var uri = "Login.aspx";
+                            window.location.replace(uri);
+                        }
+                    }
+                    catch (ex)
+                    { }
+                },
+                failure: function (response) {
+                    alert(response.data);
+                }
+            });
         }
 
     </script>

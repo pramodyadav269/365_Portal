@@ -699,21 +699,6 @@ namespace _365_Portal.Controllers
                                         {
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
-                                            //var ds_ = CommonDAL.UserResetPassword((int)5, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0, string.Empty, User_details.Token);
-                                            //if (ds_.Tables.Count > 0)
-                                            //{
-                                            //    DataTable dt_ = ds_.Tables["Data"];
-                                            //    if (dt_.Rows[0]["ReturnCode"].ToString() != "1")
-                                            //    {
-                                            //        data = ConstantMessages.ChangePassowrd.Error;
-                                            //        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
-                                            //    }
-                                            //}
-                                            //else
-                                            //{
-                                            //    data = ConstantMessages.ChangePassowrd.Error;
-                                            //    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
-                                            //}
                                         }
                                         else
                                         {

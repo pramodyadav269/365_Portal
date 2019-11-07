@@ -31,6 +31,7 @@
                                 <input type="text" class="form-control required" id="txtTitle" placeholder="Title" />
                             </div>
                         </div>
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="txtDescription">Description</label>
@@ -42,7 +43,7 @@
                             <div class="form-group checkbox required">
                                 <label>Is Published</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input" value="1">
+                                    <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input">
                                     <label class="custom-control-label" for="cbIsPublished">Yes</label>
                                 </div>
                             </div>
@@ -88,11 +89,13 @@
                 }
                 var _Topic_Id = '';
                 var _Title = $('#txtTitle').val();
+                //var _Overview = $("#txtOverview").val();
                 var _Description = $('#txtDescription').val();
-                var _IsPublished = $('#cbIsPublished').val();
-                var _SrNo = "";
+                var _IsPublished = $('#cbIsPublished').prop('checked');
+                var _SrNo = "1";
                 try {
-                    var requestParams = { TopicID: _Topic_Id, TopicTitle: _Title, TopicDescription: _Description, IsPublished: _IsPublished };
+                    var requestParams = { TopicID: _Topic_Id, TopicTitle: _Title, TopicDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, MinUnlockedModules: "", UserID: "", IsActive: "" };
+                    
 
 
                     $.ajax({
@@ -266,11 +269,11 @@
         }
         function View() {
             var url = "/API/Content/GetTopics";
-            var TopicName=$('#');
-            var IsPublished = $('#');
+            var TopicName = "1"
+            var IsPublished = "2"
             try {
                 if (TopicName != '' && IsPublished != '') {
-                    var requestParams = {TopicName: "", IsPublished: "" };
+                    var requestParams = { TopicID: "", TopicTitle: "", TopicDescription: "", IsPublished: "", SrNo: "", MinUnlockedModules: "", UserID: "", IsActive: "" };
                     showLoader();
                     $.ajax({
                         //type: "GET",
@@ -282,47 +285,58 @@
                         contentType: "application/json",
                         processData: false,
                         success: function (response) {
-                            var DataSet = $.parseJSON(response);
-                            console.log(response);
-                            if (DataSet.StatusCode == "1") {
-                                var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                                tbl += '<thead><tr>';
-                                tbl += '<th>#';
-                                tbl += '<th>Title';
-                                tbl += '<th>Description';
-                                tbl += '<th>Is Published';
-                                tbl += '<th>Total Modules';
-                                tbl += '<th>ACTION';
+                            if (response != null && response != undefined) {
+                                var DataSet = $.parseJSON(response);
+                                console.log(response);
+                                if (DataSet.StatusCode == "1") {
+                                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                                    tbl += '<thead><tr>';
+                                    tbl += '<th>#';
+                                    tbl += '<th>Title';
+                                    tbl += '<th>Description';
+                                    tbl += '<th>Is Published';
+                                    tbl += '<th>Total Modules';
+                                    tbl += '<th>ACTION';
 
-                                tbl += '<tbody>';
+                                    tbl += '<tbody>';
 
-                                $.each(response.data, function (i, data) {
+                                    $.each(DataSet.Data, function (i, data) {
 
-                                    tbl += '<tr id="' + data.id + '">';
-                                    tbl += '<td>' + (i + 1);
+                                        tbl += '<tr id="' + data.TopicID + '">';
+                                        tbl += '<td>' + (i + 1);
 
-                                    tbl += '<td>' + data.first_name;
-                                    tbl += '<td>' + data.last_name;
-                                    tbl += '<td>Yes' // + data.IsPublished;
-                                    tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                    tbl += '<td><i title="Edit" onclick="Edit(this);" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this);" class="fas fa-trash text-danger"></i>';
+                                        tbl += '<td>' + data.Title;
+                                        tbl += '<td>' + data.Description;
+                                        tbl += '<td>'  + data.IsPublished;
+                                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                        tbl += '<td><i title="Edit" onclick="Edit(this);" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this);" class="fas fa-trash text-danger"></i>';
 
-                                });
+                                    });
 
-                                $('#divTable').empty().append(tbl)
+                                    $('#divTable').empty().append(tbl)
 
-                                $('#tblGird').tableDnD()
+                                    $('#tblGird').tableDnD()
 
-                                //var dTable = $('#tblGird').DataTable();
+                                    //var dTable = $('#tblGird').DataTable();
 
-                                //dTable.on('order.dt search.dt', function () {
-                                //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                                //        cell.innerHTML = i + 1;
-                                //    });
-                                //}).draw();
-
+                                    //dTable.on('order.dt search.dt', function () {
+                                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                                    //        cell.innerHTML = i + 1;
+                                    //    });
+                                    //}).draw();
+                                }
+                                else {
+                                    hideLoader();
+                                    swal({
+                                        title: "Warning",
+                                        text: DataSet.StatusDescription,
+                                        icon: "error",
+                                        button: "Ok",
+                                    });
+                                }
                             }
                             else {
+                                hideLoader();
                                 swal({
                                     title: "Warning",
                                     text: DataSet.StatusDescription,
@@ -330,7 +344,6 @@
                                     button: "Ok",
                                 });
                             }
-
                         },
                         complete: function () {
                             hideLoader();
@@ -345,8 +358,7 @@
                     });
                 }
             }
-            catch (e)
-            {
+            catch (e) {
                 swal({
                     title: "Failure",
                     text: "Please try Again",
@@ -357,7 +369,7 @@
 
         //This funcion is to get and save changes of Serial No
         function SaveGrdid() {
-        
+
             var s;
             $('#tblGird').find('tr').each(function i(i, index) {
                 if (this.id != "") {

@@ -23,21 +23,56 @@ namespace _365_Portal.Controllers
                 var identity = MyAuthorizationServerProvider.AuthenticateUser();
                 if (identity != null)
                 {
-
-                    if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
-                        !string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["TopicOverview"].ToString()) &&
-                        !string.IsNullOrEmpty(requestParams["TopicDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["MinUnlockedModules"].ToString()) &&
-                        !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()) && !string.IsNullOrEmpty(requestParams["SrNo"].ToString())))
+                    //&& !string.IsNullOrEmpty(requestParams["TopicOverview"].ToString()) 
+                    if ((
+                        !string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()) &&!string.IsNullOrEmpty(requestParams["TopicDescription"].ToString())  &&
+                        !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()) ))
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        content.TopicTitle = requestParams["TopicTitle"].ToString();
-                        content.TopicDescription = requestParams["TopicDescription"].ToString();
-                        content.TopicOverview = requestParams["TopicOverview"].ToString();
-                        content.MinUnlockedModules = requestParams["MinUnlockedModules"].ToString();
-                        content.IsPublished = (bool)requestParams["IsPublished"];
-                        content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()))
+                        {
+                            content.TopicTitle = requestParams["TopicTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.TopicTitle = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TopicDescription"].ToString()))
+                            {
+                            content.TopicDescription = requestParams["TopicDescription"].ToString();
+                        }
+                        else
+                        {
+                            content.TopicDescription = null;
+                        }
+                        //content.TopicOverview = requestParams["TopicOverview"].ToString();
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsActive"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["MinUnlockedModules"].ToString()))
+                        {
+                            content.MinUnlockedModules = requestParams["MinUnlockedModules"].ToString();
+                        }
+                        else
+                        {
+                            content.MinUnlockedModules = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
+                        
+
                         var ds = ContentBL.CreateTopic(content);
                         if (ds.Tables.Count > 0)
                         {
@@ -96,19 +131,57 @@ namespace _365_Portal.Controllers
                 {
 
                     if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
-                        !string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["TopicOverview"].ToString()) &&
-                        !string.IsNullOrEmpty(requestParams["TopicDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["MinUnlockedModules"].ToString()) &&
+                        !string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()) &&
+                        !string.IsNullOrEmpty(requestParams["TopicDescription"].ToString())  &&
                         !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()) && !string.IsNullOrEmpty(requestParams["SrNo"].ToString())))
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        content.TopicTitle = requestParams["TopicTitle"].ToString();
-                        content.TopicDescription = requestParams["TopicDescription"].ToString();
-                        content.TopicOverview = requestParams["TopicOverview"].ToString();
-                        content.MinUnlockedModules = requestParams["MinUnlockedModules"].ToString();
-                        content.IsPublished = (bool)requestParams["IsPublished"];
-                        content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["UserID"].ToString()))
+                        {
+                            content.UserIDs = requestParams["UserID"].ToString();
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()))
+                        {
+                            content.TopicTitle = requestParams["TopicTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.TopicTitle = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TopicDescription"].ToString()))
+                        {
+                            content.TopicDescription = requestParams["TopicDescription"].ToString();
+                        }
+                        else
+                        {
+                            content.TopicDescription = null;
+                        }
+                        //content.TopicOverview = requestParams["TopicOverview"].ToString();
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsActive = (bool)requestParams["IsActive"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["MinUnlockedModules"].ToString()))
+                        {
+                            content.MinUnlockedModules = requestParams["MinUnlockedModules"].ToString();
+                        }
+                        else
+                        {
+                            content.MinUnlockedModules = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
                         var ds = ContentBL.ModifyTopic(content);
                         if (ds.Tables.Count > 0)
                         {
@@ -172,7 +245,51 @@ namespace _365_Portal.Controllers
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["UserID"].ToString()))
+                        {
+                            content.UserIDs = requestParams["UserID"].ToString();
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()))
+                        {
+                            content.TopicTitle = requestParams["TopicTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.TopicTitle = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TopicDescription"].ToString()))
+                        {
+                            content.TopicDescription = requestParams["TopicDescription"].ToString();
+                        }
+                        else
+                        {
+                            content.TopicDescription = null;
+                        }
+                        //content.TopicOverview = requestParams["TopicOverview"].ToString();
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsActive = (bool)requestParams["IsActive"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["MinUnlockedModules"].ToString()))
+                        {
+                            content.MinUnlockedModules = requestParams["MinUnlockedModules"].ToString();
+                        }
+                        else
+                        {
+                            content.MinUnlockedModules = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
                         var ds = ContentBL.DeleteTopic(content);
                         if (ds.Tables.Count > 0)
                         {
@@ -231,27 +348,71 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if (!string.IsNullOrEmpty(requestParams["TopicName"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
-                    {
+                   // if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                    //{
+
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        content.TopicName = requestParams["TopicName"].ToString();
-                        content.IsPublished = (bool)requestParams["IsPublished"];
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["UserID"].ToString()))
+                        {
+                            content.UserIDs = requestParams["UserID"].ToString();
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()))
+                        {
+                            content.TopicTitle = requestParams["TopicTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.TopicTitle = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TopicDescription"].ToString()))
+                        {
+                            content.TopicDescription = requestParams["TopicDescription"].ToString();
+                        }
+                        else
+                        {
+                            content.TopicDescription = null;
+                        }
+                        //content.TopicOverview = requestParams["TopicOverview"].ToString();
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsActive"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["MinUnlockedModules"].ToString()))
+                        {
+                            content.MinUnlockedModules = requestParams["MinUnlockedModules"].ToString();
+                        }
+                        else
+                        {
+                            content.MinUnlockedModules = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
                         var ds = ContentBL.GetTopics(content);
                         if (ds.Tables.Count > 0)
                         {
                             DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
-                            {
+                            //if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            //{
                                 data = Utility.ConvertDataSetToJSONString(dt);
                                 data = Utility.Successful(data);
-                            }
-                            else
-                            {
+                            //}
+                            //else
+                            //{
 
-                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
-                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
-                            }
+                               // data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                //data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                           // }
 
                         }
                         else
@@ -259,12 +420,12 @@ namespace _365_Portal.Controllers
                             data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                             data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
-                    }
-                    else
-                    {
-                        data = ConstantMessages.WebServiceLog.InValidValues;
-                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
-                    }
+                   // }
+                   // else
+                    //{
+                      //  data = ConstantMessages.WebServiceLog.InValidValues;
+                       // data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                   // }
 
                 }
                 else
@@ -308,16 +469,75 @@ namespace _365_Portal.Controllers
                     if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
                         !string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["Overview"].ToString()) &&
                         !string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()) &&
-                        !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()) && !string.IsNullOrEmpty(requestParams["SrNo"].ToString())))
+                        !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()) ))
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        content.ModuleTitle = requestParams["ModuleTitle"].ToString();
-                        content.ModuleDescription = requestParams["ModuleDescription"].ToString();
-                        content.ModuleOverview = requestParams["ModuleOverview"].ToString();
-                        content.IsPublished = (bool)requestParams["IsPublished"];
-                        content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["UserID"].ToString()))
+                        {
+                            content.UserIDs =requestParams["UserID"].ToString();
+                        }
+                        else {
+                            content.UserIDs = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                        {
+                            content.ModuleID = Convert .ToInt32(requestParams["ModuleID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()))
+                        {
+                            content.ModuleTitle = requestParams["ModuleTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription =null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()))
+                        {
+                            content.ModuleDescription = requestParams["ModuleDescription"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription = null;
+                        }
+                       
+                        if (!string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()))
+                        {
+                            content.ModuleOverview = requestParams["ModuleOverview"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleOverview = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsActive = (bool)requestParams["IsActive"];
+                        }
                         var ds = ContentBL.CreateModule(content);
                         if (ds.Tables.Count > 0)
                         {
@@ -382,12 +602,72 @@ namespace _365_Portal.Controllers
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        content.ModuleTitle = requestParams["ModuleTitle"].ToString();
-                        content.ModuleDescription = requestParams["ModuleDescription"].ToString();
-                        content.ModuleOverview = requestParams["ModuleOverview"].ToString();
-                        content.IsPublished = (bool)requestParams["IsPublished"];
-                        content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["UserID"].ToString()))
+                        {
+                            content.UserIDs = requestParams["UserID"].ToString();
+                        }
+                        else
+                        {
+                            content.UserIDs = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                        {
+                            content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()))
+                        {
+                            content.ModuleTitle = requestParams["ModuleTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()))
+                        {
+                            content.ModuleDescription = requestParams["ModuleDescription"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()))
+                        {
+                            content.ModuleOverview = requestParams["ModuleOverview"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleOverview = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsActive = (bool)requestParams["IsActive"];
+                        }
                         var ds = ContentBL.ModifyModule(content);
                         if (ds.Tables.Count > 0)
                         {
@@ -450,8 +730,72 @@ namespace _365_Portal.Controllers
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["UserID"].ToString()))
+                        {
+                            content.UserIDs = requestParams["UserID"].ToString();
+                        }
+                        else
+                        {
+                            content.UserIDs = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                        {
+                            content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()))
+                        {
+                            content.ModuleTitle = requestParams["ModuleTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()))
+                        {
+                            content.ModuleDescription = requestParams["ModuleDescription"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()))
+                        {
+                            content.ModuleOverview = requestParams["ModuleOverview"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleOverview = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsActive = (bool)requestParams["IsActive"];
+                        }
                         var ds = ContentBL.DeleteModule(content);
                         if (ds.Tables.Count > 0)
                         {
@@ -510,15 +854,78 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if ((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) && (Convert.ToInt32(requestParams["ModuleID"]) != 0 && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
-                        && !string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
-                    {
+                    //if ((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) && (Convert.ToInt32(requestParams["ModuleID"]) != 0 && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                    //    && !string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                    //{
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
-                        content.ModuleTitle = requestParams["ModuleTitle"].ToString();
-                        content.IsPublished = (bool)requestParams["IsPublished"];
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["UserID"].ToString()))
+                        {
+                            content.UserIDs = requestParams["UserID"].ToString();
+                        }
+                        else
+                        {
+                            content.UserIDs = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                        {
+                            content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()))
+                        {
+                            content.ModuleTitle = requestParams["ModuleTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()))
+                        {
+                            content.ModuleDescription = requestParams["ModuleDescription"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()))
+                        {
+                            content.ModuleOverview = requestParams["ModuleOverview"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleOverview = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsActive = (bool)requestParams["IsActive"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
                         var ds = ContentBL.GetModules(content);
                         if (ds.Tables.Count > 0)
                         {
@@ -541,12 +948,12 @@ namespace _365_Portal.Controllers
                             data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                             data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
-                    }
-                    else
-                    {
-                        data = ConstantMessages.WebServiceLog.InValidValues;
-                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
-                    }
+                   // }
+                    //else
+                    //{
+                    //    data = ConstantMessages.WebServiceLog.InValidValues;
+                    //    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    //}
 
                 }
                 else
