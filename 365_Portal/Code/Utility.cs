@@ -383,5 +383,27 @@ namespace _365_Portal.Code
             System.Web.HttpContext.Current.Session.Clear();
             //System.Web.HttpContext.Current.Session.Abandon(); //Commented because this is does not allowing to create sessnio
         }
+
+        public static void CreateUserSession(string UserID,string Role,string FirstName,string LastName)
+        {
+            System.Web.HttpContext.Current.Session["UserId"] = UserID;
+            System.Web.HttpContext.Current.Session["RoleName"] = Role;
+            System.Web.HttpContext.Current.Session["FirstName"] = FirstName;
+            System.Web.HttpContext.Current.Session["LastName"] = LastName;
+        }
+        public static void CreateProfileAndThemeSession(string ProfilePicFileID, string CompanyProfilePicFileID, string ThemeColor)
+        {
+            System.Web.HttpContext.Current.Session["ProfilePicFile"] = ProfilePicFileID;
+            System.Web.HttpContext.Current.Session["CompanyProfilePicFile"] = CompanyProfilePicFileID;
+            System.Web.HttpContext.Current.Session["ThemeColor"] = ThemeColor;
+        }
+        public static void CreateFirstLoginSession(bool flag)
+        {
+            System.Web.HttpContext.Current.Session["IsFirstLogin"] = flag;
+        }
+        public static void CreateFirstPasswordNotChangedSession(bool flag)
+        {
+            System.Web.HttpContext.Current.Session["IsFirstPasswordNotChanged"] = flag;
+        }
     }
 }

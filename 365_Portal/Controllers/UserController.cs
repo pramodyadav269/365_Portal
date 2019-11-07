@@ -114,8 +114,10 @@ namespace _365_Portal.Controllers
 
                 LoginRequest objRequest = new LoginRequest();
                 objRequest.UserName = EmailId;
-
                 objResponse = new LoginResponse();
+
+                Utility.DestroyAllSession();
+
                 int i = UserDAL.UserLogout(objRequest);
                 if (i > 0)
                 {
@@ -222,7 +224,8 @@ namespace _365_Portal.Controllers
                                         DataTable dt = ds.Tables["Data"];
                                         if (dt.Rows[0]["ReturnCode"].ToString() == "1")
                                         {
-                                            HttpContext.Current.Session["IsFirstPasswordNotChanged"] = false;
+                                            //HttpContext.Current.Session["IsFirstPasswordNotChanged"] = false;
+                                            Utility.CreateFirstPasswordNotChangedSession(false);
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
                                         }
@@ -465,12 +468,13 @@ namespace _365_Portal.Controllers
                 }
 
                 var ResponseBase = UserDAL.UpdateUserDetailsByUserID(_userdetail, "");
-                ResponseBase.Ref1 = _userdetail.ProfilePicFile;
+                //ResponseBase.Ref1 = _userdetail.ProfilePicFile;
                 data = Utility.ConvertJsonToString(ResponseBase);
 
                 if (ResponseBase.ReturnCode == "1")
                 {
-                    HttpContext.Current.Session["IsFirstLogin"] = false;
+                    //HttpContext.Current.Session["IsFirstLogin"] = false;
+                    Utility.CreateFirstLoginSession(false);
                     data = Utility.Successful(data);
                 }
                 else
