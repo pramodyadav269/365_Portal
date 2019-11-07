@@ -39,7 +39,7 @@
         var accessToken = '<%=Session["access_token"]%>';
                 var UserRole = '<%=Session["RoleName"]%>';
         function ChangePassword() {
-            showLoader();
+            ShowLoader();
             if (inputValidation('.input-validation')) {
                 var Old_Password = $('#txtCurrentPassword').val();
                 var Confirmed_Password = $('#txtNewPasswordAgain').val();
@@ -108,10 +108,10 @@
                         }
                     },
                     complete: function () {
-                        hideLoader();
+                        HideLoader();
                     },
                     failure: function (response) {
-                        hideLoader();
+                        HideLoader();
                         alert(response.data);
                     }
                 });

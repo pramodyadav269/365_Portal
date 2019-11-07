@@ -19,6 +19,7 @@ using System.Web.Configuration;
 using System.Text.RegularExpressions;
 using System.Data;
 using _365_Portal.Code.BO;
+using static _365_Portal.Code.BO.UserProfile;
 
 namespace _365_Portal.Controllers
 {
@@ -46,7 +47,19 @@ namespace _365_Portal.Controllers
                     objRequest.Password = UserPwd;
 
                     objResponse = new LoginResponse();
-                    objResponse = UserDAL.LoginUser(objRequest);
+
+                    UserBO objUser = new UserBO();
+                    objUser = UserDAL.LoginUser(objRequest);
+
+                    objResponse.ReturnCode = objUser.ReturnCode;
+                    objResponse.ReturnMessage = objUser.ReturnMessage;                    
+                    objResponse.Role = objUser.Role;
+                    objResponse.EmailID = objUser.EmailID;
+                    objResponse.FirstName = objUser.FirstName;
+                    objResponse.LastName = objUser.LastName;
+                    objResponse.IsFirstLogin = objUser.IsFirstLogin;                    
+                    
+                    objResponse.IsFirstPasswordNotChanged = objUser.IsFirstPasswordNotChanged;
 
                     // Success
                     if (objResponse.ReturnCode == "1")
@@ -101,8 +114,10 @@ namespace _365_Portal.Controllers
 
                 LoginRequest objRequest = new LoginRequest();
                 objRequest.UserName = EmailId;
-
                 objResponse = new LoginResponse();
+
+                Utility.DestroyAllSession();
+
                 int i = UserDAL.UserLogout(objRequest);
                 if (i > 0)
                 {
@@ -209,7 +224,8 @@ namespace _365_Portal.Controllers
                                         DataTable dt = ds.Tables["Data"];
                                         if (dt.Rows[0]["ReturnCode"].ToString() == "1")
                                         {
-                                            HttpContext.Current.Session["IsFirstPasswordNotChanged"] = false;
+                                            //HttpContext.Current.Session["IsFirstPasswordNotChanged"] = false;
+                                            Utility.CreateFirstPasswordNotChangedSession(false);
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
                                         }
@@ -331,38 +347,36 @@ namespace _365_Portal.Controllers
         public IHttpActionResult GetMyProfile()//JObject requestParams
         {
             var data = string.Empty;
-            UserBO _userdetail = new UserBO();
+            UserProfileResponse objUserProfile = new UserProfileResponse();
+
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
             if (identity != null)
             {
                 var UserDetails = UserDAL.GetUserDetailsByUserID(identity.UserID, "");
                 if (UserDetails != null)
-                {
-                    _userdetail = new UserBO();
-                    _userdetail.CompId = UserDetails.CompId;
-                    _userdetail.Role = UserDetails.Role;
-                    _userdetail.FirstName = UserDetails.FirstName;
-                    _userdetail.LastName = UserDetails.LastName;
-                    _userdetail.EmailID = UserDetails.EmailID;
-                    _userdetail.MobileNum = UserDetails.MobileNum;
-                    _userdetail.Position = UserDetails.Position;
-                    _userdetail.EmailNotification = UserDetails.EmailNotification;
-                    _userdetail.PushNotification = UserDetails.PushNotification;
-                    _userdetail.ProfilePicFileID = UserDetails.ProfilePicFileID;
-                    _userdetail.CompanyProfilePicFileID = UserDetails.CompanyProfilePicFileID;
-                    _userdetail.ThemeColor = UserDetails.ThemeColor;
-                    _userdetail.GroupName = UserDetails.GroupName;
-
-                    if (!string.IsNullOrEmpty(_userdetail.ProfilePicFileID))
+                {                    
+                    objUserProfile.Role = UserDetails.Role;
+                    objUserProfile.FirstName = UserDetails.FirstName;
+                    objUserProfile.LastName = UserDetails.LastName;
+                    objUserProfile.EmailID = UserDetails.EmailID;
+                    objUserProfile.MobileNum = UserDetails.MobileNum;
+                    objUserProfile.Position = UserDetails.Position;
+                    objUserProfile.EmailNotification = UserDetails.EmailNotification;
+                    objUserProfile.PushNotification = UserDetails.PushNotification;                    
+                    objUserProfile.ThemeColor = UserDetails.ThemeColor;
+                    objUserProfile.GroupName = UserDetails.GroupName;
+                    if (!string.IsNullOrEmpty(UserDetails.ProfilePicFileID))
                     {
-                        _userdetail.ProfilePicFile = Utility.GetBase64ImageByFileID(_userdetail.ProfilePicFileID, "~/Files/ProfilePic/");
+                        //objUserProfile.ProfilePicFile = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/") + UserDetails.ProfilePicFileID;
+                        objUserProfile.ProfilePicFile = UserDetails.ProfilePicFileID;
                     }
-                    if (!string.IsNullOrEmpty(_userdetail.CompanyProfilePicFileID))
+                    if (!string.IsNullOrEmpty(UserDetails.CompanyProfilePicFileID))
                     {
-                        _userdetail.CompanyProfilePicFile = Utility.GetBase64ImageByFileID(_userdetail.CompanyProfilePicFileID, "~/Files/CompLogo/");
+                        //objUserProfile.CompanyProfilePicFile = HttpContext.Current.Server.MapPath("~/Files/CompLogo/") + UserDetails.CompanyProfilePicFileID;
+                        objUserProfile.CompanyProfilePicFile = UserDetails.CompanyProfilePicFileID;
                     }
 
-                    data = Utility.ConvertJsonToString(_userdetail);
+                    data = Utility.ConvertJsonToString(objUserProfile);
                     data = Utility.Successful(data);
                 }
                 else
@@ -389,8 +403,6 @@ namespace _365_Portal.Controllers
                 _userdetail.UserID = identity.UserID;
                 _userdetail.EmailID = (string)requestParams.SelectToken("EmailID");
                 _userdetail.Position = (string)requestParams.SelectToken("Position");
-                _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
-                _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
 
                 try
                 {
@@ -456,12 +468,13 @@ namespace _365_Portal.Controllers
                 }
 
                 var ResponseBase = UserDAL.UpdateUserDetailsByUserID(_userdetail, "");
-                ResponseBase.Ref1 = _userdetail.ProfilePicFile;
+                //ResponseBase.Ref1 = _userdetail.ProfilePicFile;
                 data = Utility.ConvertJsonToString(ResponseBase);
 
                 if (ResponseBase.ReturnCode == "1")
                 {
-                    HttpContext.Current.Session["IsFirstLogin"] = false;
+                    //HttpContext.Current.Session["IsFirstLogin"] = false;
+                    Utility.CreateFirstLoginSession(false);
                     data = Utility.Successful(data);
                 }
                 else

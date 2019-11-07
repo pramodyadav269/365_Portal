@@ -27,7 +27,7 @@
                 <div class="col-12 col-sm-12 col-md-6 mb-3 overview d-none" id="divFlashcard">
                     <div class="flashcard">
                         <div class="card border-0">
-                            <img class="card-img-top circle mx-auto" src="Asset/images/profile.png" />
+                            <img class="card-img-top circle mx-auto" src="Asset/images/employee-illustration.svg" />
                             <div class="card-body">
                                 <p class="card-text">
                                     There’s a big difference between imposing goals on 
@@ -37,7 +37,7 @@
                             </div>
                         </div>
                         <div class="card border-0 d-none">
-                            <img class="card-img-top circle mx-auto" src="Asset/images/profile.png" />
+                            <img class="card-img-top circle mx-auto" src="Asset/images/employee-illustration.svg" />
                             <div class="card-body">
                                 <p class="card-text">
                                     When their suggested goals align with company objectives, 
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="card border-0 d-none">
-                            <img class="card-img-top circle mx-auto" src="Asset/images/profile.png" />
+                            <img class="card-img-top circle mx-auto" src="Asset/images/employee-illustration.svg" />
                             <div class="card-body">
                                 <p class="card-text">
                                     Goal-setting sometimes fails when the objective is too ambitious 
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="card border-0 d-none">
-                            <img class="card-img-top circle mx-auto" src="Asset/images/profile.png" />
+                            <img class="card-img-top circle mx-auto" src="Asset/images/employee-illustration.svg" />
                             <div class="card-body">
                                 <p class="card-text">
                                     Burdening an employee with an unattainable goal can lead to frustration 

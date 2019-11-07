@@ -16,12 +16,12 @@ namespace _365_Portal.Code.BL
             Logger.Log(ex, "TrainningBL", methodName);
         }
 
-        public static DataSet GetTopics(int CompID, string UserID)
+        public static DataSet GetTopics(int compId, string userId)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetTopics(CompID, UserID);
+                ds = TrainningDAL.GetTopics(compId, userId);
             }
             catch (Exception ex)
             {
@@ -30,12 +30,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetTopicsByUser(int CompID, string UserID)
+        public static DataSet GetTopicsByUser(int compId, string userId)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetTopicsByUser(CompID, UserID);
+                ds = TrainningDAL.GetTopicsByUser(compId, userId);
             }
             catch (Exception ex)
             {
@@ -44,12 +44,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetModulesByTopic(int CompID, string UserID, int TopicID)
+        public static DataSet GetModulesByTopic(int compId, string userId, int topicId)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetModulesByTopic(CompID, UserID, TopicID);
+                ds = TrainningDAL.GetModulesByTopic(compId, userId, topicId);
             }
             catch (Exception ex)
             {
@@ -58,12 +58,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetContentsByModule(int CompID, string UserID, int TopicID, int ModuleID)
+        public static DataSet GetContentsByModule(int compId, string userId, int topicId, int moduleId)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetContentsByModule(CompID, UserID, TopicID, ModuleID);
+                ds = TrainningDAL.GetContentsByModule(compId, userId, topicId, moduleId);
             }
             catch (Exception ex)
             {
@@ -72,12 +72,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetContentDetails(int CompID, string UserID, int TopicID, int ModuleID, int ContentID, ref List<Question> questionList)
+        public static DataSet GetContentDetails(int compId, string userId, int topicId, int moduleId, int ContentID, ref List<Question> questionList)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetContentDetails(CompID, UserID, TopicID, ModuleID, ContentID);
+                ds = TrainningDAL.GetContentDetails(compId, userId, topicId, moduleId, ContentID);
 
                 // Table 0: Content Information
                 // Table 1: Questions
@@ -104,7 +104,8 @@ namespace _365_Portal.Code.BL
                                     TotalScore = !string.IsNullOrEmpty(dr["TotalScore"].ToString()) ? Convert.ToDouble(dr["TotalScore"].ToString()) : 0,
                                     ScoreEarned = !string.IsNullOrEmpty(dr["ScoreEarned"].ToString()) ? Convert.ToDouble(dr["ScoreEarned"].ToString()) : 0,
                                     PercentageEarned = !string.IsNullOrEmpty(dr["PercentageEarned"].ToString()) ? Convert.ToDouble(dr["PercentageEarned"].ToString()) : 0,
-                                    IPAddress = dr["IPAddress"].ToString()
+                                    IPAddress = dr["IPAddress"].ToString(),
+                                    Value_Text = dr["Value_Text"].ToString()
                                 }).ToList();
 
                 List<AnswerOption> ansOptionList = new List<AnswerOption>();
@@ -117,6 +118,7 @@ namespace _365_Portal.Code.BL
                                      AnswerText = dr["AnswerText"].ToString(),
                                      SortOrder = !string.IsNullOrEmpty(dr["SortOrder"].ToString()) ? Convert.ToInt32(dr["SortOrder"].ToString()) : 0,
                                      IsCorrect = !string.IsNullOrEmpty(dr["IsCorrect"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsCorrect"].ToString())) : false,
+                                     IsSelected = !string.IsNullOrEmpty(dr["IsSelected"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsSelected"].ToString())) : false,
                                      CorrectScore = !string.IsNullOrEmpty(dr["CorrectScore"].ToString()) ? Convert.ToDouble(dr["CorrectScore"].ToString()) : 0,
                                      InCorrectScore = !string.IsNullOrEmpty(dr["InCorrectScore"].ToString()) ? Convert.ToDouble(dr["InCorrectScore"].ToString()) : 0,
                                      Value_ID = !string.IsNullOrEmpty(dr["Value_ID"].ToString()) ? Convert.ToInt32(dr["Value_ID"].ToString()) : 0,
@@ -125,11 +127,21 @@ namespace _365_Portal.Code.BL
                                      Value_CorrectScore = !string.IsNullOrEmpty(dr["Value_CorrectScore"].ToString()) ? Convert.ToDouble(dr["Value_CorrectScore"].ToString()) : 0,
                                      Value_InCorrectScore = !string.IsNullOrEmpty(dr["Value_InCorrectScore"].ToString()) ? Convert.ToDouble(dr["Value_InCorrectScore"].ToString()) : 0,
                                      FilePath = dr["FilePath"].ToString()
+
                                  }).ToList();
                 foreach (var question in questionList)
                 {
                     List<AnswerOption> ansOptions = new List<AnswerOption>();
                     question.AnswerOptions = ansOptionList.Where(p => p.QuestionID == question.QuestionID).ToList();
+                    if (question.QuestionTypeID == 2 || question.QuestionTypeID == 3)
+                        question.TotalScore = question.AnswerOptions.Max(p => p.CorrectScore);
+                    else if (question.QuestionTypeID == 1)
+                        question.TotalScore = question.AnswerOptions.Where(p => p.IsCorrect == true).Sum(p => p.CorrectScore);
+                    question.ScoreEarned = question.AnswerOptions.Sum(p => p.Value_CorrectScore);
+                    if (question.AnswerOptions.Count(p => p.Value_IsCorrect == true) > 0)
+                        question.IsCorrect = true;
+                    else
+                        question.IsCorrect = false;
                 }
             }
             catch (Exception ex)
@@ -139,12 +151,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet UpdateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID)
+        public static DataSet UpdateContent(int compId, string userId, int topicId, int moduleId, int ContentID)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.UpdateContent(CompID, UserID, TopicID, ModuleID, ContentID);
+                ds = TrainningDAL.UpdateContent(compId, userId, topicId, moduleId, ContentID);
             }
             catch (Exception ex)
             {
@@ -153,12 +165,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet RateContent(int CompID, string UserID, int TopicID, int ModuleID, int ContentID, string Rating, string CreatedBy)
+        public static DataSet RateContent(int compId, string userId, int topicId, int moduleId, int ContentID, string Rating, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.RateContent(CompID, UserID, TopicID, ModuleID, ContentID, Rating, CreatedBy);
+                ds = TrainningDAL.RateContent(compId, userId, topicId, moduleId, ContentID, Rating, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -183,9 +195,9 @@ namespace _365_Portal.Code.BL
                     totalScore = Convert.ToDouble(dataSet.Tables[0].Rows[0]["TotalScore"].ToString());
                 }
 
-                if (!string.IsNullOrEmpty(Convert.ToString(responseDetail["PassingPercent"])))
+                if (Convert.ToString(responseDetail["ContentType"]) == "FINALQUIZ")
                 {
-                    passingPercentage = Convert.ToDouble(responseDetail["PassingPercent"].ToString());
+                    passingPercentage = Convert.ToDouble(dataSet.Tables[0].Rows[0]["PassingPercent"].ToString());
                 }
 
                 double scoreEarned = 0, percentageEarned = 0;
@@ -299,6 +311,62 @@ namespace _365_Portal.Code.BL
                             answer.Value_Text, answer.IsCorrect, answer.CorrectScore, answer.InCorrectScore, "");
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet GetNotifications(int compId, string userId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.GetNotifications(compId, userId);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet GetAchievementGifts(int compId, string userId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.GetAchievementGifts(compId, userId);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet ClearAnswers(int compId, string userId,string surveyId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.ClearAnswers(compId, userId,surveyId);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet IsUserOnline(int compId, string userId, int type, DateTime startDate, DateTime endDate, float totalTime)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.IsUserOnline(compId, userId, type, startDate, endDate, totalTime);
             }
             catch (Exception ex)
             {

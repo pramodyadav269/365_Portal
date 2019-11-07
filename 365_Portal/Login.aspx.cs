@@ -15,9 +15,10 @@ namespace _365_Portal
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
-            {               
-                HttpContext.Current.Session["UserId"] = null;
-                HttpContext.Current.Session["RoleName"] = null;
+            {
+                //HttpContext.Current.Session["UserId"] = null;
+                //HttpContext.Current.Session["RoleName"] = null;
+                Utility.DestroyAllSession();
             }
         }
 
@@ -25,8 +26,7 @@ namespace _365_Portal
         {
             try
             {
-                lblError.Text = "";
-
+                lblError.Text = "";                
                 if (string.IsNullOrEmpty(txtUserEmail.Text.Trim()) || string.IsNullOrEmpty(txtUserPassword.Text.Trim()))
                 {
                     lblError.Text = ConstantMessages.Login.InvalidUser;
@@ -38,7 +38,7 @@ namespace _365_Portal
                     objRequest.UserName = txtUserEmail.Text.Trim();
                     objRequest.Password = txtUserPassword.Text;
 
-                    LoginResponse objResponse = new LoginResponse();
+                    UserBO objResponse = new UserBO();
                     objResponse = UserDAL.LoginUser(objRequest);
 
                     if (objResponse.ReturnCode == "1")
@@ -46,7 +46,7 @@ namespace _365_Portal
                         //Login Log
                         LoginLogout _loginLogout = new LoginLogout();
                         _loginLogout.UserID = objResponse.UserID;
-                        _loginLogout.CompID = objResponse.CompID;
+                        _loginLogout.CompID = objResponse.CompId.ToString();
                         _loginLogout.Type = "login";
                         _loginLogout.IP_Address = Utility.GetClientIPaddress();
                         UserDAL.InsertLoginLogoutHistory(_loginLogout,"");
@@ -62,30 +62,31 @@ namespace _365_Portal
                         else
                         {
                             // Call Login Business Layer Function to record message
-                            HttpContext.Current.Session["UserId"] = objResponse.UserID;
-                            HttpContext.Current.Session["RoleName"] = objResponse.Role;
-                            HttpContext.Current.Session["FirstName"] = objResponse.FirstName;
-                            HttpContext.Current.Session["LastName"] = objResponse.LastName;
+                            Utility.CreateUserSession(objResponse.UserID, objResponse.Role, objResponse.FirstName, objResponse.LastName);
 
                             //For ProfilePic,CompanyProfilePic & Theme
                             var UserDetails = UserDAL.GetUserDetailsByUserID(objResponse.UserID, "");
                             if (UserDetails != null && !string.IsNullOrEmpty(UserDetails.ProfilePicFileID))
                             {
-                                HttpContext.Current.Session["ProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.ProfilePicFileID, "~/Files/ProfilePic/");
-                                HttpContext.Current.Session["CompanyProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.CompanyProfilePicFileID, "~/Files/CompLogo/");
-                                HttpContext.Current.Session["ThemeColor"] = UserDetails.ThemeColor;
+                                //HttpContext.Current.Session["ProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.ProfilePicFileID, "~/Files/ProfilePic/");
+                                //HttpContext.Current.Session["CompanyProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.CompanyProfilePicFileID, "~/Files/CompLogo/");
+                                //HttpContext.Current.Session["ThemeColor"] = UserDetails.ThemeColor;
+
+                                Utility.CreateProfileAndThemeSession(UserDetails.ProfilePicFileID, UserDetails.CompanyProfilePicFileID, UserDetails.ThemeColor);
                             }
                             //End For ProfilePic,CompanyProfilePic & Theme
-
+                            
                             if (objResponse.IsFirstLogin == "1" || objResponse.IsFirstPasswordNotChanged == "1")
                             {
                                 if (objResponse.IsFirstLogin == "1")
                                 {
-                                    HttpContext.Current.Session["IsFirstLogin"] = true;                                    
+                                    Utility.CreateFirstLoginSession(true);
+                                    //HttpContext.Current.Session["IsFirstLogin"] = true;                                    
                                 }
                                 if (objResponse.IsFirstPasswordNotChanged == "1")
                                 {
-                                    HttpContext.Current.Session["IsFirstPasswordNotChanged"] = true;                                    
+                                    Utility.CreateFirstPasswordNotChangedSession(true);
+                                    //HttpContext.Current.Session["IsFirstPasswordNotChanged"] = true;                                    
                                 }
                                 if (objResponse.IsFirstLogin == "1")
                                 {
