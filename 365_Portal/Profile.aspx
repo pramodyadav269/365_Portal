@@ -11,7 +11,7 @@
         <div class="col-md-8 mt-5 offset-md-2">
             <div class="row">
                 <div class="col-md-3 text-right">
-                    <img class="circle user-photo" src="Asset/images/profile.png" />
+                    <img class="circle user-photo" src="Asset/images/profile.png" /> 
                 </div>
                 <div class="col-md-9">
                     <h2 class="font-weight-bold mt-3" id="lblUserName" runat="server"></h2>
