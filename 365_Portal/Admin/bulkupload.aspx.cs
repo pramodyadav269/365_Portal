@@ -894,7 +894,7 @@ namespace _365_Portal.Admin
         protected void btnDownload_Click(object sender, EventArgs e)
         {
             var fileType = ddlType.SelectedValue;
-            string filePath = "~/test.xlsx";
+            string filePath = "~/bulk_upload.xlsx";
             WebClient req = new WebClient();
             HttpResponse response = HttpContext.Current.Response;
             response.Clear();
