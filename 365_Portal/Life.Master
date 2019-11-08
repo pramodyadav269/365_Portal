@@ -39,7 +39,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
             <div class="container">
                 <a class="navbar-brand" href="Default.aspx">
-                    <img src="Asset/images/logo.svg" class="logo" />
+                    <img id="imgCompanyLogo" runat="server" src="Asset/images/logo.svg" class="logo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -64,7 +64,7 @@
 
                         <div class="profile dropdown">
                             <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="Asset/images/profile.png" class="circle" width="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" /></span>
+                                <img id="imgProfilePic" runat="server" src="Asset/images/profile.png" class="circle" width="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" /></span>
                             </a>
                             <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
                                 <a class="dropdown-item" href="Profile.aspx">Profile</a>

@@ -47,8 +47,8 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
             <div class="container">
-                <a class="navbar-brand" href="dashboard.aspx">
-                    <img src="../Asset/images/logo.svg" class="logo" />
+                <a class="navbar-brand" href="<%=Page.ResolveUrl("~/admin/dashboard.aspx") %>">
+                    <img id="imgCompanyLogo" runat="server" src="../Asset/images/logo.svg" class="logo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -73,14 +73,16 @@
 
                         <div class="profile dropdown">
                             <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="../Asset/images/profile.png" class="circle" width="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" />User Name</span>
+                                <img id="imgProfilePic" runat="server" src="../Asset/images/profile.png" class="circle" width="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" />User Name</span>
                             </a>
                             <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
-                                <a class="dropdown-item" href="Users.aspx">Users</a>
-                                <a class="dropdown-item" href="Topics.aspx">Topics</a>
-                                <a class="dropdown-item" href="Modules.aspx">Modules</a>
-                                <a class="dropdown-item" href="Contents.aspx">Contents</a>
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Admin/Users.aspx") %>">Users</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Admin/Topics.aspx") %>">Topics</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Admin/Modules.aspx") %>">Modules</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Admin/Contents.aspx") %>">Contents</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Profile.aspx") %>">Profile</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>
                             </div>
                         </div>
                     </div>
@@ -93,7 +95,7 @@
             </asp:ContentPlaceHolder>
         </div>
     </form>
-        <script>
+    <script>
         const INSERT = 1;
         const EDIT = 2;
         const DELETE = 3;
