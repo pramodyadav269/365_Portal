@@ -79,7 +79,7 @@
                                             <p class="card-text">{{module.Description}}</p>
                                             <p ng-if="module.IsCompleted == 1" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
                                             <p ng-if="module.IsCompleted != 1" class="text-right anchor">{{module.CompletedContents + '/' + module.TotalContents}}</p>
-                                            TopicID:{{SelectedTopic.TopicId}},ModuleID:{{module.ModuleID}}
+                                            <%-- TopicID:{{SelectedTopic.TopicId}},ModuleID:{{module.ModuleID}}--%>
                                         </div>
                                     </div>
                                 </a>
@@ -138,7 +138,7 @@
                     <div class="col-md-12 mb-4 overview">
                         <h4 class="font-weight-bold">Overview</h4>
                         <p>
-                           {{SelectedModule.Overview}}
+                            {{SelectedModule.Overview}}
                         </p>
                     </div>
 
@@ -278,8 +278,8 @@
                                                 <input type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{Message}}
+                                            <%--       <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{Message}}--%>
                                         </div>
 
                                         <%--Dropdown List--%>
@@ -287,8 +287,8 @@
                                             <select class="form-control select2" ng-model="question.Value_Text">
                                                 <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}
+                                            <%--  <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List--%>
@@ -298,7 +298,7 @@
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                             <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
-                                            Selected:{{question.Value_Text}}
+                                            <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List with box--%>
@@ -307,8 +307,8 @@
                                                 <input type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'rbAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}
+                                            <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--File Upload Control--%>
@@ -329,14 +329,14 @@
                                             <input type="radio" name="ansOption.AnswerText_5" ng-model="question.Value_Text" value="3" id="rbSurveyRate3" /><label for="rbSurveyRate3">3</label>
                                             <input type="radio" name="ansOption.AnswerText_5" ng-model="question.Value_Text" value="2" id="rbSurveyRate2" /><label for="rbSurveyRate2">2</label>
                                             <input type="radio" name="ansOption.AnswerText_5" ng-model="question.Value_Text" value="1" id="rbSurveyRate1" /><label for="rbSurveyRate1">1</label>
-                                            Selected:{{question.Value_Text}}
+                                            <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Textbox--%>
                                         <div ng-if="question.QuestionTypeID == 6 ">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="text" placeholder="Type your answer here" ng-model="question.Value_Text">
-                                                Selected: {{question.Value_Text}}
+                                                <%-- Selected: {{question.Value_Text}}--%>
                                             </div>
                                         </div>
 
@@ -344,7 +344,7 @@
                                         <div ng-if="question.QuestionTypeID == 7">
                                             <div class="form-group">
                                                 <textarea class="form-control" placeholder="Type your answer here" id="textarea" ng-model="question.Value_Text"></textarea>
-                                                Selected: {{question.Value_Text}}
+                                                <%--   Selected: {{question.Value_Text}}--%>
                                             </div>
                                         </div>
 
@@ -353,7 +353,7 @@
                                             <div class="form-group">
                                                 <%--<input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" />--%>
                                                 <input ng-init="question.Value_Text = GetFormattedDate(question.Value_Text)" value="{{question.Value_Text}}" type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 25%;" ng-model="question.Value_Text" />
-                                                Selected: {{question.Value_Text}}
+                                                <%-- Selected: {{question.Value_Text}}--%>
                                             </div>
                                         </div>
 
@@ -461,13 +461,13 @@
 
             <div class="col-md-10 mt-5 offset-md-1">
                 <div class="row" id="finalQuiz">
-                    IsAnswered: {{SpecialContents.IsAnswered}}
+                    <%--  IsAnswered: {{SpecialContents.IsAnswered}}
 PassingScore:{{SpecialContents.PassingScore}}
 TotalScore:{{SpecialContents.TotalScore}}
 ScoreEarned:{{SpecialContents.ScoreEarned}}
 IsPassed:{{SpecialContents.IsPassed}}
                     PercentageEarned:{{SpecialContents.PercentageEarned}}
-                    ContentID: {{SpecialContents.ContentID}}
+                    ContentID: {{SpecialContents.ContentID}}--%>
                     <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="ng-class: 'card border-0 shadow mb-3 ' + (question.IsAnswered == true ? (question.IsCorrect ==true ? 'b-green-2' : 'b-red-2'):'' );">
                             <div class="card-body question">
@@ -481,19 +481,21 @@ IsPassed:{{SpecialContents.IsPassed}}
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
-                                                IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}
+                                                <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{Message}}
+                                            <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                          Selected:{{Message}}--%>
                                         </div>
 
                                         <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
                                             <select class="form-control select2" ng-model="question.Value_Text">
-                                                <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}  IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}</option>
+                                                <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}} 
+                                                    <%--IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
+                                                </option>
                                             </select>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}
+                                            <%--  <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List--%>
@@ -501,10 +503,10 @@ IsPassed:{{SpecialContents.IsPassed}}
                                             <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText_3" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
-                                                IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}
+                                                <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
                                             <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
-                                            Selected:{{question.Value_Text}}
+                                           <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List with box--%>
@@ -512,17 +514,17 @@ IsPassed:{{SpecialContents.IsPassed}}
                                             <div ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'rbAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
-                                                IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}
+                                                <%--    IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}
+                                            <%--<a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                     </div>
-                                    IsAnswered:  {{question.IsAnswered}}
+                                    <%--      IsAnswered:  {{question.IsAnswered}}
                                    TotalScore: {{question.TotalScore}}
                                     ScoreEarned: {{question.ScoreEarned}}
-                                  IsCorrect:  {{question.IsCorrect}}
+                                  IsCorrect:  {{question.IsCorrect}}--%>
                                     <p class="anchor"></p>
                                     <i ng-if="SpecialContents.IsAnswered ==true && question.IsCorrect ==false" class="fas fa-times c-red"></i>
                                     <i ng-if="SpecialContents.IsAnswered ==true && question.IsCorrect ==true" class="fas fa-check c-green"></i>
@@ -538,7 +540,7 @@ IsPassed:{{SpecialContents.IsPassed}}
                             ng-click="SubmitAnswers()">Check Answers</a>
                         <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsPassed==true"
                             ng-click="UpdateContent(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID)">Continue</a>
-                       
+
                     </div>
                 </div>
             </div>

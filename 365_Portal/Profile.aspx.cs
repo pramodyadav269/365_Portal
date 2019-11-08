@@ -16,7 +16,10 @@ namespace _365_Portal
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (HttpContext.Current.Session["FirstName"] != null && HttpContext.Current.Session["LastName"] != null)
+            {
+                lblUserName.InnerText = HttpContext.Current.Session["FirstName"].ToString() + " " + HttpContext.Current.Session["LastName"].ToString();
+            }
         }
     }
 }

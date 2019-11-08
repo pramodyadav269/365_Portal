@@ -88,7 +88,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         }
     }
 
-    $scope.FlashcardQuestionNextClicked = function (topicId, moduleId, contentId,index, total) {
+    $scope.FlashcardQuestionNextClicked = function (topicId, moduleId, contentId, index, total) {
         if ((index + 1) == total) {
             $scope.ShowFinalQuizIntro();
             //Unlock Next Content
@@ -107,7 +107,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
 
     $scope.BeginFlashcard = function () {
         $scope.ActiveContainer = "ContentFlashcardView";
-       // $scope.ActiveSubContainer = "BeginFlashcard";
+        // $scope.ActiveSubContainer = "BeginFlashcard";
         $scope.ActiveSubContainer = "FlashcardIntro";
     }
 
@@ -323,6 +323,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
     }
 
     ds.DS_SubmitAnswers = function (requestParams) {
+        ShowLoader();
         $http({
             method: "POST",
             url: "../api/Trainning/SubmitAnswers",
@@ -335,7 +336,19 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             var responseData = response.data;
             if (requestParams.ContentType == "SURVEY") {
                 // Unlock Flashcard
+
+                swal({
+                    title: "Success",
+                    text: "Survey submitted successfully.",
+                    type: "success",
+                    icon: "success"
+                }).then((value) => {
+
+                });
+
                 ds.DS_UpdateContent(requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
+                ds.DS_GetContentDetails(requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
+                $rootScope.SpecialContents.IsAnswered == 1;
             }
             else if (requestParams.ContentType == "FLASHCARD") {
                 // Nothing to do
@@ -344,6 +357,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                 //To see answers
                 ds.DS_GetContentDetails(requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
             }
+            HideLoader();
         });
     }
 

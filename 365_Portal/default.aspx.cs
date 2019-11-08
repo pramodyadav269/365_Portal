@@ -7,8 +7,15 @@ namespace Life
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Convert.ToString(Session["RoleName"]) == "superadmin"
+                || Convert.ToString(Session["RoleName"]) == "companyadmin"
+                || Convert.ToString(Session["RoleName"]) == "subadmin"
+                )
+            {
+                Response.Redirect("~/admin/dashboard.aspx");
+            }
             // Take UserName from Session.
-            dvUserName.InnerText = "Hello, " +  HttpContext.Current.Session["FirstName"] + "!";
+            dvUserName.InnerText = "Hello, " + HttpContext.Current.Session["FirstName"] + "!";
         }
     }
 }
