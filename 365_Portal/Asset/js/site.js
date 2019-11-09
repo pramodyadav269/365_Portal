@@ -25,6 +25,24 @@ function QueryStringValue(param) {
     }
 }
 
+function ToggleNav() {
+    if ($("#sideNav").width() === 250) {
+        closeNav();
+    } else {
+        openNav();
+    }
+}
+
+function openNav() {
+    $("#sideNav").css("width", "250px");
+    $("main").css("margin-left", "250px");
+}
+
+function closeNav() {
+    $("#sideNav").css("width", "0");
+    $("main").css("margin-left", "0");
+}
+
 
 function ShowLoader() {
     loader(1);

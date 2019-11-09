@@ -4,17 +4,17 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row user-details">
-        <div class="col-md-12 header"> 
-            <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
+        <div class="col-md-12 header">
+            <a class="back" href="Default.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h1 class="text-center font-weight-bold">Your Profile</h1>
         </div>
         <div class="col-md-8 mt-5 offset-md-2">
             <div class="row">
                 <div class="col-md-3 text-right">
-                    <img class="circle user-photo" src="Asset/images/profile.png" />
+                    <img class="circle user-photo" src="Asset/images/profile.png" /> 
                 </div>
                 <div class="col-md-9">
-                    <h2 class="font-weight-bold mt-3">Daniel Curtis</h2>
+                    <h2 class="font-weight-bold mt-3" id="lblUserName" runat="server"></h2>
                     <a class="btn btn-outline-dark mt-1" href="Settings.aspx">Edit profile</a>
                 </div>
             </div>

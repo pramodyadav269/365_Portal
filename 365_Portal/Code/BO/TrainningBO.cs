@@ -49,4 +49,22 @@ namespace _365_Portal.Code.BO
         public string Value_Text { get; set; }
         public List<AnswerOption> AnswerOptions { get; set; }
     }
+
+    public class Achievement
+    {
+        public int AchievementID { get; set; }
+        public double AchievedPercentage { get; set; }
+        public string UserTitle { get; set; }
+        public string UserMessage { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public List<Requirement> Requirements { get; set; }
+    }
+
+    public class Requirement
+    {
+        public int AchievementID { get; set; }
+        public int SortOrder { get; set; }
+        public string Description { get; set; }
+    }
 }

@@ -79,6 +79,7 @@
                                             <p class="card-text">{{module.Description}}</p>
                                             <p ng-if="module.IsCompleted == 1" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
                                             <p ng-if="module.IsCompleted != 1" class="text-right anchor">{{module.CompletedContents + '/' + module.TotalContents}}</p>
+                                            <%-- TopicID:{{SelectedTopic.TopicId}},ModuleID:{{module.ModuleID}}--%>
                                         </div>
                                     </div>
                                 </a>
@@ -137,7 +138,7 @@
                     <div class="col-md-12 mb-4 overview">
                         <h4 class="font-weight-bold">Overview</h4>
                         <p>
-                           {{SelectedModule.Overview}}
+                            {{SelectedModule.Overview}}
                         </p>
                     </div>
 
@@ -147,11 +148,11 @@
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img ng-if="content.ContentType=='PDF'" src="Asset/images/pdf-file.png" />
-                                            <img ng-if="content.ContentType=='VIDEO'" src="Asset/images/video-file.png" />
-                                            <img ng-if="content.ContentType=='SURVEY'" src="Asset/images/survey.png" />
-                                            <img ng-if="content.ContentType=='FLASHCARD'" src="Asset/images/flash-card.png" />
-                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="Asset/images/exam.png" />
+                                            <img ng-if="content.ContentType=='PDF'" src="Asset/images/pdf-icon.svg" />
+                                            <img ng-if="content.ContentType=='VIDEO'" src="Asset/images/video-icon.svg" />
+                                            <img ng-if="content.ContentType=='SURVEY'" src="Asset/images/survey-icon.svg" />
+                                            <img ng-if="content.ContentType=='FLASHCARD'" src="Asset/images/flashcard-icon.svg" />
+                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="Asset/images/quiz-icon.svg" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
@@ -172,11 +173,11 @@
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img ng-if="content.ContentType == 'PDF'" src="Asset/images/pdf-file.png" />
-                                            <img ng-if="content.ContentType == 'VIDEO'" src="Asset/images/video-file.png" />
-                                            <img ng-if="content.ContentType == 'SURVEY'" src="Asset/images/survey.png" />
-                                            <img ng-if="content.ContentType == 'FLASHCARD'" src="Asset/images/flash-card.png" />
-                                            <img ng-if="content.ContentType == 'FINALQUIZ'" src="Asset/images/exam.png" />
+                                            <img ng-if="content.ContentType=='PDF'" src="Asset/images/pdf-icon.svg" />
+                                            <img ng-if="content.ContentType=='VIDEO'" src="Asset/images/video-icon.svg" />
+                                            <img ng-if="content.ContentType=='SURVEY'" src="Asset/images/survey-icon.svg" />
+                                            <img ng-if="content.ContentType=='FLASHCARD'" src="Asset/images/flashcard-icon.svg" />
+                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="Asset/images/quiz-icon.svg" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
@@ -213,36 +214,41 @@
 
                     <div class="col-md-10 offset-md-1 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
                         <div class="row">
-                            <div id="dvVideoRating" style="display: none;" class="col-md-12 video-rating text-white d-none">
-                                <h2 class="font-weight-bold">How did you like the video?</h2>
-                                <dl class="row text-center">
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,1)">
-                                        <i class="far fa-grin-hearts fa-5x"></i>
-                                        <span>Love it!</span>
-                                    </dt>
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,2)">
-                                        <i class="far fa-grin-beam fa-5x"></i>
-                                        <span>Like it!</span>
-                                    </dt>
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,3)">
-                                        <i class="far fa-meh fa-5x"></i>
-                                        <span>Meh</span>
-                                    </dt>
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,4)">
-                                        <i class="far fa-frown fa-5x"></i>
-                                        <span>Didn't like it!</span>
-                                    </dt>
-                                </dl>
-                            </div>
-                            <div class="col-md-12 video-control text-white" id="videoControl" onclick="VideoPlayPause(1)">
-                                <i class="fas fa-play fa-5x"></i>
-                            </div>
                             <div class="col-md-12">
+                                <div class="video-control text-white" id="videoControl" onclick="VideoPlayPause(1)">
+                                    <i class="fas fa-play fa-5x"></i>
+                                </div>
+                                <div id="dvVideoRating" style="display: none;" class="video-rating text-white">
+                                    <div class="video-rating-content">
+                                    <h2 class="font-weight-bold">How did you like the video?</h2>
+                                    <dl class="row text-center">
+                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,1)">
+                                            <i class="far fa-grin-hearts fa-5x"></i>
+                                            <%--<img src="Asset/images/love-icon.svg" />--%>
+                                            <span>Love it!</span>
+                                        </dt>
+                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,2)">
+                                            <i class="far fa-grin-beam fa-5x"></i>
+                                            <%--<img src="Asset/images/like-icon.svg" />--%>
+                                            <span>Like it!</span>
+                                        </dt>
+                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,3)">
+                                            <i class="far fa-meh fa-5x"></i>
+                                            <%--<img src="Asset/images/meh-icon.svg" />--%>
+                                            <span>Meh</span>
+                                        </dt>
+                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,4)">
+                                            <i class="far fa-frown fa-5x"></i>
+                                            <%--<img src="Asset/images/didnt-like-icon.svg" />--%>
+                                            <span>Didn't like it!</span>
+                                        </dt>
+                                    </dl>
+                                        </div>
+                                </div>
+                                <div id="divVideo"></div>
                                 <%-- <video controls id="contentVideo" onended="videoRating()">
                                     <source src="Asset/data/bunny.mp4" type="video/mp4">
                                 </video>--%>
-                                <div id="divVideo">
-                                </div>
                             </div>
                             <div class="col-md-12 mt-4 overview text-left">
                                 <h5 class="font-weight-bold text-uppercase">{{SelectedContent.Title}}</h5>
@@ -277,8 +283,8 @@
                                                 <input type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{Message}}
+                                            <%--       <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{Message}}--%>
                                         </div>
 
                                         <%--Dropdown List--%>
@@ -286,8 +292,8 @@
                                             <select class="form-control select2" ng-model="question.Value_Text">
                                                 <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}
+                                            <%--  <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List--%>
@@ -297,7 +303,7 @@
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                             <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
-                                            Selected:{{question.Value_Text}}
+                                            <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List with box--%>
@@ -306,8 +312,8 @@
                                                 <input type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'rbAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}
+                                            <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--File Upload Control--%>
@@ -328,14 +334,14 @@
                                             <input type="radio" name="ansOption.AnswerText_5" ng-model="question.Value_Text" value="3" id="rbSurveyRate3" /><label for="rbSurveyRate3">3</label>
                                             <input type="radio" name="ansOption.AnswerText_5" ng-model="question.Value_Text" value="2" id="rbSurveyRate2" /><label for="rbSurveyRate2">2</label>
                                             <input type="radio" name="ansOption.AnswerText_5" ng-model="question.Value_Text" value="1" id="rbSurveyRate1" /><label for="rbSurveyRate1">1</label>
-                                            Selected:{{question.Value_Text}}
+                                            <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Textbox--%>
                                         <div ng-if="question.QuestionTypeID == 6 ">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="text" placeholder="Type your answer here" ng-model="question.Value_Text">
-                                                Selected: {{question.Value_Text}}
+                                                <%-- Selected: {{question.Value_Text}}--%>
                                             </div>
                                         </div>
 
@@ -343,7 +349,7 @@
                                         <div ng-if="question.QuestionTypeID == 7">
                                             <div class="form-group">
                                                 <textarea class="form-control" placeholder="Type your answer here" id="textarea" ng-model="question.Value_Text"></textarea>
-                                                Selected: {{question.Value_Text}}
+                                                <%--   Selected: {{question.Value_Text}}--%>
                                             </div>
                                         </div>
 
@@ -352,7 +358,7 @@
                                             <div class="form-group">
                                                 <%--<input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" />--%>
                                                 <input ng-init="question.Value_Text = GetFormattedDate(question.Value_Text)" value="{{question.Value_Text}}" type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 25%;" ng-model="question.Value_Text" />
-                                                Selected: {{question.Value_Text}}
+                                                <%-- Selected: {{question.Value_Text}}--%>
                                             </div>
                                         </div>
 
@@ -460,12 +466,13 @@
 
             <div class="col-md-10 mt-5 offset-md-1">
                 <div class="row" id="finalQuiz">
-                    IsAnswered: {{SpecialContents.IsAnswered}}
+                    <%--  IsAnswered: {{SpecialContents.IsAnswered}}
 PassingScore:{{SpecialContents.PassingScore}}
 TotalScore:{{SpecialContents.TotalScore}}
 ScoreEarned:{{SpecialContents.ScoreEarned}}
 IsPassed:{{SpecialContents.IsPassed}}
                     PercentageEarned:{{SpecialContents.PercentageEarned}}
+                    ContentID: {{SpecialContents.ContentID}}--%>
                     <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="ng-class: 'card border-0 shadow mb-3 ' + (question.IsAnswered == true ? (question.IsCorrect ==true ? 'b-green-2' : 'b-red-2'):'' );">
                             <div class="card-body question">
@@ -479,19 +486,21 @@ IsPassed:{{SpecialContents.IsPassed}}
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
-                                                IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}
+                                                <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{Message}}
+                                            <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                          Selected:{{Message}}--%>
                                         </div>
 
                                         <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
                                             <select class="form-control select2" ng-model="question.Value_Text">
-                                                <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}  IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}</option>
+                                                <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}} 
+                                                    <%--IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
+                                                </option>
                                             </select>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}
+                                            <%--  <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List--%>
@@ -499,10 +508,10 @@ IsPassed:{{SpecialContents.IsPassed}}
                                             <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText_3" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
-                                                IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}
+                                                <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
                                             <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
-                                            Selected:{{question.Value_Text}}
+                                            <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List with box--%>
@@ -510,17 +519,17 @@ IsPassed:{{SpecialContents.IsPassed}}
                                             <div ng-repeat="ansOption in question.AnswerOptions">
                                                 <input type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'rbAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
-                                                IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}
+                                                <%--    IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
-                                            <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}
+                                            <%--<a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
+                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                     </div>
-                                    IsAnswered:  {{question.IsAnswered}}
+                                    <%--      IsAnswered:  {{question.IsAnswered}}
                                    TotalScore: {{question.TotalScore}}
                                     ScoreEarned: {{question.ScoreEarned}}
-                                  IsCorrect:  {{question.IsCorrect}}
+                                  IsCorrect:  {{question.IsCorrect}}--%>
                                     <p class="anchor"></p>
                                     <i ng-if="SpecialContents.IsAnswered ==true && question.IsCorrect ==false" class="fas fa-times c-red"></i>
                                     <i ng-if="SpecialContents.IsAnswered ==true && question.IsCorrect ==true" class="fas fa-check c-green"></i>
@@ -536,6 +545,7 @@ IsPassed:{{SpecialContents.IsPassed}}
                             ng-click="SubmitAnswers()">Check Answers</a>
                         <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsPassed==true"
                             ng-click="UpdateContent(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID)">Continue</a>
+
                     </div>
                 </div>
             </div>

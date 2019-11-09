@@ -1,7 +1,16 @@
 ﻿
+/* heebo-regular - latin */
+@font-face {
+    font-family: 'Heebo';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Heebo'), local('Heebo-Regular'), url('../fonts/heebo-v5-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/heebo-v5-latin-regular.woff2') format('woff2');
+}
 
 body {
     background-color: rgba(0, 0, 0, 0.05);
+    font-family: Heebo;
 }
 
 a {
@@ -12,8 +21,67 @@ a {
         text-decoration: none;
     }
 
+/* side nav*/
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top: 3.8rem;
+    left: 0;
+    background-color: #000000;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+    .sidenav a {
+        padding: .25rem .25rem .25rem 1rem;
+        text-decoration: none;
+        color: #fff;
+        display: block;
+        transition: 0.3s;
+        border-top: 1px solid rgba(255, 255, 255, 0.10);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    }
+
+        .sidenav a:hover {
+            color: #FEC900;
+        }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+main {
+    transition: margin-left .5s;
+    /*padding: 2.5rem 0;*/
+}
+
+/*@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+}*/
+
+.navbar .navbar-left a.menu {
+    margin-right: 1rem;
+}
+
+
+.navbar .navbar-brand {
+    padding: .4rem 0;
+}
+
 img.logo {
-    width: 48px;
+    height: 48px;
 }
 
 .top-logo {
@@ -29,7 +97,7 @@ img.logo {
     position: fixed;
     width: 100%;
     height: 100vh;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.75);
     z-index: 9999;
 }
 
@@ -110,6 +178,12 @@ a.link, a.link:hover {
     .header a.btn {
         top: -2.2rem !important;
     }
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 
@@ -453,7 +527,7 @@ a.link, a.link:hover {
     cursor: pointer;
 }
 
-    .user-details .achievements dt img, .user-details .gifts dt img {
+    .user-details .achievements dt img, .user-details .gifts dt img, .video-rating dt img {
         height: 82px;
         margin-top: 2rem;
     }
@@ -629,24 +703,47 @@ p.anchor {
     margin-top: 2rem;
 }
 
+/*.video-rating dt:hover ~ span.icon {
+    background: #fff;
+}
+
+    .video-rating dt:hover ~ span.icon .svg-inline--fa {
+        color: #000;
+    }*/
+
 .video-rating {
     background: rgba(0, 0, 0, .50);
     z-index: 1;
     width: 96%;
+    height: 98%;
     left: 1rem;
     position: absolute;
-    padding: 5.8rem 1rem;
 }
+
+    .video-rating .video-rating-content {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
 
 .video-control {
     background: rgba(0, 0, 0, .50);
     z-index: 1;
     width: 96%;
+    height: 98%;
     left: 1rem;
     position: absolute;
-    padding: 10.6rem 1rem;
     cursor: pointer;
 }
+
+    .video-control .svg-inline--fa {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
 
 .contents-datials .overview p {
     font-size: 1.05rem;

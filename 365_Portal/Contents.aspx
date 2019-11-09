@@ -64,14 +64,14 @@
                                         <h5 class="card-title">Psychology of motivation part 1</h5>
                                         <p class="card-text">Understanding the psychology behind the motivation can be the key.</p>
                                     </div>
-                                    <div class="col-sm-1 col-md-1 col-lg-1">
+                                    <div class="col-sm-1 col-md-1 col-lg-1"> 
                                         <p class="anchor text-right"></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </a>
-                </div>
+                </div> 
                 <div class="col-md-12 mb-3 locked">
                     <a href="#">
                         <div class="card border-0 shadow mb-3">

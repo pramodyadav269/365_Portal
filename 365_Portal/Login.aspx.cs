@@ -101,10 +101,12 @@ namespace _365_Portal
                             {
                                 if (objResponse.Role.ToLower() == "enduser")
                                 {
+                                    Session["MasterPage"] = "~/Life.master";
                                     Response.Redirect("~/default.aspx",false);
                                 }
                                 else if (objResponse.Role.ToLower() == "superadmin" || objResponse.Role.ToLower() == "companyadmin" || objResponse.Role.ToLower() == "subadmin")
                                 {
+                                    Session["MasterPage"] = "~/Admin/Admin.master";
                                     Response.Redirect("~/admin/dashboard.aspx",false);
                                 }
                             }

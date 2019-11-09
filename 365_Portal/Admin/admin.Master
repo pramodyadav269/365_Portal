@@ -45,16 +45,51 @@
             </div>
         </div>
 
+
+        <div id="sideNav" class="sidenav">
+            <a href="<%=Page.ResolveUrl("~/Admin/dashboard.aspx") %>">Dashboard</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/Users.aspx") %>">Users</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/Topics.aspx") %>">Topics</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/Modules.aspx") %>">Modules</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/ContentList.aspx") %>">Contents</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=1") %>">Surveys</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/flashcards.aspx") %>">Flashcards</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=2") %>">Flashcard Quiz</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=3") %>">Final Quiz</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/bulkupload.aspx") %>">Bulk Upload</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/assign_topics.aspx") %>">Assign Topics</a>
+            <a href="<%=Page.ResolveUrl("~/Achievements.aspx") %>">Achievements</a>
+            <%-- <a href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
+            <a href="<%=Page.ResolveUrl("~/Profile.aspx") %>">My Profile</a>
+            <a href="<%=Page.ResolveUrl("~/ChangePassword.aspx") %>">Change Password</a>
+            <a href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>--%>
+
+            <%--- Dashboard
+- Groups
+- Users
+- Topics (Modules/Contents/Surveys/Flashcard/Quiz)
+- Achievements
+- Settings
+- My Profile
+- Change Password
+- Logout--%>
+        </div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
             <div class="container">
-                <a class="navbar-brand" href="dashboard.aspx">
-                    <img src="../Asset/images/logo.svg" class="logo" />
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <%-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>--%>
+                <div class="navbar-left">
+                    <a class="menu" onclick="ToggleNav()"><i class="fas fa-bars fa-lg text-white"></i></a>
+                    <a class="navbar-brand" href="<%=Page.ResolveUrl("~/admin/dashboard.aspx") %>">
+                        <img id="imgCompanyLogo" runat="server" src="../Asset/images/logo.svg" class="logo" />
+                    </a>
+                </div>
+                <%--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button>--%>
 
-                <div class="collapse navbar-collapse" id="navbarText">
+                <div class="" id="navbarText">
                     <ul class="navbar-nav mr-auto">
                     </ul>
                     <div class="form-inline nav-user">
@@ -73,27 +108,26 @@
 
                         <div class="profile dropdown">
                             <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="../Asset/images/profile.png" class="circle" width="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" />User Name</span>
+                                <img id="imgProfilePic" runat="server" src="../Asset/images/profile.png" class="circle" width="40" height="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" />User Name</span>
                             </a>
                             <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
-                                <a class="dropdown-item" href="Users.aspx">Users</a>
-                                <a class="dropdown-item" href="Topics.aspx">Topics</a>
-                                <a class="dropdown-item" href="Modules.aspx">Modules</a>
-                                <a class="dropdown-item" href="Contents.aspx">Contents</a>
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Profile.aspx") %>">Profile</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
+                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
-
-        <div class="container mt-5 mb-5">
-            <asp:ContentPlaceHolder ID="body" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>
+        <main>
+            <div class="container mt-5 mb-5">
+                <asp:ContentPlaceHolder ID="body" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </main>
     </form>
-        <script>
+    <script>
         const INSERT = 1;
         const EDIT = 2;
         const DELETE = 3;
