@@ -155,7 +155,7 @@
                                     swal({
                                         title: "Failure",
                                         text: DataSet.StatusDescription,
-                                        type: "error"
+                                        icon: "error"
                                     });
                                     clearFields('.input-validation');
                                 }
@@ -165,7 +165,7 @@
                                 swal({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    type: "error"
+                                    icon: "error"
                                 });
                             }
                         },
@@ -178,7 +178,7 @@
                             swal({
                                 title: "Failure",
                                 text: "Please try Again",
-                                type: "error"
+                                icon: "error"
                             });
                         }
                     });

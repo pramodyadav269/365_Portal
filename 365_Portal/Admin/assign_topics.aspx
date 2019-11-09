@@ -1,7 +1,6 @@
-﻿<%@ Page Title="Quiz" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="assign_topics.aspx.cs" Inherits="_365_Portal.Admin.AssignTopics" %>
+﻿<%@ Page Title="Assign Topics" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="assign_topics.aspx.cs" Inherits="_365_Portal.Admin.AssignTopics" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <title>Quiz</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
@@ -9,7 +8,79 @@
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h1 class="text-center font-weight-bold">Assign Topics</h1>
         </div>
-        <div>
+
+
+        <div class="col-md-12">
+            <div class="card shadow border-0 border-radius-0">
+                <div class="card-body">
+                    <div class="row input-validation">
+                        <div class="col-md-6">
+                            <div class="form-group radio">
+                                <label>Assign Mode</label>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="rblBulk" name="TopicAssignment" class="custom-control-input" value="BULK" onchange="BindGroupUserCheckboxList();">
+                                    <label class="custom-control-label" for="rblBulk">Assign Multiple</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="tblIndividual" name="TopicAssignment" class="custom-control-input" value="INDIVIDUAL" onchange="BindGroupUserCheckboxList();">
+                                    <label class="custom-control-label" for="tblIndividual">Assign Individually</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ddlAssignType">Assign By</label>
+                                <select class="form-control select2" id="ddlAssignType" style="width: 100% !important" onchange="BindGroupUserCheckboxList(this);">
+                                    <option></option>
+                                    <option value="GROUP">Group</option>
+                                    <option value="USER">User</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" id="dvGroupContainer" style="display: none;">
+                            <div class="">
+                                <label>Select Groups</label>
+                                <div id="dvGroups"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" id="dvUserContainer" style="display: none;">
+                            <div class="">
+                                <label>Select Users</label>
+                                <div id="dvUsers"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mt-3" id="dvTopicContainer" style="display: none;">
+                            <div class="">
+                                <label>Select Topics</label>
+                                <div id="dvTopics"></div>
+                            </div>
+                        </div>
+
+                        <div class="w-100"></div>
+
+                        <div class="col-md-12 mt-4">
+                            <div class="float-right">
+                                <a class="btn bg-yellow" id="btnSubmit" style="display: none;" onclick="SaveChanges(this);return false;">Save Changes</a>
+
+                            </div>
+                        </div>
+                        <label id="lblJSON"></label>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <%-- <div>
             Assign Mode:
             <input type="radio" id="rblBulk" name="TopicAssignment" value="BULK" onchange="BindGroupUserCheckboxList();">
             <label for="rblBulk">Assign Multiple</label>
@@ -43,7 +114,7 @@
             <br />
             <label id="lblJSON"></label>
 
-        </div>
+        </div>--%>
     </div>
     <script>
         $(document).ready(function () {
@@ -89,8 +160,8 @@
                     });
                 }
                 else {
-                    htmlCheckboxes += '<select id="ddlGroup" onchange="GetSelectedTopics(this)";>';
-                    htmlCheckboxes += '<option value="-1">--Select--</option>';
+                    htmlCheckboxes += '<select id="ddlGroup" class="form-control select2" style="width: 100% !important" onchange="GetSelectedTopics(this)";>';
+                    htmlCheckboxes += '<option></option>';
                     $.each(groupList, function (index, group) {
                         htmlCheckboxes += '<option value="' + index + '">' + group.GroupName + index + '</option>';
                     });
@@ -112,8 +183,8 @@
                     });
                 }
                 else {
-                    htmlCheckboxes += '<select id="ddlUser" onchange="GetSelectedTopics(this)";>';
-                    htmlCheckboxes += '<option value="-1">--Select--</option>';
+                    htmlCheckboxes += '<select id="ddlUser" class="form-control select2" style="width: 100% !important" onchange="GetSelectedTopics(this)";>';
+                    htmlCheckboxes += '<option></option>';
                     $.each(userList, function (index, user) {
                         htmlCheckboxes += '<option value="' + index + '">' + user.UserName + index + '</option>';
                     });
@@ -127,6 +198,11 @@
                 $("#dvTopicContainer").hide();
                 $("#btnSubmit").hide();
             }
+
+            $('select.select2').select2({
+                placeholder: "Select a option",
+                allowClear: true
+            });
         }
 
         function GetSelectedTopics(cntrl) {
@@ -165,7 +241,7 @@
                     });
                 }
                 else {
-                    groupIds = $("#ddlGroup").val() != "-1" ? $("#ddlGroup").val() : "";
+                    groupIds = $("#ddlGroup").val() != "" ? $("#ddlGroup").val() : "";
                 }
                 groupIds = groupIds.replace(/,\s*$/, "");
                 requestParams = { "Type": $("#ddlAssignType").val(), "Ids": groupIds, "TopicIds": topicIds };
@@ -179,7 +255,7 @@
                     });
                 }
                 else {
-                    userIds = $("#ddlUser").val() != "-1" ? $("#ddlUser").val() : "";
+                    userIds = $("#ddlUser").val() != "" ? $("#ddlUser").val() : "";
                 }
                 userIds = userIds.replace(/,\s*$/, "");
                 requestParams = { "Type": $("#ddlAssignType").val(), "Ids": userIds, "TopicIds": topicIds };

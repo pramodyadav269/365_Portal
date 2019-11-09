@@ -181,6 +181,10 @@ a.link, a.link:hover {
     }
 }
 
+input[type=checkbox] + label, input[type=radio] + label {
+    margin-right: .75rem;
+}
+
 .form-header {
     text-align: center;
     margin-bottom: 1rem;
