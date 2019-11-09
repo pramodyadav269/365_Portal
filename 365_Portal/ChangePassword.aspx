@@ -145,13 +145,28 @@
                     try {
                         var DataSet = $.parseJSON(response);
                         console.log(response);
-                        if (DataSet.StatusCode == "1") {
+                        if (DataSet.ReturnCode == "0") {
                             var uri = "Login.aspx";
                             window.location.replace(uri);
                         }
+                        else {
+                            swal({
+                                title: "Alert",
+                                text: "Unable to Logout",
+                                icon: "error",
+                                button: "Ok",
+                            });
+                        }
                     }
                     catch (ex)
-                    { }
+                    {
+                        swal({
+                            title: "Alert",
+                            text: "Unable to Logout",
+                            icon: "error",
+                            button: "Ok",
+                        });
+                    }
                 },
                 failure: function (response) {
                     alert(response.data);

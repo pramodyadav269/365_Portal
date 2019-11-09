@@ -28,7 +28,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="txtTitle">Title</label>
-                                <input type="text" class="form-control required" id="txtTitle" placeholder="Title" />
+                                <input type="text" class="form-control required" id="txtTitle" maxlength="" placeholder="Title" />
                             </div>
                         </div>
 
@@ -69,7 +69,7 @@
             View();
         });
         var accessToken = '<%=Session["access_token"]%>';
-
+        var id;
         function AddNew() {
             clearFields('.input-validation')
             toggle('divForm', 'divGird')
@@ -80,22 +80,28 @@
         function Submit() {
 
             var getUrl;
-            showLoader();
+            var requestParams;
+            ShowLoader();
             if (inputValidation('.input-validation')) {
-                if ($('#submit')[0].name == INSERT) {
-                    getUrl = "/API/Content/CreateTopic";
-                } else {
-                    getUrl = "API/Content/ModifyTopic";
-                }
-                var _Topic_Id = '';
+                var _Topic_Id;
+                var _SrNo = "1";
                 var _Title = $('#txtTitle').val();
-                //var _Overview = $("#txtOverview").val();
                 var _Description = $('#txtDescription').val();
                 var _IsPublished = $('#cbIsPublished').prop('checked');
-                var _SrNo = "1";
+                if ($('#submit')[0].name == INSERT) {
+                    getUrl = "/API/Content/CreateTopic";
+
+                } else {
+                    _Topic_Id = id;
+                    getUrl = "/API/Content/ModifyTopic";
+
+                }
+
+                requestParams = { TopicID: _Topic_Id, TopicTitle: _Title, TopicDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, MinUnlockedModules: "", UserID: "", IsActive: "" };
+
                 try {
-                    var requestParams = { TopicID: _Topic_Id, TopicTitle: _Title, TopicDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, MinUnlockedModules: "", UserID: "", IsActive: "" };
-                    
+
+
 
 
                     $.ajax({
@@ -106,33 +112,47 @@
                         contentType: "application/json",
                         success: function (response) {
                             try {
+                                if (response != null) {
+                                    var DataSet = $.parseJSON(response);
+                                    console.log(response);
+                                    if (DataSet.StatusCode == "1") {
+                                        clearFields('.input-validation');
+                                        HideLoader();
+                                        swal({
+                                            title: "Success",
+                                            text: DataSet.StatusDescription,
+                                            icon: "success",
+                                            button: "Ok",
+                                        }).then((value) => {
+                                            if (value) {
+                                                toggle('divGird', 'divForm');
+                                                View();
+                                            }
+                                        });
 
-                                var DataSet = $.parseJSON(response);
-                                console.log(response);
-                                if (DataSet.StatusCode == "1") {
-                                    clearFields('.input-validation');
-                                    hideLoader();
-                                    swal({
-                                        title: "Success",
-                                        text: DataSet.StatusDescription,
-                                        icon: "success",
-                                        button: "Ok",
-                                    });
-
-
+                                    }
+                                    else {
+                                        HideLoader();
+                                        swal({
+                                            title: "Failure",
+                                            text: DataSet.StatusDescription,
+                                            type: "error"
+                                        });
+                                        clearFields('.input-validation');
+                                    }
                                 }
                                 else {
-                                    hideLoader();
+                                    HideLoader();
                                     swal({
                                         title: "Failure",
-                                        text: DataSet.StatusDescription,
+                                        text: "Please try Again",
                                         type: "error"
                                     });
-                                    clearFields('.input-validation');
+
                                 }
                             }
                             catch (e) {
-                                hideLoader();
+                                HideLoader();
                                 swal({
                                     title: "Failure",
                                     text: "Please try Again",
@@ -141,11 +161,11 @@
                             }
                         },
                         complete: function () {
-                            hideLoader();
+                            HideLoader();
                         },
                         failure: function (response) {
-                            hideLoader();
-                            alert(response.data);
+                            HideLoader();
+                            //alert(response.data);
                             swal({
                                 title: "Failure",
                                 text: "Please try Again",
@@ -155,7 +175,7 @@
                     });
                 }
                 catch (e) {
-                    hideLoader();
+                    HideLoader();
                     swal({
                         title: "Alert",
                         text: "Oops! An Occured. Please try again",
@@ -165,7 +185,7 @@
                 }
             }
             else {
-                hideLoader();
+                HideLoader();
                 swal({
                     title: "Alert",
                     text: "Fill all fields",
@@ -175,15 +195,39 @@
             }
         }
 
-        function Edit(ctrl) {
-            var id = $(ctrl).closest('tr').attr('id')
+        function Edit(Topicid) {
+
+            id = Topicid;
+
+            $('#' + id).find("td:not(:last-child)").each(function (i, data) {
+                if (this.className == 'title') {
+                    $('#txtTitle').val(this.innerText); ///This will find title for Topic 
+
+                }
+                if (this.className == 'description') {
+                    $('#txtDescription').val(this.innerText);
+                }
+                if (this.className == 'isPublished') {
+                    if (this.innerText == "Yes") {
+                        $('#cbIsPublished').prop('checked', true);
+                    }
+                    else {
+                        $('#cbIsPublished').prop('checked', false);
+                    }
+
+                }
+            });
+            //content.Title);
+            //$('#txtDescription').val(content.Title);
+            //$("#chkIsPublished").prop("checked", content.IsPublished);
             toggle('divForm', 'divGird');
             $('#submit').attr('name', EDIT);
             //Submit button name attribute changed to EDIT(Modify);
         }
 
-        function Delete(ctrl) {
-            var id = $(ctrl).closest('tr').attr('id')
+        function Delete(Topicid) {
+            id = "";
+            id = Topicid;
             swal({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to revert changes!",
@@ -193,10 +237,10 @@
             })
             .then((willDelete) => {
                 if (willDelete) {
-                    showLoader();
+                    ShowLoader();
                     try {
-                        var requestParams = { TopicID: id };
-                        var getUrl = "/API/Content/DeleteModule";
+                        var requestParams = { TopicID: id, IsActive: 0 };
+                        var getUrl = "/API/Content/DeleteTopic";
 
                         $.ajax({
                             type: "POST",
@@ -208,20 +252,21 @@
                                 try {
 
                                     var DataSet = $.parseJSON(response);
-                                    console.log(response);
+                                    //console.log(response);
                                     if (DataSet.StatusCode == "1") {
-                                        hideLoader();
+                                        HideLoader();
                                         swal({
                                             title: "Success",
                                             text: DataSet.StatusDescription,
                                             icon: "success",
                                             button: "Ok",
                                         });
+                                        View();
 
 
                                     }
                                     else {
-                                        hideLoader();
+                                        HideLoader();
                                         swal({
                                             title: "Failure",
                                             text: DataSet.StatusDescription,
@@ -230,7 +275,7 @@
                                     }
                                 }
                                 catch (e) {
-                                    hideLoader();
+                                    HideLoader();
                                     //alert(response);
                                     //alert(e.message);
                                     swal({
@@ -241,10 +286,10 @@
                                 }
                             },
                             complete: function () {
-                                hideLoader();
+                                HideLoader();
                             },
                             failure: function (response) {
-                                hideLoader();
+                                HideLoader();
                                 alert(response.data);
                                 swal({
                                     title: "Failure",
@@ -255,7 +300,7 @@
                         });
                     }
                     catch (e) {
-                        hideLoader();
+                        HideLoader();
                         swal({
                             title: "Alert",
                             text: "Oops! An Occured. Please try again",
@@ -274,7 +319,7 @@
             try {
                 if (TopicName != '' && IsPublished != '') {
                     var requestParams = { TopicID: "", TopicTitle: "", TopicDescription: "", IsPublished: "", SrNo: "", MinUnlockedModules: "", UserID: "", IsActive: "" };
-                    showLoader();
+                    ShowLoader();
                     $.ajax({
                         //type: "GET",
                         //url: "https://reqres.in/api/users?page=1",
@@ -287,7 +332,7 @@
                         success: function (response) {
                             if (response != null && response != undefined) {
                                 var DataSet = $.parseJSON(response);
-                                console.log(response);
+                                //console.log(response);
                                 if (DataSet.StatusCode == "1") {
                                     var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
                                     tbl += '<thead><tr>';
@@ -301,15 +346,21 @@
                                     tbl += '<tbody>';
 
                                     $.each(DataSet.Data, function (i, data) {
+                                        if (data.IsPublished == "1") {
+                                            data.IsPublished = "Yes";
+                                        }
+                                        else {
+                                            data.IsPublished = "No";
+                                        }
 
                                         tbl += '<tr id="' + data.TopicID + '">';
                                         tbl += '<td>' + (i + 1);
 
-                                        tbl += '<td>' + data.Title;
-                                        tbl += '<td>' + data.Description;
-                                        tbl += '<td>'  + data.IsPublished;
+                                        tbl += '<td class="title">' + data.Title;
+                                        tbl += '<td class="description">' + data.Description;
+                                        tbl += '<td class="isPublished">' + data.IsPublished;
                                         tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        tbl += '<td><i title="Edit" onclick="Edit(this);" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this);" class="fas fa-trash text-danger"></i>';
+                                        tbl += '<td><i title="Edit" onclick="Edit(' + data.TopicID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.TopicID + ');" class="fas fa-trash text-danger"></i>';
 
                                     });
 
@@ -326,7 +377,7 @@
                                     //}).draw();
                                 }
                                 else {
-                                    hideLoader();
+                                    HideLoader();
                                     swal({
                                         title: "Warning",
                                         text: DataSet.StatusDescription,
@@ -336,7 +387,7 @@
                                 }
                             }
                             else {
-                                hideLoader();
+                                HideLoader();
                                 swal({
                                     title: "Warning",
                                     text: DataSet.StatusDescription,
@@ -346,7 +397,7 @@
                             }
                         },
                         complete: function () {
-                            hideLoader();
+                            HideLoader();
                         }
                     });
                 }

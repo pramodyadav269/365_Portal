@@ -109,33 +109,51 @@ namespace _365_Portal.Controllers
             objServiceLog.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
-                var httpRequest = HttpContext.Current.Request;
-                string EmailId = httpRequest.Form["EmailId"];
-
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
                 LoginRequest objRequest = new LoginRequest();
-                objRequest.UserName = EmailId;
                 objResponse = new LoginResponse();
-
-                Utility.DestroyAllSession();
-
-                int i = UserDAL.UserLogout(objRequest);
-                if (i > 0)
+                if (identity != null)
                 {
-                    objResponse.ReturnCode = "0";
-                    objResponse.ReturnMessage = "User logout succesfully.";
+                    //var httpRequest = HttpContext.Current.Request;
+                    //string EmailId = httpRequest.Form["EmailId"];
+                    
+                  
+                    objRequest.UserName =identity.UserID;  //Here UserName Varaible is used as UserID
+                  
+
+                    Utility.DestroyAllSession();
+
+                    int i = UserDAL.UserLogout(objRequest);
+                    if (i > 0)
+                    {
+                        objResponse.ReturnCode = "0";
+                        objResponse.ReturnMessage = "User logout succesfully.";
+                    }
+                    else
+                    {
+                        objResponse.ReturnCode = "1";
+                        objResponse.ReturnMessage = "Unable to logout.";
+                    }
+                    Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
+                    objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
+                    objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
                 }
                 else
                 {
-                    objResponse.ReturnCode = "1";
-                    objResponse.ReturnMessage = "Unable to logout.";
+
+                    objResponse.ReturnMessage = "Invalid Token";
+                     Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);                   
+                    objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
+                    objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+
                 }
-                Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
-                objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
-                objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
-                objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+
             }
             catch (Exception ex)
             {
+
                 objServiceLog.ResponseString = "Exception " + ex.Message + " | " + ex.StackTrace;
                 objServiceLog.RequestType = ConstantMessages.WebServiceLog.Exception;
             }
