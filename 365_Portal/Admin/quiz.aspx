@@ -7,16 +7,13 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Quiz</h1>
+            <h1 class="text-center font-weight-bold" id="lblTitle"></h1>
         </div>
 
         <div class="col-md-12">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
                     <div class="row input-validation">
-                        <div class="form-header col-md-12">
-                            <h3 id="lblTitle"></h3>
-                        </div>
                         <div class="w-100"></div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -46,7 +43,7 @@
                                 <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtSurveyOverview"></textarea>
                             </div>
                         </div>
-                        <div class="col-md-6" id="trScoreSummary">
+                        <div class="col-md-3" id="trScoreSummary">
                             <div class="form-group">
                                 <label>Total Score: <span id="lblTotalScore">100</span></label>
 
@@ -77,7 +74,7 @@
                         <div class="col-md-6">
                             <div class="row input-validation">
                                 <div class="form-header col-md-12">
-                                    <h3>Flashcard Introduction</h3>
+                                    <h3>Questions</h3>
                                 </div>
                                 <div class="w-100"></div>
                                 <div class="col-md-12">
@@ -159,12 +156,6 @@
                                             <label for="txtScore">Score</label>
                                             <input type="number" class="form-control required" id="txtScore" style="display: none;" value="0" />
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="txtSlideDescription">Description</label>
-                                        <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtSlideDescription"></textarea>
                                     </div>
                                 </div>
                                 <div class="w-100"></div>
@@ -534,7 +525,6 @@
 
         function ClearAnsOptionFields(cntrl) {
             $("#txtTitle").val("");
-            $("#txtSlideDescription").val("");
             $("#chkIsCorrect").prop("checked", false);
             $("#txtScore").val("0");
         }

@@ -233,6 +233,13 @@
     <Compile Include="Admin\bulkupload.aspx.designer.cs">
       <DependentUpon>bulkupload.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\assign_topics.aspx.cs">
+      <DependentUpon>assign_topics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\assign_topics.aspx.designer.cs">
+      <DependentUpon>assign_topics.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\quiz.aspx.cs">
       <DependentUpon>quiz.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -486,6 +493,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\bulkupload.aspx" />
+    <Content Include="Admin\assign_topics.aspx" />
     <Content Include="Admin\quiz.aspx" />
     <Content Include="Admin\flashcards.aspx" />
     <Content Include="Admin\ContentList.aspx" />

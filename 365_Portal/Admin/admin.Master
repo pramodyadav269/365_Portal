@@ -51,13 +51,15 @@
             <a href="<%=Page.ResolveUrl("~/Admin/Users.aspx") %>">Users</a>
             <a href="<%=Page.ResolveUrl("~/Admin/Topics.aspx") %>">Topics</a>
             <a href="<%=Page.ResolveUrl("~/Admin/Modules.aspx") %>">Modules</a>
-            <%--<a href="<%=Page.ResolveUrl("~/Admin/Contents.aspx") %>">Contents</a>--%>
             <a href="<%=Page.ResolveUrl("~/Admin/ContentList.aspx") %>">Contents</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/Surveys.aspx") %>">Surveys</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=1") %>">Surveys</a>
             <a href="<%=Page.ResolveUrl("~/Admin/flashcards.aspx") %>">Flashcards</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx") %>">Quiz</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=2") %>">Flashcard Quiz</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=3") %>">Final Quiz</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/bulkupload.aspx") %>">Bulk Upload</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/assign_topics.aspx") %>">Assign Topics</a>
             <a href="<%=Page.ResolveUrl("~/Achievements.aspx") %>">Achievements</a>
-           <%-- <a href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
+            <%-- <a href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
             <a href="<%=Page.ResolveUrl("~/Profile.aspx") %>">My Profile</a>
             <a href="<%=Page.ResolveUrl("~/ChangePassword.aspx") %>">Change Password</a>
             <a href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>--%>
@@ -108,7 +110,7 @@
                             <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img id="imgProfilePic" runat="server" src="../Asset/images/profile.png" class="circle" width="40" height="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" />User Name</span>
                             </a>
-                             <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
+                            <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
                                 <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Profile.aspx") %>">Profile</a>
                                 <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
                                 <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>

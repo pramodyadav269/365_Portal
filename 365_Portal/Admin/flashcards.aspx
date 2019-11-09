@@ -66,59 +66,16 @@
                             </div>
                         </div>
 
-                        <div class="w-100"></div>
-
-                        <div class="col-md-12 mt-4">
-                            <div class="float-right">
-                                <a class="btn bg-yellow" id="btnSubmitFlashcard" onclick="SubmitChanges(this);return false;">Save Changes</a>
-
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtIntroTitle">Introduction Title</label>
+                                <textarea class="form-control required" placeholder="Introduction Title" id="txtIntroTitle"></textarea>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <div id="dvFlashcardJson"></div>
-                            <%--<div class="mt-3 table-responsive">
-                                <table id="tblContent" class="table table-bordered" style="width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Sr No</th>
-                                            <th>Doc Type</th>
-                                            <th>Title</th>
-                                            <th>Description</th>
-                                            <th>Overview</th>
-                                            <th>File Path</th>
-                                            <th>Is Gift</th>
-                                            <th>Is Published</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>--%>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12 mt-4">
-            <div class="card shadow border-0 border-radius-0">
-                <div class="card-body">
-
-                    <div class="row">
                         <div class="col-md-6">
                             <div class="row input-validation">
-                                <div class="form-header col-md-12">
-                                    <h3>Flashcard Introduction</h3>
-                                </div>
                                 <div class="w-100"></div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="txtIntroTitle">Introduction Title</label>
-                                        <textarea class="form-control required" rows="4" cols="50" placeholder="Introduction Title" id="txtIntroTitle"></textarea>
-                                    </div>
-                                </div>
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="txtDescription">Bullet Points</label>
@@ -164,7 +121,7 @@
                                         <input type="text" class="form-control required" id="txtSlideTitle" placeholder="Title" />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="txtSlideDescription">Description</label>
                                         <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtSlideDescription"></textarea>
@@ -174,7 +131,7 @@
 
                                 <div class="col-md-12 mt-4">
                                     <div class="float-right">
-                                        <a class="btn bg-yellow" id="btnAddSlide" onclick="AddSlide(this);return false;">Add</a>
+                                        <a class="btn bg-yellow" id="btnAddSlide" onclick="AddSlide(this);return false;">Add Slide</a>
                                         <a class="btn bg-yellow" id="btnCancelSlide" onclick="CancelSlides(this);return false;">Cancel</a>
                                     </div>
                                 </div>
@@ -198,158 +155,181 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="w-100"></div>
+
+                        <div class="col-md-12 mt-4">
+                            <div class="float-right">
+                                <a class="btn bg-yellow" id="btnAddFlashcard" onclick="AddFlashcard(this);return false;">Add Flashcard</a>
+                                <a class="btn bg-yellow" id="btnCancelFlashcard" onclick="CancelFlashcard(this);return false;">Cancel</a>
+                            </div>
+                        </div>
+
+                        <div class="row mt-12">
+                            <div class="col-md-12">
+                                <div id="dvFlashcardJson"></div>
+                                <div class="mt-12 table-responsive">
+                                    <table id="tblFlashcards" class="table table-bordered" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr No</th>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Overview</th>
+                                                <th>Intro Title</th>
+                                                <th>Is Gift</th>
+                                                <th>Is Published</th>
+                                                <th>Skip Flashcards</th>
+                                                <th colspan="2">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <%--        
-        <div>
-            <table>
-                <tr>
-                    <td colspan="2">
-                        <h2>Flashcard</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Flashcard Title
-                    </td>
-                    <td>
-                        <input type="text" id="txtFlashcardTitle" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Description</td>
-                    <td>
-                        <textarea rows="4" cols="50" id="txtFlashcardDescription"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Overview</td>
-                    <td>
-                        <textarea rows="4" cols="50" id="txtFlashcardOverview"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Is Gift</td>
-                    <td>
-                        <input type="checkbox" id="chkIsGift" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Skip Flashcards</td>
-                    <td>
-                        <input type="checkbox" id="chkSkipFlashcards" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Is Published</td>
-                    <td>
-                        <input type="checkbox" id="chkIsPublished" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button id="btnSubmitFlashcard" onclick="SubmitChanges(this);return false;">Save Changes</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div id="dvFlashcardJson"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <h2>Flashcard Introduction</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Introduction Title
-                    </td>
-                    <td>
-                        <textarea rows="2" cols="50" id="txtIntroTitle"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Bullet Points</td>
-                    <td>
-                        <input type="text" id="txtDescription" />
-                    </td>
-                    <td>
-                        <button id="btnAddIntroItem" onclick="AddIntroItem(this);return false;">Add Bullet</button>
-                        <button id="btnCancelIntro" onclick="CancelIntro(this);return false;" style="display: none;">Cancel</button>
-                    </td>
-                </tr>
-            </table>
-            <br />
-            <table id="tblFlashcardIntro" border="1">
-                <thead>
-                    <tr>
-                        <th>Sr No</th>
-                        <th>Bullet Point</th>
-                        <th colspan="2">Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div id="dvFlashcardIntroJson"></div>
-
-        <br />
-        <br />
-
-        <table>
-            <tr>
-                <td colspan="2">
-                    <h2>Flashcard Slides</h2>
-                </td>
-            </tr>
-            <tr>
-                <td>Title</td>
-                <td>
-                    <input type="text" id="txtSlideTitle" />
-                </td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td>
-                    <textarea rows="4" cols="50" id="txtSlideDescription"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="btnAddSlide" onclick="AddSlide(this);return false;">Add</button>
-                    <button id="btnCancelSlide" style="margin-left: 10px;" onclick="CancelSlides(this);return false;">Cancel</button>
-                </td>
-            </tr>
-        </table>
-        <br />
-        <table id="tblFlashcardSlides" border="1">
-            <thead>
-                <tr>
-                    <th>Sr No</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th colspan="2">Action</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <br />
-        <br />
-        <div id="dvFlashcardSlidesJson"></div>--%>
     </div>
 
     <script>
 
         var flashcardIntro = [];
         var flashcardSlides = [];
+        var flashcards = [];
 
         $(document).ready(function () {
+            BindFlashcards();
             BindFlashcardIntro();
             BindFlashcardSlides();
         });
+
+        function AddFlashcard(cntrl) {
+
+            if ($("#txtFlashcardTitle").val().trim() != "" && $("#txtFlashcardDescription").val().trim() != "" && $("#txtFlashcardOverview").val().trim() != "" && $("#txtIntroTitle").val().trim() != "") {
+                var index = flashcards.length + 1;
+                var newFlashcard = {
+                    "ContentID": (index * 10)
+                    , "SrNo": index
+                    , "Title": $("#txtFlashcardTitle").val()
+                    , "Description": $("#txtFlashcardDescription").val()
+                    , "Overview": $("#txtFlashcardOverview").val()
+                    , "IntroTitle": $("#txtIntroTitle").val()
+                    , "IsGift": $("#chkIsGift").prop("checked")
+                    , "IsSkipFlashcards": $("#chkSkipFlashcards").prop("checked")
+                    , "IsPublished": $("#chkIsPublished").prop("checked")
+                    , "FlashcardIntro": flashcardIntro
+                    , "FlashcardSlides": flashcardSlides
+                };
+
+                if ($(cntrl).attr("index") == null) {
+                    // Add Flashcard
+                    // Ajax Call
+                    flashcards.push(newFlashcard);
+                }
+                else {
+                    // Update Flashcard Intro Item
+                    var index = parseInt($(cntrl).attr("index"));
+                    var flashCard = $.grep(flashcards, function (n, i) {
+                        return n.ContentID == index;
+                    })[0];
+                    flashCard.Title = newFlashcard.Title;
+                    flashCard.Description = newFlashcard.Description;
+                    flashCard.Overview = newFlashcard.Overview;
+                    flashCard.IntroTitle = newFlashcard.IntroTitle;
+                    flashCard.IsGift = newFlashcard.IsGift;
+                    flashCard.IsSkipFlashcards = newFlashcard.IsSkipFlashcards;
+                    flashCard.IsPublished = newFlashcard.IsPublished;
+                    flashCard.FlashcardIntro = newFlashcard.FlashcardIntro;
+                    flashCard.FlashcardSlides = newFlashcard.FlashcardSlides;
+                }
+                CancelFlashcard(cntrl);
+                BindFlashcards(cntrl);
+            }
+            else {
+                alert("Please enter all required fields.");
+            }
+        }
+
+        function CancelFlashcard(cntrl) {
+            $("#btnCancelFlashcard").hide();
+            $("#btnAddFlashcard").show();
+            $("#btnAddFlashcard").text("Add Flashcard");
+            $("#btnAddFlashcard").removeAttr("index");
+            ClearAllFields_Flashcard(this);
+        }
+
+        function ClearAllFields_Flashcard(cntrl) {
+            $("#txtFlashcardTitle").val("");
+            $("#txtFlashcardDescription").val("");
+            $("#txtIntroTitle").val("");
+            $("#txtFlashcardOverview").val("");
+            $("#chkIsGift").prop("checked", false);
+            $("#chkSkipFlashcards").prop("checked", false);
+            $("#chkIsPublished").prop("checked", false);
+        }
+
+        function EditFlashcard(row) {
+            var index = $(row).attr("index");
+
+            var flashcard = $.grep(flashcards, function (n, i) {
+                return n.ContentID == parseInt(index);
+            })[0];
+            $("#txtFlashcardTitle").val(flashcard.Title);
+            $("#txtFlashcardDescription").val(flashcard.Description);
+            $("#txtFlashcardOverview").val(flashcard.Overview);
+            $("#txtIntroTitle").val(flashcard.IntroTitle);
+            $("#txtIntroTitle").val(flashcard.Overview);
+            $("#chkIsGift").prop("checked", flashcard.IsGift);
+            $("#chkSkipFlashcards").prop("checked", flashcard.IsSkipFlashcards);
+            $("#chkIsPublished").prop("checked", flashcard.IsPublished);
+
+            $("#btnAddFlashcard").text("Save Flashcard");
+            $("#btnAddFlashcard").attr("index", index);
+            $("#btnCancelFlashcard").show();
+        }
+
+        function DeleteFlashcard(row) {
+            var index = row.attr("index");
+            flashcards = $.grep(flashcards, function (n, i) {
+                return n.ContentID != parseInt(index);
+            });
+
+            BindFlashcards();
+        }
+
+        function BindFlashcards(cntrl) {
+
+            $("#dvFlashcardIntroJson").html(JSON.stringify(flashcards));
+
+            var tableBody = $("#tblFlashcards tbody");
+            tableBody.html("");
+
+            if (flashcards.length == 0) {
+                tableBody.append("<td colspan='10'><center>No Flashcards</center></td>");
+            }
+
+            $.grep(flashcards, function (n, i) {
+                var isGiftValue = "disabled " + ((n.IsGift == true) ? "Checked" : "");
+                var isPublishedValue = "disabled " + ((n.IsPublished == true) ? "Checked" : "");
+                var isSkipFlashcards = "disabled " + ((n.IsSkipFlashcards == true) ? "Checked" : "");
+                var markup = "<tr>";
+                markup += "<td>" + n.SrNo + "</td>";
+                markup += "<td>" + n.Title + "</td>";
+                markup += "<td>" + n.Description + "</td>";
+                markup += "<td>" + n.Overview + "</td>";
+                markup += "<td>" + n.IntroTitle + "</td>";
+                markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isGiftValue + " /></td>";
+                markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isSkipFlashcards + " /></td>";
+                markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isPublishedValue + " /></td>";
+                markup += '<td><i title="Edit" index=' + n.ContentID + ' onclick="EditFlashcard($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.ContentID + ' onclick="DeleteFlashcard($(this));" class="fas fa-trash text-danger"></i></td>';
+
+                markup += "</tr>";
+                tableBody.append(markup);
+            });
+        }
 
         //--------------Start of Flashcard Intro-------------//
 
@@ -389,7 +369,6 @@
         }
 
         function ClearAllFields_Intro(cntrl) {
-            $("#txtIntroTitle").val("");
             $("#txtDescription").val("");
         }
 
@@ -475,7 +454,7 @@
 
             $("#txtSlideTitle").val(slideItem.Title);
             $("#txtSlideDescription").val(slideItem.Description);
-            $("#btnAddSlide").text("Save");
+            $("#btnAddSlide").text("Save Slide");
             $("#btnAddSlide").attr("index", index);
             $("#btnCancelSlide").show();
         }
@@ -533,7 +512,7 @@
         function CancelSlides(cntrl) {
             $("#btnCancelSlide").hide();
             $("#btnAddSlide").show();
-            $("#btnAddSlide").text("Add Bullet");
+            $("#btnAddSlide").text("Add Slide");
             $("#btnAddSlide").removeAttr("index");
             ClearAllFields_Slides(this);
         }
@@ -556,28 +535,7 @@
 
         //--------------End of Flashcard Slides-------------//
 
-        function SubmitChanges() {
-            var flashcard = {
-                "ContentID": 1001
-                , "Title": $("#txtFlashcardTitle").val()
-                , "Description": $("#txtFlashcardDescription").val()
-                , "Overview": $("#txtFlashcardOverview").val()
-                , "IsGift": $("#chkIsGift").prop("checked")
-                , "IsSkipFlashcards": $("#chkSkipFlashcards").prop("checked")
-                , "IsPublished": $("#chkIsPublished").prop("checked")
-                , "FlashcardIntro": flashcardIntro
-                , "FlashcardSlides": flashcardSlides
-            };
 
-            $("#dvFlashcardJson").html(JSON.stringify(flashcard));
-
-            if ($("#txtFlashcardTitle").val().trim() != "" && $("#txtFlashcardDescription").val().trim() != "" && $("#txtFlashcardOverview").val().trim() != "") {
-                // Make Ajax Call
-            }
-            else {
-                alert("Please enter all required fields.");
-            }
-        }
 
     </script>
 </asp:Content>
