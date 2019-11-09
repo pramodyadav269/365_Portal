@@ -51,7 +51,8 @@
             <a href="<%=Page.ResolveUrl("~/Admin/Users.aspx") %>">Users</a>
             <a href="<%=Page.ResolveUrl("~/Admin/Topics.aspx") %>">Topics</a>
             <a href="<%=Page.ResolveUrl("~/Admin/Modules.aspx") %>">Modules</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/Contents.aspx") %>">Contents</a>
+            <%--<a href="<%=Page.ResolveUrl("~/Admin/Contents.aspx") %>">Contents</a>--%>
+            <a href="<%=Page.ResolveUrl("~/Admin/ContentList.aspx") %>">Contents</a>
             <a href="<%=Page.ResolveUrl("~/Admin/Surveys.aspx") %>">Surveys</a>
             <a href="<%=Page.ResolveUrl("~/Admin/flashcards.aspx") %>">Flashcards</a>
             <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx") %>">Quiz</a>

@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Contents" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="Contents.aspx.cs" Inherits="_365_Portal.Admin.Contents" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -21,91 +22,66 @@
         <div class="col-md-12 d-none" id="divForm">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-
                     <div class="row input-validation">
-
-                         <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="ddlTopic">Topic</label>
-                                <select class="form-control select2 required" id="ddlTopic" style="width: 100% !important">
-                                    <option></option>
-                                    <option value="1">Topic 1</option>
-                                    <option value="2">Topic 2</option>
-                                    <option value="3">Topic 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="ddlModule">Module</label>
-                                <select class="form-control select2 required" id="ddlModule" style="width: 100% !important">
-                                    <option></option>
-                                    <option value="1">Module 1</option>
-                                    <option value="2">Module 2</option>
-                                    <option value="3">Module 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="ddlDocType">Doc Type</label>
                                 <select class="form-control select2 required" id="ddlDocType" style="width: 100% !important">
                                     <option></option>
-                                    <option value="1">PDF</option>
-                                    <option value="2">Word</option>
-                                    <option value="3">Video</option>
+                                    <option value="PDF">PDF</option>
+                                    <option value="Video">Video</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group checkbox required">
-                                <label>Is Gift</label>
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbIsGift" name="cgIsGift" class="custom-control-input" value="1">
-                                    <label class="custom-control-label" for="cbIsGift">Yes</label>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtFilePath">File Path</label>
-                                <input type="text" class="form-control required" id="txtFilePath" placeholder="File Path" />
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="txtTitle">Title</label>
                                 <input type="text" class="form-control required" id="txtTitle" placeholder="Title" />
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtOverview">Overview</label>
-                                <textarea class="form-control required" placeholder="Overview" id="txtOverview"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtDescription">Description</label>
-                                <textarea class="form-control required" placeholder="Description" id="txtDescription"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group checkbox required">
-                                <label>Is Published</label>
+                                <label>Is Gift</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input" value="1">
-                                    <label class="custom-control-label" for="cbIsPublished">Yes</label>
+                                    <input type="checkbox" id="chkIsGift" name="chkIsGift" class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="chkIsGift">Yes</label>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col-md-2">
+                            <div class="form-group checkbox required">
+                                <label>Is Published</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="chkIsPublished" name="chkIsPublished" class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="chkIsPublished">Yes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtDescription">Description</label>
+                                <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtDescription"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtOverview">Overview</label>
+                                <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtOverview"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFilePath">File Path/URL</label>
+                                <input type="text" class="form-control required" id="txtFilePath" placeholder="https://example.com" />
+                            </div>
+                        </div>
                         <div class="w-100"></div>
 
                         <div class="col-md-12 mt-4">
-                            <a class="btn bg-yellow float-left" onclick="toggle('divGird', 'divForm')">Back</a>
-                            <a class="btn bg-yellow float-right" onclick="Submit();">Submit</a>
+                            <a class="btn bg-yellow float-left" id="btnCancel" onclick="toggle('divGird', 'divForm')">Back</a>
+                            <a class="btn bg-yellow float-right" id="btnSaveChanges" onclick="SaveChanges(this);return false;">Add Content</a>
                         </div>
+
                     </div>
                 </div>
             </div>

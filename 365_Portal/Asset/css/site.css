@@ -1,7 +1,16 @@
 ﻿
+/* heebo-regular - latin */
+@font-face {
+    font-family: 'Heebo';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Heebo'), local('Heebo-Regular'), url('../fonts/heebo-v5-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/heebo-v5-latin-regular.woff2') format('woff2');
+}
 
 body {
     background-color: rgba(0, 0, 0, 0.05);
+    font-family: Heebo;
 }
 
 a {
@@ -169,6 +178,12 @@ a.link, a.link:hover {
     .header a.btn {
         top: -2.2rem !important;
     }
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 
@@ -512,7 +527,7 @@ a.link, a.link:hover {
     cursor: pointer;
 }
 
-    .user-details .achievements dt img, .user-details .gifts dt img {
+    .user-details .achievements dt img, .user-details .gifts dt img, .video-rating dt img {
         height: 82px;
         margin-top: 2rem;
     }
@@ -688,24 +703,47 @@ p.anchor {
     margin-top: 2rem;
 }
 
+/*.video-rating dt:hover ~ span.icon {
+    background: #fff;
+}
+
+    .video-rating dt:hover ~ span.icon .svg-inline--fa {
+        color: #000;
+    }*/
+
 .video-rating {
     background: rgba(0, 0, 0, .50);
     z-index: 1;
     width: 96%;
+    height: 98%;
     left: 1rem;
     position: absolute;
-    padding: 5.8rem 1rem;
 }
+
+    .video-rating .video-rating-content {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
 
 .video-control {
     background: rgba(0, 0, 0, .50);
     z-index: 1;
     width: 96%;
+    height: 98%;
     left: 1rem;
     position: absolute;
-    padding: 10.6rem 1rem;
     cursor: pointer;
 }
+
+    .video-control .svg-inline--fa {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
 
 .contents-datials .overview p {
     font-size: 1.05rem;

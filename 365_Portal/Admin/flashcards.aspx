@@ -9,6 +9,201 @@
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h1 class="text-center font-weight-bold">Flashcards</h1>
         </div>
+
+
+        <div class="col-md-12">
+            <div class="card shadow border-0 border-radius-0">
+                <div class="card-body">
+                    <div class="row input-validation">
+                        <div class="form-header col-md-12">
+                            <h3>Flashcard</h3>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="txtFlashcardTitle">Flashcard Title</label>
+                                <input type="text" class="form-control required" id="txtFlashcardTitle" placeholder="Title" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group checkbox required">
+                                <label>Is Gift</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="chkIsGift" name="chkIsGift" class="custom-control-input">
+                                    <label class="custom-control-label" for="chkIsGift">Yes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group checkbox required">
+                                <label>Is Published</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="chkIsPublished" name="chkIsPublished" class="custom-control-input">
+                                    <label class="custom-control-label" for="chkIsPublished">Yes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group checkbox required">
+                                <label>Skip Flashcards</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="chkSkipFlashcards" name="chkSkipFlashcards" class="custom-control-input">
+                                    <label class="custom-control-label" for="chkSkipFlashcards">Yes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFlashcardDescription">Description</label>
+                                <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtFlashcardDescription"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFlashcardOverview">Overview</label>
+                                <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtFlashcardOverview"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="w-100"></div>
+
+                        <div class="col-md-12 mt-4">
+                            <div class="float-right">
+                                <a class="btn bg-yellow" id="btnSubmitFlashcard" onclick="SubmitChanges(this);return false;">Save Changes</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div id="dvFlashcardJson"></div>
+                            <%--<div class="mt-3 table-responsive">
+                                <table id="tblContent" class="table table-bordered" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No</th>
+                                            <th>Doc Type</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Overview</th>
+                                            <th>File Path</th>
+                                            <th>Is Gift</th>
+                                            <th>Is Published</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>--%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 mt-4">
+            <div class="card shadow border-0 border-radius-0">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row input-validation">
+                                <div class="form-header col-md-12">
+                                    <h3>Flashcard Introduction</h3>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtIntroTitle">Introduction Title</label>
+                                        <textarea class="form-control required" rows="4" cols="50" placeholder="Introduction Title" id="txtIntroTitle"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtDescription">Bullet Points</label>
+                                        <input type="text" class="form-control required" id="txtDescription" placeholder="Bullet Points" />
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-12 mt-4">
+                                    <div class="float-right">
+                                        <a class="btn bg-yellow" id="btnAddIntroItem" onclick="AddIntroItem(this);return false;">Add Bullet</a>
+                                        <a class="btn bg-yellow" id="btnCancelIntro" onclick="CancelIntro(this);return false;" style="display: none;">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <div id="dvFlashcardIntroJson"></div>
+                                    <div class="mt-3 table-responsive">
+                                        <table id="tblFlashcardIntro" class="table table-bordered" style="width: 100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr No</th>
+                                                    <th>Bullet Point</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row input-validation">
+                                <div class="form-header col-md-12">
+                                    <h3>Flashcard Slides</h3>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtSlideTitle">Title</label>
+                                        <input type="text" class="form-control required" id="txtSlideTitle" placeholder="Title" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="txtSlideDescription">Description</label>
+                                        <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtSlideDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+
+                                <div class="col-md-12 mt-4">
+                                    <div class="float-right">
+                                        <a class="btn bg-yellow" id="btnAddSlide" onclick="AddSlide(this);return false;">Add</a>
+                                        <a class="btn bg-yellow" id="btnCancelSlide" onclick="CancelSlides(this);return false;">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <div id="dvFlashcardSlidesJson"></div>
+                                    <div class="mt-3 table-responsive">
+                                        <table id="tblFlashcardSlides" class="table table-bordered" style="width: 100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr No</th>
+                                                    <th>Title</th>
+                                                    <th>Description</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%--        
         <div>
             <table>
                 <tr>
@@ -143,7 +338,7 @@
         </table>
         <br />
         <br />
-        <div id="dvFlashcardSlidesJson"></div>
+        <div id="dvFlashcardSlidesJson"></div>--%>
     </div>
 
     <script>
@@ -194,6 +389,7 @@
         }
 
         function ClearAllFields_Intro(cntrl) {
+            $("#txtIntroTitle").val("");
             $("#txtDescription").val("");
         }
 
@@ -234,8 +430,11 @@
                 var markup = "<tr>";
                 markup += "<td>" + n.SrNo + "</td>";
                 markup += "<td>" + n.Description + "</td>";
-                markup += "<td index=" + n.ID + " onclick ='EditIntroRow($(this))'>Edit</td>";
-                markup += "<td index=" + n.ID + " onclick ='DeleteIntroRow($(this))'>Delete</td></tr>";
+                //markup += "<td index=" + n.ID + " onclick ='EditIntroRow($(this))'>Edit</td>";
+                //markup += "<td index=" + n.ID + " onclick ='DeleteIntroRow($(this))'>Delete</td></tr>";
+                markup += '<td><i title="Edit" index=' + n.ID + ' onclick="EditIntroRow($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.ID + ' onclick="DeleteIntroRow($(this));" class="fas fa-trash text-danger"></i></td>';
+
+
                 markup += "</tr>";
                 tableBody.append(markup);
             });
@@ -258,8 +457,10 @@
                 markup += "<td>" + n.SrNo + "</td>";
                 markup += "<td>" + n.Title + "</td>";
                 markup += "<td>" + n.Description + "</td>";
-                markup += "<td index=" + n.ID + " onclick ='EditSlideRow($(this))'>Edit</td>";
-                markup += "<td index=" + n.ID + " onclick ='DeleteSlideRow($(this))'>Delete</td></tr>";
+                //markup += "<td index=" + n.ID + " onclick ='EditSlideRow($(this))'>Edit</td>";
+                //markup += "<td index=" + n.ID + " onclick ='DeleteSlideRow($(this))'>Delete</td></tr>";
+                markup += '<td><i title="Edit" index=' + n.ID + ' onclick="EditSlideRow($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.ID + ' onclick="DeleteSlideRow($(this));" class="fas fa-trash text-danger"></i></td>';
+
                 markup += "</tr>";
                 tableBody.append(markup);
             });

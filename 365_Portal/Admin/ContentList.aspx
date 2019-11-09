@@ -9,7 +9,7 @@
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h1 class="text-center font-weight-bold">Contents</h1>
         </div>
-        <table>
+        <%--<table>
             <tr>
                 <td>
                     <h2>Content</h2>
@@ -67,10 +67,108 @@
                     <button id="btnCancel" onclick="Cancel(this);return false;" style="margin-left: 20px; display: none;">Cancel</button>
                 </td>
             </tr>
-        </table>
+        </table>--%>
+
+        <div class="col-md-12">
+            <div class="card shadow border-0 border-radius-0">
+                <div class="card-body">
+                    <div class="row input-validation">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ddlDocType">Doc Type</label>
+                                <select class="form-control select2 required" id="ddlDocType" style="width: 100% !important">
+                                    <option></option>
+                                    <option value="PDF">PDF</option>
+                                    <option value="Video">Video</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="txtTitle">Title</label>
+                                <input type="text" class="form-control required" id="txtTitle" placeholder="Title" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group checkbox required">
+                                <label>Is Gift</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="chkIsGift" name="chkIsGift" class="custom-control-input">
+                                    <label class="custom-control-label" for="chkIsGift">Yes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group checkbox required">
+                                <label>Is Published</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="chkIsPublished" name="chkIsPublished" class="custom-control-input">
+                                    <label class="custom-control-label" for="chkIsPublished">Yes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtDescription">Description</label>
+                                <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtDescription"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtOverview">Overview</label>
+                                <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtOverview"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtFilePath">File Path/URL</label>
+                                <input type="text" class="form-control required" id="txtFilePath" placeholder="https://example.com" />
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+
+                        <div class="col-md-12 mt-4">
+                            <%--<a class="btn bg-yellow float-left" id="btnCancel" onclick="toggle('divGird', 'divForm')">Back</a>--%>
+
+
+                            <div class="float-right">
+                                <a class="btn bg-yellow " id="btnSaveChanges" onclick="SaveChanges(this);return false;">Add Content</a>
+                                <a class="btn bg-yellow" id="btnCancel" onclick="Cancel(this);return false;" style="display: none;">Cancel</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div id="dvJson"></div>
+                            <div id="divTable" class="mt-3 table-responsive">
+                                <table id="tblContent" class="table table-bordered" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No</th>
+                                            <th>Doc Type</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Overview</th>
+                                            <th>File Path</th>
+                                            <th>Is Gift</th>
+                                            <th>Is Published</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tBodyContent"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="dvJson"></div>
-    <table id="tblContent" border="1">
+
+    <%--<table id="tblContent" border="1">
         <thead>
             <th>Sr No</th>
             <th>Doc Type</th>
@@ -83,7 +181,7 @@
             <th colspan="2">Action</th>
         </thead>
         <tbody id="tBodyContent"></tbody>
-    </table>
+    </table>--%>
     <script>
 
         contentList = [];
@@ -157,13 +255,15 @@
         }
 
         function ClearAllFields(cntrl) {
-            $("#ddlDocType").val("PDF");
+            $("#ddlDocType").val("");
             $("#txtTitle").val("");
             $("#txtDescription").val("");
             $("#txtOverview").val("");
-            // $("#txtFilePath").val("");
+            $("#txtFilePath").val("");
             $("#chkIsGift").prop("checked", false);
             $("#chkIsPublished").prop("checked", false);
+
+            $("#ddlDocType").trigger('change');
         }
 
         function GetContentList(cntrl) {
@@ -188,8 +288,9 @@
                     markup += "<td>" + content.FilePath + "</td>";
                     markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
                     markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
-                    markup += "<td index=" + content.ContentID + " onclick ='EditContent($(this))'>Edit</td>";
-                    markup += "<td index=" + content.ContentID + " onclick ='DeleteContent($(this))'>Delete</td>";
+                    markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
+                    //markup += "<td index=" + content.ContentID + " onclick ='EditContent($(this))'>Edit</td>";
+                    //markup += "<td index=" + content.ContentID + " onclick ='DeleteContent($(this))'>Delete</td>";
                     markup += "</tr>";
                     tableBody.append(markup);
                 }
@@ -217,6 +318,7 @@
             $("#btnSaveChanges").text("Save Content");
             $("#btnSaveChanges").attr("index", index);
             $("#btnCancel").show();
+            $("#ddlDocType").trigger('change');
         }
 
         function DeleteContent(row) {

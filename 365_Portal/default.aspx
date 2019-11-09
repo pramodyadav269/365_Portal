@@ -148,11 +148,11 @@
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img ng-if="content.ContentType=='PDF'" src="Asset/images/pdf-file.png" />
-                                            <img ng-if="content.ContentType=='VIDEO'" src="Asset/images/video-file.png" />
-                                            <img ng-if="content.ContentType=='SURVEY'" src="Asset/images/survey.png" />
-                                            <img ng-if="content.ContentType=='FLASHCARD'" src="Asset/images/flash-card.png" />
-                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="Asset/images/exam.png" />
+                                            <img ng-if="content.ContentType=='PDF'" src="Asset/images/pdf-icon.svg" />
+                                            <img ng-if="content.ContentType=='VIDEO'" src="Asset/images/video-icon.svg" />
+                                            <img ng-if="content.ContentType=='SURVEY'" src="Asset/images/survey-icon.svg" />
+                                            <img ng-if="content.ContentType=='FLASHCARD'" src="Asset/images/flashcard-icon.svg" />
+                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="Asset/images/quiz-icon.svg" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
@@ -173,11 +173,11 @@
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img ng-if="content.ContentType == 'PDF'" src="Asset/images/pdf-file.png" />
-                                            <img ng-if="content.ContentType == 'VIDEO'" src="Asset/images/video-file.png" />
-                                            <img ng-if="content.ContentType == 'SURVEY'" src="Asset/images/survey.png" />
-                                            <img ng-if="content.ContentType == 'FLASHCARD'" src="Asset/images/flash-card.png" />
-                                            <img ng-if="content.ContentType == 'FINALQUIZ'" src="Asset/images/exam.png" />
+                                            <img ng-if="content.ContentType=='PDF'" src="Asset/images/pdf-icon.svg" />
+                                            <img ng-if="content.ContentType=='VIDEO'" src="Asset/images/video-icon.svg" />
+                                            <img ng-if="content.ContentType=='SURVEY'" src="Asset/images/survey-icon.svg" />
+                                            <img ng-if="content.ContentType=='FLASHCARD'" src="Asset/images/flashcard-icon.svg" />
+                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="Asset/images/quiz-icon.svg" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
@@ -214,36 +214,41 @@
 
                     <div class="col-md-10 offset-md-1 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
                         <div class="row">
-                            <div id="dvVideoRating" style="display: none;" class="col-md-12 video-rating text-white d-none">
-                                <h2 class="font-weight-bold">How did you like the video?</h2>
-                                <dl class="row text-center">
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,1)">
-                                        <i class="far fa-grin-hearts fa-5x"></i>
-                                        <span>Love it!</span>
-                                    </dt>
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,2)">
-                                        <i class="far fa-grin-beam fa-5x"></i>
-                                        <span>Like it!</span>
-                                    </dt>
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,3)">
-                                        <i class="far fa-meh fa-5x"></i>
-                                        <span>Meh</span>
-                                    </dt>
-                                    <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,4)">
-                                        <i class="far fa-frown fa-5x"></i>
-                                        <span>Didn't like it!</span>
-                                    </dt>
-                                </dl>
-                            </div>
-                            <div class="col-md-12 video-control text-white" id="videoControl" onclick="VideoPlayPause(1)">
-                                <i class="fas fa-play fa-5x"></i>
-                            </div>
                             <div class="col-md-12">
+                                <div class="video-control text-white" id="videoControl" onclick="VideoPlayPause(1)">
+                                    <i class="fas fa-play fa-5x"></i>
+                                </div>
+                                <div id="dvVideoRating" style="display: none;" class="video-rating text-white">
+                                    <div class="video-rating-content">
+                                    <h2 class="font-weight-bold">How did you like the video?</h2>
+                                    <dl class="row text-center">
+                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,1)">
+                                            <i class="far fa-grin-hearts fa-5x"></i>
+                                            <%--<img src="Asset/images/love-icon.svg" />--%>
+                                            <span>Love it!</span>
+                                        </dt>
+                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,2)">
+                                            <i class="far fa-grin-beam fa-5x"></i>
+                                            <%--<img src="Asset/images/like-icon.svg" />--%>
+                                            <span>Like it!</span>
+                                        </dt>
+                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,3)">
+                                            <i class="far fa-meh fa-5x"></i>
+                                            <%--<img src="Asset/images/meh-icon.svg" />--%>
+                                            <span>Meh</span>
+                                        </dt>
+                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,4)">
+                                            <i class="far fa-frown fa-5x"></i>
+                                            <%--<img src="Asset/images/didnt-like-icon.svg" />--%>
+                                            <span>Didn't like it!</span>
+                                        </dt>
+                                    </dl>
+                                        </div>
+                                </div>
+                                <div id="divVideo"></div>
                                 <%-- <video controls id="contentVideo" onended="videoRating()">
                                     <source src="Asset/data/bunny.mp4" type="video/mp4">
                                 </video>--%>
-                                <div id="divVideo">
-                                </div>
                             </div>
                             <div class="col-md-12 mt-4 overview text-left">
                                 <h5 class="font-weight-bold text-uppercase">{{SelectedContent.Title}}</h5>
@@ -506,7 +511,7 @@ IsPassed:{{SpecialContents.IsPassed}}
                                                 <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
                                             <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
-                                           <%-- Selected:{{question.Value_Text}}--%>
+                                            <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List with box--%>
