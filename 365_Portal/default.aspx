@@ -6,7 +6,7 @@
         .contents-datials .embed {
             width: 100%;
             height: 35rem;
-        }
+        } 
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">

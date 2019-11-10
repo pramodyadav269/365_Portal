@@ -8,7 +8,7 @@
     /*url('../fonts/heebo-v5-latin-700.woff2') format('woff2'),*/ /* Super Modern Browsers */
     url('../fonts/heebo-v5-latin-regular.woff2') format('woff2');
 }
-
+ 
 body {
     background-color: rgba(0, 0, 0, 0.05);
     font-family: Heebo;
