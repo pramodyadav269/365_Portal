@@ -1039,6 +1039,35 @@ namespace _365_Portal.Controllers
                 {
 
 
+
+                    var ds = UserBL.ViewGroup(identity.CompId);
+                    if (ds.Tables.Count > 0)
+                    {
+                        DataTable dt = ds.Tables["Data"];
+
+                        data = Utility.ConvertDataSetToJSONString(dt);
+                        data = Utility.Successful(data);
+
+
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
             return new APIResult(Request, data);
 
         }
@@ -1073,5 +1102,48 @@ namespace _365_Portal.Controllers
                         }
                         var ds = UserBL.DeleteGroup(CompID, GroupId, CreatedBy);
 
+                        if (ds.Tables.Count > 0)
+                        {
+                            DataTable dt = ds.Tables["Data"];
+                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            {
+                                data = Utility.ConvertDataSetToJSONString(dt);
+                                data = Utility.Successful(data);
+                            }
+                            else
+                            {
+
+                                data = data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+
+                        }
+                        else
+                        {
+                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.InValidValues;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+            return new APIResult(Request, data);
+        }
+        #endregion
     }
 }
