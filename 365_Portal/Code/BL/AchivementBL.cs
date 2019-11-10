@@ -1,4 +1,5 @@
 ﻿using _365_Portal.Code.DAL;
+using _365_Portal.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,12 +16,27 @@ namespace _365_Portal.Code.BL
             Logger.Log(ex, "AchivementBL", methodName);
         }
 
-        public static DataSet CreateAchievement(int CompID, int AchievementID,  string AchivementTitle, string AchivementDescription, string LongDescription, string CreatedBy)
+        public static DataSet CreateAchievement(int CompID, int AchievementID,  string AchievementTitle, string AchivementDescription, string LongDescription, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = AchivementDAL.CreateAchievement(CompID, AchievementID, AchivementTitle, AchivementDescription, LongDescription, CreatedBy);
+                ds = AchivementDAL.CreateAchievement((int)ConstantMessages.Action.INSERT,CompID, AchievementID, AchievementTitle, AchivementDescription, LongDescription, CreatedBy);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+
+        public static DataSet ModifyAchievement(int CompID, int AchievementID, string AchievementTitle, string AchivementDescription, string LongDescription, string CreatedBy)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = AchivementDAL.CreateAchievement((int)ConstantMessages.Action.EDIT,CompID, AchievementID, AchievementTitle, AchivementDescription, LongDescription, CreatedBy);
             }
             catch (Exception ex)
             {

@@ -441,7 +441,7 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-        public static DataSet CreateGroup(Int32 CompId, string GroupName, string Description, string CreatedBy)
+        public static DataSet CreateGroup(int Action,int CompId,int GroupId, string GroupName, string Description, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -449,12 +449,14 @@ namespace _365_Portal.Code.DAL
             try
             {
                 conn.Open();
-                string stm = "spCreateGroup";
+                string stm = "spCreateGroups";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", CompId);
-                cmd.Parameters.AddWithValue("p_GroupName", GroupName);
-                cmd.Parameters.AddWithValue("p_Description", Description);
+                cmd.Parameters.AddWithValue("p_Action", Action);
+                cmd.Parameters.AddWithValue("p_CompID", CompId);
+                cmd.Parameters.AddWithValue("p_GroupID", GroupId);
+                cmd.Parameters.AddWithValue("p_GroupName", GroupName.Trim().ToString());
+                //cmd.Parameters.AddWithValue("p_Description", Description);
                 cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -471,7 +473,7 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-        public static DataSet DeleteGroup(Int32 CompId, Int32 GroupId, string CreatedBy)
+        public static DataSet DeleteGroup(int CompId, int GroupId, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -479,12 +481,39 @@ namespace _365_Portal.Code.DAL
             try
             {
                 conn.Open();
-                string stm = "spDeleteGroup";
+                string stm = "spDeleteGroups";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_CompId", CompId);
-                cmd.Parameters.AddWithValue("p_GroupId", GroupId);
+                cmd.Parameters.AddWithValue("p_CompID", CompId);
+                cmd.Parameters.AddWithValue("p_GroupID", GroupId);
                 cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+        public static DataSet ViewGroup(int CompId)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spViewGroups";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_CompID", CompId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

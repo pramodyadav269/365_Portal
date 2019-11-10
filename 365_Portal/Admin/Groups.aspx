@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Topics" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="Topics.aspx.cs" Inherits="_365_Portal.Admin.Topics" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="Groups.aspx.cs" Inherits="_365_Portal.Admin.Groups" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Topics</h1>
+            <h1 class="text-center font-weight-bold">Groups</h1>
         </div>
 
         <div class="col-md-12" id="divGird">
@@ -32,22 +32,12 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <%--  <div class="col-md-3">
                             <div class="form-group">
                                 <label for="txtDescription">Description</label>
                                 <textarea class="form-control required" placeholder="Description" id="txtDescription"></textarea>
                             </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group checkbox required">
-                                <label>Is Published</label>
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input">
-                                    <label class="custom-control-label" for="cbIsPublished">Yes</label>
-                                </div>
-                            </div>
-                        </div>
+                        </div>--%>
 
                         <div class="w-100"></div>
 
@@ -63,8 +53,6 @@
     <script>
 
         $(document).ready(function () {
-            //var s; $('#tblGird').find('tr').each(function i(i, index) { if (this.id != "") { s = s + this.id + ','; } console.log(this.id); }); console.log(s.length);
-
 
             View();
         });
@@ -84,27 +72,20 @@
             var requestParams;
             ShowLoader();
             if (inputValidation('.input-validation')) {
-                var _Topic_Id;
-                var _SrNo = "1";
-                var _Title = $('#txtTitle').val();
-                var _Description = $('#txtDescription').val();
-                var _IsPublished = $('#cbIsPublished').prop('checked');
+                var _Group_Id;
+                //var _SrNo = "1";
+                var _Title = $('#txtTitle').val(); //Group Name 
+                var _Description = $('#txtDescription').val(); //Group Description
+
                 if ($('#submit')[0].name == INSERT) {
-                    getUrl = "/API/Content/CreateTopic";
-
+                    getUrl = "/API/User/CreateGroups";
                 } else {
-                    _Topic_Id = id;
-                    getUrl = "/API/Content/ModifyTopic";
-
+                    _Group_Id = id;
+                    getUrl = "/API/User/ModifyGroups";
                 }
-
-                requestParams = { TopicID: _Topic_Id, TopicTitle: _Title, TopicDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, MinUnlockedModules: "", UserID: "", IsActive: "" };
+                requestParams = { GroupID: _Group_Id, GroupName: _Title, GroupDescription: _Description };
 
                 try {
-
-
-
-
                     $.ajax({
                         type: "POST",
                         url: getUrl,
@@ -115,7 +96,6 @@
                             try {
                                 if (response != null) {
                                     var DataSet = $.parseJSON(response);
-                                    console.log(response);
                                     if (DataSet.StatusCode == "1") {
                                         clearFields('.input-validation');
                                         HideLoader();
@@ -166,7 +146,6 @@
                         },
                         failure: function (response) {
                             HideLoader();
-                            //alert(response.data);
                             swal({
                                 title: "Failure",
                                 text: "Please try Again",
@@ -196,39 +175,27 @@
             }
         }
 
-        function Edit(Topicid) {
+        function Edit(GroupID) {
 
-            id = Topicid;
+            id = GroupID;
 
             $('#' + id).find("td:not(:last-child)").each(function (i, data) {
                 if (this.className == 'title') {
                     $('#txtTitle').val(this.innerText); ///This will find title for Topic 
 
                 }
-                if (this.className == 'description') {
-                    $('#txtDescription').val(this.innerText);
-                }
-                if (this.className == 'isPublished') {
-                    if (this.innerText == "Yes") {
-                        $('#cbIsPublished').prop('checked', true);
-                    }
-                    else {
-                        $('#cbIsPublished').prop('checked', false);
-                    }
+                //if (this.className == 'description') {
+                //    $('#txtDescription').val(this.innerText);
+                //}
 
-                }
             });
-            //content.Title);
-            //$('#txtDescription').val(content.Title);
-            //$("#chkIsPublished").prop("checked", content.IsPublished);
             toggle('divForm', 'divGird');
             $('#submit').attr('name', EDIT);
             //Submit button name attribute changed to EDIT(Modify);
         }
 
-        function Delete(Topicid) {
-            id = "";
-            id = Topicid;
+        function Delete(GroupID) {
+            id = GroupID;
             swal({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to revert changes!",
@@ -240,8 +207,8 @@
                 if (willDelete) {
                     ShowLoader();
                     try {
-                        var requestParams = { TopicID: id, IsActive: 0 };
-                        var getUrl = "/API/Content/DeleteTopic";
+                        var requestParams = { GroupID: id, IsActive: 0 };
+                        var getUrl = "/API/User/DeleteGroups";
 
                         $.ajax({
                             type: "POST",
@@ -253,7 +220,6 @@
                                 try {
 
                                     var DataSet = $.parseJSON(response);
-                                    //console.log(response);
                                     if (DataSet.StatusCode == "1") {
                                         HideLoader();
                                         swal({
@@ -314,77 +280,53 @@
             });
         }
         function View() {
-            var url = "/API/Content/GetTopics";
-           
+            var url = "/API/User/GetGroups";
             try {
-              
-                    var requestParams = { TopicID: "", TopicTitle: "", TopicDescription: "", IsPublished: "", SrNo: "", MinUnlockedModules: "", UserID: "", IsActive: "" };
-                    ShowLoader();
-                    $.ajax({
-                        //type: "GET",
-                        //url: "https://reqres.in/api/users?page=1",
-                        type: "POST",
-                        url: url,
-                        headers: { "Authorization": "Bearer " + accessToken },
-                        data: JSON.stringify(requestParams),
-                        contentType: "application/json",
-                        processData: false,
-                        success: function (response) {
-                            if (response != null && response != undefined) {
-                                var DataSet = $.parseJSON(response);
-                                //console.log(response);
-                                if (DataSet.StatusCode == "1") {
-                                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                                    tbl += '<thead><tr>';
-                                    tbl += '<th>#';
-                                    tbl += '<th>Title';
-                                    tbl += '<th>Description';
-                                    tbl += '<th>Is Published';
-                                    tbl += '<th>Total Modules';
-                                    tbl += '<th>ACTION';
 
-                                    tbl += '<tbody>';
+                requestParams = { GroupID: "", GroupName: "", GroupDescription: "" };
+                ShowLoader();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    processData: false,
+                    success: function (response) {
+                        if (response != null && response != undefined) {
+                            var DataSet = $.parseJSON(response);
 
-                                    $.each(DataSet.Data, function (i, data) {
-                                        if (data.IsPublished == "1") {
-                                            data.IsPublished = "Yes";
-                                        }
-                                        else {
-                                            data.IsPublished = "No";
-                                        }
+                            if (DataSet.StatusCode == "1") {
+                                var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                                tbl += '<thead><tr>';
+                                tbl += '<th>#';
+                                tbl += '<th>Title';
+                                //tbl += '<th>Description';
+                                tbl += '<th>ACTION';
+                                tbl += '<tbody>';
 
-                                        tbl += '<tr id="' + data.TopicID + '">';
-                                        tbl += '<td>' + (i + 1);
+                                $.each(DataSet.Data, function (i, data) {
 
-                                        tbl += '<td class="title">' + data.Title;
-                                        tbl += '<td class="description">' + data.Description;
-                                        tbl += '<td class="isPublished">' + data.IsPublished;
-                                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        tbl += '<td><i title="Edit" onclick="Edit(' + data.TopicID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.TopicID + ');" class="fas fa-trash text-danger"></i>';
 
-                                    });
+                                    tbl += '<tr id="' + data.GroupID + '">';
+                                    tbl += '<td>' + (i + 1);
+                                    tbl += '<td class="title">' + data.GroupName;
+                                    //tbl += '<td class="description">' + data.Description;
+                                    tbl += '<td><i title="Edit" onclick="Edit(' + data.GroupID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.GroupID + ');" class="fas fa-trash text-danger"></i>';
 
-                                    $('#divTable').empty().append(tbl)
+                                });
 
-                                    $('#tblGird').tableDnD()
+                                $('#divTable').empty().append(tbl)
 
-                                    //var dTable = $('#tblGird').DataTable();
+                                $('#tblGird').tableDnD()
 
-                                    //dTable.on('order.dt search.dt', function () {
-                                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                                    //        cell.innerHTML = i + 1;
-                                    //    });
-                                    //}).draw();
-                                }
-                                else {
-                                    HideLoader();
-                                    swal({
-                                        title: "Warning",
-                                        text: DataSet.StatusDescription,
-                                        icon: "error",
-                                        button: "Ok",
-                                    });
-                                }
+                                //var dTable = $('#tblGird').DataTable();
+
+                                //dTable.on('order.dt search.dt', function () {
+                                //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                                //        cell.innerHTML = i + 1;
+                                //    });
+                                //}).draw();
                             }
                             else {
                                 HideLoader();
@@ -395,12 +337,21 @@
                                     button: "Ok",
                                 });
                             }
-                        },
-                        complete: function () {
-                            HideLoader();
                         }
-                    });
-                
+                        else {
+                            HideLoader();
+                            swal({
+                                title: "Warning",
+                                text: DataSet.StatusDescription,
+                                icon: "error",
+                                button: "Ok",
+                            });
+                        }
+                    },
+                    complete: function () {
+                        HideLoader();
+                    }
+                });
             }
             catch (e) {
                 swal({

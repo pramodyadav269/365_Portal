@@ -117,10 +117,10 @@ namespace _365_Portal.Controllers
                 {
                     //var httpRequest = HttpContext.Current.Request;
                     //string EmailId = httpRequest.Form["EmailId"];
-                    
-                  
-                    objRequest.UserName =identity.UserID;  //Here UserName Varaible is used as UserID
-                  
+
+
+                    objRequest.UserName = identity.UserID;  //Here UserName Varaible is used as UserID
+
 
                     Utility.DestroyAllSession();
 
@@ -144,7 +144,7 @@ namespace _365_Portal.Controllers
                 {
 
                     objResponse.ReturnMessage = "Invalid Token";
-                     Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);                   
+                    Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
                     objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
@@ -868,5 +868,279 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
+
+        #region CRUD FOR GROUPS
+        [HttpPost]
+        [Route("API/User/CreateGroups")]
+        public IHttpActionResult CreateGroups(JObject requestParams)
+        {
+            var data = string.Empty;
+            string GroupName = string.Empty;
+            int CompID;
+            string CreatedBy = string.Empty;
+            ContentBO content = new ContentBO();
+            try
+            {
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
+                if (identity != null)
+                {
+                    if (!string.IsNullOrEmpty(requestParams["GroupName"].ToString()))
+                    {
+                        CompID = identity.CompId;
+                        CreatedBy = identity.UserID;
+
+
+                        if (!string.IsNullOrEmpty(requestParams["GroupName"].ToString()))
+                        {
+                            GroupName = requestParams["GroupName"].ToString();
+                        }
+                        else
+                        {
+                            GroupName = string.Empty;
+                        }
+                        var ds = UserBL.CreateGroup(CompID, GroupName, string.Empty, CreatedBy);
+                        if (ds.Tables.Count > 0)
+                        {
+                            DataTable dt = ds.Tables["Data"];
+                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            {
+                                data = Utility.ConvertDataSetToJSONString(dt);
+                                data = Utility.Successful(data);
+                            }
+                            else
+                            {
+
+                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+
+                        }
+                        else
+                        {
+                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.InValidValues;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+            return new APIResult(Request, data);
+
+        }
+
+        [HttpPost]
+        [Route("API/User/ModifyGroups")]
+        public IHttpActionResult ModifyGroups(JObject requestParams)
+        {
+            var data = string.Empty;
+            int GroupId = 0;
+            string GroupName = string.Empty;
+            int CompID;
+            string CreatedBy = string.Empty;
+            ContentBO content = new ContentBO();
+            try
+            {
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
+                if (identity != null)
+                {
+
+                    if (((Convert.ToInt32(requestParams["GroupID"]) != 0 && !string.IsNullOrEmpty(requestParams["GroupID"].ToString())) &&
+                        !string.IsNullOrEmpty(requestParams["GroupName"].ToString())))
+                    {
+                        CompID = identity.CompId;
+                        CreatedBy = identity.UserID;
+                        if (!string.IsNullOrEmpty(requestParams["GroupID"].ToString()))
+                        {
+                            GroupId = Convert.ToInt32(requestParams["GroupID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["GroupName"].ToString()))
+                        {
+                            GroupName = requestParams["GroupName"].ToString();
+                        }
+                        else
+                        {
+                            content.TopicTitle = null;
+                        }
+                        var ds = UserBL.ModifyGroup(CompID, GroupName, GroupId, string.Empty, CreatedBy);
+
+                        if (ds.Tables.Count > 0)
+                        {
+                            DataTable dt = ds.Tables["Data"];
+                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            {
+                                data = Utility.ConvertDataSetToJSONString(dt);
+                                data = Utility.Successful(data);
+                            }
+                            else
+                            {
+
+                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+
+                        }
+                        else
+                        {
+                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.InValidValues;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+            return new APIResult(Request, data);
+
+
+        }
+
+        [HttpPost]
+        [Route("API/User/GetGroups")]
+        public IHttpActionResult GetGroups(JObject requestParams)
+        {
+            var data = string.Empty;
+            ContentBO content = new ContentBO();
+            try
+            {
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
+                if (identity != null)
+                {
+
+
+
+                    var ds = UserBL.ViewGroup(identity.CompId);
+                    if (ds.Tables.Count > 0)
+                    {
+                        DataTable dt = ds.Tables["Data"];
+                      
+                            data = Utility.ConvertDataSetToJSONString(dt);
+                            data = Utility.Successful(data);
+                        
+
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+            return new APIResult(Request, data);
+
+        }
+
+        [HttpPost]
+        [Route("API/User/DeleteGroups")]
+        public IHttpActionResult DeleteGroups(JObject requestParams)
+        {
+            var data = string.Empty;
+            int GroupId = 0;
+            string GroupName = string.Empty;
+            int CompID;
+            string CreatedBy = string.Empty;
+            ContentBO content = new ContentBO();
+            try
+            {
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
+                if (identity != null)
+                {
+
+                    if ((Convert.ToInt32(requestParams["GroupID"]) != 0 && !string.IsNullOrEmpty(requestParams["GroupID"].ToString())) && !string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                    {
+                        CompID = identity.CompId;
+                        CreatedBy = identity.UserID;
+                        if (!string.IsNullOrEmpty(requestParams["GroupID"].ToString()))
+                        {
+                            GroupId = Convert.ToInt32(requestParams["GroupID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            GroupId = Convert.ToInt32(requestParams["IsActive"]);
+                        }
+                        var ds = UserBL.DeleteGroup(CompID, GroupId, CreatedBy);
+
+                        if (ds.Tables.Count > 0)
+                        {
+                            DataTable dt = ds.Tables["Data"];
+                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            {
+                                data = Utility.ConvertDataSetToJSONString(dt);
+                                data = Utility.Successful(data);
+                            }
+                            else
+                            {
+
+                                data = data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+
+                        }
+                        else
+                        {
+                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.InValidValues;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+            return new APIResult(Request, data);
+        }
+        #endregion
     }
 }

@@ -241,9 +241,9 @@ namespace _365_Portal.Code.DAL
                 //{
                 //    cmd.Parameters.AddWithValue("p_UserID", DBNull.Value);
                 //}
-                if (!string.IsNullOrEmpty(content.TopicTitle))
+                if (!string.IsNullOrEmpty(content.ModuleTitle))
                 {
-                    cmd.Parameters.AddWithValue("p_Title", content.TopicTitle.Trim().ToString());
+                    cmd.Parameters.AddWithValue("p_Title", content.ModuleTitle.Trim().ToString());
                 }
                 else
                 {

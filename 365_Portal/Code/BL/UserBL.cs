@@ -77,7 +77,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = UserDAL.CreateGroup(CompId, GroupName, Description, CreatedBy);
+                ds = UserDAL.CreateGroup((int)ConstantMessages.Action.INSERT, CompId, 0, GroupName, Description, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -86,12 +86,39 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet ModifyGroup(int CompId, string GroupName, string Description, string CreatedBy)
+        public static DataSet ModifyGroup(int CompId, string GroupName, int GroupId, string Description, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = UserDAL.CreateGroup(CompId, GroupName, Description, CreatedBy);
+                ds = UserDAL.CreateGroup((int)ConstantMessages.Action.MODIFY, CompId, GroupId, GroupName, Description, CreatedBy);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+        public static DataSet ViewGroup(int CompId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = UserDAL.ViewGroup(CompId);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet DeleteGroup(int CompId, int GroupId, string CreatedBy)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = UserDAL.DeleteGroup(CompId, GroupId, CreatedBy);
             }
             catch (Exception ex)
             {
@@ -120,17 +147,18 @@ namespace _365_Portal.Code.BL
         /// <param name="mobileNumbers"></param>
         /// <param name="OTP"></param>
         /// <returns></returns>
-        public static DataSet ResetPassword(int Action,int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress)
+        public static DataSet ResetPassword(int Action, int CompId, string UserId, string MobileNum, string EmailId, string Type, string DeviceDetails, string DeviceType, string IpAddress)
         {
             DataSet data = new DataSet();
             int OTP = 0;
-            var token_url="";
+            var token_url = "";
             var token = "";
             if (Type == ConstantMessages.ForgotPassowrd.Type_0)
             {
-                 OTP = Utility.GenerateOTP(4);
+                OTP = Utility.GenerateOTP(4);
             }
-            else {
+            else
+            {
                 var g = Guid.NewGuid();
                 token_url = Utility.urlNewShorter("http://localhost:54500/ResetPassword.aspx?Token=" + g);
                 token = g.ToString();
@@ -138,8 +166,8 @@ namespace _365_Portal.Code.BL
             //If otp type is for success message than skip otp code..            
             try
             {
-                data = CommonDAL.UserResetPassword( Action, CompId,  UserId,  MobileNum,  EmailId,  Type,  DeviceDetails,  DeviceType,  IpAddress, OTP, token_url, token);
-                
+                data = CommonDAL.UserResetPassword(Action, CompId, UserId, MobileNum, EmailId, Type, DeviceDetails, DeviceType, IpAddress, OTP, token_url, token);
+
 
             }
             catch (Exception ex)

@@ -365,31 +365,21 @@ namespace _365_Portal.Controllers
                 {
 
                     if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
-                        !string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["Overview"].ToString()) &&
-                        !string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()) &&
-                        !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())))
+                        !string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())))
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
-                        {
-                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        }
-
-                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
-                        {
-                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        }                       
 
                         if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
                         {
                             content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
                         }
 
-                        if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
-                        {
-                            content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
-                        }
+                        //if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                        //{
+                        //    content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
+                        //}
                         if (!string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()))
                         {
                             content.ModuleTitle = requestParams["ModuleTitle"].ToString();
@@ -440,7 +430,7 @@ namespace _365_Portal.Controllers
                             else
                             {
 
-                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                data = Utility.ConvertDataSetToJSONString(dt);
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
 
@@ -485,23 +475,13 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
-                    !string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["Overview"].ToString()) &&
-                    !string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()) &&
-                    !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()) && !string.IsNullOrEmpty(requestParams["SrNo"].ToString())))
+                    if ((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
+                    !string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()) &&
+                    !string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
+                    )
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
-                        {
-                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        }
-
-                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
-                        {
-                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        }
-
                         if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
                         {
                             content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
@@ -560,8 +540,7 @@ namespace _365_Portal.Controllers
                             }
                             else
                             {
-
-                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                data = Utility.ConvertDataSetToJSONString(dt);
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
 
@@ -607,7 +586,10 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if ((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) && (Convert.ToInt32(requestParams["ModuleID"]) != 0 && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString())))
+                    if ((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
+                        (Convert.ToInt32(requestParams["ModuleID"]) != 0 && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString()) &&
+                        !string.IsNullOrEmpty("IsActive")
+                        ))
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
@@ -694,18 +676,8 @@ namespace _365_Portal.Controllers
                     if (ds.Tables.Count > 0)
                     {
                         DataTable dt = ds.Tables["Data"];
-                        if (dt.Rows[0]["ReturnCode"].ToString() == "1")
-                        {
-                            data = Utility.ConvertDataSetToJSONString(dt);
-                            data = Utility.Successful(data);
-                        }
-                        else
-                        {
-
-                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
-                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
-                        }
-
+                        data = Utility.ConvertDataSetToJSONString(dt);
+                        data = Utility.Successful(data);
                     }
                     else
                     {

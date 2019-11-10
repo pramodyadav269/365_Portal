@@ -88,9 +88,10 @@
         </div>
     </div>
     <script>
-
+        var TopicID;
+        var _ModuleID;
         $(document).ready(function () {
-
+            TopicID = GetParameterValues('Id');
             View();
             bindTopics();
         });
@@ -101,7 +102,9 @@
         }
 
         function AddNew() {
-            clearFields('.input-validation')
+            clearFields('.input-validation');
+            $('#ddlTopic').val(TopicID).trigger("change");
+            $('#ddlTopic').attr("disabled", true);
             toggle('divForm', 'divGird');
             $('#submit').attr('name', INSERT);
             //Submit button name attribute changed to Insert;
@@ -111,20 +114,24 @@
             var getUrl;
             ShowLoader();
             if (inputValidation('.input-validation')) {
-                if ($('#submit')[0].name == INSERT) {
-                    getUrl = "/API/Content/CreateModule";
-                } else {
-                    getUrl = "API/Content/ModifyModule";
-                }
                 var _Topic_Id = $('#ddlTopic option:selected').val();
                 var _Title = $('#txtTitle').val();
                 var _Overview = $('#txtOverview').val();
                 var _Description = $('#txtDescription').val();
-                var _IsPublished = $('#cbIsPublished').val();
-                var _SkipFlashcard = $('#cbSkipFlashcard').val();
+                var _IsPublished = $('#cbIsPublished').prop('checked');
+                var _SkipFlashcard = $('#cbSkipFlashcard').prop('checked');
+                var ID;
+                if ($('#submit')[0].name == INSERT) {
+                    getUrl = "/API/Content/CreateModule";
+                } else {
+                    ID = _ModuleID;
+                    getUrl = "/API/Content/ModifyModule";
+                }
+
+
                 var _SrNo = "";
                 try {
-                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, UserID: "", IsActive: "", ModuleID: "1" };
+                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, UserID: "", IsActive: "", ModuleID: ID };
 
 
                     $.ajax({
@@ -146,7 +153,13 @@
                                         text: DataSet.StatusDescription,
                                         icon: "success",
                                         button: "Ok",
+                                    }).then((value) => {
+                                        if (value) {
+                                            toggle('divGird', 'divForm');
+                                            View();
+                                        }
                                     });
+                                    
 
 
                                 }
@@ -205,122 +218,157 @@
         }
 
         function Edit(ModuleId) {
-            //var id = $(ctrl).closest('tr').attr('id');
-            toggle('divForm', 'divGird');
-            $('#submit').attr('name', EDIT);
+            if (ModuleId != null && ModuleId != '') {
+                $('#ddlTopic').val(TopicID).trigger("change");
+                $('#ddlTopic').attr("disabled", true);
+                _ModuleID = ModuleId; //Initalizing Global varaiable of Module ID;
+                toggle('divForm', 'divGird');
+                $('#submit').attr('name', EDIT);
 
-            $('#' + id).find("td:not(:last-child)").each(function (i, data) {
-                if (this.className == 'title') {
-                    $('#txtTitle').val(this.innerText); ///This will find title for Topic 
+                $('#' + _ModuleID).find("td:not(:last-child)").each(function (i, data) {
+                    if (TopicID != null || TopicID != undefined) {
+                        $('#ddlTopic option:selected').val(TopicID); ///This will find title for Topic
 
-                }
-                if (this.className == 'description') {
-                    $('#txtDescription').val(this.innerText);
-                }
-                if (this.className == 'isPublished') {
-                    if (this.innerText == "Yes") {
-                        $('#cbIsPublished').prop('checked', true);
                     }
-                    else {
-                        $('#cbIsPublished').prop('checked', false);
-                    }
+                    if (this.className == 'title') {
+                        $('#txtTitle').val(this.innerText); ///This will find title for Topic 
 
-                }
-            });
-            //Submit button name attribute changed to EDIT(Modify);
+                    }
+                    if (this.className == 'description') {
+                        $('#txtDescription').val(this.innerText);
+                    }
+                    if (this.className == 'overview') {
+                        $('#txtOverview').val(this.innerText);
+                    }
+                    if (this.className == 'isPublished') {
+                        if (this.innerText == "Yes") {
+                            $('#cbIsPublished').prop('checked', true);
+                        }
+                        else {
+                            $('#cbIsPublished').prop('checked', false);
+                        }
+
+                    }
+                });
+                //Submit button name attribute changed to EDIT(Modify);
+            }
+            else {
+                swal({
+                    title: "Failure",
+                    text: "Please try Again",
+                    type: "error"
+                });
+            }
         }
 
         function Delete(ModuleId) {
-            
-            id = ModuleId;
-            swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to revert changes!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        ShowLoader();
-                        try {
-                            var requestParams = { TopicID: id, ModuleID: ModuleId };
-                            var getUrl = "/API/Content/DeleteModule";
 
-                            $.ajax({
-                                type: "POST",
-                                url: getUrl,
-                                headers: { "Authorization": "Bearer " + accessToken },
-                                data: JSON.stringify(requestParams),
-                                contentType: "application/json",
-                                success: function (response) {
-                                    try {
+            if ((TopicID != null && TopicID != undefined) && (ModuleId != null && ModuleId != undefined)) {
 
-                                        var DataSet = $.parseJSON(response);
-                                        console.log(response);
-                                        if (DataSet.StatusCode == "1") {
-                                            HideLoader();
-                                            swal({
-                                                title: "Success",
-                                                text: DataSet.StatusDescription,
-                                                icon: "success",
-                                                button: "Ok",
-                                            });
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to revert changes!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            ShowLoader();
+                            try {
+                                var requestParams = { TopicID: TopicID, ModuleID: ModuleId, IsActive: 0 };
+                                var getUrl = "/API/Content/DeleteModule";
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: getUrl,
+                                    headers: { "Authorization": "Bearer " + accessToken },
+                                    data: JSON.stringify(requestParams),
+                                    contentType: "application/json",
+                                    success: function (response) {
+                                        try {
+
+                                            var DataSet = $.parseJSON(response);
+                                            console.log(response);
+                                            if (DataSet.StatusCode == "1") {
+                                                HideLoader();
+                                                swal({
+                                                    title: "Success",
+                                                    text: DataSet.StatusDescription,
+                                                    icon: "success",
+                                                    button: "Ok",
+                                                }).then((value) => {
+                                                    if (value) {
+
+                                                        View();
+                                                    }
+                                                });
 
 
+                                            }
+                                            else {
+                                                HideLoader();
+                                                swal({
+                                                    title: "Failure",
+                                                    text: DataSet.StatusDescription,
+                                                    type: "error"
+                                                });
+                                            }
                                         }
-                                        else {
+                                        catch (e) {
                                             HideLoader();
+                                            //alert(response);
+                                            //alert(e.message);
                                             swal({
                                                 title: "Failure",
-                                                text: DataSet.StatusDescription,
+                                                text: "Please try Again",
                                                 type: "error"
                                             });
                                         }
-                                    }
-                                    catch (e) {
+                                    },
+                                    complete: function () {
                                         HideLoader();
-                                        //alert(response);
-                                        //alert(e.message);
+                                    },
+                                    failure: function (response) {
+                                        HideLoader();
+                                        alert(response.data);
                                         swal({
                                             title: "Failure",
                                             text: "Please try Again",
                                             type: "error"
                                         });
                                     }
-                                },
-                                complete: function () {
-                                    HideLoader();
-                                },
-                                failure: function (response) {
-                                    HideLoader();
-                                    alert(response.data);
-                                    swal({
-                                        title: "Failure",
-                                        text: "Please try Again",
-                                        type: "error"
-                                    });
-                                }
-                            });
-                        }
-                        catch (e) {
-                            HideLoader();
-                            swal({
-                                title: "Alert",
-                                text: "Oops! An Occured. Please try again",
-                                icon: "error",
-                                button: "Ok",
-                            });
-                        }
+                                });
+                            }
+                            catch (e) {
+                                HideLoader();
+                                swal({
+                                    title: "Alert",
+                                    text: "Oops! An Occured. Please try again",
+                                    icon: "error",
+                                    button: "Ok",
+                                });
+                            }
 
-                    }
+                        }
+                    });
+            }
+            else {
+                swal({
+                    title: "Failure",
+                    text: "Please try Again",
+                    type: "error"
                 });
+            }
         }
 
         function View() {
+            var requestParams;
             var url = "/API/Content/GetModules";
+            if (TopicID != null || TopicID != undefined) {
+                requestParams = { TopicID: TopicID, IsActive: "" };
+            }
 
-            var requestParams = { TopicID: "", ModuleID: "1", ModuleTitle: "", ModuleOverview: "", ModuleDescription: "", IsPublished: "", SrNo: "", UserID: "", IsActive: "" };
             ShowLoader();
             try {
                 $.ajax({
@@ -357,7 +405,7 @@
                                     tbl += '<tbody>';
 
 
-                                    $.each(DataSet.data, function (i, data) {
+                                    $.each(DataSet.Data, function (i, data) {
                                         if (data.IsPublished == "1") {
                                             data.IsPublished = "Yes";
                                         }
@@ -366,8 +414,9 @@
                                         }
                                         tbl += '<tr id="' + data.ModuleID + '">';
                                         tbl += '<td>' + (i + 1);
-                                        tbl += '<td class="topicname">' + data.TopicName;
+                                        tbl += '<td class="topicname">' + data.TopicTitle;
                                         tbl += '<td class="title">' + data.Title;
+                                        tbl += '<td class="overview">' + data.Overview;
                                         tbl += '<td class="description">' + data.Description;
                                         tbl += '<td class="isPublished">' + data.IsPublished;
                                         //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
@@ -376,7 +425,8 @@
                                         //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
                                         //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
                                         //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        tbl += '<td><i title="Edit" onclick="Edit(' + data.ModuleID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + ata.ModuleID + ');" class="fas fa-trash text-danger"></i>';
+                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                        tbl += '<td><i title="Edit" onclick="Edit(' + data.ModuleID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.ModuleID + ');" class="fas fa-trash text-danger"></i>';
 
 
                                     });
@@ -387,10 +437,9 @@
                                 }
                                 else {
                                     swal({
-                                        title: "Warning",
-                                        text: DataSet.StatusDescription,
-                                        icon: "error",
-                                        button: "Ok",
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        type: "error"
                                     });
                                 }
                             }
