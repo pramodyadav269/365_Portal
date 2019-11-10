@@ -19,7 +19,7 @@
                             <h3>Flashcard</h3>
                         </div>
                         <div class="w-100"></div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtFlashcardTitle">Flashcard Title</label>
                                 <input type="text" class="form-control required" id="txtFlashcardTitle" placeholder="Title" />
@@ -66,17 +66,18 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="txtIntroTitle">Introduction Title</label>
-                                <textarea class="form-control required" placeholder="Introduction Title" id="txtIntroTitle"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row input-validation">
-                                <div class="w-100"></div>
 
-                                <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="row input-validation">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="txtIntroTitle">Introduction Title</label>
+                                        <textarea class="form-control required" placeholder="Introduction Title" id="txtIntroTitle"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="txtDescription">Bullet Points</label>
                                         <input type="text" class="form-control required" id="txtDescription" placeholder="Bullet Points" />
@@ -91,7 +92,7 @@
                                 </div>
                             </div>
                             <div class="row mt-4">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div id="dvFlashcardIntroJson"></div>
                                     <div class="mt-3 table-responsive">
                                         <table id="tblFlashcardIntro" class="table table-bordered" style="width: 100%">
@@ -109,19 +110,19 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-12 mt-3">
                             <div class="row input-validation">
                                 <div class="form-header col-md-12">
                                     <h3>Flashcard Slides</h3>
                                 </div>
                                 <div class="w-100"></div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="txtSlideTitle">Title</label>
                                         <input type="text" class="form-control required" id="txtSlideTitle" placeholder="Title" />
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="txtSlideDescription">Description</label>
                                         <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtSlideDescription"></textarea>
@@ -137,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="row mt-4">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div id="dvFlashcardSlidesJson"></div>
                                     <div class="mt-3 table-responsive">
                                         <table id="tblFlashcardSlides" class="table table-bordered" style="width: 100%">
@@ -165,27 +166,25 @@
                             </div>
                         </div>
 
-                        <div class="row mt-12">
-                            <div class="col-md-12">
-                                <div id="dvFlashcardJson"></div>
-                                <div class="mt-12 table-responsive">
-                                    <table id="tblFlashcards" class="table table-bordered" style="width: 100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>Title</th>
-                                                <th>Description</th>
-                                                <th>Overview</th>
-                                                <th>Intro Title</th>
-                                                <th>Is Gift</th>
-                                                <th>Is Published</th>
-                                                <th>Skip Flashcards</th>
-                                                <th colspan="2">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
+                        <div class="col-md-12 mt-3">
+                            <div id="dvFlashcardJson"></div>
+                            <div class="mt-3 table-responsive">
+                                <table id="tblFlashcards" class="table table-bordered" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Overview</th>
+                                            <th>Intro Title</th>
+                                            <th>Is Gift</th>
+                                            <th>Is Published</th>
+                                            <th>Skip Flashcards</th>
+                                            <th colspan="2">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

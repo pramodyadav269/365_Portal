@@ -30,6 +30,11 @@ namespace _365_Portal.Code
             return serializer.Serialize(lst);
         }
 
+        public static string ConvertDataSetToJSONString(DataSet ds)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(ds, Newtonsoft.Json.Formatting.Indented);
+        }
+
         public static string GetFileExtension(string base64String)
         {
             var data = base64String.Substring(0, 5);

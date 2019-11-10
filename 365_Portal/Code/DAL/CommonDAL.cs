@@ -417,5 +417,166 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
+
+        public static DataSet GetUsers(UserBO objUsers)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spGetUsers";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_UserID", objUsers.UserID);
+                cmd.Parameters.AddWithValue("p_CompID", objUsers.CompId);
+                cmd.Parameters.AddWithValue("p_Role", objUsers.Role);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+        public static DataSet BindRoleAndGroup(UserBO objUsers)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spBindRoleAndGroup";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_UserID", objUsers.UserID);
+                cmd.Parameters.AddWithValue("p_CompID", objUsers.CompId);
+                cmd.Parameters.AddWithValue("p_Role", objUsers.Role);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+        public static DataSet CreateUpdateUser(UserBO objUsers,int Action, int ChildUserID)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spCreateUser";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_Action", Action);
+                cmd.Parameters.AddWithValue("p_ChildUserID", ChildUserID);
+                cmd.Parameters.AddWithValue("p_UserKey", objUsers.UserKey);
+                cmd.Parameters.AddWithValue("p_CompName", "");
+                cmd.Parameters.AddWithValue("p_RoleID", objUsers.RoleID);
+                cmd.Parameters.AddWithValue("p_FirstName", objUsers.FirstName);
+                cmd.Parameters.AddWithValue("p_LastName", objUsers.LastName);
+                cmd.Parameters.AddWithValue("p_EmailID", objUsers.EmailID);
+                cmd.Parameters.AddWithValue("p_PasswordHash", objUsers.PasswordHash);
+                cmd.Parameters.AddWithValue("p_PasswordSalt", objUsers.PasswordSalt);
+                cmd.Parameters.AddWithValue("p_MobileNum", objUsers.MobileNum);
+                cmd.Parameters.AddWithValue("p_Position", objUsers.Position);
+                cmd.Parameters.AddWithValue("p_GroupId", objUsers.GroupId);
+                cmd.Parameters.AddWithValue("p_CreatedBy", objUsers.UserID);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+        public static DataSet DeleteUser(UserBO objUsers, int ChildUserID)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spDeleteUser";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_CompID", objUsers.CompId);
+                cmd.Parameters.AddWithValue("p_Role", objUsers.Role);
+                cmd.Parameters.AddWithValue("p_ChildUserID", ChildUserID);
+                cmd.Parameters.AddWithValue("p_IsActive", objUsers.IsDeleted);//0 to delete user
+                cmd.Parameters.AddWithValue("p_CreatedBy", objUsers.UserID);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+        public static DataSet GetUserDetailsForParent(UserBO objUsers, int ChildUserID)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spGetUserDetailsForParent";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_CompID", objUsers.CompId);
+                cmd.Parameters.AddWithValue("p_UserID", objUsers.UserID);
+                cmd.Parameters.AddWithValue("p_Role", objUsers.Role);
+                cmd.Parameters.AddWithValue("p_ChildUserID", ChildUserID);               
+                
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
     }
 }

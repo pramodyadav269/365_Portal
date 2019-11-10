@@ -6,6 +6,7 @@ using _365_Portal.Models;
 using System;
 using System.Configuration;
 using System.Web;
+using System.Web.UI;
 using static _365_Portal.Models.Login;
 
 namespace _365_Portal
@@ -29,7 +30,8 @@ namespace _365_Portal
                 lblError.Text = "";                
                 if (string.IsNullOrEmpty(txtUserEmail.Text.Trim()) || string.IsNullOrEmpty(txtUserPassword.Text.Trim()))
                 {
-                    lblError.Text = ConstantMessages.Login.InvalidUser;
+                    //lblError.Text = ConstantMessages.Login.InvalidUser;
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "swal({title: '" + ConstantMessages.Login.InvalidUser + "',icon: 'error'}); ", true);
                     return;
                 }
                 else
@@ -56,7 +58,8 @@ namespace _365_Portal
 
                         if (HttpContext.Current.Session["access_token"] == null)
                         {
-                            lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            //lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "swal({title: '" + ConstantMessages.WebServiceLog.GenericErrorMsg + "',icon: 'error'}); ", true);
                             return;
                         }
                         else
@@ -115,13 +118,15 @@ namespace _365_Portal
                     else
                     {
                         // Call Login Business Layer Function to record message
-                        lblError.Text = objResponse.ReturnMessage;
+                        //lblError.Text = objResponse.ReturnMessage;
+                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "swal({title: '" + objResponse.ReturnMessage + "',icon: 'error'}); ", true);
                     }
                 }
             }
             catch (Exception ex)
             {
-                lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                //lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "swal({title: '" + ConstantMessages.WebServiceLog.GenericErrorMsg + "',icon: 'error'}); ", true);
             }
         }
     }

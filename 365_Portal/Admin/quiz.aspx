@@ -43,14 +43,15 @@
                                 <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtSurveyOverview"></textarea>
                             </div>
                         </div>
-                        <div class="col-md-3" id="trScoreSummary">
+                        <div class="col-md-6" id="trScoreSummary">
                             <div class="form-group">
-                                <label>Total Score: <span id="lblTotalScore">100</span></label>
+                                <label class="float-left">Total Score: <span id="lblTotalScore">100</span></label>
+                                <span class="float-right" id="lblPassingScore"></span>
 
                                 <input type="range" class="custom-range" min="0" max="100" step="5" value="75" id="txtPassingScorePercentage" onchange="ChangePercentage(this.value);">
 
                                 <span id="lblPercentage">75%</span>
-                                <span id="lblPassingScore"></span>
+
                             </div>
                         </div>
                         <div class="w-100"></div>

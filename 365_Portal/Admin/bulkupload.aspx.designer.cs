@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _365_Portal.Admin {
-    
-    
-    public partial class BulkUpload {
-        
+namespace _365_Portal.Admin
+{
+
+
+    public partial class BulkUpload
+    {
+
         /// <summary>
         /// ddlType control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace _365_Portal.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlType;
-        
+
         /// <summary>
         /// btnDownload control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace _365_Portal.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnDownload;
-        
+
         /// <summary>
         /// FileUpload control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace _365_Portal.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload FileUpload;
-        
+
         /// <summary>
         /// btnSubmit control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace _365_Portal.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSubmit;
-        
+
         /// <summary>
         /// lblConfirm control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace _365_Portal.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblConfirm;
-        
+
         /// <summary>
         /// btnExport control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace _365_Portal.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnExport;
-        
+
         /// <summary>
         /// gvRecords control.
         /// </summary>
