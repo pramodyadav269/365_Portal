@@ -233,6 +233,13 @@
     <Compile Include="Admin\bulkupload.aspx.designer.cs">
       <DependentUpon>bulkupload.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\assign_topics.aspx.cs">
+      <DependentUpon>assign_topics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\assign_topics.aspx.designer.cs">
+      <DependentUpon>assign_topics.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\quiz.aspx.cs">
       <DependentUpon>quiz.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -486,6 +493,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\bulkupload.aspx" />
+    <Content Include="Admin\assign_topics.aspx" />
     <Content Include="Admin\quiz.aspx" />
     <Content Include="Admin\flashcards.aspx" />
     <Content Include="Admin\ContentList.aspx" />
@@ -509,6 +517,7 @@
     <Content Include="Asset\fonts\gijgo-material.svg" />
     <Content Include="Asset\images\close-button.png" />
     <Content Include="Asset\images\contract-file.png" />
+    <Content Include="Asset\images\didnt-like-icon.svg" />
     <Content Include="Asset\images\diploma.png" />
     <Content Include="Asset\images\employee-illustration.svg" />
     <Content Include="Asset\images\engager-icon.svg" />
@@ -516,7 +525,10 @@
     <Content Include="Asset\images\flash-card.png" />
     <Content Include="Asset\images\flashcard-icon.svg" />
     <Content Include="Asset\images\giftbox.png" />
+    <Content Include="Asset\images\like-icon.svg" />
     <Content Include="Asset\images\logo.svg" />
+    <Content Include="Asset\images\love-icon.svg" />
+    <Content Include="Asset\images\meh-icon.svg" />
     <Content Include="Asset\images\next-flashcard-icon.svg" />
     <Content Include="Asset\images\next-pdf-icon.svg" />
     <Content Include="Asset\images\next-video-icon.svg" />

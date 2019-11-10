@@ -7,9 +7,197 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Quiz</h1>
+            <h1 class="text-center font-weight-bold" id="lblTitle"></h1>
         </div>
-        <div>
+
+        <div class="col-md-12">
+            <div class="card shadow border-0 border-radius-0">
+                <div class="card-body">
+                    <div class="row input-validation">
+                        <div class="w-100"></div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="txtSurveyTitle">Title</label>
+                                <input type="text" class="form-control required" id="txtSurveyTitle" placeholder="Title" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group checkbox required">
+                                <label>Is Published</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="chkIsPublished" name="chkIsPublished" class="custom-control-input">
+                                    <label class="custom-control-label" for="chkIsPublished">Yes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtSurveyDescription">Description</label>
+                                <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtSurveyDescription"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtSurveyOverview">Overview</label>
+                                <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtSurveyOverview"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="trScoreSummary">
+                            <div class="form-group">
+                                <label class="float-left">Total Score: <span id="lblTotalScore">100</span></label>
+                                <span class="float-right" id="lblPassingScore"></span>
+
+                                <input type="range" class="custom-range" min="0" max="100" step="5" value="75" id="txtPassingScorePercentage" onchange="ChangePercentage(this.value);">
+
+                                <span id="lblPercentage">75%</span>
+
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+
+                        <div class="col-md-12 mt-4">
+                            <div class="float-right">
+                                <a class="btn bg-yellow" id="btnSubmitFlashcard" onclick="SubmitChanges(this);return false;">Save Changes</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-12 mt-4">
+            <div class="card shadow border-0 border-radius-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row input-validation">
+                                <div class="form-header col-md-12">
+                                    <h3>Questions</h3>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtQuestionTitle">Question Title</label>
+                                        <input type="text" class="form-control required" id="txtQuestionTitle" placeholder="Question Title" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="ddlQuestionType">Question Type</label>
+                                        <select class="form-control select2 required" id="ddlQuestionType" onchange="ChangeQuestionType();" style="width: 100% !important">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" id="trIsBox" style="display: none;">
+                                    <div class="form-group checkbox required">
+                                        <label>Display Answer Options as Box</label>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" id="chkIsBox" name="chkIsBox" class="custom-control-input">
+                                            <label class="custom-control-label" for="chkIsBox">Yes</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-12 mt-4">
+                                    <div class="float-right">
+                                        <a class="btn bg-yellow" id="btnAddQuestion" onclick="AddQuestion(this);return false;">Add Question</a>
+                                        <a class="btn bg-yellow" id="btnCancelQuestion" onclick="CancelQuestion(this);return false;" style="display: none;">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <div id="dvQuestionJson"></div>
+                                    <div class="mt-3 table-responsive">
+                                        <table id="tblQuestions" class="table table-bordered" style="width: 100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Question Type</th>
+                                                    <th>Title</th>
+                                                    <th id="thMaxScore">Max Score</th>
+                                                    <th>Is Box</th>
+                                                    <th>Answer Options</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tBodyQuestions"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" id="trAnswerOptions" style="display: none;">
+                            <div class="row input-validation">
+                                <div class="form-header col-md-12">
+                                    <h3>Answer Options</h3>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="txtTitle">Title</label>
+                                        <input type="text" class="form-control required" id="txtTitle" placeholder="Title" />
+                                    </div>
+                                </div>
+                                <div id="trCorrectAnsOption" style="display: none;">
+                                    <div class="col-md-12">
+                                        <div class="form-group checkbox required">
+                                            <label>Is Correct</label>
+                                            <div class="custom-control custom-checkbox custom-control-inline">
+                                                <input type="checkbox" id="chkIsCorrect" name="chkIsCorrect" class="custom-control-input">
+                                                <label class="custom-control-label" for="chkIsCorrect">Yes</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="txtScore">Score</label>
+                                            <input type="number" class="form-control required" id="txtScore" style="display: none;" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+
+                                <div class="col-md-12 mt-4">
+                                    <div class="float-right">
+                                        <a class="btn bg-yellow" id="btnAdd" onclick="AddItem(this);return false;">Add Option</a>
+                                        <a class="btn bg-yellow" id="btnCancelAnsOption" onclick="CancelAnsOption(this);return false;" style="display: none;">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <%--<div id="dvFlashcardSlidesJson"></div>--%>
+                                    <div class="mt-3 table-responsive">
+                                        <table id="tblItems" class="table table-bordered" style="width: 100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th id="thIsCorrect" style="display: none;">Is Correct</th>
+                                                    <th id="thScore" style="display: none;">Score</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <%--     <div>
             <h2>
                 <span id="lblTitle"></span>
             </h2>
@@ -143,7 +331,7 @@
             <br />
             <br />
             <div id="dvQuestionJson"></div>
-        </div>
+        </div>--%>
     </div>
     <script>
 
@@ -395,8 +583,10 @@
                     markup += "<td><input index=" + n.AnswerID + " onchange='CheckboxChecked(this);' type='checkbox' " + checkedValue + " /></td>";
                 if (contentType == 3)
                     markup += "<td>" + n.Score + "</td>";
-                markup += "<td index=" + n.AnswerID + " onclick ='EditRow($(this))'>Edit</td>";
-                markup += "<td index=" + n.AnswerID + " onclick ='DeleteRow($(this))'>Delete</td>";
+                //markup += "<td index=" + n.AnswerID + " onclick ='EditRow($(this))'>Edit</td>";
+                //markup += "<td index=" + n.AnswerID + " onclick ='DeleteRow($(this))'>Delete</td>";
+                markup += '<td><i title="Edit" index=' + n.AnswerID + ' onclick="EditRow($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.AnswerID + ' onclick="DeleteRow($(this));" class="fas fa-trash text-danger"></i></td>';
+
                 markup += "</tr>";
                 tableBody.append(markup);
             });
@@ -442,10 +632,12 @@
             $("#btnAddQuestion").text("Save Question");
             $("#btnAddQuestion").attr("index", index);
             $("#btnCancelQuestion").show();
+
+            $("#ddlQuestionType").trigger('change');
         }
 
         function BindQuestionTypes() {
-            var items = '<option value="0">--Select Question Type--</option>';
+            var items = '<option></option>';
             if (contentType == 1) {
                 // Survey
                 items += '<option value="1">Multiple Choice</option>'
@@ -487,6 +679,11 @@
                 $("#chkIsBox").prop("disabled", false);
             }
             $("#ddlQuestionType").html(items);
+
+            $('#ddlQuestionType').select2({
+                placeholder: "Select Question Type",
+                allowClear: true
+            });
         }
 
         function AddQuestion(cntrl) {
@@ -647,8 +844,10 @@
                 }
                 markup += "<td><input index=" + n.QuestionID + " type='checkbox' " + isCheckedBoxValue + " />" + "</td>"
                 markup += "<td><table  border='1'> " + ansOptions + "</table></td>";
-                markup += "<td index=" + n.QuestionID + " onclick ='EditQuestion($(this))'>Edit</td>";
-                markup += "<td index=" + n.QuestionID + " onclick ='DeleteQuestion($(this))'>Delete</td></tr>";
+                //markup += "<td index=" + n.QuestionID + " onclick ='EditQuestion($(this))'>Edit</td>";
+                //markup += "<td index=" + n.QuestionID + " onclick ='DeleteQuestion($(this))'>Delete</td></tr>";
+                markup += '<td><i title="Edit" index=' + n.QuestionID + ' onclick="EditQuestion($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.QuestionID + ' onclick="DeleteQuestion($(this));" class="fas fa-trash text-danger"></i></td>';
+
                 tableBody.append(markup);
             });
 
@@ -667,12 +866,14 @@
 
         function ClearQuestionFields(cntrl) {
             if (contentType != 2) {
-                $("#ddlQuestionType").val("0");
+                $("#ddlQuestionType").val("");
                 $("#chkIsBox").prop("checked", false);
                 $("#trAnswerOptions").hide();
             }
             $("#txtQuestionTitle").val("");
             $("#tblItems tbody").html("");
+
+            $("#ddlQuestionType").trigger('change');
         }
 
         function ChangePercentage(val) {

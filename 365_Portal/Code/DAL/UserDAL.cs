@@ -84,14 +84,16 @@ namespace _365_Portal.Code.DAL
         }
         public static int UserLogout(LoginRequest objRequest)
         {
-            string constr = ConfigurationSettings.AppSettings["conString"].ToString();
+            ////string constr = ConfigurationSettings.AppSettings["conString"].ToString();
+            //MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
             int i = 0;
-            MySqlConnection conn = new MySqlConnection(constr);
+            
             using (MySqlCommand cmd = new MySqlCommand("proc_WebServiceLog", DBConnection.getConnection()))
             {
                 try
                 {
-                    conn.Open();
+
+                    
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("p_ControllerName", objRequest.UserName);
                     cmd.Parameters.AddWithValue("p_Ref1", objRequest.Ref1);

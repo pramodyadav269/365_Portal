@@ -29,23 +29,23 @@ namespace _365_Portal.Code.DAL
             {
 
                 conn.Open();
-                string stm = "spCreateTopics";
+                string stm = "spCreateTopic";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_Action", Action);
-                if (!string.IsNullOrEmpty(content.UserIDs))
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", content.UserIDs);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", DBNull.Value);
-                }
+                //if (!string.IsNullOrEmpty(content.UserIDs))
+                //{
+                //    cmd.Parameters.AddWithValue("p_UserID", content.UserIDs);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("p_UserID", DBNull.Value);
+                //}
                 cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
                 cmd.Parameters.AddWithValue("p_CompID", content.CompID);
                 if (!string.IsNullOrEmpty(content.TopicTitle))
                 {
-                    cmd.Parameters.AddWithValue("p_Title", content.TopicTitle);
+                    cmd.Parameters.AddWithValue("p_Title", content.TopicTitle.Trim().ToString());
                 }
                 else
                 {
@@ -116,61 +116,12 @@ namespace _365_Portal.Code.DAL
             {
 
                 conn.Open(); //spDeleteTopic
-                string stm = "spCreateTopics";
+                string stm = "spDeleteTopic";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_Action", Convert.ToInt32(ConstantMessages.Action.DELETE));
-                if (!string.IsNullOrEmpty(content.UserIDs))
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", content.UserIDs);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", DBNull.Value);
-                }
+             
                 cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
                 cmd.Parameters.AddWithValue("p_CompID", content.CompID);
-                if (!string.IsNullOrEmpty(content.TopicTitle))
-                {
-                    cmd.Parameters.AddWithValue("p_Title", content.TopicTitle);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Title", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.TopicDescription))
-                {
-                    cmd.Parameters.AddWithValue("p_Description", content.TopicDescription);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Description", DBNull.Value);
-                }
-                //if (!string.IsNullOrEmpty(content.TopicOverview))
-                //{
-                //    cmd.Parameters.AddWithValue("p_TopicOverview", content.TopicOverview);
-                //}
-                //else
-                //{
-                //    cmd.Parameters.AddWithValue("p_TopicOverview", DBNull.Value);
-                //}
-                if (!string.IsNullOrEmpty(content.SrNo.ToString()))
-                {
-                    cmd.Parameters.AddWithValue("p_SrNo", content.SrNo);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_SrNo", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.MinUnlockedModules))
-                {
-                    cmd.Parameters.AddWithValue("p_MinUnlockedModules", content.MinUnlockedModules);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_MinUnlockedModules", DBNull.Value);
-                }
-                cmd.Parameters.AddWithValue("p_IsPublished", content.IsPublished);
                 cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -202,64 +153,10 @@ namespace _365_Portal.Code.DAL
             {
 
                 conn.Open(); //spGetTopics
-                string stm = "spCreateTopics";
+                string stm = "spGetTopic";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_Action", Convert.ToInt32(ConstantMessages.Action.VIEW));
-                if (!string.IsNullOrEmpty(content.UserIDs))
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", content.UserIDs);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", DBNull.Value);
-                }
-                cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
+                cmd.CommandType = CommandType.StoredProcedure;               
                 cmd.Parameters.AddWithValue("p_CompID", content.CompID);
-
-                if (!string.IsNullOrEmpty(content.TopicTitle))
-                {
-                    cmd.Parameters.AddWithValue("p_Title", content.TopicTitle);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Title", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.TopicDescription))
-                {
-                    cmd.Parameters.AddWithValue("p_Description", content.TopicDescription);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Description", DBNull.Value);
-                }
-                //if (!string.IsNullOrEmpty(content.TopicOverview))
-                //{
-                //    cmd.Parameters.AddWithValue("p_TopicOverview", content.TopicOverview);
-                //}
-                //else
-                //{
-                //    cmd.Parameters.AddWithValue("p_TopicOverview", DBNull.Value);
-                //}
-                if (!string.IsNullOrEmpty(content.SrNo.ToString()))
-                {
-                    cmd.Parameters.AddWithValue("p_SrNo", content.SrNo);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_SrNo", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.MinUnlockedModules))
-                {
-                    cmd.Parameters.AddWithValue("p_MinUnlockedModules", content.MinUnlockedModules);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_MinUnlockedModules", DBNull.Value);
-                }
-                cmd.Parameters.AddWithValue("p_IsPublished", content.IsPublished);
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
-                cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -328,36 +225,29 @@ namespace _365_Portal.Code.DAL
             {
 
                 conn.Open();
-                string stm = "spCreateModules";
+                string stm = "spCreateModule";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_Action", Action);
-                cmd.Parameters.AddWithValue("p_CompID", content.CompID);
-                cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
                 cmd.Parameters.AddWithValue("p_ModuleID", content.ModuleID);
-                if (!string.IsNullOrEmpty(content.UserIDs))
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", content.UserIDs);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", DBNull.Value);
-                }
+                cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
+                cmd.Parameters.AddWithValue("p_CompID", content.CompID);                
+                
+                //if (!string.IsNullOrEmpty(content.UserIDs))
+                //{
+                //    cmd.Parameters.AddWithValue("p_UserID", content.UserIDs);
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("p_UserID", DBNull.Value);
+                //}
                 if (!string.IsNullOrEmpty(content.TopicTitle))
                 {
-                    cmd.Parameters.AddWithValue("p_Title", content.TopicTitle);
+                    cmd.Parameters.AddWithValue("p_Title", content.TopicTitle.Trim().ToString());
                 }
                 else
                 {
                     cmd.Parameters.AddWithValue("p_Title", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.ModuleDescription))
-                {
-                    cmd.Parameters.AddWithValue("p_Description", content.ModuleDescription);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Description", DBNull.Value);
                 }
                 if (!string.IsNullOrEmpty(content.ModuleOverview))
                 {
@@ -367,12 +257,18 @@ namespace _365_Portal.Code.DAL
                 {
                     cmd.Parameters.AddWithValue("p_Overview", DBNull.Value);
                 }
-                //cmd.Parameters.AddWithValue("p_ModuleTitle", content.ModuleTitle);
-                //cmd.Parameters.AddWithValue("p_ModuleDescription", content.ModuleDescription);
-                //cmd.Parameters.AddWithValue("p_ModuleOverview", content.ModuleOverview);
-                cmd.Parameters.AddWithValue("p_IsPublished", content.IsPublished);
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
+                if (!string.IsNullOrEmpty(content.ModuleDescription))
+                {
+                    cmd.Parameters.AddWithValue("p_Description", content.ModuleDescription);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("p_Description", DBNull.Value);
+                }
+                
                 cmd.Parameters.AddWithValue("p_SrNo", content.SrNo);
+                cmd.Parameters.AddWithValue("p_IsPublished", content.IsPublished);
+                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);                
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
 
 
@@ -405,52 +301,13 @@ namespace _365_Portal.Code.DAL
             try
             {
                 conn.Open();
-                string stm = "spCreateModules";
+                string stm = "spDeleteModule";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_Action", Convert.ToInt32(ConstantMessages.Action.VIEW));
-
-                cmd.Parameters.AddWithValue("p_CompID", content.CompID);
-                cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
                 cmd.Parameters.AddWithValue("p_ModuleID", content.ModuleID);
-                if (!string.IsNullOrEmpty(content.UserIDs))
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", content.UserIDs);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.TopicTitle))
-                {
-                    cmd.Parameters.AddWithValue("p_Title", content.TopicTitle);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Title", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.ModuleDescription))
-                {
-                    cmd.Parameters.AddWithValue("p_Description", content.ModuleDescription);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Description", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.ModuleOverview))
-                {
-                    cmd.Parameters.AddWithValue("p_Overview", content.ModuleOverview);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Overview", DBNull.Value);
-                }
-                //cmd.Parameters.AddWithValue("p_ModuleTitle", content.ModuleTitle);
-                //cmd.Parameters.AddWithValue("p_ModuleDescription", content.ModuleDescription);
-                //cmd.Parameters.AddWithValue("p_ModuleOverview", content.ModuleOverview);
-                cmd.Parameters.AddWithValue("p_IsPublished", content.IsPublished);
+                cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
+                cmd.Parameters.AddWithValue("p_CompID", content.CompID);
                 cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
-                cmd.Parameters.AddWithValue("p_SrNo", content.SrNo);
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -481,53 +338,12 @@ namespace _365_Portal.Code.DAL
             {
 
                 conn.Open();
-                string stm = "spCreateModules";
+                string stm = "spGetModule";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_Action", Convert.ToInt32(ConstantMessages.Action.VIEW));
-
-                cmd.Parameters.AddWithValue("p_CompID", content.CompID);
                 cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
-                cmd.Parameters.AddWithValue("p_ModuleID", content.ModuleID);
-
-                if (!string.IsNullOrEmpty(content.UserIDs))
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", content.UserIDs);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_UserID", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.TopicTitle))
-                {
-                    cmd.Parameters.AddWithValue("p_Title", content.TopicTitle);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Title", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.ModuleDescription))
-                {
-                    cmd.Parameters.AddWithValue("p_Description", content.ModuleDescription);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Description", DBNull.Value);
-                }
-                if (!string.IsNullOrEmpty(content.ModuleOverview))
-                {
-                    cmd.Parameters.AddWithValue("p_Overview", content.ModuleOverview);
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("p_Overview", DBNull.Value);
-                }
-                //cmd.Parameters.AddWithValue("p_ModuleTitle", content.ModuleTitle);
-                //cmd.Parameters.AddWithValue("p_ModuleDescription", content.ModuleDescription);
-                //cmd.Parameters.AddWithValue("p_ModuleOverview", content.ModuleOverview);
-                cmd.Parameters.AddWithValue("p_IsPublished", content.IsPublished);
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
-                cmd.Parameters.AddWithValue("p_SrNo", content.SrNo);
+                cmd.Parameters.AddWithValue("p_CompID", content.CompID);                
+                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);                
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");

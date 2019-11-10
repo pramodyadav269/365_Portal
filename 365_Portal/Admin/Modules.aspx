@@ -95,6 +95,7 @@
             bindTopics();
         });
         var accessToken = '<%=Session["access_token"]%>';
+        var id = "";
         function bindTopics() {
 
         }
@@ -108,7 +109,7 @@
 
         function Submit() {
             var getUrl;
-            showLoader();
+            ShowLoader();
             if (inputValidation('.input-validation')) {
                 if ($('#submit')[0].name == INSERT) {
                     getUrl = "/API/Content/CreateModule";
@@ -123,7 +124,7 @@
                 var _SkipFlashcard = $('#cbSkipFlashcard').val();
                 var _SrNo = "";
                 try {
-                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, UserID: "", IsActive: "", ModuleID :"1"};
+                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, UserID: "", IsActive: "", ModuleID: "1" };
 
 
                     $.ajax({
@@ -139,7 +140,7 @@
                                 console.log(response);
                                 if (DataSet.StatusCode == "1") {
                                     clearFields('.input-validation');
-                                    hideLoader();
+                                    HideLoader();
                                     swal({
                                         title: "Success",
                                         text: DataSet.StatusDescription,
@@ -150,40 +151,40 @@
 
                                 }
                                 else {
-                                    hideLoader();
+                                    HideLoader();
                                     swal({
                                         title: "Failure",
                                         text: DataSet.StatusDescription,
-                                        type: "error"
+                                        icon: "error"
                                     });
                                     clearFields('.input-validation');
                                 }
                             }
                             catch (e) {
-                                hideLoader();
+                                HideLoader();
                                 swal({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    type: "error"
+                                    icon: "error"
                                 });
                             }
                         },
                         complete: function () {
-                            hideLoader();
+                            HideLoader();
                         },
                         failure: function (response) {
-                            hideLoader();
+                            HideLoader();
                             alert(response.data);
                             swal({
                                 title: "Failure",
                                 text: "Please try Again",
-                                type: "error"
+                                icon: "error"
                             });
                         }
                     });
                 }
                 catch (e) {
-                    hideLoader();
+                    HideLoader();
                     swal({
                         title: "Alert",
                         text: "Oops! An Occured. Please try again",
@@ -193,7 +194,7 @@
                 }
             }
             else {
-                hideLoader();
+                HideLoader();
                 swal({
                     title: "Alert",
                     text: "Fill all fields",
@@ -203,15 +204,35 @@
             }
         }
 
-        function Edit(ctrl) {
-            var id = $(ctrl).closest('tr').attr('id');
+        function Edit(ModuleId) {
+            //var id = $(ctrl).closest('tr').attr('id');
             toggle('divForm', 'divGird');
             $('#submit').attr('name', EDIT);
+
+            $('#' + id).find("td:not(:last-child)").each(function (i, data) {
+                if (this.className == 'title') {
+                    $('#txtTitle').val(this.innerText); ///This will find title for Topic 
+
+                }
+                if (this.className == 'description') {
+                    $('#txtDescription').val(this.innerText);
+                }
+                if (this.className == 'isPublished') {
+                    if (this.innerText == "Yes") {
+                        $('#cbIsPublished').prop('checked', true);
+                    }
+                    else {
+                        $('#cbIsPublished').prop('checked', false);
+                    }
+
+                }
+            });
             //Submit button name attribute changed to EDIT(Modify);
         }
 
-        function Delete(ctrl) {
-            var id = $(ctrl).closest('tr').attr('id');
+        function Delete(ModuleId) {
+            
+            id = ModuleId;
             swal({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to revert changes!",
@@ -221,9 +242,9 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        showLoader();
+                        ShowLoader();
                         try {
-                            var requestParams = { TopicID: id, ModuleID: 1 };
+                            var requestParams = { TopicID: id, ModuleID: ModuleId };
                             var getUrl = "/API/Content/DeleteModule";
 
                             $.ajax({
@@ -238,7 +259,7 @@
                                         var DataSet = $.parseJSON(response);
                                         console.log(response);
                                         if (DataSet.StatusCode == "1") {
-                                            hideLoader();
+                                            HideLoader();
                                             swal({
                                                 title: "Success",
                                                 text: DataSet.StatusDescription,
@@ -249,7 +270,7 @@
 
                                         }
                                         else {
-                                            hideLoader();
+                                            HideLoader();
                                             swal({
                                                 title: "Failure",
                                                 text: DataSet.StatusDescription,
@@ -258,7 +279,7 @@
                                         }
                                     }
                                     catch (e) {
-                                        hideLoader();
+                                        HideLoader();
                                         //alert(response);
                                         //alert(e.message);
                                         swal({
@@ -269,10 +290,10 @@
                                     }
                                 },
                                 complete: function () {
-                                    hideLoader();
+                                    HideLoader();
                                 },
                                 failure: function (response) {
-                                    hideLoader();
+                                    HideLoader();
                                     alert(response.data);
                                     swal({
                                         title: "Failure",
@@ -283,7 +304,7 @@
                             });
                         }
                         catch (e) {
-                            hideLoader();
+                            HideLoader();
                             swal({
                                 title: "Alert",
                                 text: "Oops! An Occured. Please try again",
@@ -299,8 +320,8 @@
         function View() {
             var url = "/API/Content/GetModules";
 
-            var requestParams = { TopicID: "", ModuleID:"1",ModuleTitle: "", ModuleOverview: "", ModuleDescription: "", IsPublished: "", SrNo: "", UserID: "", IsActive: "" };
-            showLoader();
+            var requestParams = { TopicID: "", ModuleID: "1", ModuleTitle: "", ModuleOverview: "", ModuleDescription: "", IsPublished: "", SrNo: "", UserID: "", IsActive: "" };
+            ShowLoader();
             try {
                 $.ajax({
                     //type: "GET",
@@ -312,61 +333,82 @@
                     contentType: "application/json",
                     processData: false,
                     success: function (response) {
-                        var DataSet = $.parseJSON(response);
-                        console.log(response);
-                        if (DataSet.StatusCode == "1") {
-                            var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                            tbl += '<thead><tr>';
-                            tbl += '<th>#';
-                            tbl += '<th>Topic';
-                            tbl += '<th>Title';
-                            tbl += '<th>Overview';
-                            tbl += '<th>Description';
-                            tbl += '<th>Is Published';
-                            tbl += '<th>Skip Flashcard';
-                            tbl += '<th>Total Contents';
-                            tbl += '<th>Survey';
-                            tbl += '<th>Flashcards';
-                            tbl += '<th>Flashcard Quiz';
-                            tbl += '<th>Final Quiz';
-                            tbl += '<th>Personal Gifts';
-                            tbl += '<th>ACTION';
+                        try {
+                            if (response) {
+                                var DataSet = $.parseJSON(response);
 
-                            tbl += '<tbody>';
-
-
-                            $.each(DataSet.data, function (i, data) {
-
-                                tbl += '<tr id="' + data.id + '">';
-                                tbl += '<td>' + (i + 1);
-
-                                tbl += '<td>' + data.first_name;
-                                tbl += '<td>' + data.first_name;
-                                tbl += '<td>' + data.last_name;
-                                tbl += '<td>' + data.last_name;
-                                tbl += '<td>Yes' // + data.IsPublished;
-                                tbl += '<td>No' // + data.IsPublished;
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                tbl += '<td><i title="Edit" onclick="Edit(this);" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this);" class="fas fa-trash text-danger"></i>';
+                                if (DataSet.StatusCode == "1") {
+                                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                                    tbl += '<thead><tr>';
+                                    tbl += '<th>#';
+                                    tbl += '<th>Topic';
+                                    tbl += '<th>Title';
+                                    tbl += '<th>Overview';
+                                    tbl += '<th>Description';
+                                    tbl += '<th>Is Published';
+                                    //tbl += '<th>Skip Flashcard';
+                                    //tbl += '<th>Total Contents';
+                                    //tbl += '<th>Survey';
+                                    //tbl += '<th>Flashcards';
+                                    //tbl += '<th>Flashcard Quiz';
+                                    //tbl += '<th>Final Quiz';
+                                    //tbl += '<th>Personal Gifts';
+                                    tbl += '<th>ACTION';
+                                    tbl += '<tbody>';
 
 
-                            });
+                                    $.each(DataSet.data, function (i, data) {
+                                        if (data.IsPublished == "1") {
+                                            data.IsPublished = "Yes";
+                                        }
+                                        else {
+                                            data.IsPublished = "No";
+                                        }
+                                        tbl += '<tr id="' + data.ModuleID + '">';
+                                        tbl += '<td>' + (i + 1);
+                                        tbl += '<td class="topicname">' + data.TopicName;
+                                        tbl += '<td class="title">' + data.Title;
+                                        tbl += '<td class="description">' + data.Description;
+                                        tbl += '<td class="isPublished">' + data.IsPublished;
+                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                        tbl += '<td><i title="Edit" onclick="Edit(' + data.ModuleID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + ata.ModuleID + ');" class="fas fa-trash text-danger"></i>';
 
-                            $('#divTable').empty().append(tbl)
 
-                            $('#tblGird').tableDnD()
+                                    });
+
+                                    $('#divTable').empty().append(tbl)
+
+                                    $('#tblGird').tableDnD()
+                                }
+                                else {
+                                    swal({
+                                        title: "Warning",
+                                        text: DataSet.StatusDescription,
+                                        icon: "error",
+                                        button: "Ok",
+                                    });
+                                }
+                            }
+                            else {
+                                HideLoader();
+                                swal({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    type: "error"
+                                });
+                            }
                         }
-                        else {
+                        catch (e) {
+                            HideLoader();
                             swal({
-                                title: "Warning",
-                                text: DataSet.StatusDescription,
-                                icon: "error",
-                                button: "Ok",
+                                title: "Failure",
+                                text: "Please try Again",
+                                type: "error"
                             });
                         }
                     },
@@ -380,7 +422,7 @@
 
 
                     complete: function () {
-                        hideLoader();
+                        HideLoader();
                     }
                 });
             }
