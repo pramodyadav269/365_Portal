@@ -4,8 +4,8 @@
     font-family: 'Heebo';
     font-style: normal;
     font-weight: 400;
-    src: local('Heebo'), local('Heebo-Regular'), 
-        /*url('../fonts/heebo-v5-latin-700.woff2') format('woff2'),*/ /* Super Modern Browsers */
+    src: local('Heebo'), local('Heebo-Regular'),
+    /*url('../fonts/heebo-v5-latin-700.woff2') format('woff2'),*/ /* Super Modern Browsers */
     url('../fonts/heebo-v5-latin-regular.woff2') format('woff2');
 }
 
@@ -801,6 +801,9 @@ p.anchor {
         background: transparent
     }
 
+    .rating input[type=checkbox] + label, .rating input[type=radio] + label {
+        margin: 0;
+    }
 /* box style - checkbox/radioSSS */
 .box {
     position: relative;

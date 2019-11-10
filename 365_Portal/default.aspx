@@ -220,30 +220,30 @@
                                 </div>
                                 <div id="dvVideoRating" style="display: none;" class="video-rating text-white">
                                     <div class="video-rating-content">
-                                    <h2 class="font-weight-bold">How did you like the video?</h2>
-                                    <dl class="row text-center">
-                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,1)">
-                                            <i class="far fa-grin-hearts fa-5x"></i>
-                                            <%--<img src="Asset/images/love-icon.svg" />--%>
-                                            <span>Love it!</span>
-                                        </dt>
-                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,2)">
-                                            <i class="far fa-grin-beam fa-5x"></i>
-                                            <%--<img src="Asset/images/like-icon.svg" />--%>
-                                            <span>Like it!</span>
-                                        </dt>
-                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,3)">
-                                            <i class="far fa-meh fa-5x"></i>
-                                            <%--<img src="Asset/images/meh-icon.svg" />--%>
-                                            <span>Meh</span>
-                                        </dt>
-                                        <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,4)">
-                                            <i class="far fa-frown fa-5x"></i>
-                                            <%--<img src="Asset/images/didnt-like-icon.svg" />--%>
-                                            <span>Didn't like it!</span>
-                                        </dt>
-                                    </dl>
-                                        </div>
+                                        <h2 class="font-weight-bold">How did you like the video?</h2>
+                                        <dl class="row text-center">
+                                            <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,1)">
+                                                <i class="far fa-grin-hearts fa-5x"></i>
+                                                <%--<img src="Asset/images/love-icon.svg" />--%>
+                                                <span>Love it!</span>
+                                            </dt>
+                                            <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,2)">
+                                                <i class="far fa-grin-beam fa-5x"></i>
+                                                <%--<img src="Asset/images/like-icon.svg" />--%>
+                                                <span>Like it!</span>
+                                            </dt>
+                                            <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,3)">
+                                                <i class="far fa-meh fa-5x"></i>
+                                                <%--<img src="Asset/images/meh-icon.svg" />--%>
+                                                <span>Meh</span>
+                                            </dt>
+                                            <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,4)">
+                                                <i class="far fa-frown fa-5x"></i>
+                                                <%--<img src="Asset/images/didnt-like-icon.svg" />--%>
+                                                <span>Didn't like it!</span>
+                                            </dt>
+                                        </dl>
+                                    </div>
                                 </div>
                                 <div id="divVideo"></div>
                                 <%-- <video controls id="contentVideo" onended="videoRating()">
@@ -317,8 +317,11 @@
                                         </div>
 
                                         <%--File Upload Control--%>
-                                        <div ng-if="question.QuestionTypeID == 4 " class="custom-file">
-                                            <input type="file" class="custom-file-input" questionid="{{question.QuestionID}}" onchange="ChangeFileName(this)" id="file" ng-model="question.Value_Text"><label class="custom-file-label" for="customFile">Choose file</label>
+                                        <div ng-if="question.QuestionTypeID == 4">
+
+                                                <input type="file" questionid="{{question.QuestionID}}" onchange="ChangeFileName(this)" ng-model="question.Value_Text" class="required" id="file">
+
+                                            <%--<input type="file" class="custom-file-input" questionid="{{question.QuestionID}}" onchange="ChangeFileName(this)" id="file" ng-model="question.Value_Text"><label class="custom-file-label" for="file">Choose file</label>--%>
                                             <div>{{question.Value_Text}}</div>
                                         </div>
 
@@ -588,12 +591,12 @@ IsPassed:{{SpecialContents.IsPassed}}
 
     <script>
         $(document).ready(function () {
-            //$('select.select2').select2({
-            //    placeholder: "Select a option",
-            //    allowClear: true
-            //});
-
+            $('select.select2').select2({
+                placeholder: "Select a option",
+                allowClear: true
+            });
             //$('.date').datepicker({ uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
+            bsCustomFileInput.init();
         });
 
         function VideoFinished(e) {
