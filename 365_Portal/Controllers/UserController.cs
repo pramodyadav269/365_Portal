@@ -317,6 +317,7 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
+        /*
         [Route("API/User/CreateUser")]
         [HttpPost]
         public IHttpActionResult CreateUser(JObject jsonResult)
@@ -342,6 +343,8 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
+        */
+
 
         [HttpPost]
         [Route("API/User/GetMyProfile")]
@@ -850,5 +853,311 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
+
+
+        [Route("API/User/GetUsers")]
+        [HttpPost]
+        public IHttpActionResult GetUsers()
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                UserBO objUser = new UserBO();
+                objUser.UserID = identity.UserID;
+                objUser.CompId = identity.CompId;
+                objUser.Role   = identity.Role;
+                var ds = CommonBL.GetUsers(objUser);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.Successful(data);
+                }
+                else
+                {
+                    data = Utility.API_Status("2", "No user found");
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("API/User/BindRoleAndGroup")]
+        [HttpPost]
+        public IHttpActionResult BindRoleAndGroup()
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                UserBO objUser = new UserBO();
+                objUser.UserID = identity.UserID;
+                objUser.CompId = identity.CompId;
+                objUser.Role = identity.Role;
+                var ds = CommonBL.BindRoleAndGroup(objUser);
+
+                data = Utility.ConvertDataSetToJSONString(ds);
+                data = Utility.Successful(data);
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("API/User/CreateUser")]
+        [HttpPost]
+        public IHttpActionResult CreateUser(JObject jsonResult)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                string Message = string.Empty;
+                UserBO objUser = new UserBO();
+
+                if (ValidateUserDetails(jsonResult, out Message, out objUser))
+                {
+                    objUser.UserID = identity.UserID;
+                    objUser.CompId = identity.CompId;
+                    objUser.Role = identity.Role;
+
+                    var ds = CommonBL.CreateUpdateUser(objUser, 1,0);
+                    if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
+                    {
+                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                        data = Utility.Successful(data);
+                    }
+                    else if (ds.Tables[0].Rows.Count > 0 )
+                    {
+                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                        data = Utility.Failed(data);
+                    }
+                    else
+                    {
+                        data = Utility.API_Status("0", "No data found");
+                    }
+                }
+                else
+                {
+                    data = Utility.API_Status("2", Message);
+                }                
+            }
+            else
+            {                
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("API/User/UpdateUser")]
+        [HttpPost]
+        public IHttpActionResult UpdateUser(JObject jsonResult)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                string Message = string.Empty;
+                UserBO objUser = new UserBO();
+
+                if (ValidateUserDetails(jsonResult, out Message, out objUser))
+                {
+                    objUser.UserID = identity.UserID;
+                    objUser.CompId = identity.CompId;
+                    objUser.Role = identity.Role;
+
+                    int ChildUserID = 0;
+                    if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
+                    {
+                        ChildUserID = (int)jsonResult.SelectToken("UserID");
+
+                        var ds = CommonBL.CreateUpdateUser(objUser, 2, ChildUserID);
+                        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
+                        {
+                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                            data = Utility.Successful(data);
+                        }
+                        else if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                            data = Utility.Failed(data);
+                        }
+                        else
+                        {
+                            data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
+                        }
+                    }
+                    else
+                    {
+                        data = Utility.API_Status("2", "Please provide UserID");
+                    }
+                }
+                else
+                {
+                    data = Utility.API_Status("2", Message);
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("API/User/DeleteUser")]
+        [HttpPost]
+        public IHttpActionResult DeleteUser(JObject jsonResult)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                string Message = string.Empty;
+                UserBO objUser = new UserBO();                
+                objUser.UserID = identity.UserID;
+                objUser.CompId = identity.CompId;
+                objUser.Role = identity.Role;
+                objUser.IsDeleted = false;
+
+                int ChildUserID = 0;
+                if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
+                {
+                    ChildUserID = (int)jsonResult.SelectToken("UserID");
+
+                    var ds = CommonBL.DeleteUser(objUser, ChildUserID);
+                    if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
+                    {
+                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                        data = Utility.Successful(data);
+                    }
+                    else if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                        data = Utility.Failed(data);
+                    }
+                    else
+                    {
+                        data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
+                    }
+                }
+                else
+                {
+                    data = Utility.API_Status("2", "Please provide UserID");
+                }
+
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("API/User/GetUserDetailsForParent")]
+        [HttpPost]
+        public IHttpActionResult GetUserDetailsForParent(JObject jsonResult)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                string Message = string.Empty;
+                UserBO objUser = new UserBO();
+                objUser.UserID = identity.UserID;
+                objUser.CompId = identity.CompId;
+                objUser.Role = identity.Role;
+                objUser.IsDeleted = false;
+
+                int ChildUserID = 0;
+                if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
+                {
+                    ChildUserID = (int)jsonResult.SelectToken("UserID");
+
+                    var ds = CommonBL.GetUserDetailsForParent(objUser, ChildUserID);
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                        data = Utility.Successful(data);
+                    }
+                    else
+                    {
+                        data = Utility.API_Status("0", "No data found");
+                    }
+                }
+                else
+                {
+                    data = Utility.API_Status("2", "Please provide UserID");
+                }                
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        private bool ValidateUserDetails(JObject jsonResult, out string Message,out UserBO objUserVal)
+        {
+            bool ValFlag = true;
+            Message = string.Empty;
+            objUserVal = new UserBO();
+
+            if (jsonResult.SelectToken("RoleID") != null && jsonResult.SelectToken("RoleID").ToString().Trim() != "") {
+                objUserVal.RoleID = (string)jsonResult.SelectToken("RoleID");
+            }
+            else {
+                Message = "Please provide RoleID of user."; ValFlag = false; return ValFlag;
+            }
+
+            if (jsonResult.SelectToken("FirstName") != null && jsonResult.SelectToken("FirstName").ToString().Trim() != ""){
+                objUserVal.FirstName = (string)jsonResult.SelectToken("FirstName");
+            }
+            else{
+                Message = "Please provide First Name of user."; ValFlag = false; return ValFlag;
+            }
+
+            if (jsonResult.SelectToken("LastName") != null && jsonResult.SelectToken("LastName").ToString().Trim() != ""){
+                objUserVal.LastName = (string)jsonResult.SelectToken("LastName");
+            }
+            else{
+                Message = "Please provide LastName Name of user."; ValFlag = false; return ValFlag;
+            }
+
+            if (jsonResult.SelectToken("EmailID") != null && jsonResult.SelectToken("EmailID").ToString().Trim() != ""){
+                objUserVal.EmailID = (string)jsonResult.SelectToken("EmailID");
+            }
+            else{
+                Message = "Please provide EmailID of user."; ValFlag = false; return ValFlag;
+            }
+
+            if (jsonResult.SelectToken("Password") != null && jsonResult.SelectToken("Password").ToString().Trim() != ""){
+                objUserVal.NewPassword = (string)jsonResult.SelectToken("Password");
+            }
+            else{
+                Message = "Please provide Password of user."; ValFlag = false; return ValFlag;
+            }
+
+            if (jsonResult.SelectToken("MobileNum") != null && jsonResult.SelectToken("MobileNum").ToString().Trim() != ""){
+                objUserVal.MobileNum = (string)jsonResult.SelectToken("MobileNum");
+            }
+
+            if (jsonResult.SelectToken("Position") != null && jsonResult.SelectToken("Position").ToString().Trim() != ""){
+                objUserVal.Position = (string)jsonResult.SelectToken("Position");
+            }
+
+            if (jsonResult.SelectToken("GroupId") != null && jsonResult.SelectToken("GroupId").ToString().Trim() != ""){
+                objUserVal.GroupId = (string)jsonResult.SelectToken("GroupId");
+            }
+            objUserVal.UserKey = Guid.NewGuid().ToString();
+            objUserVal.PasswordSalt = Utility.GetSalt();
+            objUserVal.PasswordHash = Utility.GetHashedPassword(objUserVal.NewPassword, objUserVal.PasswordSalt);
+
+            return ValFlag;
+        }
     }
 }

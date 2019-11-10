@@ -159,5 +159,71 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+
+        public static DataSet GetUsers(UserBO objUserBO)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = CommonDAL.GetUsers(objUserBO);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+        public static DataSet BindRoleAndGroup(UserBO objUserBO)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = CommonDAL.BindRoleAndGroup(objUserBO);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+        public static DataSet CreateUpdateUser(UserBO objUserBO, int Action ,int ChildUserID)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = CommonDAL.CreateUpdateUser(objUserBO, Action ,ChildUserID);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+        public static DataSet DeleteUser(UserBO objUserBO, int ChildUserID)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = CommonDAL.DeleteUser(objUserBO, ChildUserID);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+        public static DataSet GetUserDetailsForParent(UserBO objUserBO, int ChildUserID)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = CommonDAL.GetUserDetailsForParent(objUserBO, ChildUserID);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
     }
 }
