@@ -178,25 +178,26 @@
             
             $('#divTable').empty();
             if (Table != undefined && Table.length > 0) {
-                $('#divTable').append('<table id="tblGird" class="table table-bordered" style="width: 100%"><thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Position</th><th>Role</th><th>Group</th><th>ACTION</th>');
+                $('#divTable').append('<table id="tblGird" class="table table-bordered" style="width: 100%"><thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Position</th><th>Role</th><th>Group</th><th colspan="2">ACTION</th>');
                 $('#divTable').append('<tbody>');
 
                 for (var i = 0; i < Table.length ; i++)
                 {
-                    $('#divTable').append('<tr>');
-                    $('#divTable').append('<td>' + (i + 1) + '</td>');
-                    $('#divTable').append('<td style="display:none;" id="id">' + Table[i].UserID + '</td>');
-                    $('#divTable').append('<td>' + Table[i].FirstName + '</td>');
-                    $('#divTable').append('<td>' + Table[i].LastName + '</td>');
-                    $('#divTable').append('<td>' + Table[i].EmailID + '</td>');
-                    $('#divTable').append('<td>' + Table[i].Position + '</td>');
-                    $('#divTable').append('<td>' + Table[i].RoleName + '</td>');
-                    $('#divTable').append('<td>' + Table[i].GroupName + '</td>');
-                    $('#divTable').append('<td><i title="Edit" onclick="Edit(this,' + Table[i].UserID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this,' + Table[i].UserID + ');" class="fas fa-trash text-danger"></i></td>');
-                    $('#divTable').append('</tr>');
+                    $('#tblGird').append('<tr>');
+                    $('#tblGird').append('<td>' + (i + 1) + '</td>');
+                    $('#tblGird').append('<td style="display:none;" id="id">' + Table[i].UserID + '</td>');
+                    $('#tblGird').append('<td>' + Table[i].FirstName + '</td>');
+                    $('#tblGird').append('<td>' + Table[i].LastName + '</td>');
+                    $('#tblGird').append('<td>' + Table[i].EmailID + '</td>');
+                    $('#tblGird').append('<td>' + Table[i].Position + '</td>');
+                    $('#tblGird').append('<td>' + Table[i].RoleName + '</td>');
+                    $('#tblGird').append('<td>' + Table[i].GroupName + '</td>');
+                    $('#tblGird').append('<td><i title="Edit" onclick="Edit(this,' + Table[i].UserID + ');" class="fas fa-edit text-warning"></i></td>');
+                    $('#tblGird').append('<td><i title="Delete" onclick="Delete(this,' + Table[i].UserID + ');" class="fas fa-trash text-danger"></i></td>');
+                    $('#tblGird').append('</tr>');
                 }
-                $('#divTable').append('</tbody>');
-                $('#divTable').append('</table>');
+                //$('#tblGird').append('</tbody>');
+                //$('#tblGird').append('</table>');
             }
             else {
                 $('#divTable').append('<h2>No users found</h2>');
@@ -398,7 +399,7 @@
                             var Role = DataSet.Data.Data;
                             var Group = DataSet.Data.Data1;
 
-                            if (Role != undefined && Role.length > 0) 
+                            //if (Role != undefined && Role.length > 0) 
                             {                                
                                 $('#ddlRole').empty().append('<option></option>');
                                 for(var i = 0;i < Role.length ; i++)
@@ -474,6 +475,8 @@
                             $('#btnSubmit').hide();
                             $('#btnUpdate').show();
                             $('#UserID').val(id);
+
+                            $('.select2').material_select();
                         }
                         else {
                             if (DataSet.Data != undefined && DataSet.Data.length > 0) {

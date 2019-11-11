@@ -11,7 +11,7 @@ namespace _365_Portal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (HttpContext.Current.Session["UserId"] != null && Convert.ToString(Session["RoleName"]) == "enduser")
+            if (HttpContext.Current.Session["UserId"] != null)//&& Convert.ToString(Session["RoleName"]) == "enduser"
             {
                 string CurrDirecotry = Server.MapPath("/").ToString();
                 string FullPath = CurrDirecotry + System.IO.Path.GetFileName(Request.Url.AbsolutePath);
@@ -31,11 +31,11 @@ namespace _365_Portal
                     lblUserName.Text = HttpContext.Current.Session["FirstName"].ToString() + " " + HttpContext.Current.Session["LastName"].ToString();
                 }
 
-                if (!string.IsNullOrEmpty(HttpContext.Current.Session["ProfilePicFile"].ToString()))
+                if (HttpContext.Current.Session["ProfilePicFile"] != null && !string.IsNullOrEmpty(HttpContext.Current.Session["ProfilePicFile"].ToString()))
                 {
                     imgProfilePic.Src = "/Files/ProfilePic/" + HttpContext.Current.Session["ProfilePicFile"].ToString();
                 }
-                if (!string.IsNullOrEmpty(HttpContext.Current.Session["CompanyProfilePicFile"].ToString()))
+                if (HttpContext.Current.Session["CompanyProfilePicFile"] != null && !string.IsNullOrEmpty(HttpContext.Current.Session["CompanyProfilePicFile"].ToString()))
                 {
                     imgCompanyLogo.Src = "/Files/CompLogo/" + HttpContext.Current.Session["CompanyProfilePicFile"].ToString();
                 }
