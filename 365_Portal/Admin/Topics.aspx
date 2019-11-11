@@ -52,7 +52,7 @@
                         <div class="w-100"></div>
 
                         <div class="col-md-12 mt-4">
-                            <a class="btn bg-yellow float-left" onclick="toggle('divGird', 'divForm')">Back</a>
+                            <a class="btn bg-yellow float-left" id="back" onclick="toggle('divGird', 'divForm')">Back</a>
                             <a class="btn bg-yellow float-right" id="submit" onclick="Submit();">Submit</a>
                         </div>
                     </div>
@@ -75,6 +75,8 @@
             clearFields('.input-validation')
             toggle('divForm', 'divGird')
             $('#submit').attr('name', INSERT);
+            $('#submit').text('SUBMIT');
+            $('#back').text('BACK');
             //Submit button name attribute changed to Insert;
         }
 
@@ -197,7 +199,7 @@
         }
 
         function Edit(Topicid) {
-
+      
             id = Topicid;
 
             $('#' + id).find("td:not(:last-child)").each(function (i, data) {
@@ -221,8 +223,12 @@
             //content.Title);
             //$('#txtDescription').val(content.Title);
             //$("#chkIsPublished").prop("checked", content.IsPublished);
+            inputValidation('.input-validation');
             toggle('divForm', 'divGird');
             $('#submit').attr('name', EDIT);
+            $('#submit').text('EDIT');
+            $('#back').text('CANCEL');
+         
             //Submit button name attribute changed to EDIT(Modify);
         }
 
@@ -261,8 +267,12 @@
                                             text: DataSet.StatusDescription,
                                             icon: "success",
                                             button: "Ok",
+                                        }).then((value) => {
+                                            if (value) {
+
+                                                View();
+                                            }
                                         });
-                                        View();
 
 
                                     }
@@ -315,76 +325,66 @@
         }
         function View() {
             var url = "/API/Content/GetTopics";
-           
+
             try {
-              
-                    var requestParams = { TopicID: "", TopicTitle: "", TopicDescription: "", IsPublished: "", SrNo: "", MinUnlockedModules: "", UserID: "", IsActive: "" };
-                    ShowLoader();
-                    $.ajax({
-                        //type: "GET",
-                        //url: "https://reqres.in/api/users?page=1",
-                        type: "POST",
-                        url: url,
-                        headers: { "Authorization": "Bearer " + accessToken },
-                        data: JSON.stringify(requestParams),
-                        contentType: "application/json",
-                        processData: false,
-                        success: function (response) {
-                            if (response != null && response != undefined) {
-                                var DataSet = $.parseJSON(response);
-                                //console.log(response);
-                                if (DataSet.StatusCode == "1") {
-                                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                                    tbl += '<thead><tr>';
-                                    tbl += '<th>#';
-                                    tbl += '<th>Title';
-                                    tbl += '<th>Description';
-                                    tbl += '<th>Is Published';
-                                    tbl += '<th>Total Modules';
-                                    tbl += '<th>ACTION';
 
-                                    tbl += '<tbody>';
+                var requestParams = { TopicID: "", TopicTitle: "", TopicDescription: "", IsPublished: "", SrNo: "", MinUnlockedModules: "", UserID: "", IsActive: "" };
+                ShowLoader();
+                $.ajax({
+                    //type: "GET",
+                    //url: "https://reqres.in/api/users?page=1",
+                    type: "POST",
+                    url: url,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    processData: false,
+                    success: function (response) {
+                        if (response != null && response != undefined) {
+                            var DataSet = $.parseJSON(response);
+                            //console.log(response);
+                            if (DataSet.StatusCode == "1") {
+                                var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                                tbl += '<thead><tr>';
+                                tbl += '<th>Sr.No.';
+                                tbl += '<th>Title';
+                                tbl += '<th>Description';
+                                tbl += '<th>Is Published';
+                                tbl += '<th>Total Modules';
+                                tbl += '<th>ACTION';
 
-                                    $.each(DataSet.Data, function (i, data) {
-                                        if (data.IsPublished == "1") {
-                                            data.IsPublished = "Yes";
-                                        }
-                                        else {
-                                            data.IsPublished = "No";
-                                        }
+                                tbl += '<tbody>';
 
-                                        tbl += '<tr id="' + data.TopicID + '">';
-                                        tbl += '<td>' + (i + 1);
+                                $.each(DataSet.Data, function (i, data) {
+                                    if (data.IsPublished == "1") {
+                                        data.IsPublished = "Yes";
+                                    }
+                                    else {
+                                        data.IsPublished = "No";
+                                    }
 
-                                        tbl += '<td class="title">' + data.Title;
-                                        tbl += '<td class="description">' + data.Description;
-                                        tbl += '<td class="isPublished">' + data.IsPublished;
-                                        tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        tbl += '<td><i title="Edit" onclick="Edit(' + data.TopicID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.TopicID + ');" class="fas fa-trash text-danger"></i>';
+                                    tbl += '<tr id="' + data.TopicID + '">';
+                                    tbl += '<td>' + (i + 1);
 
-                                    });
+                                    tbl += '<td class="title">' + data.Title;
+                                    tbl += '<td class="description">' + data.Description;
+                                    tbl += '<td class="isPublished">' + data.IsPublished;
+                                    tbl += '<td><a href=Modules.aspx?Id=' + data.TopicID + '>' + data.TopicID + '</a>';
+                                    tbl += '<td><i title="Edit" onclick="Edit(' + data.TopicID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.TopicID + ');" class="fas fa-trash text-danger"></i>';
 
-                                    $('#divTable').empty().append(tbl)
+                                });
 
-                                    $('#tblGird').tableDnD()
+                                $('#divTable').empty().append(tbl)
 
-                                    //var dTable = $('#tblGird').DataTable();
+                                $('#tblGird').tableDnD()
 
-                                    //dTable.on('order.dt search.dt', function () {
-                                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                                    //        cell.innerHTML = i + 1;
-                                    //    });
-                                    //}).draw();
-                                }
-                                else {
-                                    HideLoader();
-                                    swal({
-                                        title: "Warning",
-                                        text: DataSet.StatusDescription,
-                                        icon: "error",
-                                        button: "Ok",
-                                    });
-                                }
+                                //var dTable = $('#tblGird').DataTable();
+
+                                //dTable.on('order.dt search.dt', function () {
+                                //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                                //        cell.innerHTML = i + 1;
+                                //    });
+                                //}).draw();
                             }
                             else {
                                 HideLoader();
@@ -395,12 +395,22 @@
                                     button: "Ok",
                                 });
                             }
-                        },
-                        complete: function () {
-                            HideLoader();
                         }
-                    });
-                
+                        else {
+                            HideLoader();
+                            swal({
+                                title: "Warning",
+                                text: DataSet.StatusDescription,
+                                icon: "error",
+                                button: "Ok",
+                            });
+                        }
+                    },
+                    complete: function () {
+                        HideLoader();
+                    }
+                });
+
             }
             catch (e) {
                 swal({

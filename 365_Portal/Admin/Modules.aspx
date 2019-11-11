@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
-            <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
+            <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Topics</a>
             <h1 class="text-center font-weight-bold">Modules</h1>
         </div>
 
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <%--   <div class="col-md-3">
                             <div class="form-group checkbox required">
                                 <label>Skip Flashcard</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
@@ -72,7 +72,7 @@
                                     <label class="custom-control-label" for="cbSkipFlashcard">Yes</label>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
 
 
 
@@ -107,6 +107,8 @@
             $('#ddlTopic').attr("disabled", true);
             toggle('divForm', 'divGird');
             $('#submit').attr('name', INSERT);
+            $('#submit').text('SUBMIT');
+            $('#back').text('BACK');
             //Submit button name attribute changed to Insert;
         }
 
@@ -119,7 +121,7 @@
                 var _Overview = $('#txtOverview').val();
                 var _Description = $('#txtDescription').val();
                 var _IsPublished = $('#cbIsPublished').prop('checked');
-                var _SkipFlashcard = $('#cbSkipFlashcard').prop('checked');
+
                 var ID;
                 if ($('#submit')[0].name == INSERT) {
                     getUrl = "/API/Content/CreateModule";
@@ -159,7 +161,7 @@
                                             View();
                                         }
                                     });
-                                    
+
 
 
                                 }
@@ -219,12 +221,8 @@
 
         function Edit(ModuleId) {
             if (ModuleId != null && ModuleId != '') {
-                $('#ddlTopic').val(TopicID).trigger("change");
-                $('#ddlTopic').attr("disabled", true);
                 _ModuleID = ModuleId; //Initalizing Global varaiable of Module ID;
-                toggle('divForm', 'divGird');
-                $('#submit').attr('name', EDIT);
-
+                $('#ddlTopic').val(TopicID).trigger("change");
                 $('#' + _ModuleID).find("td:not(:last-child)").each(function (i, data) {
                     if (TopicID != null || TopicID != undefined) {
                         $('#ddlTopic option:selected').val(TopicID); ///This will find title for Topic
@@ -249,7 +247,13 @@
                         }
 
                     }
-                });
+                });           
+                $('#ddlTopic').attr("disabled", true);
+                toggle('divForm', 'divGird');
+                $('#submit').attr('name', EDIT);
+                $('#submit').text('EDIT');
+                $('#back').text('CANCEL');
+                inputValidation('.input-validation');
                 //Submit button name attribute changed to EDIT(Modify);
             }
             else {
@@ -388,18 +392,18 @@
                                 if (DataSet.StatusCode == "1") {
                                     var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
                                     tbl += '<thead><tr>';
-                                    tbl += '<th>#';
+                                    tbl += '<th>Sr.No.';
                                     tbl += '<th>Topic';
                                     tbl += '<th>Title';
                                     tbl += '<th>Overview';
                                     tbl += '<th>Description';
                                     tbl += '<th>Is Published';
                                     //tbl += '<th>Skip Flashcard';
-                                    //tbl += '<th>Total Contents';
-                                    //tbl += '<th>Survey';
-                                    //tbl += '<th>Flashcards';
-                                    //tbl += '<th>Flashcard Quiz';
-                                    //tbl += '<th>Final Quiz';
+                                    tbl += '<th>Contents';
+                                    tbl += '<th>Survey';
+                                    tbl += '<th>Flashcards';
+                                    tbl += '<th>Flashcard Quiz';
+                                    tbl += '<th>Final Quiz';
                                     //tbl += '<th>Personal Gifts';
                                     tbl += '<th>ACTION';
                                     tbl += '<tbody>';
@@ -419,11 +423,11 @@
                                         tbl += '<td class="overview">' + data.Overview;
                                         tbl += '<td class="description">' + data.Description;
                                         tbl += '<td class="isPublished">' + data.IsPublished;
-                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                        tbl += '<td><a href="Contents.aspx?ModuleID=' + data.ModuleID + '">'+data.ModuleID+'</a>';
+                                        tbl += '<td><a href="Quiz.aspx?type=1&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                        tbl += '<td><a href="Flashcards.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                        tbl += '<td><a href="Quiz.aspx?type=2&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                        tbl += '<td><a href="Quiz.aspx?type=3&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
                                         //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
                                         //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
                                         tbl += '<td><i title="Edit" onclick="Edit(' + data.ModuleID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.ModuleID + ');" class="fas fa-trash text-danger"></i>';

@@ -184,13 +184,13 @@
                     $('#txtTitle').val(this.innerText); ///This will find title for Topic 
 
                 }
-                //if (this.className == 'description') {
-                //    $('#txtDescription').val(this.innerText);
-                //}
 
             });
             toggle('divForm', 'divGird');
             $('#submit').attr('name', EDIT);
+            $('#submit').text('EDIT');
+            $('#back').text('CANCEL');
+            inputValidation('.input-validation');
             //Submit button name attribute changed to EDIT(Modify);
         }
 
@@ -227,8 +227,12 @@
                                             text: DataSet.StatusDescription,
                                             icon: "success",
                                             button: "Ok",
+                                        }).then((value) => {
+                                            if (value) {
+
+                                                View();
+                                            }
                                         });
-                                        View();
 
 
                                     }
@@ -262,7 +266,7 @@
                                     title: "Failure",
                                     text: "Please try Again",
                                     type: "error"
-                                });
+                                })
                             }
                         });
                     }
@@ -299,7 +303,7 @@
                             if (DataSet.StatusCode == "1") {
                                 var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
                                 tbl += '<thead><tr>';
-                                tbl += '<th>#';
+                                tbl += '<th>Sr.No.';
                                 tbl += '<th>Title';
                                 //tbl += '<th>Description';
                                 tbl += '<th>ACTION';

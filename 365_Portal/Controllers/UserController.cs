@@ -1080,6 +1080,7 @@ namespace _365_Portal.Controllers
             int GroupId = 0;
             string GroupName = string.Empty;
             int CompID;
+       
             string CreatedBy = string.Empty;
             ContentBO content = new ContentBO();
             try
@@ -1090,6 +1091,7 @@ namespace _365_Portal.Controllers
 
                     if ((Convert.ToInt32(requestParams["GroupID"]) != 0 && !string.IsNullOrEmpty(requestParams["GroupID"].ToString())) && !string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
                     {
+                       bool IsActive=false;
                         CompID = identity.CompId;
                         CreatedBy = identity.UserID;
                         if (!string.IsNullOrEmpty(requestParams["GroupID"].ToString()))
@@ -1098,9 +1100,9 @@ namespace _365_Portal.Controllers
                         }
                         if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
                         {
-                            GroupId = Convert.ToInt32(requestParams["IsActive"]);
+                            IsActive = (bool)requestParams["IsActive"];
                         }
-                        var ds = UserBL.DeleteGroup(CompID, GroupId, CreatedBy);
+                        var ds = UserBL.DeleteGroup(CompID, GroupId, IsActive, CreatedBy);
 
                         if (ds.Tables.Count > 0)
                         {

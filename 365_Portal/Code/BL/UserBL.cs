@@ -113,12 +113,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet DeleteGroup(int CompId, int GroupId, string CreatedBy)
+        public static DataSet DeleteGroup(int CompId, int GroupId, bool IsActive, string CreatedBy)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = UserDAL.DeleteGroup(CompId, GroupId, CreatedBy);
+                ds = UserDAL.DeleteGroup(CompId, GroupId, IsActive, CreatedBy);
             }
             catch (Exception ex)
             {

@@ -473,7 +473,7 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-        public static DataSet DeleteGroup(int CompId, int GroupId, string CreatedBy)
+        public static DataSet DeleteGroup(int CompId, int GroupId,bool IsActive, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -486,6 +486,7 @@ namespace _365_Portal.Code.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", CompId);
                 cmd.Parameters.AddWithValue("p_GroupID", GroupId);
+                cmd.Parameters.AddWithValue("p_IsActive", IsActive);
                 cmd.Parameters.AddWithValue("p_CreatedBy", CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
