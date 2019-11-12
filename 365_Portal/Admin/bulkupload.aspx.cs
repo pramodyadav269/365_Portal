@@ -11,6 +11,8 @@ using OfficeOpenXml;
 using System.Data.SqlClient;
 using System.Net;
 using BulkUploadNamespace;
+using _365_Portal.Common;
+using _365_Portal.Code.BL;
 
 namespace _365_Portal.Admin
 {
@@ -93,6 +95,7 @@ namespace _365_Portal.Admin
                             topic.IsPublished = GetBoolValue(Convert.ToString((row["Topic_Published"])));
                             topic.SrNo = topicSrNo;
                             lstTopics.Add(topic);
+                           // ContentBL.CreateTopic();
                         }
                         else
                         {
@@ -120,6 +123,7 @@ namespace _365_Portal.Admin
                             module.IsPublished = GetBoolValue(Convert.ToString((row["Module_Published"])));
                             module.SrNo = moduleSrNo;
                             lstModules.Add(module);
+
                         }
                         else
                         {
