@@ -219,6 +219,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\Achievement.aspx.cs">
+      <DependentUpon>Achievement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Achievement.aspx.designer.cs">
+      <DependentUpon>Achievement.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\admin.Master.cs">
       <DependentUpon>admin.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -500,6 +507,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\Achievement.aspx" />
     <Content Include="Admin\bulkupload.aspx" />
     <Content Include="Admin\assign_topics.aspx" />
     <Content Include="Admin\Groups.aspx" />
