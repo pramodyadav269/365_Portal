@@ -448,5 +448,75 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
+        [Route("api/Trainning/AssignTopicsByEntity")]
+        [HttpPost]
+        public IHttpActionResult AssignTopicsByEntity(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    string userId = identity.UserID;
+                    var topicIds = Convert.ToString(requestParams["TopicIds"].ToString());
+                    var groupIds = Convert.ToString(requestParams["GroupIds"].ToString());
+                    var userIds = Convert.ToString(requestParams["UserIds"].ToString());
+
+                    var ds = TrainningBL.AssignTopicsByEntity(compId, userId, topicIds, groupIds, userIds);
+                    if (ds.Tables.Count > 0)
+                    {
+                        // Successful
+                        data = Utility.Successful("");
+                    }
+                    else
+                    {
+                        // Unknown Error
+                        data = Utility.API_Status("1", "Unknown Error");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    data = Utility.Exception(ex); ;
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("api/Trainning/GetTableData")]
+        [HttpPost]
+        public IHttpActionResult GetTableData(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    string userId = identity.UserID;
+                    var type = Convert.ToString(requestParams["Type"].ToString());
+                    var ds = TrainningBL.GetTableDataByType(compId, type);
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.Successful(data);
+                }
+                catch (Exception ex)
+                {
+                    data = Utility.Exception(ex); ;
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+
     }
 }

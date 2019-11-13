@@ -45,24 +45,20 @@
             </div>
         </div>
 
-
         <div id="sideNav" class="sidenav">
             <a href="<%=Page.ResolveUrl("~/Admin/dashboard.aspx") %>">Dashboard</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/Groups.aspx") %>">Groups</a>
             <a href="<%=Page.ResolveUrl("~/Admin/Users.aspx") %>">Users</a>
             <a href="<%=Page.ResolveUrl("~/Admin/Topics.aspx") %>">Topics</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/Modules.aspx") %>">Modules</a>
+            <%--  <a href="<%=Page.ResolveUrl("~/Admin/Modules.aspx") %>">Modules</a>
             <a href="<%=Page.ResolveUrl("~/Admin/ContentList.aspx") %>">Contents</a>
             <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=1") %>">Surveys</a>
             <a href="<%=Page.ResolveUrl("~/Admin/flashcards.aspx") %>">Flashcards</a>
             <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=2") %>">Flashcard Quiz</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=3") %>">Final Quiz</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=3") %>">Final Quiz</a>--%>
             <a href="<%=Page.ResolveUrl("~/Admin/bulkupload.aspx") %>">Bulk Upload</a>
             <a href="<%=Page.ResolveUrl("~/Admin/assign_topics.aspx") %>">Assign Topics</a>
-            <a href="<%=Page.ResolveUrl("~/Achievements.aspx") %>">Achievements</a>
-            <%-- <a href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
-            <a href="<%=Page.ResolveUrl("~/Profile.aspx") %>">My Profile</a>
-            <a href="<%=Page.ResolveUrl("~/ChangePassword.aspx") %>">Change Password</a>
-            <a href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>--%>
+            <a href="<%=Page.ResolveUrl("~/Admin/Achievement.aspx") %>">Achievements</a>
 
             <%--- Dashboard
 - Groups

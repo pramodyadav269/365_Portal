@@ -95,7 +95,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetContentsByModule(int compID, string userId, int topicId, int ModuleID,bool isGift)
+        public static DataSet GetContentsByModule(int compID, string userId, int topicId, int ModuleID, bool isGift)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -350,7 +350,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet ClearAnswers(int compID, string userId,string surveyId)
+        public static DataSet ClearAnswers(int compID, string userId, string surveyId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -396,6 +396,66 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_EndDate", endDate);
                 cmd.Parameters.AddWithValue("p_TotalTime", totalTime);
                 cmd.Parameters.AddWithValue("p_Type", type);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
+        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spAssignTopicsByEntity";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_compId", compID);
+                cmd.Parameters.AddWithValue("p_userId", userId);
+                cmd.Parameters.AddWithValue("p_TopicIds", topicIds);
+                cmd.Parameters.AddWithValue("p_groupIds", groupIds);
+                cmd.Parameters.AddWithValue("p_userIds", userIds);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
+        public static DataSet GetTableDataByType(int compID, string type)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spGetTableDataByType";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_compId", compID);
+                cmd.Parameters.AddWithValue("p_type", type);
+              
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

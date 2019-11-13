@@ -58,7 +58,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         $scope.ActiveContainer = "Module";
     }
 
-    $scope.FlashcardPreviousClicked = function (index, total) {
+    $scope.FlashcardPreviousClicked = function (contentId,index, total) {
         if (index == 0) {
             $scope.ShowFlashcardIntro();
         }
@@ -71,11 +71,13 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     $scope.SkipFlashcard = function (topicId, moduleId, contentId) {
         //Unlock Next Content
         objDs.DS_UpdateContent("Flashcard", topicId, moduleId, contentId);
+        var nextContent = NextItemContent(contentId);
+        $scope.ViewContent(nextContent.TopicID, nextContent.ModuleID, nextContent.ContentID, nextContent.Title, nextContent.ContentType);
     }
 
-    $scope.FlashcardNextClicked = function (index, total) {
+    $scope.FlashcardNextClicked = function (contentId,index, total) {
         if ((index + 1) == total) {
-            $scope.ShowFlashcardQuiz();
+            $scope.ShowFlashcardQuiz(contentId);
         }
         else {
             $scope.ShowFlashcardSlides();
@@ -105,9 +107,13 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         }
     }
 
-    $scope.ShowFlashcardIntro = function () {
+    $scope.ShowFlashcardIntro = function (contentId) {
         $scope.ActiveContainer = "ContentFlashcardView";
         $scope.ActiveSubContainer = "FlashcardIntro";
+        if (contentId != null && contentId != undefined) {
+            var nextContent = NextItemContent(contentId);
+            $scope.ViewContent(nextContent.TopicID, nextContent.ModuleID, nextContent.ContentID, nextContent.Title, nextContent.ContentType);
+        }
     }
 
     $scope.BeginFlashcard = function () {
@@ -199,10 +205,14 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         return date.split("/").reverse().join("-");
     }
 
-    $scope.ShowFlashcardQuiz = function () {
+    $scope.ShowFlashcardQuiz = function (contentId) {
         $scope.ActiveContainer = "ContentFlashcardView";
         $scope.ActiveSubContainer = "FlashcardQuiz";
         $scope.CurrIndex = 0;
+        if (contentId != null && contentId != undefined) {
+            var nextContent = NextItemContent(contentId);
+            $scope.ViewContent(nextContent.TopicID, nextContent.ModuleID, nextContent.ContentID, nextContent.Title, nextContent.ContentType);
+        }
     }
 
     $scope.ShowFinalQuizIntro = function () {
@@ -227,6 +237,11 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         $("#dvVideoRating").hide();
         objDs.DS_RateContent(topicId, moduleId, contentId, rating);
         $scope.GoBack('Content');
+    }
+
+    $scope.NextContent = function (contentId) {
+        var nextContent = NextItemContent(contentId);
+        $scope.ViewContent(nextContent.TopicID, nextContent.ModuleID, nextContent.ContentID, nextContent.Title, nextContent.ContentType);
     }
 });
 
@@ -462,6 +477,16 @@ app.directive('myPostRepeatDirective', function () {
     };
 });
 
+function NextItemContent(contentid) {
+    var contId = {};
+    $.each(allContents, function (key, content) {
+        if (content.ContentID == contentid) {
+            contId = allContents[key + 1];
+            return false;
+        }
+    });
+    return contId;
+}
 
 function NextItemContentID(contentid) {
     var contId = 0;
@@ -471,6 +496,7 @@ function NextItemContentID(contentid) {
             return false;
         }
     });
+    return contId;
 }
 
 function LoadData() {
