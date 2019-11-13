@@ -124,6 +124,11 @@ img.logo {
     transform: translate(-50%, -50%);
 }
 
+.note {
+    font-size: 14px;
+    color: #7F7F7F;
+}
+
 .page-card {
     margin: 5.5rem 0;
 }

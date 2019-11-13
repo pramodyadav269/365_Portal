@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-12 scroll">
                     <dl class="row text-center" id="dvAchievement">
-                       <%-- <dt class="col" onclick="openModal();">
+                        <%-- <dt class="col" onclick="openModal();">
                             <img src="Asset/images/quiz-master-c-icon.svg" />
                             <span>Quiz Master</span>
                         </dt>
@@ -62,50 +62,50 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="modal fade" id="modalAchievements" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <a class="close-modal" data-dismiss="modal" aria-label="Close">
-                        <img src="Asset/images/close-button.png" class="close" /></a>
-                    <div class="modal-body">
-                        <div class="row reward">
-                            <div class="col-md-10 offset-md-1">
-                                <div class="row mt-3">
-                                    <div class="col-md-3 mt-3 text-right">
-                                        <img id="imgAchievementIcon" src="Asset/images/engager-icon.svg" class="img-achievements disabled" />
-                                    </div>
-                                    <div class="col-md-9">
-                                        <h3 class="font-weight-bold modal-title" id="dvAchievementTitle">The Engager</h3>
-                                        <p class="modal-text" id="dvAchievmentDescription">The Engager is dedicated to the platform. She loves interacting with others and sharing her thoughts about the topics.</p>
-                                    </div>
+    <div class="modal fade" id="modalAchievements" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <a class="close-modal" data-dismiss="modal" aria-label="Close">
+                    <img src="Asset/images/close-button.png" class="close" /></a>
+                <div class="modal-body">
+                    <div class="row reward">
+                        <div class="col-md-10 offset-md-1">
+                            <div class="row mt-3">
+                                <div class="col-md-3 mt-3 text-right">
+                                    <img id="imgAchievementIcon" src="Asset/images/engager-icon.svg" class="img-achievements disabled" />
+                                </div>
+                                <div class="col-md-9">
+                                    <h3 class="font-weight-bold modal-title" id="dvAchievementTitle">The Engager</h3>
+                                    <p class="modal-text" id="dvAchievmentDescription">The Engager is dedicated to the platform. She loves interacting with others and sharing her thoughts about the topics.</p>
                                 </div>
                             </div>
-                            <div class="col-md-10 offset-md-1">
-                                <div class="row mt-3 requirements">
-                                    <div class="col-md-12">
-                                        <h5 class="section-title">Requirements</h5>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <ul class="list-group" id="dvRequirements">
-                                            <%--<li class="list-group-item border-0">Be an active part of the community</li>
+                        </div>
+                        <div class="col-md-10 offset-md-1">
+                            <div class="row mt-3 requirements">
+                                <div class="col-md-12">
+                                    <h5 class="section-title">Requirements</h5>
+                                </div>
+                                <div class="col-md-12">
+                                    <ul class="list-group" id="dvRequirements">
+                                        <%--<li class="list-group-item border-0">Be an active part of the community</li>
                                             <li class="list-group-item border-0">Express your opinion</li>
                                             <li class="list-group-item border-0">React to the videos</li>--%>
-                                        </ul>
-                                    </div>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="col-md-10 offset-md-1">
-                                <div class="row mt-4">
-                                    <div class="col-md-12">
-                                        <h5 class="section-title">Your Reward on completion</h5>
-                                    </div>
-                                    <div class="col-md-12 text-center mt-3">
-                                        <img src="Asset/images/reward-icon.svg" class="img-achievements" />
-                                    </div>
-                                    <div class="col-md-12 text-center mt-5 mb-4">
-                                        <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>
-                                    </div>
+                        </div>
+                        <div class="col-md-10 offset-md-1">
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h5 class="section-title">Your Reward on completion</h5>
+                                </div>
+                                <div class="col-md-12 text-center mt-3">
+                                    <img src="Asset/images/reward-icon.svg" class="img-achievements" />
+                                </div>
+                                <div class="col-md-12 text-center mt-5 mb-4">
+                                    <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>
                                 </div>
                             </div>
                         </div>
@@ -115,6 +115,30 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalPersonalGift" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1 text-center mt-4">
+                            <img src="Asset/images/suprrise-icon.svg" class="img-achievements" />
+                            <p class="modal-text mt-4">Surprise!</p>
+                            <h3 class="font-weight-bold modal-title">You just unlocked a personal gift!</h3>
+                        </div>
+                        <div class="col-md-10 offset-md-1 text-center mt-3">
+                            <img src="Asset/images/next-flashcard-icon.svg" class="img-achievements" />
+                            <h5 class="modal-title mt-2"><b>Flashcard:</b> How to Motivate Yourself in your Daily Life by Jared Green</h5>
+                        </div>
+                        <div class="col-md-10 offset-md-1 text-center mt-5 mb-3">
+                            <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Continue</a>
+                            <div class="w-100"></div>
+                            <span class="note"><b>Note:</b> You can access this gift in your Profile page</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script>
@@ -132,7 +156,7 @@
                 if (data.AchievementID == achievementId) {
                     $("#dvAchievementTitle").html(data.Title);
                     $("#dvAchievmentDescription").html(data.Description);
-                  
+
                     if (data.Title.includes("quiz master"))
                         $("#imgAchievementIcon").attr("src", 'Asset/images/quiz-master-c-icon.svg');
                     if (data.Title.includes("world"))
@@ -203,6 +227,10 @@
                     });
 
                     $("#dvAchievement").html(achievementHtml);
+
+                    $('#dvGifts dt').click(function () {
+                        $('#modalPersonalGift').modal('show');
+                    });
                 }
             });
         }

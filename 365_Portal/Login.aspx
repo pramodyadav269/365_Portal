@@ -30,6 +30,16 @@
     <script src="Asset/js/jquery.tablednd.js"></script>
     <script src="Asset/js/site.js"></script>
 
+    <style>
+        .swal2-styled {
+            padding: .25em 1.5em;
+        }
+
+        .swal2-popup {
+            width: 26em;
+        }
+    </style>
+
 </head>
 <body>
     <form id="form1" runat="server" class="">
@@ -174,7 +184,7 @@
             //getController(formdata, "/API/Payment/GetPaymentRequest", "");
 
 
-            //Swal.fire({text: 'Email has been sent to your registered',icon: 'error',showConfirmButton: false,showCloseButton: true})
+            //Swal.fire({ text: 'Email has been sent to your registered', icon: 'error', showConfirmButton: false, showCloseButton: true, allowOutsideClick:false})
 
 
         });
