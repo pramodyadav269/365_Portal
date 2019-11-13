@@ -254,14 +254,14 @@
             ProcessCreateUpdate('', getUrl,'create');
             /*
             if (inputValidation('.input-validation')) {
-                swal({
+                Swal.fire({
                     title: "Good job!",
                     text: "You clicked the button!",
                     icon: "success",
                     button: "Ok",
                 });
             } else {
-                swal({
+                Swal.fire({
                     title: "Alert",
                     text: "Fill all fields",
                     icon: "error",
@@ -284,7 +284,7 @@
             var result = InputValidation();
             if (result.error)
             {
-                swal({
+                Swal.fire({
                     title: "Alert",
                     text: result.msg,
                     icon: "error",
@@ -321,7 +321,7 @@
                             var DataSet = $.parseJSON(response);
                             HideLoader();
                             if (DataSet.StatusCode == "1") {
-                                swal(DataSet.Data[0].ReturnMessage, {
+                                Swal.fire(DataSet.Data[0].ReturnMessage, {
                                     icon: "success",
                                 }).then((CreateUpdateUser) => {
                                     location.reload();
@@ -329,12 +329,12 @@
                             }
                             else {
                                 if (DataSet.Data != undefined && DataSet.Data.length > 0) {
-                                    swal(DataSet.Data[0].ReturnMessage, {
+                                    Swal.fire(DataSet.Data[0].ReturnMessage, {
                                         icon: "error",
                                     });
                                 }
                                 else {
-                                    swal(DataSet.StatusDescription, {
+                                    Swal.fire(DataSet.StatusDescription, {
                                         icon: "error",
                                     });
                                 }
@@ -422,12 +422,12 @@
                         }
                         else {
                             if (DataSet.Data != undefined && DataSet.Data.length > 0) {
-                                swal(DataSet.Data[0].ReturnMessage, {
+                                Swal.fire(DataSet.Data[0].ReturnMessage, {
                                     icon: "error",
                                 });
                             }
                             else {
-                                swal(DataSet.StatusDescription, {
+                                Swal.fire(DataSet.StatusDescription, {
                                     icon: "error",
                                 });
                             }
@@ -480,12 +480,12 @@
                         }
                         else {
                             if (DataSet.Data != undefined && DataSet.Data.length > 0) {
-                                swal(DataSet.Data[0].ReturnMessage, {
+                                Swal.fire(DataSet.Data[0].ReturnMessage, {
                                     icon: "error",
                                 });
                             }
                             else {
-                                swal(DataSet.StatusDescription, {
+                                Swal.fire(DataSet.StatusDescription, {
                                     icon: "error",
                                 });
                             }
@@ -503,7 +503,7 @@
 
         function Delete(ctrl,id) {
             //var id = $(ctrl).closest('tr').attr('id')
-            swal({
+            Swal.fire({
                 title: "Are you sure?",
                 text: "Do you want to delete user!",
                 icon: "warning",
@@ -535,7 +535,7 @@
                         var DataSet = $.parseJSON(response);
                         HideLoader();
                         if (DataSet.StatusCode == "1") {
-                            swal(DataSet.Data[0].ReturnMessage, {
+                            Swal.fire(DataSet.Data[0].ReturnMessage, {
                                 icon: "success",
                             }).then((deleteuser) => {
                                 location.reload();
@@ -544,12 +544,12 @@
                         }
                         else {
                             if (DataSet.Data != undefined && DataSet.Data.length > 0) {
-                                swal(DataSet.Data[0].ReturnMessage, {
+                                Swal.fire(DataSet.Data[0].ReturnMessage, {
                                     icon: "error",
                                 });
                             }
                             else {
-                                swal(DataSet.StatusDescription, {
+                                Swal.fire(DataSet.StatusDescription, {
                                     icon: "error",
                                 });
                             }                            

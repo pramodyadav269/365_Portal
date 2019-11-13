@@ -29,10 +29,10 @@ namespace _365_Portal.Controllers
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
-                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
-                        {
-                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        }
+                        //if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        //{
+                        //    content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        //}
                         if (!string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()))
                         {
                             content.TopicTitle = requestParams["TopicTitle"].ToString();
@@ -84,7 +84,7 @@ namespace _365_Portal.Controllers
                             else
                             {
 
-                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                data = dt.Rows[0]["ReturnMessage"].ToString();
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
 
@@ -193,7 +193,7 @@ namespace _365_Portal.Controllers
                             else
                             {
 
-                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                data = dt.Rows[0]["ReturnMessage"].ToString();
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
 
@@ -264,7 +264,7 @@ namespace _365_Portal.Controllers
                             else
                             {
 
-                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                data = dt.Rows[0]["ReturnMessage"].ToString();
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
 
@@ -311,18 +311,15 @@ namespace _365_Portal.Controllers
                 {
                     content.CompID = identity.CompId;
                     var ds = ContentBL.GetTopics(content);
+                    DataTable dt = ds.Tables["Data"];
                     if (ds.Tables.Count > 0)
                     {
-                        DataTable dt = ds.Tables["Data"];
-
                         data = Utility.ConvertDataSetToJSONString(dt);
                         data = Utility.Successful(data);
-
-
                     }
                     else
                     {
-                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                        data = dt.Rows[0]["ReturnMessage"].ToString();
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
                 }
@@ -430,7 +427,7 @@ namespace _365_Portal.Controllers
                             else
                             {
 
-                                data = Utility.ConvertDataSetToJSONString(dt);
+                                data = dt.Rows[0]["ReturnMessage"].ToString();
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
 
@@ -540,7 +537,7 @@ namespace _365_Portal.Controllers
                             }
                             else
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
+                                data = dt.Rows[0]["ReturnMessage"].ToString();
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
 
@@ -617,7 +614,7 @@ namespace _365_Portal.Controllers
                             else
                             {
 
-                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                data = dt.Rows[0]["ReturnMessage"].ToString();
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
 
@@ -673,15 +670,16 @@ namespace _365_Portal.Controllers
                         content.IsActive = (bool)requestParams["IsActive"];
                     }
                     var ds = ContentBL.GetModules(content);
+                    DataTable dt = ds.Tables["Data"];
                     if (ds.Tables.Count > 0)
                     {
-                        DataTable dt = ds.Tables["Data"];
+                      
                         data = Utility.ConvertDataSetToJSONString(dt);
                         data = Utility.Successful(data);
                     }
                     else
                     {
-                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                        data = dt.Rows[0]["ReturnMessage"].ToString();
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
                     // }

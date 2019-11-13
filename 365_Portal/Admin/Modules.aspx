@@ -29,10 +29,10 @@
                             <div class="form-group">
                                 <label for="ddlTopic">Topic</label>
                                 <select class="form-control select2 required" id="ddlTopic" style="width: 100% !important">
-                                    <option></option>
+                               <%--     <option></option>
                                     <option value="1">Topic 1</option>
                                     <option value="2">Topic 2</option>
-                                    <option value="3">Topic 3</option>
+                                    <option value="3">Topic 3</option>--%>
                                 </select>
                             </div>
                         </div>
@@ -98,7 +98,50 @@
         var accessToken = '<%=Session["access_token"]%>';
         var id = "";
         function bindTopics() {
+            //Temporary Binding topics
+            var getUrl = "/API/Content/GetTopics";
+            var requestParams = { TopicID: "", TopicTitle: "", TopicDescription: "", IsPublished: "", SrNo: "", MinUnlockedModules: "", UserID: "", IsActive: "" };
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: getUrl,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    processData: false,
+                    success: function (response) {
+                        var DataSet = $.parseJSON(response);
+                        var Topic = DataSet.Data;
+                            if (DataSet.StatusCode == "1") {
+                                $('#ddlTopic').empty().append('<option></option>');
+                                for (var i = 0; i < Topic.length ; i++) {
+                                    $('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
+                                }
+                            }
+                            else {
+                                swal({
+                                    title: "Failure",
+                                    text: DataSet.StatusDescription,
+                                    type: "error"
+                                });
+                            }
+                    },
+                    complete: function () {
+                    },
+                    failure: function (response) {        
+                        swal({
+                            title: "Failure",
+                            text: "Please try Again",
+                            type: "error"
+                        });
+                    }
+                });
 
+            } catch (e)
+            {
+
+            }
+          
         }
 
         function AddNew() {
@@ -110,113 +153,6 @@
             $('#submit').text('SUBMIT');
             $('#back').text('BACK');
             //Submit button name attribute changed to Insert;
-        }
-
-        function Submit() {
-            var getUrl;
-            ShowLoader();
-            if (inputValidation('.input-validation')) {
-                var _Topic_Id = $('#ddlTopic option:selected').val();
-                var _Title = $('#txtTitle').val();
-                var _Overview = $('#txtOverview').val();
-                var _Description = $('#txtDescription').val();
-                var _IsPublished = $('#cbIsPublished').prop('checked');
-
-                var ID;
-                if ($('#submit')[0].name == INSERT) {
-                    getUrl = "/API/Content/CreateModule";
-                } else {
-                    ID = _ModuleID;
-                    getUrl = "/API/Content/ModifyModule";
-                }
-
-
-                var _SrNo = "";
-                try {
-                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, UserID: "", IsActive: "", ModuleID: ID };
-
-
-                    $.ajax({
-                        type: "POST",
-                        url: getUrl,
-                        headers: { "Authorization": "Bearer " + accessToken },
-                        data: JSON.stringify(requestParams),
-                        contentType: "application/json",
-                        success: function (response) {
-                            try {
-
-                                var DataSet = $.parseJSON(response);
-                                console.log(response);
-                                if (DataSet.StatusCode == "1") {
-                                    clearFields('.input-validation');
-                                    HideLoader();
-                                    swal({
-                                        title: "Success",
-                                        text: DataSet.StatusDescription,
-                                        icon: "success",
-                                        button: "Ok",
-                                    }).then((value) => {
-                                        if (value) {
-                                            toggle('divGird', 'divForm');
-                                            View();
-                                        }
-                                    });
-
-
-
-                                }
-                                else {
-                                    HideLoader();
-                                    swal({
-                                        title: "Failure",
-                                        text: DataSet.StatusDescription,
-                                        icon: "error"
-                                    });
-                                    clearFields('.input-validation');
-                                }
-                            }
-                            catch (e) {
-                                HideLoader();
-                                swal({
-                                    title: "Failure",
-                                    text: "Please try Again",
-                                    icon: "error"
-                                });
-                            }
-                        },
-                        complete: function () {
-                            HideLoader();
-                        },
-                        failure: function (response) {
-                            HideLoader();
-                            alert(response.data);
-                            swal({
-                                title: "Failure",
-                                text: "Please try Again",
-                                icon: "error"
-                            });
-                        }
-                    });
-                }
-                catch (e) {
-                    HideLoader();
-                    swal({
-                        title: "Alert",
-                        text: "Oops! An Occured. Please try again",
-                        icon: "error",
-                        button: "Ok",
-                    });
-                }
-            }
-            else {
-                HideLoader();
-                swal({
-                    title: "Alert",
-                    text: "Fill all fields",
-                    icon: "error",
-                    button: "Ok",
-                });
-            }
         }
 
         function Edit(ModuleId) {
@@ -264,12 +200,153 @@
                 });
             }
         }
+        function Submit() {
+            var getUrl;
+            ShowLoader();
+            if (inputValidation('.input-validation')) {
+                var _Topic_Id = $('#ddlTopic option:selected').val();
+                var _Title = $('#txtTitle').val();
+                var _Overview = $('#txtOverview').val();
+                var _Description = $('#txtDescription').val();
+                var _IsPublished = $('#cbIsPublished').prop('checked');
+
+                var ID;
+                if ($('#submit')[0].name == INSERT) {
+                    getUrl = "/API/Content/CreateModule";
+                } else {
+                    ID = _ModuleID;
+                    getUrl = "/API/Content/ModifyModule";
+                }
+
+
+                var _SrNo = "";
+                try {
+                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, UserID: "", IsActive: "", ModuleID: ID };
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: getUrl,
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                        success: function (response) {
+                            try {
+
+                                var DataSet = $.parseJSON(response);
+                                console.log(response);
+                                if (DataSet.StatusCode == "1") {
+                                    clearFields('.input-validation');
+                                    HideLoader();
+                                    Swal.fire({
+                                        title: "Success",
+                                        text: DataSet.StatusDescription,
+                                        icon: "success",
+                                        button: "Ok",
+                                    }).then((value) => {
+                                        if (value) {
+                                            toggle('divGird', 'divForm');
+                                            View();
+                                        }
+                                    });
+
+
+
+                                }
+                                else {
+                                    HideLoader();
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: DataSet.StatusDescription,
+                                        icon: "error"
+                                    });
+                                    clearFields('.input-validation');
+
+                                }
+                            }
+                            catch (e) {
+                                HideLoader();
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        complete: function () {
+                            HideLoader();
+                        },
+                        failure: function (response) {
+                            HideLoader();
+                            alert(response.data);
+                            Swal.fire({
+                                title: "Failure",
+                                text: "Please try Again",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
+                catch (e) {
+                    HideLoader();
+                    Swal.fire({
+                        title: "Alert",
+                        text: "Oops! An Occured. Please try again",
+                        icon: "error",
+                        button: "Ok",
+                    });
+                }
+            }
+            else {
+                HideLoader();
+                Swal.fire({
+                    title: "Alert",
+                    text: "Fill all fields",
+                    icon: "error",
+                    button: "Ok",
+                });
+            }
+        }
+
+                    }
+                    if (this.className == 'description') {
+                        $('#txtDescription').val(this.innerText);
+                    }
+                    if (this.className == 'overview') {
+                        $('#txtOverview').val(this.innerText);
+                    }
+                    if (this.className == 'isPublished') {
+                        if (this.innerText == "Yes") {
+                            $('#cbIsPublished').prop('checked', true);
+                        }
+                        else {
+                            $('#cbIsPublished').prop('checked', false);
+                        }
+
+                    }
+                });           
+                $('#ddlTopic').attr("disabled", true);
+                toggle('divForm', 'divGird');
+                $('#submit').attr('name', EDIT);
+                $('#submit').text('EDIT');
+                $('#back').text('CANCEL');
+                inputValidation('.input-validation');
+                //Submit button name attribute changed to EDIT(Modify);
+            }
+            else {
+                swal({
+                    title: "Failure",
+                    text: "Please try Again",
+                    type: "error"
+                });
+            }
+        }
 
         function Delete(ModuleId) {
 
             if ((TopicID != null && TopicID != undefined) && (ModuleId != null && ModuleId != undefined)) {
 
-                swal({
+                Swal.fire({
                     title: "Are you sure?",
                     text: "Once deleted, you will not be able to revert changes!",
                     icon: "warning",
@@ -296,7 +373,7 @@
                                             console.log(response);
                                             if (DataSet.StatusCode == "1") {
                                                 HideLoader();
-                                                swal({
+                                                Swal.fire({
                                                     title: "Success",
                                                     text: DataSet.StatusDescription,
                                                     icon: "success",
@@ -312,7 +389,7 @@
                                             }
                                             else {
                                                 HideLoader();
-                                                swal({
+                                                Swal.fire({
                                                     title: "Failure",
                                                     text: DataSet.StatusDescription,
                                                     type: "error"
@@ -323,7 +400,7 @@
                                             HideLoader();
                                             //alert(response);
                                             //alert(e.message);
-                                            swal({
+                                            Swal.fire({
                                                 title: "Failure",
                                                 text: "Please try Again",
                                                 type: "error"
@@ -336,7 +413,7 @@
                                     failure: function (response) {
                                         HideLoader();
                                         alert(response.data);
-                                        swal({
+                                        Swal.fire({
                                             title: "Failure",
                                             text: "Please try Again",
                                             type: "error"
@@ -346,7 +423,7 @@
                             }
                             catch (e) {
                                 HideLoader();
-                                swal({
+                                Swal.fire({
                                     title: "Alert",
                                     text: "Oops! An Occured. Please try again",
                                     icon: "error",
@@ -358,7 +435,7 @@
                     });
             }
             else {
-                swal({
+                Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
                     type: "error"
@@ -442,14 +519,15 @@
                                 else {
                                     swal({
                                         title: "Failure",
-                                        text: "Please try Again",
+                                        text: DataSet.StatusDescription,
                                         type: "error"
                                     });
                                 }
+
                             }
                             else {
                                 HideLoader();
-                                swal({
+                                Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
                                     type: "error"
@@ -458,7 +536,7 @@
                         }
                         catch (e) {
                             HideLoader();
-                            swal({
+                            Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
                                 type: "error"
@@ -480,7 +558,7 @@
                 });
             }
             catch (e) {
-                swal({
+                Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
                     type: "error"

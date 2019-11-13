@@ -179,7 +179,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         });
 
         if (validationSuccess == false)
-            swal({
+            Swal.fire({
                 title: "Failure",
                 text: validationMsg + " Count:" + index,
                 icon: "error"
@@ -390,7 +390,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             var responseData = response.data;
             if (requestParams.ContentType == "SURVEY") {
                 // Unlock Flashcard
-                swal({
+                Swal.fire({
                     title: "Success",
                     text: "Survey submitted successfully.",
                     type: "success",
@@ -413,7 +413,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                 var strMsg = "You have earned " + responseData.ScoreEarned + " marks out of " + responseData.TotalScore;
                 if (responseData.IsPassed == "0") {
                     strMsg += "<br/> You have not passed this test, need  more marks in order to complete this module. Retake the test again. ";
-                    swal({
+                    Swal.fire({
                         title: "Failure",
                         text: strMsg,
                         type: "error",
@@ -423,7 +423,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     });
                 }
                 else {
-                    swal({
+                    Swal.fire({
                         title: "Success",
                         text: strMsg,
                         type: "success",
