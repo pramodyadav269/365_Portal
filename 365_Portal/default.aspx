@@ -208,7 +208,7 @@
                         <div id="divPDF">
                         </div>
                         <div class="text-center mt-5">
-                            <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="toggleSection('video')">Continue</a>
+                            <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="NextContent(SpecialContents.ContentID)">Continue</a>
                         </div>
                     </div>
 
@@ -255,6 +255,9 @@
                                 <p>
                                     {{SelectedContent.Description}}
                                 </p>
+                            </div>
+                            <div class="text-center mt-5">
+                                <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="NextContent(SpecialContents.ContentID)">Continue</a>
                             </div>
                         </div>
                     </div>
@@ -381,7 +384,7 @@
                 </div>
                 <div class="text-center mt-4">
                     <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==0" ng-click="SubmitAnswers()">Submit Survey</a>
-                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==1" ng-click="ShowFlashcardIntro()">Next</a>
+                    <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==1" ng-click="ShowFlashcardIntro(SpecialContents.ContentID)">Next</a>
                 </div>
             </div>
         </div>
@@ -409,7 +412,7 @@
                             <li ng-repeat="highlight in SpecialContents.FlashcardsIntro">{{highlight.Comments}}</li>
                         </ul>
                         <div class="w-100 mt-5">
-                            <a ng-if="SpecialContents.SkipFlashcards == '1'" href="#" class="link font-weight-bold float-left"
+                            <a ng-if="SpecialContents.SkipFlashcards == '0'" href="#" class="link font-weight-bold float-left"
                                 ng-click="SkipFlashcard(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID)">Skip Flashcards</a>
                             <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white float-right" ng-click="ShowFlashcardSlides()">Let's Go</a>
                         </div>
@@ -428,8 +431,8 @@
                                 </div>
                             </div>
                             <div class="w-100 mt-5 text-center">
-                                <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2" id="btnPrevCard" ng-click="FlashcardPreviousClicked($index,SpecialContents.TotalFlashcardSlides)">{{$index ==0 ? 'Previous' :'Previous Card'}}</a>
-                                <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextCard" ng-click="FlashcardNextClicked($index,SpecialContents.TotalFlashcardSlides)">{{($index + 1) == SpecialContents.TotalFlashcardSlides ? 'Begin Flashcard Quiz' :'Next Card'}}</a>
+                                <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2" id="btnPrevCard" ng-click="FlashcardPreviousClicked(SpecialContents.ContentID,$index,SpecialContents.TotalFlashcardSlides)">{{$index ==0 ? 'Previous' :'Previous Card'}}</a>
+                                <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextCard" ng-click="FlashcardNextClicked(SpecialContents.ContentID,$index,SpecialContents.TotalFlashcardSlides)">{{($index + 1) == SpecialContents.TotalFlashcardSlides ? 'Begin Flashcard Quiz' :'Next Card'}}</a>
                                 <%--                                <a href="#" class="btn btn-custom bg-blue font-weight-bold text-white" id="btnBeginQuiz" ng-click="FlashcardNextClicked($index,SpecialContents.TotalFlashcardSlides)">{{($index + 1) == SpecialContents.TotalFlashcardSlides ? 'Begin Flashcard Quiz' :'Next Card'}}</a>--%>
                             </div>
                         </div>

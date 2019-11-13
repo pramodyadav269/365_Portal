@@ -58,7 +58,7 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetContentsByModule(int compId, string userId, int topicId, int moduleId,bool isGift)
+        public static DataSet GetContentsByModule(int compId, string userId, int topicId, int moduleId, bool isGift)
         {
             DataSet ds = new DataSet();
             try
@@ -300,7 +300,7 @@ namespace _365_Portal.Code.BL
 
                 //Submit response in DB
                 ds = TrainningDAL.SubmitResponse(compId, userId, surveyId, totalScore, scoreEarned, percentageEarned, isPassed, Utility.GetClientIPaddress());
-               
+
                 if (ds.Tables.Count > 0)
                 {
                     // Call SubmitAnswers
@@ -398,6 +398,34 @@ namespace _365_Portal.Code.BL
             try
             {
                 ds = TrainningDAL.IsUserOnline(compId, userId, type, startDate, endDate, totalTime);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.AssignTopicsByEntity(compID, userId, topicIds, groupIds, userIds);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet GetTableDataByType(int compID, string type)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.GetTableDataByType(compID, type);
             }
             catch (Exception ex)
             {

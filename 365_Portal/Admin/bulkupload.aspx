@@ -16,7 +16,7 @@
                     <div class="row input-validation">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <asp:DropDownList ID="ddlType" runat="server" CssClass="form-control select2">
+                                <asp:DropDownList ID="ddlType" runat="server">
                                     <asp:ListItem Value="1" Selected="True">Topic - Module - Content</asp:ListItem>
                                     <asp:ListItem Value="2">Flashcards</asp:ListItem>
                                     <asp:ListItem Value="3">Survey - Flashcard Quiz - Final Quiz</asp:ListItem>

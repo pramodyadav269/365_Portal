@@ -117,6 +117,9 @@
         </div>--%>
     </div>
     <script>
+
+        var accessToken = '<%=Session["access_token"]%>';
+
         $(document).ready(function () {
             BindTopics();
         });
@@ -124,17 +127,22 @@
         function BindTopics() {
             var htmlCheckboxes = "";
 
-            var topics = [{ "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" },
-            { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" },
-            { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }, { "TopicID": "1", "TopicName": "Topic" }
-            ];
+            $.ajax({
+                type: "POST",
+                url: "../api/Trainning/GetTableData",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify({ Type: 1 }),
+                contentType: "application/json",
+                success: function (response) {
+                    response = $.parseJSON(response);
 
-            $.each(topics, function (index, topic) {
-                //htmlCheckboxes += '<input type="checkbox" name="chk_"' + topic.TopicName + ' value="' + topic.TopicID + '"><label for="' + topic.TopicID + '">' + topic.TopicName + '</label>';
-                htmlCheckboxes += '<input type="checkbox" id="chkTopic_' + index + '" name="TOPIC" value="' + index + '"><label for="' + index + '">' + topic.TopicName + '</label>';
+                    $.each(response.Data, function (index, topic) {
+                        htmlCheckboxes += '<input type="checkbox" name="chk_"' + topic.Title + ' value="' + topic.TopicID + '"><label for="' + topic.TopicID + '">' + topic.Title + '</label>';
+                    });
+
+                    $("#dvTopics").html(htmlCheckboxes);
+                }
             });
-
-            $("#dvTopics").html(htmlCheckboxes);
         }
 
         function BindGroupUserCheckboxList(cntrl) {
@@ -149,50 +157,63 @@
 
             if ($("#ddlAssignType").val() == "GROUP") {
 
-                var groupList = [{ "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" },
-                { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }, { "GroupID": "1", "GroupName": "Group1" }
-                ];
+                $.ajax({
+                    type: "POST",
+                    url: "../api/Trainning/GetTableData",
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify({ Type: 3 }),
+                    contentType: "application/json",
+                    success: function (response) {
+                        response = $.parseJSON(response);
 
-                if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
-                    $.each(groupList, function (index, group) {
-                        //htmlCheckboxes += '<input type="checkbox" name="chk_"' + group.GroupName + ' value="' + group.GroupID + '"><label for="' + group.GroupID + '">' + group.GroupName + '</label>';
-                        htmlCheckboxes += '<input type="checkbox" name="GROUP" value="' + index + '"><label for="' + index + '">' + group.GroupName + '</label>';
-                    });
-                }
-                else {
-                    htmlCheckboxes += '<select id="ddlGroup" class="form-control select2" style="width: 100% !important" onchange="GetSelectedTopics(this)";>';
-                    htmlCheckboxes += '<option></option>';
-                    $.each(groupList, function (index, group) {
-                        htmlCheckboxes += '<option value="' + index + '">' + group.GroupName + index + '</option>';
-                    });
-                    htmlCheckboxes += '</select>';
-                }
+                        if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
+                            $.each(response.Data, function (index, group) {
+                                htmlCheckboxes += '<input type="checkbox" name="chk_"' + group.GroupName + ' value="' + group.GroupId + '"><label for="' + group.GroupId + '">' + group.GroupName + '</label>';
+                            });
+                        }
+                        else {
+                            htmlCheckboxes += '<select id="ddlGroup" class="form-control select2" style="width: 100% !important" onchange="GetSelectedTopics(this)";>';
+                            htmlCheckboxes += '<option></option>';
+                            $.each(response.Data, function (index, group) {
+                                htmlCheckboxes += '<option value="' + group.GroupId + '">' + group.GroupName + '</option>';
+                            });
+                            htmlCheckboxes += '</select>';
+                        }
 
-                $("#dvGroups").html(htmlCheckboxes);
-                $("#dvGroupContainer").show();
+                        $("#dvGroups").html(htmlCheckboxes);
+                        $("#dvGroupContainer").show();
+                    }
+                });
             }
             else if ($("#ddlAssignType").val() == "USER") {
-                var userList = [{ "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" },
-                { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }, { "UserId": "1", "UserName": "Yogesh" }
-                ];
 
-                if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
-                    $.each(userList, function (index, user) {
-                        //htmlCheckboxes += '<input type="checkbox" name="chk_"' + user.UserName + ' value="' + user.UserId + '"><label for="' + user.UserId + '">' + user.UserName + '</label>';
-                        htmlCheckboxes += '<input type="checkbox" name="USER" value="' + index + '"><label for="' + index + '">' + user.UserName + '</label>';
-                    });
-                }
-                else {
-                    htmlCheckboxes += '<select id="ddlUser" class="form-control select2" style="width: 100% !important" onchange="GetSelectedTopics(this)";>';
-                    htmlCheckboxes += '<option></option>';
-                    $.each(userList, function (index, user) {
-                        htmlCheckboxes += '<option value="' + index + '">' + user.UserName + index + '</option>';
-                    });
-                    htmlCheckboxes += '</select>';
-                }
+                $.ajax({
+                    type: "POST",
+                    url: "../api/Trainning/GetTableData",
+                    headers: { "Authorization": "Bearer " + accessToken },
+                     data: JSON.stringify({ Type: 2}),
+                    contentType: "application/json",
+                    success: function (response) {
+                        response = $.parseJSON(response);
 
-                $("#dvUsers").html(htmlCheckboxes);
-                $("#dvUserContainer").show();
+                        if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
+                            $.each(response.Data, function (index, user) {
+                                htmlCheckboxes += '<input type="checkbox" name="chk_"' + user.UserId + ' value="' + user.UserId + '"><label for="' + user.UserId + '">' + user.EmailID + '</label>';
+                            });
+                        }
+                        else {
+                            htmlCheckboxes += '<select id="ddlUser" class="form-control select2" style="width: 100% !important" onchange="GetSelectedTopics(this)";>';
+                            htmlCheckboxes += '<option></option>';
+                            $.each(response.Data, function (index, user) {
+                                htmlCheckboxes += '<option value="' + user.UserId + '">' + user.EmailID + '</option>';
+                            });
+                            htmlCheckboxes += '</select>';
+                        }
+
+                        $("#dvUsers").html(htmlCheckboxes);
+                        $("#dvUserContainer").show();
+                    }
+                });
             }
             else {
                 $("#dvTopicContainer").hide();
@@ -244,7 +265,7 @@
                     groupIds = $("#ddlGroup").val() != "" ? $("#ddlGroup").val() : "";
                 }
                 groupIds = groupIds.replace(/,\s*$/, "");
-                requestParams = { "Type": $("#ddlAssignType").val(), "Ids": groupIds, "TopicIds": topicIds };
+                requestParams = { "Type": $("#ddlAssignType").val(), "GroupIds": groupIds, "UserIds": "", "TopicIds": topicIds };
             }
             else if ($("#ddlAssignType").val() == "USER") {
                 if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
@@ -258,7 +279,7 @@
                     userIds = $("#ddlUser").val() != "" ? $("#ddlUser").val() : "";
                 }
                 userIds = userIds.replace(/,\s*$/, "");
-                requestParams = { "Type": $("#ddlAssignType").val(), "Ids": userIds, "TopicIds": topicIds };
+                requestParams = { "Type": $("#ddlAssignType").val(), "GroupIds": "", "UserIds": userIds, "TopicIds": topicIds };
             }
 
             if (requestParams.Ids.length == 0 || requestParams.TopicIds.length == 0) {
@@ -267,7 +288,17 @@
 
             $("#lblJSON").text(JSON.stringify(requestParams));
 
-            // Make Ajax Call
+            $.ajax({
+                type: "POST",
+                url: "../api/Trainning/AssignTopicsByEntity",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    response = $.parseJSON(response);
+                    alert("Success");
+                }
+            });
         }
     </script>
 </asp:Content>

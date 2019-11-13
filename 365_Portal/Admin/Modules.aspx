@@ -29,10 +29,10 @@
                             <div class="form-group">
                                 <label for="ddlTopic">Topic</label>
                                 <select class="form-control select2 required" id="ddlTopic" style="width: 100% !important">
-                                    <option></option>
+                               <%--     <option></option>
                                     <option value="1">Topic 1</option>
                                     <option value="2">Topic 2</option>
-                                    <option value="3">Topic 3</option>
+                                    <option value="3">Topic 3</option>--%>
                                 </select>
                             </div>
                         </div>
@@ -98,7 +98,50 @@
         var accessToken = '<%=Session["access_token"]%>';
         var id = "";
         function bindTopics() {
+            //Temporary Binding topics
+            var getUrl = "/API/Content/GetTopics";
+            var requestParams = { TopicID: "", TopicTitle: "", TopicDescription: "", IsPublished: "", SrNo: "", MinUnlockedModules: "", UserID: "", IsActive: "" };
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: getUrl,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    processData: false,
+                    success: function (response) {
+                        var DataSet = $.parseJSON(response);
+                        var Topic = DataSet.Data;
+                            if (DataSet.StatusCode == "1") {
+                                $('#ddlTopic').empty().append('<option></option>');
+                                for (var i = 0; i < Topic.length ; i++) {
+                                    $('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
+                                }
+                            }
+                            else {
+                                swal({
+                                    title: "Failure",
+                                    text: DataSet.StatusDescription,
+                                    type: "error"
+                                });
+                            }
+                    },
+                    complete: function () {
+                    },
+                    failure: function (response) {        
+                        swal({
+                            title: "Failure",
+                            text: "Please try Again",
+                            type: "error"
+                        });
+                    }
+                });
 
+            } catch (e)
+            {
+
+            }
+          
         }
 
         function AddNew() {
@@ -112,6 +155,51 @@
             //Submit button name attribute changed to Insert;
         }
 
+        function Edit(ModuleId) {
+            if (ModuleId != null && ModuleId != '') {
+                _ModuleID = ModuleId; //Initalizing Global varaiable of Module ID;
+                $('#ddlTopic').val(TopicID).trigger("change");
+                $('#' + _ModuleID).find("td:not(:last-child)").each(function (i, data) {
+                    if (TopicID != null || TopicID != undefined) {
+                        $('#ddlTopic option:selected').val(TopicID); ///This will find title for Topic
+
+                    }
+                    if (this.className == 'title') {
+                        $('#txtTitle').val(this.innerText); ///This will find title for Topic 
+
+                    }
+                    if (this.className == 'description') {
+                        $('#txtDescription').val(this.innerText);
+                    }
+                    if (this.className == 'overview') {
+                        $('#txtOverview').val(this.innerText);
+                    }
+                    if (this.className == 'isPublished') {
+                        if (this.innerText == "Yes") {
+                            $('#cbIsPublished').prop('checked', true);
+                        }
+                        else {
+                            $('#cbIsPublished').prop('checked', false);
+                        }
+
+                    }
+                });           
+                $('#ddlTopic').attr("disabled", true);
+                toggle('divForm', 'divGird');
+                $('#submit').attr('name', EDIT);
+                $('#submit').text('EDIT');
+                $('#back').text('CANCEL');
+                inputValidation('.input-validation');
+                //Submit button name attribute changed to EDIT(Modify);
+            }
+            else {
+                swal({
+                    title: "Failure",
+                    text: "Please try Again",
+                    type: "error"
+                });
+            }
+        }
         function Submit() {
             var getUrl;
             ShowLoader();
@@ -173,6 +261,7 @@
                                         icon: "error"
                                     });
                                     clearFields('.input-validation');
+
                                 }
                             }
                             catch (e) {
@@ -219,18 +308,6 @@
             }
         }
 
-        function Edit(ModuleId) {
-            if (ModuleId != null && ModuleId != '') {
-                _ModuleID = ModuleId; //Initalizing Global varaiable of Module ID;
-                $('#ddlTopic').val(TopicID).trigger("change");
-                $('#' + _ModuleID).find("td:not(:last-child)").each(function (i, data) {
-                    if (TopicID != null || TopicID != undefined) {
-                        $('#ddlTopic option:selected').val(TopicID); ///This will find title for Topic
-
-                    }
-                    if (this.className == 'title') {
-                        $('#txtTitle').val(this.innerText); ///This will find title for Topic 
-
                     }
                     if (this.className == 'description') {
                         $('#txtDescription').val(this.innerText);
@@ -257,7 +334,7 @@
                 //Submit button name attribute changed to EDIT(Modify);
             }
             else {
-                Swal.fire({
+                swal({
                     title: "Failure",
                     text: "Please try Again",
                     type: "error"
@@ -440,12 +517,13 @@
                                     $('#tblGird').tableDnD()
                                 }
                                 else {
-                                    Swal.fire({
+                                    swal({
                                         title: "Failure",
-                                        text: "Please try Again",
+                                        text: DataSet.StatusDescription,
                                         type: "error"
                                     });
                                 }
+
                             }
                             else {
                                 HideLoader();

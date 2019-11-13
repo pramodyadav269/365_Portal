@@ -1052,7 +1052,7 @@ namespace _365_Portal.Controllers
                     }
                     else
                     {
-                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                        data = dt.Rows[0]["ReturnMessage"].ToString();
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
 
@@ -1115,7 +1115,7 @@ namespace _365_Portal.Controllers
                             else
                             {
 
-                                data = data = dt.Rows[0]["ReturnMessage"].ToString();
+                                 data = dt.Rows[0]["ReturnMessage"].ToString();
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
 
