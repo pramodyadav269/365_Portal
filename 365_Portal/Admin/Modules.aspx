@@ -238,7 +238,7 @@
                                 if (DataSet.StatusCode == "1") {
                                     clearFields('.input-validation');
                                     HideLoader();
-                                    swal({
+                                    Swal.fire({
                                         title: "Success",
                                         text: DataSet.StatusDescription,
                                         icon: "success",
@@ -255,7 +255,7 @@
                                 }
                                 else {
                                     HideLoader();
-                                    swal({
+                                    Swal.fire({
                                         title: "Failure",
                                         text: DataSet.StatusDescription,
                                         icon: "error"
@@ -266,7 +266,7 @@
                             }
                             catch (e) {
                                 HideLoader();
-                                swal({
+                                Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
                                     icon: "error"
@@ -279,7 +279,7 @@
                         failure: function (response) {
                             HideLoader();
                             alert(response.data);
-                            swal({
+                            Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
                                 icon: "error"
@@ -289,7 +289,7 @@
                 }
                 catch (e) {
                     HideLoader();
-                    swal({
+                    Swal.fire({
                         title: "Alert",
                         text: "Oops! An Occured. Please try again",
                         icon: "error",
@@ -299,7 +299,7 @@
             }
             else {
                 HideLoader();
-                swal({
+                Swal.fire({
                     title: "Alert",
                     text: "Fill all fields",
                     icon: "error",
@@ -308,11 +308,45 @@
             }
         }
 
+                    }
+                    if (this.className == 'description') {
+                        $('#txtDescription').val(this.innerText);
+                    }
+                    if (this.className == 'overview') {
+                        $('#txtOverview').val(this.innerText);
+                    }
+                    if (this.className == 'isPublished') {
+                        if (this.innerText == "Yes") {
+                            $('#cbIsPublished').prop('checked', true);
+                        }
+                        else {
+                            $('#cbIsPublished').prop('checked', false);
+                        }
+
+                    }
+                });           
+                $('#ddlTopic').attr("disabled", true);
+                toggle('divForm', 'divGird');
+                $('#submit').attr('name', EDIT);
+                $('#submit').text('EDIT');
+                $('#back').text('CANCEL');
+                inputValidation('.input-validation');
+                //Submit button name attribute changed to EDIT(Modify);
+            }
+            else {
+                swal({
+                    title: "Failure",
+                    text: "Please try Again",
+                    type: "error"
+                });
+            }
+        }
+
         function Delete(ModuleId) {
 
             if ((TopicID != null && TopicID != undefined) && (ModuleId != null && ModuleId != undefined)) {
 
-                swal({
+                Swal.fire({
                     title: "Are you sure?",
                     text: "Once deleted, you will not be able to revert changes!",
                     icon: "warning",
@@ -339,7 +373,7 @@
                                             console.log(response);
                                             if (DataSet.StatusCode == "1") {
                                                 HideLoader();
-                                                swal({
+                                                Swal.fire({
                                                     title: "Success",
                                                     text: DataSet.StatusDescription,
                                                     icon: "success",
@@ -355,7 +389,7 @@
                                             }
                                             else {
                                                 HideLoader();
-                                                swal({
+                                                Swal.fire({
                                                     title: "Failure",
                                                     text: DataSet.StatusDescription,
                                                     type: "error"
@@ -366,7 +400,7 @@
                                             HideLoader();
                                             //alert(response);
                                             //alert(e.message);
-                                            swal({
+                                            Swal.fire({
                                                 title: "Failure",
                                                 text: "Please try Again",
                                                 type: "error"
@@ -379,7 +413,7 @@
                                     failure: function (response) {
                                         HideLoader();
                                         alert(response.data);
-                                        swal({
+                                        Swal.fire({
                                             title: "Failure",
                                             text: "Please try Again",
                                             type: "error"
@@ -389,7 +423,7 @@
                             }
                             catch (e) {
                                 HideLoader();
-                                swal({
+                                Swal.fire({
                                     title: "Alert",
                                     text: "Oops! An Occured. Please try again",
                                     icon: "error",
@@ -401,7 +435,7 @@
                     });
             }
             else {
-                swal({
+                Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
                     type: "error"
@@ -483,7 +517,6 @@
                                     $('#tblGird').tableDnD()
                                 }
                                 else {
-                                    HideLoader();
                                     swal({
                                         title: "Failure",
                                         text: DataSet.StatusDescription,
@@ -494,7 +527,7 @@
                             }
                             else {
                                 HideLoader();
-                                swal({
+                                Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
                                     type: "error"
@@ -503,7 +536,7 @@
                         }
                         catch (e) {
                             HideLoader();
-                            swal({
+                            Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
                                 type: "error"
@@ -525,7 +558,7 @@
                 });
             }
             catch (e) {
-                swal({
+                Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
                     type: "error"

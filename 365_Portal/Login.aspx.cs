@@ -31,7 +31,7 @@ namespace _365_Portal
                 if (string.IsNullOrEmpty(txtUserEmail.Text.Trim()) || string.IsNullOrEmpty(txtUserPassword.Text.Trim()))
                 {
                     //lblError.Text = ConstantMessages.Login.InvalidUser;
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "swal({title: '" + ConstantMessages.Login.InvalidUser + "',icon: 'error'}); ", true);
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Swal.fire({text: '" + ConstantMessages.Login.InvalidUser + "',icon: 'error',showConfirmButton: false,showCloseButton: true})", true);
                     return;
                 }
                 else
@@ -59,7 +59,8 @@ namespace _365_Portal
                         if (HttpContext.Current.Session["access_token"] == null)
                         {
                             //lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
-                            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "swal({title: '" + ConstantMessages.WebServiceLog.GenericErrorMsg + "',icon: 'error'}); ", true);
+                            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Swal.fire({text: '" + ConstantMessages.WebServiceLog.GenericErrorMsg + "',icon: 'error',showConfirmButton: false,showCloseButton: true})", true);
+                            
                             return;
                         }
                         else
@@ -119,14 +120,16 @@ namespace _365_Portal
                     {
                         // Call Login Business Layer Function to record message
                         //lblError.Text = objResponse.ReturnMessage;
-                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "swal({title: '" + objResponse.ReturnMessage + "',icon: 'error'}); ", true);
+                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Swal.fire({text: '" + objResponse.ReturnMessage + "',icon: 'error',showConfirmButton: false,showCloseButton: true})", true);
+                       
                     }
                 }
             }
             catch (Exception ex)
             {
                 //lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "swal({title: '" + ConstantMessages.WebServiceLog.GenericErrorMsg + "',icon: 'error'}); ", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Swal.fire({text: '" + ConstantMessages.WebServiceLog.GenericErrorMsg + "',icon: 'error',showConfirmButton: false,showCloseButton: true})", true);
+                
             }
         }
     }

@@ -8,7 +8,7 @@
     /*url('../fonts/heebo-v5-latin-700.woff2') format('woff2'),*/ /* Super Modern Browsers */
     url('../fonts/heebo-v5-latin-regular.woff2') format('woff2');
 }
- 
+
 body {
     background-color: rgba(0, 0, 0, 0.05);
     font-family: Heebo;
@@ -26,7 +26,7 @@ a {
 .sidenav {
     height: 100%;
     width: 0;
-    position: absolute;
+    position: fixed;
     z-index: 1;
     top: 3.8rem;
     left: 0;
@@ -59,8 +59,23 @@ a {
 
 main {
     transition: margin-left .5s;
-    /*padding: 2.5rem 0;*/
+    padding: 6.5rem 0;
 }
+
+
+    main.main-content::before {
+        position: absolute;
+        display: inline-block;
+        top: 60px;
+        z-index: -1;
+        left: 0;
+        content: "";
+        color: #FEC900;
+        border-bottom: 0;
+        border-right: 10.5rem solid transparent;
+        border-top: 3rem solid;
+        border-left: 0;
+    }
 
 /*@media screen and (max-height: 450px) {
     .sidenav {
@@ -108,11 +123,6 @@ img.logo {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
-.swal-footer {
-    text-align: center !important;
-}
-
 
 .page-card {
     margin: 5.5rem 0;
@@ -342,20 +352,6 @@ input[type=checkbox] + label, input[type=radio] + label {
 .navbar {
     background-color: #000000 !important;
 }
-
-    .navbar::after {
-        position: absolute;
-        display: inline-block;
-        top: 60px;
-        z-index: -1;
-        left: 0;
-        content: "";
-        color: #FEC900;
-        border-bottom: 0;
-        border-right: 10.5rem solid transparent;
-        border-top: 3rem solid;
-        border-left: 0;
-    }
 
     .navbar .nav-user {
         color: #fff;

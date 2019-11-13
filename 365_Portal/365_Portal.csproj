@@ -556,6 +556,7 @@
     <Content Include="Asset\images\quiz-icon.svg" />
     <Content Include="Asset\images\quiz-master-c-icon.svg" />
     <Content Include="Asset\images\reward-icon.svg" />
+    <Content Include="Asset\images\suprrise-icon.svg" />
     <Content Include="Asset\images\survey-icon.svg" />
     <Content Include="Asset\images\survey.png" />
     <Content Include="Asset\images\target.png" />
@@ -577,6 +578,7 @@
     <Content Include="Asset\js\select2.min.js" />
     <Content Include="Asset\js\site.js" />
     <Content Include="Asset\js\sweetalert.min.js" />
+    <Content Include="Asset\js\sweetalert2.js" />
     <Content Include="Asset\webfonts\fa-brands-400.svg" />
     <Content Include="Asset\webfonts\fa-regular-400.svg" />
     <Content Include="Asset\webfonts\fa-solid-900.svg" />

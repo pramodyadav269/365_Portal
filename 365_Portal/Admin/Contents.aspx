@@ -164,14 +164,14 @@
         function Submit() {
 
             if (inputValidation('.input-validation')) {
-                swal({
+                Swal.fire({
                     title: "Good job!",
                     text: "You clicked the button!",
                     icon: "success",
                     button: "Ok",
                 });
             } else {
-                swal({
+                Swal.fire({
                     title: "Alert",
                     text: "Fill all fields",
                     icon: "error",
@@ -187,7 +187,7 @@
 
         function Delete(ctrl) {
             var id = $(ctrl).closest('tr').attr('id')
-            swal({
+            Swal.fire({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to recover this imaginary file!",
                 icon: "warning",
@@ -196,7 +196,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        swal("Poof! Your imaginary file has been deleted!", {
+                        Swal.fire("Poof! Your imaginary file has been deleted!", {
                             icon: "success",
                         });
                     }

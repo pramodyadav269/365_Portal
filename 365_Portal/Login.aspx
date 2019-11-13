@@ -10,17 +10,24 @@
     <%-- CSS --%>
     <link href="Asset/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Asset/css/all.css" rel="stylesheet" />
+    <link href="Asset/css/gijgo.min.css" rel="stylesheet" />
     <link href="Asset/css/select2.min.css" rel="stylesheet" />
+    <link href="Asset/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="Asset/css/site.css" rel="stylesheet" />
 
     <%-- JS --%>
     <script src="Asset/js/jquery.min.js"></script>
     <script src="Asset/js/popper.min.js"></script>
+    <script src="Asset/js/angular.min.js"></script>
     <script src="Asset/js/bootstrap.min.js"></script>
-    <script src="Asset/js/sweetalert.min.js"></script>
-    <script src="Asset/js/bs-custom-file-input.min.js"></script>
     <script src="Asset/js/all.js"></script>
+    <script src="Asset/js/gijgo.min.js"></script>
+    <script src="Asset/js/sweetalert2.js"></script>
+    <script src="Asset/js/bs-custom-file-input.min.js"></script>
     <script src="Asset/js/select2.min.js"></script>
+    <script src="Asset/js/jquery.dataTables.min.js"></script>
+    <script src="Asset/js/dataTables.bootstrap4.min.js"></script>
+    <script src="Asset/js/jquery.tablednd.js"></script>
     <script src="Asset/js/site.js"></script>
 
 </head>
@@ -165,6 +172,11 @@
         //var ajaxRequest = [];
         $(document).ready(function () {
             //getController(formdata, "/API/Payment/GetPaymentRequest", "");
+
+
+            //Swal.fire({text: 'Email has been sent to your registered',icon: 'error',showConfirmButton: false,showCloseButton: true})
+
+
         });
 
         function getController(formdata, getUrl, flag) {
@@ -219,14 +231,14 @@
                     var DataSet = $.parseJSON(response);
                     if (DataSet.StatusCode == "1") {
                         $('#txtRecoverEmail').val('');
-                        swal({
+                        Swal.fire({
                             title: "Success",
                             text: "Email has been sent to your registered EmailID",
                             icon: "success"
                         });
-                        
+
                     } else {
-                        swal({
+                        Swal.fire({
                             title: "Failure",
                             text: DataSet.StatusDescription,
                             icon: "error"
@@ -237,7 +249,7 @@
                 failure: function (response) {
                     alert(response.d);
                     var DataSet = $.parseJSON(response);
-                    swal({
+                    Swal.fire({
                         title: "Failure",
                         text: DataSet.StatusDescription,
                         icon: "error"

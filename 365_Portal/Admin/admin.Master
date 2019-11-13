@@ -23,7 +23,7 @@
     <script src="../Asset/js/bootstrap.min.js"></script>
     <script src="../Asset/js/all.js"></script>
     <script src="../Asset/js/gijgo.min.js"></script>
-    <script src="../Asset/js/sweetalert.min.js"></script>
+    <script src="../Asset/js/sweetalert2.js"></script>
     <script src="../Asset/js/bs-custom-file-input.min.js"></script>
     <script src="../Asset/js/select2.min.js"></script>
     <script src="../Asset/js/jquery.dataTables.min.js"></script>
@@ -74,7 +74,7 @@
 - Change Password
 - Logout--%>
         </div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark p-0">
             <div class="container">
                 <%-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -120,8 +120,8 @@
                 </div>
             </div>
         </nav>
-        <main>
-            <div class="container mt-5 mb-5">
+        <main class="main-content">
+            <div class="container">
                 <asp:ContentPlaceHolder ID="body" runat="server">
                 </asp:ContentPlaceHolder>
             </div>
