@@ -140,9 +140,42 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalPersonalGiftContent" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <a class="close-modal" data-dismiss="modal" aria-label="Close">
+                    <img src="Asset/images/close-button.png" class="close" /></a>
+                <div class="modal-body contents-datials">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1 mt-5 mb-4">
+                            <div class="row">
+                                <div class="video-control text-white" id="videoControl" onclick="VideoPlayPause(1)">
+                                    <i class="fas fa-play fa-5x"></i>
+                                </div>
+                                <div class="col-md-12">
+                                    <video controls id="contentVideo" onended="videoRating()" onpause="videoPlayPause(2)" onseeking="videoPlayPause(1)" onseeked="videoPlayPause(1)">
+                                        <source src="Asset/data/bunny.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="col-md-12 mt-4 overview text-left">
+                                    <h5 class="font-weight-bold text-uppercase">Goal setting - How to get over obstacles?</h5>
+                                    <p>
+                                        In this video, we’ll go through the basics of goal setting. Goals are an important aspect 
+                            of motivation and can help you a lot in the long-term.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
-
+        
         var achievements = [];
         var gifts = [];
         var accessToken = '<%=Session["access_token"]%>';
