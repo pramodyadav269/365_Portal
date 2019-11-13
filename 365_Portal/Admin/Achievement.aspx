@@ -118,7 +118,7 @@
                                     if (DataSet.StatusCode == "1") {
                                         clearFields('.input-validation');
                                         HideLoader();
-                                        swal({
+                                        Swal.fire({
                                             title: "Success",
                                             text: DataSet.StatusDescription,
                                             icon: "success",
@@ -133,7 +133,7 @@
                                     }
                                     else {
                                         HideLoader();
-                                        swal({
+                                        Swal.fire({
                                             title: "Failure",
                                             text: DataSet.StatusDescription,
                                             type: "error"
@@ -143,7 +143,7 @@
                                 }
                                 else {
                                     HideLoader();
-                                    swal({
+                                    Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
                                         type: "error"
@@ -153,7 +153,7 @@
                             }
                             catch (e) {
                                 HideLoader();
-                                swal({
+                                Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
                                     type: "error"
@@ -166,7 +166,7 @@
                         failure: function (response) {
                             HideLoader();
                             //alert(response.data);
-                            swal({
+                            Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
                                 type: "error"
@@ -176,7 +176,7 @@
                 }
                 catch (e) {
                     HideLoader();
-                    swal({
+                    Swal.fire({
                         title: "Alert",
                         text: "Oops! An Occured. Please try again",
                         icon: "error",
@@ -186,7 +186,7 @@
             }
             else {
                 HideLoader();
-                swal({
+                Swal.fire({
                     title: "Alert",
                     text: "Fill all fields",
                     icon: "error",
@@ -226,7 +226,7 @@
         function Delete(AchievementId) {
             
             id = AchievementId;
-            swal({
+            Swal.fire({
                 title: "Are you sure?",
                 text: "Once deleted, you will not be able to revert changes!",
                 icon: "warning",
@@ -253,7 +253,7 @@
                                     //console.log(response);
                                     if (DataSet.StatusCode == "1") {
                                         HideLoader();
-                                        swal({
+                                        Swal.fire({
                                             title: "Success",
                                             text: DataSet.StatusDescription,
                                             icon: "success",
@@ -269,7 +269,7 @@
                                     }
                                     else {
                                         HideLoader();
-                                        swal({
+                                        Swal.fire({
                                             title: "Failure",
                                             text: DataSet.StatusDescription,
                                             type: "error"
@@ -280,7 +280,7 @@
                                     HideLoader();
                                     //alert(response);
                                     //alert(e.message);
-                                    swal({
+                                    Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
                                         type: "error"
@@ -293,7 +293,7 @@
                             failure: function (response) {
                                 HideLoader();
                                 alert(response.data);
-                                swal({
+                                Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
                                     type: "error"
@@ -303,7 +303,7 @@
                     }
                     catch (e) {
                         HideLoader();
-                        swal({
+                        Swal.fire({
                             title: "Alert",
                             text: "Oops! An Occured. Please try again",
                             icon: "error",
@@ -364,7 +364,7 @@
                             }
                             else {
                                 HideLoader();
-                                swal({
+                                Swal.fire({
                                     title: "Warning",
                                     text: DataSet.StatusDescription,
                                     icon: "error",
@@ -374,7 +374,7 @@
                         }
                         else {
                             HideLoader();
-                            swal({
+                            Swal.fire({
                                 title: "Warning",
                                 text: DataSet.StatusDescription,
                                 icon: "error",
@@ -389,7 +389,7 @@
 
             }
             catch (e) {
-                swal({
+                Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
                     type: "error"

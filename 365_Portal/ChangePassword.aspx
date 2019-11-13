@@ -59,7 +59,7 @@
                             console.log(response);
                             if (DataSet.StatusCode == "1") {
                                 //alert(DataSet.Data[0].ReturnMessage);
-                                swal({
+                                Swal.fire({
                                     title: "Success",
                                     text: "Password has been Changed Successfully",
                                     type: "success",
@@ -67,7 +67,7 @@
                                 }).then((value) => {
                                     if (value) {
                                         var uri;
-                                        swal({
+                                        Swal.fire({
                                             text: "Please Select any Option for move forward",
                                             icon: "warning",
                                             buttons: ["Keep me logged in", "Log Out"],
@@ -94,7 +94,7 @@
                                 ClearFields();
                             }
                             else {
-                                swal({
+                                Swal.fire({
                                     title: "Failure",
                                     text: DataSet.StatusDescription,
                                     type: "error"
@@ -117,7 +117,7 @@
                 });
             }
             else {
-                swal({
+                Swal.fire({
                     title: "Alert",
                     text: "Fill all fields",
                     icon: "error",
@@ -150,7 +150,7 @@
                             window.location.replace(uri);
                         }
                         else {
-                            swal({
+                            Swal.fire({
                                 title: "Alert",
                                 text: "Unable to Logout",
                                 icon: "error",
@@ -160,7 +160,7 @@
                     }
                     catch (ex)
                     {
-                        swal({
+                        Swal.fire({
                             title: "Alert",
                             text: "Unable to Logout",
                             icon: "error",

@@ -91,7 +91,7 @@
                             $('#divRegPassword').removeClass('d-none');
                         }
                         else {
-                            swal({
+                            Swal.fire({
                                 title: "Failure",
                                 text: DataSet.StatusDescription,
                                 type: "error"
@@ -103,7 +103,7 @@
                     failure: function (response) {
                         alert(response.d);
                         var DataSet = $.parseJSON(response);
-                        swal({
+                        Swal.fire({
                             title: "Failure",
                             text: DataSet.StatusDescription,
                             type: "error"
@@ -112,7 +112,7 @@
                 });
             }
             else {
-                swal({
+                Swal.fire({
                     title: "Failure",
                     text:"Oops an error Occured!.Please try again",
                     type: "error"
@@ -137,7 +137,7 @@
 
                             var DataSet = $.parseJSON(response);
                             if (DataSet.StatusCode == "1") {
-                                swal({
+                                Swal.fire({
                                     title: "Success",
                                     text: "Password has been Changed Successfully",
                                     icon: "success"
@@ -149,7 +149,7 @@
                                 });
                             }
                             else {
-                                swal({
+                                Swal.fire({
                                     title: "Failure",
                                     text: DataSet.StatusDescription,
                                     icon: "error"
@@ -160,7 +160,7 @@
                         },
                         failure: function (response) {
                             var DataSet = $.parseJSON(response);
-                            swal({
+                            Swal.fire({
                                 title: "Failure",
                                 text: DataSet.StatusDescription,
                                 icon: "error"
@@ -173,7 +173,7 @@
                 }
             }
             else {
-                swal({
+                Swal.fire({
                     title: "Alert",
                     text: "Fill all fields",
                     icon: "error",
