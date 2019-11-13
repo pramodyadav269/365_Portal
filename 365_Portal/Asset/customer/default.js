@@ -1,9 +1,12 @@
 ﻿var app = angular.module('MasterPage', []);
 
+var allContents = [];
+
 // CONTROLLER FUNCTIONS
 app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     objDs = DataService;
     objDs.DS_GetUserTopics();
+    $("#dvTopicContainer").hide();
 
     $scope.ActiveContainer = "Topic";
     $scope.NotificationText = "Notifications";
@@ -21,7 +24,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         $scope.SelectedModule = $rootScope.Module.UnlockedItems.filter(function (v) {
             return moduleId == v.ModuleID;
         })[0];
-        objDs.DS_GetContentsByModule(topicId, moduleId);
+        objDs.DS_GetContentsByModule(topicId, moduleId, true);
     }
 
     $scope.ViewContent = function (topicId, moduleId, contentId, moduleName, type) {
@@ -43,14 +46,16 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         else {
             $scope.ActiveContainer = "ContentView";
             //Unlock Next Content
-            objDs.DS_UpdateContent(topicId, moduleId, contentId);
+            objDs.DS_UpdateContent("Content", topicId, moduleId, contentId);
         }
     }
 
     // Module Completed...
-    $scope.UpdateContent = function (topicId, moduleId, contentIddd) {
-        objDs.DS_UpdateContent(topicId, moduleId, contentIddd);
-        $scope.GetModulesByTopic(topicId);
+    $scope.UpdateContent = function (type, topicId, moduleId, contentIddd) {
+        objDs.DS_UpdateContent(type, topicId, moduleId, contentIddd);
+        $scope.GetModulesByTopic(topicId, false);
+
+        $scope.ActiveContainer = "Module";
     }
 
     $scope.FlashcardPreviousClicked = function (index, total) {
@@ -65,7 +70,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
 
     $scope.SkipFlashcard = function (topicId, moduleId, contentId) {
         //Unlock Next Content
-        objDs.DS_UpdateContent(topicId, moduleId, contentId);
+        objDs.DS_UpdateContent("Flashcard", topicId, moduleId, contentId);
     }
 
     $scope.FlashcardNextClicked = function (index, total) {
@@ -92,7 +97,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         if ((index + 1) == total) {
             $scope.ShowFinalQuizIntro();
             //Unlock Next Content
-            objDs.DS_UpdateContent(topicId, moduleId, contentId);
+            objDs.DS_UpdateContent("Flashcard", topicId, moduleId, contentId);
         }
         else {
             $scope.ShowFlashcardQuiz();
@@ -132,36 +137,58 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         var cloneObj = $rootScope.SpecialContents;
         var questionList = [];
 
+        var index = 0;
+        var validationSuccess = true;
+        var validationMsg = "Following fields cannot be left blank</br>";
+
         $.each(cloneObj.Questions, function (key, question) {
-            if (question.QuestionTypeID != '1') {
-                // Single Selection
-                questionList.push({
-                    "QuestionID": question.QuestionID,
-                    "AnswerIDs": question.Value_Text,
-                    "FilePath": question.FilePath,// Base64
-                    "Value_Text": question.QuestionTypeID == '8' ? GetFormattedDate(question.Value_Text) : question.Value_Text
-                });
+            if (question.Value_Text == '') {
+                if ($scope.GetSelectedValues(question.AnswerOptions) == '') {
+                    validationMsg += question.Title + "<br/>";
+                    validationSuccess = false;
+                    index++;
+                }
             }
-            else {
-                //Multiple Selection
-                questionList.push({
-                    "QuestionID": question.QuestionID,
-                    "AnswerIDs": $scope.GetSelectedValues(question.AnswerOptions),
-                    "FilePath": question.FilePath,// Base64
-                    "Value_Text": question.Value_Text
-                });
+            try {
+                if (question.QuestionTypeID != '1') {
+                    // Single Selection
+                    questionList.push({
+                        "QuestionID": question.QuestionID,
+                        "AnswerIDs": question.Value_Text,
+                        "FilePath": question.FilePath,// Base64
+                        "Value_Text": question.QuestionTypeID == '8' ? GetFormattedDate(question.Value_Text) : question.Value_Text
+                    });
+                }
+                else {
+                    //Multiple Selection
+                    questionList.push({
+                        "QuestionID": question.QuestionID,
+                        "AnswerIDs": $scope.GetSelectedValues(question.AnswerOptions),
+                        "FilePath": question.FilePath,// Base64
+                        "Value_Text": question.Value_Text
+                    });
+                }
             }
+            catch (ex) { }
         });
 
-        var requestParams = {
-            TopicID: cloneObj.TopicID
-            , ModuleID: cloneObj.ModuleID
-            , ContentID: cloneObj.ContentID
-            , SurveyID: cloneObj.SurveyID
-            , ContentType: cloneObj.Type
-            , Questions: questionList
-        };
-        objDs.DS_SubmitAnswers(requestParams);
+        if (validationSuccess == false)
+            swal({
+                title: "Failure",
+                text: validationMsg + " Count:" + index,
+                icon: "error"
+            });
+        else {
+            var requestParams = {
+                TopicID: cloneObj.TopicID
+                , ModuleID: cloneObj.ModuleID
+                , ContentID: cloneObj.ContentID
+                , SurveyID: cloneObj.SurveyID
+                , ContentType: cloneObj.Type
+                , Questions: questionList
+            };
+            objDs.DS_SubmitAnswers(requestParams);
+        }
     }
 
     $scope.RetakeTest = function (topicId, moduleId, contentId, surveyId) {
@@ -183,9 +210,16 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     }
 
     $scope.GoBack = function (prevPage) {
+
         $scope.ActiveContainer = prevPage;
         if (prevPage == 'Content')
             $("#dvVideoRating").hide();
+        if (prevPage == 'Topic') {
+            $("#dvTopicContainer").show();
+        } if (prevPage == 'Content') {
+            $('#videoControl').removeClass('d-none');
+            $('#videoControl').hide();
+        }
     }
 
     $scope.RateVideo = function (topicId, moduleId, contentId, rating) {
@@ -200,8 +234,8 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
 app.service("DataService", function ($http, $rootScope, $compile) {
     var ds = this;
 
-    ds.DS_GetUserTopics = function (userId) {
-        //var RequestParams = { UserID: userId };
+    ds.DS_GetUserTopics = function () {
+        ShowLoader();
         var requestParams = { contact_name: "Scott", company_name: "HP" };
         $http({
             method: "POST",
@@ -213,15 +247,14 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             data: JSON.stringify(requestParams),
 
         }).then(function success(response) {
+            HideLoader();
+            $("#dvTopicContainer").show();
             var responseData = response.data;
             $rootScope.Topics = responseData.Data;
         });
     }
 
     ds.DS_GetModulesByTopic = function (topicId) {
-
-        // var requestParams = { TopicId: topicId };
-        //topicId = 25;
         var requestParams = { TopicID: topicId };
         $http({
             method: "POST",
@@ -232,15 +265,17 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             },
             data: requestParams,
         }).then(function success(response) {
+            HideLoader();
             var responseData = response.data;
             $rootScope.Module = responseData;
         });
 
     }
 
-    ds.DS_GetContentsByModule = function (topicId, moduleId) {
-
-        var requestParams = { TopicID: topicId, ModuleID: moduleId };
+    ds.DS_GetContentsByModule = function (topicId, moduleId, displayLoader) {
+        if (displayLoader == true)
+            ShowLoader();
+        var requestParams = { TopicID: topicId, ModuleID: moduleId, IsGift: 0 };
         $http({
             method: "POST",
             url: "../api/Trainning/GetContentsByModule",
@@ -250,8 +285,11 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             },
             data: requestParams,
         }).then(function success(response) {
+            HideLoader();
             var responseData = response.data;
             $rootScope.Content = responseData;
+            allContents = responseData.UnlockedItems;
+            allContents = $.merge(allContents, responseData.LockedItems);
         });
     }
 
@@ -275,6 +313,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                         '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath + '" type="video/mp4">' +
                         '</video>');
                     document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
+                    $('#videoControl').show();
                 }
                 else if ($rootScope.SpecialContents.DocType == 'PDF') {
                     $("#divPDF").html('<embed id="dvPDFViewer" src="' + $rootScope.SpecialContents.FilePath + '" width="760" height="800"/>');
@@ -286,7 +325,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
         //DS_GetContentsByModule();
     }
 
-    ds.DS_UpdateContent = function (topicId, moduleId, contentId) {
+    ds.DS_UpdateContent = function (type, topicId, moduleId, contentId) {
         var requestParams = { TopicID: topicId, ModuleID: moduleId, ContentID: contentId };
         $http({
             method: "POST",
@@ -298,7 +337,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             data: requestParams,
         }).then(function success(response) {
             var responseData = response.data;
-            ds.DS_GetContentsByModule(topicId, moduleId);
+            ds.DS_GetContentsByModule(topicId, moduleId, false);
 
             if (responseData.IsGift == true) {
                 alert("Gift Received");
@@ -336,7 +375,6 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             var responseData = response.data;
             if (requestParams.ContentType == "SURVEY") {
                 // Unlock Flashcard
-
                 swal({
                     title: "Success",
                     text: "Survey submitted successfully.",
@@ -346,8 +384,8 @@ app.service("DataService", function ($http, $rootScope, $compile) {
 
                 });
 
-                ds.DS_UpdateContent(requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
-                ds.DS_GetContentDetails(requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
+                ds.DS_UpdateContent("Survey", requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
+                ds.DS_GetContentDetails(requestParams.TopicID, requestParams.ModuleID, NextItemContentID(requestParams.ContentID));
                 $rootScope.SpecialContents.IsAnswered == 1;
             }
             else if (requestParams.ContentType == "FLASHCARD") {
@@ -356,12 +394,36 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             else if (requestParams.ContentType == "FINALQUIZ") {
                 //To see answers
                 ds.DS_GetContentDetails(requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
+
+                var strMsg = "You have earned " + responseData.ScoreEarned + " marks out of " + responseData.TotalScore;
+                if (responseData.IsPassed == "0") {
+                    strMsg += "<br/> You have not passed this test, need  more marks in order to complete this module. Retake the test again. ";
+                    swal({
+                        title: "Failure",
+                        text: strMsg,
+                        type: "error",
+                        icon: "Failure"
+                    }).then((value) => {
+
+                    });
+                }
+                else {
+                    swal({
+                        title: "Success",
+                        text: strMsg,
+                        type: "success",
+                        icon: "success"
+                    }).then((value) => {
+
+                    });
+                }
             }
             HideLoader();
         });
     }
 
     ds.DS_RetakeTest = function (topicId, moduleId, contentId, surveyId) {
+        ShowLoader();
         var requestParams = { SurveyID: surveyId };
         $http({
             method: "POST",
@@ -374,6 +436,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
         }).then(function success(response) {
             var responseData = response.data;
             ds.DS_GetContentDetails(topicId, moduleId, contentId);
+            HideLoader();
         });
     }
 });
@@ -398,6 +461,17 @@ app.directive('myPostRepeatDirective', function () {
         }
     };
 });
+
+
+function NextItemContentID(contentid) {
+    var contId = 0;
+    $.each(allContents, function (key, content) {
+        if (content.ContentID == contentid) {
+            contId = allContents[key + 1].ContentID;
+            return false;
+        }
+    });
+}
 
 function LoadData() {
     var formdata = new FormData();

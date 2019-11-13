@@ -36,13 +36,28 @@
 </head>
 <body>
     <form id="form1" runat="server" ng-app="MasterPage">
-       <div class="spinner-center d-none">
+        <div class="spinner-center d-none">
             <div class="spinner">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
         </div>
+        <div id="sideNav" class="sidenav">
+            <a href="<%=Page.ResolveUrl("~/Admin/dashboard.aspx") %>">Dashboard</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/Users.aspx") %>">Users</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/Topics.aspx") %>">Topics</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/Modules.aspx") %>">Modules</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/ContentList.aspx") %>">Contents</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=1") %>">Surveys</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/flashcards.aspx") %>">Flashcards</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=2") %>">Flashcard Quiz</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=3") %>">Final Quiz</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/bulkupload.aspx") %>">Bulk Upload</a>
+            <a href="<%=Page.ResolveUrl("~/Admin/assign_topics.aspx") %>">Assign Topics</a>
+            <a href="<%=Page.ResolveUrl("~/Achievements.aspx") %>">Achievements</a>
+        </div>
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
             <div class="container">
                 <a class="navbar-brand" href="Default.aspx">

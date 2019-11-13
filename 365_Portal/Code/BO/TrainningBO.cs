@@ -36,6 +36,7 @@ namespace _365_Portal.Code.BO
         public int QuestionTypeID { get; set; }
         public bool IsMandatory { get; set; }
         public bool IsMultiLine { get; set; }
+        public bool IsBox { get; set; }
         public int MaxLength { get; set; }
         public string Title { get; set; }
         public int SortOrder { get; set; }

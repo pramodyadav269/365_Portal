@@ -95,7 +95,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetContentsByModule(int compID, string userId, int topicId, int ModuleID)
+        public static DataSet GetContentsByModule(int compID, string userId, int topicId, int ModuleID,bool isGift)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -110,6 +110,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_userId", userId);
                 cmd.Parameters.AddWithValue("p_topicId", topicId);
                 cmd.Parameters.AddWithValue("p_ModuleID", ModuleID);
+                cmd.Parameters.AddWithValue("p_IsGift", isGift);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

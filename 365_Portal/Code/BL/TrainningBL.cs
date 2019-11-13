@@ -58,12 +58,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetContentsByModule(int compId, string userId, int topicId, int moduleId)
+        public static DataSet GetContentsByModule(int compId, string userId, int topicId, int moduleId,bool isGift)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetContentsByModule(compId, userId, topicId, moduleId);
+                ds = TrainningDAL.GetContentsByModule(compId, userId, topicId, moduleId, isGift);
             }
             catch (Exception ex)
             {
@@ -94,6 +94,7 @@ namespace _365_Portal.Code.BL
                                     QType = dr["QType"].ToString(),
                                     Type = dr["Type"].ToString(),
                                     QuestionTypeID = Convert.ToInt32(dr["QuestionTypeID"].ToString()),
+                                    IsBox = !string.IsNullOrEmpty(dr["IsBox"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsBox"].ToString())) : true,
                                     IsMandatory = !string.IsNullOrEmpty(dr["IsMandatory"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsMandatory"].ToString())) : true,
                                     IsMultiLine = !string.IsNullOrEmpty(dr["IsMultiLine"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsMultiLine"].ToString())) : false,
                                     MaxLength = !string.IsNullOrEmpty(dr["MaxLength"].ToString()) ? Convert.ToInt32(dr["MaxLength"].ToString()) : 0,
@@ -299,7 +300,7 @@ namespace _365_Portal.Code.BL
 
                 //Submit response in DB
                 ds = TrainningDAL.SubmitResponse(compId, userId, surveyId, totalScore, scoreEarned, percentageEarned, isPassed, Utility.GetClientIPaddress());
-
+               
                 if (ds.Tables.Count > 0)
                 {
                     // Call SubmitAnswers

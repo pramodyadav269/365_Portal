@@ -19,6 +19,11 @@ namespace _365_Portal
             if (HttpContext.Current.Session["FirstName"] != null && HttpContext.Current.Session["LastName"] != null)
             {
                 lblUserName.InnerText = HttpContext.Current.Session["FirstName"].ToString() + " " + HttpContext.Current.Session["LastName"].ToString();
+
+                if (HttpContext.Current.Session["ProfilePicFile"] != null && !string.IsNullOrEmpty(HttpContext.Current.Session["ProfilePicFile"].ToString()))
+                {
+                    imgProfilePic.Src = "../Files/ProfilePic/" + HttpContext.Current.Session["ProfilePicFile"].ToString();
+                }
             }
         }
     }
