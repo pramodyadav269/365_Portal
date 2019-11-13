@@ -119,20 +119,22 @@
                                 }
                             }
                             else {
-                                swal({
+                                Swal.fire({
                                     title: "Failure",
                                     text: DataSet.StatusDescription,
-                                    type: "error"
+                                    icon: "error",
+                                    button: "Ok",
                                 });
                             }
                     },
                     complete: function () {
                     },
                     failure: function (response) {        
-                        swal({
+                        Swal.fire({
                             title: "Failure",
                             text: "Please try Again",
-                            type: "error"
+                            icon: "error",
+                            button: "Ok",
                         });
                     }
                 });
@@ -193,10 +195,11 @@
                 //Submit button name attribute changed to EDIT(Modify);
             }
             else {
-                swal({
+                Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
-                    type: "error"
+                    icon: "error",
+                    button: "Ok",
                 });
             }
         }
@@ -269,7 +272,8 @@
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    icon: "error"
+                                    icon: "error",
+                                    button: "Ok",
                                 });
                             }
                         },
@@ -282,7 +286,8 @@
                             Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
-                                icon: "error"
+                                icon: "error",
+                                button: "Ok",
                             });
                         }
                     });
@@ -308,39 +313,7 @@
             }
         }
 
-                    }
-                    if (this.className == 'description') {
-                        $('#txtDescription').val(this.innerText);
-                    }
-                    if (this.className == 'overview') {
-                        $('#txtOverview').val(this.innerText);
-                    }
-                    if (this.className == 'isPublished') {
-                        if (this.innerText == "Yes") {
-                            $('#cbIsPublished').prop('checked', true);
-                        }
-                        else {
-                            $('#cbIsPublished').prop('checked', false);
-                        }
-
-                    }
-                });           
-                $('#ddlTopic').attr("disabled", true);
-                toggle('divForm', 'divGird');
-                $('#submit').attr('name', EDIT);
-                $('#submit').text('EDIT');
-                $('#back').text('CANCEL');
-                inputValidation('.input-validation');
-                //Submit button name attribute changed to EDIT(Modify);
-            }
-            else {
-                swal({
-                    title: "Failure",
-                    text: "Please try Again",
-                    type: "error"
-                });
-            }
-        }
+                   
 
         function Delete(ModuleId) {
 
@@ -392,7 +365,8 @@
                                                 Swal.fire({
                                                     title: "Failure",
                                                     text: DataSet.StatusDescription,
-                                                    type: "error"
+                                                    icon: "error",
+                                                    button: "Ok",
                                                 });
                                             }
                                         }
@@ -403,7 +377,7 @@
                                             Swal.fire({
                                                 title: "Failure",
                                                 text: "Please try Again",
-                                                type: "error"
+                                                icon: "error"
                                             });
                                         }
                                     },
@@ -416,7 +390,8 @@
                                         Swal.fire({
                                             title: "Failure",
                                             text: "Please try Again",
-                                            type: "error"
+                                            icon: "error",
+                                            button: "Ok",
                                         });
                                     }
                                 });
@@ -438,7 +413,8 @@
                 Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
-                    type: "error"
+                    icon: "error",
+                    button: "Ok",
                 });
             }
         }
@@ -520,7 +496,8 @@
                                     swal({
                                         title: "Failure",
                                         text: DataSet.StatusDescription,
-                                        type: "error"
+                                        icon: "error",
+                                        button: "Ok",
                                     });
                                 }
 
@@ -530,7 +507,8 @@
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    type: "error"
+                                    icon: "error",
+                                    button: "Ok",
                                 });
                             }
                         }
@@ -539,7 +517,8 @@
                             Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
-                                type: "error"
+                                icon: "error",
+                                button: "Ok",
                             });
                         }
                     },
@@ -561,7 +540,8 @@
                 Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
-                    type: "error"
+                    icon: "error",
+                    button: "Ok",
                 });
             }
         }

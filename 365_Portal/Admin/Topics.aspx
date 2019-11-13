@@ -139,7 +139,8 @@
                                         Swal.fire({
                                             title: "Failure",
                                             text: DataSet.StatusDescription,
-                                            type: "error"
+                                            icon: "error",
+                                            button: "Ok",
                                         });
                                         clearFields('.input-validation');
                                     }
@@ -149,7 +150,8 @@
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
-                                        type: "error"
+                                        icon: "error",
+                                        button: "Ok",
                                     });
 
                                 }
@@ -159,7 +161,8 @@
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    type: "error"
+                                    icon: "error",
+                                    button: "Ok",
                                 });
                             }
                         },
@@ -172,7 +175,8 @@
                             Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
-                                type: "error"
+                                icon: "error",
+                                button: "Ok",
                             });
                         }
                     });
@@ -281,7 +285,8 @@
                                         Swal.fire({
                                             title: "Failure",
                                             text: DataSet.StatusDescription,
-                                            type: "error"
+                                            icon: "error",
+                                            button: "Ok",
                                         });
                                     }
                                 }
@@ -292,7 +297,8 @@
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
-                                        type: "error"
+                                        icon: "error",
+                                        button: "Ok",
                                     });
                                 }
                             },
@@ -305,7 +311,8 @@
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    type: "error"
+                                    icon: "error",
+                                    button: "Ok",
                                 });
                             }
                         });
@@ -416,7 +423,8 @@
                 Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
-                    type: "error"
+                    icon: "error",
+                    button: "Ok",
                 });
             }
         }
