@@ -16,13 +16,13 @@ namespace _365_Portal.Code.BL
             Logger.Log(ex, "ContentBL", methodName);
         }
 
-        
+        #region Topics all CRUD
         public static DataSet CreateTopic(ContentBO content)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateTopic(Convert.ToInt32(ConstantMessages.Action.INSERT),content);
+                ds = ContentDAL.CreateTopic(Convert.ToInt32(ConstantMessages.Action.INSERT), content);
             }
             catch (Exception ex)
             {
@@ -35,7 +35,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateTopic(Convert.ToInt32(ConstantMessages.Action.MODIFY),content);
+                ds = ContentDAL.CreateTopic(Convert.ToInt32(ConstantMessages.Action.MODIFY), content);
             }
             catch (Exception ex)
             {
@@ -82,12 +82,14 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+        #endregion
+        #region Modules all CRUD
         public static DataSet CreateModule(ContentBO content)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateModule( Convert.ToInt32(ConstantMessages.Action.INSERT),content);
+                ds = ContentDAL.CreateModule(Convert.ToInt32(ConstantMessages.Action.INSERT), content);
             }
             catch (Exception ex)
             {
@@ -134,12 +136,14 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+        #endregion
+        #region Content all CRUD
         public static DataSet CreateContent(ContentBO content)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateContent(content);
+                ds = ContentDAL.CreateContent((int)ConstantMessages.Action.INSERT,content);
             }
             catch (Exception ex)
             {
@@ -152,7 +156,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateContent(content);
+                ds = ContentDAL.CreateContent((int)ConstantMessages.Action.MODIFY, content);
             }
             catch (Exception ex)
             {
@@ -186,7 +190,7 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-
+        #endregion
     }
 
 

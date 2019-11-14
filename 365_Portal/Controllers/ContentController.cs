@@ -712,7 +712,110 @@ namespace _365_Portal.Controllers
         public IHttpActionResult CreateContent(JObject requestParams)
         {
             var data = string.Empty;
+            ContentBO content = new ContentBO();
+            try
+            {
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
+                if (identity != null)
+                {
+
+                    if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
+                        !string.IsNullOrEmpty(requestParams["p_DocType"].ToString()) && !string.IsNullOrEmpty(requestParams["p_ContentTitle"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["p_ContentDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())))
+                    {
+                        content.CompID = identity.CompId;
+                        content.CreatedBy = identity.UserID;
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+
+                        //if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                        //{
+                        //    content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
+                        //}
+                        if (!string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()))
+                        {
+                            content.ModuleTitle = requestParams["ModuleTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()))
+                        {
+                            content.ModuleDescription = requestParams["ModuleDescription"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleDescription = null;
+                        }
+
+                        if (!string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()))
+                        {
+                            content.ModuleOverview = requestParams["ModuleOverview"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleOverview = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsActive = (bool)requestParams["IsActive"];
+                        }
+                        var ds = ContentBL.CreateModule(content);
+                        if (ds.Tables.Count > 0)
+                        {
+                            DataTable dt = ds.Tables["Data"];
+                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            {
+                                data = Utility.ConvertDataSetToJSONString(dt);
+                                data = Utility.Successful(data);
+                            }
+                            else
+                            {
+
+                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+
+                        }
+                        else
+                        {
+                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.InValidValues;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
             return new APIResult(Request, data);
+
 
         }
 
