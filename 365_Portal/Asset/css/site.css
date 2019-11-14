@@ -124,6 +124,11 @@ img.logo {
     transform: translate(-50%, -50%);
 }
 
+.note {
+    font-size: 14px;
+    color: #7F7F7F;
+}
+
 .page-card {
     margin: 5.5rem 0;
 }
@@ -740,11 +745,20 @@ p.anchor {
     cursor: pointer;
 }
 
-    .video-control .svg-inline--fa {
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
+.modal-body .video-control {
+    width: 95.5%;
+    height: 73%;
+}
+
+.video-control .svg-inline--fa {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-body .video-control .svg-inline--fa {
+    left: 50%;
+}
 
 .contents-datials .overview p {
     font-size: 1.05rem;

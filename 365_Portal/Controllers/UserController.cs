@@ -1039,11 +1039,12 @@ namespace _365_Portal.Controllers
                 {
 
 
-
+                 
                     var ds = UserBL.ViewGroup(identity.CompId);
+                    DataTable dt = ds.Tables["Data"];
                     if (ds.Tables.Count > 0)
                     {
-                        DataTable dt = ds.Tables["Data"];
+                       
 
                         data = Utility.ConvertDataSetToJSONString(dt);
                         data = Utility.Successful(data);
