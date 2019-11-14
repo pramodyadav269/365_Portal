@@ -28,7 +28,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="ddlRole">Role</label>
-                                <select class="form-control select2 required" id="ddlRole" style="width: 100% !important">
+                                <select class="form-control required" id="ddlRole" style="width: 100% !important">
                                     <%--<option></option>
                                     <option value="1">Role 1</option>
                                     <option value="2">Role 2</option>
@@ -78,7 +78,7 @@
                         <div class="col-md-3" id="divGroup" style="display:none;">
                             <div class="form-group">
                                 <label for="ddlGroup">Group</label>
-                                <select class="form-control select2 required" id="ddlGroup" style="width: 100% !important">
+                                <select class="form-control  required" id="ddlGroup" style="width: 100% !important">
                                     <%--<option></option>
                                     <option value="1">Group 1</option>
                                     <option value="2">Group 2</option>
@@ -243,9 +243,8 @@
 
             $('#btnSubmit').show();
             $('#btnUpdate').hide();
-
             clearFields('.input-validation')
-            toggle('divForm', 'divGird');            
+            toggle('divForm', 'divGird');
         }
 
         function Submit()
@@ -401,15 +400,15 @@
 
                             //if (Role != undefined && Role.length > 0) 
                             {                                
-                                $('#ddlRole').empty().append('<option></option>');
+                                $('#ddlRole').empty().append('<option value="">Select Role</option>');
                                 for(var i = 0;i < Role.length ; i++)
                                 {
                                     $('#ddlRole').append('<option value="' + Role[i].RoleID + '">' + Role[i].RoleDisplayName + '</option>');
                                 }
                             }
                             if (Group != undefined && Group.length > 0) {
-                                $('#ddlGroup').empty().append('<option></option>');
-                                for (var i = 0; i < Role.length ; i++) {
+                                $('#ddlGroup').empty().append('<option value="">Select Group</option>');
+                                for (var i = 0; i < Group.length ; i++) {
                                     $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');
                                 }
                                 $('#divGroup').show();
