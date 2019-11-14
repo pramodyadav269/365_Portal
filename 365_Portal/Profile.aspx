@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-md-12 scroll">
                     <dl id="dvGifts" class="row text-center">
-                        No Gifts Received
+                        <%--No Gifts Received--%>
                     </dl>
                 </div>
             </div>
@@ -115,24 +115,18 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalPersonalGift" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="modalFlashcard" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body">
+                <div class="modal-body contents-datials">
                     <div class="row">
-                        <div class="col-md-10 offset-md-1 text-center mt-4">
-                            <img src="Asset/images/suprrise-icon.svg" class="img-achievements" />
-                            <p class="modal-text mt-4">Surprise!</p>
-                            <h3 class="font-weight-bold modal-title">You just unlocked a personal gift!</h3>
-                        </div>
-                        <div class="col-md-10 offset-md-1 text-center mt-3">
-                            <img src="Asset/images/next-flashcard-icon.svg" class="img-achievements" />
-                            <h5 class="modal-title mt-2"><b>Flashcard:</b> How to Motivate Yourself in your Daily Life by Jared Green</h5>
-                        </div>
-                        <div class="col-md-10 offset-md-1 text-center mt-5 mb-3">
-                            <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Continue</a>
-                            <div class="w-100"></div>
-                            <span class="note"><b>Note:</b> You can access this gift in your Profile page</span>
+                        <div class="col-12 col-sm-12 col-md-6 mb-3 overview" id="divFlashcard">
+                            <div id="dvFlashcard" class="flashcard">
+                            </div>
+                            <div class="w-100 mt-5 text-center">
+                                <a href="#" class="btn btn-custom btn-transparent font-weight-bold mr-2 d-none" id="btnPrevCard" onclick="previousFlashcard();">Previous card</a>
+                                <a href="#" class="btn btn-custom bg-yellow font-weight-bold" id="btnNextCard" onclick="nextFlashcard();">Next Card</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,15 +141,49 @@
                     <img src="Asset/images/close-button.png" class="close" /></a>
                 <div class="modal-body contents-datials">
                     <div class="row">
-                        <div class="col-md-10 offset-md-1 mt-5 mb-4">
+                        <div class="col-md-10 offset-md-1 mt-5 mb-4" id="dvPdfViewer" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-12 mb-3" id="pdfContent">
+                                    <div id="divPDF">
+                                        <embed src="Asset/data/test.pdf" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-10 offset-md-1 mt-5 mb-4" id="dvVideoViewer" style="display: none;">
                             <div class="row">
                                 <div class="video-control text-white" id="videoControl" onclick="VideoPlayPause(1)">
                                     <i class="fas fa-play fa-5x"></i>
                                 </div>
+
+                                <div id="dvVideoRating" style="display: none;" class="video-rating text-white">
+                                    <div class="video-rating-content">
+                                        <h2 class="font-weight-bold">How did you like the video?</h2>
+                                        <dl class="row text-center">
+                                            <dt class="col" onclick="RateContent(1)">
+                                                <i class="far fa-grin-hearts fa-5x"></i>
+                                                <span>Love it!</span>
+                                            </dt>
+                                            <dt class="col" onclick="RateContent(2)">
+                                                <i class="far fa-grin-beam fa-5x"></i>
+                                                <span>Like it!</span>
+                                            </dt>
+                                            <dt class="col" onclick="RateContent(3)">
+                                                <i class="far fa-meh fa-5x"></i>
+                                                <span>Meh</span>
+                                            </dt>
+                                            <dt class="col" onclick="RateContent(4)">
+                                                <i class="far fa-frown fa-5x"></i>
+                                                <span>Didn't like it!</span>
+                                            </dt>
+                                        </dl>
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
-                                    <video controls id="contentVideo" onended="videoRating()" onpause="videoPlayPause(2)" onseeking="videoPlayPause(1)" onseeked="videoPlayPause(1)">
+                                    <div id="divVideo"></div>
+                                    <%--  <video id="vdVideoPlayer" controls id="contentVideo" onended="videoRating()" onpause="videoPlayPause(2)" onseeking="videoPlayPause(1)" onseeked="videoPlayPause(1)">
                                         <source src="Asset/data/bunny.mp4" type="video/mp4">
-                                    </video>
+                                    </video>--%>
                                 </div>
                                 <div class="col-md-12 mt-4 overview text-left">
                                     <h5 class="font-weight-bold text-uppercase">Goal setting - How to get over obstacles?</h5>
@@ -175,7 +203,7 @@
 
 
     <script>
-        
+
         var achievements = [];
         var gifts = [];
         var accessToken = '<%=Session["access_token"]%>';
@@ -215,6 +243,7 @@
         }
 
         function GetAchievementNGifts() {
+            ShowLoader();
             var requestParams = { contact_name: "Scott", company_name: "HP" };
             $.ajax({
                 type: "POST",
@@ -223,13 +252,14 @@
                 data: JSON.stringify(requestParams),
                 contentType: "application/json",
                 success: function (response) {
+
                     achievements = $.parseJSON(response).Achievements;
                     gifts = $.parseJSON(response).Gifts;
 
                     // Bind Gifts
                     var giftHtml = "";
                     $.each(gifts, function (i, data) {
-                        giftHtml += '<dt class="col-md-3" ContentID=' + data.ContentID + '>';
+                        giftHtml += '<dt onclick="OpenPlayer(this);" class="col-md-3" TopicID=' + data.TopicID + ' ModuleID=' + data.ModuleID + ' ContentID=' + data.ContentID + '>';
                         if (data.ContentType == 'VIDEO')
                             giftHtml += '<img src="Asset/images/next-video-icon.svg" />';
                         else if (data.ContentType == 'FLASHCARD')
@@ -262,9 +292,163 @@
                     $("#dvAchievement").html(achievementHtml);
 
                     $('#dvGifts dt').click(function () {
-                        $('#modalPersonalGift').modal('show');
+                        $('#modalPersonalGiftContent').modal('show');
                     });
+
+                    HideLoader();
                 }
+            });
+        }
+
+        function OpenPlayer(cntrl) {
+            var topicId = $(cntrl).attr("TopicID");
+            var moduleId = $(cntrl).attr("ModuleID");
+            var contentId = $(cntrl).attr("ContentID");
+            GetContentDetails(topicId, moduleId, contentId);
+        }
+
+        var selectedGift = {};
+
+        function GetContentDetails(topicId, moduleId, contentId) {
+            ShowLoader();
+            var requestParams = { TopicID: topicId, ModuleID: moduleId, ContentID: contentId };
+            $.ajax({
+                method: "POST",
+                url: "../api/Trainning/GetContentDetails",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+            }).then(function success(response) {
+                HideLoader();
+                var responseData = $.parseJSON(response);
+                selectedGift = { TopicID: responseData.TopicID, ModuleID: responseData.ModuleID, ContentID: responseData.ContentID };
+                if (responseData.DocType == 'VIDEO') {
+                    $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
+                        '<source id="dvVideoPlayer" src="' + responseData.FilePath + '" type="video/mp4">' +
+                        '</video>');
+                    document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
+                    $('#videoControl').show();
+
+                    $("#dvVideoViewer").show();
+                    $("#dvPdfViewer").hide();
+                }
+                else if (responseData.DocType == 'PDF') {
+                    $("#divPDF").html('<embed id="dvPDFViewer" src="' + responseData.FilePath + '" width="760" height="800"/>');
+                    $("#dvVideoViewer").hide();
+                    $("#dvPdfViewer").show();
+                }
+                else {
+                    // Flashcard
+                    $("#dvVideoViewer").hide();
+                    $("#dvPdfViewer").hide();
+
+                    var totalLength = responseData.Flashcards.length;
+                    $.each(responseData.Flashcards, function (i, data) {
+                        var flashcard = "";
+                        if (i == 0)
+                            flashcard += '<div class="card border-0">';
+                        else
+                            flashcard += '<div class="card border-0 d-none">';
+                        flashcard += '<img class="card-img-top circle mx-auto" src="Asset/images/employee-illustration.svg" />';
+                        flashcard += '<div class="card-body">';
+                        flashcard += '<p class="card-text">' + data.Description + '</p>';
+                        flashcard += '<p class="text-right anchor">' + (i + 1) + '/' + totalLength + '</p>';
+                        flashcard += '</div>';
+                        flashcard += '</div>';
+
+                        $("#dvFlashcard").append(flashcard);
+                    });
+                    $('#modalFlashcard').modal('show');
+                }
+                $('#modalPersonalGiftContent').modal('show');
+            });
+        }
+
+        function VideoFinished(e) {
+            $("#dvVideoRating").show();
+            $('#dvVideoRating').removeClass('d-none');
+            $('#videoControl').addClass('d-none');
+            $('#videoControl').hide();
+        }
+
+        function VideoPlayPause(action) {
+            if (action == 1) {
+                // video.play();
+                $('#vdVideoPlayer')[0].play();
+                $('#videoControl').addClass('d-none');
+                $('#videoControl').hide();
+            }
+        }
+
+        function VideoPaused(e) {
+            //alert("Video Paused");
+            $('#videoControl').removeClass('d-none');
+            $('#videoControl').hide();
+            $('#vdVideoPlayer')[0].pause();
+        }
+
+        function nextFlashcard() {
+
+            var currentCard = $('#divFlashcard .card').not('.d-none');
+
+            if ($('#divFlashcard .card').length === (currentCard.index() + 2)) {
+                currentCard.next().removeClass('d-none')
+                currentCard.addClass('d-none')
+                currentCard.addClass('d-none')
+
+                $('#btnNextCard').addClass('d-none')
+                $('#btnPrevCard').removeClass('d-none')
+
+            }
+            else
+                if (currentCard.next().length > 0) {
+                    $('#btnPrevCard').removeClass('d-none')
+                    currentCard.next().removeClass('d-none')
+                    currentCard.addClass('d-none')
+                } else {
+                    $('#btnNextCard').addClass('d-none')
+                }
+        }
+
+        function previousFlashcard() {
+
+            var currentCard = $('#divFlashcard .card').not('.d-none');
+
+            if (currentCard.index() === 1) {
+
+                currentCard.prev().removeClass('d-none')
+                currentCard.addClass('d-none')
+
+                $('#btnNextCard').removeClass('d-none')
+                $('#btnPrevCard').addClass('d-none')
+
+
+            } else if (currentCard.prev().length > 0) {
+                $('#btnPrevCard').removeClass('d-none')
+                currentCard.prev().removeClass('d-none')
+                currentCard.addClass('d-none')
+
+                $('#btnNextCard').removeClass('d-none')
+
+            }
+        }
+
+        function RateContent(rating) {
+            var requestParams = { TopicID: selectedGift.TopicID, ModuleID: selectedGift.ModuleID, ContentID: selectedGift.ContentID, Rating: rating };
+            $.ajax({
+                method: "POST",
+                url: "../api/Trainning/RateContent",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+            }).then(function success(response) {
+                Swal.fire({
+                    title: 'Success',
+                    icon: 'success',
+                    html: "Success",
+                    showConfirmButton: false,
+                    showCloseButton: true
+                });
             });
         }
     </script>

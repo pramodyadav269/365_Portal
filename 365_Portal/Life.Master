@@ -74,7 +74,7 @@
 
                         <div class="notification dropdown">
                             <a class="dropdown-toggle" id="navbarNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-lg"></i>Notifications <span class="badge bg-yellow circle">2</span></a>
+                                <i class="fas fa-bell fa-lg"></i><%--Notifications <span class="badge bg-yellow circle">2</span>--%></a>
 
                             <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarNotification">
                                 <a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>

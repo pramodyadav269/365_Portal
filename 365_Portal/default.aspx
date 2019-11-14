@@ -581,14 +581,31 @@ IsPassed:{{SpecialContents.IsPassed}}
             <button onclick="return false;">Great</button>
         </div>
 
-        <div id="dvGiftReceived" ng-if="ActiveContainer =='GiftReceived'">
-            <div>Image</div>
-            <div>Surprise</div>
-            <div>You just unlocked personal Video or PDF</div>
-            <div>Video Player or PDF</div>
-            <div>Video/PDF Title</div>
-            <button onclick="return false;">CONTINUE</button>
-            <div>Note: You can access this gift in your profile page.</div>
+        <div class="modal fade" id="modalPersonalGift" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1 text-center mt-4">
+                                <img src="Asset/images/suprrise-icon.svg" class="img-achievements" />
+                                <p class="modal-text mt-4">Surprise!</p>
+                                <h3 class="font-weight-bold modal-title">You just unlocked a personal gift!</h3>
+                            </div>
+                            <div class="col-md-10 offset-md-1 text-center mt-3">
+                                <img ng-if="UnlockGiftData.DocType == 'VIDEO'" src="Asset/images/next-video-icon.svg" class="img-achievements" />
+                                <img ng-if="UnlockGiftData.DocType == 'PDF'" src="Asset/images/next-pdf-icon.svg" class="img-achievements" />
+                                <img ng-if="UnlockGiftData.DocType == 'FLASHCARD'" src="Asset/images/next-flashcard-icon.svg" class="img-achievements" />
+                                <h5 class="modal-title mt-2"><b>{{UnlockGiftData.Title}}:</b> {{UnlockGiftData.Description}}</h5>
+                            </div>
+                            <div class="col-md-10 offset-md-1 text-center mt-5 mb-3">
+                                <a class="btn btn-custom bg-blue font-weight-bold text-white" href="Profile.aspx">Continue</a>
+                                <div class="w-100"></div>
+                                <span class="note"><b>Note:</b> You can access this gift in your Profile page</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="dvAchievementReceived" ng-if="ActiveContainer =='AchievementReceived'">

@@ -11,7 +11,8 @@ namespace _365_Portal
     {
         void Page_PreInit(Object sender, EventArgs e)
         {
-            MasterPageFile = Convert.ToString(Session["MasterPage"]);
+            if (Session["MasterPage"] != null)
+                MasterPageFile = Convert.ToString(Session["MasterPage"]);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -24,6 +25,10 @@ namespace _365_Portal
                 {
                     imgProfilePic.Src = "../Files/ProfilePic/" + HttpContext.Current.Session["ProfilePicFile"].ToString();
                 }
+            }
+            else
+            {
+                Response.Redirect("~/login.aspx");
             }
         }
     }

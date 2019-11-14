@@ -28,7 +28,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     }
 
     $scope.ViewContent = function (topicId, moduleId, contentId, moduleName, type) {
-        $scope.ContentGoBackText = moduleName;
+        $scope.ContentGoBackText = "Back to contents";
         $scope.SelectedContent = $rootScope.Content.UnlockedItems.filter(function (v) {
             return contentId == v.ContentID;
         })[0];
@@ -58,7 +58,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         $scope.ActiveContainer = "Module";
     }
 
-    $scope.FlashcardPreviousClicked = function (contentId,index, total) {
+    $scope.FlashcardPreviousClicked = function (contentId, index, total) {
         if (index == 0) {
             $scope.ShowFlashcardIntro();
         }
@@ -75,7 +75,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         $scope.ViewContent(nextContent.TopicID, nextContent.ModuleID, nextContent.ContentID, nextContent.Title, nextContent.ContentType);
     }
 
-    $scope.FlashcardNextClicked = function (contentId,index, total) {
+    $scope.FlashcardNextClicked = function (contentId, index, total) {
         if ((index + 1) == total) {
             $scope.ShowFlashcardQuiz(contentId);
         }
@@ -145,12 +145,12 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
 
         var index = 0;
         var validationSuccess = true;
-        var validationMsg = "Following fields cannot be left blank</br>";
+        var validationMsg = "<ul style='text-align: left'>Following fields cannot be left blank</br>";
 
         $.each(cloneObj.Questions, function (key, question) {
             if (question.Value_Text == '') {
                 if ($scope.GetSelectedValues(question.AnswerOptions) == '') {
-                    validationMsg += question.Title + "<br/>";
+                    validationMsg += "<li>"+question.Title + "</li>";
                     validationSuccess = false;
                     index++;
                 }
@@ -177,13 +177,17 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
             }
             catch (ex) { }
         });
+        validationMsg += "</ul>";
 
-        if (validationSuccess == false)
+        if (validationSuccess == false) {
             Swal.fire({
-                title: "Failure",
-                text: validationMsg + " Count:" + index,
-                icon: "error"
+                title: 'Failure',
+                icon: 'error',
+                html: validationMsg,
+                showConfirmButton: false,
+                showCloseButton: true
             });
+        }
         else {
             var requestParams = {
                 TopicID: cloneObj.TopicID
@@ -270,6 +274,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
     }
 
     ds.DS_GetModulesByTopic = function (topicId) {
+        ShowLoader();
         var requestParams = { TopicID: topicId };
         $http({
             method: "POST",
@@ -303,13 +308,14 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             HideLoader();
             var responseData = response.data;
             $rootScope.Content = responseData;
-            allContents = responseData.UnlockedItems;
-            allContents = $.merge(allContents, responseData.LockedItems);
+            //allContents = responseData.UnlockedItems;
+            //allContents = $.merge(allContents, responseData.LockedItems);
+            allContents = $.extend({}, responseData.UnlockedItems, responseData.LockedItems);
         });
     }
 
     ds.DS_GetContentDetails = function (topicId, moduleId, contentId) {
-
+        ShowLoader();
         var requestParams = { TopicID: topicId, ModuleID: moduleId, ContentID: contentId };
         $http({
             method: "POST",
@@ -320,6 +326,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             },
             data: requestParams,
         }).then(function success(response) {
+            HideLoader();
             var responseData = response.data;
             $rootScope.SpecialContents = responseData;
             if ($rootScope.SpecialContents.Type == 'CONTENT') {
@@ -355,8 +362,8 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             ds.DS_GetContentsByModule(topicId, moduleId, false);
 
             if (responseData.IsGift == true) {
-                alert("Gift Received");
-                $rootScope.ActiveContainer = "GiftReceived";
+                $rootScope.UnlockGiftData = responseData.Data[0];
+                $('#modalPersonalGift').modal('show');
             }
         });
     }
@@ -390,13 +397,13 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             var responseData = response.data;
             if (requestParams.ContentType == "SURVEY") {
                 // Unlock Flashcard
+              
                 Swal.fire({
-                    title: "Success",
-                    text: "Survey submitted successfully.",
-                    type: "success",
-                    icon: "success"
-                }).then((value) => {
-
+                    title: 'Success',
+                    icon: 'success',
+                    html: "Survey submitted successfully.",
+                    showConfirmButton: false,
+                    showCloseButton: true
                 });
 
                 ds.DS_UpdateContent("Survey", requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
@@ -412,24 +419,24 @@ app.service("DataService", function ($http, $rootScope, $compile) {
 
                 var strMsg = "You have earned " + responseData.ScoreEarned + " marks out of " + responseData.TotalScore;
                 if (responseData.IsPassed == "0") {
-                    strMsg += "<br/> You have not passed this test, need  more marks in order to complete this module. Retake the test again. ";
+                    strMsg += "<br/> You have not passed this test, need  more marks in order to complete this module. Take the test again. ";
+                   
                     Swal.fire({
-                        title: "Failure",
-                        text: strMsg,
-                        type: "error",
-                        icon: "Failure"
-                    }).then((value) => {
-
+                        title: 'Failure',
+                        icon: 'error',
+                        html: strMsg,
+                        showConfirmButton: false,
+                        showCloseButton: true
                     });
                 }
                 else {
+                   
                     Swal.fire({
-                        title: "Success",
-                        text: strMsg,
-                        type: "success",
-                        icon: "success"
-                    }).then((value) => {
-
+                        title: 'Success',
+                        icon: 'success',
+                        html: strMsg,
+                        showConfirmButton: false,
+                        showCloseButton: true
                     });
                 }
             }
@@ -480,8 +487,8 @@ app.directive('myPostRepeatDirective', function () {
 function NextItemContent(contentid) {
     var contId = {};
     $.each(allContents, function (key, content) {
-        if (content.ContentID == contentid) {
-            contId = allContents[key + 1];
+        if (content.ContentID == parseInt(contentid)) {
+            contId = allContents[parseInt(key) + 1];
             return false;
         }
     });
