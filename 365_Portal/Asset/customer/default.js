@@ -161,7 +161,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
                     questionList.push({
                         "QuestionID": question.QuestionID,
                         "AnswerIDs": question.Value_Text,
-                        "FilePath": question.FilePath,// Base64
+                        "Base64": question.FilePath,// Base64
                         "Value_Text": question.QuestionTypeID == '8' ? GetFormattedDate(question.Value_Text) : question.Value_Text
                     });
                 }
@@ -170,7 +170,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
                     questionList.push({
                         "QuestionID": question.QuestionID,
                         "AnswerIDs": $scope.GetSelectedValues(question.AnswerOptions),
-                        "FilePath": question.FilePath,// Base64
+                        "Base64": question.FilePath,// Base64
                         "Value_Text": question.Value_Text
                     });
                 }
@@ -397,7 +397,6 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             var responseData = response.data;
             if (requestParams.ContentType == "SURVEY") {
                 // Unlock Flashcard
-              
                 Swal.fire({
                     title: 'Success',
                     icon: 'success',
@@ -405,13 +404,14 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     showConfirmButton: false,
                     showCloseButton: true
                 });
-
+                $rootScope.SpecialContents.IsAnswered = 1;
                 ds.DS_UpdateContent("Survey", requestParams.TopicID, requestParams.ModuleID, requestParams.ContentID);
-                ds.DS_GetContentDetails(requestParams.TopicID, requestParams.ModuleID, NextItemContentID(requestParams.ContentID));
-                $rootScope.SpecialContents.IsAnswered == 1;
+                //ds.DS_GetContentDetails(requestParams.TopicID, requestParams.ModuleID, NextItemContentID(requestParams.ContentID));
+                HideLoader();
             }
             else if (requestParams.ContentType == "FLASHCARD") {
                 // Nothing to do
+                HideLoader();
             }
             else if (requestParams.ContentType == "FINALQUIZ") {
                 //To see answers
@@ -439,8 +439,8 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                         showCloseButton: true
                     });
                 }
+                HideLoader();
             }
-            HideLoader();
         });
     }
 
@@ -499,7 +499,7 @@ function NextItemContentID(contentid) {
     var contId = 0;
     $.each(allContents, function (key, content) {
         if (content.ContentID == contentid) {
-            contId = allContents[key + 1].ContentID;
+            contId = allContents[parseInt(key) + 1].ContentID;
             return false;
         }
     });

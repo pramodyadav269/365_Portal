@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using _365_Portal.Code.BO;
+using System.IO;
 
 namespace _365_Portal.Code.BL
 {
@@ -281,6 +282,29 @@ namespace _365_Portal.Code.BL
                         else
                         {
                             AnswerOption ansOption = new AnswerOption();
+                            if (answer.QuestionTypeID == 4) //File Upload
+                            {
+                                var userProfilePicBase64 = "";
+                                var base64Image = Convert.ToString(responseDetail["Questions"][i]["Base64"]);
+                                if (!string.IsNullOrEmpty(base64Image))
+                                {
+                                    var files = base64Image.Split(new string[] { "," }, StringSplitOptions.None);
+                                    if (files.Count() == 1)
+                                        userProfilePicBase64 = files[0];
+                                    else
+                                        userProfilePicBase64 = files[1];
+                                    byte[] imageBytes = Convert.FromBase64String(userProfilePicBase64);
+                                    string fileName = Guid.NewGuid() + "." + Utility.GetFileExtension(userProfilePicBase64);
+                                    string filePath = HttpContext.Current.Server.MapPath("~/Files/Survey/" + fileName);
+                                    File.WriteAllBytes(filePath, imageBytes);
+
+                                    DataSet dsFile = UserBL.CreateFile("~/Files/Survey/" + fileName, filePath, "ProfilePic");
+                                    if (dsFile.Tables.Count > 0 && dsFile.Tables[0].Rows.Count > 0)
+                                    {
+                                        ansOption.FileID = Convert.ToInt32(dsFile.Tables[0].Rows[0]["UniqueID"].ToString());
+                                    }
+                                }
+                            }
                             ansOption.QuestionID = questionid;
                             ansOption.Value_Text = value_text;
                             lstAnswers.Add(ansOption);

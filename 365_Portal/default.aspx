@@ -329,10 +329,7 @@
 
                                         <%--File Upload Control--%>
                                         <div ng-if="question.QuestionTypeID == 4">
-
-                                            <input type="file" questionid="{{question.QuestionID}}" onchange="ChangeFileName(this)" ng-model="question.Value_Text" class="required" id="file">
-
-                                            <%--<input type="file" class="custom-file-input" questionid="{{question.QuestionID}}" onchange="ChangeFileName(this)" id="file" ng-model="question.Value_Text"><label class="custom-file-label" for="file">Choose file</label>--%>
+                                            <input type="file" questionid="{{question.QuestionID}}" onchange="encodeImagetoBase64(this,angular.element(this).scope())" ng-model="question.Value_Text" class="required" id="file">
                                             <div>{{question.Value_Text}}</div>
                                         </div>
 
@@ -674,6 +671,43 @@ IsPassed:{{SpecialContents.IsPassed}}
             return str < 10 ? "0" + str : str;
         }
 
+        function encodeImagetoBase64(element, scope) {
+            var uploadFile = true;
+            if (!(/\.(gif|jpg|jpeg|tiff|png)$/i).test(element.files[0].name)) {
+                uploadFile = false;
+            }
+
+            if (uploadFile) {
+                var sizeInMB = parseInt(element.files[0].size / 1024 / 1024);
+                if (sizeInMB <= 2) {
+                    var file = element.files[0];
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        scope.question.FilePath = reader.result;
+                        scope.question.Value_Text = element.files[0].name;
+                    }
+                    reader.readAsDataURL(file);
+                }
+                else {
+                    Swal.fire({
+                        title: 'Failure',
+                        icon: 'error',
+                        html: "Maximum file upload size is 2 MB",
+                        showConfirmButton: false,
+                        showCloseButton: true
+                    });
+                }
+            }
+            else {
+                Swal.fire({
+                    title: 'Failure',
+                    icon: 'error',
+                    html: "Only images with (gif|jpg|jpeg|tiff|png) extensions can be uploaded.",
+                    showConfirmButton: false,
+                    showCloseButton: true
+                });
+            }
+        }
 
     </script>
 </asp:Content>

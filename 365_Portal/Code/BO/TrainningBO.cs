@@ -13,6 +13,7 @@ namespace _365_Portal.Code.BO
         public int QuestionID { get; set; }
         public bool IsAnswered { get; set; }
         public int AnswerID { get; set; }
+        public int FileID { get; set; }
         public string AnswerText { get; set; }
         public int SortOrder { get; set; }
         public bool IsCorrect { get; set; }
