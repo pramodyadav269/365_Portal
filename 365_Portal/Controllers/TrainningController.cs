@@ -89,7 +89,9 @@ namespace _365_Portal.Controllers
                     string userId = identity.UserID;
                     int topicId = Convert.ToInt32(requestParams["TopicID"].ToString());
                     int moduleId = Convert.ToInt32(requestParams["ModuleID"].ToString());
-                    var isGift = Convert.ToBoolean(Convert.ToInt32(requestParams["IsGift"].ToString()));
+                    var isGift = false;
+                    if (!string.IsNullOrEmpty(Convert.ToString(requestParams["IsGift"])))
+                        isGift = Convert.ToBoolean(Convert.ToInt32(requestParams["IsGift"].ToString()));
                     var ds = TrainningBL.GetContentsByModule(compId, userId, topicId, moduleId, isGift);
                     var sourceInfo = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
                     sourceInfo = sourceInfo.Substring(2, sourceInfo.Length - 4);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _365_Portal.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -39,6 +40,21 @@ namespace _365_Portal
                 {
                     imgCompanyLogo.Src = "/Files/CompLogo/" + HttpContext.Current.Session["CompanyProfilePicFile"].ToString();
                 }
+
+                if (HttpContext.Current.Session["RoleName"] != null)
+                {
+                    if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.superadmin
+                        || HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin
+                    )
+                    {
+                        menuUsers.Visible = true;
+                    }
+                    else
+                    {
+                        menuUsers.Visible = false;
+                    }
+                }
+                
             }
             else
             {

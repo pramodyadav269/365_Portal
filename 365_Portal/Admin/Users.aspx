@@ -114,8 +114,7 @@
         $(document).ready(function () {
             //debugger
             ShowLoader();
-            GetUsers();
-            BindRoleAndGroup('','create');
+            GetUsers();            
 
             /*
             ShowLoader();
@@ -220,21 +219,26 @@
                         if (DataSet.StatusCode == "1") {
                             //alert(DataSet.StatusDescription);                            
                             BindUsers(DataSet.Data);
+                            BindRoleAndGroup('', 'create');
                         }
                         else {
-                            alert(DataSet.StatusDescription);
+                            //alert(DataSet.StatusDescription);
+                            //debugger
+                            Swal.fire(DataSet.StatusDescription, {
+                                icon: "error",
+                            });
                             ClearFields();
                         }
                     }
                     catch (e) {
                         HideLoader();
-                        alert(response);
-                        alert(e.message);
+                        //alert(response);
+                        //alert(e.message);
                     }
                 },
                 failure: function (response) {
                     HideLoader();
-                    alert(response.data);
+                    //alert(response.data);
                 }
             });
         }        

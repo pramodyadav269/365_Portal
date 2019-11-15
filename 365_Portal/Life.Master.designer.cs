@@ -58,6 +58,42 @@ namespace _365_Portal {
         protected global::System.Web.UI.WebControls.Label lblUserName;
         
         /// <summary>
+        /// menuProfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor menuProfile;
+        
+        /// <summary>
+        /// menuUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor menuUsers;
+        
+        /// <summary>
+        /// menuSetting control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor menuSetting;
+        
+        /// <summary>
+        /// menuLogout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor menuLogout;
+        
+        /// <summary>
         /// body control.
         /// </summary>
         /// <remarks>
