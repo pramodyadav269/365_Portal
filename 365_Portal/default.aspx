@@ -256,7 +256,7 @@
                                     {{SelectedContent.Description}}
                                 </p>
                             </div>
-                            <div class="text-center mt-5">
+                            <div class="col-md-12 text-center mt-5">
                                 <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="NextContent(SpecialContents.ContentID)">Continue</a>
                             </div>
                         </div>

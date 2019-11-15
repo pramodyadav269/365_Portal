@@ -726,12 +726,23 @@ p.anchor {
     position: absolute;
 }
 
-    .video-rating .video-rating-content {
-        position: relative;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+.modal-body .video-rating {
+    width: 95.5%;
+    height: 73%;
+}
+
+
+
+.video-rating .video-rating-content {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-body .video-rating .video-rating-content {
+    text-align: center;
+}
 
 
 
@@ -850,6 +861,9 @@ p.anchor {
             background: #FEC900;
         }
 
+.modal-body .flashcard .card {
+   
+}
 
 .flashcard .card-body {
     padding: 2rem;
