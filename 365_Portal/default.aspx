@@ -7,7 +7,7 @@
             width: 100%;
             height: 35rem;
         }
-    </style>
+    </style> 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div ng-controller="DefaultController">
