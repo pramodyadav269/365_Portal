@@ -7,20 +7,27 @@
     <title>Reset Password</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <%-- CSS --%>
+   <%-- CSS --%>
     <link href="Asset/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Asset/css/all.css" rel="stylesheet" />
+    <link href="Asset/css/gijgo.min.css" rel="stylesheet" />
     <link href="Asset/css/select2.min.css" rel="stylesheet" />
+    <link href="Asset/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="Asset/css/site.css" rel="stylesheet" />
 
     <%-- JS --%>
     <script src="Asset/js/jquery.min.js"></script>
     <script src="Asset/js/popper.min.js"></script>
-    <script src="Asset/js/sweetalert.min.js"></script>
+    <script src="Asset/js/angular.min.js"></script>
     <script src="Asset/js/bootstrap.min.js"></script>
-    <script src="Asset/js/bs-custom-file-input.min.js"></script>
     <script src="Asset/js/all.js"></script>
+    <script src="Asset/js/gijgo.min.js"></script>
+    <script src="Asset/js/sweetalert2.js"></script>
+    <script src="Asset/js/bs-custom-file-input.min.js"></script>
     <script src="Asset/js/select2.min.js"></script>
+    <script src="Asset/js/jquery.dataTables.min.js"></script>
+    <script src="Asset/js/dataTables.bootstrap4.min.js"></script>
+    <script src="Asset/js/jquery.tablednd.js"></script>
     <script src="Asset/js/site.js"></script>
 
 </head>
@@ -57,10 +64,17 @@
     <script>
         var t;
         $(document).ready(function () {
-
-            t = GetParameterValues('Token');
-            verify(t);
-            console.log(t);
+            try {
+                t = GetParameterValues('Token');
+                verify(t);
+            }
+            catch (e) {
+                Swal.fire({
+                    title: "Failure",
+                    text: "Please try again",
+                    icon: "error"
+                });
+            }
         });
 
         function GetParameterValues(param) {
@@ -74,6 +88,7 @@
         }
 
         function verify(token) {
+            ShowLoader();
             var requestParams;
             if (token != null && token != '') {
                 requestParams = { Token: token };
@@ -84,44 +99,56 @@
                     data: JSON.stringify(requestParams),
                     contentType: "application/json",
                     success: function (response) {
+                        HideLoader();
                         var length = 0;
 
                         var DataSet = $.parseJSON(response);
-                        if (DataSet.StatusCode == "1") {
-                            $('#divRegPassword').removeClass('d-none');
+                        if (DataSet != null && DataSet != "") {
+                            if (DataSet.StatusCode == "1") {
+                                $('#divRegPassword').removeClass('d-none');
+                            }
+                            else {
+                                HideLoader();
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: DataSet.StatusDescription,
+                                    icon: "error"
+                                });
+
+                            }
                         }
                         else {
                             Swal.fire({
                                 title: "Failure",
-                                text: DataSet.StatusDescription,
-                                type: "error"
+                                text: "Please try again",
+                                icon: "error"
                             });
-
                         }
-
                     },
                     failure: function (response) {
-                        alert(response.d);
+                        HideLoader();
                         var DataSet = $.parseJSON(response);
                         Swal.fire({
                             title: "Failure",
                             text: DataSet.StatusDescription,
-                            type: "error"
+                            icon: "error"
                         });
                     }
                 });
             }
             else {
+                HideLoader();
                 Swal.fire({
                     title: "Failure",
-                    text:"Oops an error Occured!.Please try again",
-                    type: "error"
+                    text: "Please try again",
+                    icon: "error"
                 });
             }
 
         }
 
         function ChangePassword() {
+            ShowLoader();
             if (inputValidation('.input-validation')) {
                 if ((($('#txtRegPassword').val() != '' && $('#txtRegPassword').val() != undefined) && ($('#txtRegPasswordAgain').val() != '' && $('#txtRegPasswordAgain').val() != undefined))
                     && ($('#txtRegPassword').val().toUpperCase().toString() == $('#txtRegPasswordAgain').val().toUpperCase().toString())) {
@@ -134,45 +161,74 @@
                         contentType: "application/json",
                         success: function (response) {
                             var length = 0;
-
+                            HideLoader();
                             var DataSet = $.parseJSON(response);
-                            if (DataSet.StatusCode == "1") {
-                                Swal.fire({
-                                    title: "Success",
-                                    text: "Password has been Changed Successfully",
-                                    icon: "success"
-                                }).then((value) => {
-                                    if (value) {
-                                        clearFields('.input-validation');
-                                        window.location = 'Login.aspx';
-                                    }
-                                });
+                            if (DataSet != "" && DataSet != null) {
+                                if (DataSet.StatusCode == "1") {
+                                    Swal.fire({
+                                        title: "Success",
+                                        text: "Password has been Changed Successfully",
+                                        icon: "success"
+                                    }).then((value) => {
+                                        if (value) {
+                                            clearFields('.input-validation');
+                                            window.location = 'Login.aspx';
+                                        }
+                                    });
+                                }
+                                else {
+                                    HideLoader();
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: DataSet.StatusDescription,
+                                        icon: "error"
+                                    });
+
+                                }
                             }
                             else {
+                                Swal.fire({
+                                    title: "Alert",
+                                    text: "Fill all fields",
+                                    icon: "error",
+                                    button: "Ok",
+                                });
+                            }
+
+                        },
+                        failure: function (response) {
+                            HideLoader();
+                            var DataSet = $.parseJSON(response);
+                            if (DataSet != null && DataSet != '') {
                                 Swal.fire({
                                     title: "Failure",
                                     text: DataSet.StatusDescription,
                                     icon: "error"
                                 });
-
                             }
-
-                        },
-                        failure: function (response) {
-                            var DataSet = $.parseJSON(response);
-                            Swal.fire({
-                                title: "Failure",
-                                text: DataSet.StatusDescription,
-                                icon: "error"
-                            });
+                            else {
+                                Swal.fire({
+                                    title: "Alert",
+                                    text: "Fill all fields",
+                                    icon: "error",
+                                    button: "Ok",
+                                });
+                            }
                         }
                     });
                 }
                 else {
-
+                    HideLoader();
+                    Swal.fire({
+                        title: "Alert",
+                        text: "Fill all fields",
+                        icon: "error",
+                        button: "Ok",
+                    });
                 }
             }
             else {
+                HideLoader();
                 Swal.fire({
                     title: "Alert",
                     text: "Fill all fields",

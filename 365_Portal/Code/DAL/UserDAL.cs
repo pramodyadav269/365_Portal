@@ -54,9 +54,9 @@ namespace _365_Portal.Code.DAL
                         objResponse.Role = dt.Rows[0]["RoleName"].ToString();
                         objResponse.EmailID = dt.Rows[0]["EmailID"].ToString();
                         objResponse.FirstName = dt.Rows[0]["FirstName"].ToString();
-                        objResponse.LastName = dt.Rows[0]["LastName"].ToString();                        
+                        objResponse.LastName = dt.Rows[0]["LastName"].ToString();
                         objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
-                        
+
                         objResponse.IsFirstPasswordNotChanged = dt.Rows[0]["IsFirstPasswordNotChanged"].ToString();
                     }
                     else
@@ -87,36 +87,39 @@ namespace _365_Portal.Code.DAL
             ////string constr = ConfigurationSettings.AppSettings["conString"].ToString();
             //MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
             int i = 0;
-            
-            using (MySqlCommand cmd = new MySqlCommand("proc_WebServiceLog", DBConnection.getConnection()))
+            using (MySqlConnection con = DBConnection.getConnection())
             {
-                try
+                using (MySqlCommand cmd = new MySqlCommand("proc_WebServiceLog", con))
                 {
-
-                    
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("p_ControllerName", objRequest.UserName);
-                    cmd.Parameters.AddWithValue("p_Ref1", objRequest.Ref1);
-                    cmd.Parameters.AddWithValue("p_Ref2", objRequest.Ref2);
-                    cmd.Parameters.AddWithValue("p_Ref3", objRequest.Ref3);
-                    i = cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    if (cmd != null)
+                    try
                     {
-                        if (cmd.Connection.State == ConnectionState.Open ||
-                            cmd.Connection.State == ConnectionState.Executing ||
-                            cmd.Connection.State == ConnectionState.Fetching)
-                            cmd.Connection.Close();
-                        cmd.Connection.Dispose();
+                        //con.Open();
+                        //cmd.CommandType = CommandType.StoredProcedure;
+                        //cmd.Parameters.AddWithValue("p_ControllerName", objRequest.UserName);
+                        //cmd.Parameters.AddWithValue("p_Ref1", objRequest.Ref1);
+                        //cmd.Parameters.AddWithValue("p_Ref2", objRequest.Ref2);
+                        //cmd.Parameters.AddWithValue("p_Ref3", objRequest.Ref3);                       
+                        //i = cmd.ExecuteNonQuery();
+                        //con.Close();
+                        i = Convert.ToInt32(objRequest.UserName);
                     }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        if (cmd != null)
+                        {
+                            if (cmd.Connection.State == ConnectionState.Open ||
+                                cmd.Connection.State == ConnectionState.Executing ||
+                                cmd.Connection.State == ConnectionState.Fetching)
+                                cmd.Connection.Close();
+                            cmd.Connection.Dispose();
+                        }
+                    }
+                    return i;
                 }
-                return i;
             }
         }
 
@@ -441,7 +444,7 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-        public static DataSet CreateGroup(int Action,int CompId,int GroupId, string GroupName, string Description, string CreatedBy)
+        public static DataSet CreateGroup(int Action, int CompId, int GroupId, string GroupName, string Description, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -473,7 +476,7 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-        public static DataSet DeleteGroup(int CompId, int GroupId,bool IsActive, string CreatedBy)
+        public static DataSet DeleteGroup(int CompId, int GroupId, bool IsActive, string CreatedBy)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);

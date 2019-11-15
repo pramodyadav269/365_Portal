@@ -832,27 +832,36 @@ namespace _365_Portal.Controllers
                 {
 
                     var User_details = UserDAL.GetUserDetailsByToken(Token, string.Empty);
-                    var ds = CommonDAL.UserResetPassword((int)4, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0, string.Empty, User_details.Token);
-                    if (ds.Tables.Count > 0)
+                    if (User_details != null)
                     {
-                        DataTable dt = ds.Tables["Data"];
-                        if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                        var ds = CommonDAL.UserResetPassword((int)4, User_details.CompId, User_details.UserID, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0, string.Empty, User_details.Token);
+                        if (ds.Tables.Count > 0)
                         {
-                            data = Utility.ConvertDataSetToJSONString(dt);
-                            data = Utility.Successful(data);
+                            DataTable dt = ds.Tables["Data"];
+                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            {
+                                data = Utility.ConvertDataSetToJSONString(dt);
+                                data = Utility.Successful(data);
+                            }
+                            else
+                            {
+
+                                data = Utility.ConvertDataSetToJSONString(dt);
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+
                         }
                         else
                         {
-
-                            data = Utility.ConvertDataSetToJSONString(dt);
+                            data = ConstantMessages.ChangePassowrd.Error;
                             data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
-
                     }
                     else
                     {
                         data = ConstantMessages.ChangePassowrd.Error;
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+
                     }
 
                 }

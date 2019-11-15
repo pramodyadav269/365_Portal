@@ -223,6 +223,7 @@
         }
 
         function Recovery() {
+            ShowLoader();
             const _Action = 1;
             var emailId = $('#txtRecoverEmail').val();
             var requestParams;
@@ -239,15 +240,28 @@
                     var length = 0;
 
                     var DataSet = $.parseJSON(response);
-                    if (DataSet.StatusCode == "1") {
-                        $('#txtRecoverEmail').val('');
-                        Swal.fire({
-                            title: "Success",
-                            text: "Email has been sent to your registered EmailID",
-                            icon: "success"
-                        });
+                    if (DataSet != null && DataSet != "")
+                    { 
+                        if (DataSet.StatusCode == "1") {
+                            HideLoader();
+                            $('#txtRecoverEmail').val('');
+                            Swal.fire({
+                                title: "Success",
+                                text: "Email has been sent to your registered EmailID",
+                                icon: "success"
+                            });
+                        }
+                        else {
+                            HideLoader();
+                            Swal.fire({
+                                title: "Failure",
+                                text: "Please Try Again",
+                                icon: "error"
+                            });
+                        }
 
                     } else {
+                        HideLoader();
                         Swal.fire({
                             title: "Failure",
                             text: DataSet.StatusDescription,
@@ -257,22 +271,13 @@
 
                 },
                 failure: function (response) {
-                    alert(response.d);
-                    var DataSet = $.parseJSON(response);
+                    HideLoader();
                     Swal.fire({
                         title: "Failure",
-                        text: DataSet.StatusDescription,
+                        text: "Please Try Again",
                         icon: "error"
                     });
                 }
-                /*
-                ,
-                failure: AjaxUDFailure,
-                error: AjaxUDError,
-                complete: function () {
-                    isAction = false;
-                }
-                */
             });
         }
 

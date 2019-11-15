@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="col-md-3">
-                            <div class="form-group checkbox required">
+                            <div class="form-group checkbox ">
                                 <label>Is Published</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input">
@@ -103,10 +103,6 @@
                 requestParams = { TopicID: _Topic_Id, TopicTitle: _Title, TopicDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, MinUnlockedModules: "", UserID: "", IsActive: "" };
 
                 try {
-
-
-
-
                     $.ajax({
                         type: "POST",
                         url: getUrl,
@@ -117,32 +113,40 @@
                             try {
                                 if (response != null) {
                                     var DataSet = $.parseJSON(response);
-                                    console.log(response);
-                                    if (DataSet.StatusCode == "1") {
-                                        clearFields('.input-validation');
-                                        HideLoader();
-                                        Swal.fire({
-                                            title: "Success",
-                                            text: DataSet.StatusDescription,
-                                            icon: "success",
-                                            button: "Ok",
-                                        }).then((value) => {
-                                            if (value) {
-                                                toggle('divGird', 'divForm');
-                                                View();
-                                            }
-                                        });
+                                    if (DataSet != null && DataSet != "") {
+                                        if (DataSet.StatusCode == "1") {
+                                            clearFields('.input-validation');
+                                            HideLoader();
+                                            Swal.fire({
+                                                title: "Success",
+                                                text: DataSet.StatusDescription,
+                                                icon: "success"
+                                                
+                                            }).then((value) => {
+                                                if (value) {
+                                                    toggle('divGird', 'divForm');
+                                                    View();
+                                                }
+                                            });
 
+                                        }
+                                        else {
+                                            HideLoader();
+                                            Swal.fire({
+                                                title: "Failure",
+                                                text: DataSet.StatusDescription,
+                                                icon: "error"
+                                            });
+                                            //clearFields('.input-validation');
+                                        }
                                     }
                                     else {
                                         HideLoader();
                                         Swal.fire({
                                             title: "Failure",
-                                            text: DataSet.StatusDescription,
-                                            icon: "error",
-                                            button: "Ok",
+                                            text: "Please try Again",
+                                            icon: "error"
                                         });
-                                        clearFields('.input-validation');
                                     }
                                 }
                                 else {
@@ -150,8 +154,7 @@
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
-                                        icon: "error",
-                                        button: "Ok",
+                                        icon: "error"
                                     });
 
                                 }
@@ -161,8 +164,7 @@
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    icon: "error",
-                                    button: "Ok",
+                                    icon: "error"
                                 });
                             }
                         },
@@ -171,12 +173,11 @@
                         },
                         failure: function (response) {
                             HideLoader();
-                            //alert(response.data);
                             Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
-                                icon: "error",
-                                button: "Ok",
+                                icon: "error"
+                                
                             });
                         }
                     });
@@ -185,9 +186,9 @@
                     HideLoader();
                     Swal.fire({
                         title: "Alert",
-                        text: "Oops! An Occured. Please try again",
-                        icon: "error",
-                        button: "Ok",
+                        text: "Please try again",
+                        icon: "error"
+                        
                     });
                 }
             }
@@ -196,14 +197,14 @@
                 Swal.fire({
                     title: "Alert",
                     text: "Fill all fields",
-                    icon: "error",
-                    button: "Ok",
+                    icon: "error"
+                    
                 });
             }
         }
 
         function Edit(Topicid) {
-      
+
             id = Topicid;
 
             $('#' + id).find("td:not(:last-child)").each(function (i, data) {
@@ -224,15 +225,12 @@
 
                 }
             });
-            //content.Title);
-            //$('#txtDescription').val(content.Title);
-            //$("#chkIsPublished").prop("checked", content.IsPublished);
             inputValidation('.input-validation');
             toggle('divForm', 'divGird');
             $('#submit').attr('name', EDIT);
-            $('#submit').text('EDIT');
+            $('#submit').text('UPDATE');
             $('#back').text('CANCEL');
-         
+
             //Submit button name attribute changed to EDIT(Modify);
         }
 
@@ -263,42 +261,44 @@
                                 try {
 
                                     var DataSet = $.parseJSON(response);
-                                    //console.log(response);
-                                    if (DataSet.StatusCode == "1") {
-                                        HideLoader();
-                                        Swal.fire({
-                                            title: "Success",
-                                            text: DataSet.StatusDescription,
-                                            icon: "success",
-                                            button: "Ok",
-                                        }).then((value) => {
-                                            if (value) {
-
-                                                View();
-                                            }
-                                        });
-
-
+                                    if (DataSet != null && DataSet != "") {
+                                        if (DataSet.StatusCode == "1") {
+                                            HideLoader();
+                                            Swal.fire({
+                                                title: "Success",
+                                                text: DataSet.StatusDescription,
+                                                icon: "success"
+                                                
+                                            });
+                                            View();
+                                        }
+                                        else {
+                                            HideLoader();
+                                            Swal.fire({
+                                                title: "Failure",
+                                                text: DataSet.StatusDescription,
+                                                icon: "error"
+                                                
+                                            });
+                                        }
                                     }
                                     else {
                                         HideLoader();
                                         Swal.fire({
                                             title: "Failure",
-                                            text: DataSet.StatusDescription,
-                                            icon: "error",
-                                            button: "Ok",
+                                            text: "Please try Again",
+                                            icon: "error"
+                                            
                                         });
                                     }
                                 }
                                 catch (e) {
                                     HideLoader();
-                                    //alert(response);
-                                    //alert(e.message);
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
-                                        icon: "error",
-                                        button: "Ok",
+                                        icon: "error"
+                                        
                                     });
                                 }
                             },
@@ -311,8 +311,8 @@
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    icon: "error",
-                                    button: "Ok",
+                                    icon: "error"
+                                    
                                 });
                             }
                         });
@@ -321,9 +321,9 @@
                         HideLoader();
                         Swal.fire({
                             title: "Alert",
-                            text: "Oops! An Occured. Please try again",
-                            icon: "error",
-                            button: "Ok",
+                            text: "Please try again",
+                            icon: "error"
+                            
                         });
                     }
 
@@ -338,8 +338,6 @@
                 var requestParams = { TopicID: "", TopicTitle: "", TopicDescription: "", IsPublished: "", SrNo: "", MinUnlockedModules: "", UserID: "", IsActive: "" };
                 ShowLoader();
                 $.ajax({
-                    //type: "GET",
-                    //url: "https://reqres.in/api/users?page=1",
                     type: "POST",
                     url: url,
                     headers: { "Authorization": "Bearer " + accessToken },
@@ -349,57 +347,64 @@
                     success: function (response) {
                         if (response != null && response != undefined) {
                             var DataSet = $.parseJSON(response);
-                            //console.log(response);
-                            if (DataSet.StatusCode == "1") {
-                                var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                                tbl += '<thead><tr>';
-                                tbl += '<th>Sr.No.';
-                                tbl += '<th>Title';
-                                tbl += '<th>Description';
-                                tbl += '<th>Is Published';
-                                tbl += '<th>Total Modules';
-                                tbl += '<th>ACTION';
+                            if (DataSet != null && DataSet != "") {
+                                if (DataSet.StatusCode == "1") {
+                                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                                    tbl += '<thead><tr>';
+                                    tbl += '<th>Sr.No.';
+                                    tbl += '<th>Title';
+                                    tbl += '<th>Description';
+                                    tbl += '<th>Is Published';
+                                    tbl += '<th>Total Modules';
+                                    tbl += '<th>ACTION';
 
-                                tbl += '<tbody>';
+                                    tbl += '<tbody>';
 
-                                $.each(DataSet.Data, function (i, data) {
-                                    if (data.IsPublished == "1") {
-                                        data.IsPublished = "Yes";
+                                    if (DataSet.Data.length > 0) {
+                                        $.each(DataSet.Data, function (i, data) {
+                                            if (data.IsPublished == "1") {
+                                                data.IsPublished = "Yes";
+                                            }
+                                            else {
+                                                data.IsPublished = "No";
+                                            }
+
+                                            tbl += '<tr id="' + data.TopicID + '">';
+                                            tbl += '<td>' + (i + 1);
+
+                                            tbl += '<td class="title">' + data.Title;
+                                            tbl += '<td class="description">' + data.Description;
+                                            tbl += '<td class="isPublished">' + data.IsPublished;
+                                            tbl += '<td><a href=Modules.aspx?Id=' + data.TopicID + '>' + data.ModuleCount + '</a>';
+                                            tbl += '<td><i title="Edit" onclick="Edit(' + data.TopicID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.TopicID + ');" class="fas fa-trash text-danger"></i>';
+
+                                        });
                                     }
                                     else {
-                                        data.IsPublished = "No";
+                                        tbl += '<td colspan=6 align=center>No Records found';
+
                                     }
 
-                                    tbl += '<tr id="' + data.TopicID + '">';
-                                    tbl += '<td>' + (i + 1);
+                                    $('#divTable').empty().append(tbl);
 
-                                    tbl += '<td class="title">' + data.Title;
-                                    tbl += '<td class="description">' + data.Description;
-                                    tbl += '<td class="isPublished">' + data.IsPublished;
-                                    tbl += '<td><a href=Modules.aspx?Id=' + data.TopicID + '>' + data.TopicID + '</a>';
-                                    tbl += '<td><i title="Edit" onclick="Edit(' + data.TopicID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.TopicID + ');" class="fas fa-trash text-danger"></i>';
-
-                                });
-
-                                $('#divTable').empty().append(tbl)
-
-                                $('#tblGird').tableDnD()
-
-                                //var dTable = $('#tblGird').DataTable();
-
-                                //dTable.on('order.dt search.dt', function () {
-                                //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                                //        cell.innerHTML = i + 1;
-                                //    });
-                                //}).draw();
+                                    $('#tblGird').tableDnD()
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        icon: "error"
+                                        
+                                    });
+                                }
                             }
                             else {
                                 HideLoader();
                                 Swal.fire({
                                     title: "Warning",
                                     text: DataSet.StatusDescription,
-                                    icon: "error",
-                                    button: "Ok",
+                                    icon: "error"
+                                    
                                 });
                             }
                         }
@@ -408,8 +413,8 @@
                             Swal.fire({
                                 title: "Warning",
                                 text: DataSet.StatusDescription,
-                                icon: "error",
-                                button: "Ok",
+                                icon: "error"
+                                
                             });
                         }
                     },
@@ -423,8 +428,7 @@
                 Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
-                    icon: "error",
-                    button: "Ok",
+                    icon: "error"
                 });
             }
         }
@@ -437,9 +441,9 @@
                 if (this.id != "") {
                     s = s + this.id + ',';
                 }
-                console.log(this.id);
+
             });
-            console.log(s.length);
+
             var _SrNo = s;
 
         }

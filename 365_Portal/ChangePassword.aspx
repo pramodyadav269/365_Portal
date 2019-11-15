@@ -37,7 +37,7 @@
 
         });
         var accessToken = '<%=Session["access_token"]%>';
-                var UserRole = '<%=Session["RoleName"]%>';
+        var UserRole = '<%=Session["RoleName"]%>';
         function ChangePassword() {
             ShowLoader();
             if (inputValidation('.input-validation')) {
@@ -56,63 +56,83 @@
                         try {
 
                             var DataSet = $.parseJSON(response);
-                            console.log(response);
-                            if (DataSet.StatusCode == "1") {
-                                //alert(DataSet.Data[0].ReturnMessage);
-                                Swal.fire({
-                                    title: "Success",
-                                    text: "Password has been Changed Successfully",
-                                    type: "success",
-                                    icon: "success"
-                                }).then((value) => {
-                                    if (value) {
-                                        var uri;
-                                        Swal.fire({
-                                            text: "Please Select any Option for move forward",
-                                            icon: "warning",
-                                            buttons: ["Keep me logged in", "Log Out"],
-                                            dangerMode: true,
-                                        }).then((login) => {
-                                            if (login) {
-                                                Logout();
-                                            }
-                                            else {
-                                                if (UserRole.toUpperCase() == 'ENDUSER')
-                                                {
-                                                    uri = "default.aspx";
+                            if (DataSet != null && DataSet != "") {
+                                if (DataSet.StatusCode == "1") {
+                                    Swal.fire({
+                                        title: "Success",
+                                        text: "Password has been Changed Successfully",
+                                        icon: "success"
+                                    }).then((result) => {
+                                        if (result.value) {
+                                            var uri;
+                                            Swal.fire({
+                                                text: "Please Select any Option for move forward",
+                                                icon: "info",
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#30D644',
+                                                cancelButtonColor: '#DD3333',
+                                                confirmButtonText: 'Keep me logged in',
+                                                cancelButtonText: 'Log Out',
+                                            }).then((result) => {
+                                                console.log(result.value);
+                                                if (!result.value) {
+
+                                                    Logout();
                                                 }
-                                                else
-                                                {
-                                                    uri = "./admin/dashboard.aspx";
+                                                else {
+                                                    if (UserRole.toUpperCase() == 'ENDUSER') {
+                                                        uri = "default.aspx";
+                                                    }
+                                                    else {
+                                                        uri = "./admin/dashboard.aspx";
+                                                    }
+
+                                                    window.location.href = uri;
                                                 }
-                                               
-                                                window.location.href=uri    ;
-                                            }
-                                        });
-                                    }
-                                });
-                                ClearFields();
+                                            });
+                                        }
+                                    });
+                                    ClearFields();
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: DataSet.StatusDescription,
+                                        type: "error"
+                                    });
+                                    // ClearFields();
+                                }
                             }
                             else {
+                                HideLoader();
                                 Swal.fire({
-                                    title: "Failure",
-                                    text: DataSet.StatusDescription,
-                                    type: "error"
+                                    title: "Alert",
+                                    text: "Please Try Again",
+                                    icon: "error"
                                 });
-                                ClearFields();
                             }
                         }
                         catch (e) {
-                            alert(response);
-                            alert(e.message);
+                            HideLoader();
+                            Swal.fire({
+                                title: "Alert",
+                                text: "Please Try Again",
+                                icon: "error"
+                            });
                         }
                     },
                     complete: function () {
                         HideLoader();
+                        
                     },
                     failure: function (response) {
                         HideLoader();
-                        alert(response.data);
+                        Swal.fire({
+                            title: "Alert",
+                            text: "Please Try Again",
+                            icon: "error"
+                        });
+
                     }
                 });
             }
@@ -121,7 +141,6 @@
                     title: "Alert",
                     text: "Fill all fields",
                     icon: "error",
-                    button: "Ok",
                 });
             }
         }
@@ -132,44 +151,52 @@
             $('#txtNewPasswordAgain').val('');
         }
         function Logout() {
-            //var uri = "Login.aspx";
-            //window.location.replace(uri);
-            var _getUrl = "api/User/UserLogout";
+            //var formdata = new FormData();
+            var _getUrl = "/api/User/UserLogout";
             $.ajax({
                 type: "POST",
                 url: _getUrl,
                 headers: { "Authorization": "Bearer " + accessToken },
-                data: formdata,
+                data: "",
                 contentType: "application/json",
                 success: function (response) {
                     try {
                         var DataSet = $.parseJSON(response);
-                        console.log(response);
-                        if (DataSet.ReturnCode == "0") {
-                            var uri = "Login.aspx";
-                            window.location.replace(uri);
+                        if (DataSet != '' && DataSet != null) {
+                            if (DataSet.ReturnCode == "0") {
+                                var uri = "Login.aspx";
+                                window.location.replace(uri);
+                            }
+                            else {
+                                Swal.fire({
+                                    title: "Alert",
+                                    text: "Unable to Logout! Please Try Again",
+                                    icon: "error"
+                                });
+                            }
                         }
                         else {
                             Swal.fire({
                                 title: "Alert",
-                                text: "Unable to Logout",
-                                icon: "error",
-                                button: "Ok",
+                                text: "Unable to Logout! Please Try Again",
+                                icon: "error"
                             });
                         }
                     }
-                    catch (ex)
-                    {
+                    catch (ex) {
                         Swal.fire({
                             title: "Alert",
                             text: "Unable to Logout",
-                            icon: "error",
-                            button: "Ok",
+                            icon: "error"
                         });
                     }
                 },
                 failure: function (response) {
-                    alert(response.data);
+                    Swal.fire({
+                        title: "Alert",
+                        text: "Unable to Logout! Please Try Again",
+                        icon: "error"
+                    });
                 }
             });
         }

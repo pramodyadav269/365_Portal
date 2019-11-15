@@ -25,17 +25,17 @@
 
                     <div class="row input-validation">
 
-                        <div class="col-md-3">
+                        <%-- <div class="col-md-3">
                             <div class="form-group">
                                 <label for="ddlTopic">Topic</label>
                                 <select class="form-control select2 required" id="ddlTopic" style="width: 100% !important">
-                               <%--     <option></option>
+                                 <option></option>
                                     <option value="1">Topic 1</option>
                                     <option value="2">Topic 2</option>
-                                    <option value="3">Topic 3</option>--%>
+                                    <option value="3">Topic 3</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>--%>
 
                         <div class="col-md-3">
                             <div class="form-group">
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group checkbox required">
+                            <div class="form-group checkbox">
                                 <label>Is Published</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input" value="1">
@@ -112,38 +112,36 @@
                     success: function (response) {
                         var DataSet = $.parseJSON(response);
                         var Topic = DataSet.Data;
-                            if (DataSet.StatusCode == "1") {
-                                $('#ddlTopic').empty().append('<option></option>');
-                                for (var i = 0; i < Topic.length ; i++) {
-                                    $('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
-                                }
+                        if (DataSet.StatusCode == "1") {
+                            $('#ddlTopic').empty().append('<option></option>');
+                            for (var i = 0; i < Topic.length ; i++) {
+                                $('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
                             }
-                            else {
-                                Swal.fire({
-                                    title: "Failure",
-                                    text: DataSet.StatusDescription,
-                                    icon: "error",
-                                    button: "Ok",
-                                });
-                            }
+                        }
+                        else {
+                            Swal.fire({
+                                title: "Failure",
+                                text: DataSet.StatusDescription,
+                                icon: "error"
+
+                            });
+                        }
                     },
                     complete: function () {
                     },
-                    failure: function (response) {        
+                    failure: function (response) {
                         Swal.fire({
                             title: "Failure",
                             text: "Please try Again",
-                            icon: "error",
-                            button: "Ok",
+                            icon: "error"
                         });
                     }
                 });
 
-            } catch (e)
-            {
+            } catch (e) {
 
             }
-          
+
         }
 
         function AddNew() {
@@ -185,11 +183,11 @@
                         }
 
                     }
-                });           
+                });
                 $('#ddlTopic').attr("disabled", true);
                 toggle('divForm', 'divGird');
                 $('#submit').attr('name', EDIT);
-                $('#submit').text('EDIT');
+                $('#submit').text('UPDATE');
                 $('#back').text('CANCEL');
                 inputValidation('.input-validation');
                 //Submit button name attribute changed to EDIT(Modify);
@@ -198,8 +196,8 @@
                 Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
-                    icon: "error",
-                    button: "Ok",
+                    icon: "error"
+
                 });
             }
         }
@@ -207,7 +205,7 @@
             var getUrl;
             ShowLoader();
             if (inputValidation('.input-validation')) {
-                var _Topic_Id = $('#ddlTopic option:selected').val();
+                var _Topic_Id = TopicID;
                 var _Title = $('#txtTitle').val();
                 var _Overview = $('#txtOverview').val();
                 var _Description = $('#txtDescription').val();
@@ -237,34 +235,37 @@
                             try {
 
                                 var DataSet = $.parseJSON(response);
-                                console.log(response);
-                                if (DataSet.StatusCode == "1") {
-                                    clearFields('.input-validation');
-                                    HideLoader();
-                                    Swal.fire({
-                                        title: "Success",
-                                        text: DataSet.StatusDescription,
-                                        icon: "success",
-                                        button: "Ok",
-                                    }).then((value) => {
-                                        if (value) {
-                                            toggle('divGird', 'divForm');
-                                            View();
-                                        }
-                                    });
+                                if (DataSet != null && DataSet != "") {
+                                    if (DataSet.StatusCode == "1") {
+                                        clearFields('.input-validation');
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Success",
+                                            text: DataSet.StatusDescription,
+                                            icon: "success",
 
-
+                                        });
+                                        toggle('divGird', 'divForm');
+                                        View();
+                                    }
+                                    else {
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Failure",
+                                            text: DataSet.StatusDescription,
+                                            icon: "error"
+                                        });
+                                    }
+                                    //clearFields('.input-validation');
 
                                 }
                                 else {
                                     HideLoader();
                                     Swal.fire({
                                         title: "Failure",
-                                        text: DataSet.StatusDescription,
+                                        text: "Please try Again",
                                         icon: "error"
                                     });
-                                    clearFields('.input-validation');
-
                                 }
                             }
                             catch (e) {
@@ -272,8 +273,7 @@
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    icon: "error",
-                                    button: "Ok",
+                                    icon: "error"
                                 });
                             }
                         },
@@ -286,8 +286,7 @@
                             Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
-                                icon: "error",
-                                button: "Ok",
+                                icon: "error"
                             });
                         }
                     });
@@ -297,8 +296,8 @@
                     Swal.fire({
                         title: "Alert",
                         text: "Oops! An Occured. Please try again",
-                        icon: "error",
-                        button: "Ok",
+                        icon: "error"
+
                     });
                 }
             }
@@ -307,13 +306,13 @@
                 Swal.fire({
                     title: "Alert",
                     text: "Fill all fields",
-                    icon: "error",
-                    button: "Ok",
+                    icon: "error"
+
                 });
             }
         }
 
-                   
+
 
         function Delete(ModuleId) {
 
@@ -343,37 +342,44 @@
                                         try {
 
                                             var DataSet = $.parseJSON(response);
-                                            console.log(response);
-                                            if (DataSet.StatusCode == "1") {
-                                                HideLoader();
-                                                Swal.fire({
-                                                    title: "Success",
-                                                    text: DataSet.StatusDescription,
-                                                    icon: "success",
-                                                    button: "Ok",
-                                                }).then((value) => {
-                                                    if (value) {
+                                            if (DataSet != null && DataSet != "") {
+                                                if (DataSet.StatusCode == "1") {
+                                                    HideLoader();
+                                                    Swal.fire({
+                                                        title: "Success",
+                                                        text: DataSet.StatusDescription,
+                                                        icon: "success",
 
-                                                        View();
-                                                    }
-                                                });
+                                                    }).then((value) => {
+                                                        if (value) {
+
+                                                            View();
+                                                        }
+                                                    });
 
 
+                                                }
+                                                else {
+                                                    HideLoader();
+                                                    Swal.fire({
+                                                        title: "Failure",
+                                                        text: DataSet.StatusDescription,
+                                                        icon: "error"
+
+                                                    });
+                                                }
                                             }
                                             else {
                                                 HideLoader();
                                                 Swal.fire({
                                                     title: "Failure",
-                                                    text: DataSet.StatusDescription,
-                                                    icon: "error",
-                                                    button: "Ok",
+                                                    text: "Please try Again",
+                                                    icon: "error"
                                                 });
                                             }
                                         }
                                         catch (e) {
                                             HideLoader();
-                                            //alert(response);
-                                            //alert(e.message);
                                             Swal.fire({
                                                 title: "Failure",
                                                 text: "Please try Again",
@@ -390,8 +396,8 @@
                                         Swal.fire({
                                             title: "Failure",
                                             text: "Please try Again",
-                                            icon: "error",
-                                            button: "Ok",
+                                            icon: "error"
+
                                         });
                                     }
                                 });
@@ -399,10 +405,10 @@
                             catch (e) {
                                 HideLoader();
                                 Swal.fire({
-                                    title: "Alert",
-                                    text: "Oops! An Occured. Please try again",
-                                    icon: "error",
-                                    button: "Ok",
+                                    title: "Failure",
+                                    text: "Please try again",
+                                    icon: "error"
+
                                 });
                             }
 
@@ -413,8 +419,8 @@
                 Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
-                    icon: "error",
-                    button: "Ok",
+                    icon: "error"
+
                 });
             }
         }
@@ -429,8 +435,6 @@
             ShowLoader();
             try {
                 $.ajax({
-                    //type: "GET",
-                    //url: "https://reqres.in/api/users?page=1",
                     type: "POST",
                     url: url,
                     headers: { "Authorization": "Bearer " + accessToken },
@@ -442,73 +446,86 @@
                             if (response) {
                                 var DataSet = $.parseJSON(response);
 
-                                if (DataSet.StatusCode == "1") {
-                                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                                    tbl += '<thead><tr>';
-                                    tbl += '<th>Sr.No.';
-                                    tbl += '<th>Topic';
-                                    tbl += '<th>Title';
-                                    tbl += '<th>Overview';
-                                    tbl += '<th>Description';
-                                    tbl += '<th>Is Published';
-                                    //tbl += '<th>Skip Flashcard';
-                                    tbl += '<th>Contents';
-                                    tbl += '<th>Survey';
-                                    tbl += '<th>Flashcards';
-                                    tbl += '<th>Flashcard Quiz';
-                                    tbl += '<th>Final Quiz';
-                                    //tbl += '<th>Personal Gifts';
-                                    tbl += '<th>ACTION';
-                                    tbl += '<tbody>';
+                                if (DataSet != null && DataSet != "") {
+                                    if (DataSet.StatusCode == "1") {
+                                        var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                                        tbl += '<thead><tr>';
+                                        tbl += '<th>Sr.No.';
+                                        tbl += '<th>Topic';
+                                        tbl += '<th>Title';
+                                        tbl += '<th>Overview';
+                                        tbl += '<th>Description';
+                                        tbl += '<th>Is Published';
+                                        //tbl += '<th>Skip Flashcard';
+                                        tbl += '<th>Contents';
+                                        tbl += '<th>Survey';
+                                        tbl += '<th>Flashcards';
+                                        tbl += '<th>Flashcard Quiz';
+                                        tbl += '<th>Final Quiz';
+                                        //tbl += '<th>Personal Gifts';
+                                        tbl += '<th>ACTION';
+                                        tbl += '<tbody>';
+
+                                        if (DataSet.Data.length> 0) {
+                                            $.each(DataSet.Data, function (i, data) {
+                                                if (data.IsPublished == "1") {
+                                                    data.IsPublished = "Yes";
+                                                }
+                                                else {
+                                                    data.IsPublished = "No";
+                                                }
+                                                tbl += '<tr id="' + data.ModuleID + '">';
+                                                tbl += '<td>' + (i + 1);
+                                                tbl += '<td class="topicname">' + data.TopicTitle;
+                                                tbl += '<td class="title">' + data.Title;
+                                                tbl += '<td class="overview">' + data.Overview;
+                                                tbl += '<td class="description">' + data.Description;
+                                                tbl += '<td class="isPublished">' + data.IsPublished;
+                                                tbl += '<td><a href="Contents.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td><a href="Quiz.aspx?type=1&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td><a href="Flashcards.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td><a href="Quiz.aspx?type=2&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td><a href="Quiz.aspx?type=3&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                                //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                                tbl += '<td><i title="Edit" onclick="Edit(' + data.ModuleID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.ModuleID + ');" class="fas fa-trash text-danger"></i>';
 
 
-                                    $.each(DataSet.Data, function (i, data) {
-                                        if (data.IsPublished == "1") {
-                                            data.IsPublished = "Yes";
+                                            });
                                         }
                                         else {
-                                            data.IsPublished = "No";
+                                            tbl += '<td colspan=12 align=center>No Records found';
                                         }
-                                        tbl += '<tr id="' + data.ModuleID + '">';
-                                        tbl += '<td>' + (i + 1);
-                                        tbl += '<td class="topicname">' + data.TopicTitle;
-                                        tbl += '<td class="title">' + data.Title;
-                                        tbl += '<td class="overview">' + data.Overview;
-                                        tbl += '<td class="description">' + data.Description;
-                                        tbl += '<td class="isPublished">' + data.IsPublished;
-                                        tbl += '<td><a href="Contents.aspx?ModuleID=' + data.ModuleID + '">'+data.ModuleID+'</a>';
-                                        tbl += '<td><a href="Quiz.aspx?type=1&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                        tbl += '<td><a href="Flashcards.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                        tbl += '<td><a href="Quiz.aspx?type=2&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                        tbl += '<td><a href="Quiz.aspx?type=3&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                        tbl += '<td><i title="Edit" onclick="Edit(' + data.ModuleID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.ModuleID + ');" class="fas fa-trash text-danger"></i>';
+                                        $('#divTable').empty().append(tbl)
 
+                                        $('#tblGird').tableDnD()
+                                    }
+                                    else {
+                                        swal({
+                                            title: "Failure",
+                                            text: DataSet.StatusDescription,
+                                            icon: "error"
 
-                                    });
-
-                                    $('#divTable').empty().append(tbl)
-
-                                    $('#tblGird').tableDnD()
+                                        });
+                                    }
                                 }
                                 else {
-                                    swal({
+                                    HideLoader();
+                                    Swal.fire({
                                         title: "Failure",
-                                        text: DataSet.StatusDescription,
-                                        icon: "error",
-                                        button: "Ok",
+                                        text: "Please try Again",
+                                        icon: "error"
+
                                     });
                                 }
-
                             }
                             else {
                                 HideLoader();
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
-                                    icon: "error",
-                                    button: "Ok",
+                                    icon: "error"
+
                                 });
                             }
                         }
@@ -517,8 +534,8 @@
                             Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
-                                icon: "error",
-                                button: "Ok",
+                                icon: "error"
+
                             });
                         }
                     },
@@ -540,8 +557,8 @@
                 Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
-                    icon: "error",
-                    button: "Ok",
+                    icon: "error"
+
                 });
             }
         }
@@ -553,9 +570,9 @@
                 if (this.id != "") {
                     s = s + this.id + ',';
                 }
-                console.log(this.id);
+         
             });
-            console.log(s.length);
+          
             var _SrNo = s;
 
         }

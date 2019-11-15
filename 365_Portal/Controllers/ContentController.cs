@@ -718,7 +718,7 @@ namespace _365_Portal.Controllers
                 var identity = MyAuthorizationServerProvider.AuthenticateUser();
                 if (identity != null)
                 {
-
+                    
                     if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
                         !string.IsNullOrEmpty(requestParams["p_DocType"].ToString()) && !string.IsNullOrEmpty(requestParams["p_ContentTitle"].ToString())
                         && !string.IsNullOrEmpty(requestParams["p_ContentDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())))
