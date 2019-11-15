@@ -1162,15 +1162,22 @@ namespace _365_Portal.Controllers
                 objUser.UserID = identity.UserID;
                 objUser.CompId = identity.CompId;
                 objUser.Role = identity.Role;
-                var ds = CommonBL.GetUsers(objUser);
-                if (ds.Tables[0].Rows.Count > 0)
+                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
                 {
-                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                    data = Utility.Successful(data);
+                    var ds = CommonBL.GetUsers(objUser);
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                        data = Utility.Successful(data);
+                    }
+                    else
+                    {
+                        data = Utility.API_Status("2", "No user found");
+                    }
                 }
                 else
                 {
-                    data = Utility.API_Status("2", "No user found");
+                    data = Utility.API_Status("3", "You do not have access for this functionality");
                 }
             }
             else
@@ -1192,10 +1199,17 @@ namespace _365_Portal.Controllers
                 objUser.UserID = identity.UserID;
                 objUser.CompId = identity.CompId;
                 objUser.Role = identity.Role;
-                var ds = CommonBL.BindRoleAndGroup(objUser);
+                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
+                {
+                    var ds = CommonBL.BindRoleAndGroup(objUser);
 
-                data = Utility.ConvertDataSetToJSONString(ds);
-                data = Utility.Successful(data);
+                    data = Utility.ConvertDataSetToJSONString(ds);
+                    data = Utility.Successful(data);
+                }
+                else
+                {
+                    data = Utility.API_Status("3", "You do not have access for this functionality");
+                }
             }
             else
             {
@@ -1221,20 +1235,27 @@ namespace _365_Portal.Controllers
                     objUser.CompId = identity.CompId;
                     objUser.Role = identity.Role;
 
-                    var ds = CommonBL.CreateUpdateUser(objUser, 1, 0);
-                    if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
+                    if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
                     {
-                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                        data = Utility.Successful(data);
-                    }
-                    else if (ds.Tables[0].Rows.Count > 0)
-                    {
-                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                        data = Utility.Failed(data);
+                        var ds = CommonBL.CreateUpdateUser(objUser, 1, 0);
+                        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
+                        {
+                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                            data = Utility.Successful(data);
+                        }
+                        else if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                            data = Utility.Failed(data);
+                        }
+                        else
+                        {
+                            data = Utility.API_Status("0", "No data found");
+                        }
                     }
                     else
                     {
-                        data = Utility.API_Status("0", "No data found");
+                        data = Utility.API_Status("3", "You do not have access for this functionality");
                     }
                 }
                 else
@@ -1260,41 +1281,48 @@ namespace _365_Portal.Controllers
                 string Message = string.Empty;
                 UserBO objUser = new UserBO();
 
-                if (ValidateUserDetails(jsonResult, out Message, out objUser))
+                objUser.UserID = identity.UserID;
+                objUser.CompId = identity.CompId;
+                objUser.Role = identity.Role;
+
+                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
                 {
-                    objUser.UserID = identity.UserID;
-                    objUser.CompId = identity.CompId;
-                    objUser.Role = identity.Role;
-
-                    int ChildUserID = 0;
-                    if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
+                    if (ValidateUserDetails(jsonResult, out Message, out objUser))
                     {
-                        ChildUserID = (int)jsonResult.SelectToken("UserID");
+                        int ChildUserID = 0;
+                        if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
+                        {
+                            ChildUserID = (int)jsonResult.SelectToken("UserID");
 
-                        var ds = CommonBL.CreateUpdateUser(objUser, 2, ChildUserID);
-                        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
-                        {
-                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                            data = Utility.Successful(data);
-                        }
-                        else if (ds.Tables[0].Rows.Count > 0)
-                        {
-                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                            data = Utility.Failed(data);
+                            var ds = CommonBL.CreateUpdateUser(objUser, 2, ChildUserID);
+                            if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
+                            {
+                                data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                                data = Utility.Successful(data);
+                            }
+                            else if (ds.Tables[0].Rows.Count > 0)
+                            {
+                                data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                                data = Utility.Failed(data);
+                            }
+                            else
+                            {
+                                data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
+                            }
                         }
                         else
                         {
-                            data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
+                            data = Utility.API_Status("2", "Please provide UserID");
                         }
                     }
                     else
                     {
-                        data = Utility.API_Status("2", "Please provide UserID");
+                        data = Utility.API_Status("2", Message);
                     }
                 }
                 else
                 {
-                    data = Utility.API_Status("2", Message);
+                    data = Utility.API_Status("3", "You do not have access for this functionality");
                 }
             }
             else
@@ -1318,33 +1346,39 @@ namespace _365_Portal.Controllers
                 objUser.CompId = identity.CompId;
                 objUser.Role = identity.Role;
                 objUser.IsDeleted = false;
-
+                
                 int ChildUserID = 0;
-                if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
+                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
                 {
-                    ChildUserID = (int)jsonResult.SelectToken("UserID");
+                    if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
+                    {
+                        ChildUserID = (int)jsonResult.SelectToken("UserID");
 
-                    var ds = CommonBL.DeleteUser(objUser, ChildUserID);
-                    if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
-                    {
-                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                        data = Utility.Successful(data);
-                    }
-                    else if (ds.Tables[0].Rows.Count > 0)
-                    {
-                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                        data = Utility.Failed(data);
+                        var ds = CommonBL.DeleteUser(objUser, ChildUserID);
+                        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
+                        {
+                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                            data = Utility.Successful(data);
+                        }
+                        else if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                            data = Utility.Failed(data);
+                        }
+                        else
+                        {
+                            data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
+                        }
                     }
                     else
                     {
-                        data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
+                        data = Utility.API_Status("2", "Please provide UserID");
                     }
                 }
                 else
                 {
-                    data = Utility.API_Status("2", "Please provide UserID");
+                    data = Utility.API_Status("3", "You do not have access for this functionality");
                 }
-
             }
             else
             {
@@ -1369,24 +1403,31 @@ namespace _365_Portal.Controllers
                 objUser.IsDeleted = false;
 
                 int ChildUserID = 0;
-                if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
+                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
                 {
-                    ChildUserID = (int)jsonResult.SelectToken("UserID");
-
-                    var ds = CommonBL.GetUserDetailsForParent(objUser, ChildUserID);
-                    if (ds.Tables[0].Rows.Count > 0)
+                    if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
                     {
-                        data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                        data = Utility.Successful(data);
+                        ChildUserID = (int)jsonResult.SelectToken("UserID");
+
+                        var ds = CommonBL.GetUserDetailsForParent(objUser, ChildUserID);
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                            data = Utility.Successful(data);
+                        }
+                        else
+                        {
+                            data = Utility.API_Status("0", "No data found");
+                        }
                     }
                     else
                     {
-                        data = Utility.API_Status("0", "No data found");
+                        data = Utility.API_Status("2", "Please provide UserID");
                     }
                 }
                 else
                 {
-                    data = Utility.API_Status("2", "Please provide UserID");
+                    data = Utility.API_Status("3", "You do not have access for this functionality");
                 }
             }
             else
