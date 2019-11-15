@@ -67,10 +67,10 @@ function toggle(view, hide) {
 
 
 function clearFields(container) {
-    var inputs = $(container);
-
+    var inputs = $(container);    
     inputs.find('[type=text],[type=number],[type=email],textarea').val(null);
     inputs.find('select.select2').val(null).trigger('change');
+    inputs.find('select').val(null).trigger('change');
     inputs.find('input[type="file"]').val(null);
     inputs.find('.custom-file .custom-file-label').text('Choose file');
     inputs.find('[type=radio], [type=checkbox]').prop('checked', false);
