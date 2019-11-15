@@ -154,19 +154,22 @@
                             BindFields(DataSet.Data);                            
                         }
                         else {
-                            alert(DataSet.StatusDescription);
+                            //alert(DataSet.StatusDescription);
+                            Swal.fire(DataSet.StatusDescription, {
+                                icon: "error",
+                            });
                             ClearFields();
                         }
                     }
                     catch (e) {
                         HideLoader();
-                        alert(response);
-                        alert(e.message);                        
+                        //alert(response);
+                        //alert(e.message);                        
                     }
                 },
                 failure: function (response) {
                     HideLoader();
-                    alert(response.data);                    
+                    //alert(response.data);                    
                 }
             });
         }
@@ -205,11 +208,11 @@
 
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin") && Data.CompanyProfilePicFile != undefined && Data.CompanyProfilePicFile != '')
             {
-                document.getElementById('imgCompanyLogo')
-                .setAttribute(
-                    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
-                );
-
+                //document.getElementById('imgCompanyLogo')
+                //.setAttribute(
+                //    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
+                //);
+                debugger
                 $("#imgCompanyLogo").attr("src", "Files/CompLogo/" + Data.CompanyProfilePicFile);
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme color <input type="color" id="ThemeColor" name="head" value="' + Data.ThemeColor + '"></div>');
             }
@@ -266,13 +269,25 @@
                         //console.log(response);
                         if (DataSet.StatusCode == "1") {
                             HideLoader();
-                            alert(DataSet.Data.ReturnMessage);
-                            if (IsFirstPasswordNotChanged != undefined && IsFirstPasswordNotChanged.toLowerCase() == 'true') {
-                                window.location.href = "ChangePassword.aspx";
-                            }
-                            else {
-                                location.reload();
-                            }
+
+                            Swal.fire(DataSet.Data.ReturnMessage, {
+                                icon: "success",
+                            }).then((UpdateUserProfile) => {
+                                if (IsFirstPasswordNotChanged != undefined && IsFirstPasswordNotChanged.toLowerCase() == 'true') {
+                                    window.location.href = "ChangePassword.aspx";
+                                }
+                                else {
+                                    location.reload();
+                                }
+                            });;
+
+                            //alert(DataSet.Data.ReturnMessage);
+                            //if (IsFirstPasswordNotChanged != undefined && IsFirstPasswordNotChanged.toLowerCase() == 'true') {
+                            //    window.location.href = "ChangePassword.aspx";
+                            //}
+                            //else {
+                            //    location.reload();
+                            //}
                         }
                         else {
                             HideLoader();
@@ -281,13 +296,13 @@
                     }
                     catch (e) {
                         HideLoader();
-                        alert(response);
-                        alert(e.message);
+                        //alert(response);
+                        //alert(e.message);
                     }
                 },
                 failure: function (response) {
                     HideLoader();
-                    alert(response.data);
+                    //alert(response.data);
                 }
             });
         }
@@ -312,9 +327,12 @@
                         HideLoader();
                         var DataSet = $.parseJSON(response);
                         if (DataSet.StatusCode == "1")
-                        {                            
-                            alert(DataSet.Data.ReturnMessage);
-                            location.reload();
+                        {                                                        
+                            Swal.fire(DataSet.Data.ReturnMessage, {
+                                icon: "success",
+                            }).then((CreateUpdateUser) => {
+                                location.reload();
+                            });;
                         }
                         else {
                             ClearFields();
@@ -322,8 +340,8 @@
                     }
                     catch (e) {
                         HideLoader();
-                        alert(response);
-                        alert(e.message);
+                        //alert(response);
+                        //alert(e.message);
                     }
                 },
                 failure: function (response) {
@@ -342,7 +360,7 @@
         
 
 
-    </script>
+    </script>   
 </asp:Content>
 
 

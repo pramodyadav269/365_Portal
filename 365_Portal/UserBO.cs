@@ -65,6 +65,7 @@ namespace _365_Portal
         public string CompanyProfilePicFile { get; set; }
         public string IsFirstLogin { get; set; }
         public string IsFirstPasswordNotChanged { get; set; }
+        public string IsChangingPassword { get; set; }
         public string ReturnCode { get; set; }
         public string ReturnMessage { get; set; }
     }

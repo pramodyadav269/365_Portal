@@ -56,7 +56,7 @@
                                 <input type="text" class="form-control required" id="txtEmailId" placeholder="Email ID" />
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" id="divPassword">
                             <div class="form-group">
                                 <label for="txtPassword">Password</label>
                                 <input type="password" class="form-control required" id="txtPassword" placeholder="Password" />
@@ -79,15 +79,17 @@
                             <div class="form-group">
                                 <label for="ddlGroup">Group</label>
                                 <select class="form-control  required" id="ddlGroup" style="width: 100% !important">
-                                    <%--<option></option>
-                                    <option value="1">Group 1</option>
-                                    <option value="2">Group 2</option>
-                                    <option value="3">Group 3</option>--%>
                                 </select>
                             </div>  
                         </div>
                         
-
+                        <div class="col-md-3" id="divUpdatePassword" >
+                            <div class="custom-control custom-checkbox mb-4">
+                                <input type="checkbox" onchange="enableUpdatePassword();" class="custom-control-input" id="cbUpdatePassword">
+                                <label class="custom-control-label" for="cbUpdatePassword">Want to change password!</label>
+                                <input type="password" disabled class="form-control required" id="txtUpdatePassword" placeholder="Password" />
+                            </div>
+                        </div>
 
 
                         <div class="w-100"></div>
@@ -114,8 +116,7 @@
         $(document).ready(function () {
             //debugger
             ShowLoader();
-            GetUsers();
-            BindRoleAndGroup('','create');
+            GetUsers();            
 
             /*
             ShowLoader();
@@ -220,21 +221,26 @@
                         if (DataSet.StatusCode == "1") {
                             //alert(DataSet.StatusDescription);                            
                             BindUsers(DataSet.Data);
+                            BindRoleAndGroup('', 'create');
                         }
                         else {
-                            alert(DataSet.StatusDescription);
+                            //alert(DataSet.StatusDescription);
+                            //debugger
+                            Swal.fire(DataSet.StatusDescription, {
+                                icon: "error",
+                            });
                             ClearFields();
                         }
                     }
                     catch (e) {
                         HideLoader();
-                        alert(response);
-                        alert(e.message);
+                        //alert(response);
+                        //alert(e.message);
                     }
                 },
                 failure: function (response) {
                     HideLoader();
-                    alert(response.data);
+                    //alert(response.data);
                 }
             });
         }        
@@ -242,7 +248,9 @@
         function AddNew() {
 
             $('#btnSubmit').show();
+            $('#divPassword').show();
             $('#btnUpdate').hide();
+            $('#divUpdatePassword').hide();
             clearFields('.input-validation')
             toggle('divForm', 'divGird');
         }
@@ -280,7 +288,7 @@
         function ProcessCreateUpdate(id, getUrl,flag)
         {
             debugger
-            var result = InputValidation();
+            var result = InputValidation(flag);
             if (result.error)
             {
                 Swal.fire({
@@ -296,16 +304,28 @@
                 var FirstName = $("#txtFname").val();
                 var LastName = $("#txtLname").val();
                 var EmailID = $("#txtEmailId").val();
-                var Password = $("#txtPassword").val();
+
+                var Password = '';
+                var UpdateFlag = '0';
+                if (flag == 'create') {
+                    Password = $("#txtPassword").val();
+                }
+                else {                    
+                    if ($('#cbUpdatePassword').prop('checked') == true) {
+                        Password = $("#txtUpdatePassword").val();
+                        UpdateFlag = '1';
+                    }
+                }
+                
                 var MobileNum = $("#txtMobileNo").val();
                 var Position = $("#txtPosition").val();
                 var GroupId = $("#ddlGroup option:selected").val();
 
                 if (flag == 'create') {
-                    var requestParams = { RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId };
+                    var requestParams = { RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag };
                 }
                 else {
-                    var requestParams = { UserID: id, RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId };
+                    var requestParams = { UserID: id, RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag };
                 }
                 
                 $.ajax({
@@ -350,9 +370,9 @@
             }
         }
 
-        function InputValidation()
+        function InputValidation(flag)
         {
-            
+            debugger
             if ($("#ddlRole option:selected").val() == undefined || $("#ddlRole option:selected").val() == '') {
                 return { error: true, msg: "Please select Role" };
             }
@@ -365,9 +385,20 @@
             else if ($("#txtEmailId").val() == undefined || $("#txtEmailId").val() == '') {
                 return { error: true, msg: "Please enter emailid" };
             }
-            else if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
-                return { error: true, msg: "Please enter password" };
+
+            if (flag == 'create')
+            {                
+                if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
+                    return { error: true, msg: "Please enter password" };
+                }
             }
+            else
+            {
+                if ($('#cbUpdatePassword').prop('checked') == true && ($("#txtUpdatePassword").val() == undefined || $("#txtUpdatePassword").val() == '')) {
+                    return { error: true, msg: "Please enter password" };
+                }
+            }
+            
             return true;
         }
 
@@ -472,7 +503,9 @@
                             $('#ddlGroup').val(DataSet.Data[0].GroupID);
 
                             $('#btnSubmit').hide();
+                            $('#divPassword').hide();
                             $('#btnUpdate').show();
+                            $('#divUpdatePassword').show();
                             $('#UserID').val(id);
 
                             $('.select2').material_select();
@@ -562,6 +595,17 @@
                     HideLoader();
                 }
             });
+        }
+
+        function enableUpdatePassword()
+        {
+            //debugger
+            if ($('#cbUpdatePassword').prop('checked')) {
+                $("#txtUpdatePassword").removeAttr("disabled");
+            }
+            else {
+                $("#txtUpdatePassword").attr("disabled", "disabled");
+            }
         }
         
     </script>

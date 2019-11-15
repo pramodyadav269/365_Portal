@@ -118,8 +118,10 @@
     <div class="modal fade" id="modalFlashcard" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
+                <a class="close-modal" data-dismiss="modal" aria-label="Close">
+                    <img src="Asset/images/close-button.png" class="close" /></a>
                 <div class="modal-body contents-datials">
-                    <div class="row">
+                    <div class="row justify-content-center mt-5 mb-4">
                         <div class="col-12 col-sm-12 col-md-6 mb-3 overview" id="divFlashcard">
                             <div id="dvFlashcard" class="flashcard">
                             </div>
@@ -291,9 +293,9 @@
 
                     $("#dvAchievement").html(achievementHtml);
 
-                    $('#dvGifts dt').click(function () {
-                        $('#modalPersonalGiftContent').modal('show');
-                    });
+                    //$('#dvGifts dt').click(function () {
+                    //    $('#modalPersonalGiftContent').modal('show');
+                    //});
 
                     HideLoader();
                 }
@@ -310,6 +312,9 @@
         var selectedGift = {};
 
         function GetContentDetails(topicId, moduleId, contentId) {
+            $('#modalAchievements').modal('hide');
+            $('#modalPersonalGiftContent').modal('hide');
+            $('#modalFlashcard').modal('hide');
             ShowLoader();
             var requestParams = { TopicID: topicId, ModuleID: moduleId, ContentID: contentId };
             $.ajax({
@@ -322,8 +327,9 @@
                 HideLoader();
                 var responseData = $.parseJSON(response);
                 selectedGift = { TopicID: responseData.TopicID, ModuleID: responseData.ModuleID, ContentID: responseData.ContentID };
+
                 if (responseData.DocType == 'VIDEO') {
-                    $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
+                    $("#divVideo").empty().html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
                         '<source id="dvVideoPlayer" src="' + responseData.FilePath + '" type="video/mp4">' +
                         '</video>');
                     document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
@@ -331,11 +337,13 @@
 
                     $("#dvVideoViewer").show();
                     $("#dvPdfViewer").hide();
+                    $('#modalPersonalGiftContent').modal('show');
                 }
                 else if (responseData.DocType == 'PDF') {
-                    $("#divPDF").html('<embed id="dvPDFViewer" src="' + responseData.FilePath + '" width="760" height="800"/>');
+                    $("#divPDF").empty().html('<embed id="dvPDFViewer" src="' + responseData.FilePath + '" width="760" height="800"/>');
                     $("#dvVideoViewer").hide();
                     $("#dvPdfViewer").show();
+                    $('#modalPersonalGiftContent').modal('show');
                 }
                 else {
                     // Flashcard
@@ -343,24 +351,24 @@
                     $("#dvPdfViewer").hide();
 
                     var totalLength = responseData.Flashcards.length;
+                    var flashcard = "";
                     $.each(responseData.Flashcards, function (i, data) {
-                        var flashcard = "";
+                        
                         if (i == 0)
-                            flashcard += '<div class="card border-0">';
+                            flashcard += '<div class="card">';
                         else
-                            flashcard += '<div class="card border-0 d-none">';
+                            flashcard += '<div class="card d-none">';
                         flashcard += '<img class="card-img-top circle mx-auto" src="Asset/images/employee-illustration.svg" />';
                         flashcard += '<div class="card-body">';
                         flashcard += '<p class="card-text">' + data.Description + '</p>';
                         flashcard += '<p class="text-right anchor">' + (i + 1) + '/' + totalLength + '</p>';
                         flashcard += '</div>';
                         flashcard += '</div>';
-
-                        $("#dvFlashcard").append(flashcard);
                     });
+                    $("#dvFlashcard").empty().append(flashcard);
                     $('#modalFlashcard').modal('show');
                 }
-                $('#modalPersonalGiftContent').modal('show');
+
             });
         }
 

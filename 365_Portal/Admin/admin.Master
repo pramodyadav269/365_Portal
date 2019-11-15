@@ -107,9 +107,16 @@
                                 <img id="imgProfilePic" runat="server" src="../Asset/images/profile.png" class="circle" width="40" height="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" />User Name</span>
                             </a>
                             <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
-                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Profile.aspx") %>">Profile</a>
-                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
-                                <a class="dropdown-item" href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>
+                                <%--<a id="menuProfile" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Profile.aspx") %>">Profile</a>
+                                <a id="menuUsers" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Admin/Users.aspx") %>">Profile</a>
+                                <a id="menuSetting" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
+                                <a id="menuLogout" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>--%>
+                               
+                                <a id="menuProfile" runat="server" class="dropdown-item" href="~/Profile.aspx">Profile</a>
+                                <a id="menuUsers" runat="server" class="dropdown-item" href="Users.aspx">Users List</a>
+                                <a id="menuSetting" runat="server" class="dropdown-item" href="~/Settings.aspx">Settings</a>
+                                <a id="menuLogout" runat="server" class="dropdown-item" href="~/Login.aspx">Logout</a>
+
                             </div>
                         </div>
                     </div>

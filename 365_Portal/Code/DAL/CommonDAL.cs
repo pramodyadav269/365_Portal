@@ -494,7 +494,8 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_RoleID", objUsers.RoleID);
                 cmd.Parameters.AddWithValue("p_FirstName", objUsers.FirstName);
                 cmd.Parameters.AddWithValue("p_LastName", objUsers.LastName);
-                cmd.Parameters.AddWithValue("p_EmailID", objUsers.EmailID);
+                cmd.Parameters.AddWithValue("p_EmailID", objUsers.EmailID);                
+                cmd.Parameters.AddWithValue("p_IsChangingPassword", objUsers.IsChangingPassword);
                 cmd.Parameters.AddWithValue("p_PasswordHash", objUsers.PasswordHash);
                 cmd.Parameters.AddWithValue("p_PasswordSalt", objUsers.PasswordSalt);
                 cmd.Parameters.AddWithValue("p_MobileNum", objUsers.MobileNum);
