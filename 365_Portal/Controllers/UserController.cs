@@ -1159,11 +1159,13 @@ namespace _365_Portal.Controllers
             if (identity != null)
             {
                 UserBO objUser = new UserBO();
-                objUser.UserID = identity.UserID;
-                objUser.CompId = identity.CompId;
-                objUser.Role = identity.Role;
-                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
+                
+                if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
+                    objUser.UserID = identity.UserID;
+                    objUser.CompId = identity.CompId;
+                    objUser.Role = identity.Role;
+
                     var ds = CommonBL.GetUsers(objUser);
                     if (ds.Tables[0].Rows.Count > 0)
                     {
@@ -1196,11 +1198,13 @@ namespace _365_Portal.Controllers
             if (identity != null)
             {
                 UserBO objUser = new UserBO();
-                objUser.UserID = identity.UserID;
-                objUser.CompId = identity.CompId;
-                objUser.Role = identity.Role;
-                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
+                
+                if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
+                    objUser.UserID = identity.UserID;
+                    objUser.CompId = identity.CompId;
+                    objUser.Role = identity.Role;
+
                     var ds = CommonBL.BindRoleAndGroup(objUser);
 
                     data = Utility.ConvertDataSetToJSONString(ds);
@@ -1229,14 +1233,14 @@ namespace _365_Portal.Controllers
                 string Message = string.Empty;
                 UserBO objUser = new UserBO();
 
-                if (ValidateUserDetails(jsonResult, out Message, out objUser))
+                if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
-                    objUser.UserID = identity.UserID;
-                    objUser.CompId = identity.CompId;
-                    objUser.Role = identity.Role;
-
-                    if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
+                    if (ValidateUserDetails(jsonResult, out Message, out objUser, "create"))
                     {
+                        objUser.UserID = identity.UserID;
+                        objUser.CompId = identity.CompId;
+                        objUser.Role = identity.Role;
+
                         var ds = CommonBL.CreateUpdateUser(objUser, 1, 0);
                         if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
                         {
@@ -1255,12 +1259,12 @@ namespace _365_Portal.Controllers
                     }
                     else
                     {
-                        data = Utility.API_Status("3", "You do not have access for this functionality");
+                        data = Utility.API_Status("2", Message);
                     }
                 }
                 else
                 {
-                    data = Utility.API_Status("2", Message);
+                    data = Utility.API_Status("3", "You do not have access for this functionality");
                 }
             }
             else
@@ -1281,14 +1285,14 @@ namespace _365_Portal.Controllers
                 string Message = string.Empty;
                 UserBO objUser = new UserBO();
 
-                objUser.UserID = identity.UserID;
-                objUser.CompId = identity.CompId;
-                objUser.Role = identity.Role;
-
-                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
+                if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
-                    if (ValidateUserDetails(jsonResult, out Message, out objUser))
+                    if (ValidateUserDetails(jsonResult, out Message, out objUser,"update"))
                     {
+                        objUser.UserID = identity.UserID;
+                        objUser.CompId = identity.CompId;
+                        objUser.Role = identity.Role;
+
                         int ChildUserID = 0;
                         if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
                         {
@@ -1341,15 +1345,16 @@ namespace _365_Portal.Controllers
             if (identity != null)
             {
                 string Message = string.Empty;
-                UserBO objUser = new UserBO();
-                objUser.UserID = identity.UserID;
-                objUser.CompId = identity.CompId;
-                objUser.Role = identity.Role;
-                objUser.IsDeleted = false;
+                UserBO objUser = new UserBO();                
                 
                 int ChildUserID = 0;
-                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
+                if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
+                    objUser.UserID = identity.UserID;
+                    objUser.CompId = identity.CompId;
+                    objUser.Role = identity.Role;
+                    objUser.IsDeleted = false;
+
                     if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
                     {
                         ChildUserID = (int)jsonResult.SelectToken("UserID");
@@ -1396,15 +1401,16 @@ namespace _365_Portal.Controllers
             if (identity != null)
             {
                 string Message = string.Empty;
-                UserBO objUser = new UserBO();
-                objUser.UserID = identity.UserID;
-                objUser.CompId = identity.CompId;
-                objUser.Role = identity.Role;
-                objUser.IsDeleted = false;
+                UserBO objUser = new UserBO();                
 
                 int ChildUserID = 0;
-                if (objUser.Role == ConstantMessages.Roles.companyadmin || objUser.Role == ConstantMessages.Roles.superadmin)
+                if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
+                    objUser.UserID = identity.UserID;
+                    objUser.CompId = identity.CompId;
+                    objUser.Role = identity.Role;
+                    objUser.IsDeleted = false;
+
                     if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
                     {
                         ChildUserID = (int)jsonResult.SelectToken("UserID");
@@ -1437,7 +1443,7 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
-        private bool ValidateUserDetails(JObject jsonResult, out string Message, out UserBO objUserVal)
+        private bool ValidateUserDetails(JObject jsonResult, out string Message, out UserBO objUserVal,string flag)
         {
             bool ValFlag = true;
             Message = string.Empty;
@@ -1479,13 +1485,41 @@ namespace _365_Portal.Controllers
                 Message = "Please provide EmailID of user."; ValFlag = false; return ValFlag;
             }
 
-            if (jsonResult.SelectToken("Password") != null && jsonResult.SelectToken("Password").ToString().Trim() != "")
+            if (flag == "create")
             {
-                objUserVal.NewPassword = (string)jsonResult.SelectToken("Password");
+                if (jsonResult.SelectToken("Password") != null && jsonResult.SelectToken("Password").ToString().Trim() != "")
+                {
+                    objUserVal.NewPassword = (string)jsonResult.SelectToken("Password");
+                    objUserVal.UserKey = Guid.NewGuid().ToString();
+                    objUserVal.PasswordSalt = Utility.GetSalt();
+                    objUserVal.PasswordHash = Utility.GetHashedPassword(objUserVal.NewPassword, objUserVal.PasswordSalt);
+                }
+                else
+                {
+                    Message = "Please provide Password of user."; ValFlag = false; return ValFlag;
+                }
             }
             else
             {
-                Message = "Please provide Password of user."; ValFlag = false; return ValFlag;
+                if (jsonResult.SelectToken("UpdateFlag") != null && jsonResult.SelectToken("UpdateFlag").ToString().Trim() == "1")
+                {
+                    if (jsonResult.SelectToken("Password") != null && jsonResult.SelectToken("Password").ToString().Trim() != "")
+                    {
+                        objUserVal.NewPassword = (string)jsonResult.SelectToken("Password");
+                        objUserVal.IsChangingPassword = "1";
+                        objUserVal.UserKey = Guid.NewGuid().ToString();
+                        objUserVal.PasswordSalt = Utility.GetSalt();
+                        objUserVal.PasswordHash = Utility.GetHashedPassword(objUserVal.NewPassword, objUserVal.PasswordSalt);
+                    }
+                    else
+                    {
+                        Message = "Please provide Password of user."; ValFlag = false; return ValFlag;
+                    }
+                }
+                else
+                {
+                    objUserVal.IsChangingPassword = "0";
+                }
             }
 
             if (jsonResult.SelectToken("MobileNum") != null && jsonResult.SelectToken("MobileNum").ToString().Trim() != "")
@@ -1502,10 +1536,6 @@ namespace _365_Portal.Controllers
             {
                 objUserVal.GroupId = (string)jsonResult.SelectToken("GroupId");
             }
-            objUserVal.UserKey = Guid.NewGuid().ToString();
-            objUserVal.PasswordSalt = Utility.GetSalt();
-            objUserVal.PasswordHash = Utility.GetHashedPassword(objUserVal.NewPassword, objUserVal.PasswordSalt);
-
             return ValFlag;
         }
     }
