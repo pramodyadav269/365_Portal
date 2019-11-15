@@ -335,6 +335,7 @@
     </div>
     <script>
 
+        var accessToken = '<%=Session["access_token"]%>';
         var contentType = QueryString()["type"];
         var pasingPercentage = 0;
         var passingScore = 0;
@@ -452,8 +453,7 @@
                 var newAnsOption = { "AnswerID": (index * 10), "SrNo": index, "Title": $("#txtTitle").val(), "IsCorrect": $("#chkIsCorrect").prop("checked"), "Score": $("#txtScore").val() };
 
                 if ($(cntrl).attr("index") == null) {
-                    // Add New Record
-                    // Ajax Call
+                    // Ajax Call - Add Answer Option
                     if ($("#ddlQuestionType").val() == "2" || $("#ddlQuestionType").val() == "3") {
                         if (newAnsOption.IsCorrect == true) {
                             var totalChecked = 0;
@@ -746,8 +746,7 @@
                 };
 
                 if ($(cntrl).attr("index") == null) {
-                    // Add Question
-                    // Ajax Call
+                    // Ajax Call - Add Question
 
                     if (IsTitleDuplicate('QUE', Questions, newQuestion.Title)) {
                         alert("Question title cannot be duplicate.");
@@ -756,8 +755,7 @@
                     Questions.push(newQuestion);
                 }
                 else {
-                    // Update Question
-                    // Ajax Call
+                    // Ajax Call - Update Question
                     var index = parseInt($(cntrl).attr("index"));
 
                     if (IsTitleDuplicate('QUE', Questions, newQuestion.Title, index)) {
@@ -921,7 +919,25 @@
             else if (contentType == 3) {
 
             }
+
             // Make Ajax Call
+
+            var requestParams = question;
+            $.ajax({
+                method: "POST",
+                url: "../api/Quiz/RateContent",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+            }).then(function success(response) {
+                Swal.fire({
+                    title: 'Success',
+                    icon: 'success',
+                    html: "Success",
+                    showConfirmButton: false,
+                    showCloseButton: true
+                });
+            });
         }
 
         // Read a page's GET URL variables and return them as an associative array.
