@@ -465,10 +465,10 @@
                                             tbl += '<tr id="' + data.TopicID + '">';
                                             tbl += '<td>' + (i + 1);
 
-                                            tbl += '<td class="title">' + data.Title;
-                                            tbl += '<td class="description">' + data.Description;
-                                            tbl += '<td class="isPublished">' + data.IsPublished;
-                                            tbl += '<td><a href=Modules.aspx?Id=' + data.TopicID + '>' + data.ModuleCount + '</a>';
+                                            tbl += '<td title="' + data.Title+'" class="title">' + data.Title;
+                                            tbl += '<td title="' + data.Description+'" class="description">' + data.Description;
+                                            tbl += '<td title="' + data.IsPublished+'" class="isPublished">' + data.IsPublished;
+                                            tbl += '<td title="' + data.ModuleCount +'"><a href=Modules.aspx?Id=' + data.TopicID + '>' + data.ModuleCount + '</a>';
                                             tbl += '<td><i title="Edit" onclick="Edit(' + data.TopicID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.TopicID + ');" class="fas fa-trash text-danger"></i>';
 
                                         });

@@ -188,12 +188,12 @@
                     tbl += '<tr>';
                     tbl += '<td>' + (i + 1) + '</td>';
                     tbl += '<td style="display:none;" id="id">' + Table[i].UserID + '</td>';
-                    tbl += '<td>' + Table[i].FirstName + '</td>';
-                    tbl += '<td>' + Table[i].LastName + '</td>';
-                    tbl += '<td>' + Table[i].EmailID + '</td>';
-                    tbl += '<td>' + Table[i].Position + '</td>';
-                    tbl += '<td>' + Table[i].RoleName + '</td>';
-                    tbl += '<td>' + Table[i].GroupName + '</td>';
+                    tbl += '<td title="' + Table[i].FirstName + '" >' + Table[i].FirstName + '</td>';
+                    tbl += '<td title="' + Table[i].LastName + '" >' + Table[i].LastName + '</td>';
+                    tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
+                    tbl += '<td title="' + Table[i].Position + '" >' + Table[i].Position + '</td>';
+                    tbl += '<td title="' + Table[i].RoleName + '" >' + Table[i].RoleName + '</td>';
+                    tbl += '<td title="' + Table[i].GroupName + '" >' + Table[i].GroupName + '</td>';
                     tbl += '<td><i title="Edit" onclick="Edit(this,' + Table[i].UserID + ');" class="fas fa-edit text-warning"></i>' +
                         '<i title="Delete" onclick="Delete(this,' + Table[i].UserID + ');" class="fas fa-trash text-danger"></i></td>';
                     tbl += '</tr>';
