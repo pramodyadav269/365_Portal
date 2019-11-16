@@ -84,8 +84,8 @@ namespace _365_Portal.Code.DAL
                 {
                     cmd.Parameters.AddWithValue("p_MinUnlockedModules", DBNull.Value);
                 }
-                cmd.Parameters.AddWithValue("p_IsPublished", content.IsPublished);
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
+                cmd.Parameters.AddWithValue("p_IsPublished", Convert.ToInt32(content.IsPublished));
+                cmd.Parameters.AddWithValue("p_IsActive", Convert.ToInt32(content.IsActive));
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -120,10 +120,10 @@ namespace _365_Portal.Code.DAL
                 string stm = "spDeleteTopic";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-             
+
                 cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
                 cmd.Parameters.AddWithValue("p_CompID", content.CompID);
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
+                cmd.Parameters.AddWithValue("p_IsActive", Convert.ToInt32(content.IsActive));
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -156,7 +156,7 @@ namespace _365_Portal.Code.DAL
                 conn.Open(); //spGetTopics
                 string stm = "spGetTopic";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
-                cmd.CommandType = CommandType.StoredProcedure;               
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_CompID", content.CompID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -194,7 +194,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_CompID", content.CompID);
                 cmd.Parameters.AddWithValue("p_UserIDs", content.UserIDs);
                 cmd.Parameters.AddWithValue("p_TopicIDs", content.TopicIDs);
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
+                cmd.Parameters.AddWithValue("p_IsActive", Convert.ToInt32(content.IsActive));
                 cmd.Parameters.AddWithValue("p_SrNo", content.SrNo);
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -234,8 +234,8 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_Action", Action);
                 cmd.Parameters.AddWithValue("p_ModuleID", content.ModuleID);
                 cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
-                cmd.Parameters.AddWithValue("p_CompID", content.CompID);                
-                
+                cmd.Parameters.AddWithValue("p_CompID", content.CompID);
+
                 //if (!string.IsNullOrEmpty(content.UserIDs))
                 //{
                 //    cmd.Parameters.AddWithValue("p_UserID", content.UserIDs);
@@ -268,10 +268,10 @@ namespace _365_Portal.Code.DAL
                 {
                     cmd.Parameters.AddWithValue("p_Description", DBNull.Value);
                 }
-                
+
                 cmd.Parameters.AddWithValue("p_SrNo", content.SrNo);
-                cmd.Parameters.AddWithValue("p_IsPublished", content.IsPublished);
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);                
+                cmd.Parameters.AddWithValue("p_IsPublished", Convert.ToInt32(content.IsPublished));
+                cmd.Parameters.AddWithValue("p_IsActive", Convert.ToInt32(content.IsActive));
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
 
 
@@ -310,7 +310,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_ModuleID", content.ModuleID);
                 cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
                 cmd.Parameters.AddWithValue("p_CompID", content.CompID);
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
+                cmd.Parameters.AddWithValue("p_IsActive", Convert.ToInt32(content.IsActive));
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -345,8 +345,8 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_TopicID", content.TopicID);
-                cmd.Parameters.AddWithValue("p_CompID", content.CompID);                
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);                
+                cmd.Parameters.AddWithValue("p_CompID", content.CompID);
+                cmd.Parameters.AddWithValue("p_IsActive", Convert.ToInt32(content.IsActive));
                 cmd.Parameters.AddWithValue("p_CreatedBy", content.CreatedBy);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -369,7 +369,7 @@ namespace _365_Portal.Code.DAL
         /// <summary>
         /// Data Access Layer for Content Creation and Modification
         /// </summary>
-        public static DataSet CreateContent(int Action,ContentBO content)
+        public static DataSet CreateContent(int Action, ContentBO content)
         {
 
             DataSet ds = new DataSet();
@@ -389,16 +389,16 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_ContentID", content.ContentID);
                 cmd.Parameters.AddWithValue("p_TypeID", content.DocType);
                 cmd.Parameters.AddWithValue("p_DocType", content.DocType);
-                cmd.Parameters.AddWithValue("p_ContentFileID",content.ContentFileID);
+                cmd.Parameters.AddWithValue("p_ContentFileID", content.ContentFileID);
                 cmd.Parameters.AddWithValue("p_Title", content.ContentTitle);
-                cmd.Parameters.AddWithValue("p_FlashcardHighlights", content.FlashcardHighlights);                
+                cmd.Parameters.AddWithValue("p_FlashcardHighlights", content.FlashcardHighlights);
                 cmd.Parameters.AddWithValue("p_Description", content.ContentDescription);
                 cmd.Parameters.AddWithValue("p_Overview", content.ModuleOverview);//Overview column
                 cmd.Parameters.AddWithValue("p_FlashcardTitle", content.FlashcardTitle);
                 cmd.Parameters.AddWithValue("p_SkipFlashcard", content.SkipFlashcard);
                 cmd.Parameters.AddWithValue("p_IsGift", content.IsGift);
-                cmd.Parameters.AddWithValue("p_IsPublished", content.IsPublished);
-                cmd.Parameters.AddWithValue("p_IsActive", content.IsActive);
+                cmd.Parameters.AddWithValue("p_IsPublished", Convert.ToInt32(content.IsPublished));
+                cmd.Parameters.AddWithValue("p_IsActive", Convert.ToInt32(content.IsActive));
                 cmd.Parameters.AddWithValue("p_TotalScore", content.TotalScore);
                 cmd.Parameters.AddWithValue("p_PassingPercent", content.PassingPercent);
                 cmd.Parameters.AddWithValue("p_PassingScore", content.PassingScore);
@@ -478,6 +478,48 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_ContentType", content.ContentType);
                 cmd.Parameters.AddWithValue("p_ContentID", content.ContentID);
                 cmd.Parameters.AddWithValue("p_UserID", content.CreatedBy);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+        #endregion
+
+
+
+        #region ReOrdering Table
+        /// <summary>
+        /// Data Access Layer for making changes in Tables data order
+        /// </summary>
+        public static DataSet ReorderContent(int compid,string userid,int type,string ids)
+        {
+
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+
+                conn.Open();
+                string stm = "spReorderContent";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                cmd.Parameters.AddWithValue("p_compId",compid);
+                cmd.Parameters.AddWithValue("p_userId", userid);
+                cmd.Parameters.AddWithValue("p_type", type);
+                cmd.Parameters.AddWithValue("p_ids", ids);
+
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

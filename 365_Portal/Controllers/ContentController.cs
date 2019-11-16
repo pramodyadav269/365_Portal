@@ -137,10 +137,9 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
-                        !string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()) &&
+                    if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()) && !string.IsNullOrEmpty(requestParams["TopicTitle"].ToString()) &&
                         !string.IsNullOrEmpty(requestParams["TopicDescription"].ToString()) &&
-                        !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()) && !string.IsNullOrEmpty(requestParams["SrNo"].ToString())))
+                        !string.IsNullOrEmpty(requestParams["IsPublished"].ToString()) && !string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
@@ -256,7 +255,7 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if ((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) && !string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                    if ((!string.IsNullOrEmpty(requestParams["TopicID"].ToString())) && !string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
@@ -393,7 +392,7 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
+                    if ((!string.IsNullOrEmpty(requestParams["TopicID"].ToString()) &&
                         !string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString())
                         && !string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())))
                     {
@@ -512,7 +511,7 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if ((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
+                    if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()) &&
                     !string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()) && !string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()) &&
                     !string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
                     )
@@ -631,10 +630,7 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if ((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
-                        (Convert.ToInt32(requestParams["ModuleID"]) != 0 && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString()) &&
-                        !string.IsNullOrEmpty("IsActive")
-                        ))
+                    if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()) && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString()) && !string.IsNullOrEmpty("IsActive"))
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
@@ -782,7 +778,7 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
+                    if ((!string.IsNullOrEmpty(requestParams["TopicID"].ToString()) &&
                         !string.IsNullOrEmpty(requestParams["p_DocType"].ToString()) && !string.IsNullOrEmpty(requestParams["p_ContentTitle"].ToString())
                         && !string.IsNullOrEmpty(requestParams["p_ContentDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())))
                     {
@@ -905,6 +901,90 @@ namespace _365_Portal.Controllers
         public IHttpActionResult GetContentList(JObject requestParams)
         {
             var data = string.Empty;
+            return new APIResult(Request, data);
+
+        }
+        #endregion
+
+        #region Table Reordering API
+        [HttpPost]
+        [Route("API/Content/ReOrderContent")]
+        public IHttpActionResult ReOrderContent(JObject requestParams)
+        {
+            var data = string.Empty;
+            var compid = 0;
+            var userid = "";
+            var Type = 0;
+            var IDs = "";
+            ContentBO content = new ContentBO();
+            try
+            {
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
+                if (identity != null)
+                {
+
+                    if (!string.IsNullOrEmpty(requestParams["Type"].ToString()) && !string.IsNullOrEmpty(requestParams["IDs"].ToString()))
+                    {
+                        compid = identity.CompId;
+                        userid = identity.UserID;
+
+                        if (!string.IsNullOrEmpty(requestParams["Type"].ToString()))
+                        {
+                            Type = Convert.ToInt32(requestParams["Type"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IDs"].ToString()))
+                        {
+                            IDs = requestParams["IDs"].ToString();
+                        }
+                        var ds = ContentBL.ReorderContent(compid, userid, Type, IDs);
+                        if (ds != null)
+                        {
+                            if (ds.Tables.Count > 0)
+                            {
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
+                            }
+                            else
+                            {
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+                        }
+                        else
+                        {
+                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.InValidValues;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
             return new APIResult(Request, data);
 
         }

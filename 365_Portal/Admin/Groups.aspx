@@ -376,7 +376,7 @@
                         }
                         $('#divTable').empty().append(tbl);
                         $('#tblGird').DataTable()
-                        $('#tblGird').tableDnD()
+                       // $('#tblGird').tableDnD()
                     },
                     complete: function () {
                         HideLoader();
@@ -396,18 +396,21 @@
         //This funcion is to get and save changes of Serial No
         function SaveGrid() {
 
-            var sqnData;
+            //var sqnData=0;
+            var sqnData = "";
             var array = [];
 
             $.each($('#tblGird tbody tr'), function (i, data) {
                 var obj = {};
-                obj['id'] = $(data).attr('id');
-                obj['title'] = $(data).find('.title').text();
-                obj['sqn'] = i + 1;
+                //obj['id'] = $(data).attr('id');
+               // obj['title'] = $(data).find('.title').text();
+                //obj['sqn'] = i + 1;
 
-                array.push(obj);
+                //array.push(obj);
+                sqnData += $(data).attr('id') + ",";
             });
-            sqnData = JSON.stringify(array);
+            //sqnData = JSON.stringify(array);
+           
 
         }
         function back() {

@@ -143,7 +143,7 @@ namespace _365_Portal.Code.BL
             DataSet ds = new DataSet();
             try
             {
-                ds = ContentDAL.CreateContent((int)ConstantMessages.Action.INSERT,content);
+                ds = ContentDAL.CreateContent((int)ConstantMessages.Action.INSERT, content);
             }
             catch (Exception ex)
             {
@@ -191,6 +191,26 @@ namespace _365_Portal.Code.BL
             return ds;
         }
         #endregion
+
+        #region Reordering Table
+        public static DataSet ReorderContent(int compid, string userid, int type, string ids)
+        {
+
+            DataSet ds = new DataSet();
+
+            try
+            {
+                ds = ContentDAL.ReorderContent(compid, userid, type, ids);
+
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+        #endregion
+
     }
 
 

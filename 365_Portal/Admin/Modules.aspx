@@ -25,17 +25,6 @@
 
                     <div class="row input-validation">
 
-                        <%-- <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="ddlTopic">Topic</label>
-                                <select class="form-control select2 required" id="ddlTopic" style="width: 100% !important">
-                                 <option></option>
-                                    <option value="1">Topic 1</option>
-                                    <option value="2">Topic 2</option>
-                                    <option value="3">Topic 3</option>
-                                </select>
-                            </div>
-                        </div>--%>
 
                         <div class="col-md-3">
                             <div class="form-group">
@@ -43,19 +32,7 @@
                                 <input type="text" class="form-control required" id="txtTitle" placeholder="Title" />
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtOverview">Overview</label>
-                                <textarea class="form-control required" placeholder="Overview" id="txtOverview"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtDescription">Description</label>
-                                <textarea class="form-control required" placeholder="Description" id="txtDescription"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group checkbox">
                                 <label>Is Published</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
@@ -64,17 +41,18 @@
                                 </div>
                             </div>
                         </div>
-                        <%--   <div class="col-md-3">
-                            <div class="form-group checkbox required">
-                                <label>Skip Flashcard</label>
-                                <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbSkipFlashcard" name="cgcbSkipFlashcard" class="custom-control-input" value="1">
-                                    <label class="custom-control-label" for="cbSkipFlashcard">Yes</label>
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtOverview">Overview</label>
+                                <textarea class="form-control required" placeholder="Overview" id="txtOverview"></textarea>
                             </div>
-                        </div>--%>
-
-
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtDescription">Description</label>
+                                <textarea class="form-control required" placeholder="Description" id="txtDescription"></textarea>
+                            </div>
+                        </div>
 
                         <div class="w-100"></div>
 
@@ -539,15 +517,10 @@
 
                             });
                         }
+                        $('#divTable').empty().append(tbl)
+                        $('#tblGird').DataTable()
+                        $('#tblGird').tableDnD()
                     },
-                    //var dTable = $('#tblGird').DataTable();
-
-                    //dTable.on('order.dt search.dt', function () {
-                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                    //        cell.innerHTML = i + 1;
-                    //    });
-                    //}).draw();
-
 
                     complete: function () {
                         HideLoader();
@@ -564,17 +537,95 @@
             }
         }
 
-        function SaveGrdid() {
+        //This funcion is to get and save changes of Serial No
+        function SaveGrid() {
+            try {
+                ShowLoader();
+                var sqnData = "";
+                var array = [];
+                var url = "/API/Content/ReOrderContent";
+                $.each($('#tblGird tbody tr'), function (i, data) {
+                    //var obj = {};
+                    //obj['id'] = $(data).attr('id');
+                    //obj['title'] = $(data).find('.title').text();
+                    //obj['sqn'] = i + 1;
 
-            var s;
-            $('#tblGird').find('tr').each(function i(i, index) {
-                if (this.id != "") {
-                    s = s + this.id + ',';
+                    //array.push(obj);
+                    sqnData += $(data).attr('id') + ",";
+                });
+                sqnData = sqnData.replace(/,(?=\s*$)/, '');
+                //sqnData = JSON.stringify(array);
+                if (sqnData != "") {
+                    var requestParams = { Type: "1", IDs: sqnData };
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                        processData: false,
+                        success: function (response) {
+                        },
+                        complete: function () {
+                            HideLoader();
+                            if (response != null && response != undefined) {
+                                var DataSet = $.parseJSON(response);
+                                if (DataSet != null && DataSet != "") {
+                                    if (DataSet.StatusCode == "1") {
+                                        if (DataSet.Data.length > 0) {
+                                        }
+                                        else {
+                                            Swal.fire({
+                                                title: "Failure",
+                                                text: "Please try Again",
+                                                icon: "error"
+                                            });
+                                        }
+                                    }
+                                    else {
+                                        Swal.fire({
+                                            title: "Failure",
+                                            text: DataSet.StatusDescription,
+                                            icon: "error"
+                                        });
+                                    }
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        icon: "error"
+                                    });
+                                }
+                            }
+                            else {
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    icon: "error"
+                                });
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    Swal.fire({
+                        title: "Failure",
+                        text: "Please try Again",
+                        icon: "error"
+                    });
+
                 }
 
-            });
-
-            var _SrNo = s;
+            }
+            catch (e) {
+                Swal.fire({
+                    title: "Failure",
+                    text: "Please try Again",
+                    icon: "error"
+                });
+            }
 
         }
         function back() {

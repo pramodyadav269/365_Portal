@@ -203,6 +203,7 @@
             tbl += '</table>';
             $('#divTable').empty().append(tbl);
             $('#tblGird').DataTable()
+
         }
 
         function GetUsers() {

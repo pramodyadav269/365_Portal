@@ -465,10 +465,10 @@
                                             tbl += '<tr id="' + data.TopicID + '">';
                                             tbl += '<td>' + (i + 1);
 
-                                            tbl += '<td title="' + data.Title+'" class="title">' + data.Title;
-                                            tbl += '<td title="' + data.Description+'" class="description">' + data.Description;
-                                            tbl += '<td title="' + data.IsPublished+'" class="isPublished">' + data.IsPublished;
-                                            tbl += '<td title="' + data.ModuleCount +'"><a href=Modules.aspx?Id=' + data.TopicID + '>' + data.ModuleCount + '</a>';
+                                            tbl += '<td title="' + data.Title + '" class="title">' + data.Title;
+                                            tbl += '<td title="' + data.Description + '" class="description">' + data.Description;
+                                            tbl += '<td title="' + data.IsPublished + '" class="isPublished">' + data.IsPublished;
+                                            tbl += '<td title="' + data.ModuleCount + '"><a href=Modules.aspx?Id=' + data.TopicID + '>' + data.ModuleCount + '</a>';
                                             tbl += '<td><i title="Edit" onclick="Edit(' + data.TopicID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.TopicID + ');" class="fas fa-trash text-danger"></i>';
 
                                         });
@@ -523,21 +523,96 @@
 
         //This funcion is to get and save changes of Serial No
         function SaveGrid() {
+            try {
+                ShowLoader();
+                var sqnData = "";
+                var array = [];
+                var url = "/API/Content/ReOrderContent";
+                $.each($('#tblGird tbody tr'), function (i, data) {
+                    //var obj = {};
+                    //obj['id'] = $(data).attr('id');
+                    //obj['title'] = $(data).find('.title').text();
+                    //obj['sqn'] = i + 1;
 
-            var sqnData;
-            var array = [];
+                    //array.push(obj);
+                    sqnData += $(data).attr('id') + ",";
+                });
+                sqnData = sqnData.replace(/,(?=\s*$)/, '');
+                //sqnData = JSON.stringify(array);
+                if (sqnData != "") {
+                    var requestParams = { Type: "1", IDs: sqnData };
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                        processData: false,
+                        success: function (response) {
+                        },
+                        complete: function () {
+                            HideLoader();
+                            if (response != null && response != undefined) {
+                                var DataSet = $.parseJSON(response);
+                                if (DataSet != null && DataSet != "") {
+                                    if (DataSet.StatusCode == "1") {
+                                        if (DataSet.Data.length > 0) {
+                                        }
+                                        else {
+                                            Swal.fire({
+                                                title: "Failure",
+                                                text: "Please try Again",
+                                                icon: "error"
+                                            });
+                                        }
+                                    }
+                                    else {
+                                        Swal.fire({
+                                            title: "Failure",
+                                            text: DataSet.StatusDescription,
+                                            icon: "error"
+                                        });
+                                    }
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        icon: "error"
+                                    });
+                                }
+                            }
+                            else {
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    icon: "error"
+                                });
+                            }
 
-            $.each($('#tblGird tbody tr'), function (i, data) {
-                var obj = {};
-                obj['id'] = $(data).attr('id');
-                obj['title'] = $(data).find('.title').text();
-                obj['sqn'] = i + 1;
+                        }
+                    });
+                }
+                else {
+                    Swal.fire({
+                        title: "Failure",
+                        text: "Please try Again",
+                        icon: "error"
+                    });
 
-                array.push(obj);
-            });
-            sqnData = JSON.stringify(array);
+                }
+
+            }
+            catch (e) {
+                Swal.fire({
+                    title: "Failure",
+                    text: "Please try Again",
+                    icon: "error"
+                });
+            }
 
         }
+
         function back() {
             toggle('divGird', 'divForm');
             View();
