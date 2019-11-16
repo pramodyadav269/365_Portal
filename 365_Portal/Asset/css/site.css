@@ -918,8 +918,9 @@ p.anchor {
 }
 
 
-table.table-bordered tbody td .svg-inline--fa {
-    margin-right: .75rem;
+table tbody td .svg-inline--fa {
+    display: inline;
+    margin-right: .25rem;
     cursor: pointer;
 }
 

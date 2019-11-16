@@ -13,6 +13,30 @@ $(document).ready(function () {
         $('label[for=' + this.id + ']').text('Value : ' + $(this).val());
     });
 
+    $.extend(true, $.fn.dataTable.defaults, {
+        'paging': false,
+        'ordering': false,
+        'info': false,
+        'searching': false,
+        dom: '<"tbl-head"Bf><"tbl-body"rt><"tbl-foot"ip>',
+        buttons: [
+            { extend: 'colvis', columns: ':not(.noVis)' }, {
+                extend: 'excel',
+                exportOptions: {
+                    format: {
+                        body: function (data, row, column, node) {
+                            if ($(node).hasClass('noVis'))
+                                return;
+                            data = data.replace(/(&nbsp;|<([^>]+)>)/ig, "");
+                            data = data.replace('more_horiz', '');
+                            return "\u200C" + data;
+                        }
+                    }
+                }
+            }
+        ]
+    });
+
 });
 
 function QueryStringValue(param) {
@@ -67,7 +91,7 @@ function toggle(view, hide) {
 
 
 function clearFields(container) {
-    var inputs = $(container);    
+    var inputs = $(container);
     inputs.find('[type=text],[type=number],[type=email],textarea').val(null);
     inputs.find('select.select2').val(null).trigger('change');
     inputs.find('select').val(null).trigger('change');
