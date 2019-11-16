@@ -7,7 +7,7 @@
             width: 100%;
             height: 35rem;
         }
-    </style> 
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div ng-controller="DefaultController">
@@ -286,8 +286,6 @@
                                                 <input type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
-                                            <%--       <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{Message}}--%>
                                         </div>
 
                                         <%--Checkbox List with Box--%>
@@ -296,8 +294,6 @@
                                                 <input type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
-                                            <%--       <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{Message}}--%>
                                         </div>
 
                                         <%--Dropdown List--%>
@@ -305,8 +301,6 @@
                                             <select class="form-control select2" ng-model="question.Value_Text">
                                                 <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
-                                            <%--  <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List--%>
@@ -315,8 +309,6 @@
                                                 <input type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + '_' + ansOption.AnswerID}}" class="custom-control-input" ng-model="question.Value_Text" name="{{'RadioName_' + question.QuestionID}}" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + '_' + ansOption.AnswerID}}">{{ansOption.AnswerText}}</label>
                                             </div>
-                                            <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
-                                            <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List with box--%>
@@ -345,14 +337,12 @@
                                             <input type="radio" name="{{'CustomRating_' + $index}}" ng-model="question.Value_Text" value="3" id="{{'rbSurveyRate_' + $index + '_3'}}" /><label for="{{'rbSurveyRate_' + $index + '_3'}}">3</label>
                                             <input type="radio" name="{{'CustomRating_' + $index}}" ng-model="question.Value_Text" value="2" id="{{'rbSurveyRate_' + $index + '_2'}}" /><label for="{{'rbSurveyRate_' + $index + '_2'}}">2</label>
                                             <input type="radio" name="{{'CustomRating_' + $index}}" ng-model="question.Value_Text" value="1" id="{{'rbSurveyRate_' + $index + '_1'}}" /><label for="{{'rbSurveyRate_' + $index + '_1'}}">1</label>
-                                            <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Textbox--%>
                                         <div ng-if="question.QuestionTypeID == 6">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="{{'txt_' + $index}}" placeholder="Type your answer here" ng-model="question.Value_Text">
-                                                <%-- Selected: {{question.Value_Text}}--%>
                                             </div>
                                         </div>
 
@@ -360,16 +350,14 @@
                                         <div ng-if="question.QuestionTypeID == 7">
                                             <div class="form-group">
                                                 <textarea class="form-control" placeholder="Type your answer here" id="{{'txtArea_' + $index}}" ng-model="question.Value_Text"></textarea>
-                                                <%--   Selected: {{question.Value_Text}}--%>
                                             </div>
                                         </div>
 
                                         <%--Date Picker--%>
                                         <div ng-if="question.QuestionTypeID == 8 ">
-                                            <div class="form-group">
-                                                <%--<input type="text" class="form-control date" id="{{'date_' + $index}}" placeholder="Select Date" />--%>
-                                                <input ng-init="question.Value_Text = GetFormattedDate(question.Value_Text)" value="{{question.Value_Text}}" type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 25%;" ng-model="question.Value_Text" />
-                                                <%-- Selected: {{question.Value_Text}}--%>
+                                            <div class="form-group disabled">
+                                                <input ng-init="question.Value_Text = GetFormattedDate(question.Value_Text)" value="{{GetFormattedDate(question.Value_Text)}}" type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 25%;" ng-model="question.Value_Text" />
+                                                 Selected: {{question.Value_Text}}
                                             </div>
                                         </div>
 
@@ -476,13 +464,6 @@
 
             <div class="col-md-10 mt-5 offset-md-1">
                 <div class="row" id="finalQuiz">
-                    <%--  IsAnswered: {{SpecialContents.IsAnswered}}
-PassingScore:{{SpecialContents.PassingScore}}
-TotalScore:{{SpecialContents.TotalScore}}
-ScoreEarned:{{SpecialContents.ScoreEarned}}
-IsPassed:{{SpecialContents.IsPassed}}
-                    PercentageEarned:{{SpecialContents.PercentageEarned}}
-                    ContentID: {{SpecialContents.ContentID}}--%>
                     <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="ng-class: 'card border-0 shadow mb-3 ' + (question.IsAnswered == true ? (question.IsCorrect ==true ? 'b-green-2' : 'b-red-2'):'' );">
                             <div class="card-body question">
@@ -498,8 +479,6 @@ IsPassed:{{SpecialContents.IsPassed}}
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                                 <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
-                                            <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                          Selected:{{Message}}--%>
                                         </div>
 
                                         <%--Dropdown List--%>
@@ -509,8 +488,6 @@ IsPassed:{{SpecialContents.IsPassed}}
                                                     <%--IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                                 </option>
                                             </select>
-                                            <%--  <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List--%>
@@ -520,8 +497,6 @@ IsPassed:{{SpecialContents.IsPassed}}
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                                 <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
-                                            <%-- <a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>--%>
-                                            <%-- Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                         <%--Radio Button List with box--%>
@@ -531,15 +506,9 @@ IsPassed:{{SpecialContents.IsPassed}}
                                                 <label for="{{'rbAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                                 <%--    IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
-                                            <%--<a href="#" ng-click="GetSelectedValues(question.AnswerOptions)">Check</a>
-                                            Selected:{{question.Value_Text}}--%>
                                         </div>
 
                                     </div>
-                                    <%--      IsAnswered:  {{question.IsAnswered}}
-                                   TotalScore: {{question.TotalScore}}
-                                    ScoreEarned: {{question.ScoreEarned}}
-                                  IsCorrect:  {{question.IsCorrect}}--%>
                                     <p class="anchor"></p>
                                     <i ng-if="SpecialContents.IsAnswered ==true && question.IsCorrect ==false" class="fas fa-times c-red"></i>
                                     <i ng-if="SpecialContents.IsAnswered ==true && question.IsCorrect ==true" class="fas fa-check c-green"></i>
@@ -659,13 +628,15 @@ IsPassed:{{SpecialContents.IsPassed}}
             //selectedQuestion.Value_Text = cntrl.files[0].name;
         }
 
-        function GetFormattedDate(date) {
-            var todayTime = date;
-            var month = format(todayTime.getMonth() + 1);
-            var day = format(todayTime.getDate());
-            var year = format(todayTime.getFullYear());
-            return day + "/" + month + "/" + year;
-        }
+        //function GetFormattedDate(date) {
+        //    var dateParts = date.split("-");
+        //    date = format(dateParts[1]) + "-" + format(dateParts[0]) + "-" + format(dateParts[2]);
+        //    var todayTime = new Date(date);
+        //    var month = format(todayTime.getMonth() + 1);
+        //    var day = format(todayTime.getDate());
+        //    var year = format(todayTime.getFullYear());
+        //    return day + "/" + month + "/" + year;
+        //}
 
         function format(str) {
             return str < 10 ? "0" + str : str;
