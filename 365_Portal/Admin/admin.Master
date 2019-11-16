@@ -115,7 +115,7 @@
                                 <a id="menuProfile" runat="server" class="dropdown-item" href="~/Profile.aspx">Profile</a>
                                 <a id="menuUsers" runat="server" class="dropdown-item" href="Users.aspx">Users List</a>
                                 <a id="menuSetting" runat="server" class="dropdown-item" href="~/Settings.aspx">Settings</a>
-                                <a id="menuLogout" runat="server" class="dropdown-item" href="~/Login.aspx">Logout</a>
+                                <a id="menuLogout" runat="server" class="dropdown-item"  onserverclick="btnLogout_Click">Logout</a>
 
                             </div>
                         </div>

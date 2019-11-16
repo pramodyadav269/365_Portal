@@ -82,45 +82,33 @@ namespace _365_Portal.Code.DAL
             objRequest = null;
             return objResponse;
         }
-        public static int UserLogout(LoginRequest objRequest)
+        public static DataSet UserLogout(int CompId,string UserId,string IPAddress)
         {
-            ////string constr = ConfigurationSettings.AppSettings["conString"].ToString();
-            //MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
-            int i = 0;
-            using (MySqlConnection con = DBConnection.getConnection())
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
             {
-                using (MySqlCommand cmd = new MySqlCommand("proc_WebServiceLog", con))
-                {
-                    try
-                    {
-                        //con.Open();
-                        //cmd.CommandType = CommandType.StoredProcedure;
-                        //cmd.Parameters.AddWithValue("p_ControllerName", objRequest.UserName);
-                        //cmd.Parameters.AddWithValue("p_Ref1", objRequest.Ref1);
-                        //cmd.Parameters.AddWithValue("p_Ref2", objRequest.Ref2);
-                        //cmd.Parameters.AddWithValue("p_Ref3", objRequest.Ref3);                       
-                        //i = cmd.ExecuteNonQuery();
-                        //con.Close();
-                        i = Convert.ToInt32(objRequest.UserName);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                    finally
-                    {
-                        if (cmd != null)
-                        {
-                            if (cmd.Connection.State == ConnectionState.Open ||
-                                cmd.Connection.State == ConnectionState.Executing ||
-                                cmd.Connection.State == ConnectionState.Fetching)
-                                cmd.Connection.Close();
-                            cmd.Connection.Dispose();
-                        }
-                    }
-                    return i;
-                }
+                conn.Open();
+                string stm = "spLogout";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_UserID", CompId);
+                cmd.Parameters.AddWithValue("p_CompID", UserId);
+                cmd.Parameters.AddWithValue("p_IPAddress", IPAddress);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
             }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
         }
 
         public static UserBO GetUserDetailsByEmailID(string EmailID, string Ref1)
