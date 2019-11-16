@@ -12,7 +12,7 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right">Save Changes</a>
+                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-5 table-responsive"></div>
                 </div>
@@ -197,15 +197,17 @@
 
         function Delete(GroupID) {
             id = GroupID;
+
             Swal.fire({
-                title: "Are you sure?",
+                title: 'Are you sure?',
                 text: "Once deleted, you will not be able to revert changes!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
                     ShowLoader();
                     try {
                         var requestParams = { GroupID: id, IsActive: 0 };
@@ -292,9 +294,11 @@
                             button: "Ok",
                         });
                     }
-
                 }
-            });
+            })
+
+
+
         }
         function View() {
             var url = "/API/User/GetGroups";
@@ -310,17 +314,17 @@
                     contentType: "application/json",
                     processData: false,
                     success: function (response) {
+                        var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                        tbl += '<thead><tr>';
+                        tbl += '<th>Sr.No.';
+                        tbl += '<th>Title';
+                        //tbl += '<th>Description';
+                        tbl += '<th>Action';
+                        tbl += '<tbody>';
                         if (response != null && response != undefined) {
                             var DataSet = $.parseJSON(response);
                             if (DataSet != null && DataSet != "") {
                                 if (DataSet.StatusCode == "1") {
-                                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                                    tbl += '<thead><tr>';
-                                    tbl += '<th>Sr.No.';
-                                    tbl += '<th>Title';
-                                    //tbl += '<th>Description';
-                                    tbl += '<th>ACTION';
-                                    tbl += '<tbody>';
 
                                     if (DataSet.Data.length > 0) {
                                         $.each(DataSet.Data, function (i, data) {
@@ -328,7 +332,8 @@
                                             tbl += '<td>' + (i + 1);
                                             tbl += '<td class="title">' + data.GroupName;
                                             //tbl += '<td class="description">' + data.Description;
-                                            tbl += '<td><i title="Edit" onclick="Edit(' + data.GroupID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.GroupID + ');" class="fas fa-trash text-danger"></i>';
+                                            tbl += '<td><i title="Edit" onclick="Edit(' + data.GroupID + ');" class="fas fa-edit text-warning"></i>' +
+                                                '<i title="Delete" onclick="Delete(' + data.GroupID + ');" class="fas fa-trash text-danger"></i>';
 
                                         });
                                     }
@@ -369,6 +374,9 @@
                                 button: "Ok",
                             });
                         }
+                        $('#divTable').empty().append(tbl);
+                        $('#tblGird').DataTable()
+                        $('#tblGird').tableDnD()
                     },
                     complete: function () {
                         HideLoader();
@@ -386,17 +394,20 @@
         }
 
         //This funcion is to get and save changes of Serial No
-        function SaveGrdid() {
+        function SaveGrid() {
 
-            var s;
-            $('#tblGird').find('tr').each(function i(i, index) {
-                if (this.id != "") {
-                    s = s + this.id + ',';
-                }
-                console.log(this.id);
+            var sqnData;
+            var array = [];
+
+            $.each($('#tblGird tbody tr'), function (i, data) {
+                var obj = {};
+                obj['id'] = $(data).attr('id');
+                obj['title'] = $(data).find('.title').text();
+                obj['sqn'] = i + 1;
+
+                array.push(obj);
             });
-            console.log(s.length);
-            var _SrNo = s;
+            sqnData = JSON.stringify(array);
 
         }
         function back() {

@@ -162,7 +162,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
                         "QuestionID": question.QuestionID,
                         "AnswerIDs": question.Value_Text,
                         "Base64": question.FilePath,// Base64
-                        "Value_Text": question.QuestionTypeID == '8' ? GetFormattedDate(question.Value_Text) : question.Value_Text
+                        "Value_Text": question.QuestionTypeID == '8' ? question.Value_Text : question.Value_Text
                     });
                 }
                 else {
@@ -184,7 +184,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
                 title: 'Failure',
                 icon: 'error',
                 html: validationMsg,
-                showConfirmButton: false,
+                showConfirmButton: true,
                 showCloseButton: true
             });
         }
@@ -206,7 +206,14 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     }
 
     $scope.GetFormattedDate = function (date) {
-        return date.split("/").reverse().join("-");
+        //return date.split("/").reverse().join("-");
+        var dateParts = date.split("-");
+        date = format(dateParts[1]) + "-" + format(dateParts[0]) + "-" + format(dateParts[2]);
+        var todayTime = new Date(date);
+        var month = format(todayTime.getMonth() + 1);
+        var day = format(todayTime.getDate());
+        var year = format(todayTime.getFullYear());
+        return day + "-" + month + "-" + year;
     }
 
     $scope.ShowFlashcardQuiz = function (contentId) {
@@ -401,7 +408,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     title: 'Success',
                     icon: 'success',
                     html: "Survey submitted successfully.",
-                    showConfirmButton: false,
+                    showConfirmButton: true,
                     showCloseButton: true
                 });
                 $rootScope.SpecialContents.IsAnswered = 1;
@@ -425,7 +432,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                         title: 'Failure',
                         icon: 'error',
                         html: strMsg,
-                        showConfirmButton: false,
+                        showConfirmButton: true,
                         showCloseButton: true
                     });
                 }
@@ -435,7 +442,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                         title: 'Success',
                         icon: 'success',
                         html: strMsg,
-                        showConfirmButton: false,
+                        showConfirmButton: true,
                         showCloseButton: true
                     });
                 }

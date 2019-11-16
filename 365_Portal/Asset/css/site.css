@@ -917,8 +917,16 @@ p.anchor {
     padding: .25rem .75rem;
 }
 
+.table thead th, .table tbody td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 260px;
+}
 
-table.table-bordered tbody td .svg-inline--fa {
+
+table tbody td .svg-inline--fa {
+    display: inline;
     margin-right: .75rem;
     cursor: pointer;
 }

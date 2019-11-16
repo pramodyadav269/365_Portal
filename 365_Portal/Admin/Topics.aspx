@@ -12,7 +12,7 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right">Save Changes</a>
+                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-5 table-responsive"></div>
                 </div>
@@ -32,7 +32,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtDescription">Description</label>
                                 <textarea class="form-control required" placeholder="Description" id="txtDescription"></textarea>
@@ -121,7 +121,7 @@
                                                 title: "Success",
                                                 text: DataSet.StatusDescription,
                                                 icon: "success"
-                                                
+
                                             }).then((value) => {
                                                 if (value) {
                                                     toggle('divGird', 'divForm');
@@ -177,7 +177,7 @@
                                 title: "Failure",
                                 text: "Please try Again",
                                 icon: "error"
-                                
+
                             });
                         }
                     });
@@ -188,7 +188,7 @@
                         title: "Alert",
                         text: "Please try again",
                         icon: "error"
-                        
+
                     });
                 }
             }
@@ -198,7 +198,7 @@
                     title: "Alert",
                     text: "Fill all fields",
                     icon: "error"
-                    
+
                 });
             }
         }
@@ -237,15 +237,17 @@
         function Delete(Topicid) {
             id = "";
             id = Topicid;
+
             Swal.fire({
-                title: "Are you sure?",
+                title: 'Are you sure?',
                 text: "Once deleted, you will not be able to revert changes!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
                     ShowLoader();
                     try {
                         var requestParams = { TopicID: id, IsActive: 0 };
@@ -268,7 +270,7 @@
                                                 title: "Success",
                                                 text: DataSet.StatusDescription,
                                                 icon: "success"
-                                                
+
                                             });
                                             View();
                                         }
@@ -278,7 +280,7 @@
                                                 title: "Failure",
                                                 text: DataSet.StatusDescription,
                                                 icon: "error"
-                                                
+
                                             });
                                         }
                                     }
@@ -288,7 +290,7 @@
                                             title: "Failure",
                                             text: "Please try Again",
                                             icon: "error"
-                                            
+
                                         });
                                     }
                                 }
@@ -298,7 +300,7 @@
                                         title: "Failure",
                                         text: "Please try Again",
                                         icon: "error"
-                                        
+
                                     });
                                 }
                             },
@@ -312,7 +314,7 @@
                                     title: "Failure",
                                     text: "Please try Again",
                                     icon: "error"
-                                    
+
                                 });
                             }
                         });
@@ -323,12 +325,105 @@
                             title: "Alert",
                             text: "Please try again",
                             icon: "error"
-                            
+
                         });
                     }
-
                 }
-            });
+            })
+
+
+            //Swal.fire({
+            //    title: "Are you sure?",
+            //    text: "Once deleted, you will not be able to revert changes!",
+            //    icon: "warning",
+            //    buttons: true,
+            //    dangerMode: true,
+            //})
+            //    .then((willDelete) => {
+            //        if (willDelete) {
+            //            ShowLoader();
+            //            try {
+            //                var requestParams = { TopicID: id, IsActive: 0 };
+            //                var getUrl = "/API/Content/DeleteTopic";
+
+            //                $.ajax({
+            //                    type: "POST",
+            //                    url: getUrl,
+            //                    headers: { "Authorization": "Bearer " + accessToken },
+            //                    data: JSON.stringify(requestParams),
+            //                    contentType: "application/json",
+            //                    success: function (response) {
+            //                        try {
+
+            //                            var DataSet = $.parseJSON(response);
+            //                            if (DataSet != null && DataSet != "") {
+            //                                if (DataSet.StatusCode == "1") {
+            //                                    HideLoader();
+            //                                    Swal.fire({
+            //                                        title: "Success",
+            //                                        text: DataSet.StatusDescription,
+            //                                        icon: "success"
+
+            //                                    });
+            //                                    View();
+            //                                }
+            //                                else {
+            //                                    HideLoader();
+            //                                    Swal.fire({
+            //                                        title: "Failure",
+            //                                        text: DataSet.StatusDescription,
+            //                                        icon: "error"
+
+            //                                    });
+            //                                }
+            //                            }
+            //                            else {
+            //                                HideLoader();
+            //                                Swal.fire({
+            //                                    title: "Failure",
+            //                                    text: "Please try Again",
+            //                                    icon: "error"
+
+            //                                });
+            //                            }
+            //                        }
+            //                        catch (e) {
+            //                            HideLoader();
+            //                            Swal.fire({
+            //                                title: "Failure",
+            //                                text: "Please try Again",
+            //                                icon: "error"
+
+            //                            });
+            //                        }
+            //                    },
+            //                    complete: function () {
+            //                        HideLoader();
+            //                    },
+            //                    failure: function (response) {
+            //                        HideLoader();
+            //                        alert(response.data);
+            //                        Swal.fire({
+            //                            title: "Failure",
+            //                            text: "Please try Again",
+            //                            icon: "error"
+
+            //                        });
+            //                    }
+            //                });
+            //            }
+            //            catch (e) {
+            //                HideLoader();
+            //                Swal.fire({
+            //                    title: "Alert",
+            //                    text: "Please try again",
+            //                    icon: "error"
+
+            //                });
+            //            }
+
+            //        }
+            //    });
         }
         function View() {
             var url = "/API/Content/GetTopics";
@@ -345,21 +440,19 @@
                     contentType: "application/json",
                     processData: false,
                     success: function (response) {
+                        var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                        tbl += '<thead><tr>';
+                        tbl += '<th>Sr.No.';
+                        tbl += '<th>Title';
+                        tbl += '<th>Description';
+                        tbl += '<th>Is Published';
+                        tbl += '<th>Total Modules';
+                        tbl += '<th>Action';
+                        tbl += '<tbody>';
                         if (response != null && response != undefined) {
                             var DataSet = $.parseJSON(response);
                             if (DataSet != null && DataSet != "") {
                                 if (DataSet.StatusCode == "1") {
-                                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                                    tbl += '<thead><tr>';
-                                    tbl += '<th>Sr.No.';
-                                    tbl += '<th>Title';
-                                    tbl += '<th>Description';
-                                    tbl += '<th>Is Published';
-                                    tbl += '<th>Total Modules';
-                                    tbl += '<th>ACTION';
-
-                                    tbl += '<tbody>';
-
                                     if (DataSet.Data.length > 0) {
                                         $.each(DataSet.Data, function (i, data) {
                                             if (data.IsPublished == "1") {
@@ -372,29 +465,21 @@
                                             tbl += '<tr id="' + data.TopicID + '">';
                                             tbl += '<td>' + (i + 1);
 
-                                            tbl += '<td class="title">' + data.Title;
-                                            tbl += '<td class="description">' + data.Description;
-                                            tbl += '<td class="isPublished">' + data.IsPublished;
-                                            tbl += '<td><a href=Modules.aspx?Id=' + data.TopicID + '>' + data.ModuleCount + '</a>';
+                                            tbl += '<td title="' + data.Title+'" class="title">' + data.Title;
+                                            tbl += '<td title="' + data.Description+'" class="description">' + data.Description;
+                                            tbl += '<td title="' + data.IsPublished+'" class="isPublished">' + data.IsPublished;
+                                            tbl += '<td title="' + data.ModuleCount +'"><a href=Modules.aspx?Id=' + data.TopicID + '>' + data.ModuleCount + '</a>';
                                             tbl += '<td><i title="Edit" onclick="Edit(' + data.TopicID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.TopicID + ');" class="fas fa-trash text-danger"></i>';
 
                                         });
                                     }
-                                    else {
-                                        tbl += '<td colspan=6 align=center>No Records found';
-
-                                    }
-
-                                    $('#divTable').empty().append(tbl);
-
-                                    $('#tblGird').tableDnD()
                                 }
                                 else {
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
                                         icon: "error"
-                                        
+
                                     });
                                 }
                             }
@@ -404,7 +489,7 @@
                                     title: "Warning",
                                     text: DataSet.StatusDescription,
                                     icon: "error"
-                                    
+
                                 });
                             }
                         }
@@ -414,9 +499,12 @@
                                 title: "Warning",
                                 text: DataSet.StatusDescription,
                                 icon: "error"
-                                
+
                             });
                         }
+                        $('#divTable').empty().append(tbl);
+                        $('#tblGird').DataTable()
+                        $('#tblGird').tableDnD()
                     },
                     complete: function () {
                         HideLoader();
@@ -434,17 +522,20 @@
         }
 
         //This funcion is to get and save changes of Serial No
-        function SaveGrdid() {
+        function SaveGrid() {
 
-            var s;
-            $('#tblGird').find('tr').each(function i(i, index) {
-                if (this.id != "") {
-                    s = s + this.id + ',';
-                }
+            var sqnData;
+            var array = [];
 
+            $.each($('#tblGird tbody tr'), function (i, data) {
+                var obj = {};
+                obj['id'] = $(data).attr('id');
+                obj['title'] = $(data).find('.title').text();
+                obj['sqn'] = i + 1;
+
+                array.push(obj);
             });
-
-            var _SrNo = s;
+            sqnData = JSON.stringify(array);
 
         }
         function back() {

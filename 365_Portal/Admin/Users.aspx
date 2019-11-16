@@ -28,7 +28,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="ddlRole">Role</label>
-                                <select class="form-control required" id="ddlRole" style="width: 100% !important">
+                                <select class="form-control required select2" id="ddlRole" style="width: 100% !important">
                                     <%--<option></option>
                                     <option value="1">Role 1</option>
                                     <option value="2">Role 2</option>
@@ -75,15 +75,15 @@
                                 <input type="text" class="form-control required" id="txtPosition" placeholder="Position" />
                             </div>
                         </div>
-                        <div class="col-md-3" id="divGroup" style="display:none;">
+                        <div class="col-md-3" id="divGroup" style="display: none;">
                             <div class="form-group">
                                 <label for="ddlGroup">Group</label>
-                                <select class="form-control  required" id="ddlGroup" style="width: 100% !important">
+                                <select class="form-control select2 required" id="ddlGroup" style="width: 100% !important">
                                 </select>
-                            </div>  
+                            </div>
                         </div>
-                        
-                        <div class="col-md-3" id="divUpdatePassword" >
+
+                        <div class="col-md-3" id="divUpdatePassword">
                             <div class="custom-control custom-checkbox mb-4">
                                 <input type="checkbox" onchange="enableUpdatePassword();" class="custom-control-input" id="cbUpdatePassword">
                                 <label class="custom-control-label" for="cbUpdatePassword">Want to change password!</label>
@@ -97,10 +97,10 @@
                         <div class="col-md-12 mt-4">
                             <a class="btn bg-yellow float-left" onclick="toggle('divGird', 'divForm')">Back</a>
                             <a class="btn bg-yellow float-right" id="btnSubmit" onclick="Submit();">Submit</a>
-                            <a class="btn bg-yellow float-right" id="btnUpdate" style="display:none;" onclick="Update();">Update</a>
+                            <a class="btn bg-yellow float-right" id="btnUpdate" style="display: none;" onclick="Update();">Update</a>
                         </div>
 
-                        <input type="hidden" id="UserID"  value=""/>
+                        <input type="hidden" id="UserID" value="" />
 
                     </div>
                 </div>
@@ -116,7 +116,7 @@
         $(document).ready(function () {
             //debugger
             ShowLoader();
-            GetUsers();            
+            GetUsers();
 
             /*
             ShowLoader();
@@ -176,37 +176,36 @@
         });
 
         function BindUsers(Table) {
-            
-            $('#divTable').empty();
-            if (Table != undefined && Table.length > 0) {
-                $('#divTable').append('<table id="tblGird" class="table table-bordered" style="width: 100%"><thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Position</th><th>Role</th><th>Group</th><th colspan="2">ACTION</th>');
-                $('#divTable').append('<tbody>');
 
-                for (var i = 0; i < Table.length ; i++)
-                {
-                    $('#tblGird').append('<tr>');
-                    $('#tblGird').append('<td>' + (i + 1) + '</td>');
-                    $('#tblGird').append('<td style="display:none;" id="id">' + Table[i].UserID + '</td>');
-                    $('#tblGird').append('<td>' + Table[i].FirstName + '</td>');
-                    $('#tblGird').append('<td>' + Table[i].LastName + '</td>');
-                    $('#tblGird').append('<td>' + Table[i].EmailID + '</td>');
-                    $('#tblGird').append('<td>' + Table[i].Position + '</td>');
-                    $('#tblGird').append('<td>' + Table[i].RoleName + '</td>');
-                    $('#tblGird').append('<td>' + Table[i].GroupName + '</td>');
-                    $('#tblGird').append('<td><i title="Edit" onclick="Edit(this,' + Table[i].UserID + ');" class="fas fa-edit text-warning"></i></td>');
-                    $('#tblGird').append('<td><i title="Delete" onclick="Delete(this,' + Table[i].UserID + ');" class="fas fa-trash text-danger"></i></td>');
-                    $('#tblGird').append('</tr>');
+            $('#divTable').empty().append();
+
+            var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
+                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Position</th><th>Role</th><th>Group</th><th>Action</th></thead>'
+
+            tbl += '<tbody>';
+            if (Table != undefined && Table.length > 0) {
+                for (var i = 0; i < Table.length; i++) {
+                    tbl += '<tr>';
+                    tbl += '<td>' + (i + 1) + '</td>';
+                    tbl += '<td style="display:none;" id="id">' + Table[i].UserID + '</td>';
+                    tbl += '<td title="' + Table[i].FirstName + '" >' + Table[i].FirstName + '</td>';
+                    tbl += '<td title="' + Table[i].LastName + '" >' + Table[i].LastName + '</td>';
+                    tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
+                    tbl += '<td title="' + Table[i].Position + '" >' + Table[i].Position + '</td>';
+                    tbl += '<td title="' + Table[i].RoleName + '" >' + Table[i].RoleName + '</td>';
+                    tbl += '<td title="' + Table[i].GroupName + '" >' + Table[i].GroupName + '</td>';
+                    tbl += '<td><i title="Edit" onclick="Edit(this,' + Table[i].UserID + ');" class="fas fa-edit text-warning"></i>' +
+                        '<i title="Delete" onclick="Delete(this,' + Table[i].UserID + ');" class="fas fa-trash text-danger"></i></td>';
+                    tbl += '</tr>';
                 }
-                //$('#tblGird').append('</tbody>');
-                //$('#tblGird').append('</table>');
             }
-            else {
-                $('#divTable').append('<h2>No users found</h2>');
-            }
+            tbl += '</tbody>';
+            tbl += '</table>';
+            $('#divTable').empty().append(tbl);
+            $('#tblGird').DataTable()
         }
 
-        function GetUsers()
-        {
+        function GetUsers() {
             var getUrl = "/API/User/GetUsers";
             $.ajax({
                 type: "POST",
@@ -243,7 +242,7 @@
                     //alert(response.data);
                 }
             });
-        }        
+        }
 
         function AddNew() {
 
@@ -255,10 +254,9 @@
             toggle('divForm', 'divGird');
         }
 
-        function Submit()
-        {
+        function Submit() {
             var getUrl = "/API/User/CreateUser";
-            ProcessCreateUpdate('', getUrl,'create');
+            ProcessCreateUpdate('', getUrl, 'create');
             /*
             if (inputValidation('.input-validation')) {
                 Swal.fire({
@@ -278,19 +276,15 @@
             */
         }
 
-        function Update()
-        {
+        function Update() {
             var id = $('#UserID').val();
             var getUrl = "/API/User/UpdateUser";
             ProcessCreateUpdate(id, getUrl, 'update');
         }
 
-        function ProcessCreateUpdate(id, getUrl,flag)
-        {
-            debugger
+        function ProcessCreateUpdate(id, getUrl, flag) {
             var result = InputValidation(flag);
-            if (result.error)
-            {
+            if (result.error) {
                 Swal.fire({
                     title: "Alert",
                     text: result.msg,
@@ -310,13 +304,13 @@
                 if (flag == 'create') {
                     Password = $("#txtPassword").val();
                 }
-                else {                    
+                else {
                     if ($('#cbUpdatePassword').prop('checked') == true) {
                         Password = $("#txtUpdatePassword").val();
                         UpdateFlag = '1';
                     }
                 }
-                
+
                 var MobileNum = $("#txtMobileNo").val();
                 var Position = $("#txtPosition").val();
                 var GroupId = $("#ddlGroup option:selected").val();
@@ -327,7 +321,7 @@
                 else {
                     var requestParams = { UserID: id, RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag };
                 }
-                
+
                 $.ajax({
                     type: "POST",
                     url: getUrl,
@@ -370,9 +364,7 @@
             }
         }
 
-        function InputValidation(flag)
-        {
-            debugger
+        function InputValidation(flag) {
             if ($("#ddlRole option:selected").val() == undefined || $("#ddlRole option:selected").val() == '') {
                 return { error: true, msg: "Please select Role" };
             }
@@ -386,33 +378,31 @@
                 return { error: true, msg: "Please enter emailid" };
             }
 
-            if (flag == 'create')
-            {                
+            if (flag == 'create') {
                 if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
                     return { error: true, msg: "Please enter password" };
                 }
             }
-            else
-            {
+            else {
                 if ($('#cbUpdatePassword').prop('checked') == true && ($("#txtUpdatePassword").val() == undefined || $("#txtUpdatePassword").val() == '')) {
                     return { error: true, msg: "Please enter password" };
                 }
             }
-            
+
             return true;
         }
 
-        
-        function Edit(ctrl,id) {
+
+        function Edit(ctrl, id) {
             //var id = $(ctrl).closest('tr').attr('id')
             //debugger
             ShowLoader();
             clearFields('.input-validation')
-            BindRoleAndGroup(id,'update');
-            
+            BindRoleAndGroup(id, 'update');
+
         }
 
-        function BindRoleAndGroup(id,flag) {
+        function BindRoleAndGroup(id, flag) {
             var getUrl = "/API/User/BindRoleAndGroup";
             $.ajax({
                 type: "POST",
@@ -430,23 +420,21 @@
                             var Group = DataSet.Data.Data1;
 
                             //if (Role != undefined && Role.length > 0) 
-                            {                                
+                            {
                                 $('#ddlRole').empty().append('<option value="">Select Role</option>');
-                                for(var i = 0;i < Role.length ; i++)
-                                {
+                                for (var i = 0; i < Role.length; i++) {
                                     $('#ddlRole').append('<option value="' + Role[i].RoleID + '">' + Role[i].RoleDisplayName + '</option>');
                                 }
                             }
                             if (Group != undefined && Group.length > 0) {
                                 $('#ddlGroup').empty().append('<option value="">Select Group</option>');
-                                for (var i = 0; i < Group.length ; i++) {
+                                for (var i = 0; i < Group.length; i++) {
                                     $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');
                                 }
                                 $('#divGroup').show();
                             }
 
-                            if (flag == 'update')
-                            {
+                            if (flag == 'update') {
                                 BindUserData(id);
                             }
                         }
@@ -473,8 +461,7 @@
             });
         }
 
-        function BindUserData(id)
-        {
+        function BindUserData(id) {
             ShowLoader();
             var requestParams = { UserID: id };
             var getUrl = "/API/User/GetUserDetailsForParent";
@@ -490,7 +477,7 @@
                         var DataSet = $.parseJSON(response);
                         HideLoader();
                         if (DataSet.StatusCode == "1") {
-                            
+
                             toggle('divForm', 'divGird')
 
                             $('#ddlRole').val(DataSet.Data[0].RoleID);
@@ -533,24 +520,26 @@
             });
         }
 
-        function Delete(ctrl,id) {
+        function Delete(ctrl, id) {
             //var id = $(ctrl).closest('tr').attr('id')
+
+
             Swal.fire({
-                title: "Are you sure?",
+                title: 'Are you sure?',
                 text: "Do you want to delete user!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    DeleteUser(id);
+                }
             })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        DeleteUser(id);                        
-                    }
-                });
         }
 
-        function DeleteUser(id)
-        {
+        function DeleteUser(id) {
             //debugger
             ShowLoader();
             var getUrl = "/API/User/DeleteUser";
@@ -584,7 +573,7 @@
                                 Swal.fire(DataSet.StatusDescription, {
                                     icon: "error",
                                 });
-                            }                            
+                            }
                         }
                     }
                     catch (e) {
@@ -597,8 +586,7 @@
             });
         }
 
-        function enableUpdatePassword()
-        {
+        function enableUpdatePassword() {
             //debugger
             if ($('#cbUpdatePassword').prop('checked')) {
                 $("#txtUpdatePassword").removeAttr("disabled");
@@ -607,6 +595,6 @@
                 $("#txtUpdatePassword").attr("disabled", "disabled");
             }
         }
-        
+
     </script>
 </asp:Content>
