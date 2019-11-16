@@ -268,7 +268,7 @@
                                             HideLoader();
                                             Swal.fire({
                                                 title: "Success",
-                                                text: DataSet.StatusDescription,
+                                                text: DataSet.StatusDescription, 
                                                 icon: "success"
 
                                             });
@@ -503,8 +503,8 @@
                             });
                         }
                         $('#divTable').empty().append(tbl);
-                        $('#tblGird').DataTable()
-                        $('#tblGird').tableDnD()
+                        $('#tblGird').DataTable();
+                        $('#tblGird').tableDnD();
                     },
                     complete: function () {
                         HideLoader();

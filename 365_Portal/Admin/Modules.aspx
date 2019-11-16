@@ -12,7 +12,7 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrdid();">Save Changes</a>
+                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
@@ -92,7 +92,7 @@
                         var Topic = DataSet.Data;
                         if (DataSet.StatusCode == "1") {
                             $('#ddlTopic').empty().append('<option></option>');
-                            for (var i = 0; i < Topic.length ; i++) {
+                            for (var i = 0; i < Topic.length; i++) {
                                 $('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
                             }
                         }
@@ -422,28 +422,29 @@
                     processData: false,
                     success: function (response) {
                         try {
+                            var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                            tbl += '<thead><tr>';
+                            tbl += '<th>Sr.No.';
+                            tbl += '<th>Topic';
+                            tbl += '<th>Title';
+                            tbl += '<th>Overview';
+                            tbl += '<th>Description';
+                            tbl += '<th>Is Published';
+                            //tbl += '<th>Skip Flashcard';
+                            tbl += '<th>Contents';
+                            tbl += '<th>Survey';
+                            tbl += '<th>Flashcards';
+                            tbl += '<th>Flashcard Quiz';
+                            tbl += '<th>Final Quiz';
+                            //tbl += '<th>Personal Gifts';
+                            tbl += '<th>Action';
+                            tbl += '<tbody>';
                             if (response) {
                                 var DataSet = $.parseJSON(response);
 
                                 if (DataSet != null && DataSet != "") {
                                     if (DataSet.StatusCode == "1") {
-                                        var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                                        tbl += '<thead><tr>';
-                                        tbl += '<th>Sr.No.';
-                                        tbl += '<th>Topic';
-                                        tbl += '<th>Title';
-                                        tbl += '<th>Overview';
-                                        tbl += '<th>Description';
-                                        tbl += '<th>Is Published';
-                                        //tbl += '<th>Skip Flashcard';
-                                        tbl += '<th>Contents';
-                                        tbl += '<th>Survey';
-                                        tbl += '<th>Flashcards';
-                                        tbl += '<th>Flashcard Quiz';
-                                        tbl += '<th>Final Quiz';
-                                        //tbl += '<th>Personal Gifts';
-                                        tbl += '<th>ACTION';
-                                        tbl += '<tbody>';
+
 
                                         if (DataSet.Data.length > 0) {
                                             $.each(DataSet.Data, function (i, data) {
@@ -455,16 +456,16 @@
                                                 }
                                                 tbl += '<tr id="' + data.ModuleID + '">';
                                                 tbl += '<td>' + (i + 1);
-                                                tbl += '<td class="topicname">' + data.TopicTitle;
-                                                tbl += '<td class="title">' + data.Title;
-                                                tbl += '<td class="overview">' + data.Overview;
-                                                tbl += '<td class="description">' + data.Description;
-                                                tbl += '<td class="isPublished">' + data.IsPublished;
-                                                tbl += '<td><a href="Contents.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                                tbl += '<td><a href="Quiz.aspx?type=1&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                                tbl += '<td><a href="Flashcards.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                                tbl += '<td><a href="Quiz.aspx?type=2&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                                tbl += '<td><a href="Quiz.aspx?type=3&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td title="' + data.TopicTitle + '"  class="topicname">' + data.TopicTitle;
+                                                tbl += '<td title="' + data.Title + '" class="title">' + data.Title;
+                                                tbl += '<td title="' + data.Overview + '" class="overview">' + data.Overview;
+                                                tbl += '<td title="' + data.Description + '" class="description">' + data.Description;
+                                                tbl += '<td title="' + data.IsPublished + '" class="isPublished">' + data.IsPublished;
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Contents.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=1&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Flashcards.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=2&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=3&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
                                                 //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
                                                 //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
                                                 tbl += '<td><i title="Edit" onclick="Edit(' + data.ModuleID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.ModuleID + ');" class="fas fa-trash text-danger"></i>';
@@ -472,12 +473,6 @@
 
                                             });
                                         }
-                                        else {
-                                            tbl += '<td colspan=12 align=center>No Records found';
-                                        }
-                                        $('#divTable').empty().append(tbl)
-
-                                        $('#tblGird').tableDnD()
                                     }
                                     else {
                                         swal({
@@ -505,7 +500,7 @@
                                     text: "Please try Again",
                                     icon: "error"
 
-                                });
+                                }); 
                             }
                         }
                         catch (e) {
@@ -517,11 +512,7 @@
 
                             });
                         }
-                        $('#divTable').empty().append(tbl)
-                        $('#tblGird').DataTable()
-                        $('#tblGird').tableDnD()
                     },
-
                     complete: function () {
                         HideLoader();
                     }
@@ -556,7 +547,7 @@
                 sqnData = sqnData.replace(/,(?=\s*$)/, '');
                 //sqnData = JSON.stringify(array);
                 if (sqnData != "") {
-                    var requestParams = { Type: "1", IDs: sqnData };
+                    var requestParams = { Type: "2", IDs: sqnData };
                     $.ajax({
                         type: "POST",
                         url: url,

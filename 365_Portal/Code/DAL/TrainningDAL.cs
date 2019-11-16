@@ -442,7 +442,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetTableDataByType(int compID, string type)
+        public static DataSet GetTableDataByType(int compID, string type,string valueType,string valueId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -455,7 +455,9 @@ namespace _365_Portal.Code.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_compId", compID);
                 cmd.Parameters.AddWithValue("p_type", type);
-              
+                cmd.Parameters.AddWithValue("p_valueType", valueType);
+                cmd.Parameters.AddWithValue("p_valueId", valueId);
+
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
