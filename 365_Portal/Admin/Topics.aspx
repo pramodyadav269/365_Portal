@@ -32,7 +32,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtDescription">Description</label>
                                 <textarea class="form-control required" placeholder="Description" id="txtDescription"></textarea>
@@ -237,62 +237,54 @@
         function Delete(Topicid) {
             id = "";
             id = Topicid;
+
             Swal.fire({
-                title: "Are you sure?",
+                title: 'Are you sure?',
                 text: "Once deleted, you will not be able to revert changes!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        ShowLoader();
-                        try {
-                            var requestParams = { TopicID: id, IsActive: 0 };
-                            var getUrl = "/API/Content/DeleteTopic";
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    ShowLoader();
+                    try {
+                        var requestParams = { TopicID: id, IsActive: 0 };
+                        var getUrl = "/API/Content/DeleteTopic";
 
-                            $.ajax({
-                                type: "POST",
-                                url: getUrl,
-                                headers: { "Authorization": "Bearer " + accessToken },
-                                data: JSON.stringify(requestParams),
-                                contentType: "application/json",
-                                success: function (response) {
-                                    try {
+                        $.ajax({
+                            type: "POST",
+                            url: getUrl,
+                            headers: { "Authorization": "Bearer " + accessToken },
+                            data: JSON.stringify(requestParams),
+                            contentType: "application/json",
+                            success: function (response) {
+                                try {
 
-                                        var DataSet = $.parseJSON(response);
-                                        if (DataSet != null && DataSet != "") {
-                                            if (DataSet.StatusCode == "1") {
-                                                HideLoader();
-                                                Swal.fire({
-                                                    title: "Success",
-                                                    text: DataSet.StatusDescription,
-                                                    icon: "success"
+                                    var DataSet = $.parseJSON(response);
+                                    if (DataSet != null && DataSet != "") {
+                                        if (DataSet.StatusCode == "1") {
+                                            HideLoader();
+                                            Swal.fire({
+                                                title: "Success",
+                                                text: DataSet.StatusDescription,
+                                                icon: "success"
 
-                                                });
-                                                View();
-                                            }
-                                            else {
-                                                HideLoader();
-                                                Swal.fire({
-                                                    title: "Failure",
-                                                    text: DataSet.StatusDescription,
-                                                    icon: "error"
-
-                                                });
-                                            }
+                                            });
+                                            View();
                                         }
                                         else {
                                             HideLoader();
                                             Swal.fire({
                                                 title: "Failure",
-                                                text: "Please try Again",
+                                                text: DataSet.StatusDescription,
                                                 icon: "error"
 
                                             });
                                         }
                                     }
-                                    catch (e) {
+                                    else {
                                         HideLoader();
                                         Swal.fire({
                                             title: "Failure",
@@ -301,13 +293,9 @@
 
                                         });
                                     }
-                                },
-                                complete: function () {
+                                }
+                                catch (e) {
                                     HideLoader();
-                                },
-                                failure: function (response) {
-                                    HideLoader();
-                                    alert(response.data);
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
@@ -315,20 +303,127 @@
 
                                     });
                                 }
-                            });
-                        }
-                        catch (e) {
-                            HideLoader();
-                            Swal.fire({
-                                title: "Alert",
-                                text: "Please try again",
-                                icon: "error"
+                            },
+                            complete: function () {
+                                HideLoader();
+                            },
+                            failure: function (response) {
+                                HideLoader();
+                                alert(response.data);
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    icon: "error"
 
-                            });
-                        }
-
+                                });
+                            }
+                        });
                     }
-                });
+                    catch (e) {
+                        HideLoader();
+                        Swal.fire({
+                            title: "Alert",
+                            text: "Please try again",
+                            icon: "error"
+
+                        });
+                    }
+                }
+            })
+
+
+            //Swal.fire({
+            //    title: "Are you sure?",
+            //    text: "Once deleted, you will not be able to revert changes!",
+            //    icon: "warning",
+            //    buttons: true,
+            //    dangerMode: true,
+            //})
+            //    .then((willDelete) => {
+            //        if (willDelete) {
+            //            ShowLoader();
+            //            try {
+            //                var requestParams = { TopicID: id, IsActive: 0 };
+            //                var getUrl = "/API/Content/DeleteTopic";
+
+            //                $.ajax({
+            //                    type: "POST",
+            //                    url: getUrl,
+            //                    headers: { "Authorization": "Bearer " + accessToken },
+            //                    data: JSON.stringify(requestParams),
+            //                    contentType: "application/json",
+            //                    success: function (response) {
+            //                        try {
+
+            //                            var DataSet = $.parseJSON(response);
+            //                            if (DataSet != null && DataSet != "") {
+            //                                if (DataSet.StatusCode == "1") {
+            //                                    HideLoader();
+            //                                    Swal.fire({
+            //                                        title: "Success",
+            //                                        text: DataSet.StatusDescription,
+            //                                        icon: "success"
+
+            //                                    });
+            //                                    View();
+            //                                }
+            //                                else {
+            //                                    HideLoader();
+            //                                    Swal.fire({
+            //                                        title: "Failure",
+            //                                        text: DataSet.StatusDescription,
+            //                                        icon: "error"
+
+            //                                    });
+            //                                }
+            //                            }
+            //                            else {
+            //                                HideLoader();
+            //                                Swal.fire({
+            //                                    title: "Failure",
+            //                                    text: "Please try Again",
+            //                                    icon: "error"
+
+            //                                });
+            //                            }
+            //                        }
+            //                        catch (e) {
+            //                            HideLoader();
+            //                            Swal.fire({
+            //                                title: "Failure",
+            //                                text: "Please try Again",
+            //                                icon: "error"
+
+            //                            });
+            //                        }
+            //                    },
+            //                    complete: function () {
+            //                        HideLoader();
+            //                    },
+            //                    failure: function (response) {
+            //                        HideLoader();
+            //                        alert(response.data);
+            //                        Swal.fire({
+            //                            title: "Failure",
+            //                            text: "Please try Again",
+            //                            icon: "error"
+
+            //                        });
+            //                    }
+            //                });
+            //            }
+            //            catch (e) {
+            //                HideLoader();
+            //                Swal.fire({
+            //                    title: "Alert",
+            //                    text: "Please try again",
+            //                    icon: "error"
+
+            //                });
+            //            }
+
+            //        }
+            //    });
         }
         function View() {
             var url = "/API/Content/GetTopics";

@@ -28,7 +28,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="ddlRole">Role</label>
-                                <select class="form-control required" id="ddlRole" style="width: 100% !important">
+                                <select class="form-control required select2" id="ddlRole" style="width: 100% !important">
                                     <%--<option></option>
                                     <option value="1">Role 1</option>
                                     <option value="2">Role 2</option>
@@ -78,7 +78,7 @@
                         <div class="col-md-3" id="divGroup" style="display: none;">
                             <div class="form-group">
                                 <label for="ddlGroup">Group</label>
-                                <select class="form-control  required" id="ddlGroup" style="width: 100% !important">
+                                <select class="form-control select2 required" id="ddlGroup" style="width: 100% !important">
                                 </select>
                             </div>
                         </div>
