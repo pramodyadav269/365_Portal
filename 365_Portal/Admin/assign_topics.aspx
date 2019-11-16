@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Assign Topics</h1>
+            <h2 class="text-center font-weight-bold">Assign Topics By Groups & Users</h2>
         </div>
 
 
@@ -30,11 +30,19 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="ddlAssignType">Assign By</label>
-                                <select class="form-control select2" id="ddlAssignType" style="width: 100% !important" onchange="BindGroupUserCheckboxList(this);">
+                                <%--  <select class="form-control select2" id="ddlAssignType" style="width: 100% !important" onchange="BindGroupUserCheckboxList(this);">
                                     <option></option>
                                     <option value="GROUP">Group</option>
                                     <option value="USER">User</option>
-                                </select>
+                                </select>--%>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="rblGroup" name="ddlAssignType" class="custom-control-input" value="GROUP" onchange="BindGroupUserCheckboxList();">
+                                    <label class="custom-control-label" for="rblGroup">Group</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="rblUser" name="ddlAssignType" class="custom-control-input" value="USER" onchange="BindGroupUserCheckboxList();">
+                                    <label class="custom-control-label" for="rblUser">User</label>
+                                </div>
                             </div>
                         </div>
 
@@ -73,48 +81,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-        <%-- <div>
-            Assign Mode:
-            <input type="radio" id="rblBulk" name="TopicAssignment" value="BULK" onchange="BindGroupUserCheckboxList();">
-            <label for="rblBulk">Assign Multiple</label>
-            <input type="radio" id="tblIndividual" name="TopicAssignment" value="INDIVIDUAL" onchange="BindGroupUserCheckboxList();">
-            <label for="tblIndividual">Assign Individually</label>
-            <br />
-            Assign By:
-            <select id="ddlAssignType" onchange="BindGroupUserCheckboxList(this);">
-                <option value="-1">--Select--</option>
-                <option value="GROUP">Group</option>
-                <option value="USER">User</option>
-            </select>
-
-            <div id="dvGroupContainer" style="display: none;">
-                <h2>Select Groups</h2>
-                <div id="dvGroups"></div>
-            </div>
-            <div id="dvUserContainer" style="display: none;">
-                <h2>Select Users</h2>
-                <div id="dvUsers"></div>
-            </div>
-
-            <div id="dvTopicContainer" style="display: none;">
-                <h2>Select Topics</h2>
-                <div id="dvTopics"></div>
-            </div>
-
-            <br />
-            <br />
-            <button id="btnSubmit" style="display: none;" onclick="SaveChanges();return false;">Save Changes</button>
-            <br />
-            <label id="lblJSON"></label>
-
-        </div>--%>
     </div>
     <script>
 
@@ -152,6 +118,7 @@
         }
 
         function BindGroupUserCheckboxList(cntrl) {
+            ShowLoader();
             $("#dvGroupContainer").hide();
             $("#dvUserContainer").hide();
             $("#dvTopicContainer").show();
@@ -161,7 +128,7 @@
             $("#dvUsers").html("");
             var htmlCheckboxes = "";
 
-            if ($("#ddlAssignType").val() == "GROUP") {
+            if ($("input[name='ddlAssignType']:checked").val() == "GROUP") {
 
                 $.ajax({
                     type: "POST",
@@ -198,10 +165,12 @@
                             placeholder: "Select a option",
                             allowClear: true
                         });
+
+                        HideLoader();
                     }
                 });
             }
-            else if ($("#ddlAssignType").val() == "USER") {
+            else if ($("input[name='ddlAssignType']:checked").val() == "USER") {
 
                 $.ajax({
                     type: "POST",
@@ -223,10 +192,10 @@
                             });
                         }
                         else {
-                            htmlCheckboxes += '<select id="ddlUser" class="form-control select2" style="width: 100% !important" onchange="GetSelectedTopics(this)";>';
+                            htmlCheckboxes += '<select class="form-control select2" id="ddlUser" style="width: 100% !important" onchange="GetSelectedTopics(this)";>';
                             htmlCheckboxes += '<option></option>';
                             $.each(response.Data, function (index, user) {
-                                htmlCheckboxes += '<option value="' + user.UserId + '">' + user.EmailID + '</option>';
+                                htmlCheckboxes += '<option value="' + user.userId + '">' + user.EmailID + '</option>';
                             });
                             htmlCheckboxes += '</select>';
                         }
@@ -238,12 +207,15 @@
                             placeholder: "Select a option",
                             allowClear: true
                         });
+
+                        HideLoader();
                     }
                 });
             }
             else {
                 $("#dvTopicContainer").hide();
                 $("#btnSubmit").hide();
+                HideLoader();
             }
 
         }
@@ -275,7 +247,7 @@
             });
             topicIds = topicIds.replace(/,\s*$/, "");
 
-            if ($("#ddlAssignType").val() == "GROUP") {
+            if ($("input[name='ddlAssignType']:checked").val() == "GROUP") {
                 if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
                     $("input[name='GROUP']").each(function (index, obj) {
                         if (obj.checked) {
@@ -287,9 +259,9 @@
                     groupIds = $("#ddlGroup").val() != "" ? $("#ddlGroup").val() : "";
                 }
                 groupIds = groupIds.replace(/,\s*$/, "");
-                requestParams = { "Type": $("#ddlAssignType").val(), "GroupIds": groupIds, "UserIds": "", "TopicIds": topicIds };
+                requestParams = { "Type": $("input[name='ddlAssignType']:checked").val(), "GroupIds": groupIds, "UserIds": "", "TopicIds": topicIds };
             }
-            else if ($("#ddlAssignType").val() == "USER") {
+            else if ($("input[name='ddlAssignType']:checked").val() == "USER") {
                 if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
                     $("input[name='USER']").each(function (index, obj) {
                         if (obj.checked) {
@@ -301,15 +273,22 @@
                     userIds = $("#ddlUser").val() != "" ? $("#ddlUser").val() : "";
                 }
                 userIds = userIds.replace(/,\s*$/, "");
-                requestParams = { "Type": $("#ddlAssignType").val(), "GroupIds": "", "UserIds": userIds, "TopicIds": topicIds };
+                requestParams = { "Type": $("input[name='ddlAssignType']:checked").val(), "GroupIds": "", "UserIds": userIds, "TopicIds": topicIds };
             }
 
-            if (requestParams.Ids.length == 0 || requestParams.TopicIds.length == 0) {
-                alert("No options selected.");
+            if ((requestParams.GroupIds.length == 0 && requestParams.UserIds.length == 0) || requestParams.TopicIds.length == 0) {
+                Swal.fire({
+                    title: 'Failure',
+                    icon: 'error',
+                    html: "No options selected.",
+                    showConfirmButton: true,
+                    showCloseButton: true
+                });
+                return false;
             }
 
             $("#lblJSON").text(JSON.stringify(requestParams));
-
+            ShowLoader();
             $.ajax({
                 type: "POST",
                 url: "../api/Trainning/AssignTopicsByEntity",
@@ -317,8 +296,18 @@
                 data: JSON.stringify(requestParams),
                 contentType: "application/json",
                 success: function (response) {
+                    HideLoader();
                     response = $.parseJSON(response);
-                    alert("Success");
+                    Swal.fire({
+                        title: 'Success',
+                        icon: 'success',
+                        html: "Topics assigned successfully.",
+                        showConfirmButton: true,
+                        showCloseButton: true
+                    });
+
+                    // Clear All checkboxes..
+                    $('input:checkbox').prop("checked", false);
                 }
             });
         }
