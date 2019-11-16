@@ -503,8 +503,8 @@
                             });
                         }
                         $('#divTable').empty().append(tbl);
-                        $('#tblGird').DataTable()
-                        $('#tblGird').tableDnD()
+                        $('#tblGird').DataTable();
+                        $('#tblGird').tableDnD();
                     },
                     complete: function () {
                         HideLoader();
