@@ -12,7 +12,7 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right">Save Changes</a>
+                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-5 table-responsive"></div>
                 </div>
@@ -121,7 +121,7 @@
                                                 title: "Success",
                                                 text: DataSet.StatusDescription,
                                                 icon: "success"
-                                                
+
                                             }).then((value) => {
                                                 if (value) {
                                                     toggle('divGird', 'divForm');
@@ -177,7 +177,7 @@
                                 title: "Failure",
                                 text: "Please try Again",
                                 icon: "error"
-                                
+
                             });
                         }
                     });
@@ -188,7 +188,7 @@
                         title: "Alert",
                         text: "Please try again",
                         icon: "error"
-                        
+
                     });
                 }
             }
@@ -198,7 +198,7 @@
                     title: "Alert",
                     text: "Fill all fields",
                     icon: "error"
-                    
+
                 });
             }
         }
@@ -244,91 +244,91 @@
                 buttons: true,
                 dangerMode: true,
             })
-            .then((willDelete) => {
-                if (willDelete) {
-                    ShowLoader();
-                    try {
-                        var requestParams = { TopicID: id, IsActive: 0 };
-                        var getUrl = "/API/Content/DeleteTopic";
+                .then((willDelete) => {
+                    if (willDelete) {
+                        ShowLoader();
+                        try {
+                            var requestParams = { TopicID: id, IsActive: 0 };
+                            var getUrl = "/API/Content/DeleteTopic";
 
-                        $.ajax({
-                            type: "POST",
-                            url: getUrl,
-                            headers: { "Authorization": "Bearer " + accessToken },
-                            data: JSON.stringify(requestParams),
-                            contentType: "application/json",
-                            success: function (response) {
-                                try {
+                            $.ajax({
+                                type: "POST",
+                                url: getUrl,
+                                headers: { "Authorization": "Bearer " + accessToken },
+                                data: JSON.stringify(requestParams),
+                                contentType: "application/json",
+                                success: function (response) {
+                                    try {
 
-                                    var DataSet = $.parseJSON(response);
-                                    if (DataSet != null && DataSet != "") {
-                                        if (DataSet.StatusCode == "1") {
-                                            HideLoader();
-                                            Swal.fire({
-                                                title: "Success",
-                                                text: DataSet.StatusDescription,
-                                                icon: "success"
-                                                
-                                            });
-                                            View();
+                                        var DataSet = $.parseJSON(response);
+                                        if (DataSet != null && DataSet != "") {
+                                            if (DataSet.StatusCode == "1") {
+                                                HideLoader();
+                                                Swal.fire({
+                                                    title: "Success",
+                                                    text: DataSet.StatusDescription,
+                                                    icon: "success"
+
+                                                });
+                                                View();
+                                            }
+                                            else {
+                                                HideLoader();
+                                                Swal.fire({
+                                                    title: "Failure",
+                                                    text: DataSet.StatusDescription,
+                                                    icon: "error"
+
+                                                });
+                                            }
                                         }
                                         else {
                                             HideLoader();
                                             Swal.fire({
                                                 title: "Failure",
-                                                text: DataSet.StatusDescription,
+                                                text: "Please try Again",
                                                 icon: "error"
-                                                
+
                                             });
                                         }
                                     }
-                                    else {
+                                    catch (e) {
                                         HideLoader();
                                         Swal.fire({
                                             title: "Failure",
                                             text: "Please try Again",
                                             icon: "error"
-                                            
+
                                         });
                                     }
-                                }
-                                catch (e) {
+                                },
+                                complete: function () {
                                     HideLoader();
+                                },
+                                failure: function (response) {
+                                    HideLoader();
+                                    alert(response.data);
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
                                         icon: "error"
-                                        
+
                                     });
                                 }
-                            },
-                            complete: function () {
-                                HideLoader();
-                            },
-                            failure: function (response) {
-                                HideLoader();
-                                alert(response.data);
-                                Swal.fire({
-                                    title: "Failure",
-                                    text: "Please try Again",
-                                    icon: "error"
-                                    
-                                });
-                            }
-                        });
-                    }
-                    catch (e) {
-                        HideLoader();
-                        Swal.fire({
-                            title: "Alert",
-                            text: "Please try again",
-                            icon: "error"
-                            
-                        });
-                    }
+                            });
+                        }
+                        catch (e) {
+                            HideLoader();
+                            Swal.fire({
+                                title: "Alert",
+                                text: "Please try again",
+                                icon: "error"
 
-                }
-            });
+                            });
+                        }
+
+                    }
+                });
         }
         function View() {
             var url = "/API/Content/GetTopics";
@@ -345,21 +345,19 @@
                     contentType: "application/json",
                     processData: false,
                     success: function (response) {
+                        var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                        tbl += '<thead><tr>';
+                        tbl += '<th>Sr.No.';
+                        tbl += '<th>Title';
+                        tbl += '<th>Description';
+                        tbl += '<th>Is Published';
+                        tbl += '<th>Total Modules';
+                        tbl += '<th>Action';
+                        tbl += '<tbody>';
                         if (response != null && response != undefined) {
                             var DataSet = $.parseJSON(response);
                             if (DataSet != null && DataSet != "") {
                                 if (DataSet.StatusCode == "1") {
-                                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                                    tbl += '<thead><tr>';
-                                    tbl += '<th>Sr.No.';
-                                    tbl += '<th>Title';
-                                    tbl += '<th>Description';
-                                    tbl += '<th>Is Published';
-                                    tbl += '<th>Total Modules';
-                                    tbl += '<th>ACTION';
-
-                                    tbl += '<tbody>';
-
                                     if (DataSet.Data.length > 0) {
                                         $.each(DataSet.Data, function (i, data) {
                                             if (data.IsPublished == "1") {
@@ -380,21 +378,13 @@
 
                                         });
                                     }
-                                    else {
-                                        tbl += '<td colspan=6 align=center>No Records found';
-
-                                    }
-
-                                    $('#divTable').empty().append(tbl);
-
-                                    $('#tblGird').tableDnD()
                                 }
                                 else {
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
                                         icon: "error"
-                                        
+
                                     });
                                 }
                             }
@@ -404,7 +394,7 @@
                                     title: "Warning",
                                     text: DataSet.StatusDescription,
                                     icon: "error"
-                                    
+
                                 });
                             }
                         }
@@ -414,9 +404,12 @@
                                 title: "Warning",
                                 text: DataSet.StatusDescription,
                                 icon: "error"
-                                
+
                             });
                         }
+                        $('#divTable').empty().append(tbl);
+                        $('#tblGird').DataTable()
+                        $('#tblGird').tableDnD()
                     },
                     complete: function () {
                         HideLoader();
@@ -434,17 +427,20 @@
         }
 
         //This funcion is to get and save changes of Serial No
-        function SaveGrdid() {
+        function SaveGrid() {
 
-            var s;
-            $('#tblGird').find('tr').each(function i(i, index) {
-                if (this.id != "") {
-                    s = s + this.id + ',';
-                }
+            var sqnData;
+            var array = [];
 
+            $.each($('#tblGird tbody tr'), function (i, data) {
+                var obj = {};
+                obj['id'] = $(data).attr('id');
+                obj['title'] = $(data).find('.title').text();
+                obj['sqn'] = i + 1;
+
+                array.push(obj);
             });
-
-            var _SrNo = s;
+            sqnData = JSON.stringify(array);
 
         }
         function back() {
