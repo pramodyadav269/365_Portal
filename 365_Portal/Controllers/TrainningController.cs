@@ -503,7 +503,9 @@ namespace _365_Portal.Controllers
                     int compId = identity.CompId;
                     string userId = identity.UserID;
                     var type = Convert.ToString(requestParams["Type"].ToString());
-                    var ds = TrainningBL.GetTableDataByType(compId, type);
+                    var valueType = Convert.ToString(requestParams["ValueType"]);
+                    var valueId = Convert.ToString(requestParams["ValueID"]);
+                    var ds = TrainningBL.GetTableDataByType(compId, type, valueType, valueId);
                     data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
                     data = Utility.Successful(data);
                 }

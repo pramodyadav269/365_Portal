@@ -444,12 +444,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetTableDataByType(int compID, string type)
+        public static DataSet GetTableDataByType(int compID, string type, string valueType,string valueId)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetTableDataByType(compID, type);
+                ds = TrainningDAL.GetTableDataByType(compID, type, valueType,valueId);
             }
             catch (Exception ex)
             {

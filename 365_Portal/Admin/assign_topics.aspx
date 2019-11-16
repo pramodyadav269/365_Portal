@@ -14,22 +14,10 @@
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
                     <div class="row input-validation">
-                        <div class="col-md-6">
-                            <div class="form-group radio">
-                                <label>Assign Mode</label>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="rblBulk" name="TopicAssignment" class="custom-control-input" value="BULK" onchange="BindGroupUserCheckboxList();">
-                                    <label class="custom-control-label" for="rblBulk">Assign Multiple</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="tblIndividual" name="TopicAssignment" class="custom-control-input" value="INDIVIDUAL" onchange="BindGroupUserCheckboxList();">
-                                    <label class="custom-control-label" for="tblIndividual">Assign Individually</label>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="ddlAssignType">Assign By</label>
+                                <label for="ddlAssignType">Assign Topics To</label>
                                 <%--  <select class="form-control select2" id="ddlAssignType" style="width: 100% !important" onchange="BindGroupUserCheckboxList(this);">
                                     <option></option>
                                     <option value="GROUP">Group</option>
@@ -42,6 +30,19 @@
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="rblUser" name="ddlAssignType" class="custom-control-input" value="USER" onchange="BindGroupUserCheckboxList();">
                                     <label class="custom-control-label" for="rblUser">User</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group radio">
+                                <label>Assign Mode</label>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="rblBulk"  name="TopicAssignment" class="custom-control-input" value="BULK" onchange="BindGroupUserCheckboxList();">
+                                    <label class="custom-control-label" for="rblBulk">Multiple</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="tblIndividual" name="TopicAssignment" class="custom-control-input" value="INDIVIDUAL" onchange="BindGroupUserCheckboxList();">
+                                    <label class="custom-control-label" for="tblIndividual">Single</label>
                                 </div>
                             </div>
                         </div>
@@ -88,11 +89,11 @@
 
         $(document).ready(function () {
             BindTopics();
+            $("#rblBulk").prop("checked", true);
         });
 
         function BindTopics() {
             var htmlCheckboxes = "";
-
             $.ajax({
                 type: "POST",
                 url: "../api/Trainning/GetTableData",
@@ -106,8 +107,8 @@
                         //htmlCheckboxes += '<input type="checkbox" name="chk_"' + topic.Title + ' value="' + topic.TopicID + '"><label for="' + topic.TopicID + '">' + topic.Title + '</label>';
 
                         htmlCheckboxes += '<div class="custom-control custom-checkbox custom-control-inline">' +
-                            '<input type="checkbox" id="' + topic.TopicID + '" name="chk_"' + topic.Title + '" class="custom-control-input" value="' + topic.TopicID + '">' +
-                            '<label class="custom-control-label" for="' + topic.TopicID + '">' + topic.Title + '</label>' +
+                            '<input type="checkbox" id="chkTopic_' + topic.TopicID + '" name="TOPIC" class="custom-control-input" value="' + topic.TopicID + '">' +
+                            '<label class="custom-control-label" for="chkTopic_' + topic.TopicID + '">' + topic.Title + '</label>' +
                             '</div>';
 
                     });
@@ -116,6 +117,7 @@
                 }
             });
         }
+
 
         function BindGroupUserCheckboxList(cntrl) {
             ShowLoader();
@@ -144,8 +146,8 @@
                                 //htmlCheckboxes += '<input type="checkbox" name="chk_"' + group.GroupName + ' value="' + group.GroupId + '"><label for="' + group.GroupId + '">' + group.GroupName + '</label>';
 
                                 htmlCheckboxes += '<div class="custom-control custom-checkbox custom-control-inline">' +
-                                    '<input type="checkbox" id="' + group.GroupId + '" name="chk_"' + group.GroupName + '" class="custom-control-input" value="' + group.GroupId + '">' +
-                                    '<label class="custom-control-label" for="' + group.GroupId + '">' + group.GroupName + '</label>' +
+                                    '<input type="checkbox" id="chkGroup_' + group.GroupId + '" name="GROUP" class="custom-control-input" value="' + group.GroupId + '">' +
+                                    '<label class="custom-control-label" for="chkGroup_' + group.GroupId + '">' + group.GroupName + '</label>' +
                                     '</div>';
                             });
                         }
@@ -186,8 +188,8 @@
                                 //htmlCheckboxes += '<input type="checkbox" name="chk_"' + user.UserId + ' value="' + user.UserId + '"><label for="' + user.UserId + '">' + user.EmailID + '</label>';
 
                                 htmlCheckboxes += '<div class="custom-control custom-checkbox custom-control-inline">' +
-                                    '<input type="checkbox" id="' + user.UserId + '" name="chk_"' + user.UserId + '" class="custom-control-input" value="' + user.UserId + '">' +
-                                    '<label class="custom-control-label" for="' + user.UserId + '">' + user.EmailID + '</label>' +
+                                    '<input type="checkbox" id="chkUser_' + user.userId + '" name="USER" class="custom-control-input" value="' + user.userId + '">' +
+                                    '<label class="custom-control-label" for="chkUser_' + user.userId + '">' + user.EmailID + '</label>' +
                                     '</div>';
                             });
                         }
@@ -221,18 +223,33 @@
         }
 
         function GetSelectedTopics(cntrl) {
-            var topicIds = [1, 4, 10, 12, 2, 3];
-
+            ShowLoader();
+            $("input[name='TOPIC']").prop("checked", false);
+            $("input[name='GROUP']").prop("checked", false);
+            var selectdedId = "";
             if (cntrl.id == 'ddlGroup') {
-                var selectedGroupID = $("#ddlGroup").val();
+                selectdedId = $("#ddlGroup").val();
             }
             else if (cntrl.id == 'ddlUser') {
-                var selectedUserId = $("#ddlUser").val();
+                selectdedId = $("#ddlUser").val();
             }
 
-            $.each(topicIds, function (index, topicId) {
-                $("#chkTopic_" + topicId).prop("checked", true);
+            $.ajax({
+                type: "POST",
+                url: "../api/Trainning/GetTableData",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify({ Type: 4, ValueType: (cntrl.id == 'ddlGroup' ? 1 : 2), ValueID: selectdedId }),
+                contentType: "application/json",
+                success: function (response) {
+                    HideLoader();
+                    response = $.parseJSON(response);
+
+                    $.each(response.Data, function (index, topic) {
+                        $("#chkTopic_" + topic.TopicID).prop("checked", true);
+                    });
+                }
             });
+
         }
 
         function SaveChanges() {
@@ -308,8 +325,10 @@
 
                     // Clear All checkboxes..
                     $('input:checkbox').prop("checked", false);
+
                 }
             });
         }
+
     </script>
 </asp:Content>
