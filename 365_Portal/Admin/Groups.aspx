@@ -96,6 +96,7 @@
                             try {
                                 if (response != null) {
                                     var DataSet = $.parseJSON(response);
+                                    
                                     if (DataSet.StatusCode == "1") {
                                         clearFields('.input-validation');
                                         HideLoader();
@@ -335,14 +336,14 @@
                                         tbl += '<td colspan=3 align=center>No Records found';
                                     }
 
-                                    $('#divTable').empty().append(tbl)
+                                    $('#divTable').empty().append(tbl);
 
-                                    $('#tblGird').tableDnD();
+                                  
                                 }
                                 else {
                                     HideLoader();
                                     Swal.fire({
-                                        title: "Warning",
+                                        title: "Failure",
                                         text: DataSet.StatusDescription,
                                         icon: "error",
                                         button: "Ok",

@@ -911,21 +911,29 @@ namespace _365_Portal.Controllers
                             GroupName = string.Empty;
                         }
                         var ds = UserBL.CreateGroup(CompID, GroupName, string.Empty, CreatedBy);
-                        if (ds.Tables.Count > 0)
+                        if (ds != null)
                         {
-                            DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            if (ds.Tables.Count > 0)
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
-                                data = Utility.Successful(data);
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
                             }
                             else
                             {
-
-                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
@@ -1048,24 +1056,31 @@ namespace _365_Portal.Controllers
                 {
 
 
-                 
+
                     var ds = UserBL.ViewGroup(identity.CompId);
                     DataTable dt = ds.Tables["Data"];
-                    if (ds.Tables.Count > 0)
+                    if (dt != null)
                     {
-                       
-
-                        data = Utility.ConvertDataSetToJSONString(dt);
-                        data = Utility.Successful(data);
+                        if (ds.Tables.Count > 0)
+                        {
 
 
+                            data = Utility.ConvertDataSetToJSONString(dt);
+                            data = Utility.Successful(data);
+
+
+                        }
+                        else
+                        {
+                            data = dt.Rows[0]["ReturnMessage"].ToString();
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
                     }
                     else
                     {
-                        data = dt.Rows[0]["ReturnMessage"].ToString();
+                        data = "Please Try Again";
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
-
                 }
                 else
                 {
@@ -1090,7 +1105,7 @@ namespace _365_Portal.Controllers
             int GroupId = 0;
             string GroupName = string.Empty;
             int CompID;
-       
+
             string CreatedBy = string.Empty;
             ContentBO content = new ContentBO();
             try
@@ -1101,7 +1116,7 @@ namespace _365_Portal.Controllers
 
                     if ((Convert.ToInt32(requestParams["GroupID"]) != 0 && !string.IsNullOrEmpty(requestParams["GroupID"].ToString())) && !string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
                     {
-                       bool IsActive=false;
+                        bool IsActive = false;
                         CompID = identity.CompId;
                         CreatedBy = identity.UserID;
                         if (!string.IsNullOrEmpty(requestParams["GroupID"].ToString()))
@@ -1113,22 +1128,29 @@ namespace _365_Portal.Controllers
                             IsActive = (bool)requestParams["IsActive"];
                         }
                         var ds = UserBL.DeleteGroup(CompID, GroupId, IsActive, CreatedBy);
-
-                        if (ds.Tables.Count > 0)
+                        if (ds != null)
                         {
-                            DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            if (ds.Tables.Count > 0)
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
-                                data = Utility.Successful(data);
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
                             }
                             else
                             {
-
-                                 data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
@@ -1168,7 +1190,7 @@ namespace _365_Portal.Controllers
             if (identity != null)
             {
                 UserBO objUser = new UserBO();
-                
+
                 if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
                     objUser.UserID = identity.UserID;
@@ -1207,7 +1229,7 @@ namespace _365_Portal.Controllers
             if (identity != null)
             {
                 UserBO objUser = new UserBO();
-                
+
                 if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
                     objUser.UserID = identity.UserID;
@@ -1296,7 +1318,7 @@ namespace _365_Portal.Controllers
 
                 if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
-                    if (ValidateUserDetails(jsonResult, out Message, out objUser,"update"))
+                    if (ValidateUserDetails(jsonResult, out Message, out objUser, "update"))
                     {
                         objUser.UserID = identity.UserID;
                         objUser.CompId = identity.CompId;
@@ -1354,8 +1376,8 @@ namespace _365_Portal.Controllers
             if (identity != null)
             {
                 string Message = string.Empty;
-                UserBO objUser = new UserBO();                
-                
+                UserBO objUser = new UserBO();
+
                 int ChildUserID = 0;
                 if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
@@ -1410,7 +1432,7 @@ namespace _365_Portal.Controllers
             if (identity != null)
             {
                 string Message = string.Empty;
-                UserBO objUser = new UserBO();                
+                UserBO objUser = new UserBO();
 
                 int ChildUserID = 0;
                 if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
@@ -1452,7 +1474,7 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
-        private bool ValidateUserDetails(JObject jsonResult, out string Message, out UserBO objUserVal,string flag)
+        private bool ValidateUserDetails(JObject jsonResult, out string Message, out UserBO objUserVal, string flag)
         {
             bool ValFlag = true;
             Message = string.Empty;

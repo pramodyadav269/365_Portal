@@ -57,25 +57,25 @@ namespace _365_Portal.Controllers
                     }
 
                     // CALL BL
-                    //var ds = TrainningBL.RateContent(compId, userId, topicId, moduleId, contentId, rating, userId);
-                    //if (ds.Tables.Count > 0)
-                    //{
-                    //    if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
-                    //    {
-                    //        // Successful
-                    //        data = Utility.Successful("");
-                    //    }
-                    //    else
-                    //    {
-                    //        // Error. Check Logs
-                    //        data = Utility.API_Status("1", "There might be some error. Please try again later");
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    // Unknown Error
-                    //    data = Utility.API_Status("1", "Unknown Error");
-                    //}
+                    var ds = QuizBL.SaveSurvey(compId, userId, contentId, title, description, overview, isPublished, totalScore, passingScore, passingPercent);
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
+                        {
+                            // Successful
+                            data = Utility.Successful("");
+                        }
+                        else
+                        {
+                            // Error. Check Logs
+                            data = Utility.API_Status("1", "There might be some error. Please try again later");
+                        }
+                    }
+                    else
+                    {
+                        // Unknown Error
+                        data = Utility.API_Status("1", "Unknown Error");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -140,25 +140,25 @@ namespace _365_Portal.Controllers
                     }
 
                     // CALL BL
-                    //var ds = TrainningBL.RateContent(compId, userId, topicId, moduleId, contentId, rating, userId);
-                    //if (ds.Tables.Count > 0)
-                    //{
-                    //    if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
-                    //    {
-                    //        // Successful
-                    //        data = Utility.Successful("");
-                    //    }
-                    //    else
-                    //    {
-                    //        // Error. Check Logs
-                    //        data = Utility.API_Status("1", "There might be some error. Please try again later");
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    // Unknown Error
-                    //    data = Utility.API_Status("1", "Unknown Error");
-                    //}
+                    var ds = QuizBL.ManageQuestion(compId, userId, questionId, contentId, isMandatory, isMultiline, title, qType, isBox, type, action);
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
+                        {
+                            // Successful
+                            data = Utility.Successful("");
+                        }
+                        else
+                        {
+                            // Error. Check Logs
+                            data = Utility.API_Status("1", "There might be some error. Please try again later");
+                        }
+                    }
+                    else
+                    {
+                        // Unknown Error
+                        data = Utility.API_Status("1", "Unknown Error");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -215,25 +215,25 @@ namespace _365_Portal.Controllers
                     }
 
                     // CALL BL
-                    //var ds = TrainningBL.RateContent(compId, userId, topicId, moduleId, contentId, rating, userId);
-                    //if (ds.Tables.Count > 0)
-                    //{
-                    //    if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
-                    //    {
-                    //        // Successful
-                    //        data = Utility.Successful("");
-                    //    }
-                    //    else
-                    //    {
-                    //        // Error. Check Logs
-                    //        data = Utility.API_Status("1", "There might be some error. Please try again later");
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    // Unknown Error
-                    //    data = Utility.API_Status("1", "Unknown Error");
-                    //}
+                    var ds = QuizBL.ManageAnsOptions(compId, userId, type, contentId, questionId, answerId, title, isCorrect, score, action);
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
+                        {
+                            // Successful
+                            data = Utility.Successful("");
+                        }
+                        else
+                        {
+                            // Error. Check Logs
+                            data = Utility.API_Status("1", "There might be some error. Please try again later");
+                        }
+                    }
+                    else
+                    {
+                        // Unknown Error
+                        data = Utility.API_Status("1", "Unknown Error");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -278,25 +278,25 @@ namespace _365_Portal.Controllers
                     }
 
                     // CALL BL
-                    //var ds = TrainningBL.RateContent(compId, userId, topicId, moduleId, contentId, rating, userId);
-                    //if (ds.Tables.Count > 0)
-                    //{
-                    //    if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
-                    //    {
-                    //        // Successful
-                    //        data = Utility.Successful("");
-                    //    }
-                    //    else
-                    //    {
-                    //        // Error. Check Logs
-                    //        data = Utility.API_Status("1", "There might be some error. Please try again later");
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    // Unknown Error
-                    //    data = Utility.API_Status("1", "Unknown Error");
-                    //}
+                    var ds = QuizBL.ManageFlashcardIntro(compId, userId, introId, comments, contentId, action);
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
+                        {
+                            // Successful
+                            data = Utility.Successful("");
+                        }
+                        else
+                        {
+                            // Error. Check Logs
+                            data = Utility.API_Status("1", "There might be some error. Please try again later");
+                        }
+                    }
+                    else
+                    {
+                        // Unknown Error
+                        data = Utility.API_Status("1", "Unknown Error");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -342,25 +342,26 @@ namespace _365_Portal.Controllers
                     }
 
                     // CALL BL
-                    //var ds = TrainningBL.RateContent(compId, userId, topicId, moduleId, contentId, rating, userId);
-                    //if (ds.Tables.Count > 0)
-                    //{
-                    //    if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
-                    //    {
-                    //        // Successful
-                    //        data = Utility.Successful("");
-                    //    }
-                    //    else
-                    //    {
-                    //        // Error. Check Logs
-                    //        data = Utility.API_Status("1", "There might be some error. Please try again later");
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    // Unknown Error
-                    //    data = Utility.API_Status("1", "Unknown Error");
-                    //}
+
+                    var ds = QuizBL.ManageFlashcardSlides(compId, userId, flashcardId, title, contentId, description, action);
+                    if (ds.Tables.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
+                        {
+                            // Successful
+                            data = Utility.Successful("");
+                        }
+                        else
+                        {
+                            // Error. Check Logs
+                            data = Utility.API_Status("1", "There might be some error. Please try again later");
+                        }
+                    }
+                    else
+                    {
+                        // Unknown Error
+                        data = Utility.API_Status("1", "Unknown Error");
+                    }
                 }
                 catch (Exception ex)
                 {
