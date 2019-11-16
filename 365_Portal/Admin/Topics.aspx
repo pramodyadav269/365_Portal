@@ -268,7 +268,7 @@
                                             HideLoader();
                                             Swal.fire({
                                                 title: "Success",
-                                                text: DataSet.StatusDescription,
+                                                text: DataSet.StatusDescription, 
                                                 icon: "success"
 
                                             });

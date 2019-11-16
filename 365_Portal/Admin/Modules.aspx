@@ -522,7 +522,7 @@
                                     text: "Please try Again",
                                     icon: "error"
 
-                                });
+                                }); 
                             }
                         }
                         catch (e) {
