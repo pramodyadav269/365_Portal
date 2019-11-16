@@ -319,66 +319,58 @@
             if ((TopicID != null && TopicID != undefined) && (ModuleId != null && ModuleId != undefined)) {
 
                 Swal.fire({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to revert changes!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            ShowLoader();
-                            try {
-                                var requestParams = { TopicID: TopicID, ModuleID: ModuleId, IsActive: 0 };
-                                var getUrl = "/API/Content/DeleteModule";
+                    title: 'Are you sure?',
+                    text: "Do you want to delete user!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+                        ShowLoader();
+                        try {
+                            var requestParams = { TopicID: TopicID, ModuleID: ModuleId, IsActive: 0 };
+                            var getUrl = "/API/Content/DeleteModule";
 
-                                $.ajax({
-                                    type: "POST",
-                                    url: getUrl,
-                                    headers: { "Authorization": "Bearer " + accessToken },
-                                    data: JSON.stringify(requestParams),
-                                    contentType: "application/json",
-                                    success: function (response) {
-                                        try {
+                            $.ajax({
+                                type: "POST",
+                                url: getUrl,
+                                headers: { "Authorization": "Bearer " + accessToken },
+                                data: JSON.stringify(requestParams),
+                                contentType: "application/json",
+                                success: function (response) {
+                                    try {
 
-                                            var DataSet = $.parseJSON(response);
-                                            if (DataSet != null && DataSet != "") {
-                                                if (DataSet.StatusCode == "1") {
-                                                    HideLoader();
-                                                    Swal.fire({
-                                                        title: "Success",
-                                                        text: DataSet.StatusDescription,
-                                                        icon: "success",
+                                        var DataSet = $.parseJSON(response);
+                                        if (DataSet != null && DataSet != "") {
+                                            if (DataSet.StatusCode == "1") {
+                                                HideLoader();
+                                                Swal.fire({
+                                                    title: "Success",
+                                                    text: DataSet.StatusDescription,
+                                                    icon: "success",
 
-                                                    }).then((value) => {
-                                                        if (value) {
+                                                }).then((value) => {
+                                                    if (value) {
 
-                                                            View();
-                                                        }
-                                                    });
+                                                        View();
+                                                    }
+                                                });
 
 
-                                                }
-                                                else {
-                                                    HideLoader();
-                                                    Swal.fire({
-                                                        title: "Failure",
-                                                        text: DataSet.StatusDescription,
-                                                        icon: "error"
-
-                                                    });
-                                                }
                                             }
                                             else {
                                                 HideLoader();
                                                 Swal.fire({
                                                     title: "Failure",
-                                                    text: "Please try Again",
+                                                    text: DataSet.StatusDescription,
                                                     icon: "error"
+
                                                 });
                                             }
                                         }
-                                        catch (e) {
+                                        else {
                                             HideLoader();
                                             Swal.fire({
                                                 title: "Failure",
@@ -386,34 +378,43 @@
                                                 icon: "error"
                                             });
                                         }
-                                    },
-                                    complete: function () {
+                                    }
+                                    catch (e) {
                                         HideLoader();
-                                    },
-                                    failure: function (response) {
-                                        HideLoader();
-                                        alert(response.data);
                                         Swal.fire({
                                             title: "Failure",
                                             text: "Please try Again",
                                             icon: "error"
-
                                         });
                                     }
-                                });
-                            }
-                            catch (e) {
-                                HideLoader();
-                                Swal.fire({
-                                    title: "Failure",
-                                    text: "Please try again",
-                                    icon: "error"
+                                },
+                                complete: function () {
+                                    HideLoader();
+                                },
+                                failure: function (response) {
+                                    HideLoader();
+                                    alert(response.data);
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        icon: "error"
 
-                                });
-                            }
-
+                                    });
+                                }
+                            });
                         }
-                    });
+                        catch (e) {
+                            HideLoader();
+                            Swal.fire({
+                                title: "Failure",
+                                text: "Please try again",
+                                icon: "error"
+
+                            });
+                        }
+
+                    }
+                });
             }
             else {
                 Swal.fire({
@@ -466,7 +467,7 @@
                                         tbl += '<th>ACTION';
                                         tbl += '<tbody>';
 
-                                        if (DataSet.Data.length> 0) {
+                                        if (DataSet.Data.length > 0) {
                                             $.each(DataSet.Data, function (i, data) {
                                                 if (data.IsPublished == "1") {
                                                     data.IsPublished = "Yes";
@@ -570,9 +571,9 @@
                 if (this.id != "") {
                     s = s + this.id + ',';
                 }
-         
+
             });
-          
+
             var _SrNo = s;
 
         }

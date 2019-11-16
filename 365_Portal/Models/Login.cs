@@ -12,13 +12,14 @@ namespace _365_Portal.Models
     {
         public class LoginRequest //: RequestBase
         {
+            public string UserID { get; set; }
             public string UserName { get; set; }
             public string Password { get; set; }
             public string Ref1 { get; set; }
             public string Ref2 { get; set; }
             public string Ref3 { get; set; }
         }
-
+        
         public class LoginResponse : ResponseBase
         {
             public string Role { get; set; }                        

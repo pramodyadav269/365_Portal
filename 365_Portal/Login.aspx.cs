@@ -66,7 +66,7 @@ namespace _365_Portal
                         else
                         {
                             // Call Login Business Layer Function to record message
-                            Utility.CreateUserSession(objResponse.UserID, objResponse.Role, objResponse.FirstName, objResponse.LastName);
+                            Utility.CreateUserSession(objResponse.UserID, objResponse.Role, objResponse.FirstName, objResponse.LastName, objResponse.CompId);
 
                             //For ProfilePic,CompanyProfilePic & Theme
                             var UserDetails = UserDAL.GetUserDetailsByUserID(objResponse.UserID, "");

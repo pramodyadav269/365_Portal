@@ -73,21 +73,29 @@ namespace _365_Portal.Controllers
 
 
                         var ds = ContentBL.CreateTopic(content);
-                        if (ds.Tables.Count > 0)
+
+                        if (ds != null)
                         {
-                            DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            if (ds.Tables.Count > 0)
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
-                                data = Utility.Successful(data);
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
                             }
                             else
                             {
-
-                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
@@ -182,21 +190,29 @@ namespace _365_Portal.Controllers
                             content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
                         }
                         var ds = ContentBL.ModifyTopic(content);
-                        if (ds.Tables.Count > 0)
+                        if (ds != null)
                         {
-                            DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            if (ds.Tables.Count > 0)
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
-                                data = Utility.Successful(data);
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
                             }
                             else
                             {
-
-                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
@@ -253,21 +269,29 @@ namespace _365_Portal.Controllers
                             content.IsActive = (bool)requestParams["IsActive"];
                         }
                         var ds = ContentBL.DeleteTopic(content);
-                        if (ds.Tables.Count > 0)
+                        if (ds != null)
                         {
-                            DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            if (ds.Tables.Count > 0)
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
-                                data = Utility.Successful(data);
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
                             }
                             else
                             {
-
-                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
@@ -311,15 +335,23 @@ namespace _365_Portal.Controllers
                 {
                     content.CompID = identity.CompId;
                     var ds = ContentBL.GetTopics(content);
-                    DataTable dt = ds.Tables["Data"];
-                    if (ds.Tables.Count > 0)
+                    if (ds != null)
                     {
-                        data = Utility.ConvertDataSetToJSONString(dt);
-                        data = Utility.Successful(data);
+                        DataTable dt = ds.Tables["Data"];
+                        if (ds.Tables.Count > 0)
+                        {
+                            data = Utility.ConvertDataSetToJSONString(dt);
+                            data = Utility.Successful(data);
+                        }
+                        else
+                        {
+                            data = dt.Rows[0]["ReturnMessage"].ToString();
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
                     }
                     else
                     {
-                        data = dt.Rows[0]["ReturnMessage"].ToString();
+                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
                 }
@@ -416,21 +448,29 @@ namespace _365_Portal.Controllers
                             content.IsActive = (bool)requestParams["IsActive"];
                         }
                         var ds = ContentBL.CreateModule(content);
-                        if (ds.Tables.Count > 0)
+                        if (ds != null)
                         {
-                            DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            if (ds.Tables.Count > 0)
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
-                                data = Utility.Successful(data);
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
                             }
                             else
                             {
-
-                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
@@ -527,20 +567,28 @@ namespace _365_Portal.Controllers
                             content.IsActive = (bool)requestParams["IsActive"];
                         }
                         var ds = ContentBL.ModifyModule(content);
-                        if (ds.Tables.Count > 0)
+                        if (ds != null)
                         {
-                            DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            if (ds.Tables.Count > 0)
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
-                                data = Utility.Successful(data);
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
                             }
                             else
                             {
-                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
@@ -603,21 +651,29 @@ namespace _365_Portal.Controllers
                             content.IsActive = (bool)requestParams["IsActive"];
                         }
                         var ds = ContentBL.DeleteModule(content);
-                        if (ds.Tables.Count > 0)
+                        if (ds != null)
                         {
-                            DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            if (ds.Tables.Count > 0)
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
-                                data = Utility.Successful(data);
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
                             }
                             else
                             {
-
-                                data = dt.Rows[0]["ReturnMessage"].ToString();
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
@@ -670,25 +726,32 @@ namespace _365_Portal.Controllers
                         content.IsActive = (bool)requestParams["IsActive"];
                     }
                     var ds = ContentBL.GetModules(content);
-                    DataTable dt = ds.Tables["Data"];
-                    if (ds.Tables.Count > 0)
+                    if (ds != null)
                     {
-                      
-                        data = Utility.ConvertDataSetToJSONString(dt);
-                        data = Utility.Successful(data);
+                        DataTable dt = ds.Tables["Data"];
+                        if (ds.Tables.Count > 0)
+                        {
+
+                            data = Utility.ConvertDataSetToJSONString(dt);
+                            data = Utility.Successful(data);
+                        }
+                        else
+                        {
+                            data = dt.Rows[0]["ReturnMessage"].ToString();
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                        // }
+                        //else
+                        //{
+                        //    data = ConstantMessages.WebServiceLog.InValidValues;
+                        //    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        //}
                     }
                     else
                     {
-                        data = dt.Rows[0]["ReturnMessage"].ToString();
+                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
-                    // }
-                    //else
-                    //{
-                    //    data = ConstantMessages.WebServiceLog.InValidValues;
-                    //    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
-                    //}
-
                 }
                 else
                 {
@@ -718,7 +781,7 @@ namespace _365_Portal.Controllers
                 var identity = MyAuthorizationServerProvider.AuthenticateUser();
                 if (identity != null)
                 {
-                    
+
                     if (((Convert.ToInt32(requestParams["TopicID"]) != 0 && !string.IsNullOrEmpty(requestParams["TopicID"].ToString())) &&
                         !string.IsNullOrEmpty(requestParams["p_DocType"].ToString()) && !string.IsNullOrEmpty(requestParams["p_ContentTitle"].ToString())
                         && !string.IsNullOrEmpty(requestParams["p_ContentDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())))
