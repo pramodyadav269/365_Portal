@@ -143,7 +143,7 @@
 
                                 <div class="col-md-12 mt-4">
                                     <div class="float-right">
-                                        <a class="btn bg-yellow" id="btnAdd" onclick="AddItem(this);return false;">Add Option</a>
+                                        <a class="btn bg-yellow" id="btnAdd" onclick="AddAnsOption(this);return false;">Add Option</a>
                                         <a class="btn bg-yellow" id="btnCancelAnsOption" onclick="CancelAnsOption(this);return false;" style="display: none;">Cancel</a>
                                     </div>
                                 </div>
@@ -286,7 +286,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <button id="btnAdd" onclick="AddItem(this);return false;">Add Option</button>
+                                    <button id="btnAdd" onclick="AddAnsOption(this);return false;">Add Option</button>
                                     <button id="btnCancelAnsOption" style="margin-left: 25px; display: none;" onclick="CancelAnsOption(this);return false;">Cancel</button>
                                 </td>
                             </tr>
@@ -379,11 +379,23 @@
 
                 // Radio Button: Only 1 radio button should be chedked..
                 if (totalChecked == 0) {
-                    alert("At least one option should be selected.");
+                    Swal.fire({
+                        title: 'Failure',
+                        icon: 'error',
+                        html: "At least one option should be selected.",
+                        showConfirmButton: true,
+                        showCloseButton: true
+                    });
                     $(cntrl).prop("checked", true);
                 }
                 else if (totalItems == totalChecked) {
-                    alert("All options can not be selected");
+                    Swal.fire({
+                        title: 'Failure',
+                        icon: 'error',
+                        html: "All options can not be selected",
+                        showConfirmButton: true,
+                        showCloseButton: true
+                    });
                     $(cntrl).prop("checked", false);
                 }
                 else {
@@ -419,7 +431,7 @@
             }
         }
 
-        function AddItem(cntrl) {
+        function AddAnsOption(cntrl) {
             if (contentType == 1) {
                 $("#tblItems #thIsCorrect").hide();
                 $("#tblItems #thScore").hide();
@@ -436,15 +448,33 @@
             if ($("#txtTitle").val().trim() != "") {
                 if (contentType == 3) {
                     if ($("#txtScore").val().trim() == "") {
-                        alert("Please enter score");
+                        Swal.fire({
+                            title: 'Failure',
+                            icon: 'error',
+                            html: "Please enter score",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
                         return false;
                     }
                     else if ($("#chkIsCorrect").prop("checked") == true && parseInt($("#txtScore").val()) <= 0) {
-                        alert("Score should be greater than 0");
+                        Swal.fire({
+                            title: 'Failure',
+                            icon: 'error',
+                            html: "Score should be greater than 0",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
                         return false;
                     }
                     else if ($("#chkIsCorrect").prop("checked") == false && parseInt($("#txtScore").val()) > 0) {
-                        alert("Score should be greater than 0 for incorrect value");
+                        Swal.fire({
+                            title: 'Failure',
+                            icon: 'error',
+                            html: "Score should be greater than 0 for incorrect value",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
                         return false;
                     }
                 }
@@ -453,7 +483,7 @@
                 var newAnsOption = { "AnswerID": (index * 10), "SrNo": index, "Title": $("#txtTitle").val(), "IsCorrect": $("#chkIsCorrect").prop("checked"), "Score": $("#txtScore").val() };
 
                 if ($(cntrl).attr("index") == null) {
-                    // Ajax Call - Add Answer Option
+
                     if ($("#ddlQuestionType").val() == "2" || $("#ddlQuestionType").val() == "3") {
                         if (newAnsOption.IsCorrect == true) {
                             var totalChecked = 0;
@@ -462,26 +492,55 @@
                                     totalChecked += 1;
                             });
                             if (totalChecked > 0) {
-                                alert("Only one option should be selected");
+                                Swal.fire({
+                                    title: 'Failure',
+                                    icon: 'error',
+                                    html: "Only one option should be selected",
+                                    showConfirmButton: true,
+                                    showCloseButton: true
+                                });
                                 return false;
                             }
                         }
+
+
                     }
 
                     if (IsTitleDuplicate('ANS', AnswerOptions, newAnsOption.Title)) {
-                        alert("Answer option cannot be duplicate.");
+                        Swal.fire({
+                            title: 'Failure',
+                            icon: 'error',
+                            html: "Answer option cannot be duplicate.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
                         return false;
                     }
 
                     AnswerOptions.push(newAnsOption);
+                    // Ajax Call - Add Answer Option
+                    newAnsOption.Action = 1;
+                    newAnsOption.Type = contentType;
+                    var requestParams = newAnsOption;
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageAnsOptions",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                    });
                 }
                 else {
-
-                    // Update Existing Record
-
                     var index = parseInt($(cntrl).attr("index"));
                     if (IsTitleDuplicate('ANS', AnswerOptions, newAnsOption.Title, index)) {
-                        alert("Answer option cannot be duplicate.");
+                        Swal.fire({
+                            title: 'Failure',
+                            icon: 'error',
+                            html: "Answer option cannot be duplicate.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
                         return false;
                     }
 
@@ -491,6 +550,19 @@
                     answerOption.Title = newAnsOption.Title;
                     answerOption.IsCorrect = newAnsOption.IsCorrect;
                     answerOption.Score = newAnsOption.Score;
+
+                    // Ajax Call - Update Answer Option
+                    answerOption.Action = 2;
+                    answerOption.Type = contentType;
+                    var requestParams = answerOption;
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageAnsOptions",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                    });
                 }
 
                 CancelAnsOption(cntrl);
@@ -498,13 +570,19 @@
 
             }
             else {
-                alert("Please enter all required fields.");
+                Swal.fire({
+                    title: 'Failure',
+                    icon: 'error',
+                    html: "Please enter all required fields.",
+                    showConfirmButton: true,
+                    showCloseButton: true
+                });
             }
         }
 
         function IsTitleDuplicate(type, ansOptions, title, ID) {
             var duplicateTitle = false;
-            if (type = 'ANS') {
+            if (type == 'ANS') {
                 $.grep(ansOptions, function (n, i) {
                     if (n.Title.trim().toUpperCase() == title.trim().toUpperCase() && n.AnswerID != ID) {
                         duplicateTitle = true;
@@ -513,7 +591,7 @@
                 });
                 return duplicateTitle;
             }
-            else if (type = 'QUE') {
+            else if (type == 'QUE') {
                 $.grep(ansOptions, function (n, i) {
                     if (n.Title.trim().toUpperCase() == title.trim().toUpperCase() && n.QuestionID != ID) {
                         duplicateTitle = true;
@@ -538,18 +616,38 @@
             ClearAnsOptionFields(this);
         }
 
-        function DeleteRow(row) {
+        function DeleteAnsOption(row) {
             var index = row.attr("index");
-            AnswerOptions = $.grep(AnswerOptions, function (n, i) {
-                return n.AnswerID != parseInt(index);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Once deleted, you will not be able to revert changes!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    AnswerOptions = $.grep(AnswerOptions, function (n, i) {
+                        return n.AnswerID != parseInt(index);
+                    });
+                    var requestParams = { "Action": 3, "Type": contentType, "AnswerID": index };
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageAnsOptions",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                    });
+
+                    BindAnswerOptions();
+                }
             });
-
-            BindAnswerOptions();
-
             $("#dvQuestionJson").html(JSON.stringify(AnswerOptions));
         }
 
-        function EditRow(row) {
+        function EditAnsOption(row) {
             var index = $(row).attr("index");
 
             var ansOption = $.grep(AnswerOptions, function (n, i) {
@@ -583,9 +681,9 @@
                     markup += "<td><input index=" + n.AnswerID + " onchange='CheckboxChecked(this);' type='checkbox' " + checkedValue + " /></td>";
                 if (contentType == 3)
                     markup += "<td>" + n.Score + "</td>";
-                //markup += "<td index=" + n.AnswerID + " onclick ='EditRow($(this))'>Edit</td>";
-                //markup += "<td index=" + n.AnswerID + " onclick ='DeleteRow($(this))'>Delete</td>";
-                markup += '<td><i title="Edit" index=' + n.AnswerID + ' onclick="EditRow($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.AnswerID + ' onclick="DeleteRow($(this));" class="fas fa-trash text-danger"></i></td>';
+                //markup += "<td index=" + n.AnswerID + " onclick ='EditAnsOption($(this))'>Edit</td>";
+                //markup += "<td index=" + n.AnswerID + " onclick ='DeleteAnsOption($(this))'>Delete</td>";
+                markup += '<td><i title="Edit" index=' + n.AnswerID + ' onclick="EditAnsOption($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.AnswerID + ' onclick="DeleteAnsOption($(this));" class="fas fa-trash text-danger"></i></td>';
 
                 markup += "</tr>";
                 tableBody.append(markup);
@@ -596,12 +694,34 @@
 
         function DeleteQuestion(row) {
             var index = row.attr("index");
-            Questions = $.grep(Questions, function (n, i) {
-                return n.QuestionID != parseInt(index);
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Once deleted, you will not be able to revert changes!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    Questions = $.grep(Questions, function (n, i) {
+                        return n.QuestionID != parseInt(index);
+                    });
+
+                    var requestParams = { "Action": 3, "Type": contentType, "QuestionID": index };
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageQuestion",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                    });
+
+                    BindQuestions();
+                }
             });
-
-            BindQuestions();
-
             $("#dvQuestionJson").html(JSON.stringify(Questions));
         }
 
@@ -690,7 +810,13 @@
             if ($("#txtQuestionTitle").val().trim() != "" && $("#ddlQuestionType").val().trim() != "0") {
                 if ($("#ddlQuestionType").val() == "1" || $("#ddlQuestionType").val() == "2" || $("#ddlQuestionType").val() == "3") {
                     if (AnswerOptions.length == 0) {
-                        alert("Please enter all required fields.");
+                        Swal.fire({
+                            title: 'Failure',
+                            icon: 'error',
+                            html: "Please enter all required fields.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
                         return false;
                     }
                     else if (contentType == 2 || contentType == 3) {
@@ -712,22 +838,46 @@
                         })[0];
 
                         if (totalItemCount == checkedItemCount) {
-                            alert("All options cannot be selected");
+                            Swal.fire({
+                                title: 'Failure',
+                                icon: 'error',
+                                html: "All options cannot be selected",
+                                showConfirmButton: true,
+                                showCloseButton: true
+                            });
                             return false;
                         }
                         else if (checkedItemCount == 0) {
-                            alert("At least one option should be checked");
+                            Swal.fire({
+                                title: 'Failure',
+                                icon: 'error',
+                                html: "At least one option should be checked",
+                                showConfirmButton: true,
+                                showCloseButton: true
+                            });
                             return false;
                         }
 
                         if (contentType == 3 && totalScore <= 0) {
-                            alert("Score should be greater than 0");
+                            Swal.fire({
+                                title: 'Failure',
+                                icon: 'error',
+                                html: "Score should be greater than 0",
+                                showConfirmButton: true,
+                                showCloseButton: true
+                            });
                             return false;
                         }
 
                         if ($("#ddlQuestionType").val() == "2" || $("#ddlQuestionType").val() == "3") {
                             if (checkedItemCount > 1) {
-                                alert("Multiple options cannot be selected");
+                                Swal.fire({
+                                    title: 'Failure',
+                                    icon: 'error',
+                                    html: "Multiple options cannot be selected",
+                                    showConfirmButton: true,
+                                    showCloseButton: true
+                                });
                                 return false;
                             }
                         }
@@ -746,20 +896,43 @@
                 };
 
                 if ($(cntrl).attr("index") == null) {
-                    // Ajax Call - Add Question
-
                     if (IsTitleDuplicate('QUE', Questions, newQuestion.Title)) {
-                        alert("Question title cannot be duplicate.");
+                        Swal.fire({
+                            title: 'Failure',
+                            icon: 'error',
+                            html: "Question title cannot be duplicate.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
                         return false;
                     }
                     Questions.push(newQuestion);
+
+                    newQuestion.Action = 1;
+                    newQuestion.Type = contentType;
+                    // Ajax Call - Add Question
+                    var requestParams = newQuestion;
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageQuestion",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                    });
                 }
                 else {
-                    // Ajax Call - Update Question
+
                     var index = parseInt($(cntrl).attr("index"));
 
                     if (IsTitleDuplicate('QUE', Questions, newQuestion.Title, index)) {
-                        alert("Question title cannot be duplicate.");
+                        Swal.fire({
+                            title: 'Failure',
+                            icon: 'error',
+                            html: "Question title cannot be duplicate.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
                         return false;
                     }
 
@@ -770,13 +943,32 @@
                     question.QType = newQuestion.QType;
                     question.IsBox = newQuestion.IsBox;
                     question.AnswerOptions = newQuestion.AnswerOptions;
+
+                    // Ajax Call - Update Question
+                    newQuestion.Action = 2;
+                    newQuestion.Type = contentType;
+                    var requestParams = newQuestion;
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageQuestion",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                    });
                 }
                 AnswerOptions = [];
                 CancelQuestion(cntrl);
                 BindQuestions(cntrl);
             }
             else {
-                alert("Please enter all required fields.");
+                Swal.fire({
+                    title: 'Failure',
+                    icon: 'error',
+                    html: "Please enter all required fields.",
+                    showConfirmButton: true,
+                    showCloseButton: true
+                });
             }
         }
 
@@ -895,20 +1087,29 @@
 
         function SubmitChanges() {
             var question = {
-                "Title": $("#txtSurveyTitle").val()
+                "ContentID": ""
+                , "Title": $("#txtSurveyTitle").val()
                 , "Description": $("#txtSurveyDescription").val()
                 , "Overview": $("#txtSurveyOverview").val()
-                , "IsPublished": $("#chkIsPublished").val()
+                , "IsPublished": $("#chkIsPublished").prop("checked")
                 , "TotalScore": $("#lblTotalScore").text()
                 , "PassingScore": passingScore
                 , "PassingPercentage": pasingPercentage
                 , "Questions": Questions
+                , "Type": contentType
             };
 
             $("#dvQuestionJson").html(JSON.stringify(question));
 
-            if ($("#txtSurveyTitle").val().trim() == "") {
-                alert("Please enter all required fields.");
+            if ($("#txtSurveyTitle").val().trim() == "" || $("#txtSurveyDescription").val().trim() == "" || $("#txtSurveyOverview").val().trim() == "") {
+                Swal.fire({
+                    title: 'Failure',
+                    icon: 'error',
+                    html: "Please enter all required fields.",
+                    showConfirmButton: true,
+                    showCloseButton: true
+                });
+                return false;
             }
             else if (contentType == 1) {
 
@@ -925,7 +1126,7 @@
             var requestParams = question;
             $.ajax({
                 method: "POST",
-                url: "../api/Quiz/RateContent",
+                url: "../api/Quiz/SaveSurvey",
                 headers: { "Authorization": "Bearer " + accessToken },
                 data: JSON.stringify(requestParams),
                 contentType: "application/json",

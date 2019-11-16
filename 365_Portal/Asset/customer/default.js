@@ -210,10 +210,11 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         var dateParts = date.split("-");
         date = format(dateParts[1]) + "-" + format(dateParts[0]) + "-" + format(dateParts[2]);
         var todayTime = new Date(date);
-        var month = format(todayTime.getMonth() + 1);
-        var day = format(todayTime.getDate());
-        var year = format(todayTime.getFullYear());
-        return day + "-" + month + "-" + year;
+        return todayTime;
+        //var month = format(todayTime.getMonth() + 1);
+        //var day = format(todayTime.getDate());
+        //var year = format(todayTime.getFullYear());
+        //return day + "-" + month + "-" + year;
     }
 
     $scope.ShowFlashcardQuiz = function (contentId) {
