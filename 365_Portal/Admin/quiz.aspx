@@ -108,26 +108,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-4">
-                                <div class="col-md-12">
-                                    <div id="dvQuestionJson"></div>
-                                    <div class="mt-3 table-responsive">
-                                        <table id="tblQuestions" class="table table-bordered" style="width: 100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Question Type</th>
-                                                    <th>Title</th>
-                                                    <th id="thMaxScore">Max Score</th>
-                                                    <th>Is Box</th>
-                                                    <th>Answer Options</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tBodyQuestions"></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="col-md-6" id="trAnswerOptions" style="display: none;">
@@ -185,6 +165,26 @@
                                         </table>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div id="dvQuestionJson"></div>
+                            <div class="mt-3 table-responsive">
+                                <table id="tblQuestions" class="table table-bordered" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Question Type</th>
+                                            <th>Title</th>
+                                            <th id="thMaxScore">Max Score</th>
+                                            <th>Is Box</th>
+                                            <th>Answer Options</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tBodyQuestions"></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

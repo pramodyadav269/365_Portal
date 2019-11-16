@@ -28,7 +28,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="ddlRole">Role</label>
-                                <select class="form-control required" id="ddlRole" style="width: 100% !important">
+                                <select class="form-control required select2" id="ddlRole" style="width: 100% !important">
                                     <%--<option></option>
                                     <option value="1">Role 1</option>
                                     <option value="2">Role 2</option>
@@ -78,7 +78,7 @@
                         <div class="col-md-3" id="divGroup" style="display: none;">
                             <div class="form-group">
                                 <label for="ddlGroup">Group</label>
-                                <select class="form-control  required" id="ddlGroup" style="width: 100% !important">
+                                <select class="form-control select2 required" id="ddlGroup" style="width: 100% !important">
                                 </select>
                             </div>
                         </div>
@@ -188,12 +188,12 @@
                     tbl += '<tr>';
                     tbl += '<td>' + (i + 1) + '</td>';
                     tbl += '<td style="display:none;" id="id">' + Table[i].UserID + '</td>';
-                    tbl += '<td>' + Table[i].FirstName + '</td>';
-                    tbl += '<td>' + Table[i].LastName + '</td>';
-                    tbl += '<td>' + Table[i].EmailID + '</td>';
-                    tbl += '<td>' + Table[i].Position + '</td>';
-                    tbl += '<td>' + Table[i].RoleName + '</td>';
-                    tbl += '<td>' + Table[i].GroupName + '</td>';
+                    tbl += '<td title="' + Table[i].FirstName + '" >' + Table[i].FirstName + '</td>';
+                    tbl += '<td title="' + Table[i].LastName + '" >' + Table[i].LastName + '</td>';
+                    tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
+                    tbl += '<td title="' + Table[i].Position + '" >' + Table[i].Position + '</td>';
+                    tbl += '<td title="' + Table[i].RoleName + '" >' + Table[i].RoleName + '</td>';
+                    tbl += '<td title="' + Table[i].GroupName + '" >' + Table[i].GroupName + '</td>';
                     tbl += '<td><i title="Edit" onclick="Edit(this,' + Table[i].UserID + ');" class="fas fa-edit text-warning"></i>' +
                         '<i title="Delete" onclick="Delete(this,' + Table[i].UserID + ');" class="fas fa-trash text-danger"></i></td>';
                     tbl += '</tr>';
