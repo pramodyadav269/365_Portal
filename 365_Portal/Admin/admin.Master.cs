@@ -1,10 +1,15 @@
-﻿using _365_Portal.Models;
+﻿using _365_Portal.Code;
+using _365_Portal.Code.DAL;
+using _365_Portal.Common;
+using _365_Portal.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static _365_Portal.Models.Login;
 
 namespace _365_Portal.Admin
 {
@@ -63,6 +68,58 @@ namespace _365_Portal.Admin
             else
             {
                 Response.Redirect("~/login.aspx");
+            }
+        }
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            WebServiceLog objServiceLog = new WebServiceLog();
+            LoginRequest objRequest = new LoginRequest();
+            ResponseBase objResponse = null;
+            objServiceLog.RequestTime = DateTime.Now;
+            objServiceLog.ControllerName = this.GetType().Name;
+            objServiceLog.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                objResponse = new ResponseBase();
+                if (HttpContext.Current.Session["UserId"] != null && HttpContext.Current.Session["CompId"] != null)
+                {
+                    objRequest.UserID = Convert.ToString(HttpContext.Current.Session["UserId"]);                    
+
+                    DataSet ds = UserDAL.UserLogout(Convert.ToInt32(HttpContext.Current.Session["CompId"]), objRequest.UserID, Utility.GetClientIPaddress());
+                    if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
+                    {
+                        objResponse.ReturnCode = "1";
+                        objResponse.ReturnMessage = "User logout succesfully.";
+                    }
+                    else
+                    {
+                        objResponse.ReturnCode = "2";
+                        objResponse.ReturnMessage = "Unable to logout.";
+                    }
+                    objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
+                    objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+
+                    Utility.DestroyAllSession();
+                    Response.Redirect("~/login.aspx",false);
+                }
+                else
+                {
+                    objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
+                    objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                }
+            }
+            catch (Exception ex)
+            {
+                objServiceLog.ResponseString = "Exception " + ex.Message + " | " + ex.StackTrace;
+                objServiceLog.RequestType = ConstantMessages.WebServiceLog.Exception;
+            }
+            finally
+            {
+                objServiceLog.ResponseTime = DateTime.Now;
+                InsertRequestLog.SaveWebServiceLog(objServiceLog);
             }
         }
     }

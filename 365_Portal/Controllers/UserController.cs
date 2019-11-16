@@ -101,9 +101,10 @@ namespace _365_Portal.Controllers
         [Route("api/User/UserLogout")]
         public IHttpActionResult UserLogout()
         {
+            var data = string.Empty;
             WebServiceLog objServiceLog = new WebServiceLog();
-            LoginResponse objResponse = null;
-            string Response = string.Empty;
+            ResponseBase objResponse = null;
+            //string Response = string.Empty;
 
             objServiceLog.RequestTime = DateTime.Now;
             objServiceLog.ControllerName = this.GetType().Name;
@@ -112,49 +113,43 @@ namespace _365_Portal.Controllers
             {
                 var identity = MyAuthorizationServerProvider.AuthenticateUser();
                 LoginRequest objRequest = new LoginRequest();
-                objResponse = new LoginResponse();
+                objResponse = new ResponseBase();
                 if (identity != null)
                 {
-                    //var httpRequest = HttpContext.Current.Request;
-                    //string EmailId = httpRequest.Form["EmailId"];
-
-
-                    objRequest.UserName = identity.UserID;  //Here UserName Varaible is used as UserID
-
-
+                    objRequest.UserID = identity.UserID;  //Here UserName Varaible is used as UserID
                     Utility.DestroyAllSession();
 
-                    int i = UserDAL.UserLogout(objRequest);
-                    if (i > 0)
+                    DataSet ds = UserDAL.UserLogout(identity.CompId, identity.UserID, Utility.GetClientIPaddress());
+                    if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
                     {
-                        objResponse.ReturnCode = "0";
+                        objResponse.ReturnCode = "1";
                         objResponse.ReturnMessage = "User logout succesfully.";
+                        data = Utility.ConvertJsonToString(objResponse);
+                        data = Utility.Successful(data);
                     }
                     else
                     {
-                        objResponse.ReturnCode = "1";
+                        objResponse.ReturnCode = "2";
                         objResponse.ReturnMessage = "Unable to logout.";
+
+                        data = Utility.ConvertJsonToString(objResponse);
+                        data = Utility.Failed(data);
                     }
-                    Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
+                    //Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
                     objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
                 }
                 else
-                {
-
-                    objResponse.ReturnMessage = "Invalid Token";
-                    Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
+                {                    
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
                     objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
-
+                    data = Utility.AuthenticationError();
                 }
-
             }
             catch (Exception ex)
             {
-
                 objServiceLog.ResponseString = "Exception " + ex.Message + " | " + ex.StackTrace;
                 objServiceLog.RequestType = ConstantMessages.WebServiceLog.Exception;
             }
@@ -163,7 +158,7 @@ namespace _365_Portal.Controllers
                 objServiceLog.ResponseTime = DateTime.Now;
                 InsertRequestLog.SaveWebServiceLog(objServiceLog);
             }
-            return Ok(Response);
+            return new APIResult(Request, data);
         }
 
         //Get request api to autheticate user
