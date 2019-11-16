@@ -39,21 +39,21 @@
                         </div>
 
                         <div class="col-md-12" id="dvGroupContainer" style="display: none;">
-                            <div class="">
+                            <div class="form-group">
                                 <label>Select Groups</label>
                                 <div id="dvGroups"></div>
                             </div>
                         </div>
 
                         <div class="col-md-12" id="dvUserContainer" style="display: none;">
-                            <div class="">
+                            <div class="form-group">
                                 <label>Select Users</label>
                                 <div id="dvUsers"></div>
                             </div>
                         </div>
 
                         <div class="col-md-12 mt-3" id="dvTopicContainer" style="display: none;">
-                            <div class="">
+                            <div class="form-group">
                                 <label>Select Topics</label>
                                 <div id="dvTopics"></div>
                             </div>
@@ -137,10 +137,16 @@
                     response = $.parseJSON(response);
 
                     $.each(response.Data, function (index, topic) {
-                        htmlCheckboxes += '<input type="checkbox" name="chk_"' + topic.Title + ' value="' + topic.TopicID + '"><label for="' + topic.TopicID + '">' + topic.Title + '</label>';
+                        //htmlCheckboxes += '<input type="checkbox" name="chk_"' + topic.Title + ' value="' + topic.TopicID + '"><label for="' + topic.TopicID + '">' + topic.Title + '</label>';
+
+                        htmlCheckboxes += '<div class="custom-control custom-checkbox custom-control-inline">' +
+                            '<input type="checkbox" id="' + topic.TopicID + '" name="chk_"' + topic.Title + '" class="custom-control-input" value="' + topic.TopicID + '">' +
+                            '<label class="custom-control-label" for="' + topic.TopicID + '">' + topic.Title + '</label>' +
+                            '</div>';
+
                     });
 
-                    $("#dvTopics").html(htmlCheckboxes);
+                    $("#dvTopics").empty().append(htmlCheckboxes);
                 }
             });
         }
@@ -168,7 +174,12 @@
 
                         if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
                             $.each(response.Data, function (index, group) {
-                                htmlCheckboxes += '<input type="checkbox" name="chk_"' + group.GroupName + ' value="' + group.GroupId + '"><label for="' + group.GroupId + '">' + group.GroupName + '</label>';
+                                //htmlCheckboxes += '<input type="checkbox" name="chk_"' + group.GroupName + ' value="' + group.GroupId + '"><label for="' + group.GroupId + '">' + group.GroupName + '</label>';
+
+                                htmlCheckboxes += '<div class="custom-control custom-checkbox custom-control-inline">' +
+                                    '<input type="checkbox" id="' + group.GroupId + '" name="chk_"' + group.GroupName + '" class="custom-control-input" value="' + group.GroupId + '">' +
+                                    '<label class="custom-control-label" for="' + group.GroupId + '">' + group.GroupName + '</label>' +
+                                    '</div>';
                             });
                         }
                         else {
@@ -180,8 +191,13 @@
                             htmlCheckboxes += '</select>';
                         }
 
-                        $("#dvGroups").html(htmlCheckboxes);
+                        $("#dvGroups").empty().append(htmlCheckboxes);
                         $("#dvGroupContainer").show();
+
+                        $('select.select2').select2({
+                            placeholder: "Select a option",
+                            allowClear: true
+                        });
                     }
                 });
             }
@@ -191,14 +207,19 @@
                     type: "POST",
                     url: "../api/Trainning/GetTableData",
                     headers: { "Authorization": "Bearer " + accessToken },
-                     data: JSON.stringify({ Type: 2}),
+                    data: JSON.stringify({ Type: 2 }),
                     contentType: "application/json",
                     success: function (response) {
                         response = $.parseJSON(response);
 
                         if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
                             $.each(response.Data, function (index, user) {
-                                htmlCheckboxes += '<input type="checkbox" name="chk_"' + user.UserId + ' value="' + user.UserId + '"><label for="' + user.UserId + '">' + user.EmailID + '</label>';
+                                //htmlCheckboxes += '<input type="checkbox" name="chk_"' + user.UserId + ' value="' + user.UserId + '"><label for="' + user.UserId + '">' + user.EmailID + '</label>';
+
+                                htmlCheckboxes += '<div class="custom-control custom-checkbox custom-control-inline">' +
+                                    '<input type="checkbox" id="' + user.UserId + '" name="chk_"' + user.UserId + '" class="custom-control-input" value="' + user.UserId + '">' +
+                                    '<label class="custom-control-label" for="' + user.UserId + '">' + user.EmailID + '</label>' +
+                                    '</div>';
                             });
                         }
                         else {
@@ -210,8 +231,13 @@
                             htmlCheckboxes += '</select>';
                         }
 
-                        $("#dvUsers").html(htmlCheckboxes);
+                        $("#dvUsers").empty().append(htmlCheckboxes);
                         $("#dvUserContainer").show();
+
+                        $('select.select2').select2({
+                            placeholder: "Select a option",
+                            allowClear: true
+                        });
                     }
                 });
             }
@@ -220,10 +246,6 @@
                 $("#btnSubmit").hide();
             }
 
-            $('select.select2').select2({
-                placeholder: "Select a option",
-                allowClear: true
-            });
         }
 
         function GetSelectedTopics(cntrl) {
