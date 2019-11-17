@@ -151,14 +151,14 @@ namespace _365_Portal.Controllers
                         if (ds.Tables[tableIndex].Columns.Contains("StatusCode"))
                         {
                             var moduleCompleted = false;
-                            if (Convert.ToBoolean(Convert.ToString(ds.Tables[tableIndex].Rows[0]["IsModuleCompleted"])))
+                            if (Convert.ToBoolean(Convert.ToInt32(Convert.ToString(ds.Tables[tableIndex].Rows[0]["IsModuleCompleted"]))))
                             {
                                 // Module Completed
                                 // ds.Tables[tableIndex + 1];
                                 moduleCompleted = true;
                                 TrainningBL.SendNotification(compId, userId, "2", "", ds.Tables[tableIndex + 1]);
                             }
-                            if (Convert.ToBoolean(Convert.ToString(ds.Tables[tableIndex].Rows[0]["IsTopicCompleted"])))
+                            if (Convert.ToBoolean(Convert.ToInt32(Convert.ToString(ds.Tables[tableIndex].Rows[0]["IsTopicCompleted"]))))
                             {
                                 // Topic Completed
                                 //ds.Tables[tableIndex + 1 + (moduleCompleted ? 1 : 0)];

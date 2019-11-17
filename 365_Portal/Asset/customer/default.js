@@ -76,6 +76,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     }
 
     $scope.FlashcardNextClicked = function (contentId, index, total) {
+        // Begin Flashcard Quiz or Next Card
         if ((index + 1) == total) {
             $scope.ShowFlashcardQuiz(contentId);
         }
@@ -96,8 +97,9 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     }
 
     $scope.FlashcardQuestionNextClicked = function (topicId, moduleId, contentId, index, total) {
+        // Begin Final Quiz or Next Question
         if ((index + 1) == total) {
-            $scope.ShowFinalQuizIntro();
+            $scope.ShowFinalQuizIntro(contentId);
             //Unlock Next Content
             objDs.DS_UpdateContent("Flashcard", topicId, moduleId, contentId);
         }
@@ -150,7 +152,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         $.each(cloneObj.Questions, function (key, question) {
             if (question.Value_Text == '') {
                 if ($scope.GetSelectedValues(question.AnswerOptions) == '') {
-                    validationMsg += "<li>"+question.Title + "</li>";
+                    validationMsg += "<li>" + question.Title + "</li>";
                     validationSuccess = false;
                     index++;
                 }
@@ -221,14 +223,18 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
         $scope.ActiveContainer = "ContentFlashcardView";
         $scope.ActiveSubContainer = "FlashcardQuiz";
         $scope.CurrIndex = 0;
+        //if (contentId != null && contentId != undefined) {
+        //    var nextContent = NextItemContent(contentId);
+        //    $scope.ViewContent(nextContent.TopicID, nextContent.ModuleID, nextContent.ContentID, nextContent.Title, nextContent.ContentType);
+        //}
+    }
+
+    $scope.ShowFinalQuizIntro = function (contentId) {
+        $scope.ActiveContainer = "ContentQuizView";
         if (contentId != null && contentId != undefined) {
             var nextContent = NextItemContent(contentId);
             $scope.ViewContent(nextContent.TopicID, nextContent.ModuleID, nextContent.ContentID, nextContent.Title, nextContent.ContentType);
         }
-    }
-
-    $scope.ShowFinalQuizIntro = function () {
-        $scope.ActiveContainer = "ContentQuizView";
     }
 
     $scope.GoBack = function (prevPage) {
@@ -316,9 +322,13 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             HideLoader();
             var responseData = response.data;
             $rootScope.Content = responseData;
+            allContents = [];
             //allContents = responseData.UnlockedItems;
             //allContents = $.merge(allContents, responseData.LockedItems);
-            allContents = $.extend({}, responseData.UnlockedItems, responseData.LockedItems);
+            $.merge(allContents, responseData.UnlockedItems);
+            $.merge(allContents, responseData.LockedItems);
+            //var newAllContents = $.extend(true, {}, responseData.UnlockedItems, responseData.LockedItems);
+            //allContents = newAllContents;
         });
     }
 
@@ -428,7 +438,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                 var strMsg = "You have earned " + responseData.ScoreEarned + " marks out of " + responseData.TotalScore;
                 if (responseData.IsPassed == "0") {
                     strMsg += "<br/> You have not passed this test, need  more marks in order to complete this module. Take the test again. ";
-                   
+
                     Swal.fire({
                         title: 'Failure',
                         icon: 'error',
@@ -438,7 +448,7 @@ app.service("DataService", function ($http, $rootScope, $compile) {
                     });
                 }
                 else {
-                   
+
                     Swal.fire({
                         title: 'Success',
                         icon: 'success',
