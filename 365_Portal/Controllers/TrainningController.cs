@@ -127,12 +127,15 @@ namespace _365_Portal.Controllers
                     var ds = TrainningBL.UpdateContent(compId, userId, topicId, moduleId, contentId);
                     if (ds.Tables.Count > 0)
                     {
+                        var tableIndex = 0;
                         string isGift = "0";
-                        if (ds.Tables.Count == 2)
+                        if (ds.Tables[0].Columns.Contains("IsGift"))
                         {
                             // Successful -  Unlocked a gift
                             isGift = "1";
                             data = Utility.ContentUpdated("1", "Success", isGift, Utility.ConvertDataSetToJSONString(ds.Tables[0]));
+                            tableIndex = 1;
+                            TrainningBL.SendNotification(compId, userId, "1", "", ds.Tables[0]);
                         }
                         else if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
                         {
@@ -143,6 +146,24 @@ namespace _365_Portal.Controllers
                         {
                             // Error. Check Logs
                             data = Utility.API_Status("1", "There might be some error. Please try again later");
+                        }
+
+                        if (ds.Tables[tableIndex].Columns.Contains("StatusCode"))
+                        {
+                            var moduleCompleted = false;
+                            if (Convert.ToBoolean(Convert.ToString(ds.Tables[tableIndex].Rows[0]["IsModuleCompleted"])))
+                            {
+                                // Module Completed
+                                // ds.Tables[tableIndex + 1];
+                                moduleCompleted = true;
+                                TrainningBL.SendNotification(compId, userId, "2", "", ds.Tables[tableIndex + 1]);
+                            }
+                            if (Convert.ToBoolean(Convert.ToString(ds.Tables[tableIndex].Rows[0]["IsTopicCompleted"])))
+                            {
+                                // Topic Completed
+                                //ds.Tables[tableIndex + 1 + (moduleCompleted ? 1 : 0)];
+                                TrainningBL.SendNotification(compId, userId, "3", "", ds.Tables[tableIndex + 1 + (moduleCompleted ? 1 : 0)]);
+                            }
                         }
                     }
                     else
@@ -322,6 +343,37 @@ namespace _365_Portal.Controllers
                     int compId = identity.CompId;
                     string userId = identity.UserID;
                     var ds = TrainningBL.GetNotifications(compId, userId);
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.Successful(data);
+                }
+                catch (Exception ex)
+                {
+                    data = Utility.Exception(ex); ;
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("api/Trainning/UpdateNotification")]
+        [HttpPost]
+        public IHttpActionResult UpdateNotification(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    string userId = identity.UserID;
+                    string type = Convert.ToString(requestParams["Type"]);
+                    string notificationIds = Convert.ToString(requestParams["NotificationIDs"]);
+                    string token = Convert.ToString(requestParams["Token"]);
+                    var ds = TrainningBL.UpdateNotification(compId, userId, type, notificationIds, token);
                     data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
                     data = Utility.Successful(data);
                 }

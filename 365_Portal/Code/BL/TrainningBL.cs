@@ -357,6 +357,32 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+        public static DataSet CreateNotification(int compId, string userId, string title, string message, string token)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.CreateNotification(compId, userId, title, message, token);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+        public static DataSet UpdateNotification(int compId, string userId, string type, string notificationIds, string token)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.UpdateNotification(compId, userId, type, notificationIds, token);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
 
         public static DataSet GetAchievementGifts(int compId, string userId, ref List<Achievement> achievementList)
         {
@@ -444,18 +470,40 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetTableDataByType(int compID, string type, string valueType,string valueId)
+        public static DataSet GetTableDataByType(int compID, string type, string valueType, string valueId)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetTableDataByType(compID, type, valueType,valueId);
+                ds = TrainningDAL.GetTableDataByType(compID, type, valueType, valueId);
             }
             catch (Exception ex)
             {
                 Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
             return ds;
+        }
+
+        public static void SendNotification(int compId, string userId, string type, string token, DataTable dt)
+        {
+            var msg = "";
+            var title = "";
+            if (type == "1")
+            {
+                msg = "You just unlocked the " + dt.Rows[0]["Title"] + " gift";
+                title = "Gift";
+            }
+            else if (type == "2")
+            {
+                msg = "You just completed the " + dt.Rows[0]["Title"] + " module";
+                title = "Module";
+            }
+            else if (type == "3")
+            {
+                msg = "You just completed the " + dt.Rows[0]["Title"] + " topic";
+                title = "Topic";
+            }
+            CreateNotification(compId, userId, title, msg, token);
         }
     }
 }

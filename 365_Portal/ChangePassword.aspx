@@ -66,7 +66,7 @@
                                         if (result.value) {
                                             var uri;
                                             Swal.fire({
-                                                text: "Please Select any Option for move forward",
+                                                text: "Please choose following option.",
                                                 icon: "info",
                                                 showCancelButton: true,
                                                 confirmButtonColor: '#30D644',

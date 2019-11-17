@@ -322,6 +322,68 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
+        public static DataSet UpdateNotification(int compID, string userId, string type, string notificationIds, string token)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spUpdateNotification";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_compid", compID);
+                cmd.Parameters.AddWithValue("p_userid", userId);
+                cmd.Parameters.AddWithValue("p_type", type);
+                cmd.Parameters.AddWithValue("p_notficationIds", notificationIds);
+                cmd.Parameters.AddWithValue("p_token", token);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
+        public static DataSet CreateNotification(int compID, string userId, string title, string message, string token)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spCreateNotification";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_compID", compID);
+                cmd.Parameters.AddWithValue("p_userId", userId);
+                cmd.Parameters.AddWithValue("p_title", title);
+                cmd.Parameters.AddWithValue("p_message", message);
+                cmd.Parameters.AddWithValue("p_token", token);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
         public static DataSet GetAchievementGifts(int compID, string userId)
         {
             DataSet ds = new DataSet();
@@ -442,7 +504,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetTableDataByType(int compID, string type,string valueType,string valueId)
+        public static DataSet GetTableDataByType(int compID, string type, string valueType, string valueId)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
