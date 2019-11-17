@@ -56,7 +56,7 @@ namespace _365_Portal.Controllers
                         }
                         if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
                         {
-                            content.IsPublished = (bool)requestParams["IsActive"];
+                            content.IsActive = (bool)requestParams["IsActive"];
                         }
                         if (!string.IsNullOrEmpty(requestParams["MinUnlockedModules"].ToString()))
                         {

@@ -11,7 +11,7 @@
 
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
-                <div class="card-body">
+                <div class="card-body hide">
                     <a class="btn bg-yellow" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
@@ -36,7 +36,7 @@
                             <div class="form-group checkbox">
                                 <label>Is Published</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input" value="1">
+                                    <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input" >
                                     <label class="custom-control-label" for="cbIsPublished">Yes</label>
                                 </div>
                             </div>
@@ -200,7 +200,7 @@
 
                 var _SrNo = "";
                 try {
-                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, UserID: "", IsActive: "", ModuleID: ID };
+                    var requestParams = { TopicID: _Topic_Id, ModuleTitle: _Title, ModuleOverview: _Overview, ModuleDescription: _Description, IsPublished: _IsPublished, SrNo: _SrNo, UserID: "", IsActive: true, ModuleID: ID };
 
 
                     $.ajax({
@@ -512,6 +512,9 @@
 
                             });
                         }
+                        $('#divTable').empty().append(tbl);
+                        $('#tblGird').DataTable();
+                        $('#tblGird').tableDnD();
                     },
                     complete: function () {
                         HideLoader();
