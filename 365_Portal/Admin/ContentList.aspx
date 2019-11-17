@@ -79,7 +79,7 @@
                                 <select class="form-control select2 required" id="ddlDocType" style="width: 100% !important">
                                     <option></option>
                                     <option value="PDF">PDF</option>
-                                    <option value="Video">Video</option>
+                                    <option value="VIDEO">Video</option>
                                 </select>
                             </div>
                         </div>
@@ -120,9 +120,13 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <%--  <div class="form-group">
                                 <label for="txtFilePath">File Path/URL</label>
                                 <input type="text" class="form-control required" id="txtFilePath" placeholder="https://example.com" />
+                            </div>--%>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="filepath" onchange="encodeImagetoBase64(this)">
+                                <label class="custom-file-label" for="customFile">File Path/URL</label>
                             </div>
                         </div>
                         <div class="w-100"></div>
@@ -183,10 +187,17 @@
         <tbody id="tBodyContent"></tbody>
     </table>--%>
     <script>
-
+        var accessToken = '<%=Session["access_token"]%>';
         contentList = [];
-
+        var TopicID;
+        var _ModuleID;
+        var TypeID;
+        var base64filestring;
         $(document).ready(function () {
+            //TopicID = GetParameterValues('Id');
+            //_ModuleID = GetParameterValues('ModuleId');
+            TopicID = "1";
+            _ModuleID = "1";
             GetContentList(this);
         });
 
@@ -195,35 +206,115 @@
                 $("#txtTitle").val() != "" &&
                 $("#txtDescription").val() != "" &&
                 $("#txtOverview").val() != "" &&
-                $("#txtFilePath").val() != "") {
+                $("#filepath").val() != "" && TopicID != "" && _ModuleID != "") {
 
                 var index = contentList.length + 1;
                 var newContent = {
-                    "ContentID": (index * 10),
-                    "SrNo": index,
-                    "DocType": $("#ddlDocType").val()
-                    , "Title": $("#txtTitle").val()
-                    , "Description": $("#txtDescription").val()
-                    , "Overview": $("#txtOverview").val()
-                    , "FilePath": $("#txtFilePath").val()
-                    , "IsGift": $("#chkIsGift").prop("checked")
-                    , "IsPublished": $("#chkIsPublished").prop("checked")
+                    ContentID: (index),
+                    SrNo: index,
+                    DocType: $("#ddlDocType").val()
+                    , Title: $("#txtTitle").val()
+                    , Description: $("#txtDescription").val()
+                    , Overview: $("#txtOverview").val()
+                    , ContentFileID: base64filestring
+                    , IsGift: $("#chkIsGift").prop("checked")
+                    , IsPublished: $("#chkIsPublished").prop("checked")
+                    , TopicID: TopicID
+                    , ModuleID: _ModuleID
+                    , TypeID: "1"
+                    , FlashcardTitle: ""
+                    , IsActive: ""
+                    , TotalScore: ""
+                    , PassingPercent: ""
+                    , PassingScore: ""
+                    , FlashcardHighlights: ""
+                    , SkipFlashcards:""
+
                 };
 
                 if ($(cntrl).attr("index") == null) {
                     // Add Content
                     // Ajax Call
-
                     if (IsTitleDuplicate(contentList, newContent.Title)) {
-                        alert("Title cannot be duplicate.");
+                        //alert("Title cannot be duplicate.");
+                        Swal.fire({
+                            title: "Failure",
+                            text: "Title cannot be duplicate.",
+                            icon: "error"
+                        });
                         return false;
                     }
+                    $.ajax({
+                        type: "POST",
+                        url: "/API/Content/CreateContent",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(newContent),
+                        contentType: "application/json",
+                        success: function (response) {
+                            try {
 
-                    contentList.push(newContent);
+                                var DataSet = $.parseJSON(response);
+                                if (DataSet != null && DataSet != "") {
+                                    if (DataSet.StatusCode == "1") {                                        
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Success",
+                                            text: DataSet.StatusDescription,
+                                            icon: "success",
+                                        });                                        
+                                        contentList.push(newContent);
+                                    }
+                                    else {
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Failure",
+                                            text: DataSet.StatusDescription,
+                                            icon: "error"
+                                        });
+                                    }
+                                    //clearFields('.input-validation');
+
+                                }
+                                else {
+                                    HideLoader();
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        icon: "error"
+                                    });
+                                }
+                            }
+                            catch (e) {
+                                HideLoader();
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        complete: function () {
+                            HideLoader();
+                        },
+                        failure: function (response) {
+                            HideLoader();
+                            alert(response.data);
+                            Swal.fire({
+                                title: "Failure",
+                                text: "Please try Again",
+                                icon: "error"
+                            });
+                        }
+                    });
+                
+
+      
+                 
                 }
                 else {
                     // Update Content
                     var index = $(cntrl).attr("index");
+                    newContent.ContentID = index;
 
                     if (IsTitleDuplicate(contentList, newContent.Title, index)) {
                         alert("Title cannot be duplicate.");
@@ -243,6 +334,70 @@
                     oldContent.IsPublished = newContent.IsPublished;
 
                     // Ajax Call
+                    $.ajax({
+                        type: "POST",
+                        url: "/API/Content/ModifyContent",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(newContent),
+                        contentType: "application/json",
+                        success: function (response) {
+                            try {
+
+                                var DataSet = $.parseJSON(response);
+                                if (DataSet != null && DataSet != "") {
+                                    if (DataSet.StatusCode == "1") {
+                                        clearFields('.input-validation');
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Success",
+                                            text: DataSet.StatusDescription,
+                                            icon: "success",
+
+                                        });
+                                        GetContentList(this);
+                                    }
+                                    else {
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Failure",
+                                            text: DataSet.StatusDescription,
+                                            icon: "error"
+                                        });
+                                    }
+                                    //clearFields('.input-validation');
+
+                                }
+                                else {
+                                    HideLoader();
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        icon: "error"
+                                    });
+                                }
+                            }
+                            catch (e) {
+                                HideLoader();
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        complete: function () {
+                            HideLoader();
+                        },
+                        failure: function (response) {
+                            HideLoader();
+                            alert(response.data);
+                            Swal.fire({
+                                title: "Failure",
+                                text: "Please try Again",
+                                icon: "error"
+                            });
+                        }
+                    });
                 }
 
                 Cancel(cntrl);
@@ -250,7 +405,12 @@
 
             }
             else {
-                alert("Please enter all required fields.");
+                // alert("Please enter all required fields.");
+                Swal.fire({
+                    title: "Failure",
+                    text: "Please enter all required fields.",
+                    icon: "error"
+                });
             }
         }
 
@@ -259,7 +419,7 @@
             $("#txtTitle").val("");
             $("#txtDescription").val("");
             $("#txtOverview").val("");
-            $("#txtFilePath").val("");
+            $("#filepath").val("");
             $("#chkIsGift").prop("checked", false);
             $("#chkIsPublished").prop("checked", false);
 
@@ -267,37 +427,91 @@
         }
 
         function GetContentList(cntrl) {
+            ShowLoader();
+            var url = "/API/Content/GetContentList";
+            try {
+                var requestParams = { TopicID: "1", ModuleID: "1", ContentID: "", ContentTypeID: "", IsGift: "true" };              
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    processData: false,
+                    success: function (response) {
+                        if (response != null && response != undefined) {
+                            //$("#dvJson").html(JSON.stringify(contentList));
+                            var list = JSON.parse(response);
+                            if (list.StatusCode = "1") {
+                                for (var i = 0; i < list.Data.length; i++) {
+                                    contentList.push(list.Data[i]);
+                                }
 
-            $("#dvJson").html(JSON.stringify(contentList));
+                                var tableBody = $("#tblContent #tBodyContent");
+                                tableBody.html("");
+                                if (contentList.length == 0) {
+                                    tableBody.append("<td colspan='10'><center>No Contents</center></td>");
+                                }
+                                $.grep(contentList, function (content, i) {
+                                    try {
+                                        var isGiftValue = content.IsGift == true ? "Checked disabled" : "disabled";
+                                        var isPublishedValue = content.IsPublished == true ? "Checked disabled" : "disabled";
+                                        var markup = "<tr>";
+                                        markup += "<td>" + content.SrNo + "</td>";
+                                        markup += "<td>" + content.DocType + "</td>";
+                                        markup += "<td>" + content.ContentName + "</td>";
+                                        markup += "<td>" + content.Description + "</td>";
+                                        markup += "<td>" + content.Overview + "</td>";
+                                        markup += "<td>" + content.FilePath + "</td>";
+                                        //markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
+                                        //markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
+                                        markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
+                                        //markup += "<td index=" + content.ContentID + " onclick ='EditContent($(this))'>Edit</td>";
+                                        //markup += "<td index=" + content.ContentID + " onclick ='DeleteContent($(this))'>Delete</td>";
+                                        markup += "</tr>";
+                                        tableBody.append(markup);
+                                    }
+                                    catch (ex) {
 
-            var tableBody = $("#tblContent #tBodyContent");
-            tableBody.html("");
-            if (contentList.length == 0) {
-                tableBody.append("<td colspan='10'><center>No Contents</center></td>");
+                                        Swal.fire({
+                                            title: "Failure",
+                                            text: "Exception occured." + ex.message,
+                                            icon: "error"
+                                        });
+                                    }
+                                });
+                            }
+                            else {
+                                HideLoader();
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    icon: "error"
+                                });
+                            }
+                        }
+                        else {
+                            HideLoader();
+                            Swal.fire({
+                                title: "Failure",
+                                text: "Please try Again",
+                                icon: "error"
+                            });
+                        }
+                    },
+                    complete: function () {
+                        HideLoader();
+                    }
+                });
             }
-            $.grep(contentList, function (content, i) {
-                try {
-                    var isGiftValue = content.IsGift == true ? "Checked disabled" : "disabled";
-                    var isPublishedValue = content.IsPublished == true ? "Checked disabled" : "disabled";
-                    var markup = "<tr>";
-                    markup += "<td>" + content.SrNo + "</td>";
-                    markup += "<td>" + content.DocType + "</td>";
-                    markup += "<td>" + content.Title + "</td>";
-                    markup += "<td>" + content.Description + "</td>";
-                    markup += "<td>" + content.Overview + "</td>";
-                    markup += "<td>" + content.FilePath + "</td>";
-                    markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
-                    markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
-                    markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
-                    //markup += "<td index=" + content.ContentID + " onclick ='EditContent($(this))'>Edit</td>";
-                    //markup += "<td index=" + content.ContentID + " onclick ='DeleteContent($(this))'>Delete</td>";
-                    markup += "</tr>";
-                    tableBody.append(markup);
-                }
-                catch (ex) {
-                    alert("Exception occured." + ex.message);
-                }
-            });
+            catch (e) {
+                HideLoader();
+                Swal.fire({
+                    title: "Failure",
+                    text: "Please try Again",
+                    icon: "error"
+                });
+            }
         }
 
         function EditContent(row) {
@@ -308,13 +522,13 @@
             })[0];
 
             $("#ddlDocType").val(content.DocType);
-            $("#txtTitle").val(content.Title);
+            $("#txtTitle").val(content.ContentName);
             $("#txtDescription").val(content.Description);
             $("#txtOverview").val(content.Overview);
-            $("#txtFilePath").val(content.FilePath);
+            $("#filepath").val(content.FilePath);
             $("#chkIsGift").prop("checked", content.IsGift);
             $("#chkIsPublished").prop("checked", content.IsPublished);
-
+            TypeID = content.TypeID;
             $("#btnSaveChanges").text("Save Content");
             $("#btnSaveChanges").attr("index", index);
             $("#btnCancel").show();
@@ -322,24 +536,97 @@
         }
 
         function DeleteContent(row) {
+            debugger
             var index = $(row).attr("index");
 
             contentList = $.grep(contentList, function (n, i) {
                 return n.ContentID != parseInt(index);
             });
 
-            if (contentList == null)
-                contentList = [];
-
-            // Ajax Call
-
-            GetContentList(row);
+            if (contentList != null) {
+             
+                var newcontentlist = { p_ContentID: index }
+                // Ajax Call
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to delete user!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+                        ShowLoader();
+                        // Ajax Call
+                        $.ajax({
+                            type: "POST",
+                            url: "/API/Content/DeleteContent",
+                            headers: { "Authorization": "Bearer " + accessToken },
+                            data: JSON.stringify(newcontentlist),
+                            contentType: "application/json",
+                            success: function (response) {
+                                try {
+                                    contentList=[];
+                                    var DataSet = $.parseJSON(response);
+                                    if (DataSet != null && DataSet != "") {
+                                        if (DataSet.StatusCode == "1") {
+                                            GetContentList(row);
+                                            HideLoader();
+                                            Swal.fire({
+                                                title: "Success",
+                                                text: DataSet.StatusDescription,
+                                                icon: "success",
+                                            });
+                                        }
+                                        else {
+                                            HideLoader();
+                                            Swal.fire({
+                                                title: "Failure",
+                                                text: DataSet.StatusDescription,
+                                                icon: "error"
+                                            });
+                                        }
+                                    }
+                                    else {
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Failure",
+                                            text: "Please try Again",
+                                            icon: "error"
+                                        });
+                                    }
+                                }
+                                catch (e) {
+                                    HideLoader();
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        icon: "error"
+                                    });
+                                }
+                            },
+                            complete: function () {
+                                HideLoader();
+                            },
+                            failure: function (response) {
+                                HideLoader();
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    icon: "error"
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         }
 
         function IsTitleDuplicate(contents, title, ID) {
             var duplicateTitle = false;
             $.grep(contents, function (n, i) {
-                if (n.Title.trim().toUpperCase() == title.trim().toUpperCase() && n.ContentID != ID) {
+                if (n.ContentName.trim().toUpperCase() == title.trim().toUpperCase() && n.ContentID != ID) {
                     duplicateTitle = true;
                     return false;
                 }
@@ -353,6 +640,17 @@
             $("#btnSaveChanges").text("Add Content");
             $("#btnSaveChanges").removeAttr("index");
             ClearAllFields(this);
+        }
+
+
+        function encodeImagetoBase64(element) {
+            //debugger
+            var file = element.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                base64filestring = reader.result;
+            }
+            reader.readAsDataURL(file);
         }
     </script>
 </asp:Content>

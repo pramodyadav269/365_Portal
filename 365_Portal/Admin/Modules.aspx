@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Topics</a>
-            <h1 class="text-center font-weight-bold">Modules</h1>
+            <h1 class="text-center font-weight-bold" id="module"></h1>
         </div>
 
         <div class="col-md-12" id="divGird">
@@ -70,8 +70,9 @@
         var _ModuleID;
         $(document).ready(function () {
             TopicID = GetParameterValues('Id');
-            View();
             bindTopics();
+            View();
+          
         });
         var accessToken = '<%=Session["access_token"]%>';
         var id = "";
@@ -93,7 +94,11 @@
                         if (DataSet.StatusCode == "1") {
                             $('#ddlTopic').empty().append('<option></option>');
                             for (var i = 0; i < Topic.length; i++) {
-                                $('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
+                                if (TopicID == Topic[i].TopicID)
+                                {
+                                    $('#module').html(Topic[i].Title);
+                                }
+                                //$('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
                             }
                         }
                         else {

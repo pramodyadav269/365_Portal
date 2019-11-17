@@ -5,6 +5,9 @@ using System;
 using System.Web.Http;
 using Newtonsoft.Json.Linq;
 using System.Data;
+using System.Linq;
+using System.IO;
+using System.Web;
 
 namespace _365_Portal.Controllers
 {
@@ -778,9 +781,18 @@ namespace _365_Portal.Controllers
                 if (identity != null)
                 {
 
-                    if ((!string.IsNullOrEmpty(requestParams["TopicID"].ToString()) &&
-                        !string.IsNullOrEmpty(requestParams["p_DocType"].ToString()) && !string.IsNullOrEmpty(requestParams["p_ContentTitle"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["p_ContentDescription"].ToString()) && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())))
+                    if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString())
+                        //&& !string.IsNullOrEmpty(requestParams["ContentID"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["TypeID"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["DocType"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["Title"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["Description"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["Overview"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
+                        )
                     {
                         content.CompID = identity.CompId;
                         content.CreatedBy = identity.UserID;
@@ -789,50 +801,325 @@ namespace _365_Portal.Controllers
                         {
                             content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
                         }
-
-                        //if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
-                        //{
-                        //    content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
-                        //}
-                        if (!string.IsNullOrEmpty(requestParams["ModuleTitle"].ToString()))
+                        if (!string.IsNullOrEmpty(requestParams["ContentID"].ToString()))
                         {
-                            content.ModuleTitle = requestParams["ModuleTitle"].ToString();
+                            content.ContentID = Convert.ToInt32(requestParams["ContentID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                        {
+                            content.ModuleID = Convert.ToInt32(requestParams["ModuleID"].ToString());
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TypeID"].ToString()))
+                        {
+                            content.ContentTypeID = Convert.ToInt32(requestParams["TypeID"].ToString());
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["DocType"].ToString()))
+                        {
+                            content.DocType = requestParams["DocType"].ToString();
                         }
                         else
                         {
-                            content.ModuleDescription = null;
+                            content.DocType = null;
                         }
-
-                        if (!string.IsNullOrEmpty(requestParams["ModuleDescription"].ToString()))
+                        if (!string.IsNullOrEmpty(requestParams["ContentFileID"].ToString()))
                         {
-                            content.ModuleDescription = requestParams["ModuleDescription"].ToString();
+                            string ContentBase64 = Convert.ToString(requestParams.SelectToken("ContentFileID"));
+                            if (!string.IsNullOrEmpty(ContentBase64))
+                            {
+                                var files = ContentBase64.Split(new string[] { "," }, StringSplitOptions.None);
+                                if (files.Count() == 1)
+                                    ContentBase64 = files[0];
+                                else
+                                    ContentBase64 = files[1];
+                                byte[] imageBytes = Convert.FromBase64String(ContentBase64);
+                                string fileName = identity.UserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(ContentBase64);
+                                string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
+                                File.WriteAllBytes(filePath, imageBytes);
+
+                                DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), "Content");
+                                if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                                {
+                                    content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                }
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["Title"].ToString()))
+                        {
+                            content.ContentTitle = requestParams["Title"].ToString();
                         }
                         else
                         {
-                            content.ModuleDescription = null;
+                            content.ContentTitle = null;
                         }
-
-                        if (!string.IsNullOrEmpty(requestParams["ModuleOverview"].ToString()))
+                        if (!string.IsNullOrEmpty(requestParams["FlashcardHighlights"].ToString()))
                         {
-                            content.ModuleOverview = requestParams["ModuleOverview"].ToString();
+                            content.FlashcardHighlights = requestParams["FlashcardHighlights"].ToString();
+                        }
+                        else
+                        {
+                            content.FlashcardHighlights = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["Description"].ToString()))
+                        {
+                            content.ContentDescription = requestParams["Description"].ToString();
+                        }
+                        else
+                        {
+                            content.ContentDescription = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["Overview"].ToString()))
+                        {
+                            content.ModuleOverview = requestParams["Overview"].ToString();
                         }
                         else
                         {
                             content.ModuleOverview = null;
                         }
+                        if (!string.IsNullOrEmpty(requestParams["FlashcardTitle"].ToString()))
+                        {
+                            content.FlashcardTitle = requestParams["FlashcardTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.FlashcardTitle = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SkipFlashcards"].ToString()))
+                        {
+                            content.SkipFlashcard = (bool)requestParams["SkipFlashcards"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsGift"].ToString()))
+                        {
+                            content.IsGift = (bool)requestParams["IsGift"];
+                        }
                         if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
                         {
                             content.IsPublished = (bool)requestParams["IsPublished"];
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
-                        {
-                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
                         }
                         if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
                         {
                             content.IsActive = (bool)requestParams["IsActive"];
                         }
-                        var ds = ContentBL.CreateModule(content);
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TotalScore"].ToString()))
+                        {
+                            content.TotalScore = Convert.ToDouble(requestParams["TotalScore"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["PassingPercent"].ToString()))
+                        {
+                            content.PassingPercent = Convert.ToDouble(requestParams["PassingPercent"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["PassingScore"].ToString()))
+                        {
+                            content.PassingScore = Convert.ToDouble(requestParams["PassingScore"]);
+                        }
+                        var ds = ContentBL.CreateContent(content);
+                        if (ds != null)
+                        {
+                            if (ds.Tables.Count > 0)
+                            {
+                                DataTable dt = ds.Tables["Data"];
+                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                {
+                                    data = Utility.ConvertDataSetToJSONString(dt);
+                                    data = Utility.Successful(data);
+                                }
+                                else
+                                {
+
+                                    data = dt.Rows[0]["ReturnMessage"].ToString();
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+
+                            }
+                            else
+                            {
+                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
+                        }
+                        else
+                        {
+                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.InValidValues;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+            return new APIResult(Request, data);
+
+
+        }
+
+        [HttpPost]
+        [Route("API/Content/ModifyContent")]
+        public IHttpActionResult ModifyContent(JObject requestParams)
+        {
+            var data = string.Empty;
+            ContentBO content = new ContentBO();
+            try
+            {
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
+                if (identity != null)
+                {
+
+                    if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()) && !string.IsNullOrEmpty(requestParams["ContentID"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["TypeID"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["DocType"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["Title"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["Description"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["Overview"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["FlashcardTitle"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["TotalScore"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["PassingPercent "].ToString())
+                        && !string.IsNullOrEmpty(requestParams["PassingScore"].ToString())
+                        )
+                    {
+                        content.CompID = identity.CompId;
+                        content.CreatedBy = identity.UserID;
+
+                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        {
+                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["ContentID"].ToString()))
+                        {
+                            content.ContentID = Convert.ToInt32(requestParams["ContentID"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                        {
+                            content.ModuleID = Convert.ToInt32(requestParams["ModuleID"].ToString());
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TypeID"].ToString()))
+                        {
+                            content.ContentTypeID = Convert.ToInt32(requestParams["TypeID"].ToString());
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["DocType"].ToString()))
+                        {
+                            content.DocType = requestParams["DocType"].ToString();
+                        }
+                        else
+                        {
+                            content.DocType = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["ContentFileID"].ToString()))
+                        {
+                            string ContentBase64 = Convert.ToString(requestParams.SelectToken("ContentFileID"));
+                            if (!string.IsNullOrEmpty(ContentBase64))
+                            {
+                                var files = ContentBase64.Split(new string[] { "," }, StringSplitOptions.None);
+                                if (files.Count() == 1)
+                                    ContentBase64 = files[0];
+                                else
+                                    ContentBase64 = files[1];
+                                byte[] imageBytes = Convert.FromBase64String(ContentBase64);
+                                string fileName = identity.UserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(ContentBase64);
+                                string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
+                                File.WriteAllBytes(filePath, imageBytes);
+
+                                DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), "Content");
+                                if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                                {
+                                    content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                }
+                            }
+
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["Title"].ToString()))
+                        {
+                            content.ContentTitle = requestParams["Title"].ToString();
+                        }
+                        else
+                        {
+                            content.ContentTitle = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["FlashcardHighlights"].ToString()))
+                        {
+                            content.FlashcardHighlights = requestParams["FlashcardHighlights"].ToString();
+                        }
+                        else
+                        {
+                            content.FlashcardHighlights = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["Description"].ToString()))
+                        {
+                            content.ContentDescription = requestParams["Description"].ToString();
+                        }
+                        else
+                        {
+                            content.ContentDescription = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["Overview"].ToString()))
+                        {
+                            content.ModuleOverview = requestParams["Overview"].ToString();
+                        }
+                        else
+                        {
+                            content.ModuleOverview = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["FlashcardTitle"].ToString()))
+                        {
+                            content.FlashcardTitle = requestParams["FlashcardTitle"].ToString();
+                        }
+                        else
+                        {
+                            content.FlashcardTitle = null;
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SkipFlashcards"].ToString()))
+                        {
+                            content.SkipFlashcard = (bool)requestParams["SkipFlashcards"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsGift"].ToString()))
+                        {
+                            content.IsGift = (bool)requestParams["IsGift"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
+                        {
+                            content.IsPublished = (bool)requestParams["IsPublished"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
+                        {
+                            content.IsActive = (bool)requestParams["IsActive"];
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
+                        {
+                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["TotalScore"].ToString()))
+                        {
+                            content.TotalScore = Convert.ToDouble(requestParams["TotalScore"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["PassingPercent"].ToString()))
+                        {
+                            content.PassingPercent = Convert.ToDouble(requestParams["PassingPercent"]);
+                        }
+                        if (!string.IsNullOrEmpty(requestParams["PassingScore"].ToString()))
+                        {
+                            content.PassingScore = Convert.ToDouble(requestParams["PassingScore"]);
+                        }
+                        var ds = ContentBL.ModifyContent(content);
                         if (ds.Tables.Count > 0)
                         {
                             DataTable dt = ds.Tables["Data"];
@@ -879,20 +1166,57 @@ namespace _365_Portal.Controllers
         }
 
         [HttpPost]
-        [Route("API/Content/ModifyContent")]
-        public IHttpActionResult ModifyContent(JObject requestParams)
-        {
-            var data = string.Empty;
-            return new APIResult(Request, data);
-
-        }
-
-        [HttpPost]
         [Route("API/Content/DeleteContent")]
         public IHttpActionResult DeleteContent(JObject requestParams)
         {
             var data = string.Empty;
+            ContentBO content = new ContentBO();
+            try
+            {
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
+                if (identity != null)
+                {
+                    content.CompID = identity.CompId;
+                    content.CreatedBy = identity.UserID;
+                    if (!string.IsNullOrEmpty(requestParams["p_ContentID"].ToString()))
+                    {
+                        content.ContentID = Convert.ToInt32(requestParams["p_ContentID"]);
+                    }
+                    var ds = ContentBL.DeleteContent(content);
+                    if (ds != null)
+                    {
+                        DataTable dt = ds.Tables["Data"];
+                        if (ds.Tables.Count > 0)
+                        {
+
+                            data = Utility.ConvertDataSetToJSONString(dt);
+                            data = Utility.Successful(data);
+                        }
+                        else
+                        {
+                            data = dt.Rows[0]["ReturnMessage"].ToString();
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
             return new APIResult(Request, data);
+
 
         }
 
@@ -901,8 +1225,68 @@ namespace _365_Portal.Controllers
         public IHttpActionResult GetContentList(JObject requestParams)
         {
             var data = string.Empty;
-            return new APIResult(Request, data);
+            ContentBO content = new ContentBO();
+            try
+            {
+                var identity = MyAuthorizationServerProvider.AuthenticateUser();
+                if (identity != null)
+                {
+                    content.CompID = identity.CompId;
+                    content.CreatedBy = identity.UserID;
+                    if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                    {
+                        content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
+                    }
+                    if (!string.IsNullOrEmpty(requestParams["ContentID"].ToString()))
+                    {
+                        content.ContentID = Convert.ToInt32(requestParams["ContentID"]);
+                    }
+                    if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
+                    {
+                        content.ModuleID = Convert.ToInt32(requestParams["ModuleID"]);
+                    }
+                    if (!string.IsNullOrEmpty(requestParams["ContentTypeID"].ToString()))
+                    {
+                        content.ContentTypeID = Convert.ToInt32(requestParams["ContentTypeID"]);
+                    }
+                    if (!string.IsNullOrEmpty(requestParams["IsGift"].ToString()))
+                    {
+                        content.IsGift = (bool)requestParams["IsGift"];
+                    }
+                    var ds = ContentBL.GetContentList(content);
+                    if (ds != null)
+                    {
+                        DataTable dt = ds.Tables["Data"];
+                        if (ds.Tables.Count > 0)
+                        {
 
+                            data = Utility.ConvertDataSetToJSONString(dt);
+                            data = Utility.Successful(data);
+                        }
+                        else
+                        {
+                            data = dt.Rows[0]["ReturnMessage"].ToString();
+                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                        }
+                    }
+                    else
+                    {
+                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                    }
+                }
+                else
+                {
+                    data = Utility.AuthenticationError();
+                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                }
+            }
+            catch (Exception ex)
+            {
+                data = ex.Message;
+                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+            }
+            return new APIResult(Request, data);
         }
         #endregion
 

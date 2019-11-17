@@ -14,7 +14,7 @@ namespace _365_Portal
         public string ContentType { get; set; }
         public  string ContentTitle { get; set; }
         public  string ContentDescription { get; set; }
-        public int ContentFileID { get; set; }
+        public string ContentFileID { get; set; }
 
         public  string FilePath { get; set; }
         public  string UserIDs { get; set; }
@@ -39,9 +39,9 @@ namespace _365_Portal
         public string FlashcardHighlights { get; set; }
         public string FlashcardTitle { get; set; }
 
-        public int TotalScore { get; set; }
-        public int PassingPercent { get; set; }
-        public int PassingScore { get; set; }
+        public double TotalScore { get; set; }
+        public double PassingPercent { get; set; }
+        public double PassingScore { get; set; }
 
     }
 }

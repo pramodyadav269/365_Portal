@@ -764,6 +764,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Files\CompLogo\" />
+    <Folder Include="Files\Content\" />
     <Folder Include="Files\Others\" />
     <Folder Include="Files\ProfilePic\" />
     <Folder Include="Files\Survey\" />
