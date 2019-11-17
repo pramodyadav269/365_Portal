@@ -303,7 +303,7 @@
         function View() {
             var url = "/API/User/GetGroups";
             try {
-
+                debugger
                 requestParams = { GroupID: "", GroupName: "", GroupDescription: "" };
                 ShowLoader();
                 $.ajax({
@@ -313,7 +313,8 @@
                     data: JSON.stringify(requestParams),
                     contentType: "application/json",
                     processData: false,
-                    success: function (response) {
+                    success: function (response)
+                    {
                         var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
                         tbl += '<thead><tr>';
                         tbl += '<th>Sr.No.';
@@ -323,27 +324,26 @@
                         tbl += '<tbody>';
                         if (response != null && response != undefined) {
                             var DataSet = $.parseJSON(response);
-                            if (DataSet != null && DataSet != "") {
-                                if (DataSet.StatusCode == "1") {
-
-                                    if (DataSet.Data.length > 0) {
-                                        $.each(DataSet.Data, function (i, data) {
+                            if (DataSet != null && DataSet != "")
+                            {
+                                if (DataSet.StatusCode == "1")
+                                {
+                                    if (DataSet.Data.length > 0)
+                                    {
+                                        $.each(DataSet.Data, function (i, data)
+                                        {
                                             tbl += '<tr id="' + data.GroupID + '">';
                                             tbl += '<td>' + (i + 1);
                                             tbl += '<td class="title">' + data.GroupName;
                                             //tbl += '<td class="description">' + data.Description;
                                             tbl += '<td><i title="Edit" onclick="Edit(' + data.GroupID + ');" class="fas fa-edit text-warning"></i>' +
                                                 '<i title="Delete" onclick="Delete(' + data.GroupID + ');" class="fas fa-trash text-danger"></i>';
-
                                         });
                                     }
                                     else {
                                         tbl += '<td colspan=3 align=center>No Records found';
                                     }
-
                                     $('#divTable').empty().append(tbl);
-
-                                  
                                 }
                                 else {
                                     HideLoader();
@@ -391,6 +391,7 @@
                     button: "Ok",
                 });
             }
+            HideLoader();
         }
 
         //This funcion is to get and save changes of Serial No

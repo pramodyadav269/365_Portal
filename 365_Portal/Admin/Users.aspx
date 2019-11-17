@@ -202,8 +202,7 @@
             tbl += '</tbody>';
             tbl += '</table>';
             $('#divTable').empty().append(tbl);
-            $('#tblGird').DataTable()
-
+            $('#tblGird').DataTable();
         }
 
         function GetUsers() {
@@ -218,19 +217,18 @@
                         //debugger
                         var DataSet = $.parseJSON(response);
                         HideLoader();
-                        if (DataSet.StatusCode == "1") {
-                            //alert(DataSet.StatusDescription);                            
-                            BindUsers(DataSet.Data);
-                            BindRoleAndGroup('', 'create');
+                        debugger
+                        if (DataSet.StatusCode == "1") {                            
+                            BindUsers(DataSet.Data);                            
                         }
                         else {
-                            //alert(DataSet.StatusDescription);
-                            //debugger
                             Swal.fire(DataSet.StatusDescription, {
                                 icon: "error",
                             });
                             ClearFields();
                         }
+
+                        BindRoleAndGroup('', 'create');
                     }
                     catch (e) {
                         HideLoader();

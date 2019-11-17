@@ -329,36 +329,7 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
-
-        /*
-        [Route("API/User/CreateUser")]
-        [HttpPost]
-        public IHttpActionResult CreateUser(JObject jsonResult)
-        {
-            var data = "";
-            string UserName = (string)jsonResult.SelectToken("username");
-            if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrWhiteSpace(UserName))
-            {
-                try
-                {
-                    //var ds =  CommonBL.GetLoginDetails(1);
-                    var ds = CommonBL.GetLoginDetails(UserName);
-                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
-                }
-                catch (Exception ex)
-                {
-                    APIResult.ThrowException(ex);
-                }
-            }
-            else
-            {
-                data = "UserName is not entered. Please enter a UserName";
-            }
-            return new APIResult(Request, data);
-        }
-        */
-
-
+        
         [HttpPost]
         [Route("API/User/GetMyProfile")]
         public IHttpActionResult GetMyProfile()//JObject requestParams
@@ -1193,7 +1164,7 @@ namespace _365_Portal.Controllers
                     objUser.Role = identity.Role;
 
                     var ds = CommonBL.GetUsers(objUser);
-                    if (ds.Tables[0].Rows.Count > 0)
+                    if (ds.Tables.Count > 0)
                     {
                         data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
                         data = Utility.Successful(data);
