@@ -12,14 +12,14 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>
+                    <a class="btn bg-yellow float-left " onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" style="display:none;" id="savereorder" onclick="SaveGrid();">Save Reordering</a>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-5 table-responsive"></div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-12 d-none" id="divForm">
+        <div class="col-md-12 d-none" id="divForm"> 
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
 
@@ -504,7 +504,12 @@
                         }
                         $('#divTable').empty().append(tbl);
                         $('#tblGird').DataTable();
-                        $('#tblGird').tableDnD();
+                        $('#tblGird').tableDnD({
+                            onDragStart: function (table, row) {
+                                $('#savereorder').show();
+                               
+                            }
+                        });
                     },
                     complete: function () {
                         HideLoader();
@@ -549,14 +554,13 @@
                         contentType: "application/json",
                         processData: false,
                         success: function (response) {
-                        },
-                        complete: function () {
-                            HideLoader();
                             if (response != null && response != undefined) {
                                 var DataSet = $.parseJSON(response);
                                 if (DataSet != null && DataSet != "") {
                                     if (DataSet.StatusCode == "1") {
                                         if (DataSet.Data.length > 0) {
+                                            $('#savereorder').hide();
+                                            View();
                                         }
                                         else {
                                             Swal.fire({
@@ -569,7 +573,7 @@
                                     else {
                                         Swal.fire({
                                             title: "Failure",
-                                            text: DataSet.StatusDescription,
+                                            text: DataSet.Data.ReturnMessage,
                                             icon: "error"
                                         });
                                     }
@@ -589,6 +593,10 @@
                                     icon: "error"
                                 });
                             }
+                        },
+                        complete: function () {
+                            HideLoader();
+                   
 
                         }
                     });
