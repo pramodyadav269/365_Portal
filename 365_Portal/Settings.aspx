@@ -33,7 +33,7 @@
 
                         <div id="divCompanyLogo" style="display:none">
                             <div class="col-md-12">
-                                <img class="circle user-photo" id="imgCompanyLogo" src="Asset/images/CompanyLogo.png" />
+                                <img class="circle user-photo" id="imgCompLogo" src="Asset/images/CompanyLogo.png" />
                             </div>
                             <div class="col-md-12 mt-3">
                                 <div class="custom-file">
@@ -109,8 +109,7 @@
     </div>
 
     <script>
-
-        //debugger
+        
         var accessToken = '<%=Session["access_token"]%>';
         var Role = '<%=Session["RoleName"]%>';
 
@@ -146,7 +145,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        //debugger
+                        
                         var DataSet = $.parseJSON(response);
                         HideLoader();
                         if (DataSet.StatusCode == "1") {
@@ -203,17 +202,18 @@
                 //.setAttribute(                    
                 //    'src', 'data:image/png;base64,' + Data.ProfilePicFile
                 //);
+                
                 $("#imgUserPic").attr("src", "Files/ProfilePic/" + Data.ProfilePicFile);
             }
 
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin") && Data.CompanyProfilePicFile != undefined && Data.CompanyProfilePicFile != '')
             {
-                //document.getElementById('imgCompanyLogo')
+                //document.getElementById('imgCompLogo')
                 //.setAttribute(
                 //    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
                 //);
-                debugger
-                $("#imgCompanyLogo").attr("src", "Files/CompLogo/" + Data.CompanyProfilePicFile);
+                
+                $("#imgCompLogo").attr("src", "Files/CompLogo/" + Data.CompanyProfilePicFile);
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme color <input type="color" id="ThemeColor" name="head" value="' + Data.ThemeColor + '"></div>');
             }
         }
@@ -223,25 +223,44 @@
         function encodeImagetoBase64(element,flag) {
             //debugger
             var file = element.files[0];
-            var reader = new FileReader();
-            reader.onloadend = function () {
+            var size = file.size;
+            if (file.size != undefined) {
+                if (file.size < 5000000) {
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
 
-                if (flag == 'userpic') {
-                    base64UserProfileString = reader.result;
+                        if (flag == 'userpic') {
+                            base64UserProfileString = reader.result;
+                            $("#imgUserPic").attr("src", base64UserProfileString);
+                        }
+                        else if (flag == 'companypic') {
+                            base64CompanyProfileString = reader.result;
+                            $("#imgCompLogo").attr("src", base64CompanyProfileString);
+                        }
+                        //alert(base64UserProfileString);
+                        //$("#base64").attr("href", reader.result);
+                        //rawString = $("#base64").text(reader.result);
+                        //base64UserProfileString = rawString[0].textContent.split(",").pop();
+                    }
+                    reader.readAsDataURL(file);
                 }
-                else if (flag == 'companypic') {                
-                    base64CompanyProfileString = reader.result;
+                else {
+                    Swal.fire("File size should not be greater than 5MB", {
+                        icon: "error",
+                    });
                 }
-                //alert(base64UserProfileString);
-                //$("#base64").attr("href", reader.result);
-                //rawString = $("#base64").text(reader.result);
-                //base64UserProfileString = rawString[0].textContent.split(",").pop();
             }
-            reader.readAsDataURL(file);
+            else {
+                Swal.fire("Invalid File", {
+                    icon: "error",
+                });
+            }
+            
         }
 
         function UpdateUserProfileDetails()
         {
+            debugger
             ShowLoader();
             var EmailID = $('#txtEmail').val();
             var Position = $('#txtPosition').val();
@@ -264,7 +283,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        //debugger
+                        
                         var DataSet = $.parseJSON(response);
                         //console.log(response);
                         if (DataSet.StatusCode == "1") {
@@ -309,7 +328,7 @@
 
         function UpdateNotification()
         {
-            //debugger
+            
             ShowLoader();
             var EmailNotification = $('#cbEmailNotifications').prop('checked');
             var PushNotification = $('#cbPushNotifications').prop('checked');
@@ -323,7 +342,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        //debugger
+                        
                         HideLoader();
                         var DataSet = $.parseJSON(response);
                         if (DataSet.StatusCode == "1")
@@ -353,7 +372,7 @@
 
 
         function setImgSrc(ctrl, img) {
-            //debugger
+            
             $('#' + img).attr('src', URL.createObjectURL(ctrl.files[0]));
         }
 

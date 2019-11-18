@@ -421,6 +421,15 @@ namespace _365_Portal.Controllers
                         else
                             userProfilePicBase64 = files[1];
                         byte[] imageBytes = Convert.FromBase64String(userProfilePicBase64);
+
+                        //To get image size
+                        //using (var ms = new MemoryStream(imageBytes))
+                        //{
+                        //    System.Drawing.Image img = System.Drawing.Image.FromStream(ms);                            
+                        //    return new Tuple<int, int>(img.Width, img.Height); // or some other data container
+                        //}
+                        //End
+
                         string fileName = _userdetail.UserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(userProfilePicBase64);
                         string filePath = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/" + fileName);
                         File.WriteAllBytes(filePath, imageBytes);
