@@ -9,7 +9,7 @@ using System.Linq;
 using System.IO;
 using System.Web;
 
-namespace _365_Portal.Controllers
+namespace _365_Portal.ControllersReOrderContent
 {
     public class ContentController : ApiController
     {
@@ -985,16 +985,12 @@ namespace _365_Portal.Controllers
                         && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString())
                         && !string.IsNullOrEmpty(requestParams["TypeID"].ToString())
                         && !string.IsNullOrEmpty(requestParams["DocType"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
+                        //&& !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
                         && !string.IsNullOrEmpty(requestParams["Title"].ToString())
                         && !string.IsNullOrEmpty(requestParams["Description"].ToString())
                         && !string.IsNullOrEmpty(requestParams["Overview"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["FlashcardTitle"].ToString())
                         && !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
                         && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["TotalScore"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["PassingPercent "].ToString())
-                        && !string.IsNullOrEmpty(requestParams["PassingScore"].ToString())
                         )
                     {
                         content.CompID = identity.CompId;

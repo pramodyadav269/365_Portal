@@ -129,6 +129,7 @@
                                 <label class="custom-file-label" for="customFile">File Path/URL</label>
                             </div>
                         </div>
+                        <div class="col-md-5 " style="display:none" id="div_preview" ><a id="preview">Preview Your ContentFile</a></div>
                         <div class="w-100"></div>
 
                         <div class="col-md-12 mt-4">
@@ -138,6 +139,7 @@
                             <div class="float-right">
                                 <a class="btn bg-yellow " id="btnSaveChanges" onclick="SaveChanges(this);return false;">Add Content</a>
                                 <a class="btn bg-yellow" id="btnCancel" onclick="Cancel(this);return false;" style="display: none;">Cancel</a>
+                                 <a class="btn bg-blue text-white float-right" style="display:none;" id="savereorder" onclick="SaveGrid();">Save Reordering</a>
 
                             </div>
                         </div>
@@ -155,7 +157,7 @@
                                             <th>Doc Type</th>
                                             <th>Title</th>
                                             <th>Description</th>
-                                            <th>Overview</th>
+                                            <%--<th>Overview</th>--%>
                                             <th>File Path</th>
                                             <th>Is Gift</th>
                                             <th>Is Published</th>
@@ -199,6 +201,7 @@
             TopicID = "1";
             _ModuleID = "1";
             GetContentList(this);
+            ClearAllFields();
         });
 
         function SaveChanges(cntrl) {
@@ -294,7 +297,7 @@
                             }
                         },
                         complete: function () {
-                            HideLoader();
+                            HideLoader();                      
                         },
                         failure: function (response) {
                             HideLoader();
@@ -346,7 +349,7 @@
                                 var DataSet = $.parseJSON(response);
                                 if (DataSet != null && DataSet != "") {
                                     if (DataSet.StatusCode == "1") {
-                                        clearFields('.input-validation');
+                                        ClearAllFields(this);
                                         HideLoader();
                                         Swal.fire({
                                             title: "Success",
@@ -420,6 +423,7 @@
             $("#txtDescription").val("");
             $("#txtOverview").val("");
             $("#filepath").val("");
+            $('.custom-file-label').html('File Path/URL');
             $("#chkIsGift").prop("checked", false);
             $("#chkIsPublished").prop("checked", false);
 
@@ -443,6 +447,7 @@
                             //$("#dvJson").html(JSON.stringify(contentList));
                             var list = JSON.parse(response);
                             if (list.StatusCode = "1") {
+                                contentList = [];
                                 for (var i = 0; i < list.Data.length; i++) {
                                     contentList.push(list.Data[i]);
                                 }
@@ -456,15 +461,24 @@
                                     try {
                                         var isGiftValue = content.IsGift == true ? "Checked disabled" : "disabled";
                                         var isPublishedValue = content.IsPublished == true ? "Checked disabled" : "disabled";
+                                        var FilePath = "";
+                                        if (content.FilePath.split('.')[1].toUpperCase() == 'PDF')
+                                        {
+                                            FilePath = '../Files/Content/'+content.FilePath;
+                                        }
+                                        else
+                                        {
+                                            FilePath = content.FilePath;
+                                        }
                                         var markup = "<tr>";
                                         markup += "<td>" + content.SrNo + "</td>";
                                         markup += "<td>" + content.DocType + "</td>";
-                                        markup += "<td>" + content.ContentName + "</td>";
+                                        markup += "<td>" + content.Title + "</td>";
                                         markup += "<td>" + content.Description + "</td>";
-                                        markup += "<td>" + content.Overview + "</td>";
-                                        markup += "<td>" + content.FilePath + "</td>";
-                                        //markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
-                                        //markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
+                                      //  markup += "<td>" + content.Overview + "</td>";
+                                        markup += "<td><a href=" + FilePath + ">" + content.FilePath + "</a></td>";
+                                        markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
+                                        markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
                                         markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
                                         //markup += "<td index=" + content.ContentID + " onclick ='EditContent($(this))'>Edit</td>";
                                         //markup += "<td index=" + content.ContentID + " onclick ='DeleteContent($(this))'>Delete</td>";
@@ -500,6 +514,13 @@
                         }
                     },
                     complete: function () {
+                        $('#tblContent').DataTable();
+                        $('#tblContent').tableDnD({
+                            onDragStart: function (table, row) {
+                                $('#savereorder').show();
+
+                            }
+                        });
                         HideLoader();
                     }
                 });
@@ -522,10 +543,17 @@
             })[0];
 
             $("#ddlDocType").val(content.DocType);
-            $("#txtTitle").val(content.ContentName);
+            $("#txtTitle").val(content.Title);
             $("#txtDescription").val(content.Description);
-            $("#txtOverview").val(content.Overview);
-            $("#filepath").val(content.FilePath);
+            if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
+                $("#preview").attr("href", "./Files/Content/" + content.FilePath);
+            }
+            else {
+                $("#preview").attr("href",content.FilePath);
+            }
+            $('#div_preview').show();
+            //$("#txtOverview").val(content.Overview);
+            // $("#filepath").val(content.FilePath);
             $("#chkIsGift").prop("checked", content.IsGift);
             $("#chkIsPublished").prop("checked", content.IsPublished);
             TypeID = content.TypeID;
@@ -626,7 +654,7 @@
         function IsTitleDuplicate(contents, title, ID) {
             var duplicateTitle = false;
             $.grep(contents, function (n, i) {
-                if (n.ContentName.trim().toUpperCase() == title.trim().toUpperCase() && n.ContentID != ID) {
+                if (n.Title.trim().toUpperCase() == title.trim().toUpperCase() && n.ContentID != ID) {
                     duplicateTitle = true;
                     return false;
                 }
@@ -651,6 +679,102 @@
                 base64filestring = reader.result;
             }
             reader.readAsDataURL(file);
+        }
+
+        //This funcion is to get and save changes of Serial No
+        function SaveGrid() {
+            try {
+                ShowLoader();
+                var sqnData = "";
+                var array = [];
+                var url = "/API/Content/ReOrderContent";
+                $.each(contentList, function (i, contentList) {
+                    
+                    sqnData += contentList.SrNo + ",";
+                });
+                sqnData = sqnData.replace(/,(?=\s*$)/, '');
+                if (sqnData != "") {
+                    var requestParams = { Type: "3", IDs: sqnData };
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                        processData: false,
+                        success: function (response) {
+                            if (response != null && response != undefined) {
+                                var DataSet = $.parseJSON(response);
+                                if (DataSet != null && DataSet != "") {
+                                    if (DataSet.StatusCode == "1") {
+                                        if (DataSet.Data.length > 0) {
+                                            $('#savereorder').hide();
+                                            GetContentList(this);
+                                        }
+                                        else {
+                                            $('#savereorder').hide();
+                                            Swal.fire({
+                                                title: "Failure",
+                                                text: "Please try Again",
+                                                icon: "error"
+                                            });
+                                        }
+                                    }
+                                    else {
+                                        $('#savereorder').hide();
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Failure",
+                                            text: DataSet.StatusDescription,
+                                            icon: "error"
+                                        });
+                                    }
+                                }
+                                else {
+                                    $('#savereorder').hide();
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        icon: "error"
+                                    });
+                                }
+                            }
+                            else {
+                                $('#savereorder').hide();
+                                HideLoader();
+                                Swal.fire({
+                                    title: "Failure",
+                                    text: "Please try Again",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        complete: function () {
+                            HideLoader();
+
+
+                        }
+                    });
+                }
+                else {
+                    $('#savereorder').hide();
+                    Swal.fire({
+                        title: "Failure",
+                        text: "Please try Again",
+                        icon: "error"
+                    });
+
+                }
+
+            }
+            catch (e) {
+                Swal.fire({
+                    title: "Failure",
+                    text: "Please try Again",
+                    icon: "error"
+                });
+            }
+
         }
     </script>
 </asp:Content>
