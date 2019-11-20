@@ -30,6 +30,7 @@ namespace _365_Portal.Code.BO
 
     public class Question
     {
+        public int ContentID { get; set; }
         public int QuestionID { get; set; }
         public bool IsMultiSelectQuestion { get; set; }
         public string QType { get; set; }
@@ -44,12 +45,14 @@ namespace _365_Portal.Code.BO
         public bool IsAnswered { get; set; }
         public bool IsCorrect { get; set; }
         public string ResponseID { get; set; }
+        public double MaxScore { get; set; }
         public double TotalScore { get; set; }
         public double ScoreEarned { get; set; }
         public double PercentageEarned { get; set; }
         public string IPAddress { get; set; }
         public string Value_Text { get; set; }
         public List<AnswerOption> AnswerOptions { get; set; }
+
     }
 
     public class Achievement

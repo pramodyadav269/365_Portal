@@ -54,7 +54,7 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-        public static DataSet ManageQuestion(int compId, string userId, int questionId, int contentId, bool isMandatory, bool isMultiline, string title, int qType, bool isBox, int type, int action)
+        public static DataSet ManageQuestion(int compId, string userId, int questionId, int contentId, bool isMandatory, bool isMultiline, string title, int qType, bool isBox, int action)
         {
 
             DataSet ds = new DataSet();
@@ -64,19 +64,19 @@ namespace _365_Portal.Code.DAL
             {
 
                 conn.Open();
-                string sp = "";
+                string sp = "spCRUDQuestion";
                 MySqlCommand cmd = new MySqlCommand(sp, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_Action", action);
                 cmd.Parameters.AddWithValue("p_CompID", compId);
                 cmd.Parameters.AddWithValue("p_ContentID", contentId);
-                cmd.Parameters.AddWithValue("p_Title", title);
-                cmd.Parameters.AddWithValue("p_QuestionId", questionId);
+                cmd.Parameters.AddWithValue("p_QuestionID", questionId);
+                cmd.Parameters.AddWithValue("p_QuestionTypeID", qType);
                 cmd.Parameters.AddWithValue("p_IsMandatory", isMandatory);
-                cmd.Parameters.AddWithValue("p_IsMultiline", isMultiline);
-                cmd.Parameters.AddWithValue("p_QType", qType);
                 cmd.Parameters.AddWithValue("p_IsBox", isBox);
-                cmd.Parameters.AddWithValue("p_Type", type);
+                cmd.Parameters.AddWithValue("p_IsMultiline", isMultiline);
+                cmd.Parameters.AddWithValue("p_MaxLength", 150);
+                cmd.Parameters.AddWithValue("p_Title", title);
                 cmd.Parameters.AddWithValue("p_CreatedBy", userId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -94,10 +94,8 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet ManageAnsOptions(int compId, string userId, int type, int contentId, int questionId, int answerId, string title, bool isCorrect, double score, int action)
+        public static DataSet ManageAnsOptions(int compId, string userId, int contentId, int questionId, int answerId, string title, bool isCorrect, double score, int action)
         {
-
-
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
 
@@ -105,19 +103,21 @@ namespace _365_Portal.Code.DAL
             {
 
                 conn.Open();
-                string sp = "";
+                string sp = "spCRUDAnsOption";
                 MySqlCommand cmd = new MySqlCommand(sp, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_Action", action);
                 cmd.Parameters.AddWithValue("p_CompID", compId);
-                cmd.Parameters.AddWithValue("p_Type", type);
+                cmd.Parameters.AddWithValue("p_AnswerID", answerId);
+                cmd.Parameters.AddWithValue("p_QuestionID", questionId);
                 cmd.Parameters.AddWithValue("p_ContentID", contentId);
-                cmd.Parameters.AddWithValue("p_QuestionId", questionId);
-                cmd.Parameters.AddWithValue("p_AnswerId", answerId);
-                cmd.Parameters.AddWithValue("p_Title", title);
+                cmd.Parameters.AddWithValue("p_AnswerText", title);
                 cmd.Parameters.AddWithValue("p_IsCorrect", isCorrect);
-                cmd.Parameters.AddWithValue("p_Score", score);
+                cmd.Parameters.AddWithValue("p_CorrectScore", score);
+                cmd.Parameters.AddWithValue("p_InCorrectScore", 0);
+                cmd.Parameters.AddWithValue("p_SrNo", 1);
                 cmd.Parameters.AddWithValue("p_CreatedBy", userId);
+                cmd.Parameters.AddWithValue("p_SurveyId", 1);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

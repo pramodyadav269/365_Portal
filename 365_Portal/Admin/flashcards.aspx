@@ -59,12 +59,12 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <%--     <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtFlashcardOverview">Overview</label>
                                 <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtFlashcardOverview"></textarea>
                             </div>
-                        </div>
+                        </div>--%>
 
 
                         <div class="col-md-12">
@@ -93,7 +93,7 @@
                             </div>
                             <div class="row mt-4">
                                 <div class="col-md-6">
-                                    <div id="dvFlashcardIntroJson"></div>
+                                    <div id="dvFlashcardIntroJson" style="display: none;"></div>
                                     <div class="mt-3 table-responsive">
                                         <table id="tblFlashcardIntro" class="table table-bordered" style="width: 100%">
                                             <thead>
@@ -175,7 +175,6 @@
                                             <th>Sr No</th>
                                             <th>Title</th>
                                             <th>Description</th>
-                                            <th>Overview</th>
                                             <th>Intro Title</th>
                                             <th>Is Gift</th>
                                             <th>Is Published</th>
@@ -195,15 +194,46 @@
 
     <script>
 
+        var accessToken = '<%=Session["access_token"]%>';
         var flashcardIntro = [];
         var flashcardSlides = [];
         var flashcards = [];
 
         $(document).ready(function () {
+            BindFlashList();
             BindFlashcards();
             BindFlashcardIntro();
             BindFlashcardSlides();
         });
+
+        function BindFlashList() {
+            var requestParams = { TopicID: "1", ModuleID: "1", ContentID: "0", ContentTypeID: "3", IsGift: "0" };
+            $.ajax({
+                method: "POST",
+                url: "../api/Quiz/GetContentList",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+            }).then(function success(response) {
+                var response = JSON.parse(response);
+                $("#txtSurveyTitle").val(response.Data[0].Title);
+                $("#txtSurveyDescription").val(response.Data[0].Description);
+                $("#chkIsPublished").prop("checked", response.Data[0].IsPublished);
+
+                //$("#txtFlashcardTitle").val(response.Data[0].Title);
+                //$("#txtFlashcardDescription").val(response.Data[0].Title);
+                //$("#chkIsGift").prop("checked", response.Data[0].IsPublished);
+                //$("#chkIsPublished").prop("checked", response.Data[0].IsPublished);
+                //$("#chkSkipFlashcards").prop("checked", response.Data[0].IsPublished);
+                //$("#txtIntroTitle").val(response.Data[0].Title);
+
+                flashcards = response.Data;
+                //flashcardIntro;=response.Data[0].FlashcardIntro
+                //flashcardSlides;=FlashcardSlides;
+
+                BindFlashcards(this);
+            });
+        }
 
         function AddFlashcard(cntrl) {
 
@@ -318,7 +348,6 @@
                 markup += "<td>" + n.SrNo + "</td>";
                 markup += "<td>" + n.Title + "</td>";
                 markup += "<td>" + n.Description + "</td>";
-                markup += "<td>" + n.Overview + "</td>";
                 markup += "<td>" + n.IntroTitle + "</td>";
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isGiftValue + " /></td>";
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isSkipFlashcards + " /></td>";

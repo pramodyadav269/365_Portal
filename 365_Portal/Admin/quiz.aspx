@@ -37,20 +37,20 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <%--  <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtSurveyOverview">Overview</label>
                                 <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtSurveyOverview"></textarea>
                             </div>
-                        </div>
+                        </div>--%>
                         <div class="col-md-6" id="trScoreSummary">
                             <div class="form-group">
-                                <label class="float-left">Total Score: <span id="lblTotalScore">100</span></label>
+                                <label class="float-left">Total Score: <span id="lblTotalScore"></span></label>
                                 <span class="float-right" id="lblPassingScore"></span>
 
-                                <input type="range" class="custom-range" min="0" max="100" step="5" value="75" id="txtPassingScorePercentage" onchange="ChangePercentage(this.value);">
+                                <input type="range" class="custom-range" min="0" max="100" step="5" id="txtPassingScorePercentage" onchange="ChangePercentage(this.value);">
 
-                                <span id="lblPercentage">75%</span>
+                                <span id="lblPercentage"></span>
 
                             </div>
                         </div>
@@ -68,11 +68,12 @@
         </div>
 
 
-        <div class="col-md-12 mt-4">
+        <div class="col-md-12 mt-4" id="dvQuestionMasterForm" style="display: none;">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <a class="btn bg-yellow" id="btnAddQuestionForm" onclick="OpenQuestionForm(this);return false;">Add Question</a>
+                        <div class="col-md-6" id="trQuestionForm" style="display: none;">
                             <div class="row input-validation">
                                 <div class="form-header col-md-12">
                                     <h3>Questions</h3>
@@ -170,11 +171,12 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            <div id="dvQuestionJson"></div>
+                            <div id="dvQuestionJson" style="display: none;"></div>
                             <div class="mt-3 table-responsive">
                                 <table id="tblQuestions" class="table table-bordered" style="width: 100%">
                                     <thead>
                                         <tr>
+                                            <th>Sr No</th>
                                             <th>Question Type</th>
                                             <th>Title</th>
                                             <th id="thMaxScore">Max Score</th>
@@ -191,147 +193,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-        <%--     <div>
-            <h2>
-                <span id="lblTitle"></span>
-            </h2>
-            <table>
-                <tr>
-                    <td>Title
-                    </td>
-                    <td>
-                        <input type="text" id="txtSurveyTitle" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Description</td>
-                    <td>
-                        <textarea rows="4" cols="50" id="txtSurveyDescription"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Overview</td>
-                    <td>
-                        <textarea rows="4" cols="50" id="txtSurveyOverview"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Is Published</td>
-                    <td>
-                        <input type="checkbox" id="chkIsPublished" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button id="btnSubmitFlashcard" onclick="SubmitChanges(this);return false;">Save Changes</button>
-                    </td>
-                </tr>
-                <tr id="trScoreSummary">
-                    <td>Total Score:
-                        <label id="lblTotalScore">100</label>
-                    </td>
-                    <td>Passing Score: 
-                        <input type="range" min="0" max="100" value="75" id="txtPassingScorePercentage" step="5" onchange="ChangePercentage(this.value);" />
-                        <label id="lblPercentage">75%</label>
-                        <label id="lblPassingScore"></label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <h2>Questions</h2>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Question Title
-                    </td>
-                    <td>
-                        <input type="text" id="txtQuestionTitle" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Question Type
-                    </td>
-                    <td>
-                        <select name="QuestionType" id="ddlQuestionType" onchange="ChangeQuestionType();">
-                        </select>
-                    </td>
-                </tr>
-                <tr id="trIsBox" style="display: none;">
-                    <td>Display Answer Options as Box</td>
-                    <td>
-                        <input type="checkbox" id="chkIsBox" />
-                    </td>
-                </tr>
-                <tr id="trAnswerOptions" style="display: none;">
-                    <td>
-                        <h3>Answer Options</h3>
-                        <table>
-                            <tr>
-                                <td>Answer Option</td>
-                                <td>
-                                    <input type="text" id="txtTitle" /></td>
-                            </tr>
-                            <tr id="trCorrectAnsOption" style="display: none;">
-                                <td>Is Correct</td>
-                                <td>
-                                    <input type="checkbox" id="chkIsCorrect" />
-                                    <input type="number" id="txtScore" style="display: none;" value="0" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button id="btnAdd" onclick="AddAnsOption(this);return false;">Add Option</button>
-                                    <button id="btnCancelAnsOption" style="margin-left: 25px; display: none;" onclick="CancelAnsOption(this);return false;">Cancel</button>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <table id="tblItems" border="1">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th id="thIsCorrect" style="display: none;">Is Correct</th>
-                                    <th id="thScore" style="display: none;">Score</th>
-                                    <th colspan="2">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button id="btnAddQuestion" onclick="AddQuestion(this);return false;">Add Question</button>
-                        <button id="btnCancelQuestion" style="margin-left: 25px; display: none;" onclick="CancelQuestion(this);return false;">Cancel</button>
-                    </td>
-                </tr>
-            </table>
-            <br />
-            <br />
-            <table id="tblQuestions" border="1">
-                <thead>
-                    <tr>
-                        <th>Question Type</th>
-                        <th>Title</th>
-                        <th id="thMaxScore">Max Score</th>
-                        <th>Is Box</th>
-                        <th>Answer Options</th>
-                        <th colspan="2">Action</th>
-                    </tr>
-                </thead>
-                <tbody id="tBodyQuestions">
-                </tbody>
-            </table>
-            <br />
-            <br />
-            <div id="dvQuestionJson"></div>
-        </div>--%>
     </div>
     <script>
 
@@ -339,10 +200,16 @@
         var contentType = QueryString()["type"];
         var pasingPercentage = 0;
         var passingScore = 0;
-        Questions = [];
-        AnswerOptions = [];
+
+        var gbl_contentTypeID = 0;
+        var gbl_ContentID = 0;
+        var gbl_TopicID = QueryString()["TID"];
+        var gbl_ModuleID = QueryString()["MID"];
+        var Questions = [];
+        var AnswerOptions = [];
 
         $(document).ready(function () {
+            BindQuiz(contentType);
             BindQuestionTypes(contentType);
 
             if (contentType == 1) {
@@ -360,9 +227,56 @@
                 $("#tblItems #thScore").show();
                 $("#lblTitle").text("Final Quiz");
             }
-
-            BindQuestions(this);
         });
+
+        function BindQuiz() {
+            ShowLoader();
+            if (contentType == 1)
+                gbl_contentTypeID = 2;
+            else if (contentType == 2)
+                gbl_contentTypeID = 3;
+            else if (contentType == 3)
+                gbl_contentTypeID = 5;
+            var requestParams = { TopicID: gbl_TopicID, ModuleID: gbl_ModuleID, ContentID: "0", ContentTypeID: gbl_contentTypeID, IsGift: "0" };
+            $.ajax({
+                method: "POST",
+                url: "../api/Quiz/GetContentList",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+            }).then(function success(response) {
+                HideLoader();
+                var responses = JSON.parse(response);
+                if (responses.Data.length > 0) {
+
+                    var response = $.grep(responses.Data, function (n, i) {
+                        return n.IsGift == false;
+                    })[0];
+                    gbl_ContentID = response.ContentID;
+
+                    $("#dvQuestionMasterForm").show();
+                    $("#txtSurveyTitle").val(response.Title);
+                    $("#txtSurveyDescription").val(response.Description);
+                    $("#chkIsPublished").prop("checked", response.IsPublished);
+                    $("#lblPercentage").text(response.PassingPercent + "%");
+                    $("#lblTotalScore").text(response.TotalScore);
+                    $("#lblPassingScore").text("Passing Score: " + response.PassingScore);
+                    $("#txtPassingScorePercentage").val(response.PassingPercent);
+
+                    Questions = response.Questions == null ? [] : response.Questions;
+                    BindQuestions(this);
+                }
+                else {
+                    $("#dvQuestionMasterForm").hide();
+                }
+            });
+        }
+
+        function OpenQuestionForm() {
+            $("#trQuestionForm").show();
+            $("#trAnswerOptions").show();
+            $("#btnCancelQuestion").show();
+        }
 
         function CheckboxChecked(cntrl) {
             if (contentType == 2 || contentType == 3) {
@@ -422,8 +336,8 @@
 
                 if (contentType == 3) {
                     $.grep(AnswerOptions, function (n, i) {
-                        if (n.IsCorrect == false && parseFloat(n.Score) > 0) {
-                            n.Score = 0;
+                        if (n.IsCorrect == false && parseFloat(n.CorrectScore) > 0) {
+                            n.CorrectScore = 0;
                         }
                     });
                     BindAnswerOptions();
@@ -480,7 +394,14 @@
                 }
 
                 var index = AnswerOptions.length + 1;
-                var newAnsOption = { "AnswerID": (index * 10), "SrNo": index, "Title": $("#txtTitle").val(), "IsCorrect": $("#chkIsCorrect").prop("checked"), "Score": $("#txtScore").val() };
+                var newAnsOption = {
+                    "ContentTypeID": gbl_contentTypeID
+                    , "AnswerID": (index * 10)
+                    , "SrNo": index
+                    , "AnswerText": $("#txtTitle").val()
+                    , "IsCorrect": $("#chkIsCorrect").prop("checked")
+                    , "Score": $("#txtScore").val()
+                };
 
                 if ($(cntrl).attr("index") == null) {
 
@@ -506,7 +427,7 @@
 
                     }
 
-                    if (IsTitleDuplicate('ANS', AnswerOptions, newAnsOption.Title)) {
+                    if (IsTitleDuplicate('ANS', AnswerOptions, newAnsOption.AnswerText)) {
                         Swal.fire({
                             title: 'Failure',
                             icon: 'error',
@@ -533,7 +454,7 @@
                 }
                 else {
                     var index = parseInt($(cntrl).attr("index"));
-                    if (IsTitleDuplicate('ANS', AnswerOptions, newAnsOption.Title, index)) {
+                    if (IsTitleDuplicate('ANS', AnswerOptions, newAnsOption.AnswerText, index)) {
                         Swal.fire({
                             title: 'Failure',
                             icon: 'error',
@@ -547,9 +468,9 @@
                     var answerOption = $.grep(AnswerOptions, function (n, i) {
                         return n.AnswerID == index;
                     })[0];
-                    answerOption.Title = newAnsOption.Title;
+                    answerOption.Title = newAnsOption.AnswerText;
                     answerOption.IsCorrect = newAnsOption.IsCorrect;
-                    answerOption.Score = newAnsOption.Score;
+                    answerOption.Score = newAnsOption.CorrectScore;
 
                     // Ajax Call - Update Answer Option
                     answerOption.Action = 2;
@@ -584,7 +505,7 @@
             var duplicateTitle = false;
             if (type == 'ANS') {
                 $.grep(ansOptions, function (n, i) {
-                    if (n.Title.trim().toUpperCase() == title.trim().toUpperCase() && n.AnswerID != ID) {
+                    if (n.AnswerText.trim().toUpperCase() == title.trim().toUpperCase() && n.AnswerID != ID) {
                         duplicateTitle = true;
                         return false;
                     }
@@ -654,9 +575,9 @@
                 return n.AnswerID == parseInt(index);
             })[0];
 
-            $("#txtTitle").val(ansOption.Title);
+            $("#txtTitle").val(ansOption.AnswerText);
             $("#chkIsCorrect").prop("checked", ansOption.IsCorrect);
-            $("#txtScore").val(ansOption.Score);
+            $("#txtScore").val(ansOption.CorrectScore);
             $("#btnAdd").text("Save Option");
             $("#btnAdd").attr("index", index);
             $("#btnCancelAnsOption").show();
@@ -676,11 +597,11 @@
             $.grep(AnswerOptions, function (n, i) {
                 var checkedValue = n.IsCorrect == true ? "Checked" : "";
                 var markup = "<tr>";
-                markup += "<td>" + n.Title + "</td>";
+                markup += "<td>" + n.AnswerText + "</td>";
                 if (contentType == 2 || contentType == 3)
                     markup += "<td><input index=" + n.AnswerID + " onchange='CheckboxChecked(this);' type='checkbox' " + checkedValue + " /></td>";
                 if (contentType == 3)
-                    markup += "<td>" + n.Score + "</td>";
+                    markup += "<td>" + n.CorrectScore + "</td>";
                 //markup += "<td index=" + n.AnswerID + " onclick ='EditAnsOption($(this))'>Edit</td>";
                 //markup += "<td index=" + n.AnswerID + " onclick ='DeleteAnsOption($(this))'>Delete</td>";
                 markup += '<td><i title="Edit" index=' + n.AnswerID + ' onclick="EditAnsOption($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.AnswerID + ' onclick="DeleteAnsOption($(this));" class="fas fa-trash text-danger"></i></td>';
@@ -733,14 +654,15 @@
             })[0];
 
             $("#txtQuestionTitle").val(question.Title);
-            $("#ddlQuestionType").val(question.QType);
+            $("#ddlQuestionType").val(question.QuestionTypeID);
             $("#chkIsBox").prop("checked", question.IsBox);
 
             AnswerOptions = question.AnswerOptions;
 
             BindAnswerOptions();
 
-            if (question.QType == 1 || question.QType == 2 || question.QType == 3) {
+            $("#trQuestionForm").show();
+            if (question.QuestionTypeID == 1 || question.QuestionTypeID == 2 || question.QuestionTypeID == 3) {
                 $("#trAnswerOptions").show();
                 $("#trIsBox").show();
             }
@@ -830,7 +752,7 @@
                             totalItemCount += 1;
                             if (n.IsCorrect == true) {
                                 checkedItemCount += 1;
-                                totalScore += n.Score;
+                                totalScore += n.CorrectScore;
                             }
                             else {
                                 unCheckedItemCount += 1;
@@ -886,7 +808,9 @@
 
                 var index = Questions.length + 1;
                 var newQuestion = {
-                    "QuestionID": (index * 10)
+                    "ContentTypeID": gbl_contentTypeID
+                    , "QuestionID": 0
+                    , "ContentID": gbl_ContentID
                     , "SrNo": index
                     , "Title": $("#txtQuestionTitle").val()
                     , "QType": $("#ddlQuestionType").val()
@@ -940,7 +864,7 @@
                         return n.QuestionID == index;
                     })[0];
                     question.Title = newQuestion.Title;
-                    question.QType = newQuestion.QType;
+                    question.QuestionTypeID = newquestion.QuestionTypeID;
                     question.IsBox = newQuestion.IsBox;
                     question.AnswerOptions = newQuestion.AnswerOptions;
 
@@ -975,7 +899,7 @@
         function UpdateQuizMaxScore() {
             var maxScore = 0.0;
             $.grep(Questions, function (n, i) {
-                maxScore += parseFloat(n.MaxScore);
+                maxScore += parseFloat(n.TotalScore);
             });
             $("#lblTotalScore").text(maxScore);
 
@@ -986,7 +910,7 @@
             var maxScore = 0.0;
             $.grep(ansOptions, function (n, i) {
                 if (n.IsCorrect == true) {
-                    maxScore += parseFloat(n.Score);
+                    maxScore += parseFloat(n.CorrectScore);
                 }
             });
             return maxScore;
@@ -1014,23 +938,34 @@
                 var ansOptions = "";
 
                 $.grep(n.AnswerOptions, function (answOption, indx) {
+                    if (indx == 0) {
+                        ansOptions += "<tr><th>Sr No</th>";
+                        ansOptions += "<th>Answer Text</th>";
+                        if (contentType == 2 || contentType == 3) {
+                            ansOptions += "<th>Is Correct</th>";
+                        }
+                        if (contentType == 3) {
+                            ansOptions += "<th>Score</th></tr>";
+                        }
+                    }
                     var checkedValue = "disabled " + (answOption.IsCorrect == true ? "Checked" : "");
-                    ansOptions += "<tr><td>" + answOption.SrNo + "</td>";
-                    ansOptions += "<td>" + answOption.Title + "</td>";
+                    ansOptions += "<tr><td>" + answOption.SortOrder + "</td>";
+                    ansOptions += "<td>" + answOption.AnswerText + "</td>";
                     if (contentType == 2 || contentType == 3) {
                         ansOptions += "<td>" + "<input index=" + answOption.AnswerID + " type='checkbox' " + checkedValue + " />" + "</td>";
                     }
                     if (contentType == 3) {
-                        ansOptions += "<td>" + answOption.Score + "</td></tr>";
+                        ansOptions += "<td>" + answOption.CorrectScore + "</td></tr>";
                     }
                 });
 
                 var isCheckedBoxValue = "disabled " + (n.IsBox == true ? "Checked" : "");
                 var markup = "<tr>";
+                markup += "<td>" + n.SortOrder + "</td>";
                 markup += "<td>" + n.QType + "</td>";
                 markup += "<td>" + n.Title + "</td>"
                 if (contentType == 3) {
-                    markup += "<td>" + n.MaxScore + "</td>"
+                    markup += "<td>" + n.TotalScore + "</td>"
                 }
                 markup += "<td><input index=" + n.QuestionID + " type='checkbox' " + isCheckedBoxValue + " />" + "</td>"
                 markup += "<td><table  border='1'> " + ansOptions + "</table></td>";
@@ -1051,6 +986,7 @@
             $("#btnAddQuestion").show();
             $("#btnAddQuestion").text("Add Question");
             $("#btnAddQuestion").removeAttr("index");
+            $("#trQuestionForm").hide();
             ClearQuestionFields(this);
         }
 
@@ -1087,21 +1023,24 @@
 
         function SubmitChanges() {
             var question = {
-                "ContentID": ""
+                "TopicID": gbl_TopicID
+                , "ModuleID": gbl_ModuleID
+                , "ContentID": gbl_ContentID
+                , "ContentTypeID": gbl_contentTypeID
                 , "Title": $("#txtSurveyTitle").val()
                 , "Description": $("#txtSurveyDescription").val()
-                , "Overview": $("#txtSurveyOverview").val()
                 , "IsPublished": $("#chkIsPublished").prop("checked")
+                , "SkipFlashcard": false
+                , "IsGift": false
                 , "TotalScore": $("#lblTotalScore").text()
-                , "PassingScore": passingScore
-                , "PassingPercentage": pasingPercentage
+                , "PassingScore": $("#lblPassingScore").text()
+                , "PassingPercentage": $("#lblPercentage").text().replace("%", "")
                 , "Questions": Questions
-                , "Type": contentType
             };
 
             $("#dvQuestionJson").html(JSON.stringify(question));
 
-            if ($("#txtSurveyTitle").val().trim() == "" || $("#txtSurveyDescription").val().trim() == "" || $("#txtSurveyOverview").val().trim() == "") {
+            if ($("#txtSurveyTitle").val().trim() == "" || $("#txtSurveyDescription").val().trim() == "") {
                 Swal.fire({
                     title: 'Failure',
                     icon: 'error',
@@ -1126,11 +1065,12 @@
             var requestParams = question;
             $.ajax({
                 method: "POST",
-                url: "../api/Quiz/SaveSurvey",
+                url: "../api/Quiz/SaveContent",
                 headers: { "Authorization": "Bearer " + accessToken },
                 data: JSON.stringify(requestParams),
                 contentType: "application/json",
             }).then(function success(response) {
+                BindQuiz();
                 Swal.fire({
                     title: 'Success',
                     icon: 'success',

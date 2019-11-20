@@ -17,7 +17,7 @@ namespace _365_Portal.Code.BL
 
 
 
-        public static DataSet SaveSurvey(int compId, string userId,int contentId, string title, string description,string overview,bool isPublished,double totalScore,double passingScore, double passingPercent)
+        public static DataSet SaveSurvey(int compId, string userId, int contentId, string title, string description, string overview, bool isPublished, double totalScore, double passingScore, double passingPercent)
         {
             DataSet ds = new DataSet();
             try
@@ -30,12 +30,12 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet ManageQuestion(int  compId, string userId,int  questionId,int  contentId,bool isMandatory,bool isMultiline,string title,int qType,bool isBox,int type,int action)
+        public static DataSet ManageQuestion(int compId, string userId, int questionId, int contentId, bool isMandatory, bool isMultiline, string title, int qType, bool isBox, int action)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = QuizDAL.ManageQuestion(compId, userId, questionId, contentId, isMandatory, isMultiline, title, qType, isBox, type, action);
+                ds = QuizDAL.ManageQuestion(compId, userId, questionId, contentId, isMandatory, isMultiline, title, qType, isBox, action);
             }
             catch (Exception ex)
             {
@@ -44,12 +44,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet ManageAnsOptions(int compId, string userId, int type, int contentId,int  questionId,int answerId,string title,bool isCorrect,double score, int action)
+        public static DataSet ManageAnsOptions(int compId, string userId, int contentId, int questionId, int answerId, string title, bool isCorrect, double score, int action)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = QuizDAL.ManageAnsOptions(compId, userId, type, contentId, questionId, answerId, title, isCorrect, score, action);
+                ds = QuizDAL.ManageAnsOptions(compId, userId, contentId, questionId, answerId, title, isCorrect, score, action);
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet ManageFlashcardIntro(int compId, string userId,int  introId, string comments, int contentId, int action)
+        public static DataSet ManageFlashcardIntro(int compId, string userId, int introId, string comments, int contentId, int action)
         {
             DataSet ds = new DataSet();
             try

@@ -534,5 +534,78 @@ namespace _365_Portal.Code.DAL
             }
             return ds;
         }
+
+        public static DataSet QuestionCRUD(int action, int compId, string userId, int contentId, int questionId, string title, int questionTypeId, bool isBox)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+            try
+            {
+                conn.Open();
+                string stm = "spClearAnswers";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_Action", action);
+                cmd.Parameters.AddWithValue("p_CompID", compId);
+                cmd.Parameters.AddWithValue("p_ContentID", contentId);
+                cmd.Parameters.AddWithValue("p_QuestionID", questionId);
+                cmd.Parameters.AddWithValue("p_QuestionTypeID", questionTypeId);
+                cmd.Parameters.AddWithValue("p_IsMandatory", true);
+                cmd.Parameters.AddWithValue("p_IsBox", isBox);
+                cmd.Parameters.AddWithValue("p_IsMultiline", true);
+                cmd.Parameters.AddWithValue("p_MaxLength", 150);
+                cmd.Parameters.AddWithValue("p_Title", title);
+                cmd.Parameters.AddWithValue("p_CreatedBy", userId);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
+        //public static DataSet QuestionCRUD(int action, int compId, string userId, int contentId, int questionId, string title, int questionTypeId, bool isBox)
+        //{
+        //    DataSet ds = new DataSet();
+        //    MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+        //    try
+        //    {
+        //        conn.Open();
+        //        string stm = "spClearAnswers";
+        //        MySqlCommand cmd = new MySqlCommand(stm, conn);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.AddWithValue("p_Action", action);
+        //        cmd.Parameters.AddWithValue("p_CompID", compId);
+        //        cmd.Parameters.AddWithValue("p_AnswerID", contentId);
+        //        cmd.Parameters.AddWithValue("p_QuestionID", questionId);
+        //        cmd.Parameters.AddWithValue("p_AnswerText", questionTypeId);
+        //        cmd.Parameters.AddWithValue("p_IsCorrect", true);
+        //        cmd.Parameters.AddWithValue("p_CorrectScore", isBox);
+        //        cmd.Parameters.AddWithValue("p_InCorrectScore", true);
+        //        cmd.Parameters.AddWithValue("p_SrNo", 1);
+        //        cmd.Parameters.AddWithValue("p_SurveyId", 1);
+        //        cmd.Parameters.AddWithValue("p_CreatedBy", userId);
+
+        //        MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+        //        da.Fill(ds, "Data");
+        //        return ds;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        //    }
+        //    finally
+        //    {
+        //        conn.Close();
+        //    }
+        //    return ds;
+        //}
     }
 }

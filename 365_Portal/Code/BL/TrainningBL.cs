@@ -505,5 +505,19 @@ namespace _365_Portal.Code.BL
             }
             CreateNotification(compId, userId, title, msg, token);
         }
+
+        public static DataSet QuestionCRUD(int action, int compId, string userId, int contentId, int questionId, string title, int questionTypeId, bool isBox)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.QuestionCRUD(action, compId, userId, contentId, questionId, title, questionTypeId, isBox);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
     }
 }
