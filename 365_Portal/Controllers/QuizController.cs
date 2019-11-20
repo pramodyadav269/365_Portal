@@ -166,9 +166,10 @@ namespace _365_Portal.Controllers
                     var type = Convert.ToInt32(Convert.ToString(requestParams["Type"]));
                     if (!string.IsNullOrEmpty(Convert.ToString(requestParams["QuestionID"])))
                         questionId = Convert.ToInt32(requestParams["QuestionID"]);
+                    if (!string.IsNullOrEmpty(Convert.ToString(requestParams["ContentID"])))
+                        contentId = Convert.ToInt32(requestParams["ContentID"]);
                     if (action == 1 || action == 2)
                     {
-                        contentId = Convert.ToInt32(requestParams["ContentID"]);
                         title = Convert.ToString(requestParams["Title"]);
                         qType = Convert.ToInt32(Convert.ToString(requestParams["QType"])); // Numeric
                         if (!string.IsNullOrEmpty(Convert.ToString(requestParams["IsBox"])))
@@ -199,19 +200,22 @@ namespace _365_Portal.Controllers
 
                     // CALL BL
                     var ds = QuizBL.ManageQuestion(compId, userId, questionId, contentId, isMandatory, isMultiline, title, qType, isBox, action);
-                    if (action == 1)
+                    if (Convert.ToInt32(ds.Tables[0].Rows[0]["QuestionID"].ToString()) > 0 && (action == 1 || action == 2))
                     {
-                        questionId = 0;
+                        questionId = Convert.ToInt32(ds.Tables[0].Rows[0]["QuestionID"].ToString());
                         for (int i = 0; i < requestParams["AnswerOptions"].Count(); i++)
                         {
                             bool isCorrect = false;
                             double score = 0;
-                            if (!string.IsNullOrEmpty(Convert.ToString(requestParams["AnswerOptions"][i]["Score"])))
-                                score = Convert.ToInt32(requestParams["AnswerOptions"][i]["Score"]);
+                            var answerid = 0;
+                            if (!string.IsNullOrEmpty(Convert.ToString(requestParams["AnswerOptions"][i]["CorrectScore"])))
+                                score = Convert.ToInt32(requestParams["AnswerOptions"][i]["CorrectScore"]);
+                            if (!string.IsNullOrEmpty(Convert.ToString(requestParams["AnswerOptions"][i]["AnswerID"])))
+                                answerid = Convert.ToInt32(requestParams["AnswerOptions"][i]["AnswerID"]);
                             if (!string.IsNullOrEmpty(Convert.ToString(requestParams["AnswerOptions"][i]["IsCorrect"])))
                                 isCorrect = Convert.ToBoolean(Convert.ToString(requestParams["AnswerOptions"][i]["IsCorrect"]));
-                            var ds1 = QuizBL.ManageAnsOptions(compId, userId, contentId, questionId, 0, Convert.ToString(requestParams["AnswerOptions"][i]["AnswerText"]),
-                                isCorrect, score, 1);
+                            var ds1 = QuizBL.ManageAnsOptions(compId, userId, contentId, questionId, answerid, Convert.ToString(requestParams["AnswerOptions"][i]["AnswerText"]),
+                                isCorrect, score, answerid > 0 ? 2 : 1);
                         }
                     }
 
@@ -264,11 +268,10 @@ namespace _365_Portal.Controllers
                     var contentTypeId = Convert.ToInt32(Convert.ToString(requestParams["ContentTypeID"]));
                     var contentId = Convert.ToInt32(requestParams["ContentID"]);
                     var questionId = Convert.ToInt32(requestParams["QuestionID"]);
-
+                    if (!string.IsNullOrEmpty(Convert.ToString(requestParams["AnswerID"])))
+                        answerId = Convert.ToInt32(requestParams["AnswerID"]);
                     if (action == 1 || action == 2)
                     {
-                        if (!string.IsNullOrEmpty(Convert.ToString(requestParams["AnswerID"])))
-                            answerId = Convert.ToInt32(requestParams["AnswerID"]);
                         title = Convert.ToString(requestParams["Title"]);
                         isCorrect = false;
                         if (!string.IsNullOrEmpty(Convert.ToString(requestParams["IsCorrect"])))
