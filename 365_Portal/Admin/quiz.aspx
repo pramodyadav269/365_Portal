@@ -45,12 +45,12 @@
                         </div>--%>
                         <div class="col-md-6" id="trScoreSummary">
                             <div class="form-group">
-                                <label class="float-left">Total Score: <span id="lblTotalScore"></span></label>
+                                <label class="float-left">Total Score: <span id="lblTotalScore">0</span></label>
                                 <span class="float-right" id="lblPassingScore"></span>
 
                                 <input type="range" class="custom-range" min="0" max="100" step="5" id="txtPassingScorePercentage" onchange="ChangePercentage(this.value);">
 
-                                <span id="lblPercentage"></span>
+                                <span id="lblPercentage">0%</span>
 
                             </div>
                         </div>
@@ -58,7 +58,7 @@
 
                         <div class="col-md-12 mt-4">
                             <div class="float-right">
-                                <a class="btn bg-yellow" id="btnSubmitFlashcard" onclick="SubmitChanges(this);return false;">Save Changes</a>
+                                <a class="btn bg-yellow" id="btnSubmitFlashcard" onclick="SubmitChanges(true);return false;">Save Changes</a>
 
                             </div>
                         </div>
@@ -133,10 +133,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" id="dvQAnsOptionScore">
                                         <div class="form-group">
                                             <label for="txtScore">Score</label>
-                                            <input type="number" class="form-control required" id="txtScore" style="display: none;" value="0" />
+                                            <input type="number" class="form-control required" id="txtScore" value="0" />
                                         </div>
                                     </div>
                                 </div>
@@ -203,13 +203,14 @@
 
         var gbl_contentTypeID = 0;
         var gbl_ContentID = 0;
+        var gbl_QuestionID = 0;
         var gbl_TopicID = QueryString()["TID"];
         var gbl_ModuleID = QueryString()["MID"];
         var Questions = [];
         var AnswerOptions = [];
 
         $(document).ready(function () {
-            BindQuiz(contentType);
+            BindQuiz(true);
             BindQuestionTypes(contentType);
 
             if (contentType == 1) {
@@ -229,8 +230,9 @@
             }
         });
 
-        function BindQuiz() {
-            ShowLoader();
+        function BindQuiz(displayLoader) {
+            if (displayLoader)
+                ShowLoader();
             if (contentType == 1)
                 gbl_contentTypeID = 2;
             else if (contentType == 2)
@@ -396,11 +398,10 @@
                 var index = AnswerOptions.length + 1;
                 var newAnsOption = {
                     "ContentTypeID": gbl_contentTypeID
-                    , "AnswerID": (index * 10)
                     , "SrNo": index
                     , "AnswerText": $("#txtTitle").val()
                     , "IsCorrect": $("#chkIsCorrect").prop("checked")
-                    , "Score": $("#txtScore").val()
+                    , "CorrectScore": $("#txtScore").val()
                 };
 
                 if ($(cntrl).attr("index") == null) {
@@ -440,17 +441,17 @@
 
                     AnswerOptions.push(newAnsOption);
                     // Ajax Call - Add Answer Option
-                    newAnsOption.Action = 1;
-                    newAnsOption.Type = contentType;
-                    var requestParams = newAnsOption;
-                    $.ajax({
-                        method: "POST",
-                        url: "../api/Quiz/ManageAnsOptions",
-                        headers: { "Authorization": "Bearer " + accessToken },
-                        data: JSON.stringify(requestParams),
-                        contentType: "application/json",
-                    }).then(function success(response) {
-                    });
+                    //newAnsOption.Action = 1;
+                    //newAnsOption.Type = contentType;
+                    //var requestParams = newAnsOption;
+                    //$.ajax({
+                    //    method: "POST",
+                    //    url: "../api/Quiz/ManageAnsOptions",
+                    //    headers: { "Authorization": "Bearer " + accessToken },
+                    //    data: JSON.stringify(requestParams),
+                    //    contentType: "application/json",
+                    //}).then(function success(response) {
+                    //});
                 }
                 else {
                     var index = parseInt($(cntrl).attr("index"));
@@ -465,25 +466,28 @@
                         return false;
                     }
 
-                    var answerOption = $.grep(AnswerOptions, function (n, i) {
-                        return n.AnswerID == index;
+                    $.grep(AnswerOptions, function (n, i) {
+                        if (n.AnswerID == index) {
+                            n.AnswerText = newAnsOption.AnswerText;
+                            n.IsCorrect = newAnsOption.IsCorrect;
+                            n.CorrectScore = newAnsOption.CorrectScore;
+                            return false;
+                        }
                     })[0];
-                    answerOption.Title = newAnsOption.AnswerText;
-                    answerOption.IsCorrect = newAnsOption.IsCorrect;
-                    answerOption.Score = newAnsOption.CorrectScore;
+
 
                     // Ajax Call - Update Answer Option
-                    answerOption.Action = 2;
-                    answerOption.Type = contentType;
-                    var requestParams = answerOption;
-                    $.ajax({
-                        method: "POST",
-                        url: "../api/Quiz/ManageAnsOptions",
-                        headers: { "Authorization": "Bearer " + accessToken },
-                        data: JSON.stringify(requestParams),
-                        contentType: "application/json",
-                    }).then(function success(response) {
-                    });
+                    //answerOption.Action = 2;
+                    //answerOption.Type = contentType;
+                    //var requestParams = answerOption;
+                    //$.ajax({
+                    //    method: "POST",
+                    //    url: "../api/Quiz/ManageAnsOptions",
+                    //    headers: { "Authorization": "Bearer " + accessToken },
+                    //    data: JSON.stringify(requestParams),
+                    //    contentType: "application/json",
+                    //}).then(function success(response) {
+                    //});
                 }
 
                 CancelAnsOption(cntrl);
@@ -552,7 +556,7 @@
                     AnswerOptions = $.grep(AnswerOptions, function (n, i) {
                         return n.AnswerID != parseInt(index);
                     });
-                    var requestParams = { "Action": 3, "Type": contentType, "AnswerID": index };
+                    var requestParams = { "Action": 3, "Type": contentType, "AnswerID": index, ContentTypeID: gbl_contentTypeID, ContentID: gbl_ContentID, QuestionID: gbl_QuestionID };
                     $.ajax({
                         method: "POST",
                         url: "../api/Quiz/ManageAnsOptions",
@@ -599,12 +603,15 @@
                 var markup = "<tr>";
                 markup += "<td>" + n.AnswerText + "</td>";
                 if (contentType == 2 || contentType == 3)
-                    markup += "<td><input index=" + n.AnswerID + " onchange='CheckboxChecked(this);' type='checkbox' " + checkedValue + " /></td>";
+                    markup += "<td><input index=" + (n.AnswerID > 0 ? n.AnswerID : n.SrNo) + " onchange='CheckboxChecked(this);' type='checkbox' " + checkedValue + " /></td>";
                 if (contentType == 3)
                     markup += "<td>" + n.CorrectScore + "</td>";
                 //markup += "<td index=" + n.AnswerID + " onclick ='EditAnsOption($(this))'>Edit</td>";
                 //markup += "<td index=" + n.AnswerID + " onclick ='DeleteAnsOption($(this))'>Delete</td>";
-                markup += '<td><i title="Edit" index=' + n.AnswerID + ' onclick="EditAnsOption($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.AnswerID + ' onclick="DeleteAnsOption($(this));" class="fas fa-trash text-danger"></i></td>';
+                if (n.AnswerID > 0)
+                    markup += '<td><i title="Edit" index=' + n.AnswerID + ' onclick="EditAnsOption($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.AnswerID + ' onclick="DeleteAnsOption($(this));" class="fas fa-trash text-danger"></i></td>';
+                else
+                    markup += '<td><i title="Edit" index=' + n.SrNo + ' onclick="EditAnsOption($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.SrNo + ' onclick="DeleteAnsOption($(this));" class="fas fa-trash text-danger"></i></td>';
 
                 markup += "</tr>";
                 tableBody.append(markup);
@@ -629,8 +636,8 @@
                     Questions = $.grep(Questions, function (n, i) {
                         return n.QuestionID != parseInt(index);
                     });
-
-                    var requestParams = { "Action": 3, "Type": contentType, "QuestionID": index };
+                    ShowLoader();
+                    var requestParams = { "Action": 3, "Type": contentType, "ContentTypeID": gbl_contentTypeID, "QuestionID": index, ContentID: gbl_ContentID };
                     $.ajax({
                         method: "POST",
                         url: "../api/Quiz/ManageQuestion",
@@ -638,9 +645,16 @@
                         data: JSON.stringify(requestParams),
                         contentType: "application/json",
                     }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Question deleted successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindQuiz(false);
                     });
-
-                    BindQuestions();
                 }
             });
             $("#dvQuestionJson").html(JSON.stringify(Questions));
@@ -652,6 +666,8 @@
             var question = $.grep(Questions, function (n, i) {
                 return n.QuestionID == parseInt(index);
             })[0];
+
+            gbl_QuestionID = index;
 
             $("#txtQuestionTitle").val(question.Title);
             $("#ddlQuestionType").val(question.QuestionTypeID);
@@ -692,7 +708,7 @@
                     + '<option value="8">DateTime</option>';
                 $("#trScoreSummary").hide();
                 $("#trCorrectAnsOption").hide();
-                $("#txtScore").hide();
+                $("#dvQAnsOptionScore").hide();
                 $("#chkIsBox").prop("checked", false);
                 $("#chkIsBox").prop("disabled", false);
             }
@@ -702,7 +718,7 @@
                 $("#ddlQuestionType").attr("disabled", "disabled");
                 $("#trScoreSummary").hide();
                 $("#trCorrectAnsOption").show();
-                $("#txtScore").hide();
+                $("#dvQAnsOptionScore").hide();
                 $("#chkIsBox").prop("checked", true);
                 $("#chkIsBox").prop("disabled", true);
 
@@ -716,7 +732,7 @@
                     + '<option value="3">Radio</option>';
                 $("#trScoreSummary").show();
                 $("#trCorrectAnsOption").show();
-                $("#txtScore").show();
+                $("#dvQAnsOptionScore").show();
                 $("#chkIsBox").prop("checked", false);
                 $("#chkIsBox").prop("disabled", false);
             }
@@ -809,6 +825,7 @@
                 var index = Questions.length + 1;
                 var newQuestion = {
                     "ContentTypeID": gbl_contentTypeID
+                    , Type: contentType
                     , "QuestionID": 0
                     , "ContentID": gbl_ContentID
                     , "SrNo": index
@@ -830,11 +847,15 @@
                         });
                         return false;
                     }
-                    Questions.push(newQuestion);
+                    //Questions.push(newQuestion);
+                    // Save Passing Score in DB
+                    if (contentType == 3)
+                        SubmitChanges(false);
 
                     newQuestion.Action = 1;
                     newQuestion.Type = contentType;
                     // Ajax Call - Add Question
+                    ShowLoader();
                     var requestParams = newQuestion;
                     $.ajax({
                         method: "POST",
@@ -843,10 +864,18 @@
                         data: JSON.stringify(requestParams),
                         contentType: "application/json",
                     }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Question details updated successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindQuiz(false);
                     });
                 }
                 else {
-
                     var index = parseInt($(cntrl).attr("index"));
 
                     if (IsTitleDuplicate('QUE', Questions, newQuestion.Title, index)) {
@@ -860,17 +889,16 @@
                         return false;
                     }
 
+                    // Ajax Call - Update Question
+                     // Save Passing Score in DB
+                    if (contentType == 3)
+                        SubmitChanges(false);
+                    ShowLoader();
                     var question = $.grep(Questions, function (n, i) {
                         return n.QuestionID == index;
                     })[0];
-                    question.Title = newQuestion.Title;
-                    question.QuestionTypeID = newquestion.QuestionTypeID;
-                    question.IsBox = newQuestion.IsBox;
-                    question.AnswerOptions = newQuestion.AnswerOptions;
-
-                    // Ajax Call - Update Question
                     newQuestion.Action = 2;
-                    newQuestion.Type = contentType;
+                    newQuestion.QuestionID = question.QuestionID;
                     var requestParams = newQuestion;
                     $.ajax({
                         method: "POST",
@@ -879,11 +907,19 @@
                         data: JSON.stringify(requestParams),
                         contentType: "application/json",
                     }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Question details updated successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindQuiz(false);
                     });
                 }
                 AnswerOptions = [];
                 CancelQuestion(cntrl);
-                BindQuestions(cntrl);
             }
             else {
                 Swal.fire({
@@ -1021,7 +1057,7 @@
             }
         }
 
-        function SubmitChanges() {
+        function SubmitChanges(displayPopup) {
             var question = {
                 "TopicID": gbl_TopicID
                 , "ModuleID": gbl_ModuleID
@@ -1033,7 +1069,7 @@
                 , "SkipFlashcard": false
                 , "IsGift": false
                 , "TotalScore": $("#lblTotalScore").text()
-                , "PassingScore": $("#lblPassingScore").text()
+                , "PassingScore": $("#lblPassingScore").text().replace("Passing Score: ", "")
                 , "PassingPercentage": $("#lblPercentage").text().replace("%", "")
                 , "Questions": Questions
             };
@@ -1061,7 +1097,8 @@
             }
 
             // Make Ajax Call
-
+            if (displayPopup)
+                ShowLoader();
             var requestParams = question;
             $.ajax({
                 method: "POST",
@@ -1070,14 +1107,17 @@
                 data: JSON.stringify(requestParams),
                 contentType: "application/json",
             }).then(function success(response) {
-                BindQuiz();
-                Swal.fire({
-                    title: 'Success',
-                    icon: 'success',
-                    html: "Success",
-                    showConfirmButton: false,
-                    showCloseButton: true
-                });
+                if (displayPopup) {
+                    HideLoader();
+                    Swal.fire({
+                        title: 'Success',
+                        icon: 'success',
+                        html: "Information saved successfully.",
+                        showConfirmButton: true,
+                        showCloseButton: true
+                    });
+                    BindQuiz(false);
+                }
             });
         }
 

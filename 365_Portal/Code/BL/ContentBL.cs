@@ -259,21 +259,22 @@ namespace _365_Portal.Code.BL
                                      CorrectScore = !string.IsNullOrEmpty(dr["CorrectScore"].ToString()) ? Convert.ToDouble(dr["CorrectScore"].ToString()) : 0,
                                  }).ToList();
 
-                lstContent= lstContent.OrderBy(p => p.SrNo).ToList();
+                lstContent = lstContent.OrderBy(p => p.SrNo).ToList();
                 foreach (var _content in lstContent)
                 {
-                    var questions = questionList.Where(p => p.ContentID == _content.ContentID).OrderBy(p=>p.SortOrder).ToList();
+                    var questions = questionList.Where(p => p.ContentID == _content.ContentID).OrderBy(p => p.SortOrder).ToList();
                     _content.Questions = questions;
-                    _content.FlashcardIntro = lstFlashcarIntro.Where(p=>p.ContentID==_content.ContentID).OrderBy(p => p.SrNo).ToList();
+                    _content.FlashcardIntro = lstFlashcarIntro.Where(p => p.ContentID == _content.ContentID).OrderBy(p => p.SrNo).ToList();
                     _content.FlashcardSlides = lstFlashcardSlides.Where(p => p.ContentID == _content.ContentID).OrderBy(p => p.SrNo).ToList();
                     foreach (var question in questions)
                     {
                         List<AnswerOption> ansOptions = new List<AnswerOption>();
                         question.AnswerOptions = ansOptionList.Where(p => p.QuestionID == question.QuestionID).OrderBy(p => p.SortOrder).ToList();
-                        if (question.QuestionTypeID == 2 || question.QuestionTypeID == 3)
-                            question.TotalScore = question.AnswerOptions.Max(p => p.CorrectScore);
-                        else if (question.QuestionTypeID == 1)
-                            question.TotalScore = question.AnswerOptions.Where(p => p.IsCorrect == true).Sum(p => p.CorrectScore);
+                        if (question.AnswerOptions.Count() > 0)
+                            if (question.QuestionTypeID == 2 || question.QuestionTypeID == 3)
+                                question.TotalScore = question.AnswerOptions.Max(p => p.CorrectScore);
+                            else if (question.QuestionTypeID == 1)
+                                question.TotalScore = question.AnswerOptions.Where(p => p.IsCorrect == true).Sum(p => p.CorrectScore);
                     }
                 }
             }
