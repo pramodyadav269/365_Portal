@@ -552,7 +552,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet CreateFile(string FilePath, string FileDirectory, string Ref1)
+        public static DataSet CreateFile(string FilePath, string FileDirectory,bool IsURL, string Ref1)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -564,6 +564,7 @@ namespace _365_Portal.Code.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_FilePath", FilePath);
                 cmd.Parameters.AddWithValue("p_FileDirectory", FileDirectory);
+                cmd.Parameters.AddWithValue("p_IsURL", Convert.ToInt32(IsURL));
                 cmd.Parameters.AddWithValue("p_Ref1", Ref1);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");

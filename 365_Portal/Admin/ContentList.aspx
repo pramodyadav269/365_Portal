@@ -83,7 +83,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="txtTitle">Title</label>
                                 <input type="text" class="form-control required" id="txtTitle" placeholder="Title" />
@@ -113,23 +113,37 @@
                                 <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtDescription"></textarea>
                             </div>
                         </div>
-                        <div class="col-md-6">
+
+
+                        <%--<div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtOverview">Overview</label>
                                 <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtOverview"></textarea>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <%--  <div class="form-group">
-                                <label for="txtFilePath">File Path/URL</label>
-                                <input type="text" class="form-control required" id="txtFilePath" placeholder="https://example.com" />
-                            </div>--%>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="filepath" onchange="encodeImagetoBase64(this)">
-                                <label class="custom-file-label" for="customFile">File Path/URL</label>
+                        </div>--%>
+                        <div class="col-md-3">
+                            <div class="custom-radio">
+                                <input type="radio" class="custom-radio-input" id="rd_url" name="filetype" checked="checked" value="URL" onchange="ShowControl(this)">
+                                <label class="custom-radio-label" for="filetype">File Url</label>
+
+                                <input type="radio" class="custom-radio-input" id="rd_file" name="filetype" value="FILE" onchange="ShowControl(this)">
+                                <label class="custom-radio-label" for="filetype">Upload File</label>
                             </div>
                         </div>
-                        <div class="col-md-5 " style="display:none" id="div_preview" ><a id="preview">Preview Your ContentFile</a></div>
+                        <div class="col-md-3" style="display: none" id="div_fileupload">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="filepath" onchange="encodeImagetoBase64(this)">
+                                <label class="custom-file-label" for="customFile">File Path</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="display: none" id="div_preview"><a id="preview">Preview Your ContentFile</a></div>
+                        <div class="col-md-3" style="display: none" id="div_fileUrl">
+                            <div class="form-group">
+                                <label for="txtTitle">File Url</label>
+                                <input type="text" class="form-control" id="txtFileUrl" placeholder="File Url" />
+                            </div>
+                        </div>
+
                         <div class="w-100"></div>
 
                         <div class="col-md-12 mt-4">
@@ -139,7 +153,7 @@
                             <div class="float-right">
                                 <a class="btn bg-yellow " id="btnSaveChanges" onclick="SaveChanges(this);return false;">Add Content</a>
                                 <a class="btn bg-yellow" id="btnCancel" onclick="Cancel(this);return false;" style="display: none;">Cancel</a>
-                                 <a class="btn bg-blue text-white float-right" style="display:none;" id="savereorder" onclick="SaveGrid();">Save Reordering</a>
+                                <a class="btn bg-blue text-white float-right" style="display: none;" id="savereorder" onclick="SaveGrid();">Save Reordering</a>
 
                             </div>
                         </div>
@@ -196,20 +210,30 @@
         var TypeID;
         var base64filestring;
         $(document).ready(function () {
-            //TopicID = GetParameterValues('Id');
-            //_ModuleID = GetParameterValues('ModuleId');
-            TopicID = "1";
-            _ModuleID = "1";
+            debugger;
+            TopicID = GetParameterValues('TopicID');
+            _ModuleID = GetParameterValues('ModuleID');
+            //TopicID = "1";
+            //_ModuleID = "1";
             GetContentList(this);
-            ClearAllFields();
+            ClearAllFields(this);
+            ShowControl();
+
         });
 
         function SaveChanges(cntrl) {
             if ($("#ddlDocType").val() != "" &&
                 $("#txtTitle").val() != "" &&
                 $("#txtDescription").val() != "" &&
-                $("#txtOverview").val() != "" &&
-                $("#filepath").val() != "" && TopicID != "" && _ModuleID != "") {
+                TopicID != "" && _ModuleID != "") {
+                var isUrl;
+                if ($("input[name=filetype]:checked").val() == "URL") {
+                    isUrl = 1;
+                    base64filestring=$('#txtFileUrl').val();//Assigning url value
+                }
+                else {
+                    isUrl = 0;
+                }
 
                 var index = contentList.length + 1;
                 var newContent = {
@@ -218,7 +242,7 @@
                     DocType: $("#ddlDocType").val()
                     , Title: $("#txtTitle").val()
                     , Description: $("#txtDescription").val()
-                    , Overview: $("#txtOverview").val()
+                    , Overview: ""
                     , ContentFileID: base64filestring
                     , IsGift: $("#chkIsGift").prop("checked")
                     , IsPublished: $("#chkIsPublished").prop("checked")
@@ -231,7 +255,8 @@
                     , PassingPercent: ""
                     , PassingScore: ""
                     , FlashcardHighlights: ""
-                    , SkipFlashcards:""
+                    , SkipFlashcards: ""
+                    , IsURL: isUrl
 
                 };
 
@@ -258,13 +283,13 @@
 
                                 var DataSet = $.parseJSON(response);
                                 if (DataSet != null && DataSet != "") {
-                                    if (DataSet.StatusCode == "1") {                                        
+                                    if (DataSet.StatusCode == "1") {
                                         HideLoader();
                                         Swal.fire({
                                             title: "Success",
                                             text: DataSet.StatusDescription,
                                             icon: "success",
-                                        });                                        
+                                        });
                                         contentList.push(newContent);
                                     }
                                     else {
@@ -275,8 +300,6 @@
                                             icon: "error"
                                         });
                                     }
-                                    //clearFields('.input-validation');
-
                                 }
                                 else {
                                     HideLoader();
@@ -297,7 +320,7 @@
                             }
                         },
                         complete: function () {
-                            HideLoader();                      
+                            HideLoader();
                         },
                         failure: function (response) {
                             HideLoader();
@@ -309,10 +332,10 @@
                             });
                         }
                     });
-                
 
-      
-                 
+
+
+
                 }
                 else {
                     // Update Content
@@ -367,8 +390,6 @@
                                             icon: "error"
                                         });
                                     }
-                                    //clearFields('.input-validation');
-
                                 }
                                 else {
                                     HideLoader();
@@ -423,77 +444,87 @@
             $("#txtDescription").val("");
             $("#txtOverview").val("");
             $("#filepath").val("");
-            $('.custom-file-label').html('File Path/URL');
+            $('.custom-file-label').html('File Path');
             $("#chkIsGift").prop("checked", false);
             $("#chkIsPublished").prop("checked", false);
-
+            $('#rd_url').prop('checked', true);
+            $('#div_fileUrl').show();
+            $('#div_fileupload').hide();
+            $('#div_preview').hide();
+            $('#txtFileUrl').val("");
             $("#ddlDocType").trigger('change');
         }
 
         function GetContentList(cntrl) {
-            ShowLoader();
-            var url = "/API/Content/GetContentList";
-            try {
-                var requestParams = { TopicID: "1", ModuleID: "1", ContentID: "", ContentTypeID: "", IsGift: "true" };              
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    headers: { "Authorization": "Bearer " + accessToken },
-                    data: JSON.stringify(requestParams),
-                    contentType: "application/json",
-                    processData: false,
-                    success: function (response) {
-                        if (response != null && response != undefined) {
-                            //$("#dvJson").html(JSON.stringify(contentList));
-                            var list = JSON.parse(response);
-                            if (list.StatusCode = "1") {
-                                contentList = [];
-                                for (var i = 0; i < list.Data.length; i++) {
-                                    contentList.push(list.Data[i]);
-                                }
-
-                                var tableBody = $("#tblContent #tBodyContent");
-                                tableBody.html("");
-                                if (contentList.length == 0) {
-                                    tableBody.append("<td colspan='10'><center>No Contents</center></td>");
-                                }
-                                $.grep(contentList, function (content, i) {
-                                    try {
-                                        var isGiftValue = content.IsGift == true ? "Checked disabled" : "disabled";
-                                        var isPublishedValue = content.IsPublished == true ? "Checked disabled" : "disabled";
-                                        var FilePath = "";
-                                        if (content.FilePath.split('.')[1].toUpperCase() == 'PDF')
-                                        {
-                                            FilePath = '../Files/Content/'+content.FilePath;
-                                        }
-                                        else
-                                        {
-                                            FilePath = content.FilePath;
-                                        }
-                                        var markup = "<tr>";
-                                        markup += "<td>" + content.SrNo + "</td>";
-                                        markup += "<td>" + content.DocType + "</td>";
-                                        markup += "<td>" + content.Title + "</td>";
-                                        markup += "<td>" + content.Description + "</td>";
-                                      //  markup += "<td>" + content.Overview + "</td>";
-                                        markup += "<td><a href=" + FilePath + ">" + content.FilePath + "</a></td>";
-                                        markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
-                                        markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
-                                        markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
-                                        //markup += "<td index=" + content.ContentID + " onclick ='EditContent($(this))'>Edit</td>";
-                                        //markup += "<td index=" + content.ContentID + " onclick ='DeleteContent($(this))'>Delete</td>";
-                                        markup += "</tr>";
-                                        tableBody.append(markup);
+            if ((TopicID != null && TopicID != '') && (_ModuleID != '' && _ModuleID != null)) {
+                ShowLoader();
+                var url = "/API/Content/GetContentList";
+                try {
+                    var requestParams = { TopicID: TopicID, ModuleID: _ModuleID, ContentID: "", ContentTypeID: "", IsGift: "true" };
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                        processData: false,
+                        success: function (response) {
+                            if (response != null && response != undefined) {
+                                //$("#dvJson").html(JSON.stringify(contentList));
+                                var list = JSON.parse(response);
+                                if (list.StatusCode = "1") {
+                                    contentList = [];
+                                    for (var i = 0; i < list.Data.length; i++) {
+                                        contentList.push(list.Data[i]);
                                     }
-                                    catch (ex) {
 
-                                        Swal.fire({
-                                            title: "Failure",
-                                            text: "Exception occured." + ex.message,
-                                            icon: "error"
-                                        });
+                                    var tableBody = $("#tblContent #tBodyContent");
+                                    tableBody.html("");
+                                    if (contentList.length == 0) {
+                                        tableBody.append("<td colspan='10'><center>No Contents</center></td>");
                                     }
-                                });
+                                    $.grep(contentList, function (content, i) {
+                                        try {
+                                            var isGiftValue = content.IsGift == true ? "Checked disabled" : "disabled";
+                                            var isPublishedValue = content.IsPublished == true ? "Checked disabled" : "disabled";
+                                            var FilePath = "";
+                                            if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
+                                                FilePath = '../Files/Content/' + content.FilePath;
+                                            }
+                                            else {
+                                                FilePath = content.FilePath;
+                                            }
+                                            var markup = '<tr id="' + content.ContentID + '">';
+                                            markup += "<td>" + (i + 1) + "</td>";
+                                            markup += "<td>" + content.DocType + "</td>";
+                                            markup += "<td>" + content.Title + "</td>";
+                                            markup += "<td>" + content.Description + "</td>";
+                                            markup += "<td><a href=" + FilePath + " target=_blank>File</a></td>";
+                                            markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
+                                            markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
+                                            markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
+
+                                            markup += "</tr>";
+                                            tableBody.append(markup);
+                                        }
+                                        catch (ex) {
+
+                                            Swal.fire({
+                                                title: "Failure",
+                                                text: "Exception occured." + ex.message,
+                                                icon: "error"
+                                            });
+                                        }
+                                    });
+                                }
+                                else {
+                                    HideLoader();
+                                    Swal.fire({
+                                        title: "Failure",
+                                        text: "Please try Again",
+                                        icon: "error"
+                                    });
+                                }
                             }
                             else {
                                 HideLoader();
@@ -503,30 +534,34 @@
                                     icon: "error"
                                 });
                             }
-                        }
-                        else {
-                            HideLoader();
-                            Swal.fire({
-                                title: "Failure",
-                                text: "Please try Again",
-                                icon: "error"
-                            });
-                        }
-                    },
-                    complete: function () {
-                        $('#tblContent').DataTable();
-                        $('#tblContent').tableDnD({
-                            onDragStart: function (table, row) {
-                                $('#savereorder').show();
+                        },
+                        complete: function () {
+                            $('#tblContent').DataTable();
+                            $('#tblContent').tableDnD({
+                                onDragStart: function (table, row) {
+                                    $('#savereorder').show();
 
-                            }
-                        });
-                        HideLoader();
-                    }
-                });
+                                }
+                            });
+                            HideLoader();
+                        }
+                    });
+                }
+                catch (e) {
+                    HideLoader();
+                    Swal.fire({
+                        title: "Failure",
+                        text: "Please try Again",
+                        icon: "error"
+                    });
+                }
             }
-            catch (e) {
-                HideLoader();
+            else {
+                var tableBody = $("#tblContent #tBodyContent");
+                tableBody.html("");
+                if (contentList.length == 0) {
+                    tableBody.append("<td colspan='10'><center>No Contents</center></td>");
+                }
                 Swal.fire({
                     title: "Failure",
                     text: "Please try Again",
@@ -536,31 +571,48 @@
         }
 
         function EditContent(row) {
-            var index = $(row).attr("index");
+            try {
+                var index = $(row).attr("index");
 
-            var content = $.grep(contentList, function (n, i) {
-                return n.ContentID == parseInt(index);
-            })[0];
+                var content = $.grep(contentList, function (n, i) {
+                    return n.ContentID == parseInt(index);
+                })[0];
 
-            $("#ddlDocType").val(content.DocType);
-            $("#txtTitle").val(content.Title);
-            $("#txtDescription").val(content.Description);
-            if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
-                $("#preview").attr("href", "./Files/Content/" + content.FilePath);
+                $("#ddlDocType").val(content.DocType);
+                $("#txtTitle").val(content.Title);
+                $("#txtDescription").val(content.Description);
+
+                if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
+                    $('#rd_file').prop('checked', true);
+                    $("#preview").attr("href", "../Files/Content/" + content.FilePath);
+                    $("#preview").attr("target", '_blank');
+                    $('#div_fileupload').show();
+                    $('#div_preview').show();
+                    $('#div_fileUrl').hide();
+                }
+                else {
+                    $('#rd_url').prop('checked', true);
+                    $('#txtFileUrl').val(content.FilePath);
+
+                    $('#div_fileUrl').show();
+                    $('#div_preview').hide();
+                }
+
+                $("#chkIsGift").prop("checked", content.IsGift);
+                $("#chkIsPublished").prop("checked", content.IsPublished);
+                TypeID = content.TypeID;
+                $("#btnSaveChanges").text("Save Content");
+                $("#btnSaveChanges").attr("index", index);
+                $("#btnCancel").show();
+                $("#ddlDocType").trigger('change');
             }
-            else {
-                $("#preview").attr("href",content.FilePath);
+            catch (e) {
+                Swal.fire({
+                    title: "Failure",
+                    text: "Please try Again",
+                    icon: "error"
+                });
             }
-            $('#div_preview').show();
-            //$("#txtOverview").val(content.Overview);
-            // $("#filepath").val(content.FilePath);
-            $("#chkIsGift").prop("checked", content.IsGift);
-            $("#chkIsPublished").prop("checked", content.IsPublished);
-            TypeID = content.TypeID;
-            $("#btnSaveChanges").text("Save Content");
-            $("#btnSaveChanges").attr("index", index);
-            $("#btnCancel").show();
-            $("#ddlDocType").trigger('change');
         }
 
         function DeleteContent(row) {
@@ -572,7 +624,7 @@
             });
 
             if (contentList != null) {
-             
+
                 var newcontentlist = { p_ContentID: index }
                 // Ajax Call
                 Swal.fire({
@@ -595,7 +647,7 @@
                             contentType: "application/json",
                             success: function (response) {
                                 try {
-                                    contentList=[];
+                                    contentList = [];
                                     var DataSet = $.parseJSON(response);
                                     if (DataSet != null && DataSet != "") {
                                         if (DataSet.StatusCode == "1") {
@@ -688,9 +740,9 @@
                 var sqnData = "";
                 var array = [];
                 var url = "/API/Content/ReOrderContent";
-                $.each(contentList, function (i, contentList) {
-                    
-                    sqnData += contentList.SrNo + ",";
+                $.each($('#tblContent tbody tr'), function (i, data) {
+
+                    sqnData += $(data).attr('id') + ",";
                 });
                 sqnData = sqnData.replace(/,(?=\s*$)/, '');
                 if (sqnData != "") {
@@ -775,6 +827,22 @@
                 });
             }
 
+        }
+
+
+
+        function ShowControl(ctrl) {
+
+            var linkvalue = $("input[name=filetype]:checked").val();
+            if (linkvalue == "URL") {
+                $('#div_fileUrl').show();
+                $('#div_fileupload').hide();
+                $('#div_preview').hide();
+            }
+            else {
+                $('#div_fileUrl').hide();
+                $('#div_fileupload').show();
+            }
         }
     </script>
 </asp:Content>

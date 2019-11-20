@@ -179,12 +179,12 @@ namespace _365_Portal.Code.BL
             return data;
         }
 
-        public static DataSet CreateFile(string FilePath, string FileDirectory, string Ref1)
+        public static DataSet CreateFile(string FilePath, string FileDirectory,bool IsURL, string Ref1)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = UserDAL.CreateFile(FilePath, FileDirectory, Ref1);
+                ds = UserDAL.CreateFile(FilePath, FileDirectory,IsURL, Ref1);
             }
             catch (Exception ex)
             {

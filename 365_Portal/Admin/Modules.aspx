@@ -466,9 +466,9 @@
                                                 tbl += '<td title="' + data.Overview + '" class="overview">' + data.Overview;
                                                 tbl += '<td title="' + data.Description + '" class="description">' + data.Description;
                                                 tbl += '<td title="' + data.IsPublished + '" class="isPublished">' + data.IsPublished;
-                                                tbl += '<td title="' + data.ModuleID + '"><a href="Contents.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="ContentList.aspx?TopicID=' + TopicID + '&ModuleID=' + data.ModuleID + '">' + data.ContentCount + '</a>';
                                                 tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=1&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                                tbl += '<td title="' + data.ModuleID + '"><a href="Flashcards.aspx?ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Flashcards.aspx?ModuleID=' + data.FlashCardCount + '">' + data.FlashCardCount + '</a>';
                                                 tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=2&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
                                                 tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=3&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
                                                 //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'

@@ -298,7 +298,7 @@ namespace _365_Portal.Code.BL
                                     string filePath = HttpContext.Current.Server.MapPath("~/Files/Survey/" + fileName);
                                     File.WriteAllBytes(filePath, imageBytes);
 
-                                    DataSet dsFile = UserBL.CreateFile("~/Files/Survey/" + fileName, filePath, "ProfilePic");
+                                    DataSet dsFile = UserBL.CreateFile("~/Files/Survey/" + fileName, filePath,false, "ProfilePic");
                                     if (dsFile.Tables.Count > 0 && dsFile.Tables[0].Rows.Count > 0)
                                     {
                                         ansOption.FileID = Convert.ToInt32(dsFile.Tables[0].Rows[0]["UniqueID"].ToString());

@@ -434,7 +434,7 @@ namespace _365_Portal.Controllers
                         string filePath = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/" + fileName);
                         File.WriteAllBytes(filePath, imageBytes);
 
-                        DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/ProfilePic/"), "ProfilePic");
+                        DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/ProfilePic/"), false,"ProfilePic");
                         if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                         {
                             _userdetail.ProfilePicFileID = ds.Tables[0].Rows[0]["UniqueID"].ToString();
@@ -471,7 +471,7 @@ namespace _365_Portal.Controllers
                             string filePath = HttpContext.Current.Server.MapPath("~/Files/CompLogo/" + fileName);
                             File.WriteAllBytes(filePath, imageBytes);
 
-                            DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/CompLogo/"), "");
+                            DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/CompLogo/"), false,"");
                             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                             {
                                 _userdetail.CompanyProfilePicFileID = ds.Tables[0].Rows[0]["UniqueID"].ToString();

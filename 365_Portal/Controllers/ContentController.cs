@@ -786,12 +786,13 @@ namespace _365_Portal.ControllersReOrderContent
                         && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString())
                         && !string.IsNullOrEmpty(requestParams["TypeID"].ToString())
                         && !string.IsNullOrEmpty(requestParams["DocType"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
+                        //&& !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
                         && !string.IsNullOrEmpty(requestParams["Title"].ToString())
                         && !string.IsNullOrEmpty(requestParams["Description"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["Overview"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["IsURL"].ToString())
+                        //&& !string.IsNullOrEmpty(requestParams["Overview"].ToString())
+                        //&& !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
+                        //&& !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
                         )
                     {
                         content.CompID = identity.CompId;
@@ -821,7 +822,7 @@ namespace _365_Portal.ControllersReOrderContent
                         {
                             content.DocType = null;
                         }
-                        if (!string.IsNullOrEmpty(requestParams["ContentFileID"].ToString()))
+                        if (!string.IsNullOrEmpty(requestParams["ContentFileID"].ToString()) && requestParams["IsURL"].ToString() == "0")
                         {
                             string ContentBase64 = Convert.ToString(requestParams.SelectToken("ContentFileID"));
                             if (!string.IsNullOrEmpty(ContentBase64))
@@ -836,11 +837,20 @@ namespace _365_Portal.ControllersReOrderContent
                                 string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
                                 File.WriteAllBytes(filePath, imageBytes);
 
-                                DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), "Content");
+                                DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), false, "Content");
                                 if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
                                 {
                                     content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
                                 }
+                            }
+                        }
+                        else
+                        {
+                            string fileName =requestParams["ContentFileID"].ToString();
+                            DataSet _ds = UserBL.CreateFile(fileName, "", true, "Content");
+                            if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                            {
+                                content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
                             }
                         }
                         if (!string.IsNullOrEmpty(requestParams["Title"].ToString()))
@@ -988,9 +998,10 @@ namespace _365_Portal.ControllersReOrderContent
                         //&& !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
                         && !string.IsNullOrEmpty(requestParams["Title"].ToString())
                         && !string.IsNullOrEmpty(requestParams["Description"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["Overview"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
+                        && !string.IsNullOrEmpty(requestParams["IsURL"].ToString())
+                        //&& !string.IsNullOrEmpty(requestParams["Overview"].ToString())
+                        //&& !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
+                        // && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
                         )
                     {
                         content.CompID = identity.CompId;
@@ -1020,7 +1031,7 @@ namespace _365_Portal.ControllersReOrderContent
                         {
                             content.DocType = null;
                         }
-                        if (!string.IsNullOrEmpty(requestParams["ContentFileID"].ToString()))
+                        if (!string.IsNullOrEmpty(requestParams["ContentFileID"].ToString()) && requestParams["IsURL"].ToString() == "0")
                         {
                             string ContentBase64 = Convert.ToString(requestParams.SelectToken("ContentFileID"));
                             if (!string.IsNullOrEmpty(ContentBase64))
@@ -1035,13 +1046,21 @@ namespace _365_Portal.ControllersReOrderContent
                                 string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
                                 File.WriteAllBytes(filePath, imageBytes);
 
-                                DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), "Content");
+                                DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), false, "Content");
                                 if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
                                 {
                                     content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
                                 }
                             }
-
+                        }
+                        else
+                        {
+                            string fileName = requestParams["ContentFileID"].ToString();
+                            DataSet _ds = UserBL.CreateFile(fileName, "", true, "Content");
+                            if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                            {
+                                content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                            }
                         }
                         if (!string.IsNullOrEmpty(requestParams["Title"].ToString()))
                         {
