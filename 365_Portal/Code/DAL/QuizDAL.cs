@@ -133,22 +133,23 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-        public static DataSet ManageFlashcardIntro(int compId, string userId, int introId, string comments, int contentId, int action)
+        public static DataSet ManageFlashcardIntro(int compId, string userId,int type, int introId,string title, string comments, int contentId, int action)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
-
             try
             {
-
                 conn.Open();
-                string sp = "";
+                string sp = "spCRUDFlashcardIntro";
                 MySqlCommand cmd = new MySqlCommand(sp, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_Action", action);
                 cmd.Parameters.AddWithValue("p_CompID", compId);
-                cmd.Parameters.AddWithValue("p_IntroID", introId);
+                cmd.Parameters.AddWithValue("p_ID", introId);
+                //cmd.Parameters.AddWithValue("p_Type", type);
+               // cmd.Parameters.AddWithValue("p_Title", title);
                 cmd.Parameters.AddWithValue("p_ContentID", contentId);
+                cmd.Parameters.AddWithValue("p_SrNo", 1);
                 cmd.Parameters.AddWithValue("p_Comments", comments);
                 cmd.Parameters.AddWithValue("p_CreatedBy", userId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -163,10 +164,8 @@ namespace _365_Portal.Code.DAL
             {
                 conn.Close();
             }
-
             return ds;
         }
-
 
         public static DataSet ManageFlashcardSlides(int compId, string userId, int flashcardId, string title, int contentId, string description, int action)
         {

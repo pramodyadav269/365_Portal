@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Quiz" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="quiz.aspx.cs" Inherits="_365_Portal.Admin.Quiz" %>
+﻿<%@ Page Title="Quiz" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="quiz.aspx.cs" Inherits="_365_Portal.Admin.Quiz" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Quiz</title>

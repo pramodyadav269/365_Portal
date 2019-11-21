@@ -1,7 +1,7 @@
-﻿<%@ Page Title="365" Language="C#" MasterPageFile="~/Life.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Life.Default" %>
+﻿<%@ Page Title="365" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Life.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="Asset/customer/default.js"></script>
+    <script src="../Asset/customer/default.js"></script>
     <style>
         .contents-datials .embed {
             width: 100%;
@@ -10,7 +10,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <div ng-controller="DefaultController">
+    <div ng-app="MasterPage" ng-controller="DefaultController">
         <%--Start Topics--%>
         <div class="row topics" id="dvTopicContainer" ng-if="ActiveContainer =='Topic'">
             <div class="col-md-12">

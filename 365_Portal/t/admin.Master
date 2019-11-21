@@ -35,7 +35,7 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="form1" runat="server" ng-app="MasterPage">
+    <form id="form1" runat="server">
 
         <div class="spinner-center d-none">
             <div class="spinner">
@@ -46,19 +46,21 @@
         </div>
 
         <div id="sideNav" class="sidenav">
-            <a href="<%=Page.ResolveUrl("~/Admin/dashboard.aspx") %>">Dashboard</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/Groups.aspx") %>">Groups</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/Users.aspx") %>">Users</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/Topics.aspx") %>">Topics</a>
-            <%--  <a href="<%=Page.ResolveUrl("~/Admin/Modules.aspx") %>">Modules</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/ContentList.aspx") %>">Contents</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=1") %>">Surveys</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/flashcards.aspx") %>">Flashcards</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=2") %>">Flashcard Quiz</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/quiz.aspx?type=3") %>">Final Quiz</a>--%>
-            <a href="<%=Page.ResolveUrl("~/Admin/bulkupload.aspx") %>">Bulk Upload</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/assign_topics.aspx") %>">Assign Topics</a>
-            <a href="<%=Page.ResolveUrl("~/Admin/Achievement.aspx") %>">Achievements</a>
+            <a id="dvDashboard" runat="server" visible="false" href="dashboard.aspx">Dashboard</a>
+            <a id="dvUserDashboard" runat="server" visible="false" href="default.aspx">Dashboard</a>
+            <a id="dvGroups" runat="server" visible="false" href="Groups.aspx">Groups</a>
+            <a id="dvUsers" runat="server" visible="false" href="Users.aspx">Users</a>
+            <a id="dvTopics" runat="server" visible="false" href="Topics.aspx">Topics</a>
+            <%--  <a href="<%=Page.ResolveUrl("~/t/Modules.aspx") %>">Modules</a>
+            <a href="<%=Page.ResolveUrl("~/t/ContentList.aspx") %>">Contents</a>
+            <a href="<%=Page.ResolveUrl("~/t/quiz.aspx?type=1") %>">Surveys</a>
+            <a href="<%=Page.ResolveUrl("~/t/flashcards.aspx") %>">Flashcards</a>
+            <a href="<%=Page.ResolveUrl("~/t/quiz.aspx?type=2") %>">Flashcard Quiz</a>
+            <a href="<%=Page.ResolveUrl("~/t/quiz.aspx?type=3") %>">Final Quiz</a>
+                 <a href="<%=Page.ResolveUrl("~/t/Achievement.aspx") %>">Achievements</a>
+            <a href="<%=Page.ResolveUrl("~/t/bulkupload.aspx") %>">Bulk Upload</a>--%>
+            <a id="dvAssignTopics" runat="server" visible="false" href="assign_topics.aspx">Assign Topics</a>
+
 
             <%--- Dashboard
 - Groups
@@ -77,7 +79,7 @@
                     </button>--%>
                 <div class="navbar-left">
                     <a class="menu" onclick="ToggleNav()"><i class="fas fa-bars fa-lg text-white"></i></a>
-                    <a class="navbar-brand" href="<%=Page.ResolveUrl("~/admin/dashboard.aspx") %>">
+                    <a class="navbar-brand" href="<%=Page.ResolveUrl("~/t/dashboard.aspx") %>">
                         <img id="imgCompanyLogo" runat="server" src="../Asset/images/logo.svg" class="logo" />
                     </a>
                 </div>
@@ -108,14 +110,13 @@
                             </a>
                             <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
                                 <%--<a id="menuProfile" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Profile.aspx") %>">Profile</a>
-                                <a id="menuUsers" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Admin/Users.aspx") %>">Profile</a>
+                                <a id="menuUsers" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/t/Users.aspx") %>">Profile</a>
                                 <a id="menuSetting" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
                                 <a id="menuLogout" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>--%>
-                               
-                                <a id="menuProfile" runat="server" class="dropdown-item" href="~/Profile.aspx">Profile</a>
-                                <a id="menuUsers" runat="server" class="dropdown-item" href="Users.aspx">Users List</a>
-                                <a id="menuSetting" runat="server" class="dropdown-item" href="~/Settings.aspx">Settings</a>
-                                <a id="menuLogout" runat="server" class="dropdown-item"  onserverclick="btnLogout_Click">Logout</a>
+
+                                <a id="menuProfile" runat="server" class="dropdown-item" href="Profile.aspx">Profile</a>
+                                <a id="menuSetting" runat="server" class="dropdown-item" href="Settings.aspx">Settings</a>
+                                <a id="menuLogout" runat="server" class="dropdown-item" onserverclick="btnLogout_Click">Logout</a>
 
                             </div>
                         </div>

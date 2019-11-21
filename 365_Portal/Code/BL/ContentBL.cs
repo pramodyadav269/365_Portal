@@ -221,6 +221,7 @@ namespace _365_Portal.Code.BL
                                     {
                                         ContentID = Convert.ToInt32(Convert.ToString(dr["ContentID"])),
                                         SrNo = Convert.ToInt32(Convert.ToString(dr["SrNo"])),
+                                        ID = Convert.ToInt32(Convert.ToString(dr["ID"])),
                                         Comments = Convert.ToString(dr["Comments"])
                                     }).ToList();
 
@@ -230,6 +231,7 @@ namespace _365_Portal.Code.BL
                                       {
                                           ContentID = Convert.ToInt32(Convert.ToString(dr["ContentID"])),
                                           SrNo = Convert.ToInt32(Convert.ToString(dr["SrNo"])),
+                                          FlashcardID = Convert.ToInt32(Convert.ToString(dr["FlashcardID"])),
                                           Title = Convert.ToString(dr["Title"]),
                                           Description = Convert.ToString(dr["Description"])
                                       }).ToList();

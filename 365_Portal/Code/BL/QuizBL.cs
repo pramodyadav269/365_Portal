@@ -57,12 +57,12 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        public static DataSet ManageFlashcardIntro(int compId, string userId, int introId, string comments, int contentId, int action)
+        public static DataSet ManageFlashcardIntro(int compId, string userId,int type, int introId,string title, string comments, int contentId, int action)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = QuizDAL.ManageFlashcardIntro(compId, userId, introId, comments, contentId, action);
+                ds = QuizDAL.ManageFlashcardIntro(compId, userId,type, introId, title,comments, contentId, action);
             }
             catch (Exception ex)
             {

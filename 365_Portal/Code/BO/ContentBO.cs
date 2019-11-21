@@ -57,12 +57,14 @@ namespace _365_Portal
     {
         public int ContentID { get; set; }
         public int SrNo { get; set; }
+        public int ID { get; set; }
         public string Comments { get; set; }
     }
 
     public class FlashcardSlides
     {
         public int ContentID { get; set; }
+        public int FlashcardID { get; set; }
         public int SrNo { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

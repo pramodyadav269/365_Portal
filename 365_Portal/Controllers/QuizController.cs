@@ -339,23 +339,12 @@ namespace _365_Portal.Controllers
                     var introId = 0; var comments = "";
                     var contentId = Convert.ToInt32(Convert.ToString(requestParams["ContentID"]));
                     var action = Convert.ToInt32(Convert.ToString(requestParams["Action"]));
-                    if (action == 1 || action == 2)
-                    {
-                        if (!string.IsNullOrEmpty(Convert.ToString(requestParams["IntroID"])))
-                            introId = Convert.ToInt32(requestParams["IntroID"]);
-                        comments = Convert.ToString(requestParams["Comments"]);
-                    }
-                    else if (action == 3)
-                    {
-
-                    }
-                    else if (action == 4)
-                    {
-
-                    }
-
+                    if (!string.IsNullOrEmpty(Convert.ToString(requestParams["ID"])))
+                        introId = Convert.ToInt32(requestParams["ID"]);
+                    comments = Convert.ToString(requestParams["Description"]);
+                    var Title = Convert.ToString(requestParams["Title"]);
                     // CALL BL
-                    var ds = QuizBL.ManageFlashcardIntro(compId, userId, introId, comments, contentId, action);
+                    var ds = QuizBL.ManageFlashcardIntro(compId, userId,1, introId,"", comments, contentId, action);
                     if (ds.Tables.Count > 0)
                     {
                         if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
@@ -452,5 +441,4 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
     }
-
 }

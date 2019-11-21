@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Flashcards" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="flashcards.aspx.cs" Inherits="_365_Portal.Admin.Flashcards" %>
+﻿<%@ Page Title="Flashcards" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="flashcards.aspx.cs" Inherits="_365_Portal.Admin.Flashcards" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Flashcards</title>
@@ -199,15 +199,22 @@
         var flashcardSlides = [];
         var flashcards = [];
 
+        //Flashcard
+        var gbl_contentTypeID = 3;
+        var gbl_ContentID = 0;
+        var gbl_TopicID = QueryString()["TID"];
+        var gbl_ModuleID = QueryString()["MID"];
+
         $(document).ready(function () {
-            BindFlashList();
-            BindFlashcards();
-            BindFlashcardIntro();
-            BindFlashcardSlides();
+            BindContentList(0);
+            //BindFlashcards();
+            //BindFlashcardIntro();
+            //BindFlashcardSlides();
         });
 
-        function BindFlashList() {
-            var requestParams = { TopicID: "1", ModuleID: "1", ContentID: "0", ContentTypeID: "3", IsGift: "0" };
+        function BindContentList(contentId) {
+            ShowLoader();
+            var requestParams = { TopicID: gbl_TopicID, ModuleID: gbl_ModuleID, ContentID: contentId, ContentTypeID: gbl_contentTypeID, IsGift: "0" };
             $.ajax({
                 method: "POST",
                 url: "../api/Quiz/GetContentList",
@@ -215,23 +222,22 @@
                 data: JSON.stringify(requestParams),
                 contentType: "application/json",
             }).then(function success(response) {
-                var response = JSON.parse(response);
-                $("#txtSurveyTitle").val(response.Data[0].Title);
-                $("#txtSurveyDescription").val(response.Data[0].Description);
-                $("#chkIsPublished").prop("checked", response.Data[0].IsPublished);
-
-                //$("#txtFlashcardTitle").val(response.Data[0].Title);
-                //$("#txtFlashcardDescription").val(response.Data[0].Title);
-                //$("#chkIsGift").prop("checked", response.Data[0].IsPublished);
-                //$("#chkIsPublished").prop("checked", response.Data[0].IsPublished);
-                //$("#chkSkipFlashcards").prop("checked", response.Data[0].IsPublished);
-                //$("#txtIntroTitle").val(response.Data[0].Title);
-
-                flashcards = response.Data;
-                //flashcardIntro;=response.Data[0].FlashcardIntro
-                //flashcardSlides;=FlashcardSlides;
-
-                BindFlashcards(this);
+                HideLoader();
+                var responses = JSON.parse(response);
+                if (responses.Data.length > 0) {
+                    flashcards = responses.Data == null ? [] : responses.Data;
+                    BindFlashcards(this);
+                    if (contentId != null && contentId != 0) {
+                        // Bind Flashcard & Intro 
+                        flashcardIntro = responses.Data[0].FlashcardIntro;
+                        flashcardSlides = responses.Data[0].FlashcardSlides;
+                        BindFlashcardIntro();
+                        BindFlashcardSlides();
+                    }
+                }
+                else {
+                    $("#dvQuestionMasterForm").hide();
+                }
             });
         }
 
@@ -241,22 +247,50 @@
                 var index = flashcards.length + 1;
                 var newFlashcard = {
                     "ContentID": (index * 10)
+                    , "TopicID": gbl_TopicID
+                    , "ModuleID": gbl_ModuleID
                     , "SrNo": index
+                    , "ContentTypeID": gbl_contentTypeID
                     , "Title": $("#txtFlashcardTitle").val()
                     , "Description": $("#txtFlashcardDescription").val()
                     , "Overview": $("#txtFlashcardOverview").val()
                     , "IntroTitle": $("#txtIntroTitle").val()
                     , "IsGift": $("#chkIsGift").prop("checked")
-                    , "IsSkipFlashcards": $("#chkSkipFlashcards").prop("checked")
+                    , "SkipFlashcard": $("#chkSkipFlashcards").prop("checked")
                     , "IsPublished": $("#chkIsPublished").prop("checked")
                     , "FlashcardIntro": flashcardIntro
                     , "FlashcardSlides": flashcardSlides
+                    , "TotalScore": 0
+                    , "PassingScore": 0
+                    , "PassingPercentage": 0
                 };
 
                 if ($(cntrl).attr("index") == null) {
                     // Add Flashcard
                     // Ajax Call
                     flashcards.push(newFlashcard);
+
+                    var requestParams = newFlashcard;
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/SaveContent",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                        if (displayPopup) {
+                            HideLoader();
+                            Swal.fire({
+                                title: 'Success',
+                                icon: 'success',
+                                html: "Information saved successfully.",
+                                showConfirmButton: true,
+                                showCloseButton: true
+                            });
+                            BindQuiz(false);
+                        }
+                    });
+
                 }
                 else {
                     // Update Flashcard Intro Item
@@ -303,9 +337,16 @@
         function EditFlashcard(row) {
             var index = $(row).attr("index");
 
+            gbl_ContentID = index;
             var flashcard = $.grep(flashcards, function (n, i) {
                 return n.ContentID == parseInt(index);
             })[0];
+
+            flashcardIntro = flashcard.FlashcardIntro;
+            flashcardSlides = flashcard.FlashcardSlides;
+            BindFlashcardIntro();
+            BindFlashcardSlides();
+
             $("#txtFlashcardTitle").val(flashcard.Title);
             $("#txtFlashcardDescription").val(flashcard.Description);
             $("#txtFlashcardOverview").val(flashcard.Overview);
@@ -363,22 +404,53 @@
 
         function AddIntroItem(cntrl) {
             if ($("#txtDescription").val().trim() != "") {
-
                 var index = flashcardIntro.length + 1;
-                var newFlashcard = { "ID": (index * 10), "SrNo": index, "Description": $("#txtDescription").val() };
+                var newFlashcard = { Action: 1, ContentID: gbl_ContentID, "ID": 0, "SrNo": index,Title:"", "Description": $("#txtDescription").val() };
                 if ($(cntrl).attr("index") == null) {
-                    // Add Flashcard Intro Item
                     // Ajax Call
-
-                    flashcardIntro.push(newFlashcard);
+                    var requestParams = newFlashcard;
+                    ShowLoader();
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageFlashcardIntro",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Flashcarad Intro updated successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindContentList(requestParams.ContentID);
+                    });
                 }
                 else {
                     // Update Flashcard Intro Item
                     var index = parseInt($(cntrl).attr("index"));
-                    var flashCard = $.grep(flashcardIntro, function (n, i) {
-                        return n.ID == index;
-                    })[0];
-                    flashCard.Description = newFlashcard.Description;
+                    newFlashcard.ID = index;
+                    newFlashcard.Action = 2;
+                    var requestParams = newFlashcard;
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageFlashcardIntro",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Flashcarad Intro updated successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindContentList(requestParams.ContentID);
+                    });
                 }
                 CancelIntro(cntrl);
                 BindFlashcardIntro(cntrl);
@@ -407,7 +479,7 @@
                 return n.ID == parseInt(index);
             })[0];
 
-            $("#txtDescription").val(introItem.Description);
+            $("#txtDescription").val(introItem.Comments);
             $("#btnAddIntroItem").text("Save Item");
             $("#btnAddIntroItem").attr("index", index);
             $("#btnCancelIntro").show();
@@ -415,14 +487,44 @@
 
         function DeleteIntroRow(row) {
             var index = row.attr("index");
-            flashcardIntro = $.grep(flashcardIntro, function (n, i) {
-                return n.ID != parseInt(index);
-            });
+            //flashcardIntro = $.grep(flashcardIntro, function (n, i) {
+            //    return n.ID != parseInt(index);
+            //});
 
-            BindFlashcardIntro();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Once deleted, you will not be able to revert changes!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    ShowLoader();
+                    var requestParams = { Action: 3, ContentID: gbl_ContentID, "ID": index };
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageFlashcardIntro",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Flashcard intro deleted successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindContentList(requestParams.ContentID);
+                    });
+                }
+            });
         }
 
-        function BindFlashcardIntro(cntrl) {
+        function BindFlashcardIntro() {
 
             $("#dvFlashcardIntroJson").html(JSON.stringify(flashcardIntro));
 
@@ -436,7 +538,7 @@
             $.grep(flashcardIntro, function (n, i) {
                 var markup = "<tr>";
                 markup += "<td>" + n.SrNo + "</td>";
-                markup += "<td>" + n.Description + "</td>";
+                markup += "<td>" + n.Comments + "</td>";
                 //markup += "<td index=" + n.ID + " onclick ='EditIntroRow($(this))'>Edit</td>";
                 //markup += "<td index=" + n.ID + " onclick ='DeleteIntroRow($(this))'>Delete</td></tr>";
                 markup += '<td><i title="Edit" index=' + n.ID + ' onclick="EditIntroRow($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.ID + ' onclick="DeleteIntroRow($(this));" class="fas fa-trash text-danger"></i></td>';
@@ -562,7 +664,17 @@
         }
 
         //--------------End of Flashcard Slides-------------//
-
+        // Read a page's GET URL variables and return them as an associative array.
+        function QueryString() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
 
 
     </script>

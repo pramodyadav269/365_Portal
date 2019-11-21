@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="Groups.aspx.cs" Inherits="_365_Portal.Admin.Groups" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Achievement.aspx.cs" Inherits="_365_Portal.Admin.Achievement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -6,13 +6,13 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Groups</h1>
+            <h1 class="text-center font-weight-bold">Topics</h1>
         </div>
 
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>
+                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right">Save Changes</a>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-5 table-responsive"></div>
                 </div>
@@ -32,17 +32,24 @@
                             </div>
                         </div>
 
-                        <%--  <div class="col-md-3">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="txtDescription">Description</label>
                                 <textarea class="form-control required" placeholder="Description" id="txtDescription"></textarea>
                             </div>
-                        </div>--%>
+                        </div>
+
+                         <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="txtlongDescription">Long Description</label>
+                                <textarea class="form-control required" placeholder="Description" id="txtlongDescription"></textarea>
+                            </div>
+                        </div>
 
                         <div class="w-100"></div>
 
                         <div class="col-md-12 mt-4">
-                            <a class="btn bg-yellow float-left" onclick="toggle('divGird', 'divForm')">Back</a>
+                            <a class="btn bg-yellow float-left" id="back" onclick="toggle('divGird', 'divForm')">Back</a>
                             <a class="btn bg-yellow float-right" id="submit" onclick="Submit();">Submit</a>
                         </div>
                     </div>
@@ -53,6 +60,8 @@
     <script>
 
         $(document).ready(function () {
+            //var s; $('#tblGird').find('tr').each(function i(i, index) { if (this.id != "") { s = s + this.id + ','; } console.log(this.id); }); console.log(s.length);
+
 
             View();
         });
@@ -63,6 +72,8 @@
             clearFields('.input-validation')
             toggle('divForm', 'divGird')
             $('#submit').attr('name', INSERT);
+            $('#submit').text('SUBMIT');
+            $('#back').text('BACK');
             //Submit button name attribute changed to Insert;
         }
 
@@ -72,20 +83,27 @@
             var requestParams;
             ShowLoader();
             if (inputValidation('.input-validation')) {
-                var _Group_Id;
-                //var _SrNo = "1";
-                var _Title = $('#txtTitle').val(); //Group Name 
-                var _Description = $('#txtDescription').val(); //Group Description
-
+                var _Achievement_Id;
+                var _SrNo = "1";
+                var _Title = $('#txtTitle').val();
+                var _Description = $('#txtDescription').val();
+                var _LongDescription = $('#txtlongDescription').val();
                 if ($('#submit')[0].name == INSERT) {
-                    getUrl = "/API/User/CreateGroups";
+                    getUrl = "/API/Achievement/CreateAchievement";
+
                 } else {
-                    _Group_Id = id;
-                    getUrl = "/API/User/ModifyGroups";
+                    _Achievement_Id = id;
+                    getUrl = "/API/Achievement/ModifyAchievement";
+
                 }
-                requestParams = { GroupID: _Group_Id, GroupName: _Title, GroupDescription: _Description };
+
+                requestParams = { AchievementID: _Achievement_Id, AchievementTitle: _Title, AchivementDescription: _Description, LongDescription: _LongDescription, SrNo: _SrNo,  IsActive: "" };
 
                 try {
+
+
+
+
                     $.ajax({
                         type: "POST",
                         url: getUrl,
@@ -96,7 +114,7 @@
                             try {
                                 if (response != null) {
                                     var DataSet = $.parseJSON(response);
-                                    
+                                    console.log(response);
                                     if (DataSet.StatusCode == "1") {
                                         clearFields('.input-validation');
                                         HideLoader();
@@ -105,9 +123,13 @@
                                             text: DataSet.StatusDescription,
                                             icon: "success",
                                             button: "Ok",
-                                        })
-                                        toggle('divGird', 'divForm');
-                                        View();
+                                        }).then((value) => {
+                                            if (value) {
+                                                toggle('divGird', 'divForm');
+                                                View();
+                                            }
+                                        });
+
                                     }
                                     else {
                                         HideLoader();
@@ -117,7 +139,7 @@
                                             icon: "error",
                                             button: "Ok",
                                         });
-                                        //clearFields('.input-validation');
+                                        clearFields('.input-validation');
                                     }
                                 }
                                 else {
@@ -146,6 +168,7 @@
                         },
                         failure: function (response) {
                             HideLoader();
+                            //alert(response.data);
                             Swal.fire({
                                 title: "Failure",
                                 text: "Please try Again",
@@ -176,42 +199,50 @@
             }
         }
 
-        function Edit(GroupID) {
+        function Edit(AchievementId) {
 
-            id = GroupID;
+            id = AchievementId;
 
             $('#' + id).find("td:not(:last-child)").each(function (i, data) {
                 if (this.className == 'title') {
                     $('#txtTitle').val(this.innerText); ///This will find title for Topic 
 
                 }
-
+                if (this.className == 'description') {
+                    $('#txtDescription').val(this.innerText);
+                }
+                if (this.className == 'longdescription') {
+                    $('#txtlongDescription').val(this.innerText);
+                }
             });
+            //content.Title);
+            //$('#txtDescription').val(content.Title);
+            //$("#chkIsPublished").prop("checked", content.IsPublished);
+            inputValidation('.input-validation');
             toggle('divForm', 'divGird');
             $('#submit').attr('name', EDIT);
-            $('#submit').text('UPDATE');
+            $('#submit').text('EDIT');
             $('#back').text('CANCEL');
-            inputValidation('.input-validation');
+
             //Submit button name attribute changed to EDIT(Modify);
         }
 
-        function Delete(GroupID) {
-            id = GroupID;
-
+        function Delete(AchievementId) {
+            
+            id = AchievementId;
             Swal.fire({
-                title: 'Are you sure?',
+                title: "Are you sure?",
                 text: "Once deleted, you will not be able to revert changes!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.value) {
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
                     ShowLoader();
                     try {
-                        var requestParams = { GroupID: id, IsActive: 0 };
-                        var getUrl = "/API/User/DeleteGroups";
+                        var requestParams = { TopicID: id, IsActive: 0 };
+                        var getUrl = "/API/Achievement/DeleteAchievement";
 
                         $.ajax({
                             type: "POST",
@@ -223,38 +254,28 @@
                                 try {
 
                                     var DataSet = $.parseJSON(response);
-                                    if (DataSet != null && DataSet != "") {
-                                        if (DataSet.StatusCode == "1") {
-                                            HideLoader();
-                                            Swal.fire({
-                                                title: "Success",
-                                                text: DataSet.StatusDescription,
-                                                icon: "success",
-                                                button: "Ok",
-                                            }).then((value) => {
-                                                if (value) {
+                                    //console.log(response);
+                                    if (DataSet.StatusCode == "1") {
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Success",
+                                            text: DataSet.StatusDescription,
+                                            icon: "success",
+                                            button: "Ok",
+                                        }).then((value) => {
+                                            if (value) {
 
-                                                    View();
-                                                }
-                                            });
+                                                View();
+                                            }
+                                        });
 
 
-                                        }
-                                        else {
-                                            HideLoader();
-                                            Swal.fire({
-                                                title: "Failure",
-                                                text: DataSet.StatusDescription,
-                                                icon: "error",
-                                                button: "Ok",
-                                            });
-                                        }
                                     }
                                     else {
                                         HideLoader();
                                         Swal.fire({
                                             title: "Failure",
-                                            text: "Please try Again",
+                                            text: DataSet.StatusDescription,
                                             icon: "error",
                                             button: "Ok",
                                         });
@@ -262,6 +283,8 @@
                                 }
                                 catch (e) {
                                     HideLoader();
+                                    //alert(response);
+                                    //alert(e.message);
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
@@ -281,7 +304,7 @@
                                     text: "Please try Again",
                                     icon: "error",
                                     button: "Ok",
-                                })
+                                });
                             }
                         });
                     }
@@ -294,17 +317,16 @@
                             button: "Ok",
                         });
                     }
+
                 }
-            })
-
-
-
+            });
         }
         function View() {
-            var url = "/API/User/GetGroups";
+            var url = "/API/Achievement/ViewAchievement";
+
             try {
-                debugger
-                requestParams = { GroupID: "", GroupName: "", GroupDescription: "" };
+
+                var requestParams = { AchievementID: "", AchievementTitle: "", AchivementDescription: "", LongDescription: "", SrNo: "", IsActive: "" };
                 ShowLoader();
                 $.ajax({
                     type: "POST",
@@ -313,52 +335,44 @@
                     data: JSON.stringify(requestParams),
                     contentType: "application/json",
                     processData: false,
-                    success: function (response)
-                    {
-                        var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                        tbl += '<thead><tr>';
-                        tbl += '<th>Sr.No.';
-                        tbl += '<th>Title';
-                        //tbl += '<th>Description';
-                        tbl += '<th>Action';
-                        tbl += '<tbody>';
+                    success: function (response) {
                         if (response != null && response != undefined) {
                             var DataSet = $.parseJSON(response);
-                            if (DataSet != null && DataSet != "")
-                            {
-                                if (DataSet.StatusCode == "1")
-                                {
-                                    if (DataSet.Data.length > 0)
-                                    {
-                                        $.each(DataSet.Data, function (i, data)
-                                        {
-                                            tbl += '<tr id="' + data.GroupID + '">';
-                                            tbl += '<td>' + (i + 1);
-                                            tbl += '<td class="title">' + data.GroupName;
-                                            //tbl += '<td class="description">' + data.Description;
-                                            tbl += '<td><i title="Edit" onclick="Edit(' + data.GroupID + ');" class="fas fa-edit text-warning"></i>' +
-                                                '<i title="Delete" onclick="Delete(' + data.GroupID + ');" class="fas fa-trash text-danger"></i>';
-                                        });
-                                    }
-                                    else {
-                                        tbl += '<td colspan=3 align=center>No Records found';
-                                    }
-                                    $('#divTable').empty().append(tbl);
-                                }
-                                else {
-                                    HideLoader();
-                                    Swal.fire({
-                                        title: "Failure",
-                                        text: DataSet.StatusDescription,
-                                        icon: "error",
-                                        button: "Ok",
-                                    });
-                                }
+                            //console.log(response);
+                            if (DataSet.StatusCode == "1") {
+                                var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                                tbl += '<thead><tr>';
+                                tbl += '<th>Sr.No.';
+                                tbl += '<th>Title';
+                                tbl += '<th>Description';
+                                tbl += '<th>Long Description';    
+                                tbl += '<th>ACTION';
+
+                                tbl += '<tbody>';
+
+                                $.each(DataSet.Data, function (i, data) {
+                                   
+
+                                    tbl += '<tr id="' + data.AchievementID + '">';
+                                    tbl += '<td>' + (i + 1);
+
+                                    tbl += '<td class="title">' + data.Title;
+                                    tbl += '<td class="description">' + data.Description;
+                                    tbl += '<td class="longdescription">' + data.LongDescription;
+                                    
+                                    tbl += '<td><i title="Edit" onclick="Edit(' + data.AchievementID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.AchievementID + ');" class="fas fa-trash text-danger"></i>';
+
+                                });
+
+                                $('#divTable').empty().append(tbl)
+
+                                $('#tblGird').tableDnD()
+
                             }
                             else {
                                 HideLoader();
                                 Swal.fire({
-                                    title: "Failure",
+                                    title: "Warning",
                                     text: DataSet.StatusDescription,
                                     icon: "error",
                                     button: "Ok",
@@ -368,20 +382,18 @@
                         else {
                             HideLoader();
                             Swal.fire({
-                                title: "Failure",
+                                title: "Warning",
                                 text: DataSet.StatusDescription,
                                 icon: "error",
                                 button: "Ok",
                             });
                         }
-                        $('#divTable').empty().append(tbl);
-                        $('#tblGird').DataTable()
-                       // $('#tblGird').tableDnD()
                     },
                     complete: function () {
                         HideLoader();
                     }
                 });
+
             }
             catch (e) {
                 Swal.fire({
@@ -391,27 +403,20 @@
                     button: "Ok",
                 });
             }
-            HideLoader();
         }
 
         //This funcion is to get and save changes of Serial No
-        function SaveGrid() {
+        function SaveGrdid() {
 
-            //var sqnData=0;
-            var sqnData = "";
-            var array = [];
-
-            $.each($('#tblGird tbody tr'), function (i, data) {
-                var obj = {};
-                //obj['id'] = $(data).attr('id');
-               // obj['title'] = $(data).find('.title').text();
-                //obj['sqn'] = i + 1;
-
-                //array.push(obj);
-                sqnData += $(data).attr('id') + ",";
+            var s;
+            $('#tblGird').find('tr').each(function i(i, index) {
+                if (this.id != "") {
+                    s = s + this.id + ',';
+                }
+                console.log(this.id);
             });
-            //sqnData = JSON.stringify(array);
-           
+            console.log(s.length);
+            var _SrNo = s;
 
         }
         function back() {
