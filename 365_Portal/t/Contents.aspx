@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Contents" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="Contents.aspx.cs" Inherits="_365_Portal.Admin.Contents" %>
+﻿<%@ Page Title="Contents" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Contents.aspx.cs" Inherits="_365_Portal.Admin.Contents" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>

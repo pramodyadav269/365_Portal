@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Profile" Language="C#" MasterPageFile="~/Life.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="_365_Portal.Profile" %>
+﻿<%@ Page Title="Profile" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="_365_Portal.Profile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -11,7 +11,7 @@
         <div class="col-md-8 mt-5 offset-md-2">
             <div class="row">
                 <div class="col-md-3 text-right">
-                    <img id="imgProfilePic" runat="server" class="circle user-photo" src="Asset/images/profile.png" />
+                    <img id="imgProfilePic" runat="server" class="circle user-photo" src="../Asset/images/profile.png" />
                 </div>
                 <div class="col-md-9">
                     <h2 class="font-weight-bold mt-3" id="lblUserName" runat="server"></h2>
@@ -27,23 +27,23 @@
                 <div class="col-md-12 scroll">
                     <dl class="row text-center" id="dvAchievement">
                         <%-- <dt class="col" onclick="openModal();">
-                            <img src="Asset/images/quiz-master-c-icon.svg" />
+                            <img src="../Asset/images/quiz-master-c-icon.svg" />
                             <span>Quiz Master</span>
                         </dt>
                         <dt class="col" onclick="openModal();">
-                            <img src="Asset/images/perfectionist-c-icon.svg" />
+                            <img src="../Asset/images/perfectionist-c-icon.svg" />
                             <span>Perfectionist</span>
                         </dt>
                         <dt class="col" onclick="openModal();">
-                            <img src="Asset/images/wordsmith-c-icon.svg" />
+                            <img src="../Asset/images/wordsmith-c-icon.svg" />
                             <span>Wordsmith</span>
                         </dt>
                         <dt class="col" onclick="openModal();">
-                            <img src="Asset/images/engager-icon.svg" class="disabled" />
+                            <img src="../Asset/images/engager-icon.svg" class="disabled" />
                             <span>Engager</span>
                         </dt>
                         <dt class="col" onclick="openModal();">
-                            <img src="Asset/images/diploma.png" class="disabled" />
+                            <img src="../Asset/images/diploma.png" class="disabled" />
                             <span>Guru</span>
                         </dt>--%>
                     </dl>
@@ -68,13 +68,13 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <a class="close-modal" data-dismiss="modal" aria-label="Close">
-                    <img src="Asset/images/close-button.png" class="close" /></a>
+                    <img src="../Asset/images/close-button.png" class="close" /></a>
                 <div class="modal-body">
                     <div class="row reward">
                         <div class="col-md-10 offset-md-1">
                             <div class="row mt-3">
                                 <div class="col-md-3 mt-3 text-right">
-                                    <img id="imgAchievementIcon" src="Asset/images/engager-icon.svg" class="img-achievements disabled" />
+                                    <img id="imgAchievementIcon" src="../Asset/images/engager-icon.svg" class="img-achievements disabled" />
                                 </div>
                                 <div class="col-md-9">
                                     <h3 class="font-weight-bold modal-title" id="dvAchievementTitle">The Engager</h3>
@@ -102,7 +102,7 @@
                                     <h5 class="section-title">Your Reward on completion</h5>
                                 </div>
                                 <div class="col-md-12 text-center mt-3">
-                                    <img src="Asset/images/reward-icon.svg" class="img-achievements" />
+                                    <img src="../Asset/images/reward-icon.svg" class="img-achievements" />
                                 </div>
                                 <div class="col-md-12 text-center mt-5 mb-4">
                                     <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>
@@ -119,7 +119,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <a class="close-modal" data-dismiss="modal" aria-label="Close">
-                    <img src="Asset/images/close-button.png" class="close" /></a>
+                    <img src="../Asset/images/close-button.png" class="close" /></a>
                 <div class="modal-body contents-datials">
                     <div class="row justify-content-center mt-5 mb-4">
                         <div class="col-12 col-sm-12 col-md-6 mb-3 overview" id="divFlashcard">
@@ -140,14 +140,14 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <a class="close-modal" data-dismiss="modal" aria-label="Close">
-                    <img src="Asset/images/close-button.png" class="close" /></a>
+                    <img src="../Asset/images/close-button.png" class="close" /></a>
                 <div class="modal-body contents-datials">
                     <div class="row">
                         <div class="col-md-10 offset-md-1 mt-5 mb-4" id="dvPdfViewer" style="display: none;">
                             <div class="row">
                                 <div class="col-md-12 mb-3" id="pdfContent">
                                     <div id="divPDF">
-                                        <embed src="Asset/data/test.pdf" />
+                                        <embed src="../Asset/data/test.pdf" />
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +184,7 @@
                                 <div class="col-md-12">
                                     <div id="divVideo"></div>
                                     <%--  <video id="vdVideoPlayer" controls id="contentVideo" onended="videoRating()" onpause="videoPlayPause(2)" onseeking="videoPlayPause(1)" onseeked="videoPlayPause(1)">
-                                        <source src="Asset/data/bunny.mp4" type="video/mp4">
+                                        <source src="../Asset/data/bunny.mp4" type="video/mp4">
                                     </video>--%>
                                 </div>
                                 <div class="col-md-12 mt-4 overview text-left">
@@ -221,15 +221,15 @@
                     $("#dvAchievmentDescription").html(data.Description);
 
                     if (data.Title.includes("quiz master"))
-                        $("#imgAchievementIcon").attr("src", 'Asset/images/quiz-master-c-icon.svg');
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/quiz-master-c-icon.svg');
                     if (data.Title.includes("world"))
-                        $("#imgAchievementIcon").attr("src", 'Asset/images/perfectionist-c-icon.svg');
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/perfectionist-c-icon.svg');
                     if (data.Title.includes("wordsmith"))
-                        $("#imgAchievementIcon").attr("src", 'Asset/images/wordsmith-c-icon.svg');
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/wordsmith-c-icon.svg');
                     if (data.Title.includes("engager"))
-                        $("#imgAchievementIcon").attr("src", 'Asset/images/engager-icon.svg');
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/engager-icon.svg');
                     if (data.Title.includes("Guru"))
-                        $("#imgAchievementIcon").attr("src", 'Asset/images/diploma.png');
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/diploma.png');
 
                     var reqHtml = "";
                     $.each(data.Requirements, function (indx, req) {
@@ -263,11 +263,11 @@
                     $.each(gifts, function (i, data) {
                         giftHtml += '<dt onclick="OpenPlayer(this);" class="col-md-3" TopicID=' + data.TopicID + ' ModuleID=' + data.ModuleID + ' ContentID=' + data.ContentID + '>';
                         if (data.ContentType == 'VIDEO')
-                            giftHtml += '<img src="Asset/images/next-video-icon.svg" />';
+                            giftHtml += '<img src="../Asset/images/next-video-icon.svg" />';
                         else if (data.ContentType == 'FLASHCARD')
-                            giftHtml += '<img src="Asset/images/next-flashcard-icon.svg" />';
+                            giftHtml += '<img src="../Asset/images/next-flashcard-icon.svg" />';
                         else if (data.ContentType == 'PDF')
-                            giftHtml += '<img src="Asset/images/next-pdf-icon.svg" />';
+                            giftHtml += '<img src="../Asset/images/next-pdf-icon.svg" />';
                         giftHtml += '<span>' + data.Title + '</span>'
                         giftHtml += '</dt>';
                     });
@@ -278,15 +278,15 @@
                     $.each(achievements, function (i, data) {
                         achievementHtml += '<dt class="col" onclick="openModal(' + data.AchievementID + ');" ContentID=' + data.AchievementID + '>';
                         if (data.Title.includes("quiz master"))
-                            achievementHtml += '<img src="Asset/images/quiz-master-c-icon.svg" />';
+                            achievementHtml += '<img src="../Asset/images/quiz-master-c-icon.svg" />';
                         if (data.Title.includes("world"))
-                            achievementHtml += '<img src="Asset/images/perfectionist-c-icon.svg" />';
+                            achievementHtml += '<img src="../Asset/images/perfectionist-c-icon.svg" />';
                         if (data.Title.includes("wordsmith"))
-                            achievementHtml += '<img src="Asset/images/wordsmith-c-icon.svg" />';
+                            achievementHtml += '<img src="../Asset/images/wordsmith-c-icon.svg" />';
                         if (data.Title.includes("engager"))
-                            achievementHtml += '<img src="Asset/images/engager-icon.svg" />';
+                            achievementHtml += '<img src="../Asset/images/engager-icon.svg" />';
                         if (data.Title.includes("Guru"))
-                            achievementHtml += '<img src="Asset/images/diploma.png" />';
+                            achievementHtml += '<img src="../Asset/images/diploma.png" />';
                         achievementHtml += '<span>' + data.Title + '</span>'
                         achievementHtml += '</dt>';
                     });
@@ -358,7 +358,7 @@
                             flashcard += '<div class="card">';
                         else
                             flashcard += '<div class="card d-none">';
-                        flashcard += '<img class="card-img-top circle mx-auto" src="Asset/images/employee-illustration.svg" />';
+                        flashcard += '<img class="card-img-top circle mx-auto" src="../Asset/images/employee-illustration.svg" />';
                         flashcard += '<div class="card-body">';
                         flashcard += '<p class="card-text">' + data.Description + '</p>';
                         flashcard += '<p class="text-right anchor">' + (i + 1) + '/' + totalLength + '</p>';

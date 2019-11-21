@@ -12,7 +12,7 @@ namespace Life
                 || Convert.ToString(Session["RoleName"]) == "subadmin"
                 )
             {
-                Response.Redirect("~/admin/dashboard.aspx");
+                Response.Redirect("~/t/dashboard.aspx");
             }
             // Take UserName from Session.
             dvUserName.InnerText = "Hello, " + HttpContext.Current.Session["FirstName"] + "!";

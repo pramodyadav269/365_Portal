@@ -219,97 +219,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin\Achievement.aspx.cs">
-      <DependentUpon>Achievement.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Achievement.aspx.designer.cs">
-      <DependentUpon>Achievement.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\admin.Master.cs">
-      <DependentUpon>admin.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\admin.Master.designer.cs">
-      <DependentUpon>admin.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\bulkupload.aspx.cs">
-      <DependentUpon>bulkupload.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\bulkupload.aspx.designer.cs">
-      <DependentUpon>bulkupload.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\assign_topics.aspx.cs">
-      <DependentUpon>assign_topics.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\assign_topics.aspx.designer.cs">
-      <DependentUpon>assign_topics.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Groups.aspx.cs">
-      <DependentUpon>Groups.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Groups.aspx.designer.cs">
-      <DependentUpon>Groups.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\quiz.aspx.cs">
-      <DependentUpon>quiz.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\quiz.aspx.designer.cs">
-      <DependentUpon>quiz.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\flashcards.aspx.cs">
-      <DependentUpon>flashcards.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\flashcards.aspx.designer.cs">
-      <DependentUpon>flashcards.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\ContentList.aspx.cs">
-      <DependentUpon>ContentList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\ContentList.aspx.designer.cs">
-      <DependentUpon>ContentList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Contents.aspx.cs">
-      <DependentUpon>Contents.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Contents.aspx.designer.cs">
-      <DependentUpon>Contents.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\dashboard.aspx.cs">
-      <DependentUpon>dashboard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\dashboard.aspx.designer.cs">
-      <DependentUpon>dashboard.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Modules.aspx.cs">
-      <DependentUpon>Modules.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Modules.aspx.designer.cs">
-      <DependentUpon>Modules.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Topics.aspx.cs">
-      <DependentUpon>Topics.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Topics.aspx.designer.cs">
-      <DependentUpon>Topics.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\Users.aspx.cs">
-      <DependentUpon>Users.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Users.aspx.designer.cs">
-      <DependentUpon>Users.aspx</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -344,13 +253,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="ChangePassword.aspx.cs">
-      <DependentUpon>ChangePassword.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ChangePassword.aspx.designer.cs">
-      <DependentUpon>ChangePassword.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Code\BL\AchivementBL.cs" />
     <Compile Include="Code\BL\CommonBL.cs" />
     <Compile Include="Code\BL\ContentBL.cs" />
@@ -383,20 +285,6 @@
     <Compile Include="Code\Utility.cs" />
     <Compile Include="Common\DBConnection.cs" />
     <Compile Include="Common\JSONHelper.cs" />
-    <Compile Include="ContentDetails.aspx.cs">
-      <DependentUpon>ContentDetails.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ContentDetails.aspx.designer.cs">
-      <DependentUpon>ContentDetails.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Contents.aspx.cs">
-      <DependentUpon>Contents.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Contents.aspx.designer.cs">
-      <DependentUpon>Contents.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AchievementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -406,36 +294,8 @@
     <Compile Include="Controllers\TrainningController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="default.aspx.designer.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FinalQuiz.aspx.cs">
-      <DependentUpon>FinalQuiz.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FinalQuiz.aspx.designer.cs">
-      <DependentUpon>FinalQuiz.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Flashcards.aspx.cs">
-      <DependentUpon>Flashcards.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Flashcards.aspx.designer.cs">
-      <DependentUpon>Flashcards.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Life.Master.cs">
-      <DependentUpon>Life.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Life.Master.designer.cs">
-      <DependentUpon>Life.Master</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -452,21 +312,7 @@
     <Compile Include="Models\RequestBase.cs" />
     <Compile Include="Models\ResponseBase.cs" />
     <Compile Include="Models\WebServiceLog.cs" />
-    <Compile Include="Modules.aspx.cs">
-      <DependentUpon>Modules.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules.aspx.designer.cs">
-      <DependentUpon>Modules.aspx</DependentUpon>
-    </Compile>
     <Compile Include="MyAuthorizationServerProvider.cs" />
-    <Compile Include="Profile.aspx.cs">
-      <DependentUpon>Profile.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Profile.aspx.designer.cs">
-      <DependentUpon>Profile.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="RefreshTokenProvider.cs" />
@@ -478,50 +324,129 @@
       <DependentUpon>ResetPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Settings.aspx.cs">
-      <DependentUpon>Settings.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Settings.aspx.designer.cs">
-      <DependentUpon>Settings.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="Survey.aspx.cs">
-      <DependentUpon>Survey.aspx</DependentUpon>
+    <Compile Include="t\Achievement.aspx.cs">
+      <DependentUpon>Achievement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Survey.aspx.designer.cs">
-      <DependentUpon>Survey.aspx</DependentUpon>
+    <Compile Include="t\Achievement.aspx.designer.cs">
+      <DependentUpon>Achievement.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Topics.aspx.cs">
+    <Compile Include="t\admin.Master.cs">
+      <DependentUpon>admin.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\admin.Master.designer.cs">
+      <DependentUpon>admin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="t\assign_topics.aspx.cs">
+      <DependentUpon>assign_topics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\assign_topics.aspx.designer.cs">
+      <DependentUpon>assign_topics.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\bulkupload.aspx.cs">
+      <DependentUpon>bulkupload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\bulkupload.aspx.designer.cs">
+      <DependentUpon>bulkupload.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\ContentList.aspx.cs">
+      <DependentUpon>ContentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\ContentList.aspx.designer.cs">
+      <DependentUpon>ContentList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\Contents.aspx.cs">
+      <DependentUpon>Contents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\Contents.aspx.designer.cs">
+      <DependentUpon>Contents.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\dashboard.aspx.cs">
+      <DependentUpon>dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\dashboard.aspx.designer.cs">
+      <DependentUpon>dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\flashcards.aspx.cs">
+      <DependentUpon>flashcards.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\flashcards.aspx.designer.cs">
+      <DependentUpon>flashcards.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\Groups.aspx.cs">
+      <DependentUpon>Groups.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\Groups.aspx.designer.cs">
+      <DependentUpon>Groups.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\Modules.aspx.cs">
+      <DependentUpon>Modules.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\Modules.aspx.designer.cs">
+      <DependentUpon>Modules.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\Profile.aspx.designer.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\quiz.aspx.cs">
+      <DependentUpon>quiz.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\quiz.aspx.designer.cs">
+      <DependentUpon>quiz.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\Settings.aspx.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\Settings.aspx.designer.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\Topics.aspx.cs">
       <DependentUpon>Topics.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Topics.aspx.designer.cs">
+    <Compile Include="t\Topics.aspx.designer.cs">
       <DependentUpon>Topics.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="t\Users.aspx.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\Users.aspx.designer.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserBO.cs" />
-    <Compile Include="ValidationForm.aspx.cs">
-      <DependentUpon>ValidationForm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ValidationForm.aspx.designer.cs">
-      <DependentUpon>ValidationForm.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Admin\Achievement.aspx" />
-    <Content Include="Admin\bulkupload.aspx" />
-    <Content Include="Admin\assign_topics.aspx" />
-    <Content Include="Admin\Groups.aspx" />
-    <Content Include="Admin\quiz.aspx" />
-    <Content Include="Admin\flashcards.aspx" />
-    <Content Include="Admin\ContentList.aspx" />
-    <Content Include="Admin\Contents.aspx" />
-    <Content Include="Admin\dashboard.aspx" />
-    <Content Include="Admin\Modules.aspx" />
-    <Content Include="Admin\Topics.aspx" />
-    <Content Include="Admin\Users.aspx" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Asset\admin\login.js" />
     <Content Include="Asset\css\all.css" />
@@ -666,20 +591,12 @@
     <Content Include="bin\System.Web.WebPages.Razor.xml" />
     <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="bin\WebGrease.dll" />
-    <Content Include="ChangePassword.aspx" />
-    <Content Include="ContentDetails.aspx" />
-    <Content Include="Contents.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
-    <Content Include="FinalQuiz.aspx" />
-    <Content Include="Flashcards.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
-    <Content Include="Modules.aspx" />
-    <Content Include="Profile.aspx" />
     <Content Include="ResetPassword.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -716,7 +633,6 @@
     <Content Include="Asset\webfonts\fa-solid-900.ttf" />
     <Content Include="Asset\webfonts\fa-solid-900.woff" />
     <Content Include="Asset\webfonts\fa-solid-900.woff2" />
-    <Content Include="Life.Master" />
     <Content Include="Asset\data\test.pdf" />
     <Content Include="Asset\fonts\gijgo-material.eot" />
     <Content Include="Asset\fonts\gijgo-material.ttf" />
@@ -725,7 +641,6 @@
     <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
     <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
-    <Content Include="Admin\admin.Master" />
     <Content Include="bulk_upload.xlsx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -738,11 +653,22 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Settings.aspx" />
-    <Content Include="Survey.aspx" />
-    <Content Include="Test.html" />
-    <Content Include="Topics.aspx" />
-    <Content Include="ValidationForm.aspx" />
+    <Content Include="t\Achievement.aspx" />
+    <Content Include="t\assign_topics.aspx" />
+    <Content Include="t\bulkupload.aspx" />
+    <Content Include="t\ChangePassword.aspx" />
+    <Content Include="t\ContentList.aspx" />
+    <Content Include="t\Contents.aspx" />
+    <Content Include="t\dashboard.aspx" />
+    <Content Include="t\default.aspx" />
+    <Content Include="t\flashcards.aspx" />
+    <Content Include="t\Groups.aspx" />
+    <Content Include="t\Modules.aspx" />
+    <Content Include="t\Profile.aspx" />
+    <Content Include="t\quiz.aspx" />
+    <Content Include="t\Settings.aspx" />
+    <Content Include="t\Topics.aspx" />
+    <Content Include="t\Users.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -760,6 +686,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="t\admin.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

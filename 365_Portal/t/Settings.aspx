@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Settings" Language="C#" MasterPageFile="~/Life.Master" AutoEventWireup="true" CodeBehind="Settings.aspx.cs" Inherits="_365_Portal.Settings" %>
+﻿<%@ Page Title="Settings" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Settings.aspx.cs" Inherits="_365_Portal.Settings" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -21,7 +21,7 @@
                 <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                     <div class="row">
                         <div class="col-md-12">
-                            <img class="circle user-photo" id="imgUserPic" src="Asset/images/profile.png" />
+                            <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
                         </div> 
                         <div class="col-md-12 mt-3">
                             <div class="custom-file">
@@ -33,7 +33,7 @@
 
                         <div id="divCompanyLogo" style="display:none">
                             <div class="col-md-12">
-                                <img class="circle user-photo" id="imgCompLogo" src="Asset/images/CompanyLogo.png" />
+                                <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
                             </div>
                             <div class="col-md-12 mt-3">
                                 <div class="custom-file">
@@ -215,7 +215,7 @@
                 //    'src', 'data:image/png;base64,' + Data.ProfilePicFile
                 //);
                 
-                $("#imgUserPic").attr("src", "Files/ProfilePic/" + Data.ProfilePicFile);
+                $("#imgUserPic").attr("src", "../Files/ProfilePic/" + Data.ProfilePicFile);
             }
 
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin") && Data.CompanyProfilePicFile != undefined && Data.CompanyProfilePicFile != '')

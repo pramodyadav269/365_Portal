@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Modules" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="Modules.aspx.cs" Inherits="_365_Portal.Admin.Modules" %>
+﻿<%@ Page Title="Modules" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Modules.aspx.cs" Inherits="_365_Portal.Admin.Modules" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -12,7 +12,7 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body hide">
-                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" style="display:none;" id="savereorder" onclick="SaveGrid();">Save Reordering</a>
+                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" style="display: none;" id="savereorder" onclick="SaveGrid();">Save Reordering</a>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
@@ -36,7 +36,7 @@
                             <div class="form-group checkbox">
                                 <label>Is Published</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input" >
+                                    <input type="checkbox" id="cbIsPublished" name="cgIsPublished" class="custom-control-input">
                                     <label class="custom-control-label" for="cbIsPublished">Yes</label>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
             TopicID = GetParameterValues('Id');
             bindTopics();
             View();
-          
+
         });
         var accessToken = '<%=Session["access_token"]%>';
         var id = "";
@@ -94,8 +94,7 @@
                         if (DataSet.StatusCode == "1") {
                             $('#ddlTopic').empty().append('<option></option>');
                             for (var i = 0; i < Topic.length; i++) {
-                                if (TopicID == Topic[i].TopicID)
-                                {
+                                if (TopicID == Topic[i].TopicID) {
                                     $('#module').html(Topic[i].Title);
                                 }
                                 //$('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
@@ -436,10 +435,9 @@
                             tbl += '<th>Description';
                             tbl += '<th>Is Published';
                             //tbl += '<th>Skip Flashcard';
-                            tbl += '<th>Contents';
+                            tbl += '<th>All Contents';
                             tbl += '<th>Survey';
                             tbl += '<th>Flashcards';
-                            tbl += '<th>Flashcard Quiz';
                             tbl += '<th>Final Quiz';
                             //tbl += '<th>Personal Gifts';
                             tbl += '<th>Action';
@@ -467,12 +465,9 @@
                                                 tbl += '<td title="' + data.Description + '" class="description">' + data.Description;
                                                 tbl += '<td title="' + data.IsPublished + '" class="isPublished">' + data.IsPublished;
                                                 tbl += '<td title="' + data.ModuleID + '"><a href="ContentList.aspx?TopicID=' + TopicID + '&ModuleID=' + data.ModuleID + '">' + data.ContentCount + '</a>';
-                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=1&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                                tbl += '<td title="' + data.ModuleID + '"><a href="Flashcards.aspx?ModuleID=' + data.FlashCardCount + '">' + data.FlashCardCount + '</a>';
-                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=2&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=3&ModuleID=' + data.ModuleID + '">' + data.ModuleID + '</a>';
-                                                //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
-                                                //tbl += '<td><a href="Modules.aspx?Id=1">' + (i) + '</a>'
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?Type=1&TID=' + TopicID + '&MID=' + data.ModuleID + '">' + data.SurveyCount + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Flashcards.aspx?Type=2&TID=' + TopicID + '&MID=' + data.ModuleID + '">' + data.FlashCardCount + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?Type=3&TID=' + TopicID + '&MID=' + data.ModuleID + '">' + data.FinalQuizCount + '</a>';
                                                 tbl += '<td><i title="Edit" onclick="Edit(' + data.ModuleID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.ModuleID + ');" class="fas fa-trash text-danger"></i>';
 
 
@@ -505,7 +500,7 @@
                                     text: "Please try Again",
                                     icon: "error"
 
-                                }); 
+                                });
                             }
                         }
                         catch (e) {

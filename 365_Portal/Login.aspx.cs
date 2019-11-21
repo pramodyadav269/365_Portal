@@ -94,24 +94,22 @@ namespace _365_Portal
                                 }
                                 if (objResponse.IsFirstLogin == "1")
                                 {
-                                    Response.Redirect("~/Settings.aspx", false);
+                                    Response.Redirect("~/t/Settings.aspx", false);
                                 }
                                 else if (objResponse.IsFirstPasswordNotChanged == "1")
                                 {
-                                    Response.Redirect("~/ChangePassword.aspx", false);
+                                    Response.Redirect("~/t/ChangePassword.aspx", false);
                                 }
                             }
                             else
                             {
                                 if (objResponse.Role.ToLower() == "enduser")
                                 {
-                                    Session["MasterPage"] = "~/Life.master";
-                                    Response.Redirect("~/default.aspx",false);
+                                    Response.Redirect("~/t/default.aspx",false);
                                 }
                                 else if (objResponse.Role.ToLower() == "superadmin" || objResponse.Role.ToLower() == "companyadmin" || objResponse.Role.ToLower() == "subadmin")
                                 {
-                                    Session["MasterPage"] = "~/Admin/Admin.master";
-                                    Response.Redirect("~/admin/dashboard.aspx",false);
+                                    Response.Redirect("~/t/dashboard.aspx",false);
                                 }
                             }
                         }

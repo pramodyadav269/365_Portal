@@ -22,6 +22,7 @@ namespace _365_Portal.Admin
                 Convert.ToString(Session["RoleName"]) == "superadmin"
                 || Convert.ToString(Session["RoleName"]) == "companyadmin"
                 || Convert.ToString(Session["RoleName"]) == "subadmin"
+                 || Convert.ToString(Session["RoleName"]) == "enduser"
                 ))
             {
                 string CurrDirecotry = Server.MapPath("/").ToString();
@@ -30,12 +31,12 @@ namespace _365_Portal.Admin
                 if (HttpContext.Current.Session["IsFirstLogin"] != null && Convert.ToBoolean(HttpContext.Current.Session["IsFirstLogin"]) == true
                     && FullPath != CurrDirecotry + "Settings.aspx" && FullPath != CurrDirecotry + "ChangePassword.aspx")
                 {
-                    Response.Redirect("~/Settings.aspx", true);// This is 1st time login..
+                    Response.Redirect("~/t/Settings.aspx", true);// This is 1st time login..
                 }
                 else if (HttpContext.Current.Session["IsFirstPasswordNotChanged"] != null && Convert.ToBoolean(HttpContext.Current.Session["IsFirstPasswordNotChanged"]) == true
                     && FullPath != CurrDirecotry + "ChangePassword.aspx" && FullPath != CurrDirecotry + "Settings.aspx")
                 {
-                    Response.Redirect("~/ChangePassword.aspx", true);// This is user has not changed password..
+                    Response.Redirect("~/t/ChangePassword.aspx", true);// This is user has not changed password..
                 }
                 if (HttpContext.Current.Session["FirstName"] != null && HttpContext.Current.Session["LastName"] != null)
                 {
@@ -53,15 +54,41 @@ namespace _365_Portal.Admin
 
                 if (HttpContext.Current.Session["RoleName"] != null)
                 {
-                    if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.superadmin
-                        || HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin
-                    )
+                    if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.superadmin)
                     {
-                        menuUsers.Visible = true;
+                        dvDashboard.Visible = true;
+                        dvUserDashboard.Visible = false;
+                        dvGroups.Visible = true;
+                        dvUsers.Visible = true;
+                        dvTopics.Visible = true;
+                        dvAssignTopics.Visible = true;
                     }
-                    else
+                    else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin)
                     {
-                        menuUsers.Visible = false;
+                        dvDashboard.Visible = true;
+                        dvUserDashboard.Visible = false;
+                        dvGroups.Visible = true;
+                        dvUsers.Visible = true;
+                        dvTopics.Visible = true;
+                        dvAssignTopics.Visible = true;
+                    }
+                    else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.subadmin)
+                    {
+                        dvDashboard.Visible = true;
+                        dvUserDashboard.Visible = false;
+                        dvGroups.Visible = false;
+                        dvUsers.Visible = false;
+                        dvTopics.Visible = true;
+                        dvAssignTopics.Visible = false;
+                    }
+                    else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.enduser)
+                    {
+                        dvDashboard.Visible = false;
+                        dvUserDashboard.Visible = true;
+                        dvGroups.Visible = false;
+                        dvUsers.Visible = false;
+                        dvTopics.Visible = false;
+                        dvAssignTopics.Visible = false;
                     }
                 }
             }
@@ -84,7 +111,7 @@ namespace _365_Portal.Admin
                 objResponse = new ResponseBase();
                 if (HttpContext.Current.Session["UserId"] != null && HttpContext.Current.Session["CompId"] != null)
                 {
-                    objRequest.UserID = Convert.ToString(HttpContext.Current.Session["UserId"]);                    
+                    objRequest.UserID = Convert.ToString(HttpContext.Current.Session["UserId"]);
 
                     DataSet ds = UserDAL.UserLogout(Convert.ToInt32(HttpContext.Current.Session["CompId"]), objRequest.UserID, Utility.GetClientIPaddress());
                     if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
@@ -102,7 +129,7 @@ namespace _365_Portal.Admin
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
 
                     Utility.DestroyAllSession();
-                    Response.Redirect("~/login.aspx",false);
+                    Response.Redirect("~/login.aspx", false);
                 }
                 else
                 {

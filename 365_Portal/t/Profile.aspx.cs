@@ -9,11 +9,6 @@ namespace _365_Portal
 {
     public partial class Profile : System.Web.UI.Page
     {
-        void Page_PreInit(Object sender, EventArgs e)
-        {
-            if (Session["MasterPage"] != null)
-                MasterPageFile = Convert.ToString(Session["MasterPage"]);
-        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
