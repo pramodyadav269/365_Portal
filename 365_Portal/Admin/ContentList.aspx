@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
-            <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
+            <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Modules</a>
             <h1 class="text-center font-weight-bold">Contents</h1>
         </div>
         <%--<table>
@@ -213,8 +213,7 @@
             debugger;
             TopicID = GetParameterValues('TopicID');
             _ModuleID = GetParameterValues('ModuleID');
-            //TopicID = "1";
-            //_ModuleID = "1";
+            $('#back').attr('href', "./Modules.aspx?Id="+TopicID);
             GetContentList(this);
             ClearAllFields(this);
             ShowControl();
@@ -225,11 +224,11 @@
             if ($("#ddlDocType").val() != "" &&
                 $("#txtTitle").val() != "" &&
                 $("#txtDescription").val() != "" &&
-                TopicID != "" && _ModuleID != "") {
+                TopicID != "" && _ModuleID != "" && base64filestring != "") {
                 var isUrl;
                 if ($("input[name=filetype]:checked").val() == "URL") {
                     isUrl = 1;
-                    base64filestring=$('#txtFileUrl').val();//Assigning url value
+                    base64filestring = $('#txtFileUrl').val();//Assigning url value
                 }
                 else {
                     isUrl = 0;
@@ -488,18 +487,30 @@
                                             var isGiftValue = content.IsGift == true ? "Checked disabled" : "disabled";
                                             var isPublishedValue = content.IsPublished == true ? "Checked disabled" : "disabled";
                                             var FilePath = "";
-                                            if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
-                                                FilePath = '../Files/Content/' + content.FilePath;
-                                            }
-                                            else {
-                                                FilePath = content.FilePath;
+                                            if (content.FilePath != "" && content.FilePath != undefined) {
+                                                if (content.FilePath.split('.')[1] != undefined) {
+                                                    if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
+                                                        FilePath = '../Files/Content/' + content.FilePath;
+                                                    }
+                                                    else {
+                                                        FilePath = content.FilePath;
+                                                    }
+                                                }
+                                                else {
+                                                    FilePath = content.FilePath;
+                                                }
                                             }
                                             var markup = '<tr id="' + content.ContentID + '">';
                                             markup += "<td>" + (i + 1) + "</td>";
                                             markup += "<td>" + content.DocType + "</td>";
                                             markup += "<td>" + content.Title + "</td>";
                                             markup += "<td>" + content.Description + "</td>";
-                                            markup += "<td><a href=" + FilePath + " target=_blank>File</a></td>";
+                                            if (FilePath != '' && FilePath != undefined) {
+                                                markup += "<td><a href=" + FilePath + " target=_blank>File</a></td>";
+                                            }
+                                            else {
+                                                markup += "<td></td>";
+                                            }
                                             markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
                                             markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
                                             markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
@@ -581,16 +592,23 @@
                 $("#ddlDocType").val(content.DocType);
                 $("#txtTitle").val(content.Title);
                 $("#txtDescription").val(content.Description);
+                if (content.FilePath.split('.')[1] != undefined) {
+                    if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
+                        $('#rd_file').prop('checked', true);
+                        $("#preview").attr("href", "../Files/Content/" + content.FilePath);
+                        $("#preview").attr("target", '_blank');
+                        $('#div_fileupload').show();
+                        $('#div_preview').show();
+                        $('#div_fileUrl').hide();
+                    }
+                    else {
+                        $('#rd_url').prop('checked', true);
+                        $('#txtFileUrl').val(content.FilePath);
 
-                if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
-                    $('#rd_file').prop('checked', true);
-                    $("#preview").attr("href", "../Files/Content/" + content.FilePath);
-                    $("#preview").attr("target", '_blank');
-                    $('#div_fileupload').show();
-                    $('#div_preview').show();
-                    $('#div_fileUrl').hide();
-                }
-                else {
+                        $('#div_fileUrl').show();
+                        $('#div_preview').hide();
+                    }
+                } else {
                     $('#rd_url').prop('checked', true);
                     $('#txtFileUrl').val(content.FilePath);
 
