@@ -125,7 +125,19 @@
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin"))
             {
                 $('#divCompanyLogo').show();                
-                $('#divCompanyTheme').append('<div class="col-md-12">Choose your theme color <input type="color" value="#000000" id="ThemeColor"></div>');
+                //$('#divCompanyTheme').append('Choose your theme colors ');
+                //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor1">');
+                //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor2">');
+                //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor3">');
+                //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor4">');
+                //$('#divCompanyTheme').show();
+
+                $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
+
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="#000000"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="#000000"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="#000000"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="#000000"></div>');
                 $('#divCompanyTheme').show();
             }
             GetUserProfileDetails();
@@ -214,7 +226,13 @@
                 //);
                 
                 $("#imgCompLogo").attr("src", "Files/CompLogo/" + Data.CompanyProfilePicFile);
-                $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme color <input type="color" id="ThemeColor" name="head" value="' + Data.ThemeColor + '"></div>');
+                $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
+
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="' + Data.ThemeColor4 + '"></div>');
+                $('#divCompanyTheme').show();
             }
         }
 
@@ -268,12 +286,21 @@
             //var PushNotification = $('#cbPushNotifications').prop('checked');
 
             var ThemeColor = '';
+            var ThemeColor2 = '';
+            var ThemeColor3 = '';
+            var ThemeColor4 = '';
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin")) {
                 var theInput = document.getElementById("ThemeColor");
                 ThemeColor = theInput.value;
+                theInput = document.getElementById("ThemeColor2");
+                ThemeColor2 = theInput.value;
+                theInput = document.getElementById("ThemeColor3");
+                ThemeColor3 = theInput.value;
+                theInput = document.getElementById("ThemeColor4");
+                ThemeColor4 = theInput.value;
             }
             
-            var requestParams = { EmailID: EmailID, Position: Position, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString,CompanyThemeColor:ThemeColor };
+            var requestParams = { EmailID: EmailID, Position: Position, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyThemeColor4: ThemeColor4 };
             var getUrl = "/API/User/UpdateMyProfile";
             $.ajax({
                 type: "POST",

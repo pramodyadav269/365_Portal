@@ -25,6 +25,9 @@ namespace _365_Portal.Code.BO
             public string ProfilePicFile { get; set; }
             public string CompanyProfilePicFile { get; set; }
             public string ThemeColor { get; set; }
+            public string ThemeColor2 { get; set; }
+            public string ThemeColor3 { get; set; }
+            public string ThemeColor4 { get; set; }
             public string GroupName { get; set; }
         }
     }
