@@ -1056,11 +1056,15 @@ namespace _365_Portal.ControllersReOrderContent
                         else
                         {
                             string fileName = requestParams["ContentFileID"].ToString();
-                            DataSet _ds = UserBL.CreateFile(fileName, "", true, "Content");
-                            if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                            if (!string.IsNullOrEmpty(fileName))
                             {
-                                content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                DataSet _ds = UserBL.CreateFile(fileName.Trim(), "", true, "Content");
+                                if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                                {
+                                    content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                }
                             }
+                           
                         }
                         if (!string.IsNullOrEmpty(requestParams["Title"].ToString()))
                         {

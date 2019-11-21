@@ -213,7 +213,7 @@
             debugger;
             TopicID = GetParameterValues('TopicID');
             _ModuleID = GetParameterValues('ModuleID');
-            $('#back').attr('href', "./Modules.aspx?Id="+TopicID);
+            $('#back').attr('href', "./Modules.aspx?Id=" + TopicID);
             GetContentList(this);
             ClearAllFields(this);
             ShowControl();
@@ -350,11 +350,23 @@
                         return n.ContentID == parseInt(index);
                     })[0];
 
+
+
                     oldContent.DocType = newContent.DocType;
                     oldContent.Title = newContent.Title;
                     oldContent.Description = newContent.Description;
                     oldContent.Overview = newContent.Overview;
-                    oldContent.FilePath = newContent.FilePath;
+                    if (newContent.IsURL == 1) {
+                        if (oldContent.FilePath.trim() != newContent.ContentFileID.trim()) {
+                            oldContent.FilePath = newContent.ContentFileID;
+                        }
+                        else {
+                            oldContent.FilePath.trim() = newContent.ContentFileID.trim();
+                        }
+                    }
+                    else {
+                        oldContent.FilePath = newContent.ContentFileID;
+                    }
                     oldContent.IsGift = newContent.IsGift;
                     oldContent.IsPublished = newContent.IsPublished;
 
@@ -484,8 +496,8 @@
                                     }
                                     $.grep(contentList, function (content, i) {
                                         try {
-                                            var isGiftValue = content.IsGift == true ? "Checked disabled" : "disabled";
-                                            var isPublishedValue = content.IsPublished == true ? "Checked disabled" : "disabled";
+                                            var isGiftValue = Number(content.IsGift) == "1" ? "Checked disabled" : "disabled";
+                                            var isPublishedValue = Number(content.IsPublished) == "1" ? "Checked disabled" : "disabled";
                                             var FilePath = "";
                                             if (content.FilePath != "" && content.FilePath != undefined) {
                                                 if (content.FilePath.split('.')[1] != undefined) {
@@ -511,8 +523,8 @@
                                             else {
                                                 markup += "<td></td>";
                                             }
-                                            markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
                                             markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
+                                            markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
                                             markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
 
                                             markup += "</tr>";
@@ -616,8 +628,8 @@
                     $('#div_preview').hide();
                 }
 
-                $("#chkIsGift").prop("checked", content.IsGift);
-                $("#chkIsPublished").prop("checked", content.IsPublished);
+                $("#chkIsGift").prop("checked", Number(content.IsGift));
+                $("#chkIsPublished").prop("checked", Number(content.IsPublished));
                 TypeID = content.TypeID;
                 $("#btnSaveChanges").text("Save Content");
                 $("#btnSaveChanges").attr("index", index);
@@ -740,15 +752,30 @@
             ClearAllFields(this);
         }
 
-
+        //Enode the file to base64
         function encodeImagetoBase64(element) {
             //debugger
             var file = element.files[0];
-            var reader = new FileReader();
-            reader.onloadend = function () {
-                base64filestring = reader.result;
+            var size = file.size;
+            if (file.size != undefined) {
+                if (file.size < 5000000) {
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        base64UserProfileString = reader.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+                else {
+                    Swal.fire("File size should not be greater than 5MB", {
+                        icon: "error",
+                    });
+                }
             }
-            reader.readAsDataURL(file);
+            else {
+                Swal.fire("Invalid File", {
+                    icon: "error",
+                });
+            }
         }
 
         //This funcion is to get and save changes of Serial No

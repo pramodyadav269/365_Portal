@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Content List" Language="C#" MasterPageFile="~/Admin/admin.Master" AutoEventWireup="true" CodeBehind="ContentList.aspx.cs" Inherits="_365_Portal.Admin.ContentList" %>
+﻿<%@ Page Title="Content List" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="ContentList.aspx.cs" Inherits="_365_Portal.Admin.ContentList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Content List</title>
@@ -468,65 +468,75 @@
                         contentType: "application/json",
                         processData: false,
                         success: function (response) {
-                            if (response != null && response != undefined) {
-                                //$("#dvJson").html(JSON.stringify(contentList));
-                                var list = JSON.parse(response);
-                                if (list.StatusCode = "1") {
-                                    contentList = [];
-                                    for (var i = 0; i < list.Data.length; i++) {
-                                        contentList.push(list.Data[i]);
-                                    }
+                            try {
+                                if (response != null && response != undefined) {
+                                    //$("#dvJson").html(JSON.stringify(contentList));
+                                    var list = JSON.parse(response);
+                                    if (list.StatusCode = "1") {
+                                        contentList = [];
+                                        for (var i = 0; i < list.Data.length; i++) {
+                                            contentList.push(list.Data[i]);
+                                        }
 
-                                    var tableBody = $("#tblContent #tBodyContent");
-                                    tableBody.html("");
-                                    if (contentList.length == 0) {
-                                        tableBody.append("<td colspan='10'><center>No Contents</center></td>");
-                                    }
-                                    $.grep(contentList, function (content, i) {
-                                        try {
-                                            var isGiftValue = content.IsGift == true ? "Checked disabled" : "disabled";
-                                            var isPublishedValue = content.IsPublished == true ? "Checked disabled" : "disabled";
-                                            var FilePath = "";
-                                            if (content.FilePath != "" && content.FilePath != undefined) {
-                                                if (content.FilePath.split('.')[1] != undefined) {
-                                                    if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
-                                                        FilePath = '../Files/Content/' + content.FilePath;
+                                        var tableBody = $("#tblContent #tBodyContent");
+                                        tableBody.html("");
+                                        if (contentList.length == 0) {
+                                            tableBody.append("<td colspan='10'><center>No Contents</center></td>");
+                                        }
+                                        $.grep(contentList, function (content, i) {
+                                            try {
+                                                var isGiftValue = content.IsGift == true ? "Checked disabled" : "disabled";
+                                                var isPublishedValue = content.IsPublished == true ? "Checked disabled" : "disabled";
+                                                var FilePath = "";
+                                                if (content.FilePath != "" && content.FilePath != undefined) {
+                                                    if (content.FilePath.split('.')[1] != undefined) {
+                                                        if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
+                                                            FilePath = '../Files/Content/' + content.FilePath;
+                                                        }
+                                                        else {
+                                                            FilePath = content.FilePath;
+                                                        }
                                                     }
                                                     else {
                                                         FilePath = content.FilePath;
                                                     }
                                                 }
-                                                else {
-                                                    FilePath = content.FilePath;
+                                                var markup = '<tr id="' + content.ContentID + '">';
+                                                markup += "<td>" + (i + 1) + "</td>";
+                                                markup += "<td>" + content.DocType + "</td>";
+                                                markup += "<td>" + content.Title + "</td>";
+                                                markup += "<td>" + content.Description + "</td>";
+                                                if (FilePath != '' && FilePath != undefined) {
+                                                    markup += "<td><a href=" + FilePath + " target=_blank>File</a></td>";
                                                 }
-                                            }
-                                            var markup = '<tr id="' + content.ContentID + '">';
-                                            markup += "<td>" + (i + 1) + "</td>";
-                                            markup += "<td>" + content.DocType + "</td>";
-                                            markup += "<td>" + content.Title + "</td>";
-                                            markup += "<td>" + content.Description + "</td>";
-                                            if (FilePath != '' && FilePath != undefined) {
-                                                markup += "<td><a href=" + FilePath + " target=_blank>File</a></td>";
-                                            }
-                                            else {
-                                                markup += "<td></td>";
-                                            }
-                                            markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
-                                            markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
-                                            markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
+                                                else {
+                                                    markup += "<td></td>";
+                                                }
+                                                markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
+                                                markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
+                                                markup += '<td><i title="Edit" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
 
-                                            markup += "</tr>";
-                                            tableBody.append(markup);
-                                        }
-                                        catch (ex) {
+                                                markup += "</tr>";
+                                                tableBody.append(markup);
+                                            }
+                                            catch (ex) {
 
-                                            Swal.fire({
-                                                title: "Failure",
-                                                text: "Exception occured." + ex.message,
-                                                icon: "error"
-                                            });
-                                        }
-                                    });
+                                                Swal.fire({
+                                                    title: "Failure",
+                                                    text: "Exception occured." + ex.message,
+                                                    icon: "error"
+                                                });
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        HideLoader();
+                                        Swal.fire({
+                                            title: "Failure",
+                                            text: "Please try Again",
+                                            icon: "error"
+                                        });
+                                    }
                                 }
                                 else {
                                     HideLoader();
@@ -537,7 +547,8 @@
                                     });
                                 }
                             }
-                            else {
+                            catch (e)
+                            {
                                 HideLoader();
                                 Swal.fire({
                                     title: "Failure",
@@ -616,8 +627,8 @@
                     $('#div_preview').hide();
                 }
 
-                $("#chkIsGift").prop("checked", content.IsGift);
-                $("#chkIsPublished").prop("checked", content.IsPublished);
+                $("#chkIsGift").prop("checked", Boolean(content.IsGift));
+                $("#chkIsPublished").prop("checked", Boolean(content.IsPublished));
                 TypeID = content.TypeID;
                 $("#btnSaveChanges").text("Save Content");
                 $("#btnSaveChanges").attr("index", index);
@@ -773,35 +784,46 @@
                         contentType: "application/json",
                         processData: false,
                         success: function (response) {
-                            if (response != null && response != undefined) {
-                                var DataSet = $.parseJSON(response);
-                                if (DataSet != null && DataSet != "") {
-                                    if (DataSet.StatusCode == "1") {
-                                        if (DataSet.Data.length > 0) {
-                                            $('#savereorder').hide();
-                                            GetContentList(this);
+                            try {
+                                if (response != null && response != undefined) {
+                                    var DataSet = $.parseJSON(response);
+                                    if (DataSet != null && DataSet != "") {
+                                        if (DataSet.StatusCode == "1") {
+                                            if (DataSet.Data.length > 0) {
+                                                $('#savereorder').hide();
+                                                GetContentList(this);
+                                            }
+                                            else {
+                                                $('#savereorder').hide();
+                                                Swal.fire({
+                                                    title: "Failure",
+                                                    text: "Please try Again",
+                                                    icon: "error"
+                                                });
+                                            }
                                         }
                                         else {
                                             $('#savereorder').hide();
+                                            HideLoader();
                                             Swal.fire({
                                                 title: "Failure",
-                                                text: "Please try Again",
+                                                text: DataSet.StatusDescription,
                                                 icon: "error"
                                             });
                                         }
                                     }
                                     else {
                                         $('#savereorder').hide();
-                                        HideLoader();
                                         Swal.fire({
                                             title: "Failure",
-                                            text: DataSet.StatusDescription,
+                                            text: "Please try Again",
                                             icon: "error"
                                         });
                                     }
                                 }
                                 else {
                                     $('#savereorder').hide();
+                                    HideLoader();
                                     Swal.fire({
                                         title: "Failure",
                                         text: "Please try Again",
@@ -809,9 +831,8 @@
                                     });
                                 }
                             }
-                            else {
-                                $('#savereorder').hide();
-                                HideLoader();
+                            catch (e)
+                            {
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",

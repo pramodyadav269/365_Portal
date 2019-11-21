@@ -390,7 +390,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_TypeID", content.ContentTypeID);
                 cmd.Parameters.AddWithValue("p_DocType", content.DocType);
                 cmd.Parameters.AddWithValue("p_ContentFileID", content.ContentFileID);
-                cmd.Parameters.AddWithValue("p_Title", content.ContentTitle);
+                cmd.Parameters.AddWithValue("p_Title", content.ContentTitle.Trim());
                 cmd.Parameters.AddWithValue("p_FlashcardHighlights", content.FlashcardHighlights);
                 cmd.Parameters.AddWithValue("p_Description", content.ContentDescription);
                 cmd.Parameters.AddWithValue("p_Overview", content.ModuleOverview);//Overview column
