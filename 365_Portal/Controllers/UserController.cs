@@ -352,6 +352,9 @@ namespace _365_Portal.Controllers
                     objUserProfile.EmailNotification = UserDetails.EmailNotification;
                     objUserProfile.PushNotification = UserDetails.PushNotification;
                     objUserProfile.ThemeColor = UserDetails.ThemeColor;
+                    objUserProfile.ThemeColor2 = UserDetails.ThemeColor2;
+                    objUserProfile.ThemeColor3 = UserDetails.ThemeColor3;
+                    objUserProfile.ThemeColor4 = UserDetails.ThemeColor4;
                     objUserProfile.GroupName = UserDetails.GroupName;
                     if (!string.IsNullOrEmpty(UserDetails.ProfilePicFileID))
                     {
@@ -397,24 +400,7 @@ namespace _365_Portal.Controllers
                     string userProfilePicBase64 = Convert.ToString(requestParams.SelectToken("UserProfileImageBase64"));
 
                     if (!string.IsNullOrEmpty(userProfilePicBase64))
-                    {
-                        /*
-                        _userdetail.ProfilePicFile = Convert.ToString(requestParams.SelectToken("UserProfileImageBase64")).Split(',')[1];
-
-                        byte[] bytes = Convert.FromBase64String(_userdetail.ProfilePicFile);
-                        System.Drawing.Image image;
-                        using (System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes))
-                        {
-                            image = System.Drawing.Image.FromStream(ms);
-                        }
-
-                        string GUID = Guid.NewGuid().ToString();
-                        string extension = "." + Convert.ToString(requestParams.SelectToken("UserProfileImageBase64")).Split(';')[0].Split('/')[1];
-                        string FileName = _userdetail.UserID + "_" + GUID + extension;
-                        string FullPath = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/" + FileName);
-                        image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
-                        */
-
+                    {                        
                         var files = userProfilePicBase64.Split(new string[] { "," }, StringSplitOptions.None);
                         if (files.Count() == 1)
                             userProfilePicBase64 = files[0];
@@ -445,22 +431,6 @@ namespace _365_Portal.Controllers
                         string companyLogoBase64 = Convert.ToString(requestParams.SelectToken("CompanyProfileImageBase64"));
                         if (!string.IsNullOrEmpty(companyLogoBase64))
                         {
-                            /*_userdetail.CompanyProfilePicFile = Convert.ToString(requestParams.SelectToken("CompanyProfileImageBase64")).Split(',')[1];
-
-                            byte[] bytes = Convert.FromBase64String(_userdetail.CompanyProfilePicFile);
-                            System.Drawing.Image image;
-                            using (System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes))
-                            {
-                                image = System.Drawing.Image.FromStream(ms);
-                            }
-
-                            string GUID = Guid.NewGuid().ToString();
-                            string extension = "." + Convert.ToString(requestParams.SelectToken("CompanyProfileImageBase64")).Split(';')[0].Split('/')[1];
-                            string FileName = _userdetail.UserID + "_" + GUID + extension;
-                            string FullPath = HttpContext.Current.Server.MapPath("~/Files/CompLogo/" + FileName);
-                            image.Save(FullPath, System.Drawing.Imaging.ImageFormat.Png);
-                            */
-
                             var files = companyLogoBase64.Split(new string[] { "," }, StringSplitOptions.None);
                             if (files.Count() == 1)
                                 companyLogoBase64 = files[0];
@@ -478,6 +448,9 @@ namespace _365_Portal.Controllers
                             }
                         }
                         _userdetail.ThemeColor = (string)requestParams.SelectToken("CompanyThemeColor");
+                        _userdetail.ThemeColor2 = (string)requestParams.SelectToken("CompanyThemeColor2");
+                        _userdetail.ThemeColor3 = (string)requestParams.SelectToken("CompanyThemeColor3");
+                        _userdetail.ThemeColor4 = (string)requestParams.SelectToken("CompanyThemeColor4");
                     }
                 }
                 catch (Exception ex)

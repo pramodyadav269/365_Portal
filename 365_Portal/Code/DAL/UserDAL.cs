@@ -169,6 +169,9 @@ namespace _365_Portal.Code.DAL
                 objUser.ProfilePicFileID = dt.Rows[0]["ProfilePicFileID"].ToString();
                 objUser.CompanyProfilePicFileID = dt.Rows[0]["CompanyProfilePicFileID"].ToString();
                 objUser.ThemeColor = dt.Rows[0]["ThemeColor"].ToString();
+                objUser.ThemeColor2 = dt.Rows[0]["ThemeColor2"].ToString();
+                objUser.ThemeColor3 = dt.Rows[0]["ThemeColor3"].ToString();
+                objUser.ThemeColor4 = dt.Rows[0]["ThemeColor4"].ToString();
                 objUser.GroupName = dt.Rows[0]["GroupName"].ToString();
                 objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
                 objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
@@ -227,7 +230,7 @@ namespace _365_Portal.Code.DAL
         {
             ResponseBase objResponse = null;
 
-            MySqlParameter[] param = new MySqlParameter[10];
+            MySqlParameter[] param = new MySqlParameter[13];
             param[0] = new MySqlParameter("p_CompID", _userdetail.CompId);
             param[1] = new MySqlParameter("p_UserID", _userdetail.UserID);
             param[2] = new MySqlParameter("p_EmailID", _userdetail.EmailID);
@@ -239,7 +242,10 @@ namespace _365_Portal.Code.DAL
             param[6] = new MySqlParameter("p_ProfilePicFileID", _userdetail.ProfilePicFileID);
             param[7] = new MySqlParameter("p_CompanyProfilePicFileID", _userdetail.CompanyProfilePicFileID);
             param[8] = new MySqlParameter("p_ThemeColor", _userdetail.ThemeColor);
-            param[9] = new MySqlParameter("p_Ref1", Ref1);
+            param[9] = new MySqlParameter("p_ThemeColor2", _userdetail.ThemeColor2);
+            param[10] = new MySqlParameter("p_ThemeColor3", _userdetail.ThemeColor3);
+            param[11] = new MySqlParameter("p_ThemeColor4", _userdetail.ThemeColor4);
+            param[12] = new MySqlParameter("p_Ref1", Ref1);
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.AddRange(param);
