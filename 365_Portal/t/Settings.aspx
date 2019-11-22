@@ -134,10 +134,10 @@
 
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
 
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="#000000"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="#000000"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="#000000"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="#000000"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor4"></div>');
                 $('#divCompanyTheme').show();
             }
             GetUserProfileDetails();
@@ -225,13 +225,13 @@
                 //    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
                 //);
                 
-                $("#imgCompLogo").attr("src", "Files/CompLogo/" + Data.CompanyProfilePicFile);
+                $("#imgCompLogo").attr("src", "../Files/CompLogo/" + Data.CompanyProfilePicFile);
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
 
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="' + Data.ThemeColor4 + '"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor + '" id="txtThemeColor"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor2 + '" id="txtThemeColor2"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor3 + '" id="txtThemeColor3"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="' + Data.ThemeColor4 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor4 + '" id="txtThemeColor4"></div>');
                 $('#divCompanyTheme').show();
             }
         }
@@ -403,7 +403,21 @@
             $('#' + img).attr('src', URL.createObjectURL(ctrl.files[0]));
         }
 
-        
+        function assignColor(obj)
+        {
+            if(obj.id== 'ThemeColor') {
+                $('#txtThemeColor').val(obj.value);
+            }
+            else if (obj.id == 'ThemeColor2') {
+                $('#txtThemeColor2').val(obj.value);
+            }
+            else if (obj.id == 'ThemeColor3') {
+                $('#txtThemeColor3').val(obj.value);
+            }
+            else if (obj.id == 'ThemeColor4') {
+                $('#txtThemeColor4').val(obj.value);
+            }
+        }
 
 
     </script>   
