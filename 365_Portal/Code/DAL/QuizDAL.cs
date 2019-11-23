@@ -176,7 +176,7 @@ namespace _365_Portal.Code.DAL
             {
 
                 conn.Open();
-                string sp = "";
+                string sp = "spCRUDFlashcards";
                 MySqlCommand cmd = new MySqlCommand(sp, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_Action", action);
@@ -184,6 +184,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_FlashCardID", flashcardId);
                 cmd.Parameters.AddWithValue("p_Title", title);
                 cmd.Parameters.AddWithValue("p_ContentID", contentId);
+                cmd.Parameters.AddWithValue("p_IconURL", "");
                 cmd.Parameters.AddWithValue("p_Description", description);
                 cmd.Parameters.AddWithValue("p_CreatedBy", userId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);

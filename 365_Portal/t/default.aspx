@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="365" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Life.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="../Asset/customer/default.js"></script>
+    <script src="../../Asset/customer/default.js"></script>
     <style>
         .contents-datials .embed {
             width: 100%;
@@ -148,11 +148,11 @@
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img ng-if="content.ContentType=='PDF'" src="Asset/images/pdf-icon.svg" />
-                                            <img ng-if="content.ContentType=='VIDEO'" src="Asset/images/video-icon.svg" />
-                                            <img ng-if="content.ContentType=='SURVEY'" src="Asset/images/survey-icon.svg" />
-                                            <img ng-if="content.ContentType=='FLASHCARD'" src="Asset/images/flashcard-icon.svg" />
-                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="Asset/images/quiz-icon.svg" />
+                                            <img ng-if="content.ContentType=='PDF'" src="../Asset/images/pdf-icon.svg" />
+                                            <img ng-if="content.ContentType=='VIDEO'" src="../Asset/images/video-icon.svg" />
+                                            <img ng-if="content.ContentType=='SURVEY'" src="../Asset/images/survey-icon.svg" />
+                                            <img ng-if="content.ContentType=='FLASHCARD'" src="../Asset/images/flashcard-icon.svg" />
+                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="../Asset/images/quiz-icon.svg" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
@@ -173,11 +173,11 @@
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img ng-if="content.ContentType=='PDF'" src="Asset/images/pdf-icon.svg" />
-                                            <img ng-if="content.ContentType=='VIDEO'" src="Asset/images/video-icon.svg" />
-                                            <img ng-if="content.ContentType=='SURVEY'" src="Asset/images/survey-icon.svg" />
-                                            <img ng-if="content.ContentType=='FLASHCARD'" src="Asset/images/flashcard-icon.svg" />
-                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="Asset/images/quiz-icon.svg" />
+                                            <img ng-if="content.ContentType=='PDF'" src="../Asset/images/pdf-icon.svg" />
+                                            <img ng-if="content.ContentType=='VIDEO'" src="../Asset/images/video-icon.svg" />
+                                            <img ng-if="content.ContentType=='SURVEY'" src="../Asset/images/survey-icon.svg" />
+                                            <img ng-if="content.ContentType=='FLASHCARD'" src="../Asset/images/flashcard-icon.svg" />
+                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="../Asset/images/quiz-icon.svg" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
@@ -224,22 +224,22 @@
                                         <dl class="row text-center">
                                             <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,1)">
                                                 <i class="far fa-grin-hearts fa-5x"></i>
-                                                <%--<img src="Asset/images/love-icon.svg" />--%>
+                                                <%--<img src="../Asset/images/love-icon.svg" />--%>
                                                 <span>Love it!</span>
                                             </dt>
                                             <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,2)">
                                                 <i class="far fa-grin-beam fa-5x"></i>
-                                                <%--<img src="Asset/images/like-icon.svg" />--%>
+                                                <%--<img src="../Asset/images/like-icon.svg" />--%>
                                                 <span>Like it!</span>
                                             </dt>
                                             <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,3)">
                                                 <i class="far fa-meh fa-5x"></i>
-                                                <%--<img src="Asset/images/meh-icon.svg" />--%>
+                                                <%--<img src="../Asset/images/meh-icon.svg" />--%>
                                                 <span>Meh</span>
                                             </dt>
                                             <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,4)">
                                                 <i class="far fa-frown fa-5x"></i>
-                                                <%--<img src="Asset/images/didnt-like-icon.svg" />--%>
+                                                <%--<img src="../Asset/images/didnt-like-icon.svg" />--%>
                                                 <span>Didn't like it!</span>
                                             </dt>
                                         </dl>
@@ -247,7 +247,7 @@
                                 </div>
                                 <div id="divVideo"></div>
                                 <%-- <video controls id="contentVideo" onended="videoRating()">
-                                    <source src="Asset/data/bunny.mp4" type="video/mp4">
+                                    <source src="../Asset/data/bunny.mp4" type="video/mp4">
                                 </video>--%>
                             </div>
                             <div class="col-md-12 mt-4 overview text-left">
@@ -404,7 +404,7 @@
                         <div ng-repeat="flashcardSlide in SpecialContents.Flashcards" ng-if="$index == CurrIndex">
                             <div class="flashcard">
                                 <div class="card border-0">
-                                    <img class="card-img-top circle mx-auto" src="Asset/images/profile.png" />
+                                    <img class="card-img-top circle mx-auto" src="../Asset/images/profile.png" />
                                     <div class="card-body">
                                         <p class="card-text">
                                             {{flashcardSlide.Description}}
@@ -550,14 +550,14 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-10 offset-md-1 text-center mt-4">
-                                <img src="Asset/images/suprrise-icon.svg" class="img-achievements" />
+                                <img src="../Asset/images/suprrise-icon.svg" class="img-achievements" />
                                 <p class="modal-text mt-4">Surprise!</p>
                                 <h3 class="font-weight-bold modal-title">You just unlocked a personal gift!</h3>
                             </div>
                             <div class="col-md-10 offset-md-1 text-center mt-3">
-                                <img ng-if="UnlockGiftData.DocType == 'VIDEO'" src="Asset/images/next-video-icon.svg" class="img-achievements" />
-                                <img ng-if="UnlockGiftData.DocType == 'PDF'" src="Asset/images/next-pdf-icon.svg" class="img-achievements" />
-                                <img ng-if="UnlockGiftData.DocType == 'FLASHCARD'" src="Asset/images/next-flashcard-icon.svg" class="img-achievements" />
+                                <img ng-if="UnlockGiftData.DocType == 'VIDEO'" src="../Asset/images/next-video-icon.svg" class="img-achievements" />
+                                <img ng-if="UnlockGiftData.DocType == 'PDF'" src="../Asset/images/next-pdf-icon.svg" class="img-achievements" />
+                                <img ng-if="UnlockGiftData.DocType == 'FLASHCARD'" src="../Asset/images/next-flashcard-icon.svg" class="img-achievements" />
                                 <h5 class="modal-title mt-2"><b>{{UnlockGiftData.Title}}:</b> {{UnlockGiftData.Description}}</h5>
                             </div>
                             <div class="col-md-10 offset-md-1 text-center mt-5 mb-3">

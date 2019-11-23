@@ -465,9 +465,9 @@
                                                 tbl += '<td title="' + data.Description + '" class="description">' + data.Description;
                                                 tbl += '<td title="' + data.IsPublished + '" class="isPublished">' + data.IsPublished;
                                                 tbl += '<td title="' + data.ModuleID + '"><a href="ContentList.aspx?TopicID=' + TopicID + '&ModuleID=' + data.ModuleID + '">' + data.ContentCount + '</a>';
-                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?Type=1&TID=' + TopicID + '&MID=' + data.ModuleID + '">' + data.SurveyCount + '</a>';
-                                                tbl += '<td title="' + data.ModuleID + '"><a href="Flashcards.aspx?Type=2&TID=' + TopicID + '&MID=' + data.ModuleID + '">' + data.FlashCardCount + '</a>';
-                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?Type=3&TID=' + TopicID + '&MID=' + data.ModuleID + '">' + data.FinalQuizCount + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=1&TID=' + TopicID + '&MID=' + data.ModuleID + '">' + data.SurveyCount + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Flashcards.aspx?type=2&TID=' + TopicID + '&MID=' + data.ModuleID + '">' + data.FlashCardCount + '</a>';
+                                                tbl += '<td title="' + data.ModuleID + '"><a href="Quiz.aspx?type=3&TID=' + TopicID + '&MID=' + data.ModuleID + '">' + data.FinalQuizCount + '</a>';
                                                 tbl += '<td><i title="Edit" onclick="Edit(' + data.ModuleID + ');" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(' + data.ModuleID + ');" class="fas fa-trash text-danger"></i>';
 
 

@@ -214,7 +214,7 @@
 
         function BindContentList(contentId) {
             ShowLoader();
-            var requestParams = { TopicID: gbl_TopicID, ModuleID: gbl_ModuleID, ContentID: contentId, ContentTypeID: gbl_contentTypeID, IsGift: "0" };
+            var requestParams = { TopicID: gbl_TopicID, ModuleID: gbl_ModuleID, ContentID: 0, ContentTypeID: gbl_contentTypeID, IsGift: "0" };
             $.ajax({
                 method: "POST",
                 url: "../api/Quiz/GetContentList",
@@ -228,9 +228,12 @@
                     flashcards = responses.Data == null ? [] : responses.Data;
                     BindFlashcards(this);
                     if (contentId != null && contentId != 0) {
+                        var selectedContent = $.grep(responses.Data, function (n, i) {
+                            return n.ContentID == contentId;
+                        })[0];
                         // Bind Flashcard & Intro 
-                        flashcardIntro = responses.Data[0].FlashcardIntro;
-                        flashcardSlides = responses.Data[0].FlashcardSlides;
+                        flashcardIntro = selectedContent.FlashcardIntro;
+                        flashcardSlides = selectedContent.FlashcardSlides;
                         BindFlashcardIntro();
                         BindFlashcardSlides();
                     }
@@ -242,18 +245,16 @@
         }
 
         function AddFlashcard(cntrl) {
-
-            if ($("#txtFlashcardTitle").val().trim() != "" && $("#txtFlashcardDescription").val().trim() != "" && $("#txtFlashcardOverview").val().trim() != "" && $("#txtIntroTitle").val().trim() != "") {
+            if ($("#txtFlashcardTitle").val().trim() != "" && $("#txtFlashcardDescription").val().trim() != "" && $("#txtIntroTitle").val().trim() != "") {
                 var index = flashcards.length + 1;
                 var newFlashcard = {
-                    "ContentID": (index * 10)
+                    "ContentID": 0
                     , "TopicID": gbl_TopicID
                     , "ModuleID": gbl_ModuleID
                     , "SrNo": index
                     , "ContentTypeID": gbl_contentTypeID
                     , "Title": $("#txtFlashcardTitle").val()
                     , "Description": $("#txtFlashcardDescription").val()
-                    , "Overview": $("#txtFlashcardOverview").val()
                     , "IntroTitle": $("#txtIntroTitle").val()
                     , "IsGift": $("#chkIsGift").prop("checked")
                     , "SkipFlashcard": $("#chkSkipFlashcards").prop("checked")
@@ -268,7 +269,7 @@
                 if ($(cntrl).attr("index") == null) {
                     // Add Flashcard
                     // Ajax Call
-                    flashcards.push(newFlashcard);
+                    //flashcards.push(newFlashcard);
 
                     var requestParams = newFlashcard;
                     $.ajax({
@@ -278,35 +279,51 @@
                         data: JSON.stringify(requestParams),
                         contentType: "application/json",
                     }).then(function success(response) {
-                        if (displayPopup) {
-                            HideLoader();
-                            Swal.fire({
-                                title: 'Success',
-                                icon: 'success',
-                                html: "Information saved successfully.",
-                                showConfirmButton: true,
-                                showCloseButton: true
-                            });
-                            BindQuiz(false);
-                        }
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Information saved successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindContentList(0);
                     });
-
                 }
                 else {
                     // Update Flashcard Intro Item
                     var index = parseInt($(cntrl).attr("index"));
-                    var flashCard = $.grep(flashcards, function (n, i) {
-                        return n.ContentID == index;
-                    })[0];
-                    flashCard.Title = newFlashcard.Title;
-                    flashCard.Description = newFlashcard.Description;
-                    flashCard.Overview = newFlashcard.Overview;
-                    flashCard.IntroTitle = newFlashcard.IntroTitle;
-                    flashCard.IsGift = newFlashcard.IsGift;
-                    flashCard.IsSkipFlashcards = newFlashcard.IsSkipFlashcards;
-                    flashCard.IsPublished = newFlashcard.IsPublished;
-                    flashCard.FlashcardIntro = newFlashcard.FlashcardIntro;
-                    flashCard.FlashcardSlides = newFlashcard.FlashcardSlides;
+                    //var flashCard = $.grep(flashcards, function (n, i) {
+                    //    return n.ContentID == index;
+                    //})[0];
+                    //flashCard.Title = newFlashcard.Title;
+                    //flashCard.Description = newFlashcard.Description;
+                    //flashCard.Overview = newFlashcard.Overview;
+                    //flashCard.IntroTitle = newFlashcard.IntroTitle;
+                    //flashCard.IsGift = newFlashcard.IsGift;
+                    //flashCard.IsSkipFlashcards = newFlashcard.IsSkipFlashcards;
+                    //flashCard.IsPublished = newFlashcard.IsPublished;
+                    //flashCard.FlashcardIntro = newFlashcard.FlashcardIntro;
+                    //flashCard.FlashcardSlides = newFlashcard.FlashcardSlides;
+                    newFlashcard.ContentID = index;
+                    var requestParams = newFlashcard;
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/SaveContent",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Information saved successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindContentList(requestParams.ContentID);
+                    });
                 }
                 CancelFlashcard(cntrl);
                 BindFlashcards(cntrl);
@@ -328,7 +345,6 @@
             $("#txtFlashcardTitle").val("");
             $("#txtFlashcardDescription").val("");
             $("#txtIntroTitle").val("");
-            $("#txtFlashcardOverview").val("");
             $("#chkIsGift").prop("checked", false);
             $("#chkSkipFlashcards").prop("checked", false);
             $("#chkIsPublished").prop("checked", false);
@@ -349,9 +365,7 @@
 
             $("#txtFlashcardTitle").val(flashcard.Title);
             $("#txtFlashcardDescription").val(flashcard.Description);
-            $("#txtFlashcardOverview").val(flashcard.Overview);
             $("#txtIntroTitle").val(flashcard.IntroTitle);
-            $("#txtIntroTitle").val(flashcard.Overview);
             $("#chkIsGift").prop("checked", flashcard.IsGift);
             $("#chkSkipFlashcards").prop("checked", flashcard.IsSkipFlashcards);
             $("#chkIsPublished").prop("checked", flashcard.IsPublished);
@@ -391,8 +405,8 @@
                 markup += "<td>" + n.Description + "</td>";
                 markup += "<td>" + n.IntroTitle + "</td>";
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isGiftValue + " /></td>";
-                markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isSkipFlashcards + " /></td>";
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isPublishedValue + " /></td>";
+                markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isSkipFlashcards + " /></td>";
                 markup += '<td><i title="Edit" index=' + n.ContentID + ' onclick="EditFlashcard($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.ContentID + ' onclick="DeleteFlashcard($(this));" class="fas fa-trash text-danger"></i></td>';
 
                 markup += "</tr>";
@@ -405,7 +419,7 @@
         function AddIntroItem(cntrl) {
             if ($("#txtDescription").val().trim() != "") {
                 var index = flashcardIntro.length + 1;
-                var newFlashcard = { Action: 1, ContentID: gbl_ContentID, "ID": 0, "SrNo": index,Title:"", "Description": $("#txtDescription").val() };
+                var newFlashcard = { Action: 1, ContentID: gbl_ContentID, "ID": 0, "SrNo": index, Title: "", "Description": $("#txtDescription").val() };
                 if ($(cntrl).attr("index") == null) {
                     // Ajax Call
                     var requestParams = newFlashcard;
@@ -602,7 +616,7 @@
             if ($("#txtSlideTitle").val().trim() != "" && $("#txtSlideTitle").val().trim() != "" && $("#txtSlideDescription").val().trim() != "") {
 
                 var index = flashcardSlides.length + 1;
-                var newFlashCardSlide = { "ID": (index * 10), "SrNo": index, "Title": $("#txtSlideTitle").val(), "Description": $("#txtSlideDescription").val() };
+                var newFlashCardSlide = { Action: 1, ContentID: gbl_ContentID, "ID": 0, "SrNo": index, "Title": $("#txtSlideTitle").val(), "Description": $("#txtSlideDescription").val() };
 
                 if ($(cntrl).attr("index") == null) {
                     // Add Slide
@@ -613,7 +627,27 @@
                         return false;
                     }
 
-                    flashcardSlides.push(newFlashCardSlide);
+                    //flashcardSlides.push(newFlashCardSlide);
+
+                    var requestParams = newFlashCardSlide;
+                    ShowLoader();
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageFlashcardSlides",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Flashcarad Intro updated successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindContentList(requestParams.ContentID);
+                    });
                 }
                 else {
                     // Update Slide
@@ -625,11 +659,33 @@
                         return false;
                     }
 
-                    var flashCard = $.grep(flashcardSlides, function (n, i) {
-                        return n.ID == index;
-                    })[0];
-                    flashCard.Title = newFlashCardSlide.Title;
-                    flashCard.Description = newFlashCardSlide.Description;
+                    //var flashCard = $.grep(flashcardSlides, function (n, i) {
+                    //    return n.ID == index;
+                    //})[0];
+                    //flashCard.Title = newFlashCardSlide.Title;
+                    //flashCard.Description = newFlashCardSlide.Description;
+                    //newFlashcard.ID = index;
+                    //newFlashcard.Action = 2;
+                    newFlashCardSlide.Action = 2;
+                     newFlashCardSlide.ID = index;
+                    var requestParams = newFlashCardSlide;
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageFlashcardSlides",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Flashcarad Intro updated successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindContentList(requestParams.ContentID);
+                    });
                 }
                 CancelSlides(cntrl);
                 BindFlashcardSlides(cntrl);

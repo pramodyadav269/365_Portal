@@ -204,6 +204,7 @@
         var gbl_contentTypeID = 0;
         var gbl_ContentID = 0;
         var gbl_QuestionID = 0;
+        var gbl_AnsOptionId = 0;
         var gbl_TopicID = QueryString()["TID"];
         var gbl_ModuleID = QueryString()["MID"];
         var Questions = [];
@@ -278,6 +279,8 @@
             $("#trQuestionForm").show();
             $("#trAnswerOptions").show();
             $("#btnCancelQuestion").show();
+            gbl_QuestionID = 0;
+            gbl_AnsOptionId = 0;
         }
 
         function CheckboxChecked(cntrl) {
@@ -404,7 +407,7 @@
                     , "CorrectScore": $("#txtScore").val()
                 };
 
-                if ($(cntrl).attr("index") == null) {
+                if ($(cntrl).attr("index") == null || gbl_AnsOptionId == 0) {
 
                     if ($("#ddlQuestionType").val() == "2" || $("#ddlQuestionType").val() == "3") {
                         if (newAnsOption.IsCorrect == true) {
@@ -467,7 +470,7 @@
                     }
 
                     $.grep(AnswerOptions, function (n, i) {
-                        if (n.AnswerID == index) {
+                        if (gbl_QuestionID == 0 ? n.SrNo == index : n.AnswerID == index) {
                             n.AnswerText = newAnsOption.AnswerText;
                             n.IsCorrect = newAnsOption.IsCorrect;
                             n.CorrectScore = newAnsOption.CorrectScore;
@@ -543,6 +546,13 @@
 
         function DeleteAnsOption(row) {
             var index = row.attr("index");
+            if (gbl_QuestionID == 0) {
+                AnswerOptions = $.grep(AnswerOptions, function (n, i) {
+                    return gbl_QuestionID == 0 ? n.SrNo != parseInt(index) : n.AnswerID != parseInt(index);
+                });
+                BindAnswerOptions();
+                return;
+            }
             Swal.fire({
                 title: 'Are you sure?',
                 text: "Once deleted, you will not be able to revert changes!",
@@ -574,10 +584,18 @@
 
         function EditAnsOption(row) {
             var index = $(row).attr("index");
-
-            var ansOption = $.grep(AnswerOptions, function (n, i) {
-                return n.AnswerID == parseInt(index);
-            })[0];
+            var ansOption = {};
+            gbl_AnsOptionId = index;
+            if (gbl_QuestionID == 0) {
+                ansOption = $.grep(AnswerOptions, function (n, i) {
+                    return n.SrNo == parseInt(index);
+                })[0];
+            }
+            else {
+                ansOption = $.grep(AnswerOptions, function (n, i) {
+                    return n.AnswerID == parseInt(index);
+                })[0];
+            }
 
             $("#txtTitle").val(ansOption.AnswerText);
             $("#chkIsCorrect").prop("checked", ansOption.IsCorrect);
@@ -890,7 +908,7 @@
                     }
 
                     // Ajax Call - Update Question
-                     // Save Passing Score in DB
+                    // Save Passing Score in DB
                     if (contentType == 3)
                         SubmitChanges(false);
                     ShowLoader();

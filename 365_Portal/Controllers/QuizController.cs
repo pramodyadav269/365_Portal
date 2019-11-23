@@ -77,6 +77,7 @@ namespace _365_Portal.Controllers
                     content.ContentTypeID = Convert.ToInt32(Convert.ToString(requestParams["ContentTypeID"]));
                     content.ContentTitle = Convert.ToString(requestParams["Title"]);
                     content.ContentDescription = Convert.ToString(requestParams["Description"]);
+                    content.FlashcardTitle = Convert.ToString(requestParams["IntroTitle"]);
                     content.IsPublished = Convert.ToBoolean(Convert.ToString(requestParams["IsPublished"]));
                     content.SkipFlashcard = Convert.ToBoolean(Convert.ToString(requestParams["SkipFlashcard"]));
                     content.IsActive = true;
@@ -344,7 +345,7 @@ namespace _365_Portal.Controllers
                     comments = Convert.ToString(requestParams["Description"]);
                     var Title = Convert.ToString(requestParams["Title"]);
                     // CALL BL
-                    var ds = QuizBL.ManageFlashcardIntro(compId, userId,1, introId,"", comments, contentId, action);
+                    var ds = QuizBL.ManageFlashcardIntro(compId, userId, 1, introId, "", comments, contentId, action);
                     if (ds.Tables.Count > 0)
                     {
                         if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
@@ -391,10 +392,10 @@ namespace _365_Portal.Controllers
                     var flashcardId = 0; var title = ""; var description = "";
                     var contentId = Convert.ToInt32(Convert.ToString(requestParams["ContentID"]));
                     var action = Convert.ToInt32(Convert.ToString(requestParams["Action"]));
+                    if (!string.IsNullOrEmpty(Convert.ToString(requestParams["FlashcardID"])))
+                        flashcardId = Convert.ToInt32(requestParams["FlashcardID"]);
                     if (action == 1 || action == 2)
                     {
-                        if (!string.IsNullOrEmpty(Convert.ToString(requestParams["FlashcardID"])))
-                            flashcardId = Convert.ToInt32(requestParams["FlashcardID"]);
                         title = Convert.ToString(requestParams["Title"]);
                         description = Convert.ToString(requestParams["Description"]);
                     }
