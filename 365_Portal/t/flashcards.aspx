@@ -139,7 +139,7 @@
                             </div>
                             <div class="row mt-4">
                                 <div class="col-md-6">
-                                    <div id="dvFlashcardSlidesJson"></div>
+                                    <div id="dvFlashcardSlidesJson" style="display: none;"></div>
                                     <div class="mt-3 table-responsive">
                                         <table id="tblFlashcardSlides" class="table table-bordered" style="width: 100%">
                                             <thead>
@@ -377,11 +377,37 @@
 
         function DeleteFlashcard(row) {
             var index = row.attr("index");
-            flashcards = $.grep(flashcards, function (n, i) {
-                return n.ContentID != parseInt(index);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Once deleted, you will not be able to revert changes!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    ShowLoader();
+                    var requestParams = { Action: 3, ContentID: index };
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/DeleteContent",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Flashcard deleted successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindContentList(requestParams.ContentID);
+                    });
+                }
             });
-
-            BindFlashcards();
         }
 
         function BindFlashcards(cntrl) {
@@ -582,7 +608,7 @@
                 markup += "<td>" + n.Description + "</td>";
                 //markup += "<td index=" + n.ID + " onclick ='EditSlideRow($(this))'>Edit</td>";
                 //markup += "<td index=" + n.ID + " onclick ='DeleteSlideRow($(this))'>Delete</td></tr>";
-                markup += '<td><i title="Edit" index=' + n.ID + ' onclick="EditSlideRow($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.ID + ' onclick="DeleteSlideRow($(this));" class="fas fa-trash text-danger"></i></td>';
+                markup += '<td><i title="Edit" index=' + n.FlashcardID + ' onclick="EditSlideRow($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.FlashcardID + ' onclick="DeleteSlideRow($(this));" class="fas fa-trash text-danger"></i></td>';
 
                 markup += "</tr>";
                 tableBody.append(markup);
@@ -593,7 +619,7 @@
             var index = $(row).attr("index");
 
             var slideItem = $.grep(flashcardSlides, function (n, i) {
-                return n.ID == parseInt(index);
+                return n.FlashcardID == parseInt(index);
             })[0];
 
             $("#txtSlideTitle").val(slideItem.Title);
@@ -605,11 +631,37 @@
 
         function DeleteSlideRow(row) {
             var index = row.attr("index");
-            flashcardSlides = $.grep(flashcardSlides, function (n, i) {
-                return n.ID != parseInt(index);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Once deleted, you will not be able to revert changes!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    ShowLoader();
+                    var requestParams = { Action: 3, ContentID: gbl_ContentID, "FlashcardID": index };
+                    $.ajax({
+                        method: "POST",
+                        url: "../api/Quiz/ManageFlashcardSlides",
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                    }).then(function success(response) {
+                        HideLoader();
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            html: "Flashcard deleted successfully.",
+                            showConfirmButton: true,
+                            showCloseButton: true
+                        });
+                        BindContentList(requestParams.ContentID);
+                    });
+                }
             });
-
-            BindFlashcardSlides();
         }
 
         function AddSlide(cntrl) {
@@ -667,7 +719,7 @@
                     //newFlashcard.ID = index;
                     //newFlashcard.Action = 2;
                     newFlashCardSlide.Action = 2;
-                     newFlashCardSlide.ID = index;
+                    newFlashCardSlide.FlashcardID = index;
                     var requestParams = newFlashCardSlide;
                     $.ajax({
                         method: "POST",
