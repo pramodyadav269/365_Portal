@@ -297,6 +297,25 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="INCLUDES\360Life.Master.cs">
+      <DependentUpon>360Life.Master</DependentUpon>
+    </Compile>
+    <Compile Include="INCLUDES\360Life.Master.designer.cs">
+      <DependentUpon>360Life.Master</DependentUpon>
+    </Compile>
+    <Compile Include="INCLUDES\Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="INCLUDES\Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="INCLUDES\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="INCLUDES\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -603,6 +622,38 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="INCLUDES\Asset\css\360.css" />
+    <Content Include="INCLUDES\Asset\css\all.css" />
+    <Content Include="INCLUDES\Asset\css\bootstrap.min.css" />
+    <Content Include="INCLUDES\Asset\css\dataTables.bootstrap4.min.css" />
+    <Content Include="INCLUDES\Asset\css\gijgo.min.css" />
+    <Content Include="INCLUDES\Asset\css\select2.min.css" />
+    <Content Include="INCLUDES\Asset\data\bunny.mp4" />
+    <Content Include="INCLUDES\Asset\fonts\gijgo-material.svg" />
+    <Content Include="INCLUDES\Asset\images\arrow-down-sign-to-navigate.png" />
+    <Content Include="INCLUDES\Asset\images\comment.png" />
+    <Content Include="INCLUDES\Asset\images\dashboard.png" />
+    <Content Include="INCLUDES\Asset\images\menu.png" />
+    <Content Include="INCLUDES\Asset\images\notification.png" />
+    <Content Include="INCLUDES\Asset\images\profile.png" />
+    <Content Include="INCLUDES\Asset\images\united-states.png" />
+    <Content Include="INCLUDES\Asset\js\360.js" />
+    <Content Include="INCLUDES\Asset\js\all.js" />
+    <Content Include="INCLUDES\Asset\js\bootstrap.min.js" />
+    <Content Include="INCLUDES\Asset\js\bs-custom-file-input.min.js" />
+    <Content Include="INCLUDES\Asset\js\dataTables.bootstrap4.min.js" />
+    <Content Include="INCLUDES\Asset\js\gijgo.min.js" />
+    <Content Include="INCLUDES\Asset\js\jquery.dataTables.min.js" />
+    <Content Include="INCLUDES\Asset\js\jquery.min.js" />
+    <Content Include="INCLUDES\Asset\js\moment.js" />
+    <Content Include="INCLUDES\Asset\js\popper.min.js" />
+    <Content Include="INCLUDES\Asset\js\select2.min.js" />
+    <Content Include="INCLUDES\Asset\js\sweetalert2.js" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-brands-400.svg" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-regular-400.svg" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-solid-900.svg" />
+    <Content Include="INCLUDES\Dashboard.aspx" />
+    <Content Include="INCLUDES\Default.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="ResetPassword.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -649,6 +700,25 @@
     <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="bulk_upload.xlsx" />
+    <Content Include="INCLUDES\360Life.Master" />
+    <Content Include="INCLUDES\Asset\data\test.pdf" />
+    <Content Include="INCLUDES\Asset\fonts\gijgo-material.eot" />
+    <Content Include="INCLUDES\Asset\fonts\gijgo-material.ttf" />
+    <Content Include="INCLUDES\Asset\fonts\gijgo-material.woff" />
+    <Content Include="INCLUDES\Asset\fonts\heebo-v5-latin-700.woff2" />
+    <Content Include="INCLUDES\Asset\fonts\heebo-v5-latin-regular.woff2" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-brands-400.eot" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-brands-400.ttf" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-brands-400.woff" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-brands-400.woff2" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-regular-400.eot" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-regular-400.ttf" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-regular-400.woff" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-regular-400.woff2" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-solid-900.eot" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-solid-900.ttf" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-solid-900.woff" />
+    <Content Include="INCLUDES\Asset\webfonts\fa-solid-900.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

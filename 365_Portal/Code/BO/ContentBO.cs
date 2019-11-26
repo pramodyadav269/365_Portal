@@ -18,6 +18,7 @@ namespace _365_Portal
         public string Description { get; set; }
         public  string ContentDescription { get; set; }
         public string ContentFileID { get; set; }
+        public int QuizCount { get; set; }
 
         public  string FilePath { get; set; }
         public  string UserIDs { get; set; }

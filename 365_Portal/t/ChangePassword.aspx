@@ -164,7 +164,7 @@
                         var DataSet = $.parseJSON(response);
                         if (DataSet != '' && DataSet != null) {
                             if (DataSet.Data.ReturnCode == "1") {
-                                var uri = "Login.aspx";
+                                var uri = "../Login.aspx";
                                 window.location.replace(uri);
                             }
                             else {

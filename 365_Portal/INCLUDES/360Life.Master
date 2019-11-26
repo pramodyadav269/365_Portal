@@ -1,0 +1,132 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="360Life.master.cs" Inherits="_365_Portal.INCLUDES._360Life" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <%-- CSS --%>
+    <link href="Asset/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Asset/css/all.css" rel="stylesheet" />
+    <link href="Asset/css/gijgo.min.css" rel="stylesheet" />
+    <link href="Asset/css/360.css" rel="stylesheet" />
+
+    <%-- JS --%>
+    <script src="Asset/js/jquery.min.js"></script>
+    <script src="Asset/js/popper.min.js"></script>
+    <script src="Asset/js/bootstrap.min.js"></script>
+    <script src="Asset/js/all.js"></script>
+    <script src="Asset/js/gijgo.min.js"></script>
+    <script src="Asset/js/sweetalert2.js"></script>
+    <script src="Asset/js/360.js"></script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head> 
+<body>
+    <form id="form1" runat="server">
+
+        <div id="sideNav" class="sidenav">
+            <div class="sidenav-top">
+                <div class="sidenav-brand">
+                    <span class="text-white font-weight-bold float-left">365</span>
+                    <a class="side-nav-menu float-right"><i class="fas fa-search"></i></a>
+                    <%--<a class="side-nav-menu float-right d-none" onclick="ToggleNav()"><i class="fas fa-bars text-white"></i></a>--%>
+                </div>
+            </div>
+            <div class="sidenav-content">
+                <ul class="sidenav-nav">
+                    <li class="sidenav-item active">
+                        <a class="sidenav-link"><i class="fas fa-tachometer-alt"></i><span class="tooltiptext">Dashboard</span><span>Dashboard</span></a>
+                    </li>
+                    <li class="sidenav-item side-menu">
+                        <a class="sidenav-link"><i class="fas fa-user"></i><span class="tooltiptext">Me</span><span>Me</span></a>
+                    </li>
+
+                    <li class="sidenav-item side-menu">
+                        <a class="sidenav-link"><i class="fas fa-user-friends"></i><span class="tooltiptext">My Team</span><span>My Team</span></a>
+                    </li>
+
+                    <li class="sidenav-item side-menu">
+                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Learing</span><span>Learing</span></a>
+                    </li>
+
+                    <li class="sidenav-item side-menu">
+                        <a class="sidenav-link"><i class="fas fa-cog"></i><span class="tooltiptext">Settings</span><span>Settings</span></a>
+                    </li>
+
+                    <li class="sidenav-item">
+                        <a class="sidenav-link"><i class="far fa-question-circle"></i><span class="tooltiptext">Help</span><span>Help</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sidenav-content-menu">
+                <ul class="sidenav-nav">
+                    <h4 class="menu-title">My Team</h4>
+                    <li class="sidenav-item active">
+                        <a class="sidenav-link">Team A</a>
+                    </li>
+                    <li class="sidenav-item">
+                        <a class="sidenav-link">Team B</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <nav class="navbar fixed-top navbar-light bg-white">
+            <a class="navbar-brand"></a>
+            <%--<a class="navbar-brand" onclick="ToggleNav()">
+                <i class="fas fa-bars"></i>
+            </a>--%>
+            <div class="nav-content float-right">
+                <ul class="navbar-nav">
+                    <li class="nav-item icon"><a class="nav-link" href="#">
+                        <img src="Asset/images/comment.png" /><span class="badge">2</span></a></li>
+
+                    <li class="nav-item icon"><a class="nav-link" href="#">
+                        <img src="Asset/images/notification.png" /><span class="badge">2</span></a></li>
+
+                    <li class="nav-item language">
+                        <img src="Asset/images/united-states.png" class="circle" height="26" /></li>
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <span class="language">EN<img class="dropdown-arrow" src="Asset/images/arrow-down-sign-to-navigate.png" /></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item profile-photo">
+                        <img src="Asset/images/profile.png" class="circle" height="32" />
+                        <span class="badge online">0</span>
+                        <%--offline--%>
+                    </li>
+                    <li class="nav-item profile">
+                        <a class="nav-link">
+                            <span class="name dropdown-toggle">John Wick</span>
+                            <span class="status">Available</span>
+                        </a>
+                    </li>
+                </ul>
+
+
+
+                <%--  <a class="nav-link" href="#"><i class="fas fa-th"></i></a>
+                <div class="profile dropdown">
+                    <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="Asset/images/profile.png" class="circle" height="36" /></a>
+                    <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
+                        <a id="menuProfile" runat="server" class="dropdown-item" href="Profile.aspx">Profile</a>
+                        <a id="menuUsers" runat="server" class="dropdown-item" href="Admin/Users.aspx">Users List</a>
+                        <a id="menuSetting" runat="server" class="dropdown-item" href="Settings.aspx">Settings</a>
+                        <a id="menuLogout" runat="server" class="dropdown-item" href="Login.aspx">Logout</a>
+                    </div>
+                </div>--%>
+            </div>
+        </nav>
+        <main>
+            <asp:ContentPlaceHolder ID="body" runat="server">
+            </asp:ContentPlaceHolder>
+        </main>
+    </form>
+</body>
+</html>
