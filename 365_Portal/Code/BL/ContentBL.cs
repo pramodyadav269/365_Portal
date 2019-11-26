@@ -207,6 +207,7 @@ namespace _365_Portal.Code.BL
                                   SrNo = Convert.ToInt32(Convert.ToString(dr["SrNo"])),
                                   Description = Convert.ToString(dr["Description"]),
                                   IntroTitle = Convert.ToString(dr["FlashcardTitle"]),
+                                  QuizCount = Convert.ToInt32(Convert.ToString(dr["QuizCount"])),
                                   IsPublished = !string.IsNullOrEmpty(dr["IsPublished"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsPublished"].ToString())) : true,
                                   IsGift = !string.IsNullOrEmpty(dr["IsGift"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["IsGift"].ToString())) : true,
                                   IsSkipFlashcards = !string.IsNullOrEmpty(dr["SkipFlashcards"].ToString()) ? Convert.ToBoolean(Convert.ToInt32(dr["SkipFlashcards"].ToString())) : true,

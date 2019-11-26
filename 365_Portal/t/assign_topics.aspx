@@ -37,7 +37,7 @@
                             <div class="form-group radio">
                                 <label>Assign Mode</label>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="rblBulk"  name="TopicAssignment" class="custom-control-input" value="BULK" onchange="BindGroupUserCheckboxList();">
+                                    <input type="radio" id="rblBulk" name="TopicAssignment" class="custom-control-input" value="BULK" onchange="BindGroupUserCheckboxList();">
                                     <label class="custom-control-label" for="rblBulk">Multiple</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
@@ -76,7 +76,7 @@
 
                             </div>
                         </div>
-                        <label id="lblJSON" style="display:none;"></label>
+                        <label id="lblJSON" style="display: none;"></label>
 
                     </div>
                 </div>
@@ -119,6 +119,8 @@
         }
 
         function BindGroupUserCheckboxList(cntrl) {
+            // Clear All checkboxes..
+            $('input:checkbox').prop("checked", false);
             ShowLoader();
             $("#dvGroupContainer").hide();
             $("#dvUserContainer").hide();
