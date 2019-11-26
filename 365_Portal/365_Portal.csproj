@@ -437,6 +437,13 @@
     <Compile Include="t\Topics.aspx.designer.cs">
       <DependentUpon>Topics.aspx</DependentUpon>
     </Compile>
+    <Compile Include="t\UserGroupMapping.aspx.cs">
+      <DependentUpon>UserGroupMapping.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\UserGroupMapping.aspx.designer.cs">
+      <DependentUpon>UserGroupMapping.aspx</DependentUpon>
+    </Compile>
     <Compile Include="t\Users.aspx.cs">
       <DependentUpon>Users.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -668,6 +675,7 @@
     <Content Include="t\quiz.aspx" />
     <Content Include="t\Settings.aspx" />
     <Content Include="t\Topics.aspx" />
+    <Content Include="t\UserGroupMapping.aspx" />
     <Content Include="t\Users.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

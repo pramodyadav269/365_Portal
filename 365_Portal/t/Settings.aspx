@@ -120,7 +120,6 @@
             $('#divChangePassword').show();
         }
 
-
         $(document).ready(function () {                        
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin"))
             {
@@ -142,7 +141,6 @@
             }
             GetUserProfileDetails();
         });
-
 
         function GetUserProfileDetails()
         {
@@ -184,6 +182,7 @@
                 }
             });
         }
+
         function ClearFields()
         {
             $('#txtFirstName').val('');
@@ -193,6 +192,7 @@
             $("#cbEmailNotifications").prop('checked', false);
             $("#cbPushNotifications").prop('checked', false);
         }
+
         function BindFields(Data)
         {
             $('#txtFirstName').val(Data.FirstName);
@@ -228,10 +228,10 @@
                 $("#imgCompLogo").attr("src", "../Files/CompLogo/" + Data.CompanyProfilePicFile);
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
 
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor + '" id="txtThemeColor"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor2 + '" id="txtThemeColor2"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor3 + '" id="txtThemeColor3"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="' + Data.ThemeColor4 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor4 + '" id="txtThemeColor4"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor + '" id="txtThemeColor" onkeyup="getCustomColor(this)"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor2 + '" id="txtThemeColor2" onkeyup="getCustomColor(this)"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor3 + '" id="txtThemeColor3" onkeyup="getCustomColor(this)"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="' + Data.ThemeColor4 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor4 + '" id="txtThemeColor4" onkeyup="getCustomColor(this)"></div>');
                 $('#divCompanyTheme').show();
             }
         }
@@ -278,7 +278,6 @@
 
         function UpdateUserProfileDetails()
         {
-            debugger
             ShowLoader();
             var EmailID = $('#txtEmail').val();
             var Position = $('#txtPosition').val();
@@ -354,8 +353,7 @@
         }
 
         function UpdateNotification()
-        {
-            
+        {            
             ShowLoader();
             var EmailNotification = $('#cbEmailNotifications').prop('checked');
             var PushNotification = $('#cbPushNotifications').prop('checked');
@@ -397,9 +395,7 @@
             });
         }
 
-
-        function setImgSrc(ctrl, img) {
-            
+        function setImgSrc(ctrl, img) {            
             $('#' + img).attr('src', URL.createObjectURL(ctrl.files[0]));
         }
 
@@ -419,6 +415,21 @@
             }
         }
 
+        function getCustomColor(obj)
+        {
+            if (obj.id == 'txtThemeColor') {
+                document.getElementById("ThemeColor").value = obj.value;
+            }
+            else if (obj.id == 'txtThemeColor2') {
+                document.getElementById("ThemeColor2").value = obj.value;
+            }
+            else if (obj.id == 'txtThemeColor3') {
+                document.getElementById("ThemeColor3").value = obj.value;
+            }
+            else if (obj.id == 'txtThemeColor4') {
+                document.getElementById("ThemeColor4").value = obj.value;
+            }
+        }
 
     </script>   
 </asp:Content>

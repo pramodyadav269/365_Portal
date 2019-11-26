@@ -225,5 +225,18 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+        public static DataSet GetUsersGroup(UserBO objUserBO, int Action)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = CommonDAL.GetUsersGroup(objUserBO, Action);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
     }
 }
