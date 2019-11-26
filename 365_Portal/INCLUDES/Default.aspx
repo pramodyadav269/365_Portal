@@ -15,7 +15,7 @@
         <div class="col-12 mt-5">
             <h6 class="section-title">My Topics</h6>
         </div>
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-4"> 
             <div class="card shadow br-05 bl-1-5 bc-green">
                 <div class="card-body">
                     <h5 class="card-title">Employee Motivation</h5>

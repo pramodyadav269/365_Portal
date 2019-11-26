@@ -8,7 +8,7 @@
 //    }
 //}
 
-//function openNav() {
+//function openNav() { 
 //    $("#sideNav").css({ "width": "250px", "box-shadow": "0 .5rem 1rem rgba(12, 21, 82,.15)" });
 //    $("#sideNav a.side-nav-menu").removeClass('d-none');
 //    $(".sidenav-content").addClass('open');
