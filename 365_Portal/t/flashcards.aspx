@@ -6,10 +6,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
-            <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Flashcards</h1>
+            <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Modules</a>
+            <h1 class="text-center font-weight-bold" id="lblTitle"></h1>
         </div>
-
 
         <div class="col-md-12">
             <div class="card shadow border-0 border-radius-0">
@@ -58,6 +57,12 @@
                                 <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtFlashcardDescription"></textarea>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtIntroTitle">Introduction Title</label>
+                                <textarea class="form-control required" placeholder="Introduction Title" id="txtIntroTitle"></textarea>
+                            </div>
+                        </div>
 
                         <%--     <div class="col-md-6">
                             <div class="form-group">
@@ -67,15 +72,9 @@
                         </div>--%>
 
 
-                        <div class="col-md-12">
+                        <div class="col-md-12" id="dvFlashcardIntro" style="display: none;">
                             <div class="row input-validation">
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="txtIntroTitle">Introduction Title</label>
-                                        <textarea class="form-control required" placeholder="Introduction Title" id="txtIntroTitle"></textarea>
-                                    </div>
-                                </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -110,7 +109,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12 mt-3">
+                        <div class="col-md-12 mt-3" id="dvFlashcardSlides" style="display: none;">
                             <div class="row input-validation">
                                 <div class="form-header col-md-12">
                                     <h3>Flashcard Slides</h3>
@@ -179,6 +178,7 @@
                                             <th>Is Gift</th>
                                             <th>Is Published</th>
                                             <th>Skip Flashcards</th>
+                                            <th>Quiz</th>
                                             <th colspan="2">Action</th>
                                         </tr>
                                     </thead>
@@ -207,6 +207,7 @@
 
         $(document).ready(function () {
             BindContentList(0);
+             $('#back').attr('href', "Modules.aspx?Id=" + gbl_TopicID);
             //BindFlashcards();
             //BindFlashcardIntro();
             //BindFlashcardSlides();
@@ -239,6 +240,7 @@
                     }
                 }
                 else {
+                    BindFlashcards(this);
                     $("#dvQuestionMasterForm").hide();
                 }
             });
@@ -334,10 +336,15 @@
         }
 
         function CancelFlashcard(cntrl) {
+            // Display Flashcard Intro & Slides
+            $("#dvFlashcardIntro").hide();
+            $("#dvFlashcardSlides").hide();
             $("#btnCancelFlashcard").hide();
             $("#btnAddFlashcard").show();
             $("#btnAddFlashcard").text("Add Flashcard");
             $("#btnAddFlashcard").removeAttr("index");
+            flashcardIntro = [];
+            flashcardSlides = [];
             ClearAllFields_Flashcard(this);
         }
 
@@ -352,6 +359,10 @@
 
         function EditFlashcard(row) {
             var index = $(row).attr("index");
+
+            // Display Flashcard Intro & Slides
+            $("#dvFlashcardIntro").show();
+            $("#dvFlashcardSlides").show();
 
             gbl_ContentID = index;
             var flashcard = $.grep(flashcards, function (n, i) {
@@ -433,6 +444,10 @@
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isGiftValue + " /></td>";
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isPublishedValue + " /></td>";
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isSkipFlashcards + " /></td>";
+                if(n.IsGift == true)
+                    markup += '<td></td>';
+                else
+                     markup += '<td><a href="Quiz.aspx?type=2&TID=' + gbl_TopicID + '&MID=' + gbl_ModuleID + '">' + "Add Quiz" + '</a></td>';
                 markup += '<td><i title="Edit" index=' + n.ContentID + ' onclick="EditFlashcard($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.ContentID + ' onclick="DeleteFlashcard($(this));" class="fas fa-trash text-danger"></i></td>';
 
                 markup += "</tr>";
