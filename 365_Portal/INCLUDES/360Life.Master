@@ -39,27 +39,26 @@
             <div class="sidenav-content">
                 <ul class="sidenav-nav">
                     <li class="sidenav-item active">
-                        <a class="sidenav-link"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                        <a class="sidenav-link"><i class="fas fa-tachometer-alt"></i><span class="tooltiptext">Dashboard</span><span>Dashboard</span></a>
+                    </li>
+                    <li class="sidenav-item side-menu">
+                        <a class="sidenav-link"><i class="fas fa-user"></i><span class="tooltiptext">Me</span><span>Me</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu">
-                        <a class="sidenav-link"><i class="fas fa-user"></i><span>Me</span></a>
+                        <a class="sidenav-link"><i class="fas fa-user-friends"></i><span class="tooltiptext">My Team</span><span>My Team</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu">
-                        <a class="sidenav-link"><i class="fas fa-user-friends"></i><span>My Team</span></a>
+                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Learing</span><span>Learing</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span>Learing</span></a>
-                    </li>
-
-                    <li class="sidenav-item side-menu">
-                        <a class="sidenav-link"><i class="fas fa-cog"></i><span>Settings</span></a>
+                        <a class="sidenav-link"><i class="fas fa-cog"></i><span class="tooltiptext">Settings</span><span>Settings</span></a>
                     </li>
 
                     <li class="sidenav-item">
-                        <a class="sidenav-link"><i class="far fa-question-circle"></i><span>Help</span></a>
+                        <a class="sidenav-link"><i class="far fa-question-circle"></i><span class="tooltiptext">Help</span><span>Help</span></a>
                     </li>
                 </ul>
             </div>
@@ -77,7 +76,7 @@
         </div>
 
         <nav class="navbar fixed-top navbar-light bg-white">
-            <a class="navbar-brand">Dashboard</a>
+            <a class="navbar-brand"></a>
             <%--<a class="navbar-brand" onclick="ToggleNav()">
                 <i class="fas fa-bars"></i>
             </a>--%>
@@ -98,7 +97,10 @@
                     </li>
 
                     <li class="nav-item profile-photo">
-                        <img src="Asset/images/profile.png" class="circle" height="32" /></li>
+                        <img src="Asset/images/profile.png" class="circle" height="32" />
+                        <span class="badge online">0</span>
+                        <%--offline--%>
+                    </li>
                     <li class="nav-item profile">
                         <a class="nav-link">
                             <span class="name dropdown-toggle">John Wick</span>
