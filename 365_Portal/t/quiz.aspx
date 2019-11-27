@@ -6,11 +6,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
-            <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
+            <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Modules</a>
             <h1 class="text-center font-weight-bold" id="lblTitle"></h1>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-12" id="dvContentForm" style="display:none;">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
                     <div class="row input-validation">
@@ -214,20 +214,25 @@
             BindQuiz(true);
             BindQuestionTypes(contentType);
 
+            $('#back').attr('href', "Modules.aspx?Id=" + gbl_TopicID);
+
             if (contentType == 1) {
                 $("#tblItems #thIsCorrect").hide();
                 $("#tblItems #thScore").hide();
                 $("#lblTitle").text("Survey");
+                $("#dvContentForm").show();
             }
             else if (contentType == 2) {
                 $("#tblItems #thIsCorrect").show();
                 $("#tblItems #thScore").hide();
                 $("#lblTitle").text("Flashcard Quiz");
+                $("#dvContentForm").hide();
             }
             else if (contentType == 3) {
                 $("#tblItems #thIsCorrect").show();
                 $("#tblItems #thScore").show();
                 $("#lblTitle").text("Final Quiz");
+                $("#dvContentForm").show();
             }
         });
 

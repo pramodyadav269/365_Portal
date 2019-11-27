@@ -579,5 +579,38 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
+
+        public static DataSet GetUsersGroup(UserBO objUsers, int Action)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spUserInGroups";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_Action", Action);
+                cmd.Parameters.AddWithValue("p_UserID", objUsers.UserID);
+                cmd.Parameters.AddWithValue("p_CompID", objUsers.CompId);                
+                cmd.Parameters.AddWithValue("p_GroupIDs", objUsers.GroupId);
+                cmd.Parameters.AddWithValue("p_IsActive", objUsers.IsDeleted);
+
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
     }
 }

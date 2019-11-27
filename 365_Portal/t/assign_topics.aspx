@@ -37,7 +37,7 @@
                             <div class="form-group radio">
                                 <label>Assign Mode</label>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="rblBulk"  name="TopicAssignment" class="custom-control-input" value="BULK" onchange="BindGroupUserCheckboxList();">
+                                    <input type="radio" id="rblBulk" name="TopicAssignment" class="custom-control-input" value="BULK" onchange="BindGroupUserCheckboxList();">
                                     <label class="custom-control-label" for="rblBulk">Multiple</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
@@ -50,21 +50,21 @@
                         <div class="col-md-12" id="dvGroupContainer" style="display: none;">
                             <div class="form-group">
                                 <label>Select Groups</label>
-                                <div id="dvGroups"></div>
+                                <div id="dvGroupsCheckboxes"></div>
                             </div>
                         </div>
 
                         <div class="col-md-12" id="dvUserContainer" style="display: none;">
                             <div class="form-group">
                                 <label>Select Users</label>
-                                <div id="dvUsers"></div>
+                                <div id="dvUsersCheckboxes"></div>
                             </div>
                         </div>
 
                         <div class="col-md-12 mt-3" id="dvTopicContainer" style="display: none;">
                             <div class="form-group">
                                 <label>Select Topics</label>
-                                <div id="dvTopics"></div>
+                                <div id="dvTopicsCheckboxes"></div>
                             </div>
                         </div>
 
@@ -76,7 +76,7 @@
 
                             </div>
                         </div>
-                        <label id="lblJSON"></label>
+                        <label id="lblJSON" style="display: none;"></label>
 
                     </div>
                 </div>
@@ -113,21 +113,22 @@
 
                     });
 
-                    $("#dvTopics").empty().append(htmlCheckboxes);
+                    $("#dvTopicsCheckboxes").empty().append(htmlCheckboxes);
                 }
             });
         }
 
-
         function BindGroupUserCheckboxList(cntrl) {
+            // Clear All checkboxes..
+            $('input:checkbox').prop("checked", false);
             ShowLoader();
             $("#dvGroupContainer").hide();
             $("#dvUserContainer").hide();
             $("#dvTopicContainer").show();
             $("#btnSubmit").show();
 
-            $("#dvGroups").html("");
-            $("#dvUsers").html("");
+            $("#dvGroupsCheckboxes").html("");
+            $("#dvUsersCheckboxes").html("");
             var htmlCheckboxes = "";
 
             if ($("input[name='ddlAssignType']:checked").val() == "GROUP") {
@@ -160,7 +161,7 @@
                             htmlCheckboxes += '</select>';
                         }
 
-                        $("#dvGroups").empty().append(htmlCheckboxes);
+                        $("#dvGroupsCheckboxes").empty().append(htmlCheckboxes);
                         $("#dvGroupContainer").show();
 
                         $('select.select2').select2({
@@ -202,7 +203,7 @@
                             htmlCheckboxes += '</select>';
                         }
 
-                        $("#dvUsers").empty().append(htmlCheckboxes);
+                        $("#dvUsersCheckboxes").empty().append(htmlCheckboxes);
                         $("#dvUserContainer").show();
 
                         $('select.select2').select2({
