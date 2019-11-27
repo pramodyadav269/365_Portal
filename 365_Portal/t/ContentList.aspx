@@ -9,65 +9,6 @@
             <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Modules</a>
             <h1 class="text-center font-weight-bold">Contents</h1>
         </div>
-        <%--<table>
-            <tr>
-                <td>
-                    <h2>Content</h2>
-                </td>
-            </tr>
-            <tr>
-                <td>Doc Type</td>
-                <td>
-                    <select id="ddlDocType">
-                        <option value="PDF">PDF</option>
-                        <option value="VIDEO">Video</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Is Gift</td>
-                <td>
-                    <input type="checkbox" id="chkIsGift" />
-                </td>
-            </tr>
-            <tr>
-                <td>Title</td>
-                <td>
-                    <input type="text" id="txtTitle" />
-                </td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td>
-                    <textarea rows="4" cols="50" id="txtDescription"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>Overview</td>
-                <td>
-                    <textarea rows="4" cols="50" id="txtOverview"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>File Path/URL</td>
-                <td>
-                    <input type="url" placeholder="https://example.com" id="txtFilePath" style="width: 500px;" />
-                </td>
-            </tr>
-            <tr>
-                <td>Is Published</td>
-                <td>
-                    <input type="checkbox" id="chkIsPublished" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <button id="btnSaveChanges" onclick="SaveChanges(this);return false;">Add Content</button>
-
-                    <button id="btnCancel" onclick="Cancel(this);return false;" style="margin-left: 20px; display: none;">Cancel</button>
-                </td>
-            </tr>
-        </table>--%>
 
         <div class="col-md-12">
             <div class="card shadow border-0 border-radius-0">
@@ -132,14 +73,14 @@
                         </div>
                         <div class="col-md-3" style="display: none" id="div_fileupload">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="filepath" onchange="encodeImagetoBase64(this)">
-                                <label class="custom-file-label" for="customFile">File Path</label>
+                                <input type="file" class="custom-file-input" id="filepath" onchange="encodeImagetoBase64(this)" name="file">
+                                <label class="custom-file-label" for="customFile" id="lblfilepath">File Path</label>
                             </div>
                         </div>
                         <div class="col-md-3" style="display: none" id="div_preview"><a id="preview">Preview Your ContentFile</a></div>
                         <div class="col-md-3" style="display: none" id="div_fileUrl">
                             <div class="form-group">
-                                <label for="txtTitle">File Url</label>
+                                <label for="txtFileUrl">File Url</label>
                                 <input type="text" class="form-control" id="txtFileUrl" placeholder="File Url" />
                             </div>
                         </div>
@@ -209,8 +150,10 @@
         var _ModuleID;
         var TypeID;
         var base64filestring;
+        var FileURL;
+        var allowedExtensions = ['pdf', 'mp4', 'avi', 'flv', 'wmv', 'mov', '3gp', 'webm', 'wav'];
         $(document).ready(function () {
-            debugger;
+           
             TopicID = GetParameterValues('TopicID');
             _ModuleID = GetParameterValues('ModuleID');
             $('#back').attr('href', "./Modules.aspx?Id=" + TopicID);
@@ -221,48 +164,64 @@
         });
 
         function SaveChanges(cntrl) {
+            var regex = '';
+           
+            var formdata = new FormData();
             if ($("#ddlDocType").val() != "" &&
                 $("#txtTitle").val() != "" &&
                 $("#txtDescription").val() != "" &&
-                TopicID != "" && _ModuleID != "" && base64filestring != "") {
+                TopicID != "" && _ModuleID != ""  ) {
                 var isUrl;
+            
                 if ($("input[name=filetype]:checked").val() == "URL") {
                     isUrl = 1;
-                    base64filestring = $('#txtFileUrl').val();//Assigning url value
+                    if (is_valid_url($('#txtFileUrl').val())) {
+                        //base64filestring = $('#txtFileUrl').val();//Assigning url value
+                        FileURL = $('#txtFileUrl').val();//Assigning url value
+                    }
+                    else {
+                        Swal.fire({
+                            title: "Failure",
+                            text: "Entered url is not in Correct format.Please put Url in following format for eg https://www.google.com/",
+                            icon: "error"
+                        });
+                        return false;
+                    }
                 }
                 else {
                     isUrl = 0;
+                    base64filestring = $('#filepath').get(0).files[0];
                 }
 
                 var index = contentList.length + 1;
-                var newContent = {
-                    ContentID: (index),
-                    SrNo: index,
-                    DocType: $("#ddlDocType").val()
-                    , Title: $("#txtTitle").val()
-                    , Description: $("#txtDescription").val()
-                    , Overview: ""
-                    , ContentFileID: base64filestring
-                    , IsGift: $("#chkIsGift").prop("checked")
-                    , IsPublished: $("#chkIsPublished").prop("checked")
-                    , TopicID: TopicID
-                    , ModuleID: _ModuleID
-                    , TypeID: "1"
-                    , FlashcardTitle: ""
-                    , IsActive: ""
-                    , TotalScore: ""
-                    , PassingPercent: ""
-                    , PassingScore: ""
-                    , FlashcardHighlights: ""
-                    , SkipFlashcards: ""
-                    , IsURL: isUrl
+                //var newContent = {
+                //    ContentID: (index),
+                //    SrNo: index,
+                //    DocType: $("#ddlDocType").val()
+                //    , Title: $("#txtTitle").val()
+                //    , Description: $("#txtDescription").val()
+                //    , Overview: ""
+                //    , ContentFileID: base64filestring
+                //    , IsGift: $("#chkIsGift").prop("checked")
+                //    , IsPublished: $("#chkIsPublished").prop("checked")
+                //    , TopicID: TopicID
+                //    , ModuleID: _ModuleID
+                //    , TypeID: "1"
+                //    , FlashcardTitle: ""
+                //    , IsActive: ""
+                //    , TotalScore: ""
+                //    , PassingPercent: ""
+                //    , PassingScore: ""
+                //    , FlashcardHighlights: ""
+                //    , SkipFlashcards: ""
+                //    , IsURL: isUrl
 
-                };
+                //};
 
                 if ($(cntrl).attr("index") == null) {
                     // Add Content
                     // Ajax Call
-                    if (IsTitleDuplicate(contentList, newContent.Title)) {
+                    if (IsTitleDuplicate(contentList, $("#txtTitle").val())) {
                         //alert("Title cannot be duplicate.");
                         Swal.fire({
                             title: "Failure",
@@ -271,25 +230,77 @@
                         });
                         return false;
                     }
+                    
+
+                    formdata.append("ContentID",(index));
+                    formdata.append("SrNo",index);
+                    formdata.append("DocType", $("#ddlDocType").val());
+                    formdata.append("Title",$("#txtTitle").val());
+                    formdata.append("Description", $("#txtDescription").val());
+                    formdata.append("Overview", "");
+                    if( ($('#filepath').val()!="" &&  $('#filepath').val()!=undefined) && isUrl==0 && $("input[name=filetype]:checked").val() != "URL")
+                    {
+                        var file = $('#filepath').get(0).files;
+                        if (is_Valid_file(file[0]) && file.length>0) {
+                         
+                            formdata.append("ContentFileID", file[0]);
+                        }
+                        else {                         
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (is_valid_url(FileURL)) {
+                            formdata.append("ContentFileID", FileURL);
+                        }
+                        else {
+                            Swal.fire({
+                                title: "Failure",
+                                text: "Invalid URl",
+                                icon: "error"
+                            });
+                            return false;
+                        }
+                    }
+                    formdata.append( "IsGift", $("#chkIsGift").prop("checked"));
+                    formdata.append( "IsPublished", $("#chkIsPublished").prop("checked"));
+                    formdata.append( "TopicID", TopicID);
+                    formdata.append( "ModuleID", _ModuleID);
+                    formdata.append( "TypeID", "1");
+                    formdata.append( "FlashcardTitle", "");
+                    formdata.append( "IsActive", "");
+                    formdata.append( "TotalScore", "");
+                    formdata.append( "PassingPercent", "");
+                    formdata.append( "PassingScore", "");
+                    formdata.append( "FlashcardHighlights","");
+                    formdata.append( "SkipFlashcards", "");
+                    formdata.append( "IsURL", isUrl);
+                    ShowLoader();
+                  
                     $.ajax({
                         type: "POST",
                         url: "/API/Content/CreateContent",
-                        headers: { "Authorization": "Bearer " + accessToken },
-                        data: JSON.stringify(newContent),
-                        contentType: "application/json",
+                        headers: { "Authorization": "Bearer " + accessToken },                        
+                        data:formdata,                       
+                        contentType: false,
+                        processData: false,
                         success: function (response) {
                             try {
-
+                          
                                 var DataSet = $.parseJSON(response);
                                 if (DataSet != null && DataSet != "") {
                                     if (DataSet.StatusCode == "1") {
+                                        ClearAllFields(this);
                                         HideLoader();
                                         Swal.fire({
                                             title: "Success",
                                             text: DataSet.StatusDescription,
                                             icon: "success",
                                         });
-                                        contentList.push(newContent);
+                                        //contentList.push(newContent);
+                                        GetContentList(this);
+
                                     }
                                     else {
                                         HideLoader();
@@ -339,44 +350,88 @@
                 else {
                     // Update Content
                     var index = $(cntrl).attr("index");
-                    newContent.ContentID = index;
-
-                    if (IsTitleDuplicate(contentList, newContent.Title, index)) {
+                    //newContent.ContentID = index;
+                    if (IsTitleDuplicate(contentList, $("#txtTitle").val().replace(' ',''), index)) {
                         alert("Title cannot be duplicate.");
                         return false;
                     }
 
-                    var oldContent = $.grep(contentList, function (n, i) {
-                        return n.ContentID == parseInt(index);
-                    })[0];
 
+                    //*************** Old Logic ***************//
+                    //var oldContent = $.grep(contentList, function (n, i) {
+                    //    return n.ContentID == parseInt(index);
+                    //})[0];
+                    //oldContent.DocType = newContent.DocType;
+                    //oldContent.Title = newContent.Title;
+                    //oldContent.Description = newContent.Description;
+                    //oldContent.Overview = newContent.Overview;
+                    //if (newContent.IsURL == 1) {
+                    //    if (oldContent.FilePath.trim() != newContent.ContentFileID.trim()) {
+                    //        oldContent.FilePath = newContent.ContentFileID.trim();
+                    //    }
+                    //    else {
+                    //        oldContent.FilePath = newContent.ContentFileID.trim();
+                    //    }
+                    //}
+                    //else {
+                    //    oldContent.FilePath = newContent.ContentFileID;
+                    //}
+                    //oldContent.IsGift = newContent.IsGift;
+                    //oldContent.IsPublished = newContent.IsPublished;
+                    //*************** Old Logic ***************//
+                    //*************** New  Logic with form ***************//                   
 
+                    formdata.append("ContentID", index);
+                    formdata.append("DocType", $("#ddlDocType").val());
+                    formdata.append("Title", $("#txtTitle").val());
+                    formdata.append("Description", $("#txtDescription").val());
+                    formdata.append("Overview", "");
+                    if (($('#filepath').val() != "" && $('#filepath').val() != undefined) && isUrl == 0 && $("input[name=filetype]:checked").val() != "URL") {
+                        var file = $('#filepath').get(0).files;
+                        if (is_Valid_file(file[0]) && file.length > 0) {
 
-                    oldContent.DocType = newContent.DocType;
-                    oldContent.Title = newContent.Title;
-                    oldContent.Description = newContent.Description;
-                    oldContent.Overview = newContent.Overview;
-                    if (newContent.IsURL == 1) {
-                        if (oldContent.FilePath.trim() != newContent.ContentFileID.trim()) {
-                            oldContent.FilePath = newContent.ContentFileID;
+                            formdata.append("ContentFileID", file[0]);
                         }
                         else {
-                            oldContent.FilePath.trim() = newContent.ContentFileID.trim();
+                            return false;
                         }
                     }
                     else {
-                        oldContent.FilePath = newContent.ContentFileID;
+                        if (is_valid_url(FileURL)) {
+                            formdata.append("ContentFileID", FileURL);
+                        }
+                        else {
+                            Swal.fire({
+                                title: "Failure",
+                                text: "Invalid URl",
+                                icon: "error"
+                            });
+                            return false;
+                        }
                     }
-                    oldContent.IsGift = newContent.IsGift;
-                    oldContent.IsPublished = newContent.IsPublished;
+                    formdata.append("IsGift", $("#chkIsGift").prop("checked"));
+                    formdata.append("IsPublished", $("#chkIsPublished").prop("checked"));
+                    formdata.append("TopicID", TopicID);
+                    formdata.append("ModuleID", _ModuleID);
+                    formdata.append("TypeID", "1");
+                    formdata.append("FlashcardTitle", "");
+                    formdata.append("IsActive", "");
+                    formdata.append("TotalScore", "");
+                    formdata.append("PassingPercent", "");
+                    formdata.append("PassingScore", "");
+                    formdata.append("FlashcardHighlights", "");
+                    formdata.append("SkipFlashcards", "");
+                    formdata.append("IsURL", isUrl);
+                    ShowLoader();
 
                     // Ajax Call
                     $.ajax({
                         type: "POST",
                         url: "/API/Content/ModifyContent",
                         headers: { "Authorization": "Bearer " + accessToken },
-                        data: JSON.stringify(newContent),
-                        contentType: "application/json",
+                        data: formdata,
+                        contentType: false,
+                        processData: false,
                         success: function (response) {
                             try {
 
@@ -440,7 +495,7 @@
 
             }
             else {
-                // alert("Please enter all required fields.");
+             
                 Swal.fire({
                     title: "Failure",
                     text: "Please enter all required fields.",
@@ -499,10 +554,11 @@
                                             var isGiftValue = Number(content.IsGift) == "1" ? "Checked disabled" : "disabled";
                                             var isPublishedValue = Number(content.IsPublished) == "1" ? "Checked disabled" : "disabled";
                                             var FilePath = "";
+                                        
                                             if (content.FilePath != "" && content.FilePath != undefined) {
                                                 if (content.FilePath.split('.')[1] != undefined) {
-                                                    if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
-                                                        FilePath = '../Files/Content/' + content.FilePath;
+                                                    if (allowedExtensions.indexOf(content.FilePath.split('.')[1])!=-1) {
+                                                        FilePath = '/Files/Content/' + content.FilePath;
                                                     }
                                                     else {
                                                         FilePath = content.FilePath;
@@ -518,7 +574,12 @@
                                             markup += "<td>" + content.Title + "</td>";
                                             markup += "<td>" + content.Description + "</td>";
                                             if (FilePath != '' && FilePath != undefined) {
-                                                markup += "<td><a href=" + FilePath + " target=_blank>File</a></td>";
+                                                if (is_valid_url(FilePath)) {
+                                                    markup += "<td><a href=" + FilePath + " target=_blank data-action='navigate'>"+FilePath+"</a></td>";
+                                                }
+                                                else {
+                                                    markup += "<td><a href=" + FilePath + " target=_blank>File</a></td>";
+                                                }
                                             }
                                             else {
                                                 markup += "<td></td>";
@@ -605,9 +666,9 @@
                 $("#txtTitle").val(content.Title);
                 $("#txtDescription").val(content.Description);
                 if (content.FilePath.split('.')[1] != undefined) {
-                    if (content.FilePath.split('.')[1].toUpperCase() == 'PDF') {
+                    if (allowedExtensions.indexOf(content.FilePath.split('.')[1]) != -1) {
                         $('#rd_file').prop('checked', true);
-                        $("#preview").attr("href", "../Files/Content/" + content.FilePath);
+                        $("#preview").attr("href", "/Files/Content/" + content.FilePath);
                         $("#preview").attr("target", '_blank');
                         $('#div_fileupload').show();
                         $('#div_preview').show();
@@ -616,14 +677,14 @@
                     else {
                         $('#rd_url').prop('checked', true);
                         $('#txtFileUrl').val(content.FilePath);
-
+                        $('#div_fileupload').hide();
                         $('#div_fileUrl').show();
                         $('#div_preview').hide();
                     }
                 } else {
                     $('#rd_url').prop('checked', true);
                     $('#txtFileUrl').val(content.FilePath);
-
+                    $('#div_fileupload').hide();
                     $('#div_fileUrl').show();
                     $('#div_preview').hide();
                 }
@@ -755,24 +816,59 @@
         //Enode the file to base64
         function encodeImagetoBase64(element) {
             //debugger
-            var file = element.files[0];
-            var size = file.size;
-            if (file.size != undefined) {
-                if (file.size < 5000000) {
-                    var reader = new FileReader();
-                    reader.onloadend = function () {
-                        base64UserProfileString = reader.result;
+            if (element != null && element != undefined) {
+                var file = element.files[0];
+                var size = file.size;
+                var allowedExtensions = ['pdf', 'mp4', 'avi', 'flv', 'wmv', 'mov', '3gp', 'webm', 'wav'];
+
+                if (file.size != undefined) {
+                    if (allowedExtensions.indexOf(file.name.split('.')[1]) != -1) {
+                        if (file.size < 5000000) {
+                            var reader = new FileReader();
+                            reader.onloadend = function () {
+                                base64UserProfileString = reader.result;
+                            }
+                            reader.readAsDataURL(file);
+                        }
+                        else {
+                            base64UserProfileString = "";
+                            $('#filepath').val('');
+                            Swal.fire({
+                                text: "Error",
+                                title: "File size should not be greater than 5MB",
+                                icon: "error",
+                            });
+
+                            $('#lblfilepath').html("File Path");
+                        }
                     }
-                    reader.readAsDataURL(file);
+                    else {
+
+                        base64UserProfileString = "";
+                        $('#filepath').val('');
+                        Swal.fire({
+                            title:"Error",
+                            text: "Invalid File format! Allowed file formats are pdf,mp4,avi,flv,wmv,mov,3gp,webm,wav",
+                            icon: "error",
+                        });
+                        $('#lblfilepath').html("File Path");
+                    }
                 }
                 else {
-                    Swal.fire("File size should not be greater than 5MB", {
+                    base64UserProfileString = "";
+                    $('#filepath').val('');
+                    Swal.fire({
+                        title: "Error",
+                        text: "Invalid File",
                         icon: "error",
                     });
+                    $('#lblfilepath').html("File Path");
                 }
             }
             else {
-                Swal.fire("Invalid File", {
+                Swal.fire({
+                    title: "Error",
+                    text: "No Files Selected",
                     icon: "error",
                 });
             }
@@ -875,6 +971,67 @@
         }
 
 
+        function is_Valid_file(file)
+        {
+            if (file != null && file != undefined ) {
+                //var file = element.files[0];
+                var size = file.size;
+                var allowedExtensions = ['pdf', 'mp4', 'avi', 'flv', 'wmv', 'mov', '3gp', 'webm', 'wav'];
+
+                if (file.size != undefined) {
+                    if (allowedExtensions.indexOf(file.name.split('.')[1]) != -1) {
+                        if (file.size < 5000000) {
+                            return true;
+                        }
+                        else {
+                            base64UserProfileString = "";
+                            $('#filepath').val('');
+                            
+                            Swal.fire({
+                                text: "Error",
+                                title: "File size should not be greater than 5MB",
+                                icon: "error",
+                            });
+
+                            $('#lblfilepath').html("File Path");
+                            return false;
+                        }
+                    }
+                    else {
+
+                        base64UserProfileString = "";
+                        $('#filepath').val('');
+                        Swal.fire({
+                            title: "Error",
+                            text: "Invalid File format! Allowed file formats are pdf,mp4,avi,flv,wmv,mov,3gp,webm,wav",
+                            icon: "error",
+                        });
+                        $('#lblfilepath').html("File Path");
+                        return false;
+                    }
+                }
+                else {
+                    base64UserProfileString = "";
+                    $('#filepath').val('');
+                    Swal.fire({
+                        title: "Error",
+                        text: "Invalid File",
+                        icon: "error",
+                    });
+                    $('#lblfilepath').html("File Path");
+                    return false;
+                }
+            }
+            else {
+                Swal.fire({
+                    title: "Error",
+                    text: "No Files Selected",
+                    icon: "error",
+                });
+                return false;
+            }
+        }
+
 
         function ShowControl(ctrl) {
 
@@ -888,6 +1045,11 @@
                 $('#div_fileUrl').hide();
                 $('#div_fileupload').show();
             }
+        }
+
+
+        function is_valid_url(url) {
+            return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(url);
         }
     </script>
 </asp:Content>

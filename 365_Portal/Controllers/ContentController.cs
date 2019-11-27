@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.IO;
 using System.Web;
+using System.Text.RegularExpressions;
 
 namespace _365_Portal.ControllersReOrderContent
 {
@@ -771,201 +772,268 @@ namespace _365_Portal.ControllersReOrderContent
         #region Content all CRUD
         [HttpPost]
         [Route("API/Content/CreateContent")]
-        public IHttpActionResult CreateContent(JObject requestParams)
+        public IHttpActionResult CreateContent()
         {
+
+            var httpRequest = HttpContext.Current.Request;
             var data = string.Empty;
             ContentBO content = new ContentBO();
+            bool isValidrequest = true;
+
             try
             {
                 var identity = MyAuthorizationServerProvider.AuthenticateUser();
                 if (identity != null)
                 {
-
-                    if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString())
-                        //&& !string.IsNullOrEmpty(requestParams["ContentID"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["TypeID"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["DocType"].ToString())
-                        //&& !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["Title"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["Description"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["IsURL"].ToString())
-                        //&& !string.IsNullOrEmpty(requestParams["Overview"].ToString())
-                        //&& !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
-                        //&& !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
-                        )
+                    if (httpRequest != null)
                     {
-                        content.CompID = identity.CompId;
-                        content.CreatedBy = identity.UserID;
 
-                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
+                        if (!string.IsNullOrEmpty(httpRequest.Form["TopicID"].ToString())
+                            //&& !string.IsNullOrEmpty(requestParams["ContentID"].ToString())
+                            && !string.IsNullOrEmpty(httpRequest.Form["ModuleID"].ToString())
+                            && !string.IsNullOrEmpty(httpRequest.Form["TypeID"].ToString())
+                            && !string.IsNullOrEmpty(httpRequest.Form["DocType"].ToString())
+                            //&& !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
+                            && !string.IsNullOrEmpty(httpRequest.Form["Title"].ToString())
+                            && !string.IsNullOrEmpty(httpRequest.Form["Description"].ToString())
+                            && !string.IsNullOrEmpty(httpRequest.Form["IsURL"].ToString())
+                            //&& !string.IsNullOrEmpty(requestParams["Overview"].ToString())
+                            //&& !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
+                            //&& !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
+                            )
                         {
-                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["ContentID"].ToString()))
-                        {
-                            content.ContentID = Convert.ToInt32(requestParams["ContentID"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
-                        {
-                            content.ModuleID = Convert.ToInt32(requestParams["ModuleID"].ToString());
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["TypeID"].ToString()))
-                        {
-                            content.ContentTypeID = Convert.ToInt32(requestParams["TypeID"].ToString());
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["DocType"].ToString()))
-                        {
-                            content.DocType = requestParams["DocType"].ToString();
-                        }
-                        else
-                        {
-                            content.DocType = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["ContentFileID"].ToString()) && requestParams["IsURL"].ToString() == "0")
-                        {
-                            string ContentBase64 = Convert.ToString(requestParams.SelectToken("ContentFileID"));
-                            if (!string.IsNullOrEmpty(ContentBase64))
+                            content.CompID = identity.CompId;
+                            content.CreatedBy = identity.UserID;
+
+                            if (!string.IsNullOrEmpty(httpRequest.Form["TopicID"].ToString()))
                             {
-                                var files = ContentBase64.Split(new string[] { "," }, StringSplitOptions.None);
-                                if (files.Count() == 1)
-                                    ContentBase64 = files[0];
-                                else
-                                    ContentBase64 = files[1];
-                                byte[] imageBytes = Convert.FromBase64String(ContentBase64);
-                                string fileName = identity.UserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(ContentBase64);
-                                string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
-                                File.WriteAllBytes(filePath, imageBytes);
-
-                                DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), false, "Content");
-                                if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
-                                {
-                                    content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
-                                }
+                                content.TopicID = Convert.ToInt32(httpRequest.Form["TopicID"]);
                             }
-                        }
-                        else
-                        {
-                            string fileName =requestParams["ContentFileID"].ToString();
-                            DataSet _ds = UserBL.CreateFile(fileName, "", true, "Content");
-                            if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                            if (!string.IsNullOrEmpty(httpRequest.Form["ContentID"].ToString()))
                             {
-                                content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                content.ContentID = Convert.ToInt32(httpRequest.Form["ContentID"]);
                             }
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["Title"].ToString()))
-                        {
-                            content.ContentTitle = requestParams["Title"].ToString();
-                        }
-                        else
-                        {
-                            content.ContentTitle = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["FlashcardHighlights"].ToString()))
-                        {
-                            content.FlashcardHighlights = requestParams["FlashcardHighlights"].ToString();
-                        }
-                        else
-                        {
-                            content.FlashcardHighlights = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["Description"].ToString()))
-                        {
-                            content.ContentDescription = requestParams["Description"].ToString();
-                        }
-                        else
-                        {
-                            content.ContentDescription = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["Overview"].ToString()))
-                        {
-                            content.ModuleOverview = requestParams["Overview"].ToString();
-                        }
-                        else
-                        {
-                            content.ModuleOverview = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["FlashcardTitle"].ToString()))
-                        {
-                            content.FlashcardTitle = requestParams["FlashcardTitle"].ToString();
-                        }
-                        else
-                        {
-                            content.FlashcardTitle = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["SkipFlashcards"].ToString()))
-                        {
-                            content.SkipFlashcard = (bool)requestParams["SkipFlashcards"];
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["IsGift"].ToString()))
-                        {
-                            content.IsGift = (bool)requestParams["IsGift"];
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
-                        {
-                            content.IsPublished = (bool)requestParams["IsPublished"];
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
-                        {
-                            content.IsActive = (bool)requestParams["IsActive"];
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
-                        {
-                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["TotalScore"].ToString()))
-                        {
-                            content.TotalScore = Convert.ToDouble(requestParams["TotalScore"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["PassingPercent"].ToString()))
-                        {
-                            content.PassingPercent = Convert.ToDouble(requestParams["PassingPercent"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["PassingScore"].ToString()))
-                        {
-                            content.PassingScore = Convert.ToDouble(requestParams["PassingScore"]);
-                        }
-                        var ds = ContentBL.CreateContent(content);
-                        if (ds != null)
-                        {
-                            if (ds.Tables.Count > 0)
+                            if (!string.IsNullOrEmpty(httpRequest.Form["ModuleID"].ToString()))
                             {
-                                DataTable dt = ds.Tables["Data"];
-                                if (dt.Rows[0]["ReturnCode"].ToString() == "1")
-                                {
-                                    data = Utility.ConvertDataSetToJSONString(dt);
-                                    data = Utility.Successful(data);
-                                }
-                                else
-                                {
-
-                                    data = dt.Rows[0]["ReturnMessage"].ToString();
-                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
-                                }
-
+                                content.ModuleID = Convert.ToInt32(httpRequest.Form["ModuleID"].ToString());
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["TypeID"].ToString()))
+                            {
+                                content.ContentTypeID = Convert.ToInt32(httpRequest.Form["TypeID"].ToString());
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["DocType"].ToString()))
+                            {
+                                content.DocType = httpRequest.Form["DocType"].ToString();
                             }
                             else
                             {
-                                data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                content.DocType = null;
+                            }
+
+                            if (System.Web.HttpContext.Current.Request.Files.Count > 0 && httpRequest.Form["IsURL"].ToString() == "0")
+                            {
+                                var File = HttpContext.Current.Request.Files["ContentFileID"];
+
+                                if (File != null)
+                                {
+                                    string saveAsPath = string.Empty, folderName = string.Empty;
+                                    var chkFileVal = Utility.CheckFileValidation(File);
+
+                                    if (chkFileVal)
+                                    {
+                                        string fileName = identity.UserID + "_" + Guid.NewGuid() + System.IO.Path.GetExtension(File.FileName);
+                                        string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
+                                        File.SaveAs(filePath); //Saving the file
+                                        DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), false, "Content");
+                                        if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                                        {
+                                            content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                        }
+                                        else //IF Count is empty
+                                        {
+                                            isValidrequest = false;
+                                            data = "File not Uploaded. Pleae Try Again";
+                                        }
+                                    }
+                                    else //Invalid File Type
+                                    {
+                                        isValidrequest = false;
+                                        data = "Invalid File Type!. Please Upload File Valid ";
+                                    }
+                                }
+                                /*string ContentBase64 = Convert.ToString(requestParams.SelectToken("ContentFileID"));
+                                if (!string.IsNullOrEmpty(ContentBase64))
+                                {
+                                    var files = ContentBase64.Split(new string[] { "," }, StringSplitOptions.None);
+                                    if (files.Count() == 1)
+                                        ContentBase64 = files[0];
+                                    else
+                                        ContentBase64 = files[1];
+                                    byte[] imageBytes = Convert.FromBase64String(ContentBase64);
+                                    string fileName = identity.UserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(ContentBase64);
+                                    string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
+                                    File.WriteAllBytes(filePath, imageBytes);
+
+                                    DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), false, "Content");
+                                    if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                                    {
+                                        content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                    }
+                                }*/
+                            } // URL is entered in the form
+                            else if (httpRequest.Form["IsURL"].ToString() == "1")
+                            {
+                                if (!string.IsNullOrEmpty(httpRequest.Form["ContentFileID"].ToString()))
+                                {
+                                    string fileName = httpRequest.Form["ContentFileID"].ToString();
+                                    Regex regex_Url = new Regex(@"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
+                                    Match mtch_Url = regex_Url.Match(fileName);
+                                    if (mtch_Url.Success)
+                                    {
+                                        DataSet _ds = UserBL.CreateFile(fileName, "", true, "Content");
+                                        if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                                        {
+                                            content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        isValidrequest = false;
+                                        data = "Entered Url is in incorrect format";
+                                    }
+                                }
+                                else
+                                {
+                                    isValidrequest = false;
+                                    data = "No Url Entered Found ";
+                                }
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["Title"].ToString()))
+                            {
+                                content.ContentTitle = httpRequest.Form["Title"].ToString();
+                            }
+                            else
+                            {
+                                content.ContentTitle = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["FlashcardHighlights"].ToString()))
+                            {
+                                content.FlashcardHighlights = httpRequest.Form["FlashcardHighlights"].ToString();
+                            }
+                            else
+                            {
+                                content.FlashcardHighlights = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["Description"].ToString()))
+                            {
+                                content.ContentDescription = httpRequest.Form["Description"].ToString();
+                            }
+                            else
+                            {
+                                content.ContentDescription = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["Overview"].ToString()))
+                            {
+                                content.ModuleOverview = httpRequest.Form["Overview"].ToString();
+                            }
+                            else
+                            {
+                                content.ModuleOverview = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["FlashcardTitle"].ToString()))
+                            {
+                                content.FlashcardTitle = httpRequest.Form["FlashcardTitle"].ToString();
+                            }
+                            else
+                            {
+                                content.FlashcardTitle = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["SkipFlashcards"].ToString()))
+                            {
+                                content.SkipFlashcard = Convert.ToBoolean(httpRequest.Form["SkipFlashcards"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["IsGift"].ToString()))
+                            {
+                                content.IsGift = Convert.ToBoolean(httpRequest.Form["IsGift"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["IsPublished"].ToString()))
+                            {
+                                content.IsPublished = Convert.ToBoolean(httpRequest.Form["IsPublished"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["IsActive"].ToString()))
+                            {
+                                content.IsActive = Convert.ToBoolean(httpRequest.Form["IsActive"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["SrNo"].ToString()))
+                            {
+                                content.SrNo = Convert.ToInt32(httpRequest.Form["SrNo"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["TotalScore"].ToString()))
+                            {
+                                content.TotalScore = Convert.ToDouble(httpRequest.Form["TotalScore"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["PassingPercent"].ToString()))
+                            {
+                                content.PassingPercent = Convert.ToDouble(httpRequest.Form["PassingPercent"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["PassingScore"].ToString()))
+                            {
+                                content.PassingScore = Convert.ToDouble(httpRequest.Form["PassingScore"]);
+                            }
+                            if (isValidrequest == true)
+                            {
+                                var ds = ContentBL.CreateContent(content);
+                                if (ds != null)
+                                {
+                                    if (ds.Tables.Count > 0)
+                                    {
+                                        DataTable dt = ds.Tables["Data"];
+                                        if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                        {
+                                            data = Utility.ConvertDataSetToJSONString(dt);
+                                            data = Utility.Successful(data);
+                                        }
+                                        else
+                                        {
+
+                                            data = dt.Rows[0]["ReturnMessage"].ToString();
+                                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                    }
+                                }
+                                else
+                                {
+                                    data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+                            }
+                            else
+                            {
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
                         }
                         else
                         {
-                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = ConstantMessages.WebServiceLog.InValidValues;
                             data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
+
                     }
                     else
                     {
-                        data = ConstantMessages.WebServiceLog.InValidValues;
+                        data = Utility.AuthenticationError();
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
-
                 }
                 else
                 {
-                    data = Utility.AuthenticationError();
+                    data = "Invalid Request";
                     data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                 }
             }
@@ -981,192 +1049,242 @@ namespace _365_Portal.ControllersReOrderContent
 
         [HttpPost]
         [Route("API/Content/ModifyContent")]
-        public IHttpActionResult ModifyContent(JObject requestParams)
+        public IHttpActionResult ModifyContent()
         {
+            var httpRequest = HttpContext.Current.Request;
             var data = string.Empty;
             ContentBO content = new ContentBO();
+            bool isValidrequest = true;
             try
             {
                 var identity = MyAuthorizationServerProvider.AuthenticateUser();
                 if (identity != null)
                 {
+                    if (httpRequest != null)
+                    {
 
-                    if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()) && !string.IsNullOrEmpty(requestParams["ContentID"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["ModuleID"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["TypeID"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["DocType"].ToString())
+                        if (!string.IsNullOrEmpty(httpRequest.Form["TopicID"].ToString()) && !string.IsNullOrEmpty(httpRequest.Form["ContentID"].ToString())
+                        && !string.IsNullOrEmpty(httpRequest.Form["ModuleID"].ToString())
+                        && !string.IsNullOrEmpty(httpRequest.Form["TypeID"].ToString())
+                        && !string.IsNullOrEmpty(httpRequest.Form["DocType"].ToString())
                         //&& !string.IsNullOrEmpty(requestParams["ContentFileID"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["Title"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["Description"].ToString())
-                        && !string.IsNullOrEmpty(requestParams["IsURL"].ToString())
+                        && !string.IsNullOrEmpty(httpRequest.Form["Title"].ToString())
+                        && !string.IsNullOrEmpty(httpRequest.Form["Description"].ToString())
+                        && !string.IsNullOrEmpty(httpRequest.Form["IsURL"].ToString())
                         //&& !string.IsNullOrEmpty(requestParams["Overview"].ToString())
                         //&& !string.IsNullOrEmpty(requestParams["IsGift"].ToString())
                         // && !string.IsNullOrEmpty(requestParams["IsPublished"].ToString())
                         )
-                    {
-                        content.CompID = identity.CompId;
-                        content.CreatedBy = identity.UserID;
-
-                        if (!string.IsNullOrEmpty(requestParams["TopicID"].ToString()))
                         {
-                            content.TopicID = Convert.ToInt32(requestParams["TopicID"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["ContentID"].ToString()))
-                        {
-                            content.ContentID = Convert.ToInt32(requestParams["ContentID"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["ModuleID"].ToString()))
-                        {
-                            content.ModuleID = Convert.ToInt32(requestParams["ModuleID"].ToString());
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["TypeID"].ToString()))
-                        {
-                            content.ContentTypeID = Convert.ToInt32(requestParams["TypeID"].ToString());
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["DocType"].ToString()))
-                        {
-                            content.DocType = requestParams["DocType"].ToString();
-                        }
-                        else
-                        {
-                            content.DocType = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["ContentFileID"].ToString()) && requestParams["IsURL"].ToString() == "0")
-                        {
-                            string ContentBase64 = Convert.ToString(requestParams.SelectToken("ContentFileID"));
-                            if (!string.IsNullOrEmpty(ContentBase64))
+                            content.CompID = identity.CompId;
+                            content.CreatedBy = identity.UserID;
+                            if (!string.IsNullOrEmpty(httpRequest.Form["TopicID"].ToString()))
                             {
-                                var files = ContentBase64.Split(new string[] { "," }, StringSplitOptions.None);
-                                if (files.Count() == 1)
-                                    ContentBase64 = files[0];
-                                else
-                                    ContentBase64 = files[1];
-                                byte[] imageBytes = Convert.FromBase64String(ContentBase64);
-                                string fileName = identity.UserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(ContentBase64);
-                                string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
-                                File.WriteAllBytes(filePath, imageBytes);
-
-                                DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), false, "Content");
-                                if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
-                                {
-                                    content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
-                                }
+                                content.TopicID = Convert.ToInt32(httpRequest.Form["TopicID"]);
                             }
-                        }
-                        else
-                        {
-                            string fileName = requestParams["ContentFileID"].ToString();
-                            if (!string.IsNullOrEmpty(fileName))
+                            if (!string.IsNullOrEmpty(httpRequest.Form["ContentID"].ToString()))
                             {
-                                DataSet _ds = UserBL.CreateFile(fileName.Trim(), "", true, "Content");
-                                if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
-                                {
-                                    content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
-                                }
+                                content.ContentID = Convert.ToInt32(httpRequest.Form["ContentID"]);
                             }
-                           
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["Title"].ToString()))
-                        {
-                            content.ContentTitle = requestParams["Title"].ToString();
-                        }
-                        else
-                        {
-                            content.ContentTitle = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["FlashcardHighlights"].ToString()))
-                        {
-                            content.FlashcardHighlights = requestParams["FlashcardHighlights"].ToString();
-                        }
-                        else
-                        {
-                            content.FlashcardHighlights = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["Description"].ToString()))
-                        {
-                            content.ContentDescription = requestParams["Description"].ToString();
-                        }
-                        else
-                        {
-                            content.ContentDescription = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["Overview"].ToString()))
-                        {
-                            content.ModuleOverview = requestParams["Overview"].ToString();
-                        }
-                        else
-                        {
-                            content.ModuleOverview = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["FlashcardTitle"].ToString()))
-                        {
-                            content.FlashcardTitle = requestParams["FlashcardTitle"].ToString();
-                        }
-                        else
-                        {
-                            content.FlashcardTitle = null;
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["SkipFlashcards"].ToString()))
-                        {
-                            content.SkipFlashcard = (bool)requestParams["SkipFlashcards"];
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["IsGift"].ToString()))
-                        {
-                            content.IsGift = (bool)requestParams["IsGift"];
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["IsPublished"].ToString()))
-                        {
-                            content.IsPublished = (bool)requestParams["IsPublished"];
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["IsActive"].ToString()))
-                        {
-                            content.IsActive = (bool)requestParams["IsActive"];
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["SrNo"].ToString()))
-                        {
-                            content.SrNo = Convert.ToInt32(requestParams["SrNo"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["TotalScore"].ToString()))
-                        {
-                            content.TotalScore = Convert.ToDouble(requestParams["TotalScore"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["PassingPercent"].ToString()))
-                        {
-                            content.PassingPercent = Convert.ToDouble(requestParams["PassingPercent"]);
-                        }
-                        if (!string.IsNullOrEmpty(requestParams["PassingScore"].ToString()))
-                        {
-                            content.PassingScore = Convert.ToDouble(requestParams["PassingScore"]);
-                        }
-                        var ds = ContentBL.ModifyContent(content);
-                        if (ds.Tables.Count > 0)
-                        {
-                            DataTable dt = ds.Tables["Data"];
-                            if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                            if (!string.IsNullOrEmpty(httpRequest.Form["ModuleID"].ToString()))
                             {
-                                data = Utility.ConvertDataSetToJSONString(dt);
-                                data = Utility.Successful(data);
+                                content.ModuleID = Convert.ToInt32(httpRequest.Form["ModuleID"].ToString());
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["TypeID"].ToString()))
+                            {
+                                content.ContentTypeID = Convert.ToInt32(httpRequest.Form["TypeID"].ToString());
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["DocType"].ToString()))
+                            {
+                                content.DocType = httpRequest.Form["DocType"].ToString();
                             }
                             else
                             {
-
-                                data = dt.Rows[0]["ReturnMessage"].ToString();
-                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                content.DocType = null;
                             }
 
+                            if (System.Web.HttpContext.Current.Request.Files.Count > 0 && httpRequest.Form["IsURL"].ToString() == "0")
+                            {
+                                var File = HttpContext.Current.Request.Files["ContentFileID"];
+
+                                if (File != null)
+                                {
+                                    string saveAsPath = string.Empty, folderName = string.Empty;
+                                    var chkFileVal = Utility.CheckFileValidation(File);
+
+                                    if (chkFileVal)
+                                    {
+                                        string fileName = identity.UserID + "_" + Guid.NewGuid() + System.IO.Path.GetExtension(File.FileName);
+                                        string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
+                                        File.SaveAs(filePath); //Saving the file
+                                        DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), false, "Content");
+                                        if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                                        {
+                                            content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                        }
+                                        else //IF Count is empty
+                                        {
+                                            isValidrequest = false;
+                                            data = "File not Uploaded. Pleae Try Again";
+                                        }
+                                    }
+                                    else //Invalid File Type
+                                    {
+                                        isValidrequest = false;
+                                        data = "Invalid File Type!. Please Upload File Valid ";
+                                    }
+                                }
+                            } // URL is entered in the form
+                            else if (httpRequest.Form["IsURL"].ToString() == "1")
+                            {
+                                if (!string.IsNullOrEmpty(httpRequest.Form["ContentFileID"].ToString()))
+                                {
+                                    string fileName = httpRequest.Form["ContentFileID"].ToString();
+                                    Regex regex_Url = new Regex(@"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
+                                    Match mtch_Url = regex_Url.Match(fileName);
+                                    if (mtch_Url.Success)
+                                    {
+                                        DataSet _ds = UserBL.CreateFile(fileName, "", true, "Content");
+                                        if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
+                                        {
+                                            content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        isValidrequest = false;
+                                        data = "Entered Url is in incorrect format";
+                                    }
+                                }
+                                else
+                                {
+                                    isValidrequest = false;
+                                    data = "No Url Entered Found ";
+                                }
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["Title"].ToString()))
+                            {
+                                content.ContentTitle = httpRequest.Form["Title"].ToString();
+                            }
+                            else
+                            {
+                                content.ContentTitle = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["FlashcardHighlights"].ToString()))
+                            {
+                                content.FlashcardHighlights = httpRequest.Form["FlashcardHighlights"].ToString();
+                            }
+                            else
+                            {
+                                content.FlashcardHighlights = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["Description"].ToString()))
+                            {
+                                content.ContentDescription = httpRequest.Form["Description"].ToString();
+                            }
+                            else
+                            {
+                                content.ContentDescription = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["Overview"].ToString()))
+                            {
+                                content.ModuleOverview = httpRequest.Form["Overview"].ToString();
+                            }
+                            else
+                            {
+                                content.ModuleOverview = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["FlashcardTitle"].ToString()))
+                            {
+                                content.FlashcardTitle = httpRequest.Form["FlashcardTitle"].ToString();
+                            }
+                            else
+                            {
+                                content.FlashcardTitle = null;
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["SkipFlashcards"].ToString()))
+                            {
+                                content.SkipFlashcard = Convert.ToBoolean(httpRequest.Form["SkipFlashcards"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["IsGift"].ToString()))
+                            {
+                                content.IsGift = Convert.ToBoolean(httpRequest.Form["IsGift"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["IsPublished"].ToString()))
+                            {
+                                content.IsPublished = Convert.ToBoolean(httpRequest.Form["IsPublished"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["IsActive"].ToString()))
+                            {
+                                content.IsActive = Convert.ToBoolean(httpRequest.Form["IsActive"]);
+                            }
+                            //if (!string.IsNullOrEmpty(httpRequest.Form["SrNo"].ToString()))
+                            //{
+                            //    content.SrNo = Convert.ToInt32(httpRequest.Form["SrNo"]);
+                            //}
+                            if (!string.IsNullOrEmpty(httpRequest.Form["TotalScore"].ToString()))
+                            {
+                                content.TotalScore = Convert.ToDouble(httpRequest.Form["TotalScore"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["PassingPercent"].ToString()))
+                            {
+                                content.PassingPercent = Convert.ToDouble(httpRequest.Form["PassingPercent"]);
+                            }
+                            if (!string.IsNullOrEmpty(httpRequest.Form["PassingScore"].ToString()))
+                            {
+                                content.PassingScore = Convert.ToDouble(httpRequest.Form["PassingScore"]);
+                            }
+
+                            if (isValidrequest == true)
+                            {
+                                var ds = ContentBL.ModifyContent(content);
+                                if (ds != null)
+                                {
+                                    if (ds.Tables.Count > 0)
+                                    {
+                                        DataTable dt = ds.Tables["Data"];
+                                        if (dt.Rows[0]["ReturnCode"].ToString() == "1")
+                                        {
+                                            data = Utility.ConvertDataSetToJSONString(dt);
+                                            data = Utility.Successful(data);
+                                        }
+                                        else
+                                        {
+
+                                            data = dt.Rows[0]["ReturnMessage"].ToString();
+                                            data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                        data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                    }
+                                }
+                                else
+                                {
+                                    data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                                    data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                                }
+                            }
+                            else
+                            {
+                                data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
+                            }
                         }
                         else
                         {
-                            data = ConstantMessages.WebServiceLog.GenericErrorMsg;
+                            data = ConstantMessages.WebServiceLog.InValidValues;
                             data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
+
                     }
                     else
                     {
-                        data = ConstantMessages.WebServiceLog.InValidValues;
+                        data = "Invalid Request";
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                     }
-
                 }
                 else
                 {

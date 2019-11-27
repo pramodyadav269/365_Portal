@@ -95,7 +95,7 @@
                             $('#ddlTopic').empty().append('<option></option>');
                             for (var i = 0; i < Topic.length; i++) {
                                 if (TopicID == Topic[i].TopicID) {
-                                    $('#module').html(Topic[i].Title);
+                                    $('#module').html(Topic[i].Title+':- Manage Modules');
                                 }
                                 //$('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
                             }
