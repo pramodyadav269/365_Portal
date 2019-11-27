@@ -8,28 +8,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <%-- CSS --%>
-    <link href="../Asset/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../Asset/css/all.css" rel="stylesheet" />
-    <link href="../Asset/css/gijgo.min.css" rel="stylesheet" />
-    <link href="../Asset/css/select2.min.css" rel="stylesheet" />
-    <link href="../Asset/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="../Asset/css/site.css" rel="stylesheet" />
-
+    <link href="../includes/Asset/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../includes/Asset/css/all.css" rel="stylesheet" />
+    <link href="../includes/Asset/css/gijgo.min.css" rel="stylesheet" />
+    <link href="../includes/Asset/css/360.css" rel="stylesheet" />
 
     <%-- JS --%>
-    <script src="../Asset/js/jquery.min.js"></script>
-    <script src="../Asset/js/popper.min.js"></script>
-    <script src="../Asset/js/angular.min.js"></script>
-    <script src="../Asset/js/bootstrap.min.js"></script>
-    <script src="../Asset/js/all.js"></script>
-    <script src="../Asset/js/gijgo.min.js"></script>
-    <script src="../Asset/js/sweetalert2.js"></script>
-    <script src="../Asset/js/bs-custom-file-input.min.js"></script>
-    <script src="../Asset/js/select2.min.js"></script>
-    <script src="../Asset/js/jquery.dataTables.min.js"></script>
-    <script src="../Asset/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../Asset/js/jquery.tablednd.js"></script>
-    <script src="../Asset/js/site.js"></script>
+    <script src="../includes/Asset/js/angular.min.js"></script>
+    <script src="../includes/Asset/js/jquery.min.js"></script>
+    <script src="../includes/Asset/js/popper.min.js"></script>
+    <script src="../includes/Asset/js/bootstrap.min.js"></script>
+    <script src="../includes/Asset/js/all.js"></script>
+    <script src="../includes/Asset/js/gijgo.min.js"></script>
+    <script src="../includes/Asset/js/sweetalert2.js"></script>
+    <script src="../includes/Asset/js/360.js"></script>
+
+    <script src="../includes/Asset/js/bs-custom-file-input.min.js"></script>
+    <script src="../includes/Asset/js/select2.min.js"></script>
+    <script src="../includes/Asset/js/jquery.dataTables.min.js"></script>
+    <script src="../includes/Asset/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../includes/Asset/js/jquery.tablednd.js"></script>
+    <script src="../includes/Asset/js/site.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -37,7 +36,7 @@
 <body>
     <form id="form1" runat="server">
 
-        <div class="spinner-center d-none">
+         <div class="spinner-center d-none">
             <div class="spinner">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
@@ -46,12 +45,111 @@
         </div>
 
         <div id="sideNav" class="sidenav">
-            <a id="dvDashboard" runat="server" visible="false" href="dashboard.aspx">Dashboard</a>
-            <a id="dvUserDashboard" runat="server" visible="false" href="default.aspx">Dashboard</a>
-            <a id="dvGroups" runat="server" visible="false" href="Groups.aspx">Groups</a>
-            <a id="dvUsers" runat="server" visible="false" href="Users.aspx">Users</a>
-            <a id="dvTopics" runat="server" visible="false" href="Topics.aspx">Topics</a>
-            <%--  <a href="<%=Page.ResolveUrl("~/t/Modules.aspx") %>">Modules</a>
+            <div class="sidenav-top">
+                <div class="sidenav-brand">
+                    <span class="text-white font-weight-bold float-left">365</span>
+                    <a class="side-nav-menu float-right"><i class="fas fa-search"></i></a>
+                    <%--<a class="side-nav-menu float-right d-none" onclick="ToggleNav()"><i class="fas fa-bars text-white"></i></a>--%>
+                </div>
+            </div>
+            <div class="sidenav-content">
+                <ul class="sidenav-nav">
+                    <li class="sidenav-item active">
+                        <a class="sidenav-link"><i class="fas fa-tachometer-alt"></i><span class="tooltiptext">Dashboard</span><span>Dashboard</span></a>
+                    </li>
+                    <li class="sidenav-item side-menu">
+                        <a class="sidenav-link"><i class="fas fa-user"></i><span class="tooltiptext">Me</span><span>Me</span></a>
+                    </li>
+
+                    <li class="sidenav-item side-menu">
+                        <a class="sidenav-link"><i class="fas fa-user-friends"></i><span class="tooltiptext">My Team</span><span>My Team</span></a>
+                    </li>
+
+                    <li class="sidenav-item side-menu">
+                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Learing</span><span>Learing</span></a>
+                    </li>
+
+                    <li class="sidenav-item side-menu">
+                        <a class="sidenav-link"><i class="fas fa-cog"></i><span class="tooltiptext">Settings</span><span>Settings</span></a>
+                    </li>
+
+                    <li class="sidenav-item">
+                        <a class="sidenav-link"><i class="far fa-question-circle"></i><span class="tooltiptext">Help</span><span>Help</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sidenav-content-menu">
+                <ul class="sidenav-nav">
+                    <h4 class="menu-title">My Team</h4>
+                    <li class="sidenav-item active">
+                        <a class="sidenav-link">Team A</a>
+                    </li>
+                    <li class="sidenav-item">
+                        <a class="sidenav-link">Team B</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <nav class="navbar fixed-top navbar-light bg-white">
+            <a class="navbar-brand"></a>
+            <%--<a class="navbar-brand" onclick="ToggleNav()">
+                <i class="fas fa-bars"></i>
+            </a>--%>
+            <div class="nav-content float-right">
+                <ul class="navbar-nav">
+
+                    <img id="imgCompanyLogo" style="display: none;" runat="server" src="../Asset/images/logo.svg" class="logo" />
+
+                    <li class="nav-item icon"><a class="nav-link" href="#">
+                        <img src="../includes/Asset/images/comment.png" /><span class="badge">2</span></a></li>
+
+                    <li class="nav-item icon"><a class="nav-link" href="#">
+                        <img src="../includes/Asset/images/notification.png" /><span class="badge">2</span></a></li>
+
+                    <li class="nav-item language">
+                        <img src="../includes/Asset/images/united-states.png" class="circle" height="26" /></li>
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <span class="language">EN<img class="dropdown-arrow" src="../includes/Asset/images/arrow-down-sign-to-navigate.png" /></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item profile-photo">
+                        <img id="imgProfilePic" runat="server" src="../Asset/images/profile.png" class="circle" height="32" />
+                        <span class="badge online">0</span>
+                        <%--offline--%>
+                    </li>
+                    <li class="nav-item profile">
+                        <a class="nav-link">
+                            <span class="name dropdown-toggle">
+                                <asp:Label ID="lblUserName" runat="server" /></span>
+                            <span class="status">Available</span>
+                        </a>
+                    </li>
+                </ul>
+
+
+
+                <%--  <a class="nav-link" href="#"><i class="fas fa-th"></i></a>
+                <div class="profile dropdown">
+                    <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../includes/Asset/images/profile.png" class="circle" height="36" /></a>
+                    <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
+                        <a id="menuProfile" runat="server" class="dropdown-item" href="Profile.aspx">Profile</a>
+                        <a id="menuUsers" runat="server" class="dropdown-item" href="Admin/Users.aspx">Users List</a>
+                        <a id="menuSetting" runat="server" class="dropdown-item" href="Settings.aspx">Settings</a>
+                        <a id="menuLogout" runat="server" class="dropdown-item" href="Login.aspx">Logout</a>
+                    </div>
+                </div>--%>
+            </div>
+        </nav>
+
+        <a id="dvDashboard" runat="server" visible="false" href="dashboard.aspx">Dashboard</a>
+        <a id="dvUserDashboard" runat="server" visible="false" href="default.aspx">Dashboard</a>
+        <a id="dvGroups" runat="server" visible="false" href="Groups.aspx">Groups</a>
+        <a id="dvUsers" runat="server" visible="false" href="Users.aspx">Users</a>
+        <a id="dvTopics" runat="server" visible="false" href="Topics.aspx">Topics</a>
+        <%--  <a href="<%=Page.ResolveUrl("~/t/Modules.aspx") %>">Modules</a>
             <a href="<%=Page.ResolveUrl("~/t/ContentList.aspx") %>">Contents</a>
             <a href="<%=Page.ResolveUrl("~/t/quiz.aspx?type=1") %>">Surveys</a>
             <a href="<%=Page.ResolveUrl("~/t/flashcards.aspx") %>">Flashcards</a>
@@ -59,76 +157,11 @@
             <a href="<%=Page.ResolveUrl("~/t/quiz.aspx?type=3") %>">Final Quiz</a>
                  <a href="<%=Page.ResolveUrl("~/t/Achievement.aspx") %>">Achievements</a>
             <a href="<%=Page.ResolveUrl("~/t/bulkupload.aspx") %>">Bulk Upload</a>--%>
-            <a id="dvAssignTopics" runat="server" visible="false" href="assign_topics.aspx">Assign Topics</a>
+        <a id="dvAssignTopics" runat="server" visible="false" href="assign_topics.aspx">Assign Topics</a>
 
-
-            <%--- Dashboard
-- Groups
-- Users
-- Topics (Modules/Contents/Surveys/Flashcard/Quiz)
-- Achievements
-- Settings
-- My Profile
-- Change Password
-- Logout--%>
-        </div>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark p-0">
-            <div class="container">
-                <%-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>--%>
-                <div class="navbar-left">
-                    <a class="menu" onclick="ToggleNav()"><i class="fas fa-bars fa-lg text-white"></i></a>
-                    <a class="navbar-brand" href="<%=Page.ResolveUrl("~/t/dashboard.aspx") %>">
-                        <img id="imgCompanyLogo" runat="server" src="../Asset/images/logo.svg" class="logo" />
-                    </a>
-                </div>
-                <%--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>--%>
-
-                <div class="" id="navbarText">
-                    <ul class="navbar-nav mr-auto">
-                    </ul>
-                    <div class="form-inline nav-user">
-
-                        <%--<div class="notification dropdown">
-                            <a class="dropdown-toggle" id="navbarNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-lg"></i>Notifications <span class="badge bg-yellow circle">2</span></a>
-
-                            <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarNotification">
-                                <a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>
-                                <a class="dropdown-item unread" href="#">You’re <b>halfway</b> at completing all your modules! Congrats!</a>
-                                <a class="dropdown-item read" href="#">You just completed the <b>Staff Development topic</b></a>
-                                <a class="dropdown-item text-right font-weight-bold" href="#">Clear all</a>
-                            </div>
-                        </div>--%>
-
-                        <div class="profile dropdown">
-                            <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img id="imgProfilePic" runat="server" src="../Asset/images/profile.png" class="circle" width="40" height="40" /><span class="name"><asp:Label ID="lblUserName" runat="server" /></span>
-                            </a>
-                            <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
-                                <%--<a id="menuProfile" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Profile.aspx") %>">Profile</a>
-                                <a id="menuUsers" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/t/Users.aspx") %>">Profile</a>
-                                <a id="menuSetting" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Settings.aspx") %>">Settings</a>
-                                <a id="menuLogout" runat="server" class="dropdown-item" href="<%=Page.ResolveUrl("~/Login.aspx") %>">Logout</a>--%>
-
-                                <a id="menuProfile" runat="server" class="dropdown-item" href="Profile.aspx">Profile</a>
-                                <a id="menuSetting" runat="server" class="dropdown-item" href="Settings.aspx">Settings</a>
-                                <a id="menuLogout" runat="server" class="dropdown-item" onserverclick="btnLogout_Click">Logout</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <main class="main-content">
-            <div class="container">
-                <asp:ContentPlaceHolder ID="body" runat="server">
-                </asp:ContentPlaceHolder>
-            </div>
+        <main>
+            <asp:ContentPlaceHolder ID="body" runat="server">
+            </asp:ContentPlaceHolder>
         </main>
     </form>
     <script>
