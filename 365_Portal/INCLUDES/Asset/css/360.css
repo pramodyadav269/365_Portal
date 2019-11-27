@@ -1,5 +1,5 @@
 ﻿body {
-    background: rgba(0, 0, 0, 0.05);
+    background: #F5F6F7;
     font-size: .9rem;
 }
 
@@ -20,16 +20,21 @@
 }
 
 .bg-red {
-    background-color: #FC3D29;
+    background-color: #ED5F5F;
 }
 
 .bg-green {
-    background-color: #53D769;
+    background-color: #2DCD7A;
 }
 
 .bg-orange {
-    background-color: #ed4e17;
+    background-color: #FF7F45;
 }
+
+.bg-purple {
+    background-color: #7467F0;
+}
+
 
 .navbar {
     box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
@@ -53,6 +58,12 @@
             .navbar .nav-content .nav-item.language {
                 margin-left: 1rem;
             }
+
+                .navbar .nav-content .nav-item.language img {
+                    height: 26px;
+                    width: 26px;
+                }
+
 
             .navbar .nav-content .nav-item.icon {
                 padding: 0 1rem;
@@ -89,13 +100,13 @@
                 }
 
                     .navbar .nav-content .nav-item.profile-photo .badge.online {
-                        background: #53D769;
-                        color: #53D769;
+                        background: #2DCD7A;
+                        color: #2DCD7A;
                     }
 
                     .navbar .nav-content .nav-item.profile-photo .badge.offline {
-                        background: #FC3D29;
-                        color: #FC3D29;
+                        background: #ED5F5F;
+                        color: #ED5F5F;
                     }
 
             .navbar .nav-content .nav-item .nav-link {
@@ -269,7 +280,7 @@ a {
 
 .tooltiptext {
     visibility: hidden;
-    background-color: #ed4e17;
+    background-color: #FF7F45;
     color: #fff;
     text-align: center;
     border-radius: 6px;
@@ -286,7 +297,7 @@ a {
     margin-top: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent #ed4e17 transparent transparent;
+    border-color: transparent #FF7F45 transparent transparent;
 }
 
 .cu-tooltiptext:hover .tooltiptext {
@@ -323,6 +334,7 @@ main {
     border-left: 1.5rem solid !important;
 }
 
+
 .bc-blue {
     border-color: #147EFB !important;
 }
@@ -340,11 +352,23 @@ main {
 }
 
 .bc-red {
-    border-color: #FC3D29 !important;
+    border-color: #ED5F5F !important;
 }
- 
+
 .bc-green {
-    border-color: #53D769 !important;
+    border-color: #2DCD7A !important;
+}
+
+.bc-purple {
+    border-color: #7467F0 !important;
+}
+
+.bc-orange-light {
+    border-color: #FF9F43 !important;
+}
+
+.bc-orange {
+    border-color: #FF7F45 !important;
 }
 /* main css */
 
@@ -357,6 +381,18 @@ main {
 .card {
     border: none;
 }
+
+    .card .card-mask-top {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .card .card-mask-bottom {
+        position: absolute;
+        bottom: 0;
+        right: 2rem;
+    }
 
     .card .card-body {
         padding: 2rem 1.25rem;
@@ -375,3 +411,110 @@ main {
         .card .card-body .anchor {
             min-height: 21.09px;
         }
+
+.achievements .card.top {
+    background: #4F626E;
+    border-radius: 1rem 1rem 0 0;
+}
+
+    .achievements .card.top .card-title {
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    .achievements .card.top .card-text {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+.achievements .card.bottom {
+    background: transparent linear-gradient(180deg, #E8E8E805 0%, #e3e3e3 100%) 0% 0% no-repeat padding-box;
+    border-radius: 0 0 1rem 1rem;
+}
+
+
+    .achievements .card.bottom .card-title {
+        color: #000;
+        font-weight: 500;
+    }
+
+    .achievements .card.bottom .card-text {
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+.achievements .list-group-item {
+    border: none;
+    background: none;
+    text-align: center;
+}
+
+    .achievements .list-group-item .ach-title {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: .75rem;
+        font-weight: 500;
+    }
+
+    .achievements .list-group-item .ach-percentage {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: .75rem;
+    }
+
+    .achievements .list-group-item .ach-icon {
+        position: relative;
+        border-radius: 50%;
+        width: 4rem;
+        height: 4rem;
+        margin: .5rem 0;
+        border: 4px solid #4F626E;
+    }
+
+        .achievements .list-group-item .ach-icon img {
+            height: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+
+.progress-bar.p-circle {
+    background: none;
+}
+
+.achievements .progress-bar.p-circle div {
+    position: absolute;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+    top: 2.1rem;
+    left: .7rem;
+}
+
+.progress-bar .rotate {
+    clip: rect(0 2.5rem 5rem 0);
+    /*background-color: #5FC9F8;*/
+}
+
+.progress-bar .left {
+    clip: rect(0 2.5rem 5rem 0);
+    opacity: 1;
+    /*background-color: #b3cef6;*/
+}
+
+.progress-bar .right {
+    clip: rect(0 2.5rem 5rem 0);
+    transform: rotate(180deg);
+    opacity: 0;
+    /*background-color: #4b86db;*/
+}
+
+@keyframes toggle {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
