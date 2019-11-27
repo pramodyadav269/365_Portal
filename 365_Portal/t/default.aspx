@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="365" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Life.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="../../Asset/customer/default.js"></script>
+    <script src="../includes/Asset/customer/default.js"></script>
     <style>
         .contents-datials .embed {
             width: 100%;
@@ -18,14 +18,14 @@
             </div>
             <div class="col-md-10 mt-5 offset-md-1">
                 <div class="row">
-                    <div class="col-md-12 mb-1">
-                        <h5 class="section-title">MY TOPICS</h5>
+                    <div class="col-12 mt-5">
+                        <h6 class="section-title">My Topics</h6>
                     </div>
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-4 mb-3" ng-repeat="topic in Topics">
-                                <a href="#" ng-click="GetModulesByTopic(topic.TopicId)">
-                                    <div class="card border-0 shadow mb-3">
+                            <div class="col-sm-12 col-md-4" ng-repeat="topic in Topics">
+                                <div ng-click="GetModulesByTopic(topic.TopicId)" style="cursor: pointer;">
+                                    <div ng-class="GetColorIndex(ColorIndex)">
                                         <div class="card-body">
                                             <h5 class="card-title">{{topic.Title}}</h5>
                                             <p class="card-text">{{topic.Description}}</p>
@@ -33,8 +33,20 @@
                                             <p ng-if="topic.IsCompleted != '1'" class="text-right anchor">{{topic.CompletedModules + '/' + topic.TotalModules}}</p>
                                         </div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
+
+                            <%--
+                            <div class="col-sm-12 col-md-4">
+                                <div class="card shadow br-05 bl-1-5 bc-green">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Employee Motivation</h5>
+                                        <p class="card-text">Different techniques to keep yourself motivated.</p>
+                                        <p class="text-right anchor"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            --%>
                         </div>
                     </div>
                 </div>
@@ -283,7 +295,7 @@
                                         <%--Checkbox List--%>
                                         <div ng-if="question.QuestionTypeID == 1 && question.IsBox==false ">
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input  type="checkbox" ng-disabled="SpecialContents.IsAnswered ==1" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
+                                                <input type="checkbox" ng-disabled="SpecialContents.IsAnswered ==1" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
@@ -291,14 +303,14 @@
                                         <%--Checkbox List with Box--%>
                                         <div ng-if="question.QuestionTypeID == 1 && question.IsBox==true " class="form-group checkbox box">
                                             <div ng-repeat="ansOption in question.AnswerOptions">
-                                                <input  type="checkbox" ng-disabled="SpecialContents.IsAnswered ==1" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
+                                                <input type="checkbox" ng-disabled="SpecialContents.IsAnswered ==1" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
 
                                         <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
-                                            <select ng-disabled="SpecialContents.IsAnswered ==1"  class="form-control select2" ng-model="question.Value_Text">
+                                            <select ng-disabled="SpecialContents.IsAnswered ==1" class="form-control select2" ng-model="question.Value_Text">
                                                 <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
                                         </div>
@@ -306,7 +318,7 @@
                                         <%--Radio Button List--%>
                                         <div ng-if="question.QuestionTypeID == 3 && question.IsBox==false  ">
                                             <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input ng-disabled="SpecialContents.IsAnswered ==1"  type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + '_' + ansOption.AnswerID}}" class="custom-control-input" ng-model="question.Value_Text" name="{{'RadioName_' + question.QuestionID}}" value="{{ansOption.AnswerID}}">
+                                                <input ng-disabled="SpecialContents.IsAnswered ==1" type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + '_' + ansOption.AnswerID}}" class="custom-control-input" ng-model="question.Value_Text" name="{{'RadioName_' + question.QuestionID}}" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + '_' + ansOption.AnswerID}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
@@ -321,12 +333,12 @@
 
                                         <%--File Upload Control--%>
                                         <div ng-if="question.QuestionTypeID == 4">
-                                            <input ng-disabled="SpecialContents.IsAnswered ==1"  type="file" questionid="{{question.QuestionID}}" onchange="encodeImagetoBase64(this,angular.element(this).scope())" ng-model="question.Value_Text" class="required" id="file">
+                                            <input ng-disabled="SpecialContents.IsAnswered ==1" type="file" questionid="{{question.QuestionID}}" onchange="encodeImagetoBase64(this,angular.element(this).scope())" ng-model="question.Value_Text" class="required" id="file">
                                             <div>{{question.Value_Text}}</div>
                                         </div>
 
                                         <%--Scale Range Selector--%>
-                                        <div ng-if="question.QuestionTypeID == 5" class="rating" >
+                                        <div ng-if="question.QuestionTypeID == 5" class="rating">
                                             <input type="radio" ng-disabled="SpecialContents.IsAnswered ==1" name="{{'CustomRating_' + $index}}" ng-model="question.Value_Text" value="10" id="{{'rbSurveyRate_' + $index + '_10'}}" /><label for="{{'rbSurveyRate_' + $index + '_10'}}">10</label>
                                             <input type="radio" ng-disabled="SpecialContents.IsAnswered ==1" name="{{'CustomRating_' + $index}}" ng-model="question.Value_Text" value="9" id="{{'rbSurveyRate_' + $index + '_9'}}" /><label for="{{'rbSurveyRate_' + $index + '_9'}}">9</label>
                                             <input type="radio" ng-disabled="SpecialContents.IsAnswered ==1" name="{{'CustomRating_' + $index}}" ng-model="question.Value_Text" value="8" id="{{'rbSurveyRate_' + $index + '_8'}}" /><label for="{{'rbSurveyRate_' + $index + '_8'}}">8</label>
@@ -472,7 +484,7 @@
                                         <%--Checkbox List--%>
                                         <div ng-if="question.QuestionTypeID == 1 ">
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1"  type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
+                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1" type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                                 <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
@@ -481,7 +493,7 @@
                                         <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
                                             <select class="form-control select2" ng-model="question.Value_Text">
-                                                <option ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1"  value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}} 
+                                                <option ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1" value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}} 
                                                     <%--IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                                 </option>
                                             </select>
@@ -490,7 +502,7 @@
                                         <%--Radio Button List--%>
                                         <div ng-if="question.QuestionTypeID == 3 ">
                                             <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1"  type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText_3" value="{{ansOption.AnswerID}}">
+                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1" type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText_3" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                                 <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
@@ -499,7 +511,7 @@
                                         <%--Radio Button List with box--%>
                                         <div ng-if="question.QuestionTypeID == 9 " class="box">
                                             <div ng-repeat="ansOption in question.AnswerOptions">
-                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1"  type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
+                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1" type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'rbAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                                 <%--    IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>

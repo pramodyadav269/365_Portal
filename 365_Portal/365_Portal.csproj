@@ -351,6 +351,13 @@
     <Compile Include="t\Achievement.aspx.designer.cs">
       <DependentUpon>Achievement.aspx</DependentUpon>
     </Compile>
+    <Compile Include="t\admin - Copy.Master.cs">
+      <DependentUpon>admin - Copy.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\admin - Copy.Master.designer.cs">
+      <DependentUpon>admin - Copy.Master</DependentUpon>
+    </Compile>
     <Compile Include="t\admin.Master.cs">
       <DependentUpon>admin.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -622,12 +629,15 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="INCLUDES\Asset\admin\login.js" />
     <Content Include="INCLUDES\Asset\css\360.css" />
     <Content Include="INCLUDES\Asset\css\all.css" />
     <Content Include="INCLUDES\Asset\css\bootstrap.min.css" />
     <Content Include="INCLUDES\Asset\css\dataTables.bootstrap4.min.css" />
     <Content Include="INCLUDES\Asset\css\gijgo.min.css" />
     <Content Include="INCLUDES\Asset\css\select2.min.css" />
+    <Content Include="INCLUDES\Asset\customer\common.js" />
+    <Content Include="INCLUDES\Asset\customer\default.js" />
     <Content Include="INCLUDES\Asset\data\bunny.mp4" />
     <Content Include="INCLUDES\Asset\fonts\gijgo-material.svg" />
     <Content Include="INCLUDES\Asset\images\arrow-down-sign-to-navigate.png" />
@@ -650,6 +660,7 @@
     <Content Include="INCLUDES\Asset\images\user.png" />
     <Content Include="INCLUDES\Asset\js\360.js" />
     <Content Include="INCLUDES\Asset\js\all.js" />
+    <Content Include="INCLUDES\Asset\js\angular.min.js" />
     <Content Include="INCLUDES\Asset\js\bootstrap.min.js" />
     <Content Include="INCLUDES\Asset\js\bs-custom-file-input.min.js" />
     <Content Include="INCLUDES\Asset\js\dataTables.bootstrap4.min.js" />
@@ -659,6 +670,7 @@
     <Content Include="INCLUDES\Asset\js\moment.js" />
     <Content Include="INCLUDES\Asset\js\popper.min.js" />
     <Content Include="INCLUDES\Asset\js\select2.min.js" />
+    <Content Include="INCLUDES\Asset\js\site.js" />
     <Content Include="INCLUDES\Asset\js\sweetalert2.js" />
     <Content Include="INCLUDES\Asset\webfonts\fa-brands-400.svg" />
     <Content Include="INCLUDES\Asset\webfonts\fa-regular-400.svg" />
@@ -776,6 +788,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="t\admin.Master" />
+    <Content Include="t\admin - Copy.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
