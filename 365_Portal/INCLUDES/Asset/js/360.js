@@ -71,7 +71,6 @@
 //    $("main").css("margin-left", "80px");
 //}
 
-
 $(document).ready(function () {
     $(".progress-bar").loading();
     $('.sidenav-content .sidenav-item').click(function () {

@@ -1,7 +1,6 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="360Life.master.cs" Inherits="_365_Portal.INCLUDES._360Life" %>
 
 <!DOCTYPE html>
-
 <html>
 <head runat="server">
     <title></title>

@@ -130,7 +130,6 @@
                 .navbar .nav-content .nav-item.profile a span.name.dropdown-toggle::after {
                     margin-left: .5em;
                 }
-
     .navbar .profile .dropdown-menu {
         left: -6rem;
         top: 2.3rem;
