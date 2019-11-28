@@ -10,22 +10,52 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
 
     $scope.ActiveContainer = "Topic";
     $scope.NotificationText = "Notifications";
-    $scope.ColorIndex = 0;
-    $scope.GetColorIndex = function (indx) {
-        indx = indx + 1;
+    $scope.ColorIndex = 1;
+    $scope.GetColorIndex = function (title) {
+        var indx = parseInt($scope.ColorIndex);
         var claass = "";
         if (indx == 1)
-            claass = "card shadow br-05 bl-1-5 bc-green";
+            claass = "card shadow br-05 bl-1-5 bc-green mb-4";
         else if (indx == 2)
-            claass = "card shadow br-05 bl-1-5 bc-red";
+            claass = "card shadow br-05 bl-1-5 bc-red mb-4";
         else if (indx == 3)
-            claass = "card shadow br-05 bl-1-5 bc-blue";
-        else if (indx == 4)
-            claass = "card shadow br-05 bl-1-5 bc-yellow";
-        if (indx == 4)
+            claass = "card shadow br-05 bl-1-5 bc-purple mb-4";
+        else if (indx == 4) {
+            claass = "card shadow br-05 bl-1-5 bc-orange mb-4";
             indx = 1;
-        $scope.ColorIndex = indx;
+        }
+        $scope.ColorIndex = indx + 1;
+        //alert(indx + ":" + claass);
+        console.log(indx + ":" + claass);
         return claass;
+    }
+
+    $scope.GetTopImageByIndex = function () {
+        indx = $scope.ColorIndex;
+        var image = "";
+        if (indx == 1)
+            image = "../includes/Asset/images/mask-group-top-green.png";
+        else if (indx == 2)
+            image = "../includes/Asset/images/mask-group-top-red.png";
+        else if (indx == 3)
+            image = "../includes/Asset/images/mask-group-top-purple.png";
+        else if (indx == 4)
+            image = "../includes/Asset/images/mask-group-top-orange.png";
+        return image;
+    }
+
+    $scope.GetBottomImageByIndex = function () {
+        indx = $scope.ColorIndex;
+        var image = "";
+        if (indx == 1)
+            image = "../includes/Asset/images/mask-group-bottom-green.png";
+        else if (indx == 2)
+            image = "../includes/Asset/images/mask-group-bottom-red.png";
+        else if (indx == 3)
+            image = "../includes/Asset/images/mask-group-bottom-purple.png";
+        else if (indx == 4)
+            image = "../includes/Asset/images/mask-group-bottom-orange.png";
+        return image;
     }
 
     $scope.GetModulesByTopic = function (topicId) {
@@ -300,8 +330,41 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             HideLoader();
             $("#dvTopicContainer").show();
             var responseData = response.data;
-            $rootScope.Topics = responseData.Data;
+            $rootScope.Topics = ds.DS_SetClasses(responseData.Data);
         });
+    }
+
+    ds.DS_SetClasses = function (jsonObject) {
+        var indx = 1;
+        angular.forEach(jsonObject, function (value, key) {
+            var classs = ""; var topClass = ""; var bottomClass = "";
+            if (indx == 1) {
+                classs = "card shadow br-05 bl-1-5 bc-green mb-4";
+                topClass = "../includes/Asset/images/mask-group-top-green.png";
+                bottomClass = "../includes/Asset/images/mask-group-bottom-green.png";
+            }
+            else if (indx == 2) {
+                classs = "card shadow br-05 bl-1-5 bc-red mb-4";
+                topClass = "../includes/Asset/images/mask-group-top-red.png";
+                bottomClass = "../includes/Asset/images/mask-group-bottom-red.png";
+            }
+            else if (indx == 3) {
+                classs = "card shadow br-05 bl-1-5 bc-purple mb-4";
+                topClass = "../includes/Asset/images/mask-group-top-purple.png";
+                bottomClass = "../includes/Asset/images/mask-group-bottom-purple.png";
+            }
+            else if (indx == 4) {
+                classs = "card shadow br-05 bl-1-5 bc-orange mb-4";
+                topClass = "../includes/Asset/images/mask-group-top-orange.png";
+                bottomClass = "../includes/Asset/images/mask-group-bottom-orange.png";
+                indx = 0;
+            }
+            indx++;
+            value.Class = classs;
+            value.TopClass = topClass;
+            value.BottomClass = bottomClass;
+        });
+        return jsonObject;
     }
 
     ds.DS_GetModulesByTopic = function (topicId) {
@@ -318,9 +381,10 @@ app.service("DataService", function ($http, $rootScope, $compile) {
         }).then(function success(response) {
             HideLoader();
             var responseData = response.data;
+            responseData.LockedItems = ds.DS_SetClasses(responseData.LockedItems);
+            responseData.UnlockedItems = ds.DS_SetClasses(responseData.UnlockedItems);
             $rootScope.Module = responseData;
         });
-
     }
 
     ds.DS_GetContentsByModule = function (topicId, moduleId, displayLoader) {

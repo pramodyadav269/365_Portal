@@ -11,51 +11,99 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div ng-app="MasterPage" ng-controller="DefaultController">
-        <%--Start Topics--%>
-        <div class="row topics" id="dvTopicContainer" ng-if="ActiveContainer =='Topic'">
-            <div class="col-md-12">
-                <h1 class="text-center font-weight-bold" id="dvUserName" runat="server"></h1>
-            </div>
-            <div class="col-md-10 mt-5 offset-md-1">
-                <div class="row">
-                    <div class="col-12 mt-5">
-                        <h6 class="section-title">My Topics</h6>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-4" ng-repeat="topic in Topics">
-                                <div ng-click="GetModulesByTopic(topic.TopicId)" style="cursor: pointer;">
-                                    <div ng-class="GetColorIndex(ColorIndex)">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{topic.Title}}</h5>
-                                            <p class="card-text">{{topic.Description}}</p>
-                                            <p ng-if="topic.IsCompleted == '1'" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
-                                            <p ng-if="topic.IsCompleted != '1'" class="text-right anchor">{{topic.CompletedModules + '/' + topic.TotalModules}}</p>
-                                        </div>
+
+        <div class="row">
+            <div class="col-12 achievements">
+                <div class="card top shadow">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card-body">
+                                <h5 class="card-title" runat="server" id="dvUserName1">Welcome back, John!!</h5>
+                                <p class="card-text">Different techniques to keep yourself motivated. Different techniques to keep yourself motivated.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <ul class="list-group list-group-horizontal float-right">
+                                <li class="list-group-item">
+                                    <span class="ach-title">Professor</span>
+                                    <div class="progress-bar p-circle" data-percent="60" data-duration="1000" data-color="#a7a7a73b,#2DCD7A"></div>
+                                    <div class="ach-icon bg-green">
+                                        <img src="../includes/Asset/images/college-graduation.png" />
                                     </div>
-                                </div>
+                                    <span class="ach-percentage">60%</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="ach-title">Influencer</span>
+                                    <div class="progress-bar p-circle" data-percent="40" data-duration="1000" data-color="#a7a7a73b,#ED5F5F"></div>
+                                    <div class="ach-icon bg-red">
+                                        <img src="../includes/Asset/images/user.png" />
+                                    </div>
+                                    <span class="ach-percentage">40%</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="ach-title">LEGO Leader</span>
+                                    <div class="progress-bar p-circle" data-percent="20" data-duration="1000" data-color="#a7a7a73b,#7467F0"></div>
+                                    <div class="ach-icon bg-purple">
+                                        <img src="../includes/Asset/images/combined-shape.png" />
+                                    </div>
+                                    <span class="ach-percentage">20%</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="ach-title">G.O.A.T</span>
+                                    <div class="progress-bar p-circle" data-percent="1" data-duration="1000" data-color="#a7a7a73b,#FF7F45"></div>
+                                    <div class="ach-icon bg-orange">
+                                        <img src="../includes/Asset/images/diamond.png" />
+                                    </div>
+                                    <span class="ach-percentage">0%</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card bottom">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <h5 class="card-title" runat="server" id="dvUserName">Welcome back, John!!</h5>
                             </div>
 
-                            <%--
-                            <div class="col-sm-12 col-md-4">
-                                <div class="card shadow br-05 bl-1-5 bc-green">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Employee Motivation</h5>
-                                        <p class="card-text">Different techniques to keep yourself motivated.</p>
-                                        <p class="text-right anchor"></p>
-                                    </div>
-                                </div>
+                            <div class="col-sm-12 col-md-6">
                             </div>
-                            --%>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <%--Start Topics--%>
+        <div id="dvTopicContainer" ng-if="ActiveContainer =='Topic'">
+            <div class="col-12 mt-5">
+                <h6 class="section-title">My Topics</h6>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4" ng-repeat="topic in Topics">
+                        <div ng-click="GetModulesByTopic(topic.TopicId)" style="cursor: pointer;">
+                            <div class="{{topic.Class}}">
+                                <img class="card-mask-top" src="{{topic.TopClass}}" />
+                                <img class="card-mask-bottom" src="{{topic.BottomClass}}" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{{topic.Title}}</h5>
+                                    <p class="card-text">{{topic.Description}}</p>
+                                    <p ng-if="topic.IsCompleted == '1'" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
+                                    <p ng-if="topic.IsCompleted != '1'" class="text-right anchor">{{topic.CompletedModules + '/' + topic.TotalModules}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <%--End Topics--%>
 
         <%--Start Modules--%>
-        <div id="dvModuleContainer" class="row modules" ng-if="ActiveContainer =='Module'">
+        <div id="dvModuleContainer" ng-if="ActiveContainer =='Module'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>BACK TO TOPICS</a>
                 <h1 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h1>
@@ -83,9 +131,11 @@
                     </div>
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-4 mb-3" ng-repeat="module in Module.UnlockedItems">
-                                <a href="#" ng-click="GetContentsByModule(module.TopicID,module.ModuleID)">
-                                    <div class="card border-0 shadow mb-3">
+                            <div class="col-sm-12 col-md-4" ng-repeat="module in Module.UnlockedItems">
+                                <div ng-click="GetContentsByModule(module.TopicID,module.ModuleID)" style="cursor: pointer;">
+                                    <div class="{{module.Class}}">
+                                        <img class="card-mask-top" src="{{module.TopClass}}" />
+                                        <img class="card-mask-bottom" src="{{module.BottomClass}}" />
                                         <div class="card-body">
                                             <h5 class="card-title">{{module.Title}}</h5>
                                             <p class="card-text">{{module.Description}}</p>
@@ -94,8 +144,25 @@
                                             <%-- TopicID:{{SelectedTopic.TopicId}},ModuleID:{{module.ModuleID}}--%>
                                         </div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
+
+                            <%--
+                             <div class="col-sm-12 col-md-4" ng-repeat="topic in Topics">
+                                <div ng-click="GetModulesByTopic(topic.TopicId)" style="cursor: pointer;">
+                                    <div class="{{topic.Class}}">
+                                        <img class="card-mask-top" src="{{topic.TopClass}}" />
+                                        <img class="card-mask-bottom" src="{{topic.BottomClass}}" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{topic.Title}}</h5>
+                                            <p class="card-text">{{topic.Description}}</p>
+                                            <p ng-if="topic.IsCompleted == '1'" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
+                                            <p ng-if="topic.IsCompleted != '1'" class="text-right anchor">{{topic.CompletedModules + '/' + topic.TotalModules}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            --%>
                         </div>
                     </div>
                 </div>
@@ -105,8 +172,10 @@
                     </div>
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-4 mb-3" ng-repeat="module in Module.LockedItems">
-                                <div class="card border-0 mb-3">
+                            <div class="col-sm-12 col-md-4" ng-repeat="module in Module.LockedItems">
+                                <div class="{{module.Class}}">
+                                    <img class="card-mask-top" src="{{module.TopClass}}" />
+                                    <img class="card-mask-bottom" src="{{module.BottomClass}}" />
                                     <div class="card-body">
                                         <h5 class="card-title">{{module.Title}}</h5>
                                         <p class="card-text">{{module.Description}}</p>
