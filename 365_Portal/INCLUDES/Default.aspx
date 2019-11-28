@@ -5,9 +5,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
     <div class="row">
-         
-
-
         <div class="col-12 achievements">
             <div class="card top shadow">
                 <div class="row">
@@ -18,7 +15,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <ul class="list-group list-group-horizontal float-right">
+                        <ul class="list-group list-group-horizontal">
                             <li class="list-group-item">
                                 <span class="ach-title">Professor</span>
                                 <div class="progress-bar p-circle" data-percent="60" data-duration="1000" data-color="#a7a7a73b,#2DCD7A"></div>
@@ -45,7 +42,7 @@
                             </li>
                             <li class="list-group-item">
                                 <span class="ach-title">G.O.A.T</span>
-                                 <div class="progress-bar p-circle" data-percent="1" data-duration="1000" data-color="#a7a7a73b,#FF7F45"></div>
+                                <div class="progress-bar p-circle" data-percent="1" data-duration="1000" data-color="#a7a7a73b,#FF7F45"></div>
                                 <div class="ach-icon bg-orange">
                                     <img src="Asset/images/diamond.png" />
                                 </div>
@@ -57,14 +54,38 @@
                     </div>
                 </div>
             </div>
-            <div class="card bottom">
+            <div class="card bottom admin-task">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <h5 class="card-title">Welcome back, John!!</h5>
+                        <div class="col-sm-12 col-md-2">
+                            <h6 class="card-title mt-2">Admin Tasks</h6>
                         </div>
-
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                            <div class="media">
+                                <img src="Asset/images/settings.png" class="mr-3">
+                                <div class="media-body">
+                                    <h6 class="m-0">Settings</h6>
+                                    Configure company settings
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                            <div class="media">
+                                <img src="Asset/images/learning-library.png" class="mr-3">
+                                <div class="media-body">
+                                    <h6 class="m-0">Learning Library</h6>
+                                    Browse and manage training
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="media">
+                                <img src="Asset/images/add-people.png" class="mr-3">
+                                <div class="media-body">
+                                    <h6 class="m-0">Manage People</h6>
+                                    Add and Remove People
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

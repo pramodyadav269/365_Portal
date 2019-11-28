@@ -1,5 +1,5 @@
-﻿(function($) {
-    $.fn.loading = function() {
+﻿(function ($) {
+    $.fn.loading = function () {
         var DEFAULTS = {
             backgroundColor: '#b3cef6',
             progressColor: '#4b86db',
@@ -7,7 +7,7 @@
             duration: 2000
         };
 
-        $(this).each(function() {
+        $(this).each(function () {
             var $target = $(this);
 
             var opts = {
@@ -15,7 +15,7 @@
                 progressColor: $target.data('color') ? $target.data('color').split(',')[1] : DEFAULTS.progressColor,
                 percent: $target.data('percent') ? $target.data('percent') : DEFAULTS.percent,
                 duration: $target.data('duration') ? $target.data('duration') : DEFAULTS.duration
-            }; 
+            };
             // console.log(opts);
 
             $target.append('<div class="background"></div><div class="rotate"></div><div class="left"></div><div class="right"></div><div class=""><span></span></div>');
@@ -26,7 +26,7 @@
             $target.find('.right').css('background-color', opts.progressColor);
 
             var $rotate = $target.find('.rotate');
-            setTimeout(function() {
+            setTimeout(function () {
                 $rotate.css({
                     'transition': 'transform ' + opts.duration + 'ms linear',
                     'transform': 'rotate(' + opts.percent * 3.6 + 'deg)'
@@ -72,24 +72,24 @@
 //}
 
 
-$(document).ready(function() {
+$(document).ready(function () {
     $(".progress-bar").loading();
-    $('.sidenav-content .sidenav-item').click(function() {
+    $('.sidenav-content .sidenav-item').click(function () {
+
         $('.sidenav-content .sidenav-item').removeClass('active');
+        $('.sidenav-content-menu .sidenav-nav').addClass('d-none');
         $(this).addClass('active');
 
         if ($(this).hasClass('side-menu')) {
             $('.sidenav-content .sidenav-item').find('.sidenav-link').addClass('cu-tooltiptext');
             $('.sidenav-content .sidenav-item').find('.sidenav-link span:not(.tooltiptext)').css({ "opacity": "0" });
             $('.sidenav-content-menu').css({ "transform": "translate3d(52px, 0, 0)" });
-
         } else {
             $('.sidenav-content .sidenav-item').find('.sidenav-link').removeClass('cu-tooltiptext');
             $('.sidenav-content .sidenav-item').find('.sidenav-link span:not(.tooltiptext)').css({ "opacity": "100" });
             $('.sidenav-content-menu').css({ "transform": "translate3d(240px, 0, 0)" });
-
-
         }
+        $('#'+$(this).attr('sidenav-id')).removeClass('d-none');
     });
 
     //$('.sidenav-content-menu')
