@@ -13,7 +13,7 @@ using static _365_Portal.Models.Login;
 
 namespace _365_Portal.Admin
 {
-    public partial class admin : System.Web.UI.MasterPage
+    public partial class adminCopy : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

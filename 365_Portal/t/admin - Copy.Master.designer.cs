@@ -10,7 +10,8 @@
 namespace _365_Portal.Admin {
     
     
-    public partial class admin {
+    public partial class adminCopy
+    {
         
         /// <summary>
         /// head control.

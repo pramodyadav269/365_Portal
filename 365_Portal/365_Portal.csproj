@@ -351,13 +351,6 @@
     <Compile Include="t\Achievement.aspx.designer.cs">
       <DependentUpon>Achievement.aspx</DependentUpon>
     </Compile>
-    <Compile Include="t\admin - Copy.Master.cs">
-      <DependentUpon>admin - Copy.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="t\admin - Copy.Master.designer.cs">
-      <DependentUpon>admin - Copy.Master</DependentUpon>
-    </Compile>
     <Compile Include="t\admin.Master.cs">
       <DependentUpon>admin.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -791,7 +784,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="t\admin.Master" />
-    <Content Include="t\admin - Copy.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
