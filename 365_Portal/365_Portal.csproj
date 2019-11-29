@@ -640,6 +640,8 @@
     <Content Include="INCLUDES\Asset\images\diamond.png" />
     <Content Include="INCLUDES\Asset\images\comments.png" />
     <Content Include="INCLUDES\Asset\images\learning-library.png" />
+    <Content Include="INCLUDES\Asset\images\logo-black.svg" />
+    <Content Include="INCLUDES\Asset\images\logo-white.svg" />
     <Content Include="INCLUDES\Asset\images\notifications.png" />
     <Content Include="INCLUDES\Asset\images\mask-group-bottom-green.png" />
     <Content Include="INCLUDES\Asset\images\mask-group-bottom-orange.png" />
@@ -652,6 +654,7 @@
     <Content Include="INCLUDES\Asset\images\menu.png" />
     <Content Include="INCLUDES\Asset\images\profile.png" />
     <Content Include="INCLUDES\Asset\images\settings.png" />
+    <Content Include="INCLUDES\Asset\images\up-arrow.png" />
     <Content Include="INCLUDES\Asset\images\us.png" />
     <Content Include="INCLUDES\Asset\images\user.png" />
     <Content Include="INCLUDES\Asset\js\360.js" />

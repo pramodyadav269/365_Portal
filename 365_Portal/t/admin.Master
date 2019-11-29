@@ -46,7 +46,7 @@
         <div id="sideNav" runat="server" class="sidenav">
             <div class="sidenav-top">
                 <div class="sidenav-brand">
-                    <span class="text-white font-weight-bold float-left">365</span>
+                    <img src="../INCLUDES/Asset/images/logo-white.svg" class="logo" />
                     <a class="side-nav-menu float-right"><i class="fas fa-search"></i></a>
                     <%--<a class="side-nav-menu float-right d-none" onclick="ToggleNav()"><i class="fas fa-bars text-white"></i></a>--%>
                 </div>
@@ -142,7 +142,7 @@
                     </li>
                     <li class="nav-item profile dropdown">
                         <a class="nav-link" id="dropdownMenuProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <asp:Label ID="lblUserName" runat="server" /></span>
+                            <asp:Label ID="lblUserName" runat="server" CssClass="name dropdown-toggle" />
                             <span class="status">Available</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
@@ -154,15 +154,16 @@
             </div>
         </nav>
 
-        <img id="imgCompanyLogo" style="display: none;" runat="server" src="../Asset/images/logo.svg" class="logo" />
+        <div class="d-none">
+            <img id="imgCompanyLogo" runat="server" src="../Asset/images/logo.svg" class="logo" />
 
 
-        <a id="dvDashboard" runat="server" visible="false" href="dashboard.aspx">Dashboard</a>
-        <a id="dvUserDashboard" runat="server" visible="false" href="default.aspx">Dashboard</a>
-        <a id="dvGroups" runat="server" visible="false" href="Groups.aspx">Groups</a>
-        <a id="dvUsers" runat="server" visible="false" href="Users.aspx">Users</a>
-        <a id="dvTopics" runat="server" visible="false" href="Topics.aspx">Topics</a>
-        <%--  <a href="<%=Page.ResolveUrl("~/t/Modules.aspx") %>">Modules</a>
+            <a id="dvDashboard" runat="server" visible="false" href="dashboard.aspx">Dashboard</a>
+            <a id="dvUserDashboard" runat="server" visible="false" href="default.aspx">Dashboard</a>
+            <a id="dvGroups" runat="server" visible="false" href="Groups.aspx">Groups</a>
+            <a id="dvUsers" runat="server" visible="false" href="Users.aspx">Users</a>
+            <a id="dvTopics" runat="server" visible="false" href="Topics.aspx">Topics</a>
+            <%--  <a href="<%=Page.ResolveUrl("~/t/Modules.aspx") %>">Modules</a>
             <a href="<%=Page.ResolveUrl("~/t/ContentList.aspx") %>">Contents</a>
             <a href="<%=Page.ResolveUrl("~/t/quiz.aspx?type=1") %>">Surveys</a>
             <a href="<%=Page.ResolveUrl("~/t/flashcards.aspx") %>">Flashcards</a>
@@ -170,8 +171,8 @@
             <a href="<%=Page.ResolveUrl("~/t/quiz.aspx?type=3") %>">Final Quiz</a>
                  <a href="<%=Page.ResolveUrl("~/t/Achievement.aspx") %>">Achievements</a>
             <a href="<%=Page.ResolveUrl("~/t/bulkupload.aspx") %>">Bulk Upload</a>--%>
-        <a id="dvAssignTopics" runat="server" visible="false" href="assign_topics.aspx">Assign Topics</a>
-
+            <a id="dvAssignTopics" runat="server" visible="false" href="assign_topics.aspx">Assign Topics</a>
+        </div>
         <main>
             <asp:ContentPlaceHolder ID="body" runat="server">
             </asp:ContentPlaceHolder>

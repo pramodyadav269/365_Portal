@@ -30,7 +30,7 @@
         <div id="sideNav" class="sidenav">
             <div class="sidenav-top">
                 <div class="sidenav-brand">
-                    <span class="text-white font-weight-bold float-left">365</span>
+                    <img id="imgCompanyLogo" src="Asset/images/logo-white.svg" class="logo" />
                     <a class="side-nav-menu float-right"><i class="fas fa-search"></i></a>
                     <%--<a class="side-nav-menu float-right d-none" onclick="ToggleNav()"><i class="fas fa-bars text-white"></i></a>--%>
                 </div>

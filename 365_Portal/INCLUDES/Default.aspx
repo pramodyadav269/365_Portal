@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
-        <div class="col-12 achievements">
+        <div class="col-12 achievements mb-5">
             <div class="card top shadow">
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
@@ -87,10 +87,12 @@
                             </div>
                         </div>
                     </div>
+                    <a class="task-arrow">
+                        <img src="Asset/images/up-arrow.png" /></a>
                 </div>
             </div>
         </div>
-        <div class="col-12 mt-5">
+        <div class="col-12">
             <h6 class="section-title">My Topics</h6>
         </div>
         <div class="col-sm-12 col-md-4">

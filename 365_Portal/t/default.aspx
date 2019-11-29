@@ -2,18 +2,12 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../includes/Asset/customer/default.js"></script>
-    <style>
-        .contents-datials .embed {
-            width: 100%;
-            height: 35rem;
-        }
-    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div ng-app="MasterPage" ng-controller="DefaultController">
 
         <div class="row">
-            <div class="col-12 achievements">
+            <div class="col-12 achievements mb-5">
                 <div class="card top shadow">
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
@@ -95,17 +89,19 @@
                                 </div>
                             </div>
                         </div>
+                        <a class="task-arrow">
+                            <img src="../INCLUDES/Asset/images/up-arrow.png" /></a>
                     </div>
                 </div>
             </div>
         </div>
         <%--Start Topics--%>
-        <div id="dvTopicContainer" ng-if="ActiveContainer =='Topic'">
-            <div class="col-12 mt-5">
+        <div class="row" id="dvTopicContainer" ng-if="ActiveContainer =='Topic'">
+            <div class="col-12">
                 <h6 class="section-title">My Topics</h6>
             </div>
             <div class="col-md-12">
-                <div class="row">
+                <div class="row topics">
                     <div class="col-sm-12 col-md-4" ng-repeat="topic in Topics">
                         <div ng-click="GetModulesByTopic(topic.TopicId)" style="cursor: pointer;">
                             <div class="{{topic.Class}}">
@@ -128,10 +124,10 @@
         <%--End Topics--%>
 
         <%--Start Modules--%>
-        <div id="dvModuleContainer" ng-if="ActiveContainer =='Module'">
+        <div class="row" id="dvModuleContainer" ng-if="ActiveContainer =='Module'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>BACK TO TOPICS</a>
-                <h1 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h1>
+                <h2 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h2>
                 <h6 class="text-center section-title mt-3 color-0-25">TOPIC</h6>
             </div>
             <div class="col-md-6 mt-4 offset-md-3 completed-progress">
@@ -149,10 +145,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-10 mt-5 offset-md-1">
+            <div class="col-md-12 mt-5 modules">
                 <div class="row">
                     <div class="col-md-12 mb-1">
-                        <h5 class="section-title">Unlocked Modules</h5>
+                        <h6 class="section-title">Unlocked Modules</h6>
                     </div>
                     <div class="col-md-12">
                         <div class="row">
@@ -193,7 +189,7 @@
                 </div>
                 <div class="row mt-5 locked">
                     <div class="col-md-12 mb-1">
-                        <h5 class="section-title">Locked Modules</h5>
+                        <h6 class="section-title">Locked Modules</h6>
                     </div>
                     <div class="col-md-12">
                         <div class="row">
@@ -220,7 +216,7 @@
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Module')"><i class="fas fa-arrow-left"></i>Back to Modules</a>
                 <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
-                <h1 class="text-center font-weight-bold">{{SelectedModule.Title}}</h1>
+                <h2 class="text-center font-weight-bold">{{SelectedModule.Title}}</h2>
                 <h6 class="text-center header-sub-title mt-3">Module</h6>
             </div>
 
@@ -239,10 +235,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-10 mt-5 offset-md-1">
+
+            <div class="col-md-12 mt-5">
                 <div class="row">
                     <div class="col-md-12 mb-4 overview">
-                        <h4 class="font-weight-bold">Overview</h4>
+                        <h5 class="font-weight-bold">Overview</h5>
                         <p>
                             {{SelectedModule.Overview}}
                         </p>
@@ -297,6 +294,7 @@
                             </div>
                         </a>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -308,7 +306,7 @@
                 <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
             </div>
 
-            <div class="col-md-10 mt-5 offset-md-1">
+            <div class="col-md-12 mt-5">
                 <div class="row">
                     <div class="col-md-12 mb-3" id="pdfContent" ng-show="SpecialContents.DocType == 'PDF'">
                         <div id="divPDF">
@@ -318,7 +316,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-10 offset-md-1 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
+                    <div class="col-md-12 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="video-control text-white" style="display: none;" id="videoControl" onclick="VideoPlayPause(1)">
@@ -374,9 +372,9 @@
         <div class="row survey" ng-if="ActiveContainer =='ContentSurveyView'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
-                <h1 class="text-center font-weight-bold">{{SelectedContent.Title}}</h1>
+                <h2 class="text-center font-weight-bold">{{SelectedContent.Title}}</h2>
             </div>
-            <div class="col-md-10 mt-5 offset-md-1">
+            <div class="col-md-12 mt-5">
                 <div class="row" id="surveyQuestion">
                     <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="card border-0 shadow mb-3">
@@ -481,10 +479,10 @@
         <div class="row flashcards" ng-if="ActiveContainer =='ContentFlashcardView'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
-                <h1 class="text-center font-weight-bold">{{SpecialContents.Title}}</h1>
+                <h2 class="text-center font-weight-bold">{{SpecialContents.Title}}</h2>
                 <h6 class="text-center header-sub-title mt-3">Flashcards</h6>
             </div>
-            <div class="col-md-10 mt-4 offset-md-1">
+            <div class="col-md-12 mt-4">
                 <div class="row justify-content-center">
                     <%--<div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-if="ActiveSubContainer =='BeginFlashcard'">
                         You have completed all the videos/pdfs in this module.
@@ -559,13 +557,13 @@
         </div>
 
 
-        <div ng-if="ActiveContainer =='ContentQuizView'">
+        <div class="row" ng-if="ActiveContainer =='ContentQuizView'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
-                <h1 class="text-center font-weight-bold">{{SelectedContent.Title}}</h1>
+                <h2 class="text-center font-weight-bold">{{SelectedContent.Title}}</h2>
             </div>
 
-            <div class="col-md-10 mt-5 offset-md-1">
+            <div class="col-md-12 mt-5">
                 <div class="row" id="finalQuiz">
                     <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="ng-class: 'card border-0 shadow mb-3 ' + (question.IsAnswered == true ? (question.IsCorrect ==true ? 'b-green-2' : 'b-red-2'):'' );">
@@ -655,18 +653,18 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-10 offset-md-1 text-center mt-4">
+                            <div class="col-md-12 text-center mt-4">
                                 <img src="../Asset/images/suprrise-icon.svg" class="img-achievements" />
                                 <p class="modal-text mt-4">Surprise!</p>
                                 <h3 class="font-weight-bold modal-title">You just unlocked a personal gift!</h3>
                             </div>
-                            <div class="col-md-10 offset-md-1 text-center mt-3">
+                            <div class="col-md-12 text-center mt-3">
                                 <img ng-if="UnlockGiftData.DocType == 'VIDEO'" src="../Asset/images/next-video-icon.svg" class="img-achievements" />
                                 <img ng-if="UnlockGiftData.DocType == 'PDF'" src="../Asset/images/next-pdf-icon.svg" class="img-achievements" />
                                 <img ng-if="UnlockGiftData.DocType == 'FLASHCARD'" src="../Asset/images/next-flashcard-icon.svg" class="img-achievements" />
                                 <h5 class="modal-title mt-2"><b>{{UnlockGiftData.Title}}:</b> {{UnlockGiftData.Description}}</h5>
                             </div>
-                            <div class="col-md-10 offset-md-1 text-center mt-5 mb-3">
+                            <div class="col-md-12 text-center mt-5 mb-3">
                                 <a class="btn btn-custom bg-blue font-weight-bold text-white" href="Profile.aspx">Continue</a>
                                 <div class="w-100"></div>
                                 <span class="note"><b>Note:</b> You can access this gift in your Profile page</span>
