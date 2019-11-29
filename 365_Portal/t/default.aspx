@@ -17,7 +17,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <ul class="list-group list-group-horizontal float-right">
+                            <ul class="list-group list-group-horizontal">
                                 <li class="list-group-item">
                                     <span class="ach-title">Professor</span>
                                     <div class="progress-bar p-circle" data-percent="60" data-duration="1000" data-color="#a7a7a73b,#2DCD7A"></div>
@@ -89,9 +89,9 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="task-arrow">
-                            <img src="../INCLUDES/Asset/images/up-arrow.png" /></a>
                     </div>
+                    <a class="task-arrow">
+                            <img src="../INCLUDES/Asset/images/up-arrow.png" /></a>
                 </div>
             </div>
         </div>
@@ -306,7 +306,7 @@
                 <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
             </div>
 
-            <div class="col-md-12 mt-5">
+            <div class="col-md-8 offset-2 mt-5">
                 <div class="row">
                     <div class="col-md-12 mb-3" id="pdfContent" ng-show="SpecialContents.DocType == 'PDF'">
                         <div id="divPDF">
@@ -482,7 +482,7 @@
                 <h2 class="text-center font-weight-bold">{{SpecialContents.Title}}</h2>
                 <h6 class="text-center header-sub-title mt-3">Flashcards</h6>
             </div>
-            <div class="col-md-12 mt-4">
+            <div class="col-md-10 offset-1 mt-4">
                 <div class="row justify-content-center">
                     <%--<div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-if="ActiveSubContainer =='BeginFlashcard'">
                         You have completed all the videos/pdfs in this module.
@@ -681,6 +681,57 @@
             <div>Description</div>
             <button onclick="return false;">GREAT</button>
         </div>
+
+        <div class="modal fade" id="modalAchievements" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <a class="close-modal" data-dismiss="modal" aria-label="Close">
+                        <img src="../Asset/images/close-button.png" class="close" /></a>
+                    <div class="modal-body">
+                        <div class="row reward">
+                            <div class="col-md-10 offset-md-1">
+                                <div class="row mt-3">
+                                    <div class="col-md-3 mt-3 text-right">
+                                        <img id="imgAchievementIcon" src="../Asset/images/engager-icon.svg" class="img-achievements disabled" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h3 class="font-weight-bold modal-title" id="dvAchievementTitle">The Engager</h3>
+                                        <p class="modal-text" id="dvAchievmentDescription">The Engager is dedicated to the platform. She loves interacting with others and sharing her thoughts about the topics.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-10 offset-md-1">
+                                <div class="row mt-3 requirements">
+                                    <div class="col-md-12">
+                                        <h5 class="section-title">Requirements</h5>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <ul class="list-group" id="dvRequirements">
+                                            <%--<li class="list-group-item border-0">Be an active part of the community</li>
+                                            <li class="list-group-item border-0">Express your opinion</li>
+                                            <li class="list-group-item border-0">React to the videos</li>--%>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-10 offset-md-1">
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h5 class="section-title">Your Reward on completion</h5>
+                                    </div>
+                                    <div class="col-md-12 text-center mt-3">
+                                        <img src="../Asset/images/reward-icon.svg" class="img-achievements" />
+                                    </div>
+                                    <div class="col-md-12 text-center mt-5 mb-4">
+                                        <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -692,6 +743,10 @@
             });
             //$('.date').datepicker({ uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
             bsCustomFileInput.init();
+
+            $('.achievements .list-group-item').click(function () {
+                $('#modalAchievements').modal('show');
+            });
         });
 
         function VideoFinished(e) {

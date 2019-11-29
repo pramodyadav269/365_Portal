@@ -88,8 +88,18 @@ $(document).ready(function () {
             $('.sidenav-content .sidenav-item').find('.sidenav-link span:not(.tooltiptext)').css({ "opacity": "100" });
             $('.sidenav-content-menu').css({ "transform": "translate3d(240px, 0, 0)" });
         }
-        $('#'+$(this).attr('sidenav-id')).removeClass('d-none');
+        $('#' + $(this).attr('sidenav-id')).removeClass('d-none');
     });
 
+    $('.task-arrow').click(function () {
+        if ($('.admin-task .card-body').hasClass('d-none')) {
+            $('.admin-task .card-body').removeClass('d-none');
+            $('.task-arrow img').css({ "transform": "rotate(0deg)" });
+        } else {
+            $('.admin-task .card-body').addClass('d-none');
+            $('.task-arrow img').css({ "transform": "rotate(180deg)" });
+        }
+        
+    });
     //$('.sidenav-content-menu')
 });

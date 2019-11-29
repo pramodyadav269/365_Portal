@@ -509,6 +509,7 @@ main {
     }
 
 .achievements .list-group-item {
+    cursor:pointer;
     border: none;
     background: none;
     text-align: center;
@@ -592,6 +593,7 @@ main {
 
 .admin-task .card-body {
     padding: 1rem 1.25rem;
+    transition: 0.5s;
 }
 
 .admin-task .card-title {
@@ -611,15 +613,14 @@ main {
     position: absolute;
     bottom: -1.2rem;
     left: 50%;
+    transition: 0.5s;
 }
 
     .admin-task .task-arrow img {
         height: 40px;
     }
 
-
 /* old style */
-
 .spinner-center {
     position: fixed;
     width: 100%;
