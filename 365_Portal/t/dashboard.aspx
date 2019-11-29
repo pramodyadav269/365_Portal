@@ -90,4 +90,9 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $("#dvMenu_Dashboard").addClass("active");
+        });
+    </script>
 </asp:Content>

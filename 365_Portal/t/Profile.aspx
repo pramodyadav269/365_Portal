@@ -211,6 +211,7 @@
         var accessToken = '<%=Session["access_token"]%>';
 
         $(document).ready(function () {
+            $("#dvSubMenu_MyProfile").addClass("active");
             GetAchievementNGifts();
         });
 
@@ -353,7 +354,7 @@
                     var totalLength = responseData.Flashcards.length;
                     var flashcard = "";
                     $.each(responseData.Flashcards, function (i, data) {
-                        
+
                         if (i == 0)
                             flashcard += '<div class="card">';
                         else

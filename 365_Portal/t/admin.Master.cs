@@ -52,6 +52,8 @@ namespace _365_Portal.Admin
                     imgCompanyLogo.Src = "../Files/CompLogo/" + HttpContext.Current.Session["CompanyProfilePicFile"].ToString();
                 }
 
+                //sideNav.Style.Add("background-color", "blue");
+
                 if (HttpContext.Current.Session["RoleName"] != null)
                 {
                     if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.superadmin)

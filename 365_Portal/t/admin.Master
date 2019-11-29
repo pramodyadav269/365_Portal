@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div id="sideNav" class="sidenav">
+        <div id="sideNav" runat="server" class="sidenav">
             <div class="sidenav-top">
                 <div class="sidenav-brand">
                     <span class="text-white font-weight-bold float-left">365</span>
@@ -53,10 +53,10 @@
             </div>
             <div class="sidenav-content">
                 <ul class="sidenav-nav">
-                    <li class="sidenav-item active"  onclick="location.href='dashboard.aspx';">
+                    <li class="sidenav-item" id="dvMenu_Dashboard" onclick="location.href='dashboard.aspx';">
                         <a class="sidenav-link"><i class="fas fa-tachometer-alt"></i><span class="tooltiptext">Dashboard</span><span>Dashboard</span></a>
                     </li>
-                    <li class="sidenav-item side-menu" sidenav-id="sidenav_me">
+                    <li class="sidenav-item side-menu" id="dvMenu_Me" sidenav-id="sidenav_me">
                         <a class="sidenav-link"><i class="fas fa-user"></i><span class="tooltiptext">Me</span><span>Me</span></a>
                     </li>
 
@@ -72,7 +72,7 @@
                         <a class="sidenav-link"><i class="fas fa-cog"></i><span class="tooltiptext">Settings</span><span>Settings</span></a>
                     </li>
 
-                    <li class="sidenav-item">
+                    <li class="sidenav-item" id="dvMenu_Help">
                         <a class="sidenav-link"><i class="far fa-question-circle"></i><span class="tooltiptext">Help</span><span>Help</span></a>
                     </li>
                 </ul>
@@ -80,7 +80,7 @@
             <div class="sidenav-content-menu">
                 <ul class="sidenav-nav d-none" id="sidenav_me">
                     <h4 class="menu-title">Me</h4>
-                    <li class="sidenav-item active" onclick="location.href='profile.aspx';">
+                    <li class="sidenav-item " id="dvSubMenu_MyProfile" onclick="location.href='profile.aspx';">
                         <a class="sidenav-link">My Profile</a>
                     </li>
                     <li class="sidenav-item" id="dvSubMenu_MyLearning" visible="false" runat="server" onclick="location.href='default.aspx';">
@@ -89,25 +89,25 @@
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_my_team">
                     <h4 class="menu-title">My Team</h4>
-                    <li class="sidenav-item active">
+                    <li class="sidenav-item" id="dvSubMenu_TeamLearning">
                         <a class="sidenav-link">My Team's Learning</a>
                     </li>
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_learing">
                     <h4 class="menu-title">Learing</h4>
-                    <li class="sidenav-item active" onclick="location.href='topics.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Learning" onclick="location.href='topics.aspx';">
                         <a class="sidenav-link">Learing</a>
                     </li>
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_settings">
                     <h4 class="menu-title">Settings</h4>
-                    <li class="sidenav-item active" onclick="location.href='settings.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Brand" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Brand</a>
                     </li>
-                    <li class="sidenav-item" onclick="location.href='settings.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Theme" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Change Theme</a>
                     </li>
-                    <li class="sidenav-item" onclick="location.href='settings.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_OrganizationDetails" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Organization Details</a>
                     </li>
                 </ul>

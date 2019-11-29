@@ -844,7 +844,7 @@ namespace _365_Portal.ControllersReOrderContent
                                         string fileName = identity.UserID + "_" + Guid.NewGuid() + System.IO.Path.GetExtension(File.FileName);
                                         string filePath = HttpContext.Current.Server.MapPath("~/Files/Content/" + fileName);
                                         File.SaveAs(filePath); //Saving the file
-                                        DataSet _ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), false, "Content");
+                                        DataSet _ds = UserBL.CreateFile("/Files/Content/" + fileName, HttpContext.Current.Server.MapPath("~/Files/Content/"), false, "Content");
                                         if (_ds.Tables.Count > 0 && _ds.Tables[0].Rows.Count > 0)
                                         {
                                             content.ContentFileID = _ds.Tables[0].Rows[0]["UniqueID"].ToString();

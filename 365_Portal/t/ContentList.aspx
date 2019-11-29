@@ -63,7 +63,7 @@
                             </div>
                         </div>--%>
                         <div class="col-md-3">
-                            <div class="custom-radio" style="display:none;">
+                            <div class="custom-radio">
                                 <input type="radio" class="custom-radio-input" id="rd_url" name="filetype" checked="checked" value="URL" onchange="ShowControl(this)">
                                 <label class="custom-radio-label" for="filetype">File Url</label>
 
@@ -558,7 +558,7 @@
                                             if (content.FilePath != "" && content.FilePath != undefined) {
                                                 if (content.FilePath.split('.')[1] != undefined) {
                                                     if (allowedExtensions.indexOf(content.FilePath.split('.')[1])!=-1) {
-                                                        FilePath = '/Files/Content/' + content.FilePath;
+                                                        FilePath = content.FilePath;
                                                     }
                                                     else {
                                                         FilePath = content.FilePath;

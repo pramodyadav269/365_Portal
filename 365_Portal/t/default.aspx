@@ -687,6 +687,7 @@
 
     <script>
         $(document).ready(function () {
+            $("#dvMenu_Dashboard").addClass("active");
             $('select.select2').select2({
                 placeholder: "Select a option",
                 allowClear: true
