@@ -62,6 +62,11 @@ namespace _365_Portal.Admin
                         dvUsers.Visible = true;
                         dvTopics.Visible = true;
                         dvAssignTopics.Visible = true;
+
+                        dvMenu_MyTeam.Visible = true;
+                        dvMenu_Learning.Visible = false;
+                        dvMenu_Settings.Visible = true;
+                        dvSubMenu_MyLearning.Visible = false;
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin)
                     {
@@ -71,6 +76,11 @@ namespace _365_Portal.Admin
                         dvUsers.Visible = true;
                         dvTopics.Visible = true;
                         dvAssignTopics.Visible = true;
+
+                        dvMenu_MyTeam.Visible = true;
+                        dvMenu_Learning.Visible = true;
+                        dvMenu_Settings.Visible = true;
+                        dvSubMenu_MyLearning.Visible = false;
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.subadmin)
                     {
@@ -80,6 +90,11 @@ namespace _365_Portal.Admin
                         dvUsers.Visible = false;
                         dvTopics.Visible = true;
                         dvAssignTopics.Visible = false;
+
+                        dvMenu_MyTeam.Visible = false;
+                        dvMenu_Learning.Visible = true;
+                        dvMenu_Settings.Visible = false;
+                        dvSubMenu_MyLearning.Visible = false;
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.enduser)
                     {
@@ -89,6 +104,11 @@ namespace _365_Portal.Admin
                         dvUsers.Visible = false;
                         dvTopics.Visible = false;
                         dvAssignTopics.Visible = false;
+
+                        dvMenu_MyTeam.Visible = false;
+                        dvMenu_Learning.Visible = false;
+                        dvMenu_Settings.Visible = false;
+                        dvSubMenu_MyLearning.Visible = true;
                     }
                 }
             }

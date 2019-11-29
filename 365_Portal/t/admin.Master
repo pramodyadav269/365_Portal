@@ -36,14 +36,13 @@
 <body>
     <form id="form1" runat="server">
 
-         <div class="spinner-center d-none">
+        <div class="spinner-center d-none">
             <div class="spinner">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
         </div>
-
         <div id="sideNav" class="sidenav">
             <div class="sidenav-top">
                 <div class="sidenav-brand">
@@ -54,22 +53,22 @@
             </div>
             <div class="sidenav-content">
                 <ul class="sidenav-nav">
-                    <li class="sidenav-item active">
+                    <li class="sidenav-item active"  onclick="location.href='dashboard.aspx';">
                         <a class="sidenav-link"><i class="fas fa-tachometer-alt"></i><span class="tooltiptext">Dashboard</span><span>Dashboard</span></a>
                     </li>
-                    <li class="sidenav-item side-menu">
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_me">
                         <a class="sidenav-link"><i class="fas fa-user"></i><span class="tooltiptext">Me</span><span>Me</span></a>
                     </li>
 
-                    <li class="sidenav-item side-menu">
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_my_team" id="dvMenu_MyTeam" runat="server" visible="false">
                         <a class="sidenav-link"><i class="fas fa-user-friends"></i><span class="tooltiptext">My Team</span><span>My Team</span></a>
                     </li>
 
-                    <li class="sidenav-item side-menu">
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_learing" id="dvMenu_Learning" runat="server" visible="false">
                         <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Learing</span><span>Learing</span></a>
                     </li>
 
-                    <li class="sidenav-item side-menu">
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_settings" id="dvMenu_Settings" runat="server" visible="false">
                         <a class="sidenav-link"><i class="fas fa-cog"></i><span class="tooltiptext">Settings</span><span>Settings</span></a>
                     </li>
 
@@ -79,13 +78,37 @@
                 </ul>
             </div>
             <div class="sidenav-content-menu">
-                <ul class="sidenav-nav">
+                <ul class="sidenav-nav d-none" id="sidenav_me">
+                    <h4 class="menu-title">Me</h4>
+                    <li class="sidenav-item active" onclick="location.href='profile.aspx';">
+                        <a class="sidenav-link">My Profile</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_MyLearning" visible="false" runat="server" onclick="location.href='default.aspx';">
+                        <a class="sidenav-link">My Learning</a>
+                    </li>
+                </ul>
+                <ul class="sidenav-nav d-none" id="sidenav_my_team">
                     <h4 class="menu-title">My Team</h4>
                     <li class="sidenav-item active">
-                        <a class="sidenav-link">Team A</a>
+                        <a class="sidenav-link">My Team's Learning</a>
                     </li>
-                    <li class="sidenav-item">
-                        <a class="sidenav-link">Team B</a>
+                </ul>
+                <ul class="sidenav-nav d-none" id="sidenav_learing">
+                    <h4 class="menu-title">Learing</h4>
+                    <li class="sidenav-item active" onclick="location.href='topics.aspx';">
+                        <a class="sidenav-link">Learing</a>
+                    </li>
+                </ul>
+                <ul class="sidenav-nav d-none" id="sidenav_settings">
+                    <h4 class="menu-title">Settings</h4>
+                    <li class="sidenav-item active" onclick="location.href='settings.aspx';">
+                        <a class="sidenav-link">Brand</a>
+                    </li>
+                    <li class="sidenav-item" onclick="location.href='settings.aspx';">
+                        <a class="sidenav-link">Change Theme</a>
+                    </li>
+                    <li class="sidenav-item" onclick="location.href='settings.aspx';">
+                        <a class="sidenav-link">Organization Details</a>
                     </li>
                 </ul>
             </div>
@@ -98,17 +121,14 @@
             </a>--%>
             <div class="nav-content float-right">
                 <ul class="navbar-nav">
-
-                    <img id="imgCompanyLogo" style="display: none;" runat="server" src="../Asset/images/logo.svg" class="logo" />
+                    <li class="nav-item icon"><a class="nav-link" href="#">
+                        <img src="../includes/Asset/images/comments.png" /><span class="badge">2</span></a></li>
 
                     <li class="nav-item icon"><a class="nav-link" href="#">
-                        <img src="../includes/Asset/images/comment.png" /><span class="badge">2</span></a></li>
-
-                    <li class="nav-item icon"><a class="nav-link" href="#">
-                        <img src="../includes/Asset/images/notification.png" /><span class="badge">2</span></a></li>
+                        <img src="../includes/Asset/images/notifications.png" /><span class="badge">2</span></a></li>
 
                     <li class="nav-item language">
-                        <img src="../includes/Asset/images/united-states.png" class="circle" height="26" /></li>
+                        <img src="../includes/Asset/images/us.png" class="circle" height="26" /></li>
                     <li class="nav-item">
                         <a class="nav-link">
                             <span class="language">EN<img class="dropdown-arrow" src="../includes/Asset/images/arrow-down-sign-to-navigate.png" /></span>
@@ -120,29 +140,22 @@
                         <span class="badge online">0</span>
                         <%--offline--%>
                     </li>
-                    <li class="nav-item profile">
-                        <a class="nav-link">
-                            <span class="name dropdown-toggle">
-                                <asp:Label ID="lblUserName" runat="server" /></span>
+                    <li class="nav-item profile dropdown">
+                        <a class="nav-link" id="dropdownMenuProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <asp:Label ID="lblUserName" runat="server" /></span>
                             <span class="status">Available</span>
                         </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
+
+                            <a id="menuLogout" runat="server" class="dropdown-item" onserverclick="btnLogout_Click">Logout</a>
+                        </div>
                     </li>
                 </ul>
-
-
-
-                <%--  <a class="nav-link" href="#"><i class="fas fa-th"></i></a>
-                <div class="profile dropdown">
-                    <a class="dropdown-toggle" id="navbarProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../includes/Asset/images/profile.png" class="circle" height="36" /></a>
-                    <div class="dropdown-menu border-0 rounded-0 p-0 mt-1 shadow" aria-labelledby="navbarProfile">
-                        <a id="menuProfile" runat="server" class="dropdown-item" href="Profile.aspx">Profile</a>
-                        <a id="menuUsers" runat="server" class="dropdown-item" href="Admin/Users.aspx">Users List</a>
-                        <a id="menuSetting" runat="server" class="dropdown-item" href="Settings.aspx">Settings</a>
-                        <a id="menuLogout" runat="server" class="dropdown-item" href="Login.aspx">Logout</a>
-                    </div>
-                </div>--%>
             </div>
         </nav>
+
+        <img id="imgCompanyLogo" style="display: none;" runat="server" src="../Asset/images/logo.svg" class="logo" />
+
 
         <a id="dvDashboard" runat="server" visible="false" href="dashboard.aspx">Dashboard</a>
         <a id="dvUserDashboard" runat="server" visible="false" href="default.aspx">Dashboard</a>

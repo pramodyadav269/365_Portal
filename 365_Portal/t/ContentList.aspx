@@ -63,7 +63,7 @@
                             </div>
                         </div>--%>
                         <div class="col-md-3">
-                            <div class="custom-radio">
+                            <div class="custom-radio" style="display:none;">
                                 <input type="radio" class="custom-radio-input" id="rd_url" name="filetype" checked="checked" value="URL" onchange="ShowControl(this)">
                                 <label class="custom-radio-label" for="filetype">File Url</label>
 
@@ -823,7 +823,7 @@
 
                 if (file.size != undefined) {
                     if (allowedExtensions.indexOf(file.name.split('.')[1]) != -1) {
-                        if (file.size < 5000000) {
+                        if (file.size < 25000000) {
                             var reader = new FileReader();
                             reader.onloadend = function () {
                                 base64UserProfileString = reader.result;
@@ -980,7 +980,7 @@
 
                 if (file.size != undefined) {
                     if (allowedExtensions.indexOf(file.name.split('.')[1]) != -1) {
-                        if (file.size < 5000000) {
+                        if (file.size < 25000000) {
                             return true;
                         }
                         else {

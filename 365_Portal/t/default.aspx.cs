@@ -15,7 +15,7 @@ namespace Life
                 Response.Redirect("~/t/dashboard.aspx");
             }
             // Take UserName from Session.
-            dvUserName.InnerText = "Hello, " + HttpContext.Current.Session["FirstName"] + "!";
+            dvUserName.InnerText = "Welcome back, " + HttpContext.Current.Session["FirstName"] + "!!";
         }
     }
 }

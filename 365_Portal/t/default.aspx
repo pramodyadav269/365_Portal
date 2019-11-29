@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <div class="card-body">
-                                <h5 class="card-title" runat="server" id="dvUserName1">Welcome back, John!!</h5>
+                                <h5 class="card-title" runat="server" id="dvUserName">Welcome back, John!!</h5>
                                 <p class="card-text">Different techniques to keep yourself motivated. Different techniques to keep yourself motivated.</p>
                             </div>
                         </div>
@@ -60,14 +60,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="card bottom">
+
+                <div class="card bottom admin-task">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-12 col-md-6">
-                                <h5 class="card-title" runat="server" id="dvUserName">Welcome back, John!!</h5>
+                            <div class="col-sm-12 col-md-2">
+                                <h6 class="card-title mt-2">Admin Tasks</h6>
                             </div>
-
-                            <div class="col-sm-12 col-md-6">
+                            <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                                <div class="media">
+                                    <img src="../includes/Asset/images/settings.png" class="mr-3">
+                                    <div class="media-body">
+                                        <h6 class="m-0">Settings</h6>
+                                        Configure company settings
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                                <div class="media">
+                                    <img src="../includes/Asset/images/learning-library.png" class="mr-3">
+                                    <div class="media-body">
+                                        <h6 class="m-0">Learning Library</h6>
+                                        Browse and manage training
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-3">
+                                <div class="media">
+                                    <img src="../includes/Asset/images/add-people.png" class="mr-3">
+                                    <div class="media-body">
+                                        <h6 class="m-0">Manage People</h6>
+                                        Add and Remove People
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
