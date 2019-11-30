@@ -30,6 +30,8 @@ namespace _365_Portal.Admin
                 {
                     Response.Redirect("~/t/default.aspx");
                 }
+                // Take UserName from Session.
+                dvUserName.InnerText = "Welcome back, " + HttpContext.Current.Session["FirstName"] + "!!";
             }
             else
             {

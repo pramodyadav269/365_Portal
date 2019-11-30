@@ -156,7 +156,7 @@
                             <span class="status">Available</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
-
+                            <a id="A1" href="Settings.aspx" class="dropdown-item">Settings</a>
                             <a id="menuLogout" runat="server" class="dropdown-item" onserverclick="btnLogout_Click">Logout</a>
                         </div>
                     </li>

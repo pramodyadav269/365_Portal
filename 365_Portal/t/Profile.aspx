@@ -26,26 +26,6 @@
                 </div>
                 <div class="col-md-12 scroll">
                     <dl class="row text-center" id="dvAchievement">
-                        <%-- <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/quiz-master-c-icon.svg" />
-                            <span>Quiz Master</span>
-                        </dt>
-                        <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/perfectionist-c-icon.svg" />
-                            <span>Perfectionist</span>
-                        </dt>
-                        <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/wordsmith-c-icon.svg" />
-                            <span>Wordsmith</span>
-                        </dt>
-                        <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/engager-icon.svg" class="disabled" />
-                            <span>Engager</span>
-                        </dt>
-                        <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/diploma.png" class="disabled" />
-                            <span>Guru</span>
-                        </dt>--%>
                     </dl>
                 </div>
             </div>
@@ -278,16 +258,16 @@
                     var achievementHtml = "";
                     $.each(achievements, function (i, data) {
                         achievementHtml += '<dt class="col" onclick="openModal(' + data.AchievementID + ');" ContentID=' + data.AchievementID + '>';
-                        if (data.Title.includes("quiz master"))
+                        if (data.Title.includes("Professor"))
                             achievementHtml += '<img src="../Asset/images/quiz-master-c-icon.svg" />';
-                        if (data.Title.includes("world"))
+                        if (data.Title.includes("Influencer"))
                             achievementHtml += '<img src="../Asset/images/perfectionist-c-icon.svg" />';
-                        if (data.Title.includes("wordsmith"))
+                        if (data.Title.includes("LEGO Leader"))
                             achievementHtml += '<img src="../Asset/images/wordsmith-c-icon.svg" />';
-                        if (data.Title.includes("engager"))
+                        if (data.Title.includes("G.O.A.T"))
                             achievementHtml += '<img src="../Asset/images/engager-icon.svg" />';
-                        if (data.Title.includes("Guru"))
-                            achievementHtml += '<img src="../Asset/images/diploma.png" />';
+                        //if (data.Title.includes("Guru"))
+                        //    achievementHtml += '<img src="../Asset/images/diploma.png" />';
                         achievementHtml += '<span>' + data.Title + '</span>'
                         achievementHtml += '</dt>';
                     });

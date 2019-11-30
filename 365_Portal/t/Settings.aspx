@@ -4,9 +4,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row settings">
-        <div class="col-md-12 header"> 
+        <div class="col-md-12 header">
             <a class="back" href="Default.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Your Profile</h1> 
+            <h1 class="text-center font-weight-bold">Your Profile</h1>
         </div>
         <div class="col-md-6 offset-md-3 mt-5">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
-                        </div> 
+                        </div>
                         <div class="col-md-12 mt-3">
                             <div class="custom-file">
                                 <%--<input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">--%>
@@ -31,7 +31,7 @@
                             </div>
                         </div>
 
-                        <div id="divCompanyLogo" style="display:none">
+                        <div id="divCompanyLogo" style="display: none">
                             <div class="col-md-12">
                                 <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
                             </div>
@@ -43,11 +43,11 @@
                             </div>
                         </div>
 
-                                               
-                        <div id="divCompanyTheme" style="display:none;padding-top:20px;">
+
+                        <div id="divCompanyTheme" style="display: none; padding-top: 20px;">
                         </div>
 
-                        
+
                         <div class="col-md-10 mt-5 form-page form-control-bg-d">
                             <div class="form-group">
                                 <label for="txtFirstName">First Name</label>
@@ -55,29 +55,29 @@
                             </div>
                             <div class="form-group">
                                 <label for="txtLastName">Last Name</label>
-                                <input type="text" class="form-control" id="txtLastName" disabled/>
+                                <input type="text" class="form-control" id="txtLastName" disabled />
                             </div>
                             <div class="form-group">
                                 <label for="txtPosition">Position</label>
-                                <input type="text" class="form-control" id="txtPosition"  />
+                                <input type="text" class="form-control" id="txtPosition" />
                             </div>
                             <div class="form-group">
                                 <label for="txtEmail">Email</label>
-                                <input type="email" class="form-control" id="txtEmail"  />
-                            </div>                            
+                                <input type="email" class="form-control" id="txtEmail" />
+                            </div>
                             <div class="form-group">
                                 <label for="txtGroup">Group</label>
                                 <input type="text" class="form-control" id="txtGroup" disabled />
                             </div>
-                            <div class="form-group" >
+                            <div class="form-group">
                                 <label for="ddlRole">Role</label>
                                 <input type="text" class="form-control" id="txtRole" disabled />
                             </div>
-                            <div id="divChangePassword" class="mt-4" style="display:none;">
+                            <div id="divChangePassword" class="mt-4" style="display: none;">
                                 <a class="link font-weight-bold" href="ChangePassword.aspx">Change password</a>
-                            </div>                            
+                            </div>
                             <div class="text-center mt-5">
-                                <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateUserProfileDetails()">Save</a>                                
+                                <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateUserProfileDetails()">Save</a>
                             </div>
                         </div>
                     </div>
@@ -109,21 +109,19 @@
     </div>
 
     <script>
-        
+
         var accessToken = '<%=Session["access_token"]%>';
         var Role = '<%=Session["RoleName"]%>';
 
         var IsFirstLogin = '<%=Session["IsFirstLogin"]%>';
         var IsFirstPasswordNotChanged = '<%=Session["IsFirstPasswordNotChanged"]%>';
-        if (IsFirstLogin != undefined && IsFirstLogin.toLowerCase() == 'false')
-        {
+        if (IsFirstLogin != undefined && IsFirstLogin.toLowerCase() == 'false') {
             $('#divChangePassword').show();
         }
 
-        $(document).ready(function () {                        
-            if (Role != undefined && (Role == "superadmin" || Role == "companyadmin"))
-            {
-                $('#divCompanyLogo').show();                
+        $(document).ready(function () {
+            if (Role != undefined && (Role == "superadmin" || Role == "companyadmin")) {
+                $('#divCompanyLogo').show();
                 //$('#divCompanyTheme').append('Choose your theme colors ');
                 //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor1">');
                 //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor2">');
@@ -142,8 +140,7 @@
             GetUserProfileDetails();
         });
 
-        function GetUserProfileDetails()
-        {
+        function GetUserProfileDetails() {
             ShowLoader();
 
             var getUrl = "/API/User/GetMyProfile";
@@ -155,12 +152,12 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        
+
                         var DataSet = $.parseJSON(response);
                         HideLoader();
                         if (DataSet.StatusCode == "1") {
                             //alert(DataSet.StatusDescription);                            
-                            BindFields(DataSet.Data);                            
+                            BindFields(DataSet.Data);
                         }
                         else {
                             //alert(DataSet.StatusDescription);
@@ -183,8 +180,7 @@
             });
         }
 
-        function ClearFields()
-        {
+        function ClearFields() {
             $('#txtFirstName').val('');
             $('#txtLastName').val('');
             $('#txtPosition').val('');
@@ -193,8 +189,7 @@
             $("#cbPushNotifications").prop('checked', false);
         }
 
-        function BindFields(Data)
-        {
+        function BindFields(Data) {
             $('#txtFirstName').val(Data.FirstName);
             $('#txtLastName').val(Data.LastName);
             $('#txtPosition').val(Data.Position);
@@ -208,23 +203,21 @@
             $("#txtGroup").val(Data.GroupName);
             $("#txtRole").val(Data.Role);
 
-            if (Data.ProfilePicFile != undefined && Data.ProfilePicFile != '')
-            {
+            if (Data.ProfilePicFile != undefined && Data.ProfilePicFile != '') {
                 //document.getElementById('imgUserPic')
                 //.setAttribute(                    
                 //    'src', 'data:image/png;base64,' + Data.ProfilePicFile
                 //);
-                
+
                 $("#imgUserPic").attr("src", "../Files/ProfilePic/" + Data.ProfilePicFile);
             }
 
-            if (Role != undefined && (Role == "superadmin" || Role == "companyadmin") && Data.CompanyProfilePicFile != undefined && Data.CompanyProfilePicFile != '')
-            {
+            if (Role != undefined && (Role == "superadmin" || Role == "companyadmin") && Data.CompanyProfilePicFile != undefined && Data.CompanyProfilePicFile != '') {
                 //document.getElementById('imgCompLogo')
                 //.setAttribute(
                 //    'src', 'data:image/png;base64,' + Data.CompanyProfilePicFile
                 //);
-                
+
                 $("#imgCompLogo").attr("src", "../Files/CompLogo/" + Data.CompanyProfilePicFile);
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
 
@@ -238,7 +231,7 @@
 
         var base64UserProfileString = '';
         var base64CompanyProfileString = '';
-        function encodeImagetoBase64(element,flag) {
+        function encodeImagetoBase64(element, flag) {
             //debugger
             var file = element.files[0];
             var size = file.size;
@@ -273,11 +266,10 @@
                     icon: "error",
                 });
             }
-            
+
         }
 
-        function UpdateUserProfileDetails()
-        {
+        function UpdateUserProfileDetails() {
             ShowLoader();
             var EmailID = $('#txtEmail').val();
             var Position = $('#txtPosition').val();
@@ -298,7 +290,7 @@
                 theInput = document.getElementById("ThemeColor4");
                 ThemeColor4 = theInput.value;
             }
-            
+
             var requestParams = { EmailID: EmailID, Position: Position, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyThemeColor4: ThemeColor4 };
             var getUrl = "/API/User/UpdateMyProfile";
             $.ajax({
@@ -309,14 +301,29 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        
+
                         var DataSet = $.parseJSON(response);
                         //console.log(response);
                         if (DataSet.StatusCode == "1") {
                             HideLoader();
 
-                            Swal.fire(DataSet.Data.ReturnMessage, {
-                                icon: "success",
+                            //Swal.fire(DataSet.Data.ReturnMessage, {
+                            //    icon: "success",
+                            //}).then((UpdateUserProfile) => {
+                            //    if (IsFirstPasswordNotChanged != undefined && IsFirstPasswordNotChanged.toLowerCase() == 'true') {
+                            //        window.location.href = "ChangePassword.aspx";
+                            //    }
+                            //    else {
+                            //        location.reload();
+                            //    }
+                            //    });;
+
+                            Swal.fire({
+                                title: 'Success',
+                                icon: 'success',
+                                html: DataSet.Data.ReturnMessage,
+                                showConfirmButton: true,
+                                showCloseButton: true
                             }).then((UpdateUserProfile) => {
                                 if (IsFirstPasswordNotChanged != undefined && IsFirstPasswordNotChanged.toLowerCase() == 'true') {
                                     window.location.href = "ChangePassword.aspx";
@@ -336,7 +343,7 @@
                         }
                         else {
                             HideLoader();
-                            ClearFields();                            
+                            ClearFields();
                         }
                     }
                     catch (e) {
@@ -352,12 +359,11 @@
             });
         }
 
-        function UpdateNotification()
-        {            
+        function UpdateNotification() {
             ShowLoader();
             var EmailNotification = $('#cbEmailNotifications').prop('checked');
             var PushNotification = $('#cbPushNotifications').prop('checked');
-            var requestParams = { EmailNotification: EmailNotification, PushNotification: PushNotification};
+            var requestParams = { EmailNotification: EmailNotification, PushNotification: PushNotification };
             var getUrl = "/API/User/UpdateNotification";
             $.ajax({
                 type: "POST",
@@ -367,13 +373,22 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        
+
                         HideLoader();
                         var DataSet = $.parseJSON(response);
-                        if (DataSet.StatusCode == "1")
-                        {                                                        
-                            Swal.fire(DataSet.Data.ReturnMessage, {
-                                icon: "success",
+                        if (DataSet.StatusCode == "1") {
+                            //Swal.fire(DataSet.Data.ReturnMessage, {
+                            //    icon: "success",
+                            //}).then((CreateUpdateUser) => {
+                            //    location.reload();
+                            //});;
+
+                            Swal.fire({
+                                title: 'Success',
+                                icon: 'success',
+                                html: DataSet.Data.ReturnMessage,
+                                showConfirmButton: true,
+                                showCloseButton: true
                             }).then((CreateUpdateUser) => {
                                 location.reload();
                             });;
@@ -395,13 +410,12 @@
             });
         }
 
-        function setImgSrc(ctrl, img) {            
+        function setImgSrc(ctrl, img) {
             $('#' + img).attr('src', URL.createObjectURL(ctrl.files[0]));
         }
 
-        function assignColor(obj)
-        {
-            if(obj.id== 'ThemeColor') {
+        function assignColor(obj) {
+            if (obj.id == 'ThemeColor') {
                 $('#txtThemeColor').val(obj.value);
             }
             else if (obj.id == 'ThemeColor2') {
@@ -415,8 +429,7 @@
             }
         }
 
-        function getCustomColor(obj)
-        {
+        function getCustomColor(obj) {
             if (obj.id == 'txtThemeColor') {
                 document.getElementById("ThemeColor").value = obj.value;
             }
@@ -431,7 +444,7 @@
             }
         }
 
-    </script>   
+    </script>
 </asp:Content>
 
 

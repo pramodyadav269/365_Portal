@@ -12,7 +12,7 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow float-left" style="display:none;" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>
+                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <%--<a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>--%>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-5 table-responsive"></div>
                 </div>

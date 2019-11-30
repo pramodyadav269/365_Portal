@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <ul class="list-group list-group-horizontal" id="dvAchievement">
-                                <li class="list-group-item">
+                                <li class="list-group-item" onclick="openModal(1)">
                                     <span class="ach-title">Professor</span>
                                     <div class="progress-bar p-circle" data-percent="60" data-duration="1000" data-color="#a7a7a73b,#2DCD7A"></div>
                                     <div class="ach-icon bg-green">
@@ -26,7 +26,7 @@
                                     </div>
                                     <span class="ach-percentage">60%</span>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item" onclick="openModal(2)">
                                     <span class="ach-title">Influencer</span>
                                     <div class="progress-bar p-circle" data-percent="40" data-duration="1000" data-color="#a7a7a73b,#ED5F5F"></div>
                                     <div class="ach-icon bg-red">
@@ -34,7 +34,7 @@
                                     </div>
                                     <span class="ach-percentage">40%</span>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item" onclick="openModal(3)">
                                     <span class="ach-title">LEGO Leader</span>
                                     <div class="progress-bar p-circle" data-percent="20" data-duration="1000" data-color="#a7a7a73b,#7467F0"></div>
                                     <div class="ach-icon bg-purple">
@@ -42,7 +42,7 @@
                                     </div>
                                     <span class="ach-percentage">20%</span>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item" onclick="openModal(4)">
                                     <span class="ach-title">G.O.A.T</span>
                                     <div class="progress-bar p-circle" data-percent="1" data-duration="1000" data-color="#a7a7a73b,#FF7F45"></div>
                                     <div class="ach-icon bg-orange">

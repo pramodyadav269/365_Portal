@@ -419,6 +419,7 @@ namespace _365_Portal.Controllers
                         string fileName = _userdetail.UserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(userProfilePicBase64);
                         string filePath = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/" + fileName);
                         File.WriteAllBytes(filePath, imageBytes);
+                        HttpContext.Current.Session["ProfilePicFile"] = fileName;
 
                         DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/ProfilePic/"), false,"ProfilePic");
                         if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -440,7 +441,7 @@ namespace _365_Portal.Controllers
                             string fileName = _userdetail.UserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(companyLogoBase64);
                             string filePath = HttpContext.Current.Server.MapPath("~/Files/CompLogo/" + fileName);
                             File.WriteAllBytes(filePath, imageBytes);
-
+                            HttpContext.Current.Session["CompanyProfilePicFile"] = fileName;
                             DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/CompLogo/"), false,"");
                             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                             {
