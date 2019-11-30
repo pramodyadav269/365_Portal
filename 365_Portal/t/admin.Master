@@ -46,7 +46,7 @@
         <div id="sideNav" runat="server" class="sidenav">
             <div class="sidenav-top">
                 <div class="sidenav-brand">
-                    <img src="../INCLUDES/Asset/images/logo-white.svg" class="logo" />
+                    <img id="imgCompanyLogo" runat="server" src="../INCLUDES/Asset/images/logo-white.svg" class="logo" />
                     <a class="side-nav-menu float-right"><i class="fas fa-search"></i></a>
                     <%--<a class="side-nav-menu float-right d-none" onclick="ToggleNav()"><i class="fas fa-bars text-white"></i></a>--%>
                 </div>
@@ -89,14 +89,24 @@
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_my_team">
                     <h4 class="menu-title">My Team</h4>
+                    <li class="sidenav-item" id="dvSubMenu_Groups" onclick="location.href='groups.aspx';">
+                        <a class="sidenav-link">Groups</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_Users" onclick="location.href='users.aspx';">
+                        <a class="sidenav-link">Users</a>
+                    </li>
                     <li class="sidenav-item" id="dvSubMenu_TeamLearning">
                         <a class="sidenav-link">My Team's Learning</a>
                     </li>
+
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_learing">
                     <h4 class="menu-title">Learing</h4>
                     <li class="sidenav-item" id="dvSubMenu_Learning" onclick="location.href='topics.aspx';">
                         <a class="sidenav-link">Learing</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_AssignTopics" runat="server" visible="false" onclick="location.href='assign_topics.aspx';">
+                        <a class="sidenav-link">Assign Topics</a>
                     </li>
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_settings">
@@ -155,7 +165,7 @@
         </nav>
 
         <div class="d-none">
-            <img id="imgCompanyLogo" runat="server" src="../Asset/images/logo.svg" class="logo" />
+            <%-- <img id="imgCompanyLogo" runat="server" src="../Asset/images/logo.svg" class="logo" />--%>
 
 
             <a id="dvDashboard" runat="server" visible="false" href="dashboard.aspx">Dashboard</a>

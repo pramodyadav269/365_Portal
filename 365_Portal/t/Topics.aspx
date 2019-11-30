@@ -440,6 +440,7 @@
                     contentType: "application/json",
                     processData: false,
                     success: function (response) {
+                        HideLoader();
                         var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
                         tbl += '<thead><tr>';
                         tbl += '<th>Sr.No.';

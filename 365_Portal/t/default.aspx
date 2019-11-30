@@ -17,7 +17,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <ul class="list-group list-group-horizontal">
+                            <ul class="list-group list-group-horizontal" id="dvAchievement">
                                 <li class="list-group-item">
                                     <span class="ach-title">Professor</span>
                                     <div class="progress-bar p-circle" data-percent="60" data-duration="1000" data-color="#a7a7a73b,#2DCD7A"></div>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <div class="card bottom admin-task">
+                <div class="card bottom admin-task" style="display: none;">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 col-md-2">
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <a class="task-arrow">
-                            <img src="../INCLUDES/Asset/images/up-arrow.png" /></a>
+                        <img src="../INCLUDES/Asset/images/up-arrow.png" /></a>
                 </div>
             </div>
         </div>
@@ -215,7 +215,7 @@
         <div class="row contents" id="dvContentsContainer" ng-show="ActiveContainer =='Content'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Module')"><i class="fas fa-arrow-left"></i>Back to Modules</a>
-                <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
+                <a style="display: none;" class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
                 <h2 class="text-center font-weight-bold">{{SelectedModule.Title}}</h2>
                 <h6 class="text-center header-sub-title mt-3">Module</h6>
             </div>
@@ -303,7 +303,7 @@
         <div class="row contents-datials" ng-if="ActiveContainer =='ContentView'">
             <div class="col-md-12 header">
                 <a class="back" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
-                <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
+                <a style="display: none;" class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
             </div>
 
             <div class="col-md-8 offset-2 mt-5">
@@ -744,10 +744,57 @@
             //$('.date').datepicker({ uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
             bsCustomFileInput.init();
 
-            $('.achievements .list-group-item').click(function () {
-                $('#modalAchievements').modal('show');
-            });
+            GetAchievements();
         });
+
+        var achievements = [];
+
+        function GetAchievements() {
+            ShowLoader();
+            var requestParams = { contact_name: "Scott", company_name: "HP" };
+            $.ajax({
+                type: "POST",
+                url: "../api/Trainning/GetAchievementNGifts",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    achievements = $.parseJSON(response).Achievements;
+                    gifts = $.parseJSON(response).Gifts;
+                    HideLoader();
+                }
+            });
+        }
+
+        function openModal(achievementId) {
+            $.each(achievements, function (i, data) {
+                if (data.AchievementID == achievementId) {
+                    $("#dvAchievementTitle").html(data.Title);
+                    $("#dvAchievmentDescription").html(data.Description);
+
+                    if (data.Title.includes("quiz master"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/quiz-master-c-icon.svg');
+                    if (data.Title.includes("world"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/perfectionist-c-icon.svg');
+                    if (data.Title.includes("wordsmith"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/wordsmith-c-icon.svg');
+                    if (data.Title.includes("engager"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/engager-icon.svg');
+                    if (data.Title.includes("Guru"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/diploma.png');
+
+                    var reqHtml = "";
+                    $.each(data.Requirements, function (indx, req) {
+                        reqHtml += '<li class="list-group-item border-0">' + req.Description + '</li>';
+                    });
+                    $("#dvRequirements").html(reqHtml);
+
+                    return false;
+                }
+            });
+
+            $('#modalAchievements').modal('show');
+        }
 
         function VideoFinished(e) {
             $("#dvVideoRating").show();

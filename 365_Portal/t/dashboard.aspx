@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="card bottom admin-task">
+            <div class="card bottom admin-task" id="dvAdminTasks" runat="server" visible="false">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12 col-md-2">

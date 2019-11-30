@@ -40,6 +40,15 @@ namespace _365_Portal.Admin {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl sideNav;
         
         /// <summary>
+        /// imgCompanyLogo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage imgCompanyLogo;
+        
+        /// <summary>
         /// dvMenu_MyTeam control.
         /// </summary>
         /// <remarks>
@@ -76,6 +85,15 @@ namespace _365_Portal.Admin {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_MyLearning;
         
         /// <summary>
+        /// dvSubMenu_AssignTopics control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_AssignTopics;
+        
+        /// <summary>
         /// imgProfilePic control.
         /// </summary>
         /// <remarks>
@@ -101,15 +119,6 @@ namespace _365_Portal.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor menuLogout;
-        
-        /// <summary>
-        /// imgCompanyLogo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgCompanyLogo;
         
         /// <summary>
         /// dvDashboard control.

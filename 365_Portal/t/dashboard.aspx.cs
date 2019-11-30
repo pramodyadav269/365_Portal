@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _365_Portal.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,9 +12,28 @@ namespace _365_Portal.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Convert.ToString(Session["RoleName"]) == "enduser")
+            if (HttpContext.Current.Session["RoleName"] != null)
             {
-                Response.Redirect("~/t/default.aspx");
+                if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.superadmin)
+                {
+
+                }
+                else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin)
+                {
+                    dvAdminTasks.Visible = true;
+                }
+                else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.subadmin)
+                {
+
+                }
+                else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.enduser)
+                {
+                    Response.Redirect("~/t/default.aspx");
+                }
+            }
+            else
+            {
+                Response.Redirect("~/login.aspx");
             }
         }
     }

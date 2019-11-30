@@ -46,7 +46,7 @@
         <div class="container">
             <div class="row">
                 <div class="top-logo">
-                    <img src="Asset/images/logo.svg" class="logo" />
+                    <img src="/INCLUDES/Asset/images/logo-white.svg" class="logo" />
                 </div>
 
                 <div class="col-sm-12 page-card d-none" id="divReg">

@@ -89,6 +89,7 @@
                     contentType: "application/json",
                     processData: false,
                     success: function (response) {
+                       
                         var DataSet = $.parseJSON(response);
                         var Topic = DataSet.Data;
                         if (DataSet.StatusCode == "1") {
@@ -425,6 +426,7 @@
                     contentType: "application/json",
                     processData: false,
                     success: function (response) {
+                         HideLoader();
                         try {
                             var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
                             tbl += '<thead><tr>';

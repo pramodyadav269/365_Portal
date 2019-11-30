@@ -535,6 +535,7 @@
                         contentType: "application/json",
                         processData: false,
                         success: function (response) {
+                            HideLoader();
                             if (response != null && response != undefined) {
                                 //$("#dvJson").html(JSON.stringify(contentList));
                                 var list = JSON.parse(response);
