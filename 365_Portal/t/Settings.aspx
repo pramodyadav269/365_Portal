@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Settings" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Settings.aspx.cs" Inherits="_365_Portal.Settings" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row settings">

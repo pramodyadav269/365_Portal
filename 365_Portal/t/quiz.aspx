@@ -10,7 +10,7 @@
             <h2 class="text-center font-weight-bold" id="lblTitle"></h2>
         </div>
 
-        <div class="col-md-12" id="dvContentForm" style="display:none;">
+        <div class="col-md-12" id="dvContentForm" style="display: none;">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
                     <div class="row input-validation">
@@ -73,8 +73,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                        <a class="btn bg-yellow" id="btnAddQuestionForm" onclick="OpenQuestionForm(this);return false;">Add Question</a>
-                            </div>
+                            <a class="btn bg-yellow" id="btnAddQuestionForm" onclick="OpenQuestionForm(this);return false;">Add Question</a>
+                        </div>
                         <div class="col-md-6" id="trQuestionForm" style="display: none;">
                             <div class="row input-validation">
                                 <div class="form-header col-md-12">

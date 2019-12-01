@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Bulk Upload" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="bulkupload.aspx.cs" Inherits="_365_Portal.Admin.BulkUpload" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
     <title>Flashcards</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">

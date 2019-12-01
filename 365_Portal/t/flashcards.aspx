@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Flashcards" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="flashcards.aspx.cs" Inherits="_365_Portal.Admin.Flashcards" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
     <title>Flashcards</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -70,7 +70,6 @@
                                 <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtFlashcardOverview"></textarea>
                             </div>
                         </div>--%>
-
 
                         <div class="col-md-12" id="dvFlashcardIntro" style="display: none;">
                             <div class="row input-validation">

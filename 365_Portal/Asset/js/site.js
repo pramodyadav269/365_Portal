@@ -33,9 +33,8 @@ $(document).ready(function () {
             }
         ]
     });
-
 });
-
+ 
 function selectInit(el, placeholder) {
     $(el).select2({
         placeholder: placeholder,
