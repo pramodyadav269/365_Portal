@@ -6,7 +6,7 @@
     <div class="row user-details">
         <div class="col-md-12 header">
             <a class="back" href="Default.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Your Profile</h1>
+            <h2 class="text-center font-weight-bold">Your Profile</h1>
         </div>
         <div class="col-md-8 mt-5 offset-md-2">
             <div class="row">

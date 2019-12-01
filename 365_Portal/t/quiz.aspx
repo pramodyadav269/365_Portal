@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Modules</a>
-            <h1 class="text-center font-weight-bold" id="lblTitle"></h1>
+            <h2 class="text-center font-weight-bold" id="lblTitle"></h2>
         </div>
 
         <div class="col-md-12" id="dvContentForm" style="display:none;">
@@ -21,13 +21,24 @@
                                 <input type="text" class="form-control required" id="txtSurveyTitle" placeholder="Title" />
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="form-group checkbox required">
                                 <label>Is Published</label>
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input type="checkbox" id="chkIsPublished" name="chkIsPublished" class="custom-control-input">
                                     <label class="custom-control-label" for="chkIsPublished">Yes</label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" id="trScoreSummary">
+                            <div class="form-group">
+                                <label class="float-left">Total Score: <span id="lblTotalScore">0</span></label>
+                                <span class="float-right" id="lblPassingScore"></span>
+
+                                <input type="range" class="custom-range" min="0" max="100" step="5" id="txtPassingScorePercentage" onchange="ChangePercentage(this.value);">
+
+                                <span id="lblPercentage">0%</span>
+
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -43,17 +54,6 @@
                                 <textarea class="form-control required" rows="4" cols="50" placeholder="Overview" id="txtSurveyOverview"></textarea>
                             </div>
                         </div>--%>
-                        <div class="col-md-6" id="trScoreSummary">
-                            <div class="form-group">
-                                <label class="float-left">Total Score: <span id="lblTotalScore">0</span></label>
-                                <span class="float-right" id="lblPassingScore"></span>
-
-                                <input type="range" class="custom-range" min="0" max="100" step="5" id="txtPassingScorePercentage" onchange="ChangePercentage(this.value);">
-
-                                <span id="lblPercentage">0%</span>
-
-                            </div>
-                        </div>
                         <div class="w-100"></div>
 
                         <div class="col-md-12 mt-4">
@@ -72,7 +72,9 @@
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-md-12">
                         <a class="btn bg-yellow" id="btnAddQuestionForm" onclick="OpenQuestionForm(this);return false;">Add Question</a>
+                            </div>
                         <div class="col-md-6" id="trQuestionForm" style="display: none;">
                             <div class="row input-validation">
                                 <div class="form-header col-md-12">

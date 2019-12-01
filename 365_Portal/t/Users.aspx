@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Users</h1>
+            <h2 class="text-center font-weight-bold">Users</h2>
         </div>
 
         <div class="col-md-12" id="divGird">
@@ -418,19 +418,21 @@
                             var Role = DataSet.Data.Data;
                             var Group = DataSet.Data.Data1;
 
-                            //if (Role != undefined && Role.length > 0) 
+                            if (Role != undefined && Role.length > 0) 
                             {
-                                $('#ddlRole').empty().append('<option value="">Select Role</option>');
+                                $('#ddlRole').empty().append('<option></option>');
                                 for (var i = 0; i < Role.length; i++) {
                                     $('#ddlRole').append('<option value="' + Role[i].RoleID + '">' + Role[i].RoleDisplayName + '</option>');
                                 }
+                                selectInit('#ddlRole', 'Select Role');
                             }
                             if (Group != undefined && Group.length > 0) {
-                                $('#ddlGroup').empty().append('<option value="">Select Group</option>');
+                                $('#ddlGroup').empty().append('<option></option>');
                                 for (var i = 0; i < Group.length; i++) {
                                     $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');
                                 }
                                 $('#divGroup').show();
+                                selectInit('#ddlGroup', 'Select Group');
                             }
 
                             if (flag == 'update') {

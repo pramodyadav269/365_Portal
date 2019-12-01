@@ -87,6 +87,8 @@
                         </div>
                     </div>
                 </div>
+                <a class="task-arrow">
+                        <img src="../INCLUDES/Asset/images/up-arrow.png" /></a>
             </div>
         </div>
 

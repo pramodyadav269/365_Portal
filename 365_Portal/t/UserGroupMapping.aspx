@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">User Group Mapping</h1>
+            <h2 class="text-center font-weight-bold">User Group Mapping</h1>
         </div>
 
 
