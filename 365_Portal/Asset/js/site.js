@@ -1,9 +1,6 @@
 ﻿
 $(document).ready(function () {
-    $('select.select2').select2({
-        placeholder: "Select a option",
-        allowClear: true
-    });
+    selectInit('select.select2', 'Select a option');
 
     bsCustomFileInput.init();
 
@@ -36,8 +33,14 @@ $(document).ready(function () {
             }
         ]
     });
-
 });
+ 
+function selectInit(el, placeholder) {
+    $(el).select2({
+        placeholder: placeholder,
+        allowClear: true
+    });
+} 
 
 function QueryStringValue(param) {
     var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');

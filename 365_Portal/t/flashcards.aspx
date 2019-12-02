@@ -1,13 +1,13 @@
 ﻿<%@ Page Title="Flashcards" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="flashcards.aspx.cs" Inherits="_365_Portal.Admin.Flashcards" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
     <title>Flashcards</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Modules</a>
-            <h1 class="text-center font-weight-bold" id="lblTitle"></h1>
+            <h2 class="text-center font-weight-bold" id="lblTitle"></h2>
         </div>
 
         <div class="col-md-12">
@@ -60,7 +60,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtIntroTitle">Introduction Title</label>
-                                <textarea class="form-control required" placeholder="Introduction Title" id="txtIntroTitle"></textarea>
+                                <textarea class="form-control required" rows="4" cols="50" placeholder="Introduction Title" id="txtIntroTitle"></textarea>
                             </div>
                         </div>
 
@@ -71,23 +71,17 @@
                             </div>
                         </div>--%>
 
-
                         <div class="col-md-12" id="dvFlashcardIntro" style="display: none;">
                             <div class="row input-validation">
-
-
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="txtDescription">Bullet Points</label>
                                         <input type="text" class="form-control required" id="txtDescription" placeholder="Bullet Points" />
                                     </div>
                                 </div>
-                                <div class="w-100"></div>
-                                <div class="col-md-12 mt-4">
-                                    <div class="float-right">
-                                        <a class="btn bg-yellow" id="btnAddIntroItem" onclick="AddIntroItem(this);return false;">Add Bullet</a>
-                                        <a class="btn bg-yellow" id="btnCancelIntro" onclick="CancelIntro(this);return false;" style="display: none;">Cancel</a>
-                                    </div>
+                                <div class="col-md-6 mt-4">
+                                    <a class="btn bg-yellow" id="btnAddIntroItem" onclick="AddIntroItem(this);return false;">Add Bullet</a>
+                                    <a class="btn bg-yellow" id="btnCancelIntro" onclick="CancelIntro(this);return false;" style="display: none;">Cancel</a>
                                 </div>
                             </div>
                             <div class="row mt-4">
@@ -137,7 +131,7 @@
                                 </div>
                             </div>
                             <div class="row mt-4">
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <div id="dvFlashcardSlidesJson" style="display: none;"></div>
                                     <div class="mt-3 table-responsive">
                                         <table id="tblFlashcardSlides" class="table table-bordered" style="width: 100%">
@@ -207,7 +201,7 @@
 
         $(document).ready(function () {
             BindContentList(0);
-             $('#back').attr('href', "Modules.aspx?Id=" + gbl_TopicID);
+            $('#back').attr('href', "Modules.aspx?Id=" + gbl_TopicID);
             //BindFlashcards();
             //BindFlashcardIntro();
             //BindFlashcardSlides();
@@ -444,10 +438,10 @@
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isGiftValue + " /></td>";
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isPublishedValue + " /></td>";
                 markup += "<td><input index=" + n.ContentID + " type='checkbox' " + isSkipFlashcards + " /></td>";
-                if(n.IsGift == true)
+                if (n.IsGift == true)
                     markup += '<td></td>';
                 else
-                     markup += '<td><a href="Quiz.aspx?type=2&TID=' + gbl_TopicID + '&MID=' + gbl_ModuleID + '">' + "Add Quiz" + '</a></td>';
+                    markup += '<td><a href="Quiz.aspx?type=2&TID=' + gbl_TopicID + '&MID=' + gbl_ModuleID + '">' + "Add Quiz" + '</a></td>';
                 markup += '<td><i title="Edit" index=' + n.ContentID + ' onclick="EditFlashcard($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + n.ContentID + ' onclick="DeleteFlashcard($(this));" class="fas fa-trash text-danger"></i></td>';
 
                 markup += "</tr>";

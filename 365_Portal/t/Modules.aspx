@@ -1,12 +1,12 @@
 ﻿<%@ Page Title="Modules" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Modules.aspx.cs" Inherits="_365_Portal.Admin.Modules" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Topics</a>
-            <h1 class="text-center font-weight-bold" id="module"></h1>
+            <h2 class="text-center font-weight-bold" id="module"></h2>
         </div>
 
         <div class="col-md-12" id="divGird">
