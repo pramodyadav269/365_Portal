@@ -15,7 +15,6 @@ body {
     font-family: Heebo;
 }
 
-
 a {
     cursor: pointer;
 }
@@ -218,7 +217,6 @@ a {
             font-size: 14px;
             text-transform: none;
         }
-
             .navbar .icon .dropdown-menu .dropdown-item.unread::before {
                 position: absolute;
                 display: inline-block;
