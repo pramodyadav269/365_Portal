@@ -47,21 +47,21 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12" id="dvGroupContainer" style="display: none;">
+                        <div class="col-md-6" id="dvGroupContainer" style="display: none;">
                             <div class="form-group">
                                 <label>Select Groups</label>
                                 <div id="dvGroupsCheckboxes"></div>
                             </div>
                         </div>
 
-                        <div class="col-md-12" id="dvUserContainer" style="display: none;">
+                        <div class="col-md-6" id="dvUserContainer" style="display: none;">
                             <div class="form-group">
                                 <label>Select Users</label>
                                 <div id="dvUsersCheckboxes"></div>
                             </div>
                         </div>
 
-                        <div class="col-md-12 mt-3" id="dvTopicContainer" style="display: none;">
+                        <div class="col-md-6 mt-3" id="dvTopicContainer" style="display: none;">
                             <div class="form-group">
                                 <label>Select Topics</label>
                                 <div id="dvTopicsCheckboxes"></div>
