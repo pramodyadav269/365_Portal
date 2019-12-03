@@ -12,9 +12,17 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
-                    <div class="w-100"></div>
-                    <div id="dvFilterBox">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2">
+                            <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <select id="ddlCompany" class="form-control select2 required" style="width: 100% !important" onchange="GetUsers()">
+                                </select>
+                            </div>
+                        </div>
+
                     </div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
@@ -132,19 +140,12 @@
                 contentType: "application/json",
                 success: function (response) {
                     response = $.parseJSON(response);
-                    var companyHtml = "<br/>";
-                    companyHtml += '<select id="ddlCompany" class="form-control select2" style="width: 20% !important" onchange="GetUsers()">';
-                    companyHtml += '<option value="0">--All Admins--</option>';
+
+                    $('#ddlCompany').empty().append('<option value="0">All Admins</option>');
                     $.each(response.Data, function (index, comp) {
-                        companyHtml += '<option value="' + comp.CompId + '">' + comp.CompanyName + '</option>';
+                        $('#ddlCompany').append('<option value="' + comp.CompId + '">' + comp.CompanyName + '</option>');
                     });
-                    companyHtml += '</select><br/>';
-                    $("#dvFilterBox").html(companyHtml);
-                    $('.select2').material_select();
-                    $('select.select2').select2({
-                        placeholder: "Select a option",
-                        allowClear: true
-                    });
+                    selectInit('#ddlCompany', 'Select a option');
                 }
             });
         }

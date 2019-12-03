@@ -187,6 +187,46 @@ a {
             }
 
 
+    .navbar .icon .dropdown-menu {
+        left: -284px;
+        width: 338px;
+        top: 34px;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        position: absolute !important;
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    }
+
+        .navbar .icon .dropdown-menu::before {
+            position: absolute;
+            display: inline-block;
+            top: -8px;
+            right: 20px;
+            content: "";
+            color: #ffffff;
+            border-bottom: .5em solid;
+            border-right: .5em solid #95121200;
+            border-top: 0;
+            border-left: .5em solid transparent;
+        }
+
+        .navbar .icon .dropdown-menu .dropdown-item {
+            padding: .55rem .75rem;
+            border-bottom: 1px solid #eaeaea;
+            white-space: normal;
+            font-size: 14px;
+            text-transform: none;
+        }
+
+            .navbar .icon .dropdown-menu .dropdown-item.unread::before {
+                position: absolute;
+                display: inline-block;
+                right: 8px;
+                content: ' \25CF';
+                color: #FEC900;
+            }
+
 
 .dropdown-arrow {
     position: relative;
@@ -509,7 +549,7 @@ main {
     }
 
 .achievements .list-group-item {
-    cursor:pointer;
+    cursor: pointer;
     border: none;
     background: none;
     text-align: center;
