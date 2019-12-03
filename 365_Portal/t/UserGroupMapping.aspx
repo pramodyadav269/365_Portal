@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h2 class="text-center font-weight-bold">User Group Mapping</h1>
+            <h2 class="text-center font-weight-bold">User Group Mapping</h2>
         </div>
 
 
@@ -83,7 +83,6 @@
                     tbl += '<tr>';
                     tbl += '<td>' + (i + 1) + '</td>';
                     tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
-                    //tbl += '<td title="' + Table[i].GroupName + '" >' + Table[i].GroupName + '</td>';
                     tbl += '<td title="' + Table[i].GroupName + '" >';
 
                     for (var j = i; j < Table.length; j++)
@@ -91,18 +90,18 @@
                         if (Table[j].UserID == CurrentUserID)
                         {
                             if (Table[j].IsActive == "1") {
-                                tbl += '<input type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].GroupId + '" checked>' + Table[j].GroupName;
+                                tbl += '<input type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].UserID + '" checked>' + Table[j].GroupName;
                             }
                             else {
-                                tbl += '<input type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].GroupId + '">' + Table[j].GroupName;
+                                tbl += '<input type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].UserID + '">' + Table[j].GroupName;
                             }
                             i++;
                         }
-                    }                    
+                    }
+                    i--;
 
                     tbl += '</td>';
-                    tbl += '<td><i title="Edit" onclick="Edit(this,' + Table[i].GroupID + ');" class="fas fa-edit text-warning"></i>' +
-                        '<i title="Delete" onclick="Delete(this,' + Table[i].GroupID + ');" class="fas fa-trash text-danger"></i></td>';
+                    tbl += '<td><a class="btn bg-yellow" onclick="submit(this,' + Table[i].UserID + ');">Submit</a>';
                     tbl += '</tr>';
                 }
             }
@@ -110,6 +109,61 @@
             tbl += '</table>';
             $('#divTable').empty().append(tbl);
             $('#tblGird').DataTable();
+        }
+
+        function submit(obj, userID)
+        {
+            ShowLoader();
+            var UserID = userID;
+            var GroupID = '';
+            $.each($("input[name='"+userID+"']:checked"), function () {               
+                GroupID = $(this).val() + "," + GroupID;
+            });
+
+            GroupID = GroupID.replace(/\,$/, '');
+            var requestParams = { UserID: UserID, GroupID: GroupID };
+
+            var getUrl = "/API/User/UpdateUserMapping";
+
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    try {
+                        debugger
+                        var DataSet = $.parseJSON(response);
+                        HideLoader();
+                        if (DataSet.StatusCode == "1") {
+                            Swal.fire(DataSet.Data[0].ReturnMessage, {
+                                icon: "success",
+                            }).then((UpdateUserMapping) => {
+                                location.reload();
+                            });;
+                        }
+                        else {
+                            if (DataSet.Data != undefined && DataSet.Data.length > 0) {
+                                Swal.fire(DataSet.Data[0].ReturnMessage, {
+                                    icon: "error",
+                                });
+                            }
+                            else {
+                                Swal.fire(DataSet.StatusDescription, {
+                                    icon: "error",
+                                });
+                            }
+                        }
+                    }
+                    catch (e) {
+                        HideLoader();
+                    }
+                },
+                failure: function (response) {
+                    HideLoader();
+                }
+            });
         }
 
     </script>

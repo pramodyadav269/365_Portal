@@ -1567,5 +1567,58 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
+
+
+
+        [Route("API/User/UpdateUserMapping")]
+        [HttpPost]
+        public IHttpActionResult UpdateUserMapping(JObject jsonResult)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                string Message = string.Empty;
+                UserBO objUser = new UserBO();
+
+                if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
+                {
+                    if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "" &&
+                        jsonResult.SelectToken("GroupID") != null && jsonResult.SelectToken("GroupID").ToString().Trim() != "")
+                    {
+                        objUser.UserID = jsonResult.SelectToken("UserID").ToString();
+                        objUser.GroupId = jsonResult.SelectToken("GroupID").ToString();
+
+                        objUser.CompId = identity.CompId;
+                        objUser.Role = identity.Role;
+                        objUser.IsDeleted = true;
+
+                        var ds = CommonBL.GetUsersGroup(objUser, 1);
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                            data = Utility.Successful(data);
+                        }
+                        else
+                        {
+                            data = Utility.API_Status("0", "No data found");
+                        }
+                    }
+                    else
+                    {
+                        data = Utility.API_Status("2", "Please provide UserID and GroupID");
+                    }                    
+                }
+                else
+                {
+                    data = Utility.API_Status("3", "You do not have access for this functionality");
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
     }
 }
