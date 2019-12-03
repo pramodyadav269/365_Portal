@@ -27,6 +27,7 @@ namespace _365_Portal
     public class UserBO
     {
         public string UserID { get; set; }
+        public string UserRole { get; set; }
         public string UserKey { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
@@ -71,5 +72,6 @@ namespace _365_Portal
         public string IsChangingPassword { get; set; }
         public string ReturnCode { get; set; }
         public string ReturnMessage { get; set; }
+        public string CompName { get; set; }
     }
 }

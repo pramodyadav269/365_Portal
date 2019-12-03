@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _365_Portal.Models;
+using System;
 using System.Web;
 
 namespace Life
@@ -7,13 +8,16 @@ namespace Life
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Convert.ToString(Session["RoleName"]) == "superadmin"
-                || Convert.ToString(Session["RoleName"]) == "companyadmin"
-                || Convert.ToString(Session["RoleName"]) == "subadmin"
-                )
+            if (Convert.ToString(Session["RoleName"]) == "superadmin")
             {
                 Response.Redirect("~/t/dashboard.aspx");
             }
+            else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin)
+            {
+                dvAdminTasks.Visible = true;
+            }
+           
+
             // Take UserName from Session.
             dvUserName.InnerText = "Welcome back, " + HttpContext.Current.Session["FirstName"] + "!!";
         }

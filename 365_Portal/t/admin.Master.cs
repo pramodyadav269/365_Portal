@@ -51,6 +51,11 @@ namespace _365_Portal.Admin
                 {
                     imgCompanyLogo.Src = "../Files/CompLogo/" + HttpContext.Current.Session["CompanyProfilePicFile"].ToString();
                 }
+                var fName = "Me";
+                if (Session["FirstName"] != null)
+                    fName = Convert.ToString(Session["FirstName"]);
+
+                aMe_Menu.InnerHtml = "<i class='fas fa-user'></i><span class='tooltiptext'>" + fName + "</span><span>" + fName + "</span>";
 
                 //sideNav.Style.Add("background-color", "blue");
 

@@ -141,7 +141,7 @@ namespace _365_Portal.Controllers
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
                 }
                 else
-                {                    
+                {
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
                     objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
@@ -329,7 +329,7 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
-        
+
         [HttpPost]
         [Route("API/User/GetMyProfile")]
         public IHttpActionResult GetMyProfile()//JObject requestParams
@@ -400,7 +400,7 @@ namespace _365_Portal.Controllers
                     string userProfilePicBase64 = Convert.ToString(requestParams.SelectToken("UserProfileImageBase64"));
 
                     if (!string.IsNullOrEmpty(userProfilePicBase64))
-                    {                        
+                    {
                         var files = userProfilePicBase64.Split(new string[] { "," }, StringSplitOptions.None);
                         if (files.Count() == 1)
                             userProfilePicBase64 = files[0];
@@ -421,7 +421,7 @@ namespace _365_Portal.Controllers
                         File.WriteAllBytes(filePath, imageBytes);
                         HttpContext.Current.Session["ProfilePicFile"] = fileName;
 
-                        DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/ProfilePic/"), false,"ProfilePic");
+                        DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/ProfilePic/"), false, "ProfilePic");
                         if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                         {
                             _userdetail.ProfilePicFileID = ds.Tables[0].Rows[0]["UniqueID"].ToString();
@@ -442,7 +442,7 @@ namespace _365_Portal.Controllers
                             string filePath = HttpContext.Current.Server.MapPath("~/Files/CompLogo/" + fileName);
                             File.WriteAllBytes(filePath, imageBytes);
                             HttpContext.Current.Session["CompanyProfilePicFile"] = fileName;
-                            DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/CompLogo/"), false,"");
+                            DataSet ds = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/CompLogo/"), false, "");
                             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                             {
                                 _userdetail.CompanyProfilePicFileID = ds.Tables[0].Rows[0]["UniqueID"].ToString();
@@ -1132,7 +1132,7 @@ namespace _365_Portal.Controllers
 
         [Route("API/User/GetUsers")]
         [HttpPost]
-        public IHttpActionResult GetUsers()
+        public IHttpActionResult GetUsers(JObject requestParams)
         {
             var data = "";
             var identity = MyAuthorizationServerProvider.AuthenticateUser();
@@ -1145,6 +1145,10 @@ namespace _365_Portal.Controllers
                     objUser.UserID = identity.UserID;
                     objUser.CompId = identity.CompId;
                     objUser.Role = identity.Role;
+                    if (objUser.Role == "superadmin")
+                    {
+                        objUser.CompId = Convert.ToInt32(requestParams["CompId"].ToString());
+                    }
 
                     var ds = CommonBL.GetUsers(objUser);
                     if (ds.Tables.Count > 0)
@@ -1516,9 +1520,12 @@ namespace _365_Portal.Controllers
             {
                 objUserVal.GroupId = (string)jsonResult.SelectToken("GroupId");
             }
+            if (jsonResult.SelectToken("CompName") != null && jsonResult.SelectToken("CompName").ToString().Trim() != "")
+            {
+                objUserVal.CompName = (string)jsonResult.SelectToken("CompName");
+            }
             return ValFlag;
         }
-
 
         [Route("API/User/GetUsersGroup")]
         [HttpPost]
@@ -1538,7 +1545,7 @@ namespace _365_Portal.Controllers
                     objUser.Role = identity.Role;
                     objUser.IsDeleted = false;
 
-                    var ds = CommonBL.GetUsersGroup(objUser,4);
+                    var ds = CommonBL.GetUsersGroup(objUser, 4);
                     if (ds.Tables[0].Rows.Count > 0)
                     {
                         data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);

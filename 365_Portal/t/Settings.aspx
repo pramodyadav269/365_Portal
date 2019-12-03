@@ -1,12 +1,13 @@
 ﻿<%@ Page Title="Settings" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Settings.aspx.cs" Inherits="_365_Portal.Settings" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row settings">
         <div class="col-md-12 header">
             <a class="back" href="Default.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h2 class="text-center font-weight-bold">Your Profile</h1>
+            <h2 class="text-center font-weight-bold">
+            Your Profile</h1>
         </div>
         <div class="col-md-6 offset-md-3 mt-5">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -121,7 +122,8 @@
 
         $(document).ready(function () {
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin")) {
-                $('#divCompanyLogo').show();
+                if (Role == "companyadmin")
+                    $('#divCompanyLogo').show();
                 //$('#divCompanyTheme').append('Choose your theme colors ');
                 //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor1">');
                 //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor2">');

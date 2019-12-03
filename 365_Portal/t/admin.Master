@@ -59,7 +59,7 @@
                         <a class="sidenav-link"><i class="fas fa-tachometer-alt"></i><span class="tooltiptext">Dashboard</span><span>Dashboard</span></a>
                     </li>
                     <li class="sidenav-item side-menu" id="dvMenu_Me" sidenav-id="sidenav_me">
-                        <a class="sidenav-link"><i class="fas fa-user"></i><span class="tooltiptext">Me</span><span>Me</span></a>
+                        <a class="sidenav-link" id="aMe_Menu" runat="server"></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_my_team" id="dvMenu_MyTeam" runat="server" visible="false">
@@ -98,14 +98,14 @@
                         <a class="sidenav-link">Users</a>
                     </li>
                     <li class="sidenav-item" id="dvSubMenu_TeamLearning">
-                        <a class="sidenav-link">My Team's Learning</a>
+                        <a class="sidenav-link">Libraries</a>
                     </li>
 
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_learing">
-                    <h4 class="menu-title">Learing</h4>
+                    <h4 class="menu-title">Learning</h4>
                     <li class="sidenav-item" id="dvSubMenu_Learning" onclick="location.href='topics.aspx';">
-                        <a class="sidenav-link">Learing</a>
+                        <a class="sidenav-link">Learning</a>
                     </li>
                     <li class="sidenav-item" id="dvSubMenu_AssignTopics" runat="server" visible="false" onclick="location.href='assign_topics.aspx';">
                         <a class="sidenav-link">Assign Topics</a>

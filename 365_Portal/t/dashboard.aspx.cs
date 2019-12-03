@@ -21,10 +21,11 @@ namespace _365_Portal.Admin
                 else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin)
                 {
                     dvAdminTasks.Visible = true;
+                    Response.Redirect("~/t/default.aspx");
                 }
                 else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.subadmin)
                 {
-
+                    Response.Redirect("~/t/default.aspx");
                 }
                 else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.enduser)
                 {

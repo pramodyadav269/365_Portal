@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Users" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Users.aspx.cs" Inherits="_365_Portal.Admin.Users" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
@@ -14,6 +14,8 @@
                 <div class="card-body">
                     <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
                     <div class="w-100"></div>
+                    <div id="dvFilterBox">
+                    </div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
             </div>
@@ -117,63 +119,35 @@
             //debugger
             ShowLoader();
             GetUsers();
+            if (Role == "superadmin")
+                BindCompanies();
+        });
 
-            /*
-            ShowLoader();
+        function BindCompanies() {
             $.ajax({
-                type: "GET",
-                url: "https://reqres.in/api/users?page=1",
-                contentType: false,
-                dataType: "json",
-                processData: false,
-                beforeSend: function () {
-                },
+                type: "POST",
+                url: "../api/Trainning/GetTableData",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify({ Type: 5 }),
+                contentType: "application/json",
                 success: function (response) {
-
-                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                    tbl += '<thead><tr>';
-                    tbl += '<th>#';
-                    tbl += '<th>First Name';
-                    tbl += '<th>Last Name';
-                    tbl += '<th>Email ID';
-                    tbl += '<th>Position';
-                    tbl += '<th>Group';
-                    tbl += '<th>Role';
-                    tbl += '<th>ACTION';
-
-                    tbl += '<tbody>';
-
-                    $.each(response.data, function (i, data) {
-                        tbl += '<tr id="' + data.id + '">';
-                        tbl += '<td>' + (i + 1);
-
-                        tbl += '<td>' + data.first_name;
-                        tbl += '<td>' + data.last_name;
-                        tbl += '<td>' + data.email;
-                        tbl += '<td>Position 1'// + data.position;
-                        tbl += '<td>Group 1'// + data.group;
-                        tbl += '<td>Role 1'// + data.role;
-                        tbl += '<td><i title="Edit" onclick="Edit(this);" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this);" class="fas fa-trash text-danger"></i>';
-
+                    response = $.parseJSON(response);
+                    var companyHtml = "<br/>";
+                    companyHtml += '<select id="ddlCompany" class="form-control select2" style="width: 20% !important" onchange="GetUsers()">';
+                    companyHtml += '<option value="0">--All Admins--</option>';
+                    $.each(response.Data, function (index, comp) {
+                        companyHtml += '<option value="' + comp.CompId + '">' + comp.CompanyName + '</option>';
                     });
-
-                    $('#divTable').empty().append(tbl)
-
-                    //var dTable = $('#tblGird').DataTable();
-
-                    //dTable.on('order.dt search.dt', function () {
-                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                    //        cell.innerHTML = i + 1;
-                    //    });
-                    //}).draw();
-
-                },
-                complete: function () {
-                    HideLoader();
+                    companyHtml += '</select><br/>';
+                    $("#dvFilterBox").html(companyHtml);
+                    $('.select2').material_select();
+                    $('select.select2').select2({
+                        placeholder: "Select a option",
+                        allowClear: true
+                    });
                 }
             });
-            */
-        });
+        }
 
         function BindUsers(Table) {
 
@@ -206,20 +180,24 @@
         }
 
         function GetUsers() {
+            ShowLoader();
             var getUrl = "/API/User/GetUsers";
+            var requestParams = { Role: "", CompId: $("#ddlCompany").val() == null ? "0" : $("#ddlCompany").val() };
             $.ajax({
                 type: "POST",
                 url: getUrl,
                 headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
                 contentType: "application/json",
                 success: function (response) {
+                    HideLoader();
                     try {
                         //debugger
                         var DataSet = $.parseJSON(response);
                         HideLoader();
                         debugger
-                        if (DataSet.StatusCode == "1") {                            
-                            BindUsers(DataSet.Data);                            
+                        if (DataSet.StatusCode == "1") {
+                            BindUsers(DataSet.Data);
                         }
                         else {
                             Swal.fire(DataSet.StatusDescription, {
@@ -418,8 +396,7 @@
                             var Role = DataSet.Data.Data;
                             var Group = DataSet.Data.Data1;
 
-                            if (Role != undefined && Role.length > 0) 
-                            {
+                            if (Role != undefined && Role.length > 0) {
                                 $('#ddlRole').empty().append('<option></option>');
                                 for (var i = 0; i < Role.length; i++) {
                                     $('#ddlRole').append('<option value="' + Role[i].RoleID + '">' + Role[i].RoleDisplayName + '</option>');
