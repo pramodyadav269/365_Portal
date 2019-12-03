@@ -1,18 +1,18 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Groups.aspx.cs" Inherits="_365_Portal.Admin.Groups" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Groups</h1>
+            <h2 class="text-center font-weight-bold">Groups</h2>
         </div>
 
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>
+                    <a class="btn bg-yellow float-left" onclick="AddNew();">Add New</a> <%--<a class="btn bg-blue text-white float-right" onclick="SaveGrid();">Save Changes</a>--%>
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-5 table-responsive"></div>
                 </div>

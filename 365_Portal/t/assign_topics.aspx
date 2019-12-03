@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Assign Topics" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="assign_topics.aspx.cs" Inherits="_365_Portal.Admin.AssignTopics" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
@@ -109,7 +109,7 @@
                         htmlCheckboxes += '<div class="custom-control custom-checkbox custom-control-inline">' +
                             '<input type="checkbox" id="chkTopic_' + topic.TopicID + '" name="TOPIC" class="custom-control-input" value="' + topic.TopicID + '">' +
                             '<label class="custom-control-label" for="chkTopic_' + topic.TopicID + '">' + topic.Title + '</label>' +
-                            '</div>';
+                            '</div><br/>';
 
                     });
 
@@ -149,7 +149,7 @@
                                 htmlCheckboxes += '<div class="custom-control custom-checkbox custom-control-inline">' +
                                     '<input type="checkbox" id="chkGroup_' + group.GroupId + '" name="GROUP" class="custom-control-input" value="' + group.GroupId + '">' +
                                     '<label class="custom-control-label" for="chkGroup_' + group.GroupId + '">' + group.GroupName + '</label>' +
-                                    '</div>';
+                                    '</div><br/>';
                             });
                         }
                         else {
@@ -191,7 +191,7 @@
                                 htmlCheckboxes += '<div class="custom-control custom-checkbox custom-control-inline">' +
                                     '<input type="checkbox" id="chkUser_' + user.userId + '" name="USER" class="custom-control-input" value="' + user.userId + '">' +
                                     '<label class="custom-control-label" for="chkUser_' + user.userId + '">' + user.EmailID + '</label>' +
-                                    '</div>';
+                                    '</div><br/>';
                             });
                         }
                         else {

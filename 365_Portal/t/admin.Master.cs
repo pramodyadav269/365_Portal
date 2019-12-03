@@ -51,6 +51,13 @@ namespace _365_Portal.Admin
                 {
                     imgCompanyLogo.Src = "../Files/CompLogo/" + HttpContext.Current.Session["CompanyProfilePicFile"].ToString();
                 }
+                var fName = "Me";
+                if (Session["FirstName"] != null)
+                    fName = Convert.ToString(Session["FirstName"]);
+
+                aMe_Menu.InnerHtml = "<i class='fas fa-user'></i><span class='tooltiptext'>" + fName + "</span><span>" + fName + "</span>";
+
+                //sideNav.Style.Add("background-color", "blue");
 
                 if (HttpContext.Current.Session["RoleName"] != null)
                 {
@@ -62,6 +69,11 @@ namespace _365_Portal.Admin
                         dvUsers.Visible = true;
                         dvTopics.Visible = true;
                         dvAssignTopics.Visible = true;
+
+                        dvMenu_MyTeam.Visible = true;
+                        dvMenu_Learning.Visible = false;
+                        dvMenu_Settings.Visible = true;
+                        dvSubMenu_MyLearning.Visible = false;
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin)
                     {
@@ -71,6 +83,12 @@ namespace _365_Portal.Admin
                         dvUsers.Visible = true;
                         dvTopics.Visible = true;
                         dvAssignTopics.Visible = true;
+
+                        dvMenu_MyTeam.Visible = true;
+                        dvMenu_Learning.Visible = true;
+                        dvMenu_Settings.Visible = true;
+                        dvSubMenu_MyLearning.Visible = false;
+                        dvSubMenu_AssignTopics.Visible = true;
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.subadmin)
                     {
@@ -80,6 +98,11 @@ namespace _365_Portal.Admin
                         dvUsers.Visible = false;
                         dvTopics.Visible = true;
                         dvAssignTopics.Visible = false;
+
+                        dvMenu_MyTeam.Visible = false;
+                        dvMenu_Learning.Visible = true;
+                        dvMenu_Settings.Visible = false;
+                        dvSubMenu_MyLearning.Visible = false;
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.enduser)
                     {
@@ -89,6 +112,11 @@ namespace _365_Portal.Admin
                         dvUsers.Visible = false;
                         dvTopics.Visible = false;
                         dvAssignTopics.Visible = false;
+
+                        dvMenu_MyTeam.Visible = false;
+                        dvMenu_Learning.Visible = false;
+                        dvMenu_Settings.Visible = false;
+                        dvSubMenu_MyLearning.Visible = true;
                     }
                 }
             }

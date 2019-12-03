@@ -1,52 +1,133 @@
 ﻿<%@ Page Title="365" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Life.Default" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script src="../../Asset/customer/default.js"></script>
-    <style>
-        .contents-datials .embed {
-            width: 100%;
-            height: 35rem;
-        }
-    </style>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
+    <script src="../includes/Asset/customer/default.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div ng-app="MasterPage" ng-controller="DefaultController">
-        <%--Start Topics--%>
-        <div class="row topics" id="dvTopicContainer" ng-if="ActiveContainer =='Topic'">
-            <div class="col-md-12">
-                <h1 class="text-center font-weight-bold" id="dvUserName" runat="server"></h1>
-            </div>
-            <div class="col-md-10 mt-5 offset-md-1">
-                <div class="row">
-                    <div class="col-md-12 mb-1">
-                        <h5 class="section-title">MY TOPICS</h5>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4 mb-3" ng-repeat="topic in Topics">
-                                <a href="#" ng-click="GetModulesByTopic(topic.TopicId)">
-                                    <div class="card border-0 shadow mb-3">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{topic.Title}}</h5>
-                                            <p class="card-text">{{topic.Description}}</p>
-                                            <p ng-if="topic.IsCompleted == '1'" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
-                                            <p ng-if="topic.IsCompleted != '1'" class="text-right anchor">{{topic.CompletedModules + '/' + topic.TotalModules}}</p>
-                                        </div>
+
+        <div class="row">
+            <div class="col-12 achievements mb-5">
+                <div class="card top shadow">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card-body">
+                                <h5 class="card-title font-weight-bold" runat="server" id="dvUserName">Welcome back, John!!</h5>
+                                <p class="card-text">Different techniques to keep yourself motivated. Different techniques to keep yourself motivated.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <ul class="list-group list-group-horizontal" id="dvAchievement">
+                                <li class="list-group-item" onclick="openModal(1)">
+                                    <span class="ach-title">Professor</span>
+                                    <div class="progress-bar p-circle" data-percent="60" data-duration="1000" data-color="#a7a7a73b,#2DCD7A"></div>
+                                    <div class="ach-icon bg-green">
+                                        <img src="../includes/Asset/images/college-graduation.png" />
                                     </div>
-                                </a>
+                                    <span class="ach-percentage">60%</span>
+                                </li>
+                                <li class="list-group-item" onclick="openModal(2)">
+                                    <span class="ach-title">Influencer</span>
+                                    <div class="progress-bar p-circle" data-percent="40" data-duration="1000" data-color="#a7a7a73b,#ED5F5F"></div>
+                                    <div class="ach-icon bg-red">
+                                        <img src="../includes/Asset/images/user.png" />
+                                    </div>
+                                    <span class="ach-percentage">40%</span>
+                                </li>
+                                <li class="list-group-item" onclick="openModal(3)">
+                                    <span class="ach-title">LEGO Leader</span>
+                                    <div class="progress-bar p-circle" data-percent="20" data-duration="1000" data-color="#a7a7a73b,#7467F0"></div>
+                                    <div class="ach-icon bg-purple">
+                                        <img src="../includes/Asset/images/combined-shape.png" />
+                                    </div>
+                                    <span class="ach-percentage">20%</span>
+                                </li>
+                                <li class="list-group-item" onclick="openModal(4)">
+                                    <span class="ach-title">G.O.A.T</span>
+                                    <div class="progress-bar p-circle" data-percent="1" data-duration="1000" data-color="#a7a7a73b,#FF7F45"></div>
+                                    <div class="ach-icon bg-orange">
+                                        <img src="../includes/Asset/images/diamond.png" />
+                                    </div>
+                                    <span class="ach-percentage">0%</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bottom admin-task" id="dvAdminTasks" runat="server" visible="false">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2">
+                            <h6 class="card-title mt-2">Admin Tasks</h6>
+                        </div>
+                        <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                            <div class="media" onclick="location.href='settings.aspx';" style="cursor: pointer;">
+                                <img src="../includes/Asset/images/settings.png" class="mr-3">
+                                <div class="media-body">
+                                    <h6 class="m-0">Settings</h6>
+                                    Configure company settings
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                            <div class="media" onclick="location.href='topics.aspx';" style="cursor: pointer;">
+                                <img src="../includes/Asset/images/learning-library.png" class="mr-3">
+                                <div class="media-body">
+                                    <h6 class="m-0">Learning Library</h6>
+                                    Browse and manage training
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="media" onclick="location.href='users.aspx';" style="cursor: pointer;">
+                                <img src="../includes/Asset/images/add-people.png" class="mr-3">
+                                <div class="media-body">
+                                    <h6 class="m-0">Manage People</h6>
+                                    Add and Remove People
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="task-arrow">
+                        <img src="../INCLUDES/Asset/images/up-arrow.png" /></a>
+            </div>
+            </div>
+        </div>
+        <%--Start Topics--%>
+        <div class="row" id="dvTopicContainer" ng-if="ActiveContainer =='Topic'">
+            <div class="col-12">
+                <h6 class="section-title">My Topics</h6>
+            </div>
+            <div class="col-md-12">
+                <div class="row topics">
+                    <div class="col-sm-12 col-md-4" ng-repeat="topic in Topics">
+                        <div ng-click="GetModulesByTopic(topic.TopicId)" style="cursor: pointer;">
+                            <div class="{{topic.Class}}">
+                                <img class="card-mask-top" src="{{topic.TopClass}}" />
+                                <img class="card-mask-bottom" src="{{topic.BottomClass}}" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{{topic.Title}}</h5>
+                                    <p class="card-text">{{topic.Description}}</p>
+                                    <p ng-if="topic.IsCompleted == '1'" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
+                                    <p ng-if="topic.IsCompleted != '1'" class="text-right anchor">{{topic.CompletedModules + '/' + topic.TotalModules}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
         <%--End Topics--%>
 
         <%--Start Modules--%>
-        <div id="dvModuleContainer" class="row modules" ng-if="ActiveContainer =='Module'">
+        <div class="row" id="dvModuleContainer" ng-if="ActiveContainer =='Module'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>BACK TO TOPICS</a>
-                <h1 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h1>
+                <h2 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h2>
                 <h6 class="text-center section-title mt-3 color-0-25">TOPIC</h6>
             </div>
             <div class="col-md-6 mt-4 offset-md-3 completed-progress">
@@ -64,16 +145,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-10 mt-5 offset-md-1">
+            <div class="col-md-12 mt-5 modules">
                 <div class="row">
                     <div class="col-md-12 mb-1">
-                        <h5 class="section-title">Unlocked Modules</h5>
+                        <h6 class="section-title">Unlocked Modules</h6>
                     </div>
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-4 mb-3" ng-repeat="module in Module.UnlockedItems">
-                                <a href="#" ng-click="GetContentsByModule(module.TopicID,module.ModuleID)">
-                                    <div class="card border-0 shadow mb-3">
+                            <div class="col-sm-12 col-md-4" ng-repeat="module in Module.UnlockedItems">
+                                <div ng-click="GetContentsByModule(module.TopicID,module.ModuleID)" style="cursor: pointer;">
+                                    <div class="{{module.Class}}">
+                                        <img class="card-mask-top" src="{{module.TopClass}}" />
+                                        <img class="card-mask-bottom" src="{{module.BottomClass}}" />
                                         <div class="card-body">
                                             <h5 class="card-title">{{module.Title}}</h5>
                                             <p class="card-text">{{module.Description}}</p>
@@ -82,19 +165,38 @@
                                             <%-- TopicID:{{SelectedTopic.TopicId}},ModuleID:{{module.ModuleID}}--%>
                                         </div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
+
+                            <%--
+                             <div class="col-sm-12 col-md-4" ng-repeat="topic in Topics">
+                                <div ng-click="GetModulesByTopic(topic.TopicId)" style="cursor: pointer;">
+                                    <div class="{{topic.Class}}">
+                                        <img class="card-mask-top" src="{{topic.TopClass}}" />
+                                        <img class="card-mask-bottom" src="{{topic.BottomClass}}" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{topic.Title}}</h5>
+                                            <p class="card-text">{{topic.Description}}</p>
+                                            <p ng-if="topic.IsCompleted == '1'" class="text-right anchor"><i class="fas fa-check c-green"></i></p>
+                                            <p ng-if="topic.IsCompleted != '1'" class="text-right anchor">{{topic.CompletedModules + '/' + topic.TotalModules}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            --%>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-5 locked">
                     <div class="col-md-12 mb-1">
-                        <h5 class="section-title">Locked Modules</h5>
+                        <h6 class="section-title">Locked Modules</h6>
                     </div>
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-4 mb-3" ng-repeat="module in Module.LockedItems">
-                                <div class="card border-0 mb-3">
+                            <div class="col-sm-12 col-md-4" ng-repeat="module in Module.LockedItems">
+                                <div class="{{module.Class}}">
+                                    <img class="card-mask-top" src="{{module.TopClass}}" />
+                                    <img class="card-mask-bottom" src="{{module.BottomClass}}" />
                                     <div class="card-body">
                                         <h5 class="card-title">{{module.Title}}</h5>
                                         <p class="card-text">{{module.Description}}</p>
@@ -113,8 +215,8 @@
         <div class="row contents" id="dvContentsContainer" ng-show="ActiveContainer =='Content'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Module')"><i class="fas fa-arrow-left"></i>Back to Modules</a>
-                <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
-                <h1 class="text-center font-weight-bold">{{SelectedModule.Title}}</h1>
+                <a style="display: none;" class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
+                <h2 class="text-center font-weight-bold">{{SelectedModule.Title}}</h2>
                 <h6 class="text-center header-sub-title mt-3">Module</h6>
             </div>
 
@@ -133,10 +235,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-10 mt-5 offset-md-1">
+
+            <div class="col-md-12 mt-5">
                 <div class="row">
                     <div class="col-md-12 mb-4 overview">
-                        <h4 class="font-weight-bold">Overview</h4>
+                        <h5 class="font-weight-bold">Overview</h5>
                         <p>
                             {{SelectedModule.Overview}}
                         </p>
@@ -191,6 +294,7 @@
                             </div>
                         </a>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -199,10 +303,10 @@
         <div class="row contents-datials" ng-if="ActiveContainer =='ContentView'">
             <div class="col-md-12 header">
                 <a class="back" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
-                <a class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
+                <a style="display: none;" class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
             </div>
 
-            <div class="col-md-10 mt-5 offset-md-1">
+            <div class="col-md-8 offset-2 mt-5">
                 <div class="row">
                     <div class="col-md-12 mb-3" id="pdfContent" ng-show="SpecialContents.DocType == 'PDF'">
                         <div id="divPDF">
@@ -212,7 +316,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-10 offset-md-1 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
+                    <div class="col-md-12 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="video-control text-white" style="display: none;" id="videoControl" onclick="VideoPlayPause(1)">
@@ -268,9 +372,9 @@
         <div class="row survey" ng-if="ActiveContainer =='ContentSurveyView'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
-                <h1 class="text-center font-weight-bold">{{SelectedContent.Title}}</h1>
+                <h2 class="text-center font-weight-bold">{{SelectedContent.Title}}</h2>
             </div>
-            <div class="col-md-10 mt-5 offset-md-1">
+            <div class="col-md-12 mt-5">
                 <div class="row" id="surveyQuestion">
                     <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="card border-0 shadow mb-3">
@@ -283,7 +387,7 @@
                                         <%--Checkbox List--%>
                                         <div ng-if="question.QuestionTypeID == 1 && question.IsBox==false ">
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input  type="checkbox" ng-disabled="SpecialContents.IsAnswered ==1" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
+                                                <input type="checkbox" ng-disabled="SpecialContents.IsAnswered ==1" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
@@ -291,14 +395,14 @@
                                         <%--Checkbox List with Box--%>
                                         <div ng-if="question.QuestionTypeID == 1 && question.IsBox==true " class="form-group checkbox box">
                                             <div ng-repeat="ansOption in question.AnswerOptions">
-                                                <input  type="checkbox" ng-disabled="SpecialContents.IsAnswered ==1" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
+                                                <input type="checkbox" ng-disabled="SpecialContents.IsAnswered ==1" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
 
                                         <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
-                                            <select ng-disabled="SpecialContents.IsAnswered ==1"  class="form-control select2" ng-model="question.Value_Text">
+                                            <select ng-disabled="SpecialContents.IsAnswered ==1" class="form-control select2" ng-model="question.Value_Text">
                                                 <option value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}}</option>
                                             </select>
                                         </div>
@@ -306,7 +410,7 @@
                                         <%--Radio Button List--%>
                                         <div ng-if="question.QuestionTypeID == 3 && question.IsBox==false  ">
                                             <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input ng-disabled="SpecialContents.IsAnswered ==1"  type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + '_' + ansOption.AnswerID}}" class="custom-control-input" ng-model="question.Value_Text" name="{{'RadioName_' + question.QuestionID}}" value="{{ansOption.AnswerID}}">
+                                                <input ng-disabled="SpecialContents.IsAnswered ==1" type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + '_' + ansOption.AnswerID}}" class="custom-control-input" ng-model="question.Value_Text" name="{{'RadioName_' + question.QuestionID}}" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + '_' + ansOption.AnswerID}}">{{ansOption.AnswerText}}</label>
                                             </div>
                                         </div>
@@ -321,12 +425,12 @@
 
                                         <%--File Upload Control--%>
                                         <div ng-if="question.QuestionTypeID == 4">
-                                            <input ng-disabled="SpecialContents.IsAnswered ==1"  type="file" questionid="{{question.QuestionID}}" onchange="encodeImagetoBase64(this,angular.element(this).scope())" ng-model="question.Value_Text" class="required" id="file">
+                                            <input ng-disabled="SpecialContents.IsAnswered ==1" type="file" questionid="{{question.QuestionID}}" onchange="encodeImagetoBase64(this,angular.element(this).scope())" ng-model="question.Value_Text" class="required" id="file">
                                             <div>{{question.Value_Text}}</div>
                                         </div>
 
                                         <%--Scale Range Selector--%>
-                                        <div ng-if="question.QuestionTypeID == 5" class="rating" >
+                                        <div ng-if="question.QuestionTypeID == 5" class="rating">
                                             <input type="radio" ng-disabled="SpecialContents.IsAnswered ==1" name="{{'CustomRating_' + $index}}" ng-model="question.Value_Text" value="10" id="{{'rbSurveyRate_' + $index + '_10'}}" /><label for="{{'rbSurveyRate_' + $index + '_10'}}">10</label>
                                             <input type="radio" ng-disabled="SpecialContents.IsAnswered ==1" name="{{'CustomRating_' + $index}}" ng-model="question.Value_Text" value="9" id="{{'rbSurveyRate_' + $index + '_9'}}" /><label for="{{'rbSurveyRate_' + $index + '_9'}}">9</label>
                                             <input type="radio" ng-disabled="SpecialContents.IsAnswered ==1" name="{{'CustomRating_' + $index}}" ng-model="question.Value_Text" value="8" id="{{'rbSurveyRate_' + $index + '_8'}}" /><label for="{{'rbSurveyRate_' + $index + '_8'}}">8</label>
@@ -375,10 +479,10 @@
         <div class="row flashcards" ng-if="ActiveContainer =='ContentFlashcardView'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
-                <h1 class="text-center font-weight-bold">{{SpecialContents.Title}}</h1>
+                <h2 class="text-center font-weight-bold">{{SpecialContents.Title}}</h2>
                 <h6 class="text-center header-sub-title mt-3">Flashcards</h6>
             </div>
-            <div class="col-md-10 mt-4 offset-md-1">
+            <div class="col-md-10 offset-1 mt-4">
                 <div class="row justify-content-center">
                     <%--<div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-if="ActiveSubContainer =='BeginFlashcard'">
                         You have completed all the videos/pdfs in this module.
@@ -453,13 +557,13 @@
         </div>
 
 
-        <div ng-if="ActiveContainer =='ContentQuizView'">
+        <div class="row" ng-if="ActiveContainer =='ContentQuizView'">
             <div class="col-md-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
-                <h1 class="text-center font-weight-bold">{{SelectedContent.Title}}</h1>
+                <h2 class="text-center font-weight-bold">{{SelectedContent.Title}}</h2>
             </div>
 
-            <div class="col-md-10 mt-5 offset-md-1">
+            <div class="col-md-12 mt-5">
                 <div class="row" id="finalQuiz">
                     <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="ng-class: 'card border-0 shadow mb-3 ' + (question.IsAnswered == true ? (question.IsCorrect ==true ? 'b-green-2' : 'b-red-2'):'' );">
@@ -472,7 +576,7 @@
                                         <%--Checkbox List--%>
                                         <div ng-if="question.QuestionTypeID == 1 ">
                                             <div class="custom-control custom-checkbox" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1"  type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
+                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1" type="checkbox" ng-model="ansOption.IsSelected" id="{{'chkAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" name="ansOption.AnswerText_1" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'chkAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                                 <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
@@ -481,7 +585,7 @@
                                         <%--Dropdown List--%>
                                         <div class="form-group" ng-if="question.QuestionTypeID == 2 ">
                                             <select class="form-control select2" ng-model="question.Value_Text">
-                                                <option ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1"  value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}} 
+                                                <option ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1" value="{{ansOption.AnswerID}}" ng-repeat="ansOption in question.AnswerOptions">{{ansOption.AnswerText}} 
                                                     <%--IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                                 </option>
                                             </select>
@@ -490,7 +594,7 @@
                                         <%--Radio Button List--%>
                                         <div ng-if="question.QuestionTypeID == 3 ">
                                             <div class="custom-control custom-radio" ng-repeat="ansOption in question.AnswerOptions">
-                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1"  type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText_3" value="{{ansOption.AnswerID}}">
+                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1" type="radio" id="{{'rbSVAnsOption_' + question.QuestionID + $index}}" class="custom-control-input" ng-model="question.Value_Text" name="ansOption.AnswerText_3" value="{{ansOption.AnswerID}}">
                                                 <label class="custom-control-label" for="{{'rbSVAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                                 <%-- IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
@@ -499,7 +603,7 @@
                                         <%--Radio Button List with box--%>
                                         <div ng-if="question.QuestionTypeID == 9 " class="box">
                                             <div ng-repeat="ansOption in question.AnswerOptions">
-                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1"  type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
+                                                <input ng-disabled="SpecialContents.IsAnswered ==1 && SpecialContents.IsPassed ==1" type="checkbox" id="{{'rbAnsOption_' + question.QuestionID + $index}}" ng-model="question.Value_Text" name="ansOption.AnswerText_9" value="{{ansOption.AnswerID}}">
                                                 <label for="{{'rbAnsOption_' + question.QuestionID + $index}}">{{ansOption.AnswerText}}</label>
                                                 <%--    IsCorrect {{ansOption.IsCorrect}} , CorrectScore{{ansOption.CorrectScore}} ,InCorrectScore{{ansOption.InCorrectScore}}--%>
                                             </div>
@@ -520,7 +624,7 @@
                         <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsAnswered==false && SpecialContents.IsPassed==false"
                             ng-click="SubmitAnswers()">Check Answers</a>
                         <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-if="SpecialContents.IsPassed==true"
-                            ng-click="UpdateContent(SpecialContents.Type,SpecialContents.TopicID,SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID)">Continue</a>
+                            ng-click="UpdateContent(SpecialContents.Type,SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID)">Continue</a>
 
                     </div>
                 </div>
@@ -549,18 +653,18 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-10 offset-md-1 text-center mt-4">
+                            <div class="col-md-12 text-center mt-4">
                                 <img src="../Asset/images/suprrise-icon.svg" class="img-achievements" />
                                 <p class="modal-text mt-4">Surprise!</p>
                                 <h3 class="font-weight-bold modal-title">You just unlocked a personal gift!</h3>
                             </div>
-                            <div class="col-md-10 offset-md-1 text-center mt-3">
+                            <div class="col-md-12 text-center mt-3">
                                 <img ng-if="UnlockGiftData.DocType == 'VIDEO'" src="../Asset/images/next-video-icon.svg" class="img-achievements" />
                                 <img ng-if="UnlockGiftData.DocType == 'PDF'" src="../Asset/images/next-pdf-icon.svg" class="img-achievements" />
                                 <img ng-if="UnlockGiftData.DocType == 'FLASHCARD'" src="../Asset/images/next-flashcard-icon.svg" class="img-achievements" />
                                 <h5 class="modal-title mt-2"><b>{{UnlockGiftData.Title}}:</b> {{UnlockGiftData.Description}}</h5>
                             </div>
-                            <div class="col-md-10 offset-md-1 text-center mt-5 mb-3">
+                            <div class="col-md-12 text-center mt-5 mb-3">
                                 <a class="btn btn-custom bg-blue font-weight-bold text-white" href="Profile.aspx">Continue</a>
                                 <div class="w-100"></div>
                                 <span class="note"><b>Note:</b> You can access this gift in your Profile page</span>
@@ -577,17 +681,120 @@
             <div>Description</div>
             <button onclick="return false;">GREAT</button>
         </div>
+
+        <div class="modal fade" id="modalAchievements" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <a class="close-modal" data-dismiss="modal" aria-label="Close">
+                        <img src="../Asset/images/close-button.png" class="close" /></a>
+                    <div class="modal-body">
+                        <div class="row reward">
+                            <div class="col-md-10 offset-md-1">
+                                <div class="row mt-3">
+                                    <div class="col-md-3 mt-3 text-right">
+                                        <img id="imgAchievementIcon" src="../Asset/images/engager-icon.svg" class="img-achievements disabled" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h3 class="font-weight-bold modal-title" id="dvAchievementTitle">The Engager</h3>
+                                        <p class="modal-text" id="dvAchievmentDescription">The Engager is dedicated to the platform. She loves interacting with others and sharing her thoughts about the topics.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-10 offset-md-1">
+                                <div class="row mt-3 requirements">
+                                    <div class="col-md-12">
+                                        <h5 class="section-title">Requirements</h5>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <ul class="list-group" id="dvRequirements">
+                                            <%--<li class="list-group-item border-0">Be an active part of the community</li>
+                                            <li class="list-group-item border-0">Express your opinion</li>
+                                            <li class="list-group-item border-0">React to the videos</li>--%>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-10 offset-md-1">
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h5 class="section-title">Your Reward on completion</h5>
+                                    </div>
+                                    <div class="col-md-12 text-center mt-3">
+                                        <img src="../Asset/images/reward-icon.svg" class="img-achievements" />
+                                    </div>
+                                    <div class="col-md-12 text-center mt-5 mb-4">
+                                        <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         $(document).ready(function () {
+            $("#dvMenu_Dashboard").addClass("active");
             $('select.select2').select2({
                 placeholder: "Select a option",
                 allowClear: true
             });
             //$('.date').datepicker({ uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
             bsCustomFileInput.init();
+
+            GetAchievements();
         });
+
+        var achievements = [];
+
+        function GetAchievements() {
+            ShowLoader();
+            var requestParams = { contact_name: "Scott", company_name: "HP" };
+            $.ajax({
+                type: "POST",
+                url: "../api/Trainning/GetAchievementNGifts",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    achievements = $.parseJSON(response).Achievements;
+                    gifts = $.parseJSON(response).Gifts;
+                    HideLoader();
+                }
+            });
+        }
+
+        function openModal(achievementId) {
+            $.each(achievements, function (i, data) {
+                if (data.AchievementID == achievementId) {
+                    $("#dvAchievementTitle").html(data.Title);
+                    $("#dvAchievmentDescription").html(data.Description);
+
+                    if (data.Title.includes("quiz master"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/quiz-master-c-icon.svg');
+                    if (data.Title.includes("world"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/perfectionist-c-icon.svg');
+                    if (data.Title.includes("wordsmith"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/wordsmith-c-icon.svg');
+                    if (data.Title.includes("engager"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/engager-icon.svg');
+                    if (data.Title.includes("Guru"))
+                        $("#imgAchievementIcon").attr("src", '../Asset/images/diploma.png');
+
+                    var reqHtml = "";
+                    $.each(data.Requirements, function (indx, req) {
+                        reqHtml += '<li class="list-group-item border-0">' + req.Description + '</li>';
+                    });
+                    $("#dvRequirements").html(reqHtml);
+
+                    return false;
+                }
+            });
+
+            $('#modalAchievements').modal('show');
+        }
 
         function VideoFinished(e) {
             $("#dvVideoRating").show();

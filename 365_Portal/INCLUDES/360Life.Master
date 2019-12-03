@@ -1,7 +1,6 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="360Life.master.cs" Inherits="_365_Portal.INCLUDES._360Life" %>
 
 <!DOCTYPE html>
-
 <html>
 <head runat="server">
     <title></title>
@@ -24,14 +23,14 @@
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-</head> 
+</head>
 <body>
     <form id="form1" runat="server">
 
         <div id="sideNav" class="sidenav">
             <div class="sidenav-top">
                 <div class="sidenav-brand">
-                    <span class="text-white font-weight-bold float-left">365</span>
+                    <img id="imgCompanyLogo" src="Asset/images/logo-white.svg" class="logo" />
                     <a class="side-nav-menu float-right"><i class="fas fa-search"></i></a>
                     <%--<a class="side-nav-menu float-right d-none" onclick="ToggleNav()"><i class="fas fa-bars text-white"></i></a>--%>
                 </div>
@@ -41,19 +40,19 @@
                     <li class="sidenav-item active">
                         <a class="sidenav-link"><i class="fas fa-tachometer-alt"></i><span class="tooltiptext">Dashboard</span><span>Dashboard</span></a>
                     </li>
-                    <li class="sidenav-item side-menu">
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_me">
                         <a class="sidenav-link"><i class="fas fa-user"></i><span class="tooltiptext">Me</span><span>Me</span></a>
                     </li>
 
-                    <li class="sidenav-item side-menu">
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_my_team">
                         <a class="sidenav-link"><i class="fas fa-user-friends"></i><span class="tooltiptext">My Team</span><span>My Team</span></a>
                     </li>
 
-                    <li class="sidenav-item side-menu">
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_learing">
                         <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Learing</span><span>Learing</span></a>
                     </li>
 
-                    <li class="sidenav-item side-menu">
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_settings">
                         <a class="sidenav-link"><i class="fas fa-cog"></i><span class="tooltiptext">Settings</span><span>Settings</span></a>
                     </li>
 
@@ -63,13 +62,37 @@
                 </ul>
             </div>
             <div class="sidenav-content-menu">
-                <ul class="sidenav-nav">
-                    <h4 class="menu-title">My Team</h4>
+                <ul class="sidenav-nav d-none" id="sidenav_me">
+                    <h4 class="menu-title">Me</h4>
                     <li class="sidenav-item active">
-                        <a class="sidenav-link">Team A</a>
+                        <a class="sidenav-link">My Profile</a>
                     </li>
                     <li class="sidenav-item">
-                        <a class="sidenav-link">Team B</a>
+                        <a class="sidenav-link">My Learning</a>
+                    </li>
+                </ul>
+                <ul class="sidenav-nav d-none" id="sidenav_my_team">
+                    <h4 class="menu-title">My Team</h4>
+                    <li class="sidenav-item active">
+                        <a class="sidenav-link">My Team's Learning</a>
+                    </li>
+                </ul>
+                <ul class="sidenav-nav d-none" id="sidenav_learing">
+                    <h4 class="menu-title">Learing</h4>
+                    <li class="sidenav-item active">
+                        <a class="sidenav-link">Learing</a>
+                    </li>
+                </ul>
+                <ul class="sidenav-nav d-none" id="sidenav_settings">
+                    <h4 class="menu-title">Settings</h4>
+                    <li class="sidenav-item active">
+                        <a class="sidenav-link">Brand</a>
+                    </li>
+                    <li class="sidenav-item">
+                        <a class="sidenav-link">Change Theme</a>
+                    </li>
+                    <li class="sidenav-item">
+                        <a class="sidenav-link">Organization Details</a>
                     </li>
                 </ul>
             </div>
@@ -83,13 +106,13 @@
             <div class="nav-content float-right">
                 <ul class="navbar-nav">
                     <li class="nav-item icon"><a class="nav-link" href="#">
-                        <img src="Asset/images/comment.png" /><span class="badge">2</span></a></li>
+                        <img src="Asset/images/comments.png" /><span class="badge">2</span></a></li>
 
                     <li class="nav-item icon"><a class="nav-link" href="#">
-                        <img src="Asset/images/notification.png" /><span class="badge">2</span></a></li>
+                        <img src="Asset/images/notifications.png" /><span class="badge">2</span></a></li>
 
                     <li class="nav-item language">
-                        <img src="Asset/images/united-states.png" class="circle" height="26" /></li>
+                        <img src="Asset/images/us.png" class="circle" height="26" /></li>
                     <li class="nav-item">
                         <a class="nav-link">
                             <span class="language">EN<img class="dropdown-arrow" src="Asset/images/arrow-down-sign-to-navigate.png" /></span>
@@ -101,11 +124,14 @@
                         <span class="badge online">0</span>
                         <%--offline--%>
                     </li>
-                    <li class="nav-item profile">
-                        <a class="nav-link">
+                    <li class="nav-item profile dropdown">
+                        <a class="nav-link" id="dropdownMenuProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="name dropdown-toggle">John Wick</span>
                             <span class="status">Available</span>
                         </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
+                            <a class="dropdown-item" href="#">Logout</a>
+                        </div>
                     </li>
                 </ul>
 

@@ -1,12 +1,12 @@
 ﻿<%@ Page Title="Profile" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="_365_Portal.Profile" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row user-details">
         <div class="col-md-12 header">
             <a class="back" href="Default.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Your Profile</h1>
+            <h2 class="text-center font-weight-bold">Your Profile</h1>
         </div>
         <div class="col-md-8 mt-5 offset-md-2">
             <div class="row">
@@ -26,26 +26,6 @@
                 </div>
                 <div class="col-md-12 scroll">
                     <dl class="row text-center" id="dvAchievement">
-                        <%-- <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/quiz-master-c-icon.svg" />
-                            <span>Quiz Master</span>
-                        </dt>
-                        <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/perfectionist-c-icon.svg" />
-                            <span>Perfectionist</span>
-                        </dt>
-                        <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/wordsmith-c-icon.svg" />
-                            <span>Wordsmith</span>
-                        </dt>
-                        <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/engager-icon.svg" class="disabled" />
-                            <span>Engager</span>
-                        </dt>
-                        <dt class="col" onclick="openModal();">
-                            <img src="../Asset/images/diploma.png" class="disabled" />
-                            <span>Guru</span>
-                        </dt>--%>
                     </dl>
                 </div>
             </div>
@@ -211,6 +191,7 @@
         var accessToken = '<%=Session["access_token"]%>';
 
         $(document).ready(function () {
+            $("#dvSubMenu_MyProfile").addClass("active");
             GetAchievementNGifts();
         });
 
@@ -277,16 +258,16 @@
                     var achievementHtml = "";
                     $.each(achievements, function (i, data) {
                         achievementHtml += '<dt class="col" onclick="openModal(' + data.AchievementID + ');" ContentID=' + data.AchievementID + '>';
-                        if (data.Title.includes("quiz master"))
+                        if (data.Title.includes("Professor"))
                             achievementHtml += '<img src="../Asset/images/quiz-master-c-icon.svg" />';
-                        if (data.Title.includes("world"))
+                        if (data.Title.includes("Influencer"))
                             achievementHtml += '<img src="../Asset/images/perfectionist-c-icon.svg" />';
-                        if (data.Title.includes("wordsmith"))
+                        if (data.Title.includes("LEGO Leader"))
                             achievementHtml += '<img src="../Asset/images/wordsmith-c-icon.svg" />';
-                        if (data.Title.includes("engager"))
+                        if (data.Title.includes("G.O.A.T"))
                             achievementHtml += '<img src="../Asset/images/engager-icon.svg" />';
-                        if (data.Title.includes("Guru"))
-                            achievementHtml += '<img src="../Asset/images/diploma.png" />';
+                        //if (data.Title.includes("Guru"))
+                        //    achievementHtml += '<img src="../Asset/images/diploma.png" />';
                         achievementHtml += '<span>' + data.Title + '</span>'
                         achievementHtml += '</dt>';
                     });
@@ -353,7 +334,7 @@
                     var totalLength = responseData.Flashcards.length;
                     var flashcard = "";
                     $.each(responseData.Flashcards, function (i, data) {
-                        
+
                         if (i == 0)
                             flashcard += '<div class="card">';
                         else

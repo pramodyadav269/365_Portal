@@ -6,14 +6,24 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Users</h1>
+            <h2 class="text-center font-weight-bold">Users</h2>
         </div>
 
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
-                    <div class="w-100"></div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2">
+                            <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <select id="ddlCompany" class="form-control select2 required" style="width: 100% !important" onchange="GetUsers()">
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
             </div>
@@ -117,63 +127,28 @@
             //debugger
             ShowLoader();
             GetUsers();
+            if (Role == "superadmin")
+                BindCompanies();
+        });
 
-            /*
-            ShowLoader();
+        function BindCompanies() {
             $.ajax({
-                type: "GET",
-                url: "https://reqres.in/api/users?page=1",
-                contentType: false,
-                dataType: "json",
-                processData: false,
-                beforeSend: function () {
-                },
+                type: "POST",
+                url: "../api/Trainning/GetTableData",
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify({ Type: 5 }),
+                contentType: "application/json",
                 success: function (response) {
+                    response = $.parseJSON(response);
 
-                    var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
-                    tbl += '<thead><tr>';
-                    tbl += '<th>#';
-                    tbl += '<th>First Name';
-                    tbl += '<th>Last Name';
-                    tbl += '<th>Email ID';
-                    tbl += '<th>Position';
-                    tbl += '<th>Group';
-                    tbl += '<th>Role';
-                    tbl += '<th>ACTION';
-
-                    tbl += '<tbody>';
-
-                    $.each(response.data, function (i, data) {
-                        tbl += '<tr id="' + data.id + '">';
-                        tbl += '<td>' + (i + 1);
-
-                        tbl += '<td>' + data.first_name;
-                        tbl += '<td>' + data.last_name;
-                        tbl += '<td>' + data.email;
-                        tbl += '<td>Position 1'// + data.position;
-                        tbl += '<td>Group 1'// + data.group;
-                        tbl += '<td>Role 1'// + data.role;
-                        tbl += '<td><i title="Edit" onclick="Edit(this);" class="fas fa-edit text-warning"></i><i title="Delete" onclick="Delete(this);" class="fas fa-trash text-danger"></i>';
-
+                    $('#ddlCompany').empty().append('<option value="0">All Admins</option>');
+                    $.each(response.Data, function (index, comp) {
+                        $('#ddlCompany').append('<option value="' + comp.CompId + '">' + comp.CompanyName + '</option>');
                     });
-
-                    $('#divTable').empty().append(tbl)
-
-                    //var dTable = $('#tblGird').DataTable();
-
-                    //dTable.on('order.dt search.dt', function () {
-                    //    dTable.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                    //        cell.innerHTML = i + 1;
-                    //    });
-                    //}).draw();
-
-                },
-                complete: function () {
-                    HideLoader();
+                    selectInit('#ddlCompany', 'Select a option');
                 }
             });
-            */
-        });
+        }
 
         function BindUsers(Table) {
 
@@ -206,20 +181,24 @@
         }
 
         function GetUsers() {
+            ShowLoader();
             var getUrl = "/API/User/GetUsers";
+            var requestParams = { Role: "", CompId: $("#ddlCompany").val() == null ? "0" : $("#ddlCompany").val() };
             $.ajax({
                 type: "POST",
                 url: getUrl,
                 headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
                 contentType: "application/json",
                 success: function (response) {
+                    HideLoader();
                     try {
                         //debugger
                         var DataSet = $.parseJSON(response);
                         HideLoader();
                         debugger
-                        if (DataSet.StatusCode == "1") {                            
-                            BindUsers(DataSet.Data);                            
+                        if (DataSet.StatusCode == "1") {
+                            BindUsers(DataSet.Data);
                         }
                         else {
                             Swal.fire(DataSet.StatusDescription, {
@@ -418,19 +397,20 @@
                             var Role = DataSet.Data.Data;
                             var Group = DataSet.Data.Data1;
 
-                            //if (Role != undefined && Role.length > 0) 
-                            {
-                                $('#ddlRole').empty().append('<option value="">Select Role</option>');
+                            if (Role != undefined && Role.length > 0) {
+                                $('#ddlRole').empty().append('<option></option>');
                                 for (var i = 0; i < Role.length; i++) {
                                     $('#ddlRole').append('<option value="' + Role[i].RoleID + '">' + Role[i].RoleDisplayName + '</option>');
                                 }
+                                selectInit('#ddlRole', 'Select Role');
                             }
                             if (Group != undefined && Group.length > 0) {
-                                $('#ddlGroup').empty().append('<option value="">Select Group</option>');
+                                $('#ddlGroup').empty().append('<option></option>');
                                 for (var i = 0; i < Group.length; i++) {
                                     $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');
                                 }
                                 $('#divGroup').show();
+                                selectInit('#ddlGroup', 'Select Group');
                             }
 
                             if (flag == 'update') {

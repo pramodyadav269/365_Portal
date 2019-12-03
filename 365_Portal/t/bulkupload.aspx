@@ -1,13 +1,13 @@
 ﻿<%@ Page Title="Bulk Upload" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="bulkupload.aspx.cs" Inherits="_365_Portal.Admin.BulkUpload" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
     <title>Flashcards</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h1 class="text-center font-weight-bold">Bulk Upload</h1>
+            <h2 class="text-center font-weight-bold">Bulk Upload</h1>
         </div>
 
         <div class="col-md-12">
