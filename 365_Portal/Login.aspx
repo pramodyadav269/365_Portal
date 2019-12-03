@@ -52,7 +52,7 @@
                 <div class="col-sm-12 page-card d-none" id="divReg">
                     <div class="card border-0 rounded-0 shadow p-3 mb-5 bg-white">
                         <div class="card-body">
-                            <h1 class="card-title mb-3 mt-3 text-center font-weight-bold">Welcome to 360 life!</h1>
+                            <h1 class="card-title mb-3 mt-3 text-center font-weight-bold"><img src="/INCLUDES/Asset/images/logo-black.svg" class="logo" /></h1>
                             <h4 class="card-subtitle mb-3 text-center font-weight-bold">Set up your profile</h4>
 
                             <div class="card-form">
@@ -107,7 +107,7 @@
                 <div class="col-sm-12 page-card" id="divlogin">
                     <div class="card border-0 rounded-0 shadow p-3 mb-5 bg-white">
                         <div class="card-body">
-                            <h1 class="card-title mb-3 mt-3 text-center font-weight-bold">Welcome to 360 life!</h1>
+                            <h1 class="card-title mb-3 mt-3 text-center font-weight-bold"><img src="/INCLUDES/Asset/images/logo-black.svg" class="logo" /></h1>
                             <h4 class="card-subtitle mb-3 text-center font-weight-bold">Log in</h4>
 
                             <div class="card-form">
