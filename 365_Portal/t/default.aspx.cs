@@ -19,7 +19,7 @@ namespace Life
            
 
             // Take UserName from Session.
-            dvUserName.InnerText = "Welcome back, " + HttpContext.Current.Session["FirstName"] + "!!";
+            dvUserName.InnerText = "Hey " + HttpContext.Current.Session["FirstName"] + "!!";
         }
     }
 }

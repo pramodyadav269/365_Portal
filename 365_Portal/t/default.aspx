@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <div class="card-body">
-                                <h5 class="card-title" runat="server" id="dvUserName">Welcome back, John!!</h5>
+                                <h5 class="card-title font-weight-bold" runat="server" id="dvUserName">Welcome back, John!!</h5>
                                 <p class="card-text">Different techniques to keep yourself motivated. Different techniques to keep yourself motivated.</p>
                             </div>
                         </div>

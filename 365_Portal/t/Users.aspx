@@ -12,15 +12,17 @@
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
-                    <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
-                    <div class="w-100"></div>
-                    <div class="row mt-3">
-                        <div class="col-sm-3">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-2">
+                            <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <select id="ddlCompany" class="form-control select2 required" style="width: 100% !important" onchange="GetUsers()">
                                 </select>
                             </div>
                         </div>
+
                     </div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
