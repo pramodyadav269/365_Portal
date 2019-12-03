@@ -73,12 +73,34 @@
 
             tbl += '<tbody>';
 
-            if (Table != undefined && Table.length > 0) {
-                for (var i = 0; i < Table.length; i++) {
+            if (Table != undefined && Table.length > 0)
+            {
+                var CurrentUserID = '';
+                for (var i = 0; i < Table.length; i++)
+                {
+                    CurrentUserID = Table[i].UserID;
+
                     tbl += '<tr>';
                     tbl += '<td>' + (i + 1) + '</td>';
                     tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
-                    tbl += '<td title="' + Table[i].GroupName + '" >' + Table[i].GroupName + '</td>';
+                    //tbl += '<td title="' + Table[i].GroupName + '" >' + Table[i].GroupName + '</td>';
+                    tbl += '<td title="' + Table[i].GroupName + '" >';
+
+                    for (var j = i; j < Table.length; j++)
+                    {
+                        if (Table[j].UserID == CurrentUserID)
+                        {
+                            if (Table[j].IsActive == "1") {
+                                tbl += '<input type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].GroupId + '" checked>' + Table[j].GroupName;
+                            }
+                            else {
+                                tbl += '<input type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].GroupId + '">' + Table[j].GroupName;
+                            }
+                            i++;
+                        }
+                    }                    
+
+                    tbl += '</td>';
                     tbl += '<td><i title="Edit" onclick="Edit(this,' + Table[i].GroupID + ');" class="fas fa-edit text-warning"></i>' +
                         '<i title="Delete" onclick="Delete(this,' + Table[i].GroupID + ');" class="fas fa-trash text-danger"></i></td>';
                     tbl += '</tr>';
