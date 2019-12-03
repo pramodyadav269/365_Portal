@@ -45,9 +45,9 @@
     <form id="form1" runat="server" class="">
         <div class="container">
             <div class="row">
-                <div class="top-logo">
+                <%--<div class="top-logo">
                     <img src="/INCLUDES/Asset/images/logo-black.svg" class="logo" />
-                </div>
+                </div>--%>
 
                 <div class="col-sm-12 page-card d-none" id="divReg">
                     <div class="card border-0 rounded-0 shadow p-3 mb-5 bg-white">
