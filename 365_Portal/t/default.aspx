@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="365" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Life.Default" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../includes/Asset/customer/default.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -56,43 +56,43 @@
                 </div>
 
                 <div class="card bottom admin-task" id="dvAdminTasks" runat="server" visible="false">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-2">
-                            <h6 class="card-title mt-2">Admin Tasks</h6>
-                        </div>
-                        <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
-                            <div class="media" onclick="location.href='settings.aspx';" style="cursor: pointer;">
-                                <img src="../includes/Asset/images/settings.png" class="mr-3">
-                                <div class="media-body">
-                                    <h6 class="m-0">Settings</h6>
-                                    Configure company settings
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-2">
+                                <h6 class="card-title mt-2">Admin Tasks</h6>
+                            </div>
+                            <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                                <div class="media" onclick="location.href='settings.aspx';" style="cursor: pointer;">
+                                    <img src="../includes/Asset/images/settings.png" class="mr-3">
+                                    <div class="media-body">
+                                        <h6 class="m-0">Settings</h6>
+                                        Configure company settings
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
-                            <div class="media" onclick="location.href='topics.aspx';" style="cursor: pointer;">
-                                <img src="../includes/Asset/images/learning-library.png" class="mr-3">
-                                <div class="media-body">
-                                    <h6 class="m-0">Learning Library</h6>
-                                    Browse and manage training
+                            <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                                <div class="media" onclick="location.href='topics.aspx';" style="cursor: pointer;">
+                                    <img src="../includes/Asset/images/learning-library.png" class="mr-3">
+                                    <div class="media-body">
+                                        <h6 class="m-0">Learning Library</h6>
+                                        Browse and manage training
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="media" onclick="location.href='users.aspx';" style="cursor: pointer;">
-                                <img src="../includes/Asset/images/add-people.png" class="mr-3">
-                                <div class="media-body">
-                                    <h6 class="m-0">Manage People</h6>
-                                    Add and Remove People
+                            <div class="col-sm-12 col-md-3">
+                                <div class="media" onclick="location.href='users.aspx';" style="cursor: pointer;">
+                                    <img src="../includes/Asset/images/add-people.png" class="mr-3">
+                                    <div class="media-body">
+                                        <h6 class="m-0">Manage People</h6>
+                                        Add and Remove People
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <a class="task-arrow">
+                    <a class="task-arrow">
                         <img src="../INCLUDES/Asset/images/up-arrow.png" /></a>
-            </div>
+                </div>
             </div>
         </div>
         <%--Start Topics--%>
@@ -651,6 +651,8 @@
         <div class="modal fade" id="modalPersonalGift" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
+                    <a class="close-modal" data-dismiss="modal" aria-label="Close">
+                        <img src="../Asset/images/close-button.png" class="close" /></a>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12 text-center mt-4">
