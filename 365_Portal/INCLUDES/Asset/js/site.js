@@ -92,7 +92,7 @@ function toggle(view, hide) {
 
 function clearFields(container) {
     var inputs = $(container);
-    inputs.find('[type=text],[type=number],[type=email],textarea').val(null);
+    inputs.find('[type=text],[type=password],[type=number],[type=email],textarea').val(null);
     inputs.find('select.select2').val(null).trigger('change');
     inputs.find('select').val(null).trigger('change');
     inputs.find('input[type="file"]').val(null);
