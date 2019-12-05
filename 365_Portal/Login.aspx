@@ -108,13 +108,14 @@
                     <div class="card border-0 rounded-0 shadow p-3 mb-5 bg-white">
                         <div class="card-body">
                             <h1 class="card-title mb-3 mt-3 text-center font-weight-bold"><img src="/INCLUDES/Asset/images/logo-black.svg" class="logo" /></h1>
-                            <h4 class="card-subtitle mb-3 text-center font-weight-bold">Log in</h4>
+                            <br />
+                            <h4 class="card-subtitle mb-3 text-center">Enter your email address and password</h4>
 
                             <div class="card-form">
                                 <div class="form-group">
                                     <label for="txtUserEmail">Email</label>
                                     <%--<input type="email" class="form-control" id="txtUserEmail" placeholder="Your email" />--%>
-                                    <asp:TextBox ID="txtUserEmail" runat="server" TextMode="Email" class="form-control" placeholder="Email Id" />
+                                    <asp:TextBox ID="txtUserEmail" runat="server" TextMode="Email" class="form-control" placeholder="you@example.com" />
                                 </div>
                                 <div class="form-group">
                                     <label for="txtUserPassword">Password</label>

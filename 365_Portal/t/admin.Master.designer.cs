@@ -49,49 +49,121 @@ namespace _365_Portal.Admin {
         protected global::System.Web.UI.HtmlControls.HtmlImage imgCompanyLogo;
         
         /// <summary>
-        /// aMe_Menu control.
+        /// dvMenu_Directory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aMe_Menu;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvMenu_Directory;
         
         /// <summary>
-        /// dvMenu_MyTeam control.
+        /// dvMenu_Integrations control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvMenu_MyTeam;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvMenu_Integrations;
         
         /// <summary>
-        /// dvMenu_Learning control.
+        /// dvMenu_Content control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvMenu_Learning;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvMenu_Content;
         
         /// <summary>
-        /// dvMenu_Settings control.
+        /// dvMenu_Account control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvMenu_Settings;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvMenu_Account;
         
         /// <summary>
-        /// dvSubMenu_MyLearning control.
+        /// dvSubMenu_Organizations control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_MyLearning;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_Organizations;
+        
+        /// <summary>
+        /// dvSubMenu_Users control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_Users;
+        
+        /// <summary>
+        /// dvSubMenu_Groups control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_Groups;
+        
+        /// <summary>
+        /// dvSubMenu_DirectorySettings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_DirectorySettings;
+        
+        /// <summary>
+        /// dvSubMenu_CompanyProfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_CompanyProfile;
+        
+        /// <summary>
+        /// dvSubMenu_Domain control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_Domain;
+        
+        /// <summary>
+        /// dvSubMenu_Topics control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_Topics;
+        
+        /// <summary>
+        /// dvSubMenu_Modules control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_Modules;
+        
+        /// <summary>
+        /// dvSubMenu_ContentSettings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_ContentSettings;
         
         /// <summary>
         /// dvSubMenu_AssignTopics control.
@@ -101,6 +173,24 @@ namespace _365_Portal.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_AssignTopics;
+        
+        /// <summary>
+        /// dvSubMenu_Roles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_Roles;
+        
+        /// <summary>
+        /// dvSubMenu_Customize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_Customize;
         
         /// <summary>
         /// imgProfilePic control.

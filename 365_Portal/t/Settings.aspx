@@ -89,14 +89,14 @@
 
                             <div class="custom-control custom-checkbox mb-4">
                                 <input type="checkbox" class="custom-control-input" id="cbEmailNotifications">
-                                <label class="custom-control-label" for="cbEmailNotifications">Email Notifications</label>
-                                <span>We’ll send you weekly emails on your current progress.</span>
+                                <label class="custom-control-label" for="cbEmailNotifications" id="dvMsg1">Notifications</label>
+                                <%--  <span >We’ll send you weekly emails on your current progress.</span>--%>
                             </div>
 
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="cbPushNotifications">
-                                <label class="custom-control-label" for="cbPushNotifications">Push Notifications</label>
-                                <span>We’ll send you notifications about updates and your progress.</span>
+                                <label class="custom-control-label" for="cbPushNotifications" id="dvMsg2">Notifications</label>
+                                <%-- <span >We’ll send you notifications about updates and your progress.</span>--%>
                             </div>
 
                             <div class="text-center mt-5">
@@ -121,18 +121,37 @@
         }
 
         $(document).ready(function () {
+            var notifcation1Msg = "";
+            var notifcation2Msg = "";
+
+            // Super Admin
+            if (Role == "superadmin") {
+                notifcation1Msg = "Notify me when a new organization is modified";
+                notifcation2Msg = "Notify me when a new super admin is created";
+            }
+            else if (Role == "companyadmin") {
+                // Admin
+                notifcation1Msg = "Notify me when a user is modified";
+                notifcation2Msg = "Notify me when a new manager is created";
+            }
+            else if (Role == "subadmin") {
+                // Sub-Admin
+                notifcation1Msg = "Notify me when a user is modified";
+                notifcation2Msg = "Notify me when coursework is created";
+            }
+            else if (Role == "enduser") {
+                // End User
+                notifcation1Msg = "Notify me when new coursework is added";
+                notifcation2Msg = "Notify me when coursework is due.";
+            }
+            $("#dvMsg1").text(notifcation1Msg);
+            $("#dvMsg2").text(notifcation2Msg);
+
             if (Role != undefined && (Role == "superadmin" || Role == "companyadmin")) {
                 if (Role == "companyadmin")
                     $('#divCompanyLogo').show();
-                //$('#divCompanyTheme').append('Choose your theme colors ');
-                //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor1">');
-                //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor2">');
-                //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor3">');
-                //$('#divCompanyTheme').append('<input type="color" value="#000000" id="ThemeColor4">');
-                //$('#divCompanyTheme').show();
 
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
-
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
