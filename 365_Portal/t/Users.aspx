@@ -16,7 +16,7 @@
                         <div class="col-sm-12 col-md-2">
                             <a class="btn bg-yellow" onclick="AddNew();">Add New</a>
                         </div>
-                        <div class="col-sm-12 col-md-3">
+                        <div class="col-sm-12 col-md-3" id="dvCompanyFilter" style="display:none;">
                             <div class="form-group">
                                 <select id="ddlCompany" class="form-control select2 required" style="width: 100% !important" onchange="GetUsers()">
                                 </select>
@@ -132,6 +132,7 @@
         });
 
         function BindCompanies() {
+            $("#dvCompanyFilter").show();
             $.ajax({
                 type: "POST",
                 url: "../api/Trainning/GetTableData",

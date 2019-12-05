@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="365" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Life.Default" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../includes/Asset/customer/default.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -12,39 +12,39 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <div class="card-body">
-                                <h5 class="card-title font-weight-bold" runat="server" id="dvUserName">Welcome back, John!!</h5>
-                                <p class="card-text">Different techniques to keep yourself motivated. Different techniques to keep yourself motivated.</p>
+                                <h5 class="card-title font-weight-bold" style="font-weight: bold" runat="server" id="dvUserName">Welcome back, John!!</h5>
+                                <p class="card-text">Welcome to 365!</p>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <ul class="list-group list-group-horizontal" id="dvAchievement">
                                 <li class="list-group-item" onclick="openModal(1)">
                                     <span class="ach-title">Professor</span>
-                                    <div class="progress-bar p-circle" data-percent="60" data-duration="1000" data-color="#a7a7a73b,#2DCD7A"></div>
+                                    <div class="progress-bar p-circle" data-percent="0" data-duration="1000" data-color="#a7a7a73b,#2DCD7A"></div>
                                     <div class="ach-icon bg-green">
                                         <img src="../includes/Asset/images/college-graduation.png" />
                                     </div>
-                                    <span class="ach-percentage">60%</span>
+                                    <span class="ach-percentage">0%</span>
                                 </li>
                                 <li class="list-group-item" onclick="openModal(2)">
                                     <span class="ach-title">Influencer</span>
-                                    <div class="progress-bar p-circle" data-percent="40" data-duration="1000" data-color="#a7a7a73b,#ED5F5F"></div>
+                                    <div class="progress-bar p-circle" data-percent="0" data-duration="1000" data-color="#a7a7a73b,#ED5F5F"></div>
                                     <div class="ach-icon bg-red">
                                         <img src="../includes/Asset/images/user.png" />
                                     </div>
-                                    <span class="ach-percentage">40%</span>
+                                    <span class="ach-percentage">0%</span>
                                 </li>
                                 <li class="list-group-item" onclick="openModal(3)">
                                     <span class="ach-title">LEGO Leader</span>
-                                    <div class="progress-bar p-circle" data-percent="20" data-duration="1000" data-color="#a7a7a73b,#7467F0"></div>
+                                    <div class="progress-bar p-circle" data-percent="0" data-duration="1000" data-color="#a7a7a73b,#7467F0"></div>
                                     <div class="ach-icon bg-purple">
                                         <img src="../includes/Asset/images/combined-shape.png" />
                                     </div>
-                                    <span class="ach-percentage">20%</span>
+                                    <span class="ach-percentage">0%</span>
                                 </li>
                                 <li class="list-group-item" onclick="openModal(4)">
                                     <span class="ach-title">G.O.A.T</span>
-                                    <div class="progress-bar p-circle" data-percent="1" data-duration="1000" data-color="#a7a7a73b,#FF7F45"></div>
+                                    <div class="progress-bar p-circle" data-percent="0" data-duration="1000" data-color="#a7a7a73b,#FF7F45"></div>
                                     <div class="ach-icon bg-orange">
                                         <img src="../includes/Asset/images/diamond.png" />
                                     </div>
@@ -56,43 +56,43 @@
                 </div>
 
                 <div class="card bottom admin-task" id="dvAdminTasks" runat="server" visible="false">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-2">
-                            <h6 class="card-title mt-2">Admin Tasks</h6>
-                        </div>
-                        <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
-                            <div class="media" onclick="location.href='settings.aspx';" style="cursor: pointer;">
-                                <img src="../includes/Asset/images/settings.png" class="mr-3">
-                                <div class="media-body">
-                                    <h6 class="m-0">Settings</h6>
-                                    Configure company settings
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-2">
+                                <h6 class="card-title mt-2">Admin Tasks</h6>
+                            </div>
+                            <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                                <div class="media" onclick="location.href='settings.aspx';" style="cursor: pointer;">
+                                    <img src="../includes/Asset/images/settings.png" class="mr-3">
+                                    <div class="media-body">
+                                        <h6 class="m-0">Settings</h6>
+                                        Configure company settings
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
-                            <div class="media" onclick="location.href='topics.aspx';" style="cursor: pointer;">
-                                <img src="../includes/Asset/images/learning-library.png" class="mr-3">
-                                <div class="media-body">
-                                    <h6 class="m-0">Learning Library</h6>
-                                    Browse and manage training
+                            <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                                <div class="media" onclick="location.href='topics.aspx';" style="cursor: pointer;">
+                                    <img src="../includes/Asset/images/learning-library.png" class="mr-3">
+                                    <div class="media-body">
+                                        <h6 class="m-0">Learning Library</h6>
+                                        Browse and manage training
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="media" onclick="location.href='users.aspx';" style="cursor: pointer;">
-                                <img src="../includes/Asset/images/add-people.png" class="mr-3">
-                                <div class="media-body">
-                                    <h6 class="m-0">Manage People</h6>
-                                    Add and Remove People
+                            <div class="col-sm-12 col-md-3">
+                                <div class="media" onclick="location.href='users.aspx';" style="cursor: pointer;">
+                                    <img src="../includes/Asset/images/add-people.png" class="mr-3">
+                                    <div class="media-body">
+                                        <h6 class="m-0">Manage People</h6>
+                                        Add and Remove People
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <a class="task-arrow">
+                    <a class="task-arrow">
                         <img src="../INCLUDES/Asset/images/up-arrow.png" /></a>
-            </div>
+                </div>
             </div>
         </div>
         <%--Start Topics--%>
@@ -651,6 +651,8 @@
         <div class="modal fade" id="modalPersonalGift" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
+                    <a class="close-modal" data-dismiss="modal" aria-label="Close">
+                        <img src="../Asset/images/close-button.png" class="close" /></a>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12 text-center mt-4">
@@ -665,7 +667,7 @@
                                 <h5 class="modal-title mt-2"><b>{{UnlockGiftData.Title}}:</b> {{UnlockGiftData.Description}}</h5>
                             </div>
                             <div class="col-md-12 text-center mt-5 mb-3">
-                                <a class="btn btn-custom bg-blue font-weight-bold text-white" href="Profile.aspx">Continue</a>
+                                <a class="btn btn-custom bg-blue font-weight-bold text-white" class="close-modal" data-dismiss="modal" aria-label="Close" href="#">OK</a>
                                 <div class="w-100"></div>
                                 <span class="note"><b>Note:</b> You can access this gift in your Profile page</span>
                             </div>

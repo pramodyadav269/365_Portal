@@ -58,50 +58,96 @@
                     <li class="sidenav-item" id="dvMenu_Dashboard" onclick="location.href='dashboard.aspx';">
                         <a class="sidenav-link"><i class="fas fa-tachometer-alt"></i><span class="tooltiptext">Dashboard</span><span>Dashboard</span></a>
                     </li>
-                    <li class="sidenav-item side-menu" id="dvMenu_Me" sidenav-id="sidenav_me">
+                    <%--<li class="sidenav-item side-menu" id="dvMenu_Me" sidenav-id="sidenav_me">
                         <a class="sidenav-link" id="aMe_Menu" runat="server"></a>
-                    </li>
+                    </li>--%>
 
-                    <li class="sidenav-item side-menu" sidenav-id="sidenav_my_team" id="dvMenu_MyTeam" runat="server" visible="false">
+                 <%--   <li class="sidenav-item side-menu" sidenav-id="sidenav_my_team" id="dvMenu_MyTeam" runat="server" visible="false">
                         <a class="sidenav-link"><i class="fas fa-user-friends"></i><span class="tooltiptext">My Team</span><span>My Team</span></a>
+                    </li>--%>
+
+                 <%--   <li class="sidenav-item side-menu" sidenav-id="sidenav_learing" id="dvMenu_Learning" runat="server" visible="false">
+                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Learning</span><span>Learning</span></a>
+                    </li>--%>
+
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_Directory" id="dvMenu_Directory" runat="server" visible="false">
+                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Directory</span><span>Directory</span></a>
                     </li>
 
-                    <li class="sidenav-item side-menu" sidenav-id="sidenav_learing" id="dvMenu_Learning" runat="server" visible="false">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Learing</span><span>Learing</span></a>
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_Integrations" id="dvMenu_Integrations" runat="server" visible="false">
+                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Integrations</span><span>Integrations</span></a>
                     </li>
 
-                    <li class="sidenav-item side-menu" sidenav-id="sidenav_settings" id="dvMenu_Settings" runat="server" visible="false">
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_Content" id="dvMenu_Content" runat="server">
+                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Content</span><span>Content</span></a>
+                    </li>
+
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_Account" id="dvMenu_Account" runat="server" visible="false">
+                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Account</span><span>Account</span></a>
+                    </li>
+
+                    <li class="sidenav-item side-menu" sidenav-id="sidenav_settings" id="dvMenu_Settings">
                         <a class="sidenav-link"><i class="fas fa-cog"></i><span class="tooltiptext">Settings</span><span>Settings</span></a>
                     </li>
 
-                    <li class="sidenav-item" id="dvMenu_Help">
+                    <li class="sidenav-item side-menu" id="dvMenu_Help" sidenav-id="sidenav_Help">
                         <a class="sidenav-link"><i class="far fa-question-circle"></i><span class="tooltiptext">Help</span><span>Help</span></a>
                     </li>
                 </ul>
             </div>
             <div class="sidenav-content-menu">
-                <ul class="sidenav-nav d-none" id="sidenav_me">
+                <ul class="sidenav-nav d-none" id="sidenav_Directory">
+                    <h4 class="menu-title">Directory</h4>
+                    <li class="sidenav-item " id="dvSubMenu_Organizations" runat="server" visible="false" onclick="location.href='profile.aspx';">
+                        <a class="sidenav-link">Organizations</a>
+                    </li>
+                    <li class="sidenav-item " id="dvSubMenu_Users" runat="server" onclick="location.href='profile.aspx';">
+                        <a class="sidenav-link">Users</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_Groups" runat="server" onclick="location.href='default.aspx';">
+                        <a class="sidenav-link">Groups</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_DirectorySettings" runat="server" onclick="location.href='default.aspx';">
+                        <a class="sidenav-link">Directory Settings</a>
+                    </li>
+                </ul>
+              <%--  <ul class="sidenav-nav d-none" id="sidenav_me">
                     <h4 class="menu-title">Me</h4>
                     <li class="sidenav-item " id="dvSubMenu_MyProfile" onclick="location.href='profile.aspx';">
                         <a class="sidenav-link">My Profile</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_MyLearning" visible="false" runat="server" onclick="location.href='default.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_MyLearning" runat="server" onclick="location.href='default.aspx';">
                         <a class="sidenav-link">My Learning</a>
                     </li>
+                </ul>--%>
+                <ul class="sidenav-nav d-none" id="sidenav_Integrations">
+                    <h4 class="menu-title">Integrations</h4>
+                    <li class="sidenav-item " id="dvSubMenu_IntegrationSettings" onclick="location.href='profile.aspx';">
+                        <a class="sidenav-link">Integration Settings</a>
+                    </li>
                 </ul>
-                <ul class="sidenav-nav d-none" id="sidenav_my_team">
-                    <h4 class="menu-title">My Team</h4>
-                    <li class="sidenav-item" id="dvSubMenu_Groups" onclick="location.href='groups.aspx';">
-                        <a class="sidenav-link">Groups</a>
+                <ul class="sidenav-nav d-none" id="sidenav_Account">
+                    <h4 class="menu-title">Account</h4>
+                    <li class="sidenav-item " id="dvSubMenu_CompanyProfile" runat="server" onclick="location.href='profile.aspx';">
+                        <a class="sidenav-link">Company Profile</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Users" onclick="location.href='users.aspx';">
-                        <a class="sidenav-link">Users</a>
+                    <li class="sidenav-item" id="dvSubMenu_Domain" runat="server" onclick="location.href='default.aspx';">
+                        <a class="sidenav-link">Domain</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_TeamLearning">
-                        <a class="sidenav-link">Libraries</a>
+                </ul>
+                <ul class="sidenav-nav d-none" id="sidenav_Content">
+                    <h4 class="menu-title">Content</h4>
+                    <li class="sidenav-item" id="dvSubMenu_Topics" runat="server" onclick="location.href='groups.aspx';">
+                        <a class="sidenav-link">Courses</a>
                     </li>
+                    <li class="sidenav-item" id="dvSubMenu_Modules" runat="server" onclick="location.href='users.aspx';">
+                        <a class="sidenav-link">Lessons</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_ContentSettings" runat="server" visible="false" onclick="location.href='users.aspx';">
+                        <a class="sidenav-link">Content Settings</a>
+                    </li>
+                </ul>
 
-                </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_learing">
                     <h4 class="menu-title">Learning</h4>
                     <li class="sidenav-item" id="dvSubMenu_Learning" onclick="location.href='topics.aspx';">
@@ -113,14 +159,30 @@
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_settings">
                     <h4 class="menu-title">Settings</h4>
-                    <li class="sidenav-item" id="dvSubMenu_Brand" onclick="location.href='settings.aspx';">
-                        <a class="sidenav-link">Brand</a>
+                    <li class="sidenav-item" id="dvSubMenu_Settings" onclick="location.href='settings.aspx';">
+                        <a class="sidenav-link">My Account</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Theme" onclick="location.href='settings.aspx';">
-                        <a class="sidenav-link">Change Theme</a>
+                    <li class="sidenav-item" id="dvSubMenu_Notifications" onclick="location.href='settings.aspx';">
+                        <a class="sidenav-link">Notifications</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_OrganizationDetails" onclick="location.href='settings.aspx';">
-                        <a class="sidenav-link">Organization Details</a>
+                    <li class="sidenav-item" id="dvSubMenu_Roles" runat="server" visible="false" onclick="location.href='settings.aspx';">
+                        <a class="sidenav-link">Roles</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_Customize" runat="server" visible="false" onclick="location.href='settings.aspx';">
+                        <a class="sidenav-link">Customize</a>
+                    </li>
+                   
+                </ul>
+                <ul class="sidenav-nav d-none" id="sidenav_Help">
+                    <h4 class="menu-title">Help</h4>
+                    <li class="sidenav-item" id="dvSubMenu_HelpCenter">
+                        <a class="sidenav-link">Help Center</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_Support">
+                        <a class="sidenav-link">Support</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_Chat">
+                        <a class="sidenav-link">Chat</a>
                     </li>
                 </ul>
             </div>

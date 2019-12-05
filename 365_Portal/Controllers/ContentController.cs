@@ -852,13 +852,13 @@ namespace _365_Portal.ControllersReOrderContent
                                         else //IF Count is empty
                                         {
                                             isValidrequest = false;
-                                            data = "File not Uploaded. Pleae Try Again";
+                                            data = "File not uploaded. Please try again later";
                                         }
                                     }
                                     else //Invalid File Type
                                     {
                                         isValidrequest = false;
-                                        data = "Invalid File Type!. Please Upload File Valid ";
+                                        data = "Invalid File Type!. Please upload valid file.";
                                     }
                                 }
                                 /*string ContentBase64 = Convert.ToString(requestParams.SelectToken("ContentFileID"));
@@ -899,13 +899,13 @@ namespace _365_Portal.ControllersReOrderContent
                                     else
                                     {
                                         isValidrequest = false;
-                                        data = "Entered Url is in incorrect format";
+                                        data = "Entered Url is not in correct format";
                                     }
                                 }
                                 else
                                 {
                                     isValidrequest = false;
-                                    data = "No Url Entered Found ";
+                                    data = "No link provided";
                                 }
                             }
                             if (!string.IsNullOrEmpty(httpRequest.Form["Title"].ToString()))
@@ -1125,13 +1125,13 @@ namespace _365_Portal.ControllersReOrderContent
                                         else //IF Count is empty
                                         {
                                             isValidrequest = false;
-                                            data = "File not Uploaded. Pleae Try Again";
+                                            data = "File not uploaded. Please try again later";
                                         }
                                     }
                                     else //Invalid File Type
                                     {
                                         isValidrequest = false;
-                                        data = "Invalid File Type!. Please Upload File Valid ";
+                                        data = "Invalid File Type!. Please upload valid file.";
                                     }
                                 }
                             } // URL is entered in the form
@@ -1153,13 +1153,13 @@ namespace _365_Portal.ControllersReOrderContent
                                     else
                                     {
                                         isValidrequest = false;
-                                        data = "Entered Url is in incorrect format";
+                                        data = "Entered link is not in correct format.";
                                     }
                                 }
                                 else
                                 {
                                     isValidrequest = false;
-                                    data = "No Url Entered Found ";
+                                    data = "No link provided";
                                 }
                             }
                             if (!string.IsNullOrEmpty(httpRequest.Form["Title"].ToString()))
