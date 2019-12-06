@@ -14,41 +14,78 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6">
-                        <ul class="list-group list-group-horizontal" id="dvAchievement">
-                            <li class="list-group-item" onclick="openModal(1)">
-                                <span class="ach-title">Professor</span>
-                                <div class="progress-bar p-circle" data-percent="0" data-duration="1000" data-color="#a7a7a73b,#2DCD7A"></div>
-                                <div class="ach-icon bg-green">
-                                    <img src="../includes/Asset/images/college-graduation.png" />
-                                </div>
-                                <span class="ach-percentage">0%</span>
-                            </li>
-                            <li class="list-group-item" onclick="openModal(2)">
-                                <span class="ach-title">Influencer</span>
-                                <div class="progress-bar p-circle" data-percent="0" data-duration="1000" data-color="#a7a7a73b,#ED5F5F"></div>
-                                <div class="ach-icon bg-red">
-                                    <img src="../includes/Asset/images/user.png" />
-                                </div>
-                                 <span class="ach-percentage">0%</span>
-                            </li>
-                            <li class="list-group-item" onclick="openModal(3)">
-                                <span class="ach-title">LEGO Leader</span>
-                                <div class="progress-bar p-circle" data-percent="0" data-duration="1000" data-color="#a7a7a73b,#7467F0"></div>
-                                <div class="ach-icon bg-purple">
-                                    <img src="../includes/Asset/images/combined-shape.png" />
-                                </div>
-                                <span class="ach-percentage">0%</span>
-                            </li>
-                            <li class="list-group-item" onclick="openModal(4)">
-                                <span class="ach-title">G.O.A.T</span>
-                                <div class="progress-bar p-circle" data-percent="0" data-duration="1000" data-color="#a7a7a73b,#FF7F45"></div>
-                                <div class="ach-icon bg-orange">
-                                    <img src="../includes/Asset/images/diamond.png" />
-                                </div>
-                                 <span class="ach-percentage">0%</span>
-                            </li>
-                        </ul>
-                    </div>
+                            <ul class="list-group list-group-horizontal" id="dvAchievement">
+                                <li class="list-group-item" onclick="openModal(1)">
+                                    <span class="ach-title">Professor</span>
+                                    <div class="progress" data-value='80'>
+                                        <span class="progress-left">
+                                            <span class="progress-bar bc-green"></span>
+                                        </span>
+                                        <span class="progress-right">
+                                            <span class="progress-bar bc-green"></span>
+                                        </span>
+                                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                            <div class="ach-icon bg-green">
+                                                <img src="../includes/Asset/images/college-graduation.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="ach-percentage">80%</span>
+                                </li>
+
+                                <li class="list-group-item" onclick="openModal(2)">
+                                    <span class="ach-title">Influencer</span>
+                                    <div class="progress" data-value='60'>
+                                        <span class="progress-left">
+                                            <span class="progress-bar bc-red"></span>
+                                        </span>
+                                        <span class="progress-right">
+                                            <span class="progress-bar bc-red"></span>
+                                        </span>
+                                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                            <div class="ach-icon bg-red">
+                                                <img src="../includes/Asset/images/user.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="ach-percentage">60%</span>
+                                </li>
+                                <li class="list-group-item" onclick="openModal(3)">
+                                    <span class="ach-title">LEGO Leader</span>
+                                    <div class="progress" data-value='30'>
+                                        <span class="progress-left">
+                                            <span class="progress-bar bc-purple"></span>
+                                        </span>
+                                        <span class="progress-right">
+                                            <span class="progress-bar bc-purple"></span>
+                                        </span>
+                                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                            <div class="ach-icon bg-purple">
+                                                <img src="../includes/Asset/images/combined-shape.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="ach-percentage">30%</span>
+                                </li>
+                                <li class="list-group-item" onclick="openModal(4)">
+                                    <span class="ach-title">G.O.A.T</span>
+                                    <div class="progress" data-value='0'>
+                                        <span class="progress-left">
+                                            <span class="progress-bar bc-orange"></span>
+                                        </span>
+                                        <span class="progress-right">
+                                            <span class="progress-bar bc-orange"></span>
+                                        </span>
+                                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                            <div class="ach-icon bg-orange">
+                                                <img src="../includes/Asset/images/diamond.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="ach-percentage">0%</span>
+                                </li>
+                            </ul>
+                        </div>
                 </div>
             </div>
 

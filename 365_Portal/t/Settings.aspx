@@ -28,7 +28,9 @@
                             <div class="custom-file">
                                 <%--<input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">--%>
                                 <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
-                                <label class="custom-file-label" for="customFile">Change Profile Pic</label>      <br /><br />
+                                <label class="custom-file-label" for="customFile">Change Profile Pic</label>
+                                <br />
+                                <br />
                             </div>
                         </div>
 
@@ -156,10 +158,29 @@
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Font<input type="text" id="txtThemeColor4"></div>');
+
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3 custom-font">Custom Font' +
+                    '<div class="form-group radio box">' +
+                    '<input type="radio" id="f1" name="fontFamily" value="Heebo">' +
+                    '<label for="f1">Heebo</label>' +
+                    '<input type="radio" id="f2" name="fontFamily" value="sans-serif">' +
+                    '<label for="f2">Sans Serif</label>' +
+                    '<input type="radio" id="f3" name="fontFamily" value="Roboto">' +
+                    '<label for="f3">Roboto</label>' +
+                    '</div>' +
+                    '</div>');
                 $('#divCompanyTheme').show();
+
+                $('input[type=radio][name=fontFamily]').change(function () {
+                    $('body').css({ "font-family": this.value })
+                });
             }
             GetUserProfileDetails();
         });
+
+        function changeWebsiteFont(ctrl) {
+
+        }
 
         function GetUserProfileDetails() {
             ShowLoader();

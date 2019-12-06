@@ -15,21 +15,6 @@
                                 <h5 class="card-title font-weight-bold" style="font-weight: bold" runat="server" id="dvUserName">Welcome back, John!!</h5>
                                 <p class="card-text">Welcome to 365!</p>
                             </div>
-                            <%--<!-- Progress bar 1 -->
-                            <div class="progress" data-value='80'>
-                                <span class="progress-left">
-                                    <span class="progress-bar border-primary"></span>
-                                </span>
-                                <span class="progress-right">
-                                    <span class="progress-bar border-primary"></span>
-                                </span>
-                                <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                                    <div class="ach-icon bg-green">
-                                        <img src="../includes/Asset/images/college-graduation.png" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END -->--%>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <ul class="list-group list-group-horizontal" id="dvAchievement">

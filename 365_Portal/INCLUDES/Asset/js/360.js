@@ -98,7 +98,6 @@ $(function () {
 
 $(document).ready(function () {
 
-    $(".progress-bar").loading();
     $('.sidenav-content .sidenav-item').click(function () {
 
         $('.sidenav-content .sidenav-item').removeClass('active');
