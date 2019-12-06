@@ -384,6 +384,13 @@
     <Compile Include="t\ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="t\comingsoon.aspx.cs">
+      <DependentUpon>comingsoon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\comingsoon.aspx.designer.cs">
+      <DependentUpon>comingsoon.aspx</DependentUpon>
+    </Compile>
     <Compile Include="t\ContentList.aspx.cs">
       <DependentUpon>ContentList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -768,6 +775,7 @@
     <Content Include="t\assign_topics.aspx" />
     <Content Include="t\bulkupload.aspx" />
     <Content Include="t\ChangePassword.aspx" />
+    <Content Include="t\comingsoon.aspx" />
     <Content Include="t\ContentList.aspx" />
     <Content Include="t\Contents.aspx" />
     <Content Include="t\dashboard.aspx" />

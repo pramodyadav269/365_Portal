@@ -28,7 +28,7 @@
                             <div class="custom-file">
                                 <%--<input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">--%>
                                 <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
-                                <label class="custom-file-label" for="customFile">Change Profile Pic</label>
+                                <label class="custom-file-label" for="customFile">Change Profile Pic</label>      <br /><br />
                             </div>
                         </div>
 
@@ -39,7 +39,7 @@
                             <div class="col-md-12 mt-3">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
-                                    <label class="custom-file-label" for="customFile">Change Company Logo</label>
+                                    <label class="custom-file-label" for="customFile">Change Organization Logo</label>
                                 </div>
                             </div>
                         </div>
@@ -152,10 +152,10 @@
                     $('#divCompanyLogo').show();
 
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor4"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Font<input type="text" id="txtThemeColor4"></div>');
                 $('#divCompanyTheme').show();
             }
             GetUserProfileDetails();
@@ -242,10 +242,10 @@
                 $("#imgCompLogo").attr("src", "../Files/CompLogo/" + Data.CompanyProfilePicFile);
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
 
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 1 <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor + '" id="txtThemeColor" onkeyup="getCustomColor(this)"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 2 <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor2 + '" id="txtThemeColor2" onkeyup="getCustomColor(this)"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 3 <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor3 + '" id="txtThemeColor3" onkeyup="getCustomColor(this)"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">color 4 <input type="color" id="ThemeColor4" value="' + Data.ThemeColor4 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor4 + '" id="txtThemeColor4" onkeyup="getCustomColor(this)"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor + '" id="txtThemeColor" onkeyup="getCustomColor(this)"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor2 + '" id="txtThemeColor2" onkeyup="getCustomColor(this)"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor3 + '" id="txtThemeColor3" onkeyup="getCustomColor(this)"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Font <input type="text" value="' + Data.ThemeColor4 + '" id="txtThemeColor4"></div>');
                 $('#divCompanyTheme').show();
             }
         }
@@ -308,7 +308,7 @@
                 ThemeColor2 = theInput.value;
                 theInput = document.getElementById("ThemeColor3");
                 ThemeColor3 = theInput.value;
-                theInput = document.getElementById("ThemeColor4");
+                theInput = document.getElementById("txtThemeColor4");
                 ThemeColor4 = theInput.value;
             }
 
@@ -445,9 +445,9 @@
             else if (obj.id == 'ThemeColor3') {
                 $('#txtThemeColor3').val(obj.value);
             }
-            else if (obj.id == 'ThemeColor4') {
-                $('#txtThemeColor4').val(obj.value);
-            }
+            //else if (obj.id == 'ThemeColor4') {
+            //    $('#txtThemeColor4').val(obj.value);
+            //}
         }
 
         function getCustomColor(obj) {
@@ -460,9 +460,9 @@
             else if (obj.id == 'txtThemeColor3') {
                 document.getElementById("ThemeColor3").value = obj.value;
             }
-            else if (obj.id == 'txtThemeColor4') {
-                document.getElementById("ThemeColor4").value = obj.value;
-            }
+            //else if (obj.id == 'txtThemeColor4') {
+            //    document.getElementById("ThemeColor4").value = obj.value;
+            //}
         }
 
     </script>

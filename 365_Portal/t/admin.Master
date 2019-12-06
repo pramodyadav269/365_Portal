@@ -48,7 +48,7 @@
         <div id="sideNav" runat="server" class="sidenav">
             <div class="sidenav-top">
                 <div class="sidenav-brand">
-                    <img id="imgCompanyLogo" runat="server" src="../INCLUDES/Asset/images/logo-white.svg" class="logo" />
+                    <img id="imgCompanyLogo" style="cursor:pointer;" onclick="location.href='default.aspx';" runat="server" src="../INCLUDES/Asset/images/logo-white.svg" class="logo" />
                     <a class="side-nav-menu float-right"><i class="fas fa-search"></i></a>
                     <%--<a class="side-nav-menu float-right d-none" onclick="ToggleNav()"><i class="fas fa-bars text-white"></i></a>--%>
                 </div>
@@ -98,16 +98,16 @@
             <div class="sidenav-content-menu">
                 <ul class="sidenav-nav d-none" id="sidenav_Directory">
                     <h4 class="menu-title">Directory</h4>
-                    <li class="sidenav-item " id="dvSubMenu_Organizations" runat="server" visible="false" onclick="location.href='profile.aspx';">
+                    <li class="sidenav-item " id="dvSubMenu_Organizations" runat="server" visible="false" onclick="location.href='comingsoon.aspx';">
                         <a class="sidenav-link">Organizations</a>
                     </li>
-                    <li class="sidenav-item " id="dvSubMenu_Users" runat="server" onclick="location.href='profile.aspx';">
+                    <li class="sidenav-item " id="dvSubMenu_Users" runat="server" onclick="location.href='users.aspx';">
                         <a class="sidenav-link">Users</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Groups" runat="server" onclick="location.href='default.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Groups" runat="server" onclick="location.href='groups.aspx';">
                         <a class="sidenav-link">Groups</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_DirectorySettings" runat="server" onclick="location.href='default.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_DirectorySettings" runat="server" onclick="location.href='comingsoon.aspx';">
                         <a class="sidenav-link">Directory Settings</a>
                     </li>
                 </ul>
@@ -122,28 +122,28 @@
                 </ul>--%>
                 <ul class="sidenav-nav d-none" id="sidenav_Integrations">
                     <h4 class="menu-title">Integrations</h4>
-                    <li class="sidenav-item " id="dvSubMenu_IntegrationSettings" onclick="location.href='profile.aspx';">
+                    <li class="sidenav-item " id="dvSubMenu_IntegrationSettings" onclick="location.href='comingsoon.aspx';">
                         <a class="sidenav-link">Integration Settings</a>
                     </li>
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_Account">
                     <h4 class="menu-title">Account</h4>
-                    <li class="sidenav-item " id="dvSubMenu_CompanyProfile" runat="server" onclick="location.href='profile.aspx';">
+                    <li class="sidenav-item " id="dvSubMenu_CompanyProfile" runat="server" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Company Profile</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Domain" runat="server" onclick="location.href='default.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Domain" runat="server" onclick="location.href='comingsoon.aspx';">
                         <a class="sidenav-link">Domain</a>
                     </li>
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_Content">
                     <h4 class="menu-title">Content</h4>
-                    <li class="sidenav-item" id="dvSubMenu_Topics" runat="server" onclick="location.href='groups.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Topics" runat="server" onclick="location.href='topics.aspx';">
                         <a class="sidenav-link">Courses</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Modules" runat="server" onclick="location.href='users.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Modules" runat="server" onclick="location.href='topics.aspx';">
                         <a class="sidenav-link">Lessons</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_ContentSettings" runat="server" visible="false" onclick="location.href='users.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_ContentSettings" runat="server" visible="false" onclick="location.href='topics.aspx';">
                         <a class="sidenav-link">Content Settings</a>
                     </li>
                 </ul>
@@ -165,7 +165,7 @@
                     <li class="sidenav-item" id="dvSubMenu_Notifications" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Notifications</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Roles" runat="server" visible="false" onclick="location.href='settings.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Roles" runat="server" visible="false" onclick="location.href='comingsoon.aspx';">
                         <a class="sidenav-link">Roles</a>
                     </li>
                     <li class="sidenav-item" id="dvSubMenu_Customize" runat="server" visible="false" onclick="location.href='settings.aspx';">
@@ -175,13 +175,13 @@
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_Help">
                     <h4 class="menu-title">Help</h4>
-                    <li class="sidenav-item" id="dvSubMenu_HelpCenter">
+                    <li class="sidenav-item" id="dvSubMenu_HelpCenter" onclick="location.href='comingsoon.aspx';">
                         <a class="sidenav-link">Help Center</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Support">
+                    <li class="sidenav-item" id="dvSubMenu_Support" onclick="location.href='comingsoon.aspx';">
                         <a class="sidenav-link">Support</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Chat">
+                    <li class="sidenav-item" id="dvSubMenu_Chat" onclick="location.href='comingsoon.aspx';">
                         <a class="sidenav-link">Chat</a>
                     </li>
                 </ul>
