@@ -217,6 +217,7 @@ a {
             font-size: 14px;
             text-transform: none;
         }
+
             .navbar .icon .dropdown-menu .dropdown-item.unread::before {
                 position: absolute;
                 display: inline-block;
@@ -583,47 +584,77 @@ main {
             transform: translate(-50%, -50%);
         }
 
-/*process bar*/
-.progress-bar.p-circle {
+/*progress bar*/
+.progress {
+    width: 80px;
+    height: 80px;
     background: none;
+    position: relative;
 }
 
-.achievements .progress-bar.p-circle div {
-    position: absolute;
-    height: 5rem;
-    width: 5rem;
-    border-radius: 50%;
-    top: 2.1rem;
-    left: .7rem;
-}
-
-.progress-bar .rotate {
-    clip: rect(0 2.5rem 5rem 0);
-    /*background-color: #5FC9F8;*/
-}
-
-.progress-bar .left {
-    clip: rect(0 2.5rem 5rem 0);
-    opacity: 1;
-    /*background-color: #b3cef6;*/
-}
-
-.progress-bar .right {
-    clip: rect(0 2.5rem 5rem 0);
-    transform: rotate(180deg);
-    opacity: 0;
-    /*background-color: #4b86db;*/
-}
-
-@keyframes toggle {
-    0% {
-        opacity: 0;
+    .progress::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 6px solid #a7a7a73b;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
-    100% {
-        opacity: 1;
+    .progress > span {
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        z-index: 1;
     }
-}
+
+    .progress .progress-left {
+        left: 0;
+    }
+
+    .progress .progress-bar {
+        width: 100%;
+        height: 100%;
+        background: none;
+        border-width: 6px;
+        border-style: solid;
+        position: absolute;
+        top: 0;
+    }
+
+    .progress .progress-left .progress-bar {
+        left: 100%;
+        border-top-right-radius: 80px;
+        border-bottom-right-radius: 80px;
+        border-left: 0;
+        -webkit-transform-origin: center left;
+        transform-origin: center left;
+    }
+
+    .progress .progress-right {
+        right: 0;
+    }
+
+        .progress .progress-right .progress-bar {
+            left: -100%;
+            border-top-left-radius: 80px;
+            border-bottom-left-radius: 80px;
+            border-right: 0;
+            -webkit-transform-origin: center right;
+            transform-origin: center right;
+        }
+
+    .progress .progress-value {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+/*end progress*/
+
 
 .dot-br-2 {
     border-right: 2px dotted rgba(0, 0, 0, 0.3);
