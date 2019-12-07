@@ -16,11 +16,18 @@
                                 <p class="card-text">Welcome to 365!</p>
                             </div>
                         </div>
+
+                        	<button class="button" id="play-button" onclick="return false;">PLAY</button>
+		<button class="button" id="pause-button" onclick="return false;">PAUSE</button>
+		<button class="button" id="stop-button" onclick="return false;">STOP</button>
+	</div>
+                        <iframe id="video" width="420" height="345" src="https://www.youtube.com/embed/HSsqzzuGTPo"></iframe>
+
                         <div class="col-sm-12 col-md-6">
                             <ul class="list-group list-group-horizontal" id="dvAchievement">
                                 <li class="list-group-item" onclick="openModal(1)">
                                     <span class="ach-title">Professor</span>
-                                    <div class="progress" data-value='80'>
+                                    <div class="progress" data-value='0'>
                                         <span class="progress-left">
                                             <span class="progress-bar bc-green"></span>
                                         </span>
@@ -33,12 +40,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="ach-percentage">80%</span>
+                                    <span class="ach-percentage">0%</span>
                                 </li>
 
                                 <li class="list-group-item" onclick="openModal(2)">
                                     <span class="ach-title">Influencer</span>
-                                    <div class="progress" data-value='60'>
+                                    <div class="progress" data-value='0'>
                                         <span class="progress-left">
                                             <span class="progress-bar bc-red"></span>
                                         </span>
@@ -51,11 +58,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="ach-percentage">60%</span>
+                                    <span class="ach-percentage">0%</span>
                                 </li>
                                 <li class="list-group-item" onclick="openModal(3)">
                                     <span class="ach-title">LEGO Leader</span>
-                                    <div class="progress" data-value='30'>
+                                    <div class="progress" data-value='0'>
                                         <span class="progress-left">
                                             <span class="progress-bar bc-purple"></span>
                                         </span>
@@ -68,7 +75,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="ach-percentage">30%</span>
+                                    <span class="ach-percentage">0%</span>
                                 </li>
                                 <li class="list-group-item" onclick="openModal(4)">
                                     <span class="ach-title">G.O.A.T</span>
@@ -387,6 +394,7 @@
                                     </div>
                                 </div>
                                 <div id="divVideo"></div>
+                                <iframe width="420" height="345" src="https://www.youtube.com/embed/HSsqzzuGTPo"></iframe>
                                 <%-- <video controls id="contentVideo" onended="videoRating()">
                                     <source src="../Asset/data/bunny.mp4" type="video/mp4">
                                 </video>--%>
@@ -785,6 +793,47 @@
 
             GetAchievements();
         });
+
+        // global variable for the player
+        var player;
+
+        // this function gets called when API is ready to use
+        function onYouTubePlayerAPIReady() {
+            alert("abc")
+            // create the global player from the specific iframe (#video)
+            player = new YT.Player('video', {
+                events: {
+                    // call this function when player is ready to use
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+
+            // bind events
+            var playButton = document.getElementById("play-button");
+            playButton.addEventListener("click", function () {
+                player.playVideo();
+            });
+
+            var pauseButton = document.getElementById("pause-button");
+            pauseButton.addEventListener("click", function () {
+                player.pauseVideo();
+            });
+
+            var stopButton = document.getElementById("stop-button");
+            stopButton.addEventListener("click", function () {
+                player.stopVideo();
+            });
+
+        }
+
+        // Inject YouTube API script
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         var achievements = [];
 

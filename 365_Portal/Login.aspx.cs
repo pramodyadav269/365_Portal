@@ -27,7 +27,7 @@ namespace _365_Portal
         {
             try
             {
-                lblError.Text = "";                
+                lblError.Text = "";
                 if (string.IsNullOrEmpty(txtUserEmail.Text.Trim()) || string.IsNullOrEmpty(txtUserPassword.Text.Trim()))
                 {
                     //lblError.Text = ConstantMessages.Login.InvalidUser;
@@ -51,7 +51,7 @@ namespace _365_Portal
                         _loginLogout.CompID = objResponse.CompId.ToString();
                         _loginLogout.Type = "login";
                         _loginLogout.IP_Address = Utility.GetClientIPaddress();
-                        UserDAL.InsertLoginLogoutHistory(_loginLogout,"");
+                        UserDAL.InsertLoginLogoutHistory(_loginLogout, "");
                         //End Login Log
 
                         GetAccessToken(txtUserEmail.Text.Trim(), txtUserPassword.Text.Trim());
@@ -60,7 +60,7 @@ namespace _365_Portal
                         {
                             //lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
                             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Swal.fire({text: '" + ConstantMessages.WebServiceLog.GenericErrorMsg + "',allowOutsideClick:false})", true);
-                            
+
                             return;
                         }
                         else
@@ -76,10 +76,15 @@ namespace _365_Portal
                                 //HttpContext.Current.Session["CompanyProfilePicFile"] = Utility.GetBase64ImageByFileID(UserDetails.CompanyProfilePicFileID, "~/Files/CompLogo/");
                                 //HttpContext.Current.Session["ThemeColor"] = UserDetails.ThemeColor;
 
+                                HttpContext.Current.Session["ThemeColor"] = UserDetails.ThemeColor;
+                                HttpContext.Current.Session["ThemeColor2"] = UserDetails.ThemeColor2;
+                                HttpContext.Current.Session["ThemeColor3"] = UserDetails.ThemeColor3;
+                                HttpContext.Current.Session["ThemeColor4"] = UserDetails.ThemeColor4;
+
                                 Utility.CreateProfileAndThemeSession(UserDetails.ProfilePicFileID, UserDetails.CompanyProfilePicFileID, UserDetails.ThemeColor);
                             }
                             //End For ProfilePic,CompanyProfilePic & Theme
-                            
+
                             if (objResponse.IsFirstLogin == "1" || objResponse.IsFirstPasswordNotChanged == "1")
                             {
                                 if (objResponse.IsFirstLogin == "1")
@@ -105,11 +110,11 @@ namespace _365_Portal
                             {
                                 if (objResponse.Role.ToLower() == "enduser")
                                 {
-                                    Response.Redirect("~/t/default.aspx",false);
+                                    Response.Redirect("~/t/default.aspx", false);
                                 }
                                 else if (objResponse.Role.ToLower() == "superadmin" || objResponse.Role.ToLower() == "companyadmin" || objResponse.Role.ToLower() == "subadmin")
                                 {
-                                    Response.Redirect("~/t/dashboard.aspx",false);
+                                    Response.Redirect("~/t/dashboard.aspx", false);
                                 }
                             }
                         }
@@ -119,7 +124,7 @@ namespace _365_Portal
                         // Call Login Business Layer Function to record message
                         //lblError.Text = objResponse.ReturnMessage;
                         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Swal.fire({text: '" + objResponse.ReturnMessage + "',allowOutsideClick:false})", true);
-                       
+
                     }
                 }
             }
@@ -127,7 +132,7 @@ namespace _365_Portal
             {
                 //lblError.Text = ConstantMessages.WebServiceLog.GenericErrorMsg;
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "script", "Swal.fire({text: '" + ConstantMessages.WebServiceLog.GenericErrorMsg + "',allowOutsideClick:false})", true);
-                
+
             }
         }
     }

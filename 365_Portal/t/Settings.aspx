@@ -6,8 +6,7 @@
     <div class="row settings">
         <div class="col-md-12 header">
             <a class="back" href="Default.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h2 class="text-center font-weight-bold">
-            Your Profile</h2>
+            <h2 class="text-center font-weight-bold">Your Profile</h2>
         </div>
         <div class="col-md-6 offset-md-3 mt-5">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -47,9 +46,8 @@
                         </div>
 
 
-                        <div id="divCompanyTheme" style="display: none; padding-top: 20px;">
+                        <div class="row" id="divCompanyTheme" style="display: none; padding-top: 20px;">
                         </div>
-
 
                         <div class="col-md-10 mt-5 form-page form-control-bg-d">
                             <div class="form-group">
@@ -126,6 +124,12 @@
             var notifcation1Msg = "";
             var notifcation2Msg = "";
 
+            //branding color
+            //$('.sidenav').css({ "background-color": "#ED5F5F" })
+            //$('.sidenav-content-menu').css({ "background-color": "#FC3158" })
+            //$('<style>.sidenav-content .sidenav-nav .sidenav-item.side-menu.active .sidenav-link::after {border-color: transparent #FC3158 transparent transparent;} </style>').appendTo('head');
+
+
             // Super Admin
             if (Role == "superadmin") {
                 notifcation1Msg = "Notify me when a new organization is modified";
@@ -156,31 +160,73 @@
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Font<input type="text" id="txtThemeColor4"></div>');
+                //$('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
 
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3 custom-font">Custom Font' +
-                    '<div class="form-group radio box">' +
-                    '<input type="radio" id="f1" name="fontFamily" value="Heebo">' +
-                    '<label for="f1">Heebo</label>' +
-                    '<input type="radio" id="f2" name="fontFamily" value="sans-serif">' +
-                    '<label for="f2">Sans Serif</label>' +
-                    '<input type="radio" id="f3" name="fontFamily" value="Roboto">' +
-                    '<label for="f3">Roboto</label>' +
+                $('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Botton Font Color' +
+                    '<div class="row mt-2">' +
+                    '<div class="col button-color">' +
+                    '<a class="font-weight-bold auto" button-data="auto">Preview</a>' +
+                    '<span class="label active">Auto</span>' +
                     '</div>' +
-                    '</div>');
+                    '<div class="col button-color">' +
+                    '<a class="font-weight-bold dark" button-data="dark">Preview</a>' +
+                    '<span class="label">Dark</span>' +
+                    '</div>' +
+                    '<div class="col button-color">' +
+                    '<a class="font-weight-bold light" button-data="light">Preview</a>' +
+                    '<span class="label">Light</span>' +
+                    '</div>' +
+                    '</div></div>');
+
+
+                $('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Custom Font' +
+                    '<div class="row mt-2">' +
+                    '<div class="col custom-font">' +
+                    '<div class="serif custom-font-style" font-data="serif">' +
+                    '<span class="titles">Titles</span>' +
+                    '<span class="paragraphs">Paragraphs</span>' +
+                    '<span class="captions">Captions</span>' +
+                    '</div>' +
+                    '<span class="label mt-2">Serif</span>' +
+                    '</div>' +
+                    '<div class="col custom-font">' +
+                    '<div class="sans-serif custom-font-style" font-data="sans-serif">' +
+                    '<span class="titles">Titles</span>' +
+                    '<span class="paragraphs">Paragraphs</span>' +
+                    '<span class="captions">Captions</span>' +
+                    '</div>' +
+                    '<span class="label mt-2 active">Sans Serif (Default)</span>' +
+                    '</div>' +
+                    '<div class="col custom-font">' +
+                    '<div class="mixed-serif custom-font-style" font-data="mixed-serif">' +
+                    '<span class="titles">Titles</span>' +
+                    '<span class="paragraphs">Paragraphs</span>' +
+                    '<span class="captions">Captions</span>' +
+                    '</div>' +
+                    '<span class="label mt-2">Mixed Serif</span>' +
+                    '</div>' +
+                    '</div></div>');
+
                 $('#divCompanyTheme').show();
 
-                $('input[type=radio][name=fontFamily]').change(function () {
-                    $('body').css({ "font-family": this.value })
-                });
+                $('.custom-font-style').click(function () {
+                    $('.custom-font .label').removeClass('active')
+                    $(this).parent().find('.label').addClass('active')
+                    $('body').css({ "font-family": $(this).attr('font-data') })
+                })
+
+
+                $('.button-color a').click(function () {
+                    $('.button-color .label').removeClass('active')
+                    $(this).parent().find('.label').addClass('active')
+                    $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
+                    $('.btn').addClass($(this).attr('button-data'))
+                })
             }
             GetUserProfileDetails();
+
         });
 
-        function changeWebsiteFont(ctrl) {
-
-        }
 
         function GetUserProfileDetails() {
             ShowLoader();
@@ -266,7 +312,22 @@
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor + '" id="txtThemeColor" onkeyup="getCustomColor(this)"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor2 + '" id="txtThemeColor2" onkeyup="getCustomColor(this)"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor3 + '" id="txtThemeColor3" onkeyup="getCustomColor(this)"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Font <input type="text" value="' + Data.ThemeColor4 + '" id="txtThemeColor4"></div>');
+
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3 custom-font">Custom Font' +
+                    '<div class="form-group radio box">' +
+                    '<input type="radio" id="f1" name="fontFamily" value="Heebo">' +
+                    '<label for="f1">Heebo</label>' +
+                    '<input type="radio" id="f2" name="fontFamily" value="sans-serif">' +
+                    '<label for="f2">Sans Serif</label>' +
+                    '<input type="radio" id="f3" name="fontFamily" value="Roboto">' +
+                    '<label for="f3">Roboto</label>' +
+                    '</div>' +
+                    '</div>');
+                if (Data.ThemeColor4 == null || Data.ThemeColor4 == "") {
+                    Data.ThemeColor4 = "Heebo";
+                }
+                $('input[name="fontFamily"]').prop('checked', false);
+                $("input[name=fontFamily][value=" + Data.ThemeColor4 + "]").prop("checked", true);
                 $('#divCompanyTheme').show();
             }
         }
@@ -329,8 +390,7 @@
                 ThemeColor2 = theInput.value;
                 theInput = document.getElementById("ThemeColor3");
                 ThemeColor3 = theInput.value;
-                theInput = document.getElementById("txtThemeColor4");
-                ThemeColor4 = theInput.value;
+                ThemeColor4 = $('input[name=fontFamily]:checked').val();
             }
 
             var requestParams = { EmailID: EmailID, Position: Position, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyThemeColor4: ThemeColor4 };
@@ -466,9 +526,6 @@
             else if (obj.id == 'ThemeColor3') {
                 $('#txtThemeColor3').val(obj.value);
             }
-            //else if (obj.id == 'ThemeColor4') {
-            //    $('#txtThemeColor4').val(obj.value);
-            //}
         }
 
         function getCustomColor(obj) {
@@ -481,9 +538,6 @@
             else if (obj.id == 'txtThemeColor3') {
                 document.getElementById("ThemeColor3").value = obj.value;
             }
-            //else if (obj.id == 'txtThemeColor4') {
-            //    document.getElementById("ThemeColor4").value = obj.value;
-            //}
         }
 
     </script>

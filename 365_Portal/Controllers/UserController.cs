@@ -452,6 +452,11 @@ namespace _365_Portal.Controllers
                         _userdetail.ThemeColor2 = (string)requestParams.SelectToken("CompanyThemeColor2");
                         _userdetail.ThemeColor3 = (string)requestParams.SelectToken("CompanyThemeColor3");
                         _userdetail.ThemeColor4 = (string)requestParams.SelectToken("CompanyThemeColor4");
+
+                        HttpContext.Current.Session["ThemeColor"] = _userdetail.ThemeColor;
+                        HttpContext.Current.Session["ThemeColor2"] = _userdetail.ThemeColor2;
+                        HttpContext.Current.Session["ThemeColor3"] = _userdetail.ThemeColor3;
+                        HttpContext.Current.Session["ThemeColor4"] = _userdetail.ThemeColor4;
                     }
                 }
                 catch (Exception ex)
@@ -1607,7 +1612,7 @@ namespace _365_Portal.Controllers
                     else
                     {
                         data = Utility.API_Status("2", "Please provide UserID and GroupID");
-                    }                    
+                    }
                 }
                 else
                 {

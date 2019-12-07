@@ -115,6 +115,28 @@ namespace _365_Portal.Admin
                         dvAssignTopics.Visible = false;
                     }
                 }
+
+                // Change Theme Colors & Fonts..
+                var theme1 = Convert.ToString(HttpContext.Current.Session["ThemeColor"]);
+                var theme2 = Convert.ToString(HttpContext.Current.Session["ThemeColor2"]);
+                var theme3 = Convert.ToString(HttpContext.Current.Session["ThemeColor3"]);
+                var theme4 = Convert.ToString(HttpContext.Current.Session["ThemeColor4"]);
+                if (!string.IsNullOrEmpty(theme1))
+                {
+                    //dvBody.Style.Add("font-family", "");
+                }
+                if (!string.IsNullOrEmpty(theme2))
+                {
+                    //dvBody.Style.Add("font-family", "");
+                }
+                if (!string.IsNullOrEmpty(theme3))
+                {
+                    // dvBody.Style.Add("font-family", "");
+                }
+                if (!string.IsNullOrEmpty(theme4))
+                {
+                    dvBody.Style.Add("font-family", theme4);
+                }
             }
             else
             {
