@@ -27,12 +27,40 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
+        public static DataSet CreateUpdateAdminUser(UserBO objUserBO, int Action, int ChildUserID)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = OrganizationDAL.CreateUpdateAdminUser(objUserBO, Action, ChildUserID);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
         public static DataSet GetCountry(int UserID)
         {
             DataSet ds = new DataSet();
             try
             {
                 ds = OrganizationDAL.GetCountry(UserID);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet GetRole(string Role,string RoleID)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = OrganizationDAL.GetRole(Role, RoleID);
             }
             catch (Exception ex)
             {
