@@ -157,7 +157,6 @@
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Font<input type="text" id="txtThemeColor4"></div>');
 
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3 custom-font">Custom Font' +
                     '<div class="form-group radio box">' +
@@ -170,10 +169,10 @@
                     '</div>' +
                     '</div>');
                 $('#divCompanyTheme').show();
-
-                $('input[type=radio][name=fontFamily]').change(function () {
-                    $('body').css({ "font-family": this.value })
-                });
+               
+                //$('input[type=radio][name=fontFamily]').change(function () {
+                //    $('body').css({ "font-family": this.value })
+                //});
             }
             GetUserProfileDetails();
         });
@@ -266,7 +265,22 @@
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor + '" id="txtThemeColor" onkeyup="getCustomColor(this)"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor2 + '" id="txtThemeColor2" onkeyup="getCustomColor(this)"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor3 + '" id="txtThemeColor3" onkeyup="getCustomColor(this)"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Font <input type="text" value="' + Data.ThemeColor4 + '" id="txtThemeColor4"></div>');
+
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3 custom-font">Custom Font' +
+                    '<div class="form-group radio box">' +
+                    '<input type="radio" id="f1" name="fontFamily" value="Heebo">' +
+                    '<label for="f1">Heebo</label>' +
+                    '<input type="radio" id="f2" name="fontFamily" value="sans-serif">' +
+                    '<label for="f2">Sans Serif</label>' +
+                    '<input type="radio" id="f3" name="fontFamily" value="Roboto">' +
+                    '<label for="f3">Roboto</label>' +
+                    '</div>' +
+                    '</div>');
+                if (Data.ThemeColor4 == null || Data.ThemeColor4 =="") {
+                    Data.ThemeColor4 = "Heebo";
+                }
+                $('input[name="fontFamily"]').prop('checked', false);
+                $("input[name=fontFamily][value=" + Data.ThemeColor4 + "]").prop("checked", true);
                 $('#divCompanyTheme').show();
             }
         }
@@ -329,8 +343,7 @@
                 ThemeColor2 = theInput.value;
                 theInput = document.getElementById("ThemeColor3");
                 ThemeColor3 = theInput.value;
-                theInput = document.getElementById("txtThemeColor4");
-                ThemeColor4 = theInput.value;
+                ThemeColor4 = $('input[name=fontFamily]:checked').val();
             }
 
             var requestParams = { EmailID: EmailID, Position: Position, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyThemeColor4: ThemeColor4 };
@@ -466,9 +479,6 @@
             else if (obj.id == 'ThemeColor3') {
                 $('#txtThemeColor3').val(obj.value);
             }
-            //else if (obj.id == 'ThemeColor4') {
-            //    $('#txtThemeColor4').val(obj.value);
-            //}
         }
 
         function getCustomColor(obj) {
@@ -481,9 +491,6 @@
             else if (obj.id == 'txtThemeColor3') {
                 document.getElementById("ThemeColor3").value = obj.value;
             }
-            //else if (obj.id == 'txtThemeColor4') {
-            //    document.getElementById("ThemeColor4").value = obj.value;
-            //}
         }
 
     </script>

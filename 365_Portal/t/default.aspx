@@ -20,7 +20,7 @@
                             <ul class="list-group list-group-horizontal" id="dvAchievement">
                                 <li class="list-group-item" onclick="openModal(1)">
                                     <span class="ach-title">Professor</span>
-                                    <div class="progress" data-value='80'>
+                                    <div class="progress" data-value='0'>
                                         <span class="progress-left">
                                             <span class="progress-bar bc-green"></span>
                                         </span>
@@ -33,12 +33,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="ach-percentage">80%</span>
+                                    <span class="ach-percentage">0%</span>
                                 </li>
 
                                 <li class="list-group-item" onclick="openModal(2)">
                                     <span class="ach-title">Influencer</span>
-                                    <div class="progress" data-value='60'>
+                                    <div class="progress" data-value='0'>
                                         <span class="progress-left">
                                             <span class="progress-bar bc-red"></span>
                                         </span>
@@ -51,11 +51,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="ach-percentage">60%</span>
+                                    <span class="ach-percentage">0%</span>
                                 </li>
                                 <li class="list-group-item" onclick="openModal(3)">
                                     <span class="ach-title">LEGO Leader</span>
-                                    <div class="progress" data-value='30'>
+                                    <div class="progress" data-value='0'>
                                         <span class="progress-left">
                                             <span class="progress-bar bc-purple"></span>
                                         </span>
@@ -68,7 +68,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="ach-percentage">30%</span>
+                                    <span class="ach-percentage">0%</span>
                                 </li>
                                 <li class="list-group-item" onclick="openModal(4)">
                                     <span class="ach-title">G.O.A.T</span>
