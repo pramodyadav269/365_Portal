@@ -124,6 +124,12 @@
             var notifcation1Msg = "";
             var notifcation2Msg = "";
 
+            //branding color
+            //$('.sidenav').css({ "background-color": "#ED5F5F" })
+            //$('.sidenav-content-menu').css({ "background-color": "#FC3158" })
+            //$('<style>.sidenav-content .sidenav-nav .sidenav-item.side-menu.active .sidenav-link::after {border-color: transparent #FC3158 transparent transparent;} </style>').appendTo('head');
+
+
             // Super Admin
             if (Role == "superadmin") {
                 notifcation1Msg = "Notify me when a new organization is modified";
