@@ -1,53 +1,78 @@
-﻿(function ($) {
-    $.fn.loading = function () {
-        var DEFAULTS = {
-            backgroundColor: '#b3cef6',
-            progressColor: '#4b86db',
-            percent: 0,
-            duration: 2000
-        };
+﻿//(function ($) {
+//    $.fn.loading = function () {
+//        var DEFAULTS = {
+//            backgroundColor: '#b3cef6',
+//            progressColor: '#4b86db',
+//            percent: 0,
+//            duration: 2000
+//        };
 
-        $(this).each(function () {
-            var $target = $(this);
+//        $(this).each(function () {
+//            var $target = $(this);
 
-            var opts = {
-                backgroundColor: $target.data('color') ? $target.data('color').split(',')[0] : DEFAULTS.backgroundColor,
-                progressColor: $target.data('color') ? $target.data('color').split(',')[1] : DEFAULTS.progressColor,
-                percent: $target.data('percent') ? $target.data('percent') : DEFAULTS.percent,
-                duration: $target.data('duration') ? $target.data('duration') : DEFAULTS.duration
-            };
-            // console.log(opts);
+//            var opts = {
+//                backgroundColor: $target.data('color') ? $target.data('color').split(',')[0] : DEFAULTS.backgroundColor,
+//                progressColor: $target.data('color') ? $target.data('color').split(',')[1] : DEFAULTS.progressColor,
+//                percent: $target.data('percent') ? $target.data('percent') : DEFAULTS.percent,
+//                duration: $target.data('duration') ? $target.data('duration') : DEFAULTS.duration
+//            };
+//            // console.log(opts);
 
-            $target.append('<div class="background"></div><div class="rotate"></div><div class="left"></div><div class="right"></div><div class=""><span></span></div>');
+//            $target.append('<div class="background"></div><div class="rotate"></div><div class="left"></div><div class="right"></div><div class=""><span></span></div>');
 
-            $target.find('.background').css('background-color', opts.backgroundColor);
-            $target.find('.left').css('background-color', opts.backgroundColor);
-            $target.find('.rotate').css('background-color', opts.progressColor);
-            $target.find('.right').css('background-color', opts.progressColor);
+//            $target.find('.background').css('background-color', opts.backgroundColor);
+//            $target.find('.left').css('background-color', opts.backgroundColor);
+//            $target.find('.rotate').css('background-color', opts.progressColor);
+//            $target.find('.right').css('background-color', opts.progressColor);
 
-            var $rotate = $target.find('.rotate');
-            setTimeout(function () {
-                $rotate.css({
-                    'transition': 'transform ' + opts.duration + 'ms linear',
-                    'transform': 'rotate(' + opts.percent * 3.6 + 'deg)'
-                });
-            }, 1);
+//            var $rotate = $target.find('.rotate');
+//            setTimeout(function () {
+//                $rotate.css({
+//                    'transition': 'transform ' + opts.duration + 'ms linear',
+//                    'transform': 'rotate(' + opts.percent * 3.6 + 'deg)'
+//                });
+//            }, 1);
 
-            if (opts.percent > 50) {
-                var animationRight = 'toggle ' + (opts.duration / opts.percent * 50) + 'ms step-end';
-                var animationLeft = 'toggle ' + (opts.duration / opts.percent * 50) + 'ms step-start';
-                $target.find('.right').css({
-                    animation: animationRight,
-                    opacity: 1
-                });
-                $target.find('.left').css({
-                    animation: animationLeft,
-                    opacity: 0
-                });
+//            if (opts.percent > 50) {
+//                var animationRight = 'toggle ' + (opts.duration / opts.percent * 50) + 'ms step-end';
+//                var animationLeft = 'toggle ' + (opts.duration / opts.percent * 50) + 'ms step-start';
+//                $target.find('.right').css({
+//                    animation: animationRight,
+//                    opacity: 1
+//                });
+//                $target.find('.left').css({
+//                    animation: animationLeft,
+//                    opacity: 0
+//                });
+//            }
+//        });
+//    }
+//})(jQuery);
+
+$(function () {
+
+    $(".progress").each(function () {
+
+        var value = $(this).attr('data-value');
+        var left = $(this).find('.progress-left .progress-bar');
+        var right = $(this).find('.progress-right .progress-bar');
+
+        if (value > 0) {
+            if (value <= 50) {
+                right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)');
+            } else {
+                right.css('transform', 'rotate(180deg)')
+                left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)');
             }
-        });
+        }
+
+    })
+
+    function percentageToDegrees(percentage) {
+        return percentage / 100 * 360;
     }
-})(jQuery);
+
+});
 
 //function ToggleNav() {
 //    if ($("#sideNav").width() === 250) {
@@ -73,7 +98,6 @@
 
 $(document).ready(function () {
 
-    $(".progress-bar").loading();
     $('.sidenav-content .sidenav-item').click(function () {
 
         $('.sidenav-content .sidenav-item').removeClass('active');
@@ -100,7 +124,7 @@ $(document).ready(function () {
             $('.admin-task .card-body').addClass('d-none');
             $('.task-arrow img').css({ "transform": "rotate(180deg)" });
         }
-        
+
     });
     //$('.sidenav-content-menu')
 });
