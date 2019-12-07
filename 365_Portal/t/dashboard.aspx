@@ -13,7 +13,7 @@
                             <p class="card-text">Welcome to 365!</p>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-6 achievements-progress">
                             <ul class="list-group list-group-horizontal" id="dvAchievement">
                                 <li class="list-group-item" onclick="openModal(1)">
                                     <span class="ach-title">Professor</span>

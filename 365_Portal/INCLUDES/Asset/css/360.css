@@ -4,9 +4,7 @@
     font-family: 'Heebo';
     font-style: normal;
     font-weight: 400;
-    src: local('Heebo'), local('Heebo-Regular'),
-    /*url('../fonts/heebo-v5-latin-700.woff2') format('woff2'),*/ /* Super Modern Browsers */
-    url('../fonts/heebo-v5-latin-regular.woff2') format('woff2');
+    src: local('Heebo'), local('Heebo-Regular'), url('../fonts/heebo-v5-latin-regular.woff2') format('woff2');
 }
 
 body {
@@ -585,14 +583,14 @@ main {
         }
 
 /*progress bar*/
-.progress {
+.achievements-progress .progress {
     width: 80px;
     height: 80px;
     background: none;
     position: relative;
 }
 
-    .progress::after {
+    .achievements-progress .progress::after {
         content: "";
         width: 100%;
         height: 100%;
@@ -603,7 +601,7 @@ main {
         left: 0;
     }
 
-    .progress > span {
+    .achievements-progress .progress > span {
         width: 50%;
         height: 100%;
         overflow: hidden;
@@ -612,11 +610,11 @@ main {
         z-index: 1;
     }
 
-    .progress .progress-left {
+    .achievements-progress .progress .progress-left {
         left: 0;
     }
 
-    .progress .progress-bar {
+    .achievements-progress .progress .progress-bar {
         width: 100%;
         height: 100%;
         background: none;
@@ -626,7 +624,7 @@ main {
         top: 0;
     }
 
-    .progress .progress-left .progress-bar {
+    .achievements-progress .progress .progress-left .progress-bar {
         left: 100%;
         border-top-right-radius: 80px;
         border-bottom-right-radius: 80px;
@@ -635,11 +633,11 @@ main {
         transform-origin: center left;
     }
 
-    .progress .progress-right {
+    .achievements-progress .progress .progress-right {
         right: 0;
     }
 
-        .progress .progress-right .progress-bar {
+        .achievements-progress .progress .progress-right .progress-bar {
             left: -100%;
             border-top-left-radius: 80px;
             border-bottom-left-radius: 80px;
@@ -648,7 +646,7 @@ main {
             transform-origin: center right;
         }
 
-    .progress .progress-value {
+    .achievements-progress .progress .progress-value {
         position: absolute;
         top: 0;
         left: 0;
@@ -797,6 +795,8 @@ input[type=checkbox] + label, input[type=radio] + label {
     font-size: 14px;
     cursor: pointer;
     margin-bottom: .75rem;
+    background: #2D7DD2;
+    color: #fff;
 }
 
 
@@ -1415,3 +1415,70 @@ table tbody td .svg-inline--fa {
 table tr.tDnD_whileDrag {
     background: #eee;
 }
+
+
+.custom-font, .button-color {
+    text-align: center;
+}
+
+    .custom-font .label, .button-color .label {
+        border-radius: 4px;
+        padding: .2rem .75rem;
+    }
+
+        .custom-font .label.active, .button-color .label.active {
+            border: 1px solid #147EFB;
+        }
+
+    .custom-font .custom-font-style {
+        cursor: pointer;
+        text-align: center;
+        border: 1px solid #c4c4c4;
+        border-radius: 4px;
+        margin-bottom: .5rem;
+    }
+
+        .custom-font .custom-font-style span {
+            display: block;
+        }
+
+    .custom-font .serif.custom-font-style {
+        font-family: serif;
+    }
+
+    .custom-font .sans-serif.custom-font-style {
+        font-family: sans-serif;
+    }
+
+    .custom-font .mixed-serif.custom-font-style {
+        font-family: sans-serif;
+    }
+
+    .button-color a {
+        display: block;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        padding: 0.75rem 2rem;
+        font-size: 14px;
+        cursor: pointer;
+        margin-bottom: .75rem;
+        line-height: 1.5;
+        border-radius: 0;
+        text-transform: uppercase;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+        .button-color a.auto, .button-color a.light, .btn.auto, .btn.light {
+            background: red !important;
+            color: #fff !important;
+        }
+
+        .button-color a.dark, .btn.dark {
+            background: red !important;
+            color: #000 !important;
+        }
