@@ -68,5 +68,19 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+
+        public static DataSet GetAdminUserDetails(UserBO objUserBO, int ChildUserID)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = OrganizationDAL.GetAdminUserDetails(objUserBO, ChildUserID);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
     }
 }

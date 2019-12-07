@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using _365_Portal.Common;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -55,10 +56,10 @@ namespace _365_Portal.Code.DAL
                 string stm = "spCreateAdminUser";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("p_Action", Action);
-                cmd.Parameters.AddWithValue("p_ChildUserID", ChildUserID);
+                cmd.Parameters.AddWithValue("p_Action", Action);                
                 cmd.Parameters.AddWithValue("p_UserKey", objUsers.UserKey);
                 cmd.Parameters.AddWithValue("p_CompName", objUsers.CompName);
+                cmd.Parameters.AddWithValue("p_ChildUserID", ChildUserID);
                 cmd.Parameters.AddWithValue("p_RoleID", objUsers.RoleID);
                 cmd.Parameters.AddWithValue("p_FirstName", objUsers.FirstName);
                 cmd.Parameters.AddWithValue("p_LastName", objUsers.LastName);
@@ -68,8 +69,23 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_PasswordSalt", objUsers.PasswordSalt);
                 cmd.Parameters.AddWithValue("p_MobileNum", objUsers.MobileNum);
                 cmd.Parameters.AddWithValue("p_Position", objUsers.Position);
+
+                cmd.Parameters.AddWithValue("p_ProFilePicFileID", objUsers.ProfilePicFileID);
+                cmd.Parameters.AddWithValue("p_EmailNotification", objUsers.EmailNotification);
+                cmd.Parameters.AddWithValue("p_PushNotification", objUsers.PushNotification);
+
                 cmd.Parameters.AddWithValue("p_GroupId", objUsers.GroupId);
                 cmd.Parameters.AddWithValue("p_CreatedBy", objUsers.UserID);
+
+                cmd.Parameters.AddWithValue("p_CompanyProfilePicFileID", objUsers.CompanyProfilePicFileID);
+                cmd.Parameters.AddWithValue("p_CompanyThemeColor", objUsers.ThemeColor);
+                cmd.Parameters.AddWithValue("p_CompanyThemeColor2", objUsers.ThemeColor2);
+                cmd.Parameters.AddWithValue("p_CompanyThemeColor3", objUsers.ThemeColor3);
+                cmd.Parameters.AddWithValue("p_CustomFont", objUsers.ThemeColor4);
+                cmd.Parameters.AddWithValue("p_BusinessName", objUsers.CompName);
+                cmd.Parameters.AddWithValue("p_NoOfEmployees", objUsers.NoOfEmployees);
+                cmd.Parameters.AddWithValue("p_Country", objUsers.Country);                  
+
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -127,6 +143,38 @@ namespace _365_Portal.Code.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_Role", Role);
                 cmd.Parameters.AddWithValue("p_RoleID", RoleID);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+
+        public static DataSet GetAdminUserDetails(UserBO objUsers, int ChildUserID)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spGetUserDetailsForParent";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_CompID", objUsers.CompId);
+                cmd.Parameters.AddWithValue("p_UserID", objUsers.UserID);
+                cmd.Parameters.AddWithValue("p_Role", objUsers.Role);
+                cmd.Parameters.AddWithValue("p_ChildUserID", ChildUserID);
+
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

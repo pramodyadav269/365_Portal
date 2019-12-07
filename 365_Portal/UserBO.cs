@@ -73,7 +73,7 @@ namespace _365_Portal
         public string ReturnCode { get; set; }
         public string ReturnMessage { get; set; }
         public string CompName { get; set; }
-        public string EmployeeCount { get; set; }
+        public string NoOfEmployees { get; set; }
         public string Country { get; set; }
         public string IsActive { get; set; }
     }
