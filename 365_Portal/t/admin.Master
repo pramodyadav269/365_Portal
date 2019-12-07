@@ -35,7 +35,7 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
+<body id="dvBody" runat="server">
     <form id="form1" runat="server">
 
         <div class="spinner-center d-none">
