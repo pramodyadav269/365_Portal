@@ -27,7 +27,7 @@
                             <div class="custom-file">
                                 <%--<input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">--%>
                                 <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
-                                <label class="custom-file-label" for="customFile">Change Profile Pic</label>
+                                <label class="custom-file-label mt-2" for="customFile">Change Profile Pic</label>
                                 <br />
                                 <br />
                             </div>
@@ -40,7 +40,7 @@
                             <div class="col-md-12 mt-3">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
-                                    <label class="custom-file-label" for="customFile">Change Organization Logo</label>
+                                    <label class="custom-file-label mt-2" for="customFile">Change Organization Logo</label>
                                 </div>
                             </div>
                         </div>
