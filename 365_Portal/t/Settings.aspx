@@ -8,7 +8,7 @@
             <a class="back" href="Default.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h2 class="text-center font-weight-bold">Your Profile</h2>
         </div>
-        <div class="col-md-6 offset-md-3 mt-5">
+        <div class="col-md-8 offset-md-2 mt-5">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">Profile</a>
@@ -20,28 +20,19 @@
             <div class="tab-content mt-5" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                     <div class="row">
-                        <div class="col-md-12">
+                        
+                        <div class="col-md-4">
                             <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
-                        </div>
-                        <div class="col-md-12 mt-3">
                             <div class="custom-file">
-                                <%--<input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">--%>
                                 <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
-                                <label class="custom-file-label mt-2" for="customFile">Change Profile Pic</label>
-                                <br />
-                                <br />
+                                <label class="custom-file-label mt-2" for="fileChangePic">Change Profile Pic</label>
                             </div>
                         </div>
-
-                        <div id="divCompanyLogo" style="display: none">
-                            <div class="col-md-12">
-                                <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
-                            </div>
-                            <div class="col-md-12 mt-3">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
-                                    <label class="custom-file-label mt-2" for="customFile">Change Organization Logo</label>
-                                </div>
+                        <div class="col-md-4" id="divCompanyLogo" style="display: none"> 
+                            <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
+                                <label class="custom-file-label mt-2" for="fileChangeCompanyLogo">Change Organization Logo</label>
                             </div>
                         </div>
 
