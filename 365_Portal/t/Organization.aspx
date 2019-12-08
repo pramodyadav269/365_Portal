@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Organization.aspx.cs" Inherits="_365_Portal.t.Organization" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -15,14 +16,13 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12 col-md-2">
-                            <a class="btn bg-yellow" id="btnAddNew" style="display:none" onclick="AddNew();">Add New</a>
+                            <a class="btn bg-yellow" id="btnAddNew" style="display: none" onclick="AddNew();">Add New</a>
                         </div>
                     </div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
             </div>
         </div>
-
 
         <div class="col-md-12 d-none" id="divForm">
             <div class="card shadow border-0 border-radius-0">
@@ -192,7 +192,7 @@
 
         $(document).ready(function () {
             //debugger
-            ShowLoader();            
+            ShowLoader();
             if (Role == "superadmin") {
                 $('#btnAddNew').show();
                 GetAdminUsers();
@@ -201,7 +201,7 @@
                 clearFields('.input-validation');
                 BindCountry('update');
                 BindUserData(0);
-                  
+
                 $('#ddlRole').empty().append('<option value="">Select Option</option>');
                 $('#ddlRole').append('<option value="10">Company Admin</option>');
                 $("#ddlRole").prop("disabled", true);
@@ -218,6 +218,20 @@
                     icon: "error",
                 });
             }
+
+            $('.custom-font-style').click(function () {
+                $('.custom-font .label').removeClass('active')
+                $(this).parent().find('.label').addClass('active')
+                $('body').css({ "font-family": $(this).attr('font-data') })
+            })
+
+
+            $('.button-color a').click(function () {
+                $('.button-color .label').removeClass('active')
+                $(this).parent().find('.label').addClass('active')
+                $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
+                $('.btn').addClass($(this).attr('button-data'))
+            })
         });
 
         function GetAdminUsers() {
@@ -274,7 +288,7 @@
                     tbl += '<td title="' + Table[i].LastName + '" >' + Table[i].LastName + '</td>';
                     tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
                     tbl += '<td title="' + Table[i].Position + '" >' + Table[i].Position + '</td>';
-                    tbl += '<td title="' + Table[i].RoleName + '" >' + Table[i].RoleName + '</td>';                    
+                    tbl += '<td title="' + Table[i].RoleName + '" >' + Table[i].RoleName + '</td>';
                     tbl += '<td><i  title="Edit" onclick="Edit(this,' + Table[i].UserID + ');" class="fas fa-edit text-warning"></i>' +
                         '<i title="Delete" onclick="Delete(this,' + Table[i].UserID + ');" class="fas fa-trash text-danger"></i></td>';
                     tbl += '</tr>';
@@ -293,7 +307,7 @@
             $('#btnUpdate').hide();
             $('#divUpdatePassword').hide();
             clearFields('.input-validation');
-            
+
             //$("#imgUserPic").attr("src", "../Files/ProfilePic/" + DataSet.Data[0].ProfilePicFile);
             //$("#imgCompLogo").attr("src", "../Files/CompLogo/" + DataSet.Data[0].CompanyProfilePicFile);
             $("#imgUserPic").attr("src", "../Asset/images/profile.png");
@@ -306,11 +320,9 @@
             BindRole('create');
         }
 
-        function BindCountry(flag)
-        {
+        function BindCountry(flag) {
             ShowLoader();
-            if ($('#ddlCountry > option') != undefined && $('#ddlCountry > option').length == 0)
-            {                
+            if ($('#ddlCountry > option') != undefined && $('#ddlCountry > option').length == 0) {
                 var getUrl = "/API/Organization/GetCountry";
                 $.ajax({
                     type: "POST",
@@ -353,11 +365,9 @@
             HideLoader();
         }
 
-        function BindRole(id,flag)
-        {
+        function BindRole(id, flag) {
             ShowLoader();
-            if ($('#ddlRole > option') != undefined && $('#ddlRole > option').length == 0)
-            {                
+            if ($('#ddlRole > option') != undefined && $('#ddlRole > option').length == 0) {
                 var getUrl = "/API/Organization/BindRole";
                 $.ajax({
                     type: "POST",
@@ -368,7 +378,7 @@
                         HideLoader();
                         try {
                             //debugger
-                            var DataSet = $.parseJSON(response);                            
+                            var DataSet = $.parseJSON(response);
                             //debugger
                             if (DataSet.StatusCode == "1") {
 
@@ -461,7 +471,7 @@
                             if (DataSet.Data[0].ProfilePicFile != undefined && DataSet.Data[0].ProfilePicFile != '') {
                                 $("#imgUserPic").attr("src", "../Files/ProfilePic/" + DataSet.Data[0].ProfilePicFile);
                             }
-                            
+
                             if (DataSet.Data[0].CompanyProfilePicFile != undefined && DataSet.Data[0].CompanyProfilePicFile != '') {
                                 $("#imgCompLogo").attr("src", "../Files/CompLogo/" + DataSet.Data[0].CompanyProfilePicFile);
                             }
@@ -625,7 +635,7 @@
         }
 
         function InputValidation(flag) {
-            
+
             if ($("#txtBusinessName").val() == undefined || $("#txtBusinessName").val() == '') {
                 return { error: true, msg: "Please enter Business Name" };
             }
@@ -726,7 +736,7 @@
             $("#imgFavicon").attr("src", "../INCLUDES/Asset/images/menu.png");
 
             BindCountry('update');
-            BindRole(id,'update');
+            BindRole(id, 'update');
         }
 
         function assignColor(obj) {
