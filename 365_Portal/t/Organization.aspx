@@ -39,7 +39,7 @@
                                 <label class="custom-file-label mt-2" for="customFile">Change Profile Pic</label>
                             </div>
                         </div>
-                        <div class="col-md-4" id="divCompanyLogo">
+                        <div class="col-md-4" id="divCompanyLogo"> 
                             <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
