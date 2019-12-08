@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Profile" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="_365_Portal.Profile" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row user-details">
@@ -24,7 +24,82 @@
                 <div class="col-md-12">
                     <h4 class="section-title">Achievements</h4>
                 </div>
-                <div class="col-md-12 scroll">
+
+                <div class="col-sm-12 col-md-6 achievements-progress">
+                    <ul class="list-group list-group-horizontal" id="dvAchievementNew">
+                        <li class="list-group-item" onclick="openModal(1)">
+                            <span class="ach-title text-dark">Professor</span>
+                            <div class="progress mt-2 mb-2" data-value='0'>
+                                <span class="progress-left">
+                                    <span class="progress-bar bc-green"></span>
+                                </span>
+                                <span class="progress-right">
+                                    <span class="progress-bar bc-green"></span>
+                                </span>
+                                <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                    <div class="ach-icon bg-green">
+                                        <img src="../includes/Asset/images/college-graduation.png" />
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="ach-percentage text-dark">0%</span>
+                        </li>
+
+                        <li class="list-group-item" onclick="openModal(2)">
+                            <span class="ach-title text-dark">Influencer</span>
+                            <div class="progress mt-2 mb-2" data-value='0'>
+                                <span class="progress-left">
+                                    <span class="progress-bar bc-red"></span>
+                                </span>
+                                <span class="progress-right">
+                                    <span class="progress-bar bc-red"></span>
+                                </span>
+                                <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                    <div class="ach-icon bg-red">
+                                        <img src="../includes/Asset/images/user.png" />
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="ach-percentage text-dark">0%</span>
+                        </li>
+                        <li class="list-group-item" onclick="openModal(3)">
+                            <span class="ach-title text-dark">LEGO Leader</span>
+                            <div class="progress mt-2 mb-2" data-value='0'>
+                                <span class="progress-left">
+                                    <span class="progress-bar bc-purple"></span>
+                                </span>
+                                <span class="progress-right">
+                                    <span class="progress-bar bc-purple"></span>
+                                </span>
+                                <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                    <div class="ach-icon bg-purple">
+                                        <img src="../includes/Asset/images/combined-shape.png" />
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="ach-percentage text-dark">0%</span>
+                        </li>
+                        <li class="list-group-item" onclick="openModal(4)">
+                            <span class="ach-title text-dark">G.O.A.T</span>
+                            <div class="progress mt-2 mb-2" data-value='0'>
+                                <span class="progress-left">
+                                    <span class="progress-bar bc-orange"></span>
+                                </span>
+                                <span class="progress-right">
+                                    <span class="progress-bar bc-orange"></span>
+                                </span>
+                                <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                    <div class="ach-icon bg-orange">
+                                        <img src="../includes/Asset/images/diamond.png" />
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="ach-percentage text-dark">0%</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-12 scroll d-none">
                     <dl class="row text-center" id="dvAchievement">
                     </dl>
                 </div>
