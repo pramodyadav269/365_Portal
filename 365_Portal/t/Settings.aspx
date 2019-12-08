@@ -178,50 +178,50 @@
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>');
                 //$('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
 
-                //$('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Botton Font Color' +
-                //    '<div class="row mt-2">' +
-                //    '<div class="col button-color">' +
-                //    '<a class="font-weight-bold auto" button-data="auto">Preview</a>' +
-                //    '<span class="label active">Auto</span>' +
-                //    '</div>' +
-                //    '<div class="col button-color">' +
-                //    '<a class="font-weight-bold dark" button-data="dark">Preview</a>' +
-                //    '<span class="label">Dark</span>' +
-                //    '</div>' +
-                //    '<div class="col button-color">' +
-                //    '<a class="font-weight-bold light" button-data="light">Preview</a>' +
-                //    '<span class="label">Light</span>' +
-                //    '</div>' +
-                //    '</div></div>');
+                $('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Botton Font Color' +
+                    '<div class="row mt-2">' +
+                    '<div class="col button-color">' +
+                    '<a class="font-weight-bold auto" button-data="auto">Preview</a>' +
+                    '<span class="label active">Auto</span>' +
+                    '</div>' +
+                    '<div class="col button-color">' +
+                    '<a class="font-weight-bold dark" button-data="dark">Preview</a>' +
+                    '<span class="label">Dark</span>' +
+                    '</div>' +
+                    '<div class="col button-color">' +
+                    '<a class="font-weight-bold light" button-data="light">Preview</a>' +
+                    '<span class="label">Light</span>' +
+                    '</div>' +
+                    '</div></div>');
 
 
-                //$('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Custom Font' +
-                //    '<div class="row mt-2">' +
-                //    '<div class="col custom-font">' +
-                //    '<div class="serif custom-font-style" font-data="serif">' +
-                //    '<span class="titles">Titles</span>' +
-                //    '<span class="paragraphs">Paragraphs</span>' +
-                //    '<span class="captions">Captions</span>' +
-                //    '</div>' +
-                //    '<span class="label mt-2" id="dvCustomFont_serif">Serif</span>' +
-                //    '</div>' +
-                //    '<div class="col custom-font">' +
-                //    '<div class="sans-serif custom-font-style" font-data="sans-serif">' +
-                //    '<span class="titles">Titles</span>' +
-                //    '<span class="paragraphs">Paragraphs</span>' +
-                //    '<span class="captions">Captions</span>' +
-                //    '</div>' +
-                //    '<span class="label mt-2 active" id="dvCustomFont_sans-serif">Sans Serif (Default)</span>' +
-                //    '</div>' +
-                //    '<div class="col custom-font">' +
-                //    '<div class="mixed-serif custom-font-style" font-data="mixed-serif">' +
-                //    '<span class="titles">Titles</span>' +
-                //    '<span class="paragraphs">Paragraphs</span>' +
-                //    '<span class="captions">Captions</span>' +
-                //    '</div>' +
-                //    '<span class="label mt-2" id="dvCustomFont_mixed-serif">Mixed Serif</span>' +
-                //    '</div>' +
-                //    '</div></div>');
+                $('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Custom Font' +
+                    '<div class="row mt-2">' +
+                    '<div class="col custom-font">' +
+                    '<div class="serif custom-font-style" font-data="serif">' +
+                    '<span class="titles">Titles</span>' +
+                    '<span class="paragraphs">Paragraphs</span>' +
+                    '<span class="captions">Captions</span>' +
+                    '</div>' +
+                    '<span class="label mt-2">Serif</span>' +
+                    '</div>' +
+                    '<div class="col custom-font">' +
+                    '<div class="sans-serif custom-font-style" font-data="sans-serif">' +
+                    '<span class="titles">Titles</span>' +
+                    '<span class="paragraphs">Paragraphs</span>' +
+                    '<span class="captions">Captions</span>' +
+                    '</div>' +
+                    '<span class="label mt-2 active">Sans Serif (Default)</span>' +
+                    '</div>' +
+                    '<div class="col custom-font">' +
+                    '<div class="mixed-serif custom-font-style" font-data="mixed-serif">' +
+                    '<span class="titles">Titles</span>' +
+                    '<span class="paragraphs">Paragraphs</span>' +
+                    '<span class="captions">Captions</span>' +
+                    '</div>' +
+                    '<span class="label mt-2">Mixed Serif</span>' +
+                    '</div>' +
+                    '</div></div>');
 
                 $('#divCompanyTheme').show();
 
