@@ -19,26 +19,25 @@
                         </div>
                     </div>
 
-
-                    <div class="col-sm-12 col-md-6  achievements-progress">
-                        <ul class="list-group list-group-horizontal" id="dvAchievement">
-                            <li class="list-group-item" onclick="openModal(1)">
-                                <span class="ach-title">Professor</span>
-                                <div class="progress" data-value='0'>
-                                    <span class="progress-left">
-                                        <span class="progress-bar bc-green"></span>
-                                    </span>
-                                    <span class="progress-right">
-                                        <span class="progress-bar bc-green"></span>
-                                    </span>
-                                    <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                                        <div class="ach-icon bg-green">
-                                            <img src="../includes/Asset/images/college-graduation.png" />
+                        <div class="col-sm-12 col-md-6">
+                            <ul class="list-group list-group-horizontal" id="dvAchievement">
+                                <li class="list-group-item" onclick="openModal(1)">
+                                    <span class="ach-title">Professor</span>
+                                    <div class="progress" data-value='0'>
+                                        <span class="progress-left">
+                                            <span class="progress-bar bc-green"></span>
+                                        </span>
+                                        <span class="progress-right">
+                                            <span class="progress-bar bc-green"></span>
+                                        </span>
+                                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                            <div class="ach-icon bg-green">
+                                                <img src="../includes/Asset/images/college-graduation.png" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <span class="ach-percentage">0%</span>
-                            </li>
+                                    <span class="ach-percentage">0%</span>
+                                </li>
 
                             <li class="list-group-item" onclick="openModal(2)">
                                 <span class="ach-title">Influencer</span>

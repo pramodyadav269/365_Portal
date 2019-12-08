@@ -4,103 +4,116 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row settings">
-        <div class="col-md-12 header">
+        <div class="col-md-12 header mb-4">
             <a class="back" href="Default.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h2 class="text-center font-weight-bold">Your Profile</h2>
         </div>
-        <div class="col-md-6 offset-md-3 mt-5">
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-notifications-tab" data-toggle="pill" href="#pills-notifications" role="tab" aria-controls="pills-notifications" aria-selected="false">Notifications</a>
-                </li>
-            </ul>
-            <div class="tab-content mt-5" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
-                        </div>
-                        <div class="col-md-12 mt-3">
-                            <div class="custom-file">
-                                <%--<input type="file" class="custom-file-input" id="fileChangePic" onchange="setImgSrc(this, 'imgUserPic')">--%>
-                                <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
-                                <label class="custom-file-label" for="customFile">Change Profile Pic</label>
-                                <br />
-                                <br />
-                            </div>
-                        </div>
 
-                        <div id="divCompanyLogo" style="display: none">
-                            <div class="col-md-12">
-                                <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
+        <div class="col-md-12 user-details">
+            <div class="card shadow border-0 border-radius-0">
+                <div class="card-body">
+
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-notifications-tab" data-toggle="pill" href="#pills-notifications" role="tab" aria-controls="pills-notifications" aria-selected="false">Notifications</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-5" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            <div class="row input-validation">
+                                <div class="col-md-4">
+                                    <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'companypic')">
+                                        <label class="custom-file-label mt-2" for="fileChangePic">Change Organization Logo</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" id="divCompanyLogo" style="display: none">
+                                    <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
+                                        <label class="custom-file-label mt-2" for="fileChangeCompanyLogo">Change Organization Logo</label>
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-12 mt-4 mb-3" id="divCompanyTheme" style="display: none;">
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtFirstName">First Name</label>
+                                        <input type="text" class="form-control" id="txtFirstName" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtLastName">Last Name</label>
+                                        <input type="text" class="form-control" id="txtLastName" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtPosition">Position</label>
+                                        <input type="text" class="form-control" id="txtPosition" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtEmail">Email</label>
+                                        <input type="email" class="form-control" id="txtEmail" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="txtGroup">Group</label>
+                                        <input type="text" class="form-control" id="txtGroup" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ddlRole">Role</label>
+                                        <input type="text" class="form-control" id="txtRole" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div id="divChangePassword" class="mt-4" style="display: none;">
+                                        <a class="link font-weight-bold" href="ChangePassword.aspx">Change password</a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-12 mt-3">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
-                                    <label class="custom-file-label" for="customFile">Change Organization Logo</label>
+                            <div class="row">
+                                <div class="col-md-12 mt-4 text-center">
+                                    <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateUserProfileDetails()">Save</a>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="tab-pane fade notification" id="pills-notifications" role="tabpanel" aria-labelledby="pills-notifications-tab">
+                            <div class="row">
+                                <div class="col-md-10 mt-3 form-page form-control-bg-d">
 
-                        <div class="row" id="divCompanyTheme" style="display: none; padding-top: 20px;">
-                        </div>
+                                    <div class="custom-control custom-checkbox mb-4">
+                                        <input type="checkbox" class="custom-control-input" id="cbEmailNotifications">
+                                        <label class="custom-control-label" for="cbEmailNotifications" id="dvMsg1">Notifications</label>
+                                        <%--  <span >We’ll send you weekly emails on your current progress.</span>--%>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 mt-3 form-page form-control-bg-d">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="cbPushNotifications">
+                                        <label class="custom-control-label" for="cbPushNotifications" id="dvMsg2">Notifications</label>
+                                        <%-- <span >We’ll send you notifications about updates and your progress.</span>--%>
+                                    </div>
 
-                        <div class="col-md-10 mt-5 form-page form-control-bg-d">
-                            <div class="form-group">
-                                <label for="txtFirstName">First Name</label>
-                                <input type="text" class="form-control" id="txtFirstName" disabled />
-                            </div>
-                            <div class="form-group">
-                                <label for="txtLastName">Last Name</label>
-                                <input type="text" class="form-control" id="txtLastName" disabled />
-                            </div>
-                            <div class="form-group">
-                                <label for="txtPosition">Position</label>
-                                <input type="text" class="form-control" id="txtPosition" />
-                            </div>
-                            <div class="form-group">
-                                <label for="txtEmail">Email</label>
-                                <input type="email" class="form-control" id="txtEmail" />
-                            </div>
-                            <div class="form-group">
-                                <label for="txtGroup">Group</label>
-                                <input type="text" class="form-control" id="txtGroup" disabled />
-                            </div>
-                            <div class="form-group">
-                                <label for="ddlRole">Role</label>
-                                <input type="text" class="form-control" id="txtRole" disabled />
-                            </div>
-                            <div id="divChangePassword" class="mt-4" style="display: none;">
-                                <a class="link font-weight-bold" href="ChangePassword.aspx">Change password</a>
-                            </div>
-                            <div class="text-center mt-5">
-                                <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateUserProfileDetails()">Save</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade notification" id="pills-notifications" role="tabpanel" aria-labelledby="pills-notifications-tab">
-                    <div class="row">
-                        <div class="col-md-10 mt-3 form-page form-control-bg-d">
-
-                            <div class="custom-control custom-checkbox mb-4">
-                                <input type="checkbox" class="custom-control-input" id="cbEmailNotifications">
-                                <label class="custom-control-label" for="cbEmailNotifications" id="dvMsg1">Notifications</label>
-                                <%--  <span >We’ll send you weekly emails on your current progress.</span>--%>
-                            </div>
-
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="cbPushNotifications">
-                                <label class="custom-control-label" for="cbPushNotifications" id="dvMsg2">Notifications</label>
-                                <%-- <span >We’ll send you notifications about updates and your progress.</span>--%>
-                            </div>
-
-                            <div class="text-center mt-5">
-                                <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateNotification()">Save</a>
+                                    <div class=" col-md-12 text-center mt-5">
+                                        <a class="btn btn-custom bg-blue font-weight-bold text-white" onclick="UpdateNotification()">Save</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -108,6 +121,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
 

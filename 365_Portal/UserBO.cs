@@ -65,8 +65,10 @@ namespace _365_Portal
         public string Role { get; set; }                
         public string ProfilePicFileID { get; set; }
         public string CompanyProfilePicFileID { get; set; }
+        public string FaviconFileID { get; set; }
         public string ProfilePicFile { get; set; }
         public string CompanyProfilePicFile { get; set; }
+        public string FeviconPicFile { get; set; }
         public string IsFirstLogin { get; set; }
         public string IsFirstPasswordNotChanged { get; set; }
         public string IsChangingPassword { get; set; }

@@ -159,7 +159,6 @@ namespace _365_Portal.Controllers
             Message = string.Empty;
             objUserVal = new UserBO();
 
-
             if (jsonResult.SelectToken("BusinessName") != null && jsonResult.SelectToken("BusinessName").ToString().Trim() != "")
             {
                 objUserVal.CompName = (string)jsonResult.SelectToken("BusinessName");
@@ -184,64 +183,52 @@ namespace _365_Portal.Controllers
             {
                 Message = "Please provide Country."; ValFlag = false; return ValFlag;
             }
-            if (jsonResult.SelectToken("RoleID") != null && jsonResult.SelectToken("RoleID").ToString().Trim() != "")
-            {
-                objUserVal.RoleID = (string)jsonResult.SelectToken("RoleID");
-            }
-            else
-            {
-                Message = "Please provide RoleID of user."; ValFlag = false; return ValFlag;
-            }
 
-            if (jsonResult.SelectToken("FirstName") != null && jsonResult.SelectToken("FirstName").ToString().Trim() != "")
-            {
-                objUserVal.FirstName = (string)jsonResult.SelectToken("FirstName");
-            }
-            else
-            {
-                Message = "Please provide First Name of user."; ValFlag = false; return ValFlag;
-            }
 
-            if (jsonResult.SelectToken("LastName") != null && jsonResult.SelectToken("LastName").ToString().Trim() != "")
+            //*********** Validation when current user is superadmin  ***********//
+            if (Role == ConstantMessages.Roles.superadmin)
             {
-                objUserVal.LastName = (string)jsonResult.SelectToken("LastName");
-            }
-            else
-            {
-                Message = "Please provide LastName Name of user."; ValFlag = false; return ValFlag;
-            }
-
-            if (jsonResult.SelectToken("EmailID") != null && jsonResult.SelectToken("EmailID").ToString().Trim() != "")
-            {
-                objUserVal.EmailID = (string)jsonResult.SelectToken("EmailID");
-            }
-            else
-            {
-                Message = "Please provide EmailID of user."; ValFlag = false; return ValFlag;
-            }
-
-            if (flag == "create")
-            {
-                if (jsonResult.SelectToken("Password") != null && jsonResult.SelectToken("Password").ToString().Trim() != "")
+                if (jsonResult.SelectToken("RoleID") != null && jsonResult.SelectToken("RoleID").ToString().Trim() != "")
                 {
-                    objUserVal.NewPassword = (string)jsonResult.SelectToken("Password");
-                    objUserVal.UserKey = Guid.NewGuid().ToString();
-                    objUserVal.PasswordSalt = Utility.GetSalt();
-                    objUserVal.PasswordHash = Utility.GetHashedPassword(objUserVal.NewPassword, objUserVal.PasswordSalt);
+                    objUserVal.RoleID = (string)jsonResult.SelectToken("RoleID");
                 }
                 else
                 {
-                    Message = "Please provide Password of user."; ValFlag = false; return ValFlag;
+                    Message = "Please provide RoleID of user."; ValFlag = false; return ValFlag;
                 }
-            }
-            else
-            {
-                if (jsonResult.SelectToken("UpdateFlag") != null && jsonResult.SelectToken("UpdateFlag").ToString().Trim() == "1")
+
+                if (jsonResult.SelectToken("FirstName") != null && jsonResult.SelectToken("FirstName").ToString().Trim() != "")
+                {
+                    objUserVal.FirstName = (string)jsonResult.SelectToken("FirstName");
+                }
+                else
+                {
+                    Message = "Please provide First Name of user."; ValFlag = false; return ValFlag;
+                }
+
+                if (jsonResult.SelectToken("LastName") != null && jsonResult.SelectToken("LastName").ToString().Trim() != "")
+                {
+                    objUserVal.LastName = (string)jsonResult.SelectToken("LastName");
+                }
+                else
+                {
+                    Message = "Please provide LastName Name of user."; ValFlag = false; return ValFlag;
+                }
+
+                if (jsonResult.SelectToken("EmailID") != null && jsonResult.SelectToken("EmailID").ToString().Trim() != "")
+                {
+                    objUserVal.EmailID = (string)jsonResult.SelectToken("EmailID");
+                }
+                else
+                {
+                    Message = "Please provide EmailID of user."; ValFlag = false; return ValFlag;
+                }
+
+                if (flag == "create")
                 {
                     if (jsonResult.SelectToken("Password") != null && jsonResult.SelectToken("Password").ToString().Trim() != "")
                     {
                         objUserVal.NewPassword = (string)jsonResult.SelectToken("Password");
-                        objUserVal.IsChangingPassword = "1";
                         objUserVal.UserKey = Guid.NewGuid().ToString();
                         objUserVal.PasswordSalt = Utility.GetSalt();
                         objUserVal.PasswordHash = Utility.GetHashedPassword(objUserVal.NewPassword, objUserVal.PasswordSalt);
@@ -253,9 +240,28 @@ namespace _365_Portal.Controllers
                 }
                 else
                 {
-                    objUserVal.IsChangingPassword = "0";
+                    if (jsonResult.SelectToken("UpdateFlag") != null && jsonResult.SelectToken("UpdateFlag").ToString().Trim() == "1")
+                    {
+                        if (jsonResult.SelectToken("Password") != null && jsonResult.SelectToken("Password").ToString().Trim() != "")
+                        {
+                            objUserVal.NewPassword = (string)jsonResult.SelectToken("Password");
+                            objUserVal.IsChangingPassword = "1";
+                            objUserVal.UserKey = Guid.NewGuid().ToString();
+                            objUserVal.PasswordSalt = Utility.GetSalt();
+                            objUserVal.PasswordHash = Utility.GetHashedPassword(objUserVal.NewPassword, objUserVal.PasswordSalt);
+                        }
+                        else
+                        {
+                            Message = "Please provide Password of user."; ValFlag = false; return ValFlag;
+                        }
+                    }
+                    else
+                    {
+                        objUserVal.IsChangingPassword = "0";
+                    }
                 }
             }
+            //*********** Validation when current user is superadmin  ***********//
 
             if (jsonResult.SelectToken("MobileNum") != null && jsonResult.SelectToken("MobileNum").ToString().Trim() != "")
             {
@@ -270,27 +276,6 @@ namespace _365_Portal.Controllers
             if (jsonResult.SelectToken("GroupId") != null && jsonResult.SelectToken("GroupId").ToString().Trim() != "")
             {
                 objUserVal.GroupId = (string)jsonResult.SelectToken("GroupId");
-            }
-            //if (jsonResult.SelectToken("CompName") != null && jsonResult.SelectToken("CompName").ToString().Trim() != "")//Commented by pramod on 7 DEC 19 at 12:06 AM
-            //{
-            //    objUserVal.CompName = (string)jsonResult.SelectToken("CompName");
-            //}
-
-            if (jsonResult.SelectToken("EmployeeCount") != null && jsonResult.SelectToken("EmployeeCount").ToString().Trim() != "")
-            {
-                objUserVal.NoOfEmployees = (string)jsonResult.SelectToken("EmployeeCount");
-            }
-            else
-            {
-                Message = "Please provide No Of Employee."; ValFlag = false; return ValFlag;
-            }
-            if (jsonResult.SelectToken("Country") != null && jsonResult.SelectToken("Country").ToString().Trim() != "")
-            {
-                objUserVal.Country = (string)jsonResult.SelectToken("Country");
-            }
-            else
-            {
-                Message = "Please provide Country."; ValFlag = false; return ValFlag;
             }
 
             string userProfilePicBase64 = Convert.ToString(jsonResult.SelectToken("UserProfileImageBase64"));
@@ -322,9 +307,6 @@ namespace _365_Portal.Controllers
                 }
             }
 
-            objUserVal.EmailNotification = false;
-            objUserVal.PushNotification = false;
-
             string companyLogoBase64 = Convert.ToString(jsonResult.SelectToken("CompanyProfileImageBase64"));
             if (!string.IsNullOrEmpty(companyLogoBase64))
             {
@@ -353,10 +335,34 @@ namespace _365_Portal.Controllers
                 }
             }
 
+            string faviconBase64 = Convert.ToString(jsonResult.SelectToken("FaviconImageBase64"));
+            if (!string.IsNullOrEmpty(faviconBase64))
+            {
+                var files = faviconBase64.Split(new string[] { "," }, StringSplitOptions.None);
+                if (files.Count() == 1)
+                    faviconBase64 = files[0];
+                else
+                    faviconBase64 = files[1];
+
+                byte[] imageBytes = Convert.FromBase64String(faviconBase64);
+                string fileName = ChildUserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(faviconBase64);
+                string filePath = HttpContext.Current.Server.MapPath("~/Files/Favicon/" + fileName);
+                File.WriteAllBytes(filePath, imageBytes);
+                //HttpContext.Current.Session["CompanyProfilePicFile"] = fileName;
+                DataSet dsFavicon = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Favicon/"), false, "");
+                if (dsFavicon.Tables.Count > 0 && dsFavicon.Tables[0].Rows.Count > 0)
+                {
+                    objUserVal.FaviconFileID = dsFavicon.Tables[0].Rows[0]["UniqueID"].ToString();
+                }
+            }
+
             objUserVal.ThemeColor = (string)jsonResult.SelectToken("CompanyThemeColor");
             objUserVal.ThemeColor2 = (string)jsonResult.SelectToken("CompanyThemeColor2");
             objUserVal.ThemeColor3 = (string)jsonResult.SelectToken("CompanyThemeColor3");
             objUserVal.ThemeColor4 = (string)jsonResult.SelectToken("CompanyCustomFont");
+
+            objUserVal.EmailNotification = false;
+            objUserVal.PushNotification = false;
 
             if (HttpContext.Current.Session["CompId"] != null)
             {
@@ -463,7 +469,6 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
-
 
         [Route("API/Organization/UpdateAdminUserForParent")]
         [HttpPost]
