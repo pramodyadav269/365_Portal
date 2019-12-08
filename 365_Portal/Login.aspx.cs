@@ -80,6 +80,7 @@ namespace _365_Portal
                                 HttpContext.Current.Session["ThemeColor2"] = UserDetails.ThemeColor2;
                                 HttpContext.Current.Session["ThemeColor3"] = UserDetails.ThemeColor3;
                                 HttpContext.Current.Session["ThemeColor4"] = UserDetails.ThemeColor4;
+                                HttpContext.Current.Session["Favicon"] = UserDetails.FaviconFileID;
 
                                 Utility.CreateProfileAndThemeSession(UserDetails.ProfilePicFileID, UserDetails.CompanyProfilePicFileID, UserDetails.ThemeColor);
                             }

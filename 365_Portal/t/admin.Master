@@ -7,7 +7,7 @@
     <title></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="icon" href="../INCLUDES/Asset/images/menu.png" type="image/png" sizes="16x16">
+    <%-- <link rel="icon" href="../INCLUDES/Asset/images/menu.png" type="image/png" sizes="16x16">--%>
     <%-- CSS --%>
     <link href="../includes/Asset/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../includes/Asset/css/all.css" rel="stylesheet" />
@@ -30,22 +30,38 @@
     <script src="../includes/Asset/js/select2.min.js"></script>
     <script src="../includes/Asset/js/jquery.dataTables.min.js"></script>
     <script src="../includes/Asset/js/dataTables.bootstrap4.min.js"></script>
-   <%-- <script src="../includes/Asset/js/jquery.tablednd.js"></script>--%>
+    <script src="../includes/Asset/js/jquery.tablednd.js"></script>
     <script src="../includes/Asset/js/site.js"></script>
     <script>
 
         var buttonTheme = '<%=Session["ThemeColor3"]%>';
         var brandColor = '<%=Session["ThemeColor"]%>';
+        var customFont = '<%=Session["ThemeColor4"]%>';
+        var favicon = '<%=Session["Favicon"]%>';
         $(document).ready(function () {
-            //$('.btn').removeClass('auto').removeClass('dark').removeClass('light')
-            //$('.btn').addClass(buttonTheme);
+            //alert(customFont);
+            //$('body').css({ "font-family": customFont });
 
-            ////branding color
-            //$('.sidenav').css({ "background-color": brandColor })
-            //$('.sidenav-content-menu').css({
-            //    "background-color": brandColor })
-            //$('<style>.sidenav-content .sidenav-nav .sidenav-item.side-menu.active .sidenav-link::after {border-color: transparent '+ brandColor + 'transparent transparent;} </style>').appendTo('head');
+            //if (buttonTheme != "") {
+            //    $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
+            //    $('.btn').addClass(buttonTheme);
+            //}
 
+            //if (brandColor != "") {
+            //    //branding color
+            //    $('.sidenav').css({ "background-color": brandColor })
+            //    $('.sidenav-content-menu').css({
+            //        "background-color": brandColor
+            //    })
+            //    $('<style>.sidenav-content .sidenav-nav .sidenav-item.side-menu.active .sidenav-link::after {border-color: transparent ' + brandColor + 'transparent transparent;} </style>').appendTo('head');
+            //}
+            //if (favicon != "") {
+            //    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            //    link.type = 'image/x-icon';
+            //    link.rel = 'shortcut icon';
+            //    link.href = '../Files/Favicon/' + favicon;
+            //    document.getElementsByTagName('head')[0].appendChild(link);
+            //}
         });
 
     </script>
@@ -53,7 +69,7 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
+<body id="dvBody" runat="server">
     <form id="form1" runat="server">
 
         <div class="spinner-center d-none">

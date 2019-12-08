@@ -142,7 +142,7 @@
                 success: function (response) {
                     response = $.parseJSON(response);
 
-                    $('#ddlCompany').empty().append('<option value="0">All Admins</option>');
+                    $('#ddlCompany').empty().append('<option value="0">All Organization</option>');
                     $.each(response.Data, function (index, comp) {
                         $('#ddlCompany').append('<option value="' + comp.CompId + '">' + comp.CompanyName + '</option>');
                     });

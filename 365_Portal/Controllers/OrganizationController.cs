@@ -114,7 +114,7 @@ namespace _365_Portal.Controllers
 
                 if (identity.Role == ConstantMessages.Roles.superadmin)//identity.Role == ConstantMessages.Roles.companyadmin || 
                 {
-                    if (ValidateUserDetails(identity.CompId, jsonResult, out Message, out objUser, "create", Convert.ToInt32(identity.UserID)))
+                    if (ValidateUserDetails(identity.Role, identity.CompId, jsonResult, out Message, out objUser, "create", Convert.ToInt32(identity.UserID)))
                     {
                         objUser.UserID = identity.UserID;
                         objUser.CompId = identity.CompId;
@@ -153,7 +153,7 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
-        private bool ValidateUserDetails(int compid, JObject jsonResult, out string Message, out UserBO objUserVal, string flag, int ChildUserID)
+        private bool ValidateUserDetails(string Role, int compid, JObject jsonResult, out string Message, out UserBO objUserVal, string flag, int ChildUserID)
         {
             bool ValFlag = true;
             Message = string.Empty;
@@ -347,6 +347,10 @@ namespace _365_Portal.Controllers
                 byte[] imageBytes = Convert.FromBase64String(faviconBase64);
                 string fileName = ChildUserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(faviconBase64);
                 string filePath = HttpContext.Current.Server.MapPath("~/Files/Favicon/" + fileName);
+                if (Convert.ToInt32(HttpContext.Current.Session["CompId"]) == compid)
+                {
+                    HttpContext.Current.Session["Favicon"] = fileName;
+                }
                 File.WriteAllBytes(filePath, imageBytes);
                 //HttpContext.Current.Session["CompanyProfilePicFile"] = fileName;
                 DataSet dsFavicon = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Favicon/"), false, "");
@@ -488,7 +492,7 @@ namespace _365_Portal.Controllers
                     {
                         ChildUserID = (int)jsonResult.SelectToken("UserID");
 
-                        if (ValidateUserDetails(identity.CompId, jsonResult, out Message, out objUser, "update", ChildUserID))
+                        if (ValidateUserDetails(identity.Role, identity.CompId, jsonResult, out Message, out objUser, "update", ChildUserID))
                         {
                             objUser.UserID = identity.UserID;
                             objUser.CompId = identity.CompId;
@@ -548,7 +552,7 @@ namespace _365_Portal.Controllers
                     int ChildUserID = 0;
                     ChildUserID = Convert.ToInt32(identity.UserID);
 
-                    if (ValidateUserDetails(identity.CompId, jsonResult, out Message, out objUser, "update", ChildUserID))
+                    if (ValidateUserDetails(identity.Role, identity.CompId, jsonResult, out Message, out objUser, "update", ChildUserID))
                     {
                         objUser.UserID = identity.UserID;
                         objUser.CompId = identity.CompId;

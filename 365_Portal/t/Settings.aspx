@@ -28,8 +28,8 @@
                                 <div class="col-md-4">
                                     <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'companypic')">
-                                        <label class="custom-file-label mt-2" for="fileChangePic">Change Organization Logo</label>
+                                        <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
+                                        <label class="custom-file-label mt-2" for="fileChangePic">Change Profile Pic</label>
                                     </div>
                                 </div>
 
@@ -40,10 +40,13 @@
                                         <label class="custom-file-label mt-2" for="fileChangeCompanyLogo">Change Organization Logo</label>
                                     </div>
                                 </div>
+
                                 <div class="w-100"></div>
                                 <div class="col-md-12 mt-4 mb-3" id="divCompanyTheme" style="display: none;">
                                 </div>
                                 <div class="w-100"></div>
+                                <br />
+                                <br />
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="txtFirstName">First Name</label>

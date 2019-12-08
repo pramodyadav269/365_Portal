@@ -175,6 +175,7 @@ namespace _365_Portal.Code.DAL
                 objUser.GroupName = dt.Rows[0]["GroupName"].ToString();
                 objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
                 objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
+                objUser.FaviconFileID = dt.Rows[0]["FaviconPath"].ToString();
 
                 if (dt.Rows[0]["EmailNotification"].ToString() == "")
                 {
