@@ -23,7 +23,7 @@
 	</div>
                         <iframe id="video" width="420" height="345" src="https://www.youtube.com/embed/HSsqzzuGTPo"></iframe>
 
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12 col-md-6 achievements-progress">
                             <ul class="list-group list-group-horizontal" id="dvAchievement">
                                 <li class="list-group-item" onclick="openModal(1)">
                                     <span class="ach-title">Professor</span>
