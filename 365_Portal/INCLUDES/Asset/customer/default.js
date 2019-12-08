@@ -430,10 +430,13 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             $rootScope.SpecialContents = responseData;
             if ($rootScope.SpecialContents.Type == 'CONTENT') {
                 if ($rootScope.SpecialContents.DocType == 'VIDEO') {
-                    $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
-                        '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath + '" type="video/mp4">' +
-                        '</video>');
-                    document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
+                    //$("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
+                    //    '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath + '" type="video/mp4">' +
+                    //    '</video>');
+                    //document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
+
+                    $("#divVideo").html('<iframe id="ik_player" width="420" height="345" src="https://www.youtube.com/embed/GYnwqxKOm0Y?enablejsapi=1"></iframe>');
+
                     $('#videoControl').show();
                 }
                 else if ($rootScope.SpecialContents.DocType == 'PDF') {

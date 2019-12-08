@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Organization.aspx.cs" Inherits="_365_Portal.t.Organization" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -15,7 +16,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12 col-md-2">
-                            <a class="btn bg-yellow" id="btnAddNew" style="display:none" onclick="AddNew();">Add New</a>
+                            <a class="btn bg-yellow" id="btnAddNew" style="display: none" onclick="AddNew();">Add New</a>
                         </div>
                     </div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
@@ -41,7 +42,8 @@
                             <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
-                                <label class="custom-file-label" for="customFile">Change Profile Pic</label><br /><br />
+                                <label class="custom-file-label" for="customFile">Change Profile Pic</label><br />
+                                <br />
                             </div>
                         </div>
 
@@ -54,10 +56,38 @@
                         </div>
                         <div class="col-md-4" id="divCompanyTheme">
                             <div class="col-md-12">Choose your theme colors </div>
-                            <div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>
-                            <div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>
-                            <div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>
-                            <div class="col-md-12 mt-3">Custom Font<input type="text" id="txtCustomFont"></div>
+                            <div class="col-md-12 mt-3">
+                                Branding Color
+                                <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor">
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                Custom Link Color
+                                <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2">
+                            </div>
+                            <%--  <div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>
+                            <div class="col-md-12 mt-3">Custom Font<input type="text" id="txtCustomFont"></div>--%>
+
+                            <div class="row mt-2">
+                                <div class="col button-color"><a class="font-weight-bold auto" button-data="auto">Preview</a><span class="label" id="dvButtonColor_auto">Auto</span></div>
+                                <div class="col button-color"><a class="font-weight-bold dark" button-data="dark">Preview</a><span class="label" id="dvButtonColor_dark">Dark</span></div>
+                                <div class="col button-color"><a class="font-weight-bold light" button-data="light">Preview</a><span class="label" id="dvButtonColor_light">Light</span></div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col custom-font">
+                                    <div class="serif custom-font-style" font-data="serif"><span class="titles">Titles</span><span class="paragraphs">Paragraphs</span><span class="captions">Captions</span></div>
+                                    <span class="label mt-2" id="dvCustomFont_serif">Serif</span>
+                                </div>
+                                <div class="col custom-font">
+                                    <div class="sans-serif custom-font-style" font-data="sans-serif"><span class="titles">Titles</span><span class="paragraphs">Paragraphs</span><span class="captions">Captions</span></div>
+                                    <span class="label mt-2" id="dvCustomFont_sans-serif">Sans Serif (Default)</span>
+                                </div>
+                                <div class="col custom-font">
+                                    <div class="mixed-serif custom-font-style" font-data="mixed-serif"><span class="titles">Titles</span><span class="paragraphs">Paragraphs</span><span class="captions">Captions</span></div>
+                                    <span class="label mt-2" id="dvCustomFont_mixed-serif">Mixed Serif</span>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="col-md-3">
@@ -88,7 +118,7 @@
                     </div>
 
 
-                    
+
 
 
                     <div class="row input-validation">
@@ -149,7 +179,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3" id="divUpdatePassword" style="display:none;">
+                        <div class="col-md-3" id="divUpdatePassword" style="display: none;">
                             <div class="custom-control custom-checkbox mb-4">
                                 <input type="checkbox" onchange="enableUpdatePassword();" class="custom-control-input" id="cbUpdatePassword">
                                 <label class="custom-control-label" for="cbUpdatePassword">Want to change password!</label>
@@ -166,7 +196,7 @@
                         </div>
 
                         <input type="hidden" id="UserID" value="" />
-                            
+
                     </div>
                 </div>
             </div>
@@ -179,10 +209,12 @@
         var accessToken = '<%=Session["access_token"]%>';
         var Role = '<%=Session["RoleName"]%>';
         var id = '';
+        var customFont = '';
+        var buttonFontColor = '';
 
         $(document).ready(function () {
             //debugger
-            ShowLoader();            
+            ShowLoader();
             if (Role == "superadmin") {
                 $('#btnAddNew').show();
                 GetAdminUsers();
@@ -191,7 +223,7 @@
                 clearFields('.input-validation');
                 BindCountry('update');
                 BindUserData(0);
-                  
+
                 $('#ddlRole').empty().append('<option value="">Select Option</option>');
                 $('#ddlRole').append('<option value="10">Company Admin</option>');
                 $("#ddlRole").prop("disabled", true);
@@ -208,6 +240,23 @@
                     icon: "error",
                 });
             }
+
+            $('.custom-font-style').click(function () {
+                $('.custom-font .label').removeClass('active')
+                $(this).parent().find('.label').addClass('active')
+                $('body').css({ "font-family": $(this).attr('font-data') });
+                customFont = $(this).attr('font-data');
+            });
+
+            $('.button-color a').click(function () {
+                $('.button-color .label').removeClass('active')
+                $(this).parent().find('.label').addClass('active')
+                $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
+                $('.btn').addClass($(this).attr('button-data'));
+                buttonFontColor = $(this).attr('button-data');
+            });
+
+
         });
 
         function GetAdminUsers() {
@@ -264,7 +313,7 @@
                     tbl += '<td title="' + Table[i].LastName + '" >' + Table[i].LastName + '</td>';
                     tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
                     tbl += '<td title="' + Table[i].Position + '" >' + Table[i].Position + '</td>';
-                    tbl += '<td title="' + Table[i].RoleName + '" >' + Table[i].RoleName + '</td>';                    
+                    tbl += '<td title="' + Table[i].RoleName + '" >' + Table[i].RoleName + '</td>';
                     tbl += '<td><i  title="Edit" onclick="Edit(this,' + Table[i].UserID + ');" class="fas fa-edit text-warning"></i>' +
                         '<i title="Delete" onclick="Delete(this,' + Table[i].UserID + ');" class="fas fa-trash text-danger"></i></td>';
                     tbl += '</tr>';
@@ -283,23 +332,21 @@
             $('#btnUpdate').hide();
             $('#divUpdatePassword').hide();
             clearFields('.input-validation');
-            
+
             //$("#imgUserPic").attr("src", "../Files/ProfilePic/" + DataSet.Data[0].ProfilePicFile);
             //$("#imgCompLogo").attr("src", "../Files/CompLogo/" + DataSet.Data[0].CompanyProfilePicFile);
             $("#imgUserPic").attr("src", "../Asset/images/profile.png");
             $("#imgCompLogo").attr("src", "../Asset/images/CompanyLogo.png");
-            
+
             toggle('divForm', 'divGird');
 
             BindCountry('create');
             BindRole('create');
         }
 
-        function BindCountry(flag)
-        {
+        function BindCountry(flag) {
             ShowLoader();
-            if ($('#ddlCountry > option') != undefined && $('#ddlCountry > option').length == 0)
-            {                
+            if ($('#ddlCountry > option') != undefined && $('#ddlCountry > option').length == 0) {
                 var getUrl = "/API/Organization/GetCountry";
                 $.ajax({
                     type: "POST",
@@ -342,11 +389,9 @@
             HideLoader();
         }
 
-        function BindRole(id,flag)
-        {
+        function BindRole(id, flag) {
             ShowLoader();
-            if ($('#ddlRole > option') != undefined && $('#ddlRole > option').length == 0)
-            {                
+            if ($('#ddlRole > option') != undefined && $('#ddlRole > option').length == 0) {
                 var getUrl = "/API/Organization/BindRole";
                 $.ajax({
                     type: "POST",
@@ -357,7 +402,7 @@
                         HideLoader();
                         try {
                             //debugger
-                            var DataSet = $.parseJSON(response);                            
+                            var DataSet = $.parseJSON(response);
                             //debugger
                             if (DataSet.StatusCode == "1") {
 
@@ -421,12 +466,12 @@
 
                             $('#ThemeColor').val(DataSet.Data[0].CompanyThemeColor);
                             $('#ThemeColor2').val(DataSet.Data[0].CompanyThemeColor2);
-                            $('#ThemeColor3').val(DataSet.Data[0].CompanyThemeColor3);
+                            //$('#ThemeColor3').val(DataSet.Data[0].CompanyThemeColor3);
 
                             $('#txtThemeColor').val(DataSet.Data[0].CompanyThemeColor);
                             $('#txtThemeColor2').val(DataSet.Data[0].CompanyThemeColor2);
-                            $('#txtThemeColor3').val(DataSet.Data[0].CompanyThemeColor3);
-                            $('#txtCustomFont').val(DataSet.Data[0].CompanyThemeColor4);
+                            //$('#txtThemeColor3').val(DataSet.Data[0].CompanyThemeColor3);
+                            //$('#txtCustomFont').val(DataSet.Data[0].CompanyThemeColor4);
 
                             $('#txtBusinessName').val(DataSet.Data[0].BusinessName);
                             $('#ddlEmployeeCount').val(DataSet.Data[0].NoOfEmployees);
@@ -450,10 +495,20 @@
                             if (DataSet.Data[0].ProfilePicFile != undefined && DataSet.Data[0].ProfilePicFile != '') {
                                 $("#imgUserPic").attr("src", "../Files/ProfilePic/" + DataSet.Data[0].ProfilePicFile);
                             }
-                            
+
                             if (DataSet.Data[0].CompanyProfilePicFile != undefined && DataSet.Data[0].CompanyProfilePicFile != '') {
                                 $("#imgCompLogo").attr("src", "../Files/CompLogo/" + DataSet.Data[0].CompanyProfilePicFile);
                             }
+
+                            if (DataSet.Data[0].CompanyThemeColor3 == null || DataSet.Data[0].CompanyThemeColor3 == "") {
+                                DataSet.Data[0].CompanyThemeColor3 = "auto";
+                            }
+                            if (DataSet.Data[0].CompanyThemeColor4 == null || DataSet.Data[0].CompanyThemeColor4 == "") {
+                                DataSet.Data[0].CompanyThemeColor4 = "sans-serif";
+                            }
+
+                            $("[id=dvCustomFont_" + DataSet.Data[0].CompanyThemeColor4 + "]").addClass('active');
+                            $("[id=dvButtonColor_" + DataSet.Data[0].CompanyThemeColor3 + "]").addClass('active');
 
                             //$('.select2').material_select();
                             //selectInit('#ddlCountry', 'Select Country');
@@ -520,10 +575,10 @@
                 var ThemeColor = theInput.value;
                 theInput = document.getElementById("ThemeColor2");
                 var ThemeColor2 = theInput.value;
-                theInput = document.getElementById("ThemeColor3");
-                var ThemeColor3 = theInput.value;
-                theInput = document.getElementById("txtCustomFont");
-                var CustomFont = theInput.value;
+                //theInput = document.getElementById("ThemeColor3");
+                //var ThemeColor3 = theInput.value;
+                //theInput = document.getElementById("txtCustomFont");
+                //var CustomFont = theInput.value;
 
                 var BusinessName = $("#txtBusinessName").val();
                 var EmployeeCount = $("#ddlEmployeeCount option:selected").val();
@@ -552,14 +607,14 @@
                 if (flag == 'create') {
                     var requestParams = {
                         UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2
-                        , CompanyThemeColor3: ThemeColor3, CompanyCustomFont: CustomFont, BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country, RoleID: Role, FirstName: FirstName
+                        , CompanyThemeColor3: buttonFontColor, CompanyCustomFont: customFont, BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country, RoleID: Role, FirstName: FirstName
                         , LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, UpdateFlag: UpdateFlag
                     };
                 }
                 else {
                     var requestParams = {
                         UserID: id, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, CompanyThemeColor: ThemeColor
-                        , CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyCustomFont: CustomFont, BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country
+                        , CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: buttonFontColor, CompanyCustomFont: customFont, BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country
                         , RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, UpdateFlag: UpdateFlag
                     };
                 }
@@ -607,7 +662,7 @@
         }
 
         function InputValidation(flag) {
-            
+
             if ($("#txtBusinessName").val() == undefined || $("#txtBusinessName").val() == '') {
                 return { error: true, msg: "Please enter Business Name" };
             }
@@ -698,7 +753,7 @@
             $("#imgCompLogo").attr("src", "../Asset/images/CompanyLogo.png");
 
             BindCountry('update');
-            BindRole(id,'update');
+            BindRole(id, 'update');
         }
 
         function assignColor(obj) {
@@ -708,9 +763,9 @@
             else if (obj.id == 'ThemeColor2') {
                 $('#txtThemeColor2').val(obj.value);
             }
-            else if (obj.id == 'ThemeColor3') {
-                $('#txtThemeColor3').val(obj.value);
-            }
+            //else if (obj.id == 'ThemeColor3') {
+            //    $('#txtThemeColor3').val(obj.value);
+            //}
             //else if (obj.id == 'CustomFont') {
             //    $('#txtCustomFont').val(obj.value);
             //}

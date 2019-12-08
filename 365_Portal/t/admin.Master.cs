@@ -133,10 +133,10 @@ namespace _365_Portal.Admin
                 {
                     // dvBody.Style.Add("font-family", "");
                 }
-                if (!string.IsNullOrEmpty(theme4))
-                {
-                    dvBody.Style.Add("font-family", theme4);
-                }
+                //if (!string.IsNullOrEmpty(theme4))
+                //{
+                //    dvBody.Style.Add("font-family", theme4);
+                //}
             }
             else
             {

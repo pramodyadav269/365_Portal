@@ -426,6 +426,13 @@
     <Compile Include="t\flashcards.aspx.designer.cs">
       <DependentUpon>flashcards.aspx</DependentUpon>
     </Compile>
+    <Compile Include="t\roles.aspx.cs">
+      <DependentUpon>roles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\roles.aspx.designer.cs">
+      <DependentUpon>roles.aspx</DependentUpon>
+    </Compile>
     <Compile Include="t\Groups.aspx.cs">
       <DependentUpon>Groups.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -545,7 +552,6 @@
     <Content Include="Asset\js\gijgo.min.js" />
     <Content Include="Asset\js\jquery.dataTables.min.js" />
     <Content Include="Asset\js\jquery.min.js" />
-    <Content Include="Asset\js\jquery.tablednd.js" />
     <Content Include="Asset\js\moment.js" />
     <Content Include="Asset\js\popper.min.js" />
     <Content Include="Asset\js\select2.min.js" />
@@ -781,6 +787,7 @@
     <Content Include="t\dashboard.aspx" />
     <Content Include="t\default.aspx" />
     <Content Include="t\flashcards.aspx" />
+    <Content Include="t\roles.aspx" />
     <Content Include="t\Groups.aspx" />
     <Content Include="t\Modules.aspx" />
     <Content Include="t\Organization.aspx" />
