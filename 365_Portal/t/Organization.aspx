@@ -4,13 +4,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
-    <div class="row">
-        <div class="col-md-12 header mb-5">
+    <div class="row settings">
+        <div class="col-md-12 header mb-4">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h2 class="text-center font-weight-bold">Manage Organization</h2>
         </div>
-
-
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
@@ -24,24 +22,21 @@
             </div>
         </div>
 
-        <div class="col-md-12 d-none" id="divForm">
+        <div class="col-md-12 d-none user-details" id="divForm">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
 
                     <div id="divOrganizationDetails">
                         <div class="row input-validation">
-                            <div class="col-md-3">
-                                <h3 class="text-left font-weight-bold">Organization Details</h3>
+                            <div class="form-header col-md-12">
+                                <h3>Organization Details</h3>
                             </div>
-                        </div>
-
-                        <div class="row input-validation">
-                       
+                            <div class="w-100"></div>
                             <div class="col-md-4" id="divCompanyLogo">
                                 <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
-                                    <label class="custom-file-label" for="customFile">Change Organization Logo</label>
+                                    <label class="custom-file-label mt-2" for="fileChangeCompanyLogo">Change Organization Logo</label>
                                 </div>
                             </div>
 
@@ -49,18 +44,76 @@
                                 <img class="circle user-photo" id="imgFavicon" src="../INCLUDES/Asset/images/menu.png" />
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="fileChangeFavicon" onchange="encodeImagetoBase64(this,'favicon')">
-                                    <label class="custom-file-label" for="customFile">Change Favicon</label>
+                                    <label class="custom-file-label mt-2" for="fileChangeFavicon">Change Favicon</label>
                                 </div>
                             </div>
-
-                            <div class="col-md-4" id="divCompanyTheme">
-                                <div class="col-md-12">Choose your theme colors </div>
-                                <div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>
-                                <div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>
-                                <div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>
-                                <div class="col-md-12 mt-3">Custom Font<input type="text" id="txtCustomFont"></div>
+                            <div class="w-100"></div>
+                            <div class="col-md-12 mt-4 mb-3" id="divCompanyTheme">
+                                <div class="row ">
+                                    <div class="col-md-12">Choose your theme colors </div>
+                                    <div class="col-md-12 mt-3">
+                                        Branding Color
+                                    <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor">
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        Custom Link Color
+                                    <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2">
+                                    </div>
+                                    <div class="col-md-12 mt-3 d-none">
+                                        Button Font Color
+                                    <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3">
+                                    </div>
+                                    <div class="col-md-12 mt-3 d-none">Custom Font<input type="text" id="txtCustomFont"></div>
+                                    <div class="w-100 mt-3"></div>
+                                    <div class="col-sm-6">
+                                        Botton Font Color
+                                        <div class="row mt-2">
+                                            <div class="col button-color">
+                                                <a class="font-weight-bold auto" button-data="auto">Preview</a>
+                                                <span class="label active">Auto</span>
+                                            </div>
+                                            <div class="col button-color">
+                                                <a class="font-weight-bold dark" button-data="dark">Preview</a>
+                                                <span class="label">Dark</span>
+                                            </div>
+                                            <div class="col button-color">
+                                                <a class="font-weight-bold light" button-data="light">Preview</a>
+                                                <span class="label">Light</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        Custom Font
+                                        <div class="row mt-2">
+                                            <div class="col custom-font">
+                                                <div class="serif custom-font-style" font-data="serif">
+                                                    <span class="titles">Titles</span>
+                                                    <span class="paragraphs">Paragraphs</span>
+                                                    <span class="captions">Captions</span>
+                                                </div>
+                                                <span class="label mt-2">Serif</span>
+                                            </div>
+                                            <div class="col custom-font">
+                                                <div class="sans-serif custom-font-style" font-data="sans-serif">
+                                                    <span class="titles">Titles</span>
+                                                    <span class="paragraphs">Paragraphs</span>
+                                                    <span class="captions">Captions</span>
+                                                </div>
+                                                <span class="label mt-2 active">Sans Serif (Default)</span>
+                                            </div>
+                                            <div class="col custom-font">
+                                                <div class="mixed-serif custom-font-style" font-data="mixed-serif">
+                                                    <span class="titles">Titles</span>
+                                                    <span class="paragraphs">Paragraphs</span>
+                                                    <span class="captions">Captions</span>
+                                                </div>
+                                                <span class="label mt-2">Mixed Serif</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
+                            <div class="w-100"></div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="txtBusinessName">Business Name</label>
@@ -70,8 +123,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="ddlEmployeeCount">No Of Employee</label>
-                                    <select class="form-control required " id="ddlEmployeeCount" style="width: 100% !important">
-                                        <option value="">Select Option</option>
+                                    <select class="form-control select2 required" id="ddlEmployeeCount" style="width: 100% !important">
+                                        <option></option>
                                         <option value="1">Just You</option>
                                         <option value="2">2-9</option>
                                         <option value="3">10-99</option>
@@ -82,36 +135,34 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="ddlCountry">Country</label>
-                                    <select class="form-control required " id="ddlCountry" style="width: 100% !important">
+                                    <select class="form-control select2 required" id="ddlCountry" style="width: 100% !important">
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div id="divAdminDetails" style="display: none;">
+                        <div class="row input-validation mt-3">
 
-                    <div id="divAdminDetails" style="display:none">
-                        <div class="row input-validation">
-                            <div class="col-md-3">
-                                <h3 class="text-left font-weight-bold">Admin Details</h3>
+                            <div class="form-header col-md-12">
+                                <h3>Admin Details</h3>
                             </div>
-                        </div>
+                            <div class="w-100"></div>
 
-                        <div class="row input-validation">
                             <div class="col-md-4">
                                 <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
-                                    <label class="custom-file-label" for="customFile">Change Profile Pic</label><br /><br />
+                                    <label class="custom-file-label mt-2" for="fileChangePic">Change Profile Pic</label><br />
+                                    <br />
                                 </div>
                             </div>
                         </div>
-
                         <div class="row input-validation">
-
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="ddlRole">Role</label>
-                                    <select class="form-control required " id="ddlRole" style="width: 100% !important">
+                                    <select class="form-control select2 required" id="ddlRole" style="width: 100% !important">
                                     </select>
                                 </div>
                             </div>
@@ -158,7 +209,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3" id="divUpdatePassword" style="display:none;">
+                            <div class="col-md-3" id="divUpdatePassword" style="display: none;">
                                 <div class="custom-control custom-checkbox mb-4">
                                     <input type="checkbox" onchange="enableUpdatePassword();" class="custom-control-input" id="cbUpdatePassword">
                                     <label class="custom-control-label" for="cbUpdatePassword">Want to change password!</label>
@@ -166,7 +217,7 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" id="UserID" value="" />                            
+                            <input type="hidden" id="UserID" value="" />
                         </div>
                     </div>
 
@@ -313,7 +364,7 @@
             $("#imgUserPic").attr("src", "../Asset/images/profile.png");
             $("#imgCompLogo").attr("src", "../Asset/images/CompanyLogo.png");
             $("#imgFavicon").attr("src", "../INCLUDES/Asset/images/menu.png");
-            
+
             toggle('divForm', 'divGird');
 
             BindCountry('create');
@@ -478,7 +529,7 @@
                             if (DataSet.Data[0].FaviconPicFile != undefined && DataSet.Data[0].FaviconPicFile != '') {
                                 $("#imgFavicon").attr("src", "../Files/Favicon/" + DataSet.Data[0].FaviconPicFile);
                             }
-                            
+
                             if (Role == "superadmin") {
                                 $("#divAdminDetails").show();
                             }
@@ -647,8 +698,7 @@
             }
 
 
-            if (Role == "superadmin")
-            {
+            if (Role == "superadmin") {
                 if ($("#ddlRole option:selected").val() == undefined || $("#ddlRole option:selected").val() == '') {
                     return { error: true, msg: "Please select Role" };
                 }
