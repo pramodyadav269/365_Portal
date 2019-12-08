@@ -460,14 +460,14 @@
 
                             toggle('divForm', 'divGird')
 
-                            $('#ddlRole').val(DataSet.Data[0].RoleID);
+                            $('#ddlRole').val(DataSet.Data[0].RoleID).trigger('change');
                             $('#txtFname').val(DataSet.Data[0].FirstName);
                             $('#txtLname').val(DataSet.Data[0].LastName);
                             $('#txtEmailId').val(DataSet.Data[0].EmailID);
                             $('#txtPassword').val('');
                             $('#txtMobileNo').val(DataSet.Data[0].MobileNum);
                             $('#txtPosition').val(DataSet.Data[0].Position);
-                            $('#ddlGroup').val(DataSet.Data[0].GroupID);
+                            $('#ddlGroup').val(DataSet.Data[0].GroupID).trigger('change');
 
                             $('#btnSubmit').hide();
                             $('#divPassword').hide();
@@ -475,7 +475,6 @@
                             $('#divUpdatePassword').show();
                             $('#UserID').val(id);
 
-                            $('.select2').material_select();
                         }
                         else {
                             if (DataSet.Data != undefined && DataSet.Data.length > 0) {
