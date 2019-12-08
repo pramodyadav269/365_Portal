@@ -28,146 +28,156 @@
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
 
+                    <div id="divOrganizationDetails">
+                        <div class="row input-validation">
+                            <div class="col-md-3">
+                                <h3 class="text-left font-weight-bold">Organization Details</h3>
+                            </div>
+                        </div>
 
-                    <div class="row input-validation">
-                        <div class="col-md-3">
-                            <h3 class="text-left font-weight-bold">Organization Details</h3>
+                        <div class="row input-validation">
+                       
+                            <div class="col-md-4" id="divCompanyLogo">
+                                <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
+                                    <label class="custom-file-label" for="customFile">Change Organization Logo</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" id="divFavicon">
+                                <img class="circle user-photo" id="imgFavicon" src="../INCLUDES/Asset/images/menu.png" />
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="fileChangeFavicon" onchange="encodeImagetoBase64(this,'favicon')">
+                                    <label class="custom-file-label" for="customFile">Change Favicon</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" id="divCompanyTheme">
+                                <div class="col-md-12">Choose your theme colors </div>
+                                <div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>
+                                <div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>
+                                <div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>
+                                <div class="col-md-12 mt-3">Custom Font<input type="text" id="txtCustomFont"></div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtBusinessName">Business Name</label>
+                                    <input type="text" class="form-control required" id="txtBusinessName" placeholder="Business Name" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ddlEmployeeCount">No Of Employee</label>
+                                    <select class="form-control required " id="ddlEmployeeCount" style="width: 100% !important">
+                                        <option value="">Select Option</option>
+                                        <option value="1">Just You</option>
+                                        <option value="2">2-9</option>
+                                        <option value="3">10-99</option>
+                                        <option value="4">300+</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ddlCountry">Country</label>
+                                    <select class="form-control required " id="ddlCountry" style="width: 100% !important">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="divAdminDetails" style="display:none">
+                        <div class="row input-validation">
+                            <div class="col-md-3">
+                                <h3 class="text-left font-weight-bold">Admin Details</h3>
+                            </div>
+                        </div>
+
+                        <div class="row input-validation">
+                            <div class="col-md-4">
+                                <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
+                                    <label class="custom-file-label" for="customFile">Change Profile Pic</label><br /><br />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row input-validation">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ddlRole">Role</label>
+                                    <select class="form-control required " id="ddlRole" style="width: 100% !important">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtFname">First Name</label>
+                                    <input type="text" class="form-control required" id="txtFname" placeholder="First Name" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtLname">Last Name</label>
+                                    <input type="text" class="form-control required" id="txtLname" placeholder="Last Name" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtEmailId">Email ID</label>
+                                    <input type="text" class="form-control required" id="txtEmailId" placeholder="Email ID" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" id="divPassword">
+                                <div class="form-group">
+                                    <label for="txtPassword">Password</label>
+                                    <input type="password" class="form-control required" id="txtPassword" placeholder="Password" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtMobileNo">Mobile No</label>
+                                    <input type="text" class="form-control required" id="txtMobileNo" placeholder="Mobile No" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtPosition">Position</label>
+                                    <input type="text" class="form-control required" id="txtPosition" placeholder="Position" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" id="divUpdatePassword" style="display:none;">
+                                <div class="custom-control custom-checkbox mb-4">
+                                    <input type="checkbox" onchange="enableUpdatePassword();" class="custom-control-input" id="cbUpdatePassword">
+                                    <label class="custom-control-label" for="cbUpdatePassword">Want to change password!</label>
+                                    <input type="password" disabled class="form-control required" id="txtUpdatePassword" placeholder="Password" />
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="UserID" value="" />                            
                         </div>
                     </div>
 
                     <div class="row input-validation">
-
-                        <div class="col-md-4">
-                            <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
-                                <label class="custom-file-label" for="customFile">Change Profile Pic</label><br /><br />
-                            </div>
-                        </div>
-
-                        <div class="col-md-4" id="divCompanyLogo">
-                            <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
-                                <label class="custom-file-label" for="customFile">Change Organization Logo</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4" id="divCompanyTheme">
-                            <div class="col-md-12">Choose your theme colors </div>
-                            <div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>
-                            <div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>
-                            <div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>
-                            <div class="col-md-12 mt-3">Custom Font<input type="text" id="txtCustomFont"></div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtBusinessName">Business Name</label>
-                                <input type="text" class="form-control required" id="txtBusinessName" placeholder="Business Name" />
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="ddlEmployeeCount">No Of Employee</label>
-                                <select class="form-control required " id="ddlEmployeeCount" style="width: 100% !important">
-                                    <option value="">Select Option</option>
-                                    <option value="1">Just You</option>
-                                    <option value="2">2-9</option>
-                                    <option value="3">10-99</option>
-                                    <option value="4">300+</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="ddlCountry">Country</label>
-                                <select class="form-control required " id="ddlCountry" style="width: 100% !important">
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    
-
-
-                    <div class="row input-validation">
-                        <div class="col-md-3">
-                            <h3 class="text-left font-weight-bold">Admin Details</h3>
-                        </div>
-                    </div>
-
-                    <div class="row input-validation">
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="ddlRole">Role</label>
-                                <select class="form-control required " id="ddlRole" style="width: 100% !important">
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtFname">First Name</label>
-                                <input type="text" class="form-control required" id="txtFname" placeholder="First Name" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtLname">Last Name</label>
-                                <input type="text" class="form-control required" id="txtLname" placeholder="Last Name" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtEmailId">Email ID</label>
-                                <input type="text" class="form-control required" id="txtEmailId" placeholder="Email ID" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3" id="divPassword">
-                            <div class="form-group">
-                                <label for="txtPassword">Password</label>
-                                <input type="password" class="form-control required" id="txtPassword" placeholder="Password" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtMobileNo">Mobile No</label>
-                                <input type="text" class="form-control required" id="txtMobileNo" placeholder="Mobile No" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="txtPosition">Position</label>
-                                <input type="text" class="form-control required" id="txtPosition" placeholder="Position" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3" id="divUpdatePassword" style="display:none;">
-                            <div class="custom-control custom-checkbox mb-4">
-                                <input type="checkbox" onchange="enableUpdatePassword();" class="custom-control-input" id="cbUpdatePassword">
-                                <label class="custom-control-label" for="cbUpdatePassword">Want to change password!</label>
-                                <input type="password" disabled class="form-control required" id="txtUpdatePassword" placeholder="Password" />
-                            </div>
-                        </div>
-
-                        <div class="w-100"></div>
-
                         <div class="col-md-12 mt-4">
                             <a class="btn bg-yellow float-left" id="btnBack" onclick="toggle('divGird', 'divForm')">Back</a>
                             <a class="btn bg-yellow float-right" id="btnSubmit" onclick="Submit();">Submit</a>
                             <a class="btn bg-yellow float-right" id="btnUpdate" style="display: none;" onclick="Update();">Update</a>
                         </div>
-
-                        <input type="hidden" id="UserID" value="" />
-                            
                     </div>
+
                 </div>
             </div>
         </div>
@@ -288,6 +298,7 @@
             //$("#imgCompLogo").attr("src", "../Files/CompLogo/" + DataSet.Data[0].CompanyProfilePicFile);
             $("#imgUserPic").attr("src", "../Asset/images/profile.png");
             $("#imgCompLogo").attr("src", "../Asset/images/CompanyLogo.png");
+            $("#imgFavicon").attr("src", "../INCLUDES/Asset/images/menu.png");
             
             toggle('divForm', 'divGird');
 
@@ -454,11 +465,16 @@
                             if (DataSet.Data[0].CompanyProfilePicFile != undefined && DataSet.Data[0].CompanyProfilePicFile != '') {
                                 $("#imgCompLogo").attr("src", "../Files/CompLogo/" + DataSet.Data[0].CompanyProfilePicFile);
                             }
-
-                            //$('.select2').material_select();
-                            //selectInit('#ddlCountry', 'Select Country');
-                            //selectInit('#ddlRole', 'Select Role');
-                            //selectInit('#ddlEmployeeCount', 'Select No Of Employee');
+                            if (DataSet.Data[0].FaviconPicFile != undefined && DataSet.Data[0].FaviconPicFile != '') {
+                                $("#imgFavicon").attr("src", "../Files/Favicon/" + DataSet.Data[0].FaviconPicFile);
+                            }
+                            
+                            if (Role == "superadmin") {
+                                $("#divAdminDetails").show();
+                            }
+                            else if (Role == "companyadmin") {
+                                $("#divAdminDetails").hide();
+                            }
                         }
                         else {
                             if (DataSet.Data != undefined && DataSet.Data.length > 0) {
@@ -489,7 +505,7 @@
         }
 
         function Update() {
-            debugger
+            //debugger
             var id = $('#UserID').val();
             var getUrl = "";
 
@@ -551,15 +567,17 @@
 
                 if (flag == 'create') {
                     var requestParams = {
-                        UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2
-                        , CompanyThemeColor3: ThemeColor3, CompanyCustomFont: CustomFont, BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country, RoleID: Role, FirstName: FirstName
+                        UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, FaviconImageBase64: base64FaviconString
+                        , CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyCustomFont: CustomFont
+                        , BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country, RoleID: Role, FirstName: FirstName
                         , LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, UpdateFlag: UpdateFlag
                     };
                 }
                 else {
                     var requestParams = {
-                        UserID: id, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, CompanyThemeColor: ThemeColor
-                        , CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyCustomFont: CustomFont, BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country
+                        UserID: id, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, FaviconImageBase64: base64FaviconString
+                        , CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyCustomFont: CustomFont
+                        , BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country
                         , RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, UpdateFlag: UpdateFlag
                     };
                 }
@@ -617,30 +635,34 @@
             else if ($("#ddlCountry option:selected").val() == undefined || $("#ddlCountry option:selected").val() == '') {
                 return { error: true, msg: "Please select Country" };
             }
-            else if ($("#ddlRole option:selected").val() == undefined || $("#ddlRole option:selected").val() == '') {
-                return { error: true, msg: "Please select Role" };
-            }
-            else if ($("#txtFname").val() == undefined || $("#txtFname").val() == '') {
-                return { error: true, msg: "Please enter firstname" };
-            }
-            else if ($("#txtLname").val() == undefined || $("#txtLname").val() == '') {
-                return { error: true, msg: "Please enter lastname" };
-            }
-            else if ($("#txtEmailId").val() == undefined || $("#txtEmailId").val() == '') {
-                return { error: true, msg: "Please enter emailid" };
-            }
 
-            if (flag == 'create') {
-                if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
-                    return { error: true, msg: "Please enter password" };
+
+            if (Role == "superadmin")
+            {
+                if ($("#ddlRole option:selected").val() == undefined || $("#ddlRole option:selected").val() == '') {
+                    return { error: true, msg: "Please select Role" };
+                }
+                else if ($("#txtFname").val() == undefined || $("#txtFname").val() == '') {
+                    return { error: true, msg: "Please enter firstname" };
+                }
+                else if ($("#txtLname").val() == undefined || $("#txtLname").val() == '') {
+                    return { error: true, msg: "Please enter lastname" };
+                }
+                else if ($("#txtEmailId").val() == undefined || $("#txtEmailId").val() == '') {
+                    return { error: true, msg: "Please enter emailid" };
+                }
+
+                if (flag == 'create') {
+                    if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
+                        return { error: true, msg: "Please enter password" };
+                    }
+                }
+                else {
+                    if ($('#cbUpdatePassword').prop('checked') == true && ($("#txtUpdatePassword").val() == undefined || $("#txtUpdatePassword").val() == '')) {
+                        return { error: true, msg: "Please enter password" };
+                    }
                 }
             }
-            else {
-                if ($('#cbUpdatePassword').prop('checked') == true && ($("#txtUpdatePassword").val() == undefined || $("#txtUpdatePassword").val() == '')) {
-                    return { error: true, msg: "Please enter password" };
-                }
-            }
-
             return true;
         }
 
@@ -656,6 +678,7 @@
 
         var base64UserProfileString = '';
         var base64CompanyProfileString = '';
+        var base64FaviconString = '';
         function encodeImagetoBase64(element, flag) {
             //debugger
             var file = element.files[0];
@@ -672,6 +695,10 @@
                         else if (flag == 'companypic') {
                             base64CompanyProfileString = reader.result;
                             $("#imgCompLogo").attr("src", base64CompanyProfileString);
+                        }
+                        else if (flag == 'favicon') {
+                            base64FaviconString = reader.result;
+                            $("#imgFavicon").attr("src", base64FaviconString);
                         }
                     }
                     reader.readAsDataURL(file);
@@ -696,6 +723,7 @@
             clearFields('.input-validation')
             $("#imgUserPic").attr("src", "../Asset/images/profile.png");
             $("#imgCompLogo").attr("src", "../Asset/images/CompanyLogo.png");
+            $("#imgFavicon").attr("src", "../INCLUDES/Asset/images/menu.png");
 
             BindCountry('update');
             BindRole(id,'update');

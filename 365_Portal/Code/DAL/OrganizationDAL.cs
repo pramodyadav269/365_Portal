@@ -61,6 +61,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_CompName", objUsers.CompName);
                 cmd.Parameters.AddWithValue("p_ChildUserID", ChildUserID);
                 cmd.Parameters.AddWithValue("p_RoleID", objUsers.RoleID);
+                cmd.Parameters.AddWithValue("p_CurrentRole", objUsers.Role);
                 cmd.Parameters.AddWithValue("p_FirstName", objUsers.FirstName);
                 cmd.Parameters.AddWithValue("p_LastName", objUsers.LastName);
                 cmd.Parameters.AddWithValue("p_EmailID", objUsers.EmailID);
@@ -78,6 +79,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_CreatedBy", objUsers.UserID);
 
                 cmd.Parameters.AddWithValue("p_CompanyProfilePicFileID", objUsers.CompanyProfilePicFileID);
+                cmd.Parameters.AddWithValue("p_FaviconFileID", objUsers.FaviconFileID);
                 cmd.Parameters.AddWithValue("p_CompanyThemeColor", objUsers.ThemeColor);
                 cmd.Parameters.AddWithValue("p_CompanyThemeColor2", objUsers.ThemeColor2);
                 cmd.Parameters.AddWithValue("p_CompanyThemeColor3", objUsers.ThemeColor3);
