@@ -17,11 +17,11 @@
                             </div>
                         </div>
 
-                        	<button class="button" id="play-button" onclick="return false;">PLAY</button>
+<%--                        	<button class="button" id="play-button" onclick="return false;">PLAY</button>
 		<button class="button" id="pause-button" onclick="return false;">PAUSE</button>
 		<button class="button" id="stop-button" onclick="return false;">STOP</button>
 	</div>
-                        <iframe id="video" width="420" height="345" src="https://www.youtube.com/embed/HSsqzzuGTPo"></iframe>
+                        <iframe id="video" width="420" height="345" src="https://www.youtube.com/embed/HSsqzzuGTPo"></iframe>--%>
 
                         <div class="col-sm-12 col-md-6 achievements-progress">
                             <ul class="list-group list-group-horizontal" id="dvAchievement">
