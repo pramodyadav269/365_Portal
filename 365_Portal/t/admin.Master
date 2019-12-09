@@ -7,7 +7,7 @@
     <title></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="icon" href="../INCLUDES/Asset/images/menu.png" type="image/png" sizes="16x16">
+    <%-- <link rel="icon" href="../INCLUDES/Asset/images/menu.png" type="image/png" sizes="16x16">--%>
     <%-- CSS --%>
     <link href="../includes/Asset/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../includes/Asset/css/all.css" rel="stylesheet" />
@@ -32,6 +32,39 @@
     <script src="../includes/Asset/js/dataTables.bootstrap4.min.js"></script>
     <script src="../includes/Asset/js/jquery.tablednd.js"></script>
     <script src="../includes/Asset/js/site.js"></script>
+    <script>
+
+        var buttonTheme = '<%=Session["ThemeColor3"]%>';
+        var brandColor = '<%=Session["ThemeColor"]%>';
+        var customFont = '<%=Session["ThemeColor4"]%>';
+        var favicon = '<%=Session["Favicon"]%>';
+        $(document).ready(function () {
+            //alert(customFont);
+            //$('body').css({ "font-family": customFont });
+
+            //if (buttonTheme != "") {
+            //    $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
+            //    $('.btn').addClass(buttonTheme);
+            //}
+
+            //if (brandColor != "") {
+            //    //branding color
+            //    $('.sidenav').css({ "background-color": brandColor })
+            //    $('.sidenav-content-menu').css({
+            //        "background-color": brandColor
+            //    })
+            //    $('<style>.sidenav-content .sidenav-nav .sidenav-item.side-menu.active .sidenav-link::after {border-color: transparent ' + brandColor + 'transparent transparent;} </style>').appendTo('head');
+            //}
+            //if (favicon != "") {
+            //    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            //    link.type = 'image/x-icon';
+            //    link.rel = 'shortcut icon';
+            //    link.href = '../Files/Favicon/' + favicon;
+            //    document.getElementsByTagName('head')[0].appendChild(link);
+            //}
+        });
+
+    </script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -49,7 +82,7 @@
         <div id="sideNav" runat="server" class="sidenav">
             <div class="sidenav-top">
                 <div class="sidenav-brand">
-                    <img id="imgCompanyLogo" style="cursor:pointer;" onclick="location.href='default.aspx';" runat="server" src="../INCLUDES/Asset/images/logo-white.svg" class="logo" />
+                    <img id="imgCompanyLogo" style="cursor: pointer;" onclick="location.href='default.aspx';" runat="server" src="../INCLUDES/Asset/images/logo-white.svg" class="logo" />
                     <a class="side-nav-menu float-right"><i class="fas fa-search"></i></a>
                     <%--<a class="side-nav-menu float-right d-none" onclick="ToggleNav()"><i class="fas fa-bars text-white"></i></a>--%>
                 </div>
@@ -63,11 +96,11 @@
                         <a class="sidenav-link" id="aMe_Menu" runat="server"></a>
                     </li>--%>
 
-                 <%--   <li class="sidenav-item side-menu" sidenav-id="sidenav_my_team" id="dvMenu_MyTeam" runat="server" visible="false">
+                    <%--   <li class="sidenav-item side-menu" sidenav-id="sidenav_my_team" id="dvMenu_MyTeam" runat="server" visible="false">
                         <a class="sidenav-link"><i class="fas fa-user-friends"></i><span class="tooltiptext">My Team</span><span>My Team</span></a>
                     </li>--%>
 
-                 <%--   <li class="sidenav-item side-menu" sidenav-id="sidenav_learing" id="dvMenu_Learning" runat="server" visible="false">
+                    <%--   <li class="sidenav-item side-menu" sidenav-id="sidenav_learing" id="dvMenu_Learning" runat="server" visible="false">
                         <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Learning</span><span>Learning</span></a>
                     </li>--%>
 
@@ -99,7 +132,7 @@
             <div class="sidenav-content-menu">
                 <ul class="sidenav-nav d-none" id="sidenav_Directory">
                     <h4 class="menu-title">Directory</h4>
-                    <li class="sidenav-item " id="dvSubMenu_Organizations" runat="server" visible="false" onclick="location.href='comingsoon.aspx';">
+                    <li class="sidenav-item " id="dvSubMenu_Organizations" runat="server" visible="false" onclick="location.href='organization.aspx';">
                         <a class="sidenav-link">Organizations</a>
                     </li>
                     <li class="sidenav-item " id="dvSubMenu_Users" runat="server" onclick="location.href='users.aspx';">
@@ -112,7 +145,7 @@
                         <a class="sidenav-link">Directory Settings</a>
                     </li>
                 </ul>
-              <%--  <ul class="sidenav-nav d-none" id="sidenav_me">
+                <%--  <ul class="sidenav-nav d-none" id="sidenav_me">
                     <h4 class="menu-title">Me</h4>
                     <li class="sidenav-item " id="dvSubMenu_MyProfile" onclick="location.href='profile.aspx';">
                         <a class="sidenav-link">My Profile</a>
@@ -129,7 +162,7 @@
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_Account">
                     <h4 class="menu-title">Account</h4>
-                    <li class="sidenav-item " id="dvSubMenu_CompanyProfile" runat="server" onclick="location.href='settings.aspx';">
+                    <li class="sidenav-item " id="dvSubMenu_CompanyProfile" runat="server" onclick="location.href='organization.aspx';">
                         <a class="sidenav-link">Company Profile</a>
                     </li>
                     <li class="sidenav-item" id="dvSubMenu_Domain" runat="server" onclick="location.href='comingsoon.aspx';">
@@ -166,13 +199,13 @@
                     <li class="sidenav-item" id="dvSubMenu_Notifications" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Notifications</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Roles" runat="server" visible="false" onclick="location.href='comingsoon.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Roles" runat="server" visible="false" onclick="location.href='roles.aspx';">
                         <a class="sidenav-link">Roles</a>
                     </li>
                     <li class="sidenav-item" id="dvSubMenu_Customize" runat="server" visible="false" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Customize</a>
                     </li>
-                   
+
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_Help">
                     <h4 class="menu-title">Help</h4>

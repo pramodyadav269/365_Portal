@@ -31,7 +31,7 @@ namespace _365_Portal.Controllers
                 {
                     objUser.UserID = identity.UserID;
                     objUser.CompId = identity.CompId;
-                    objUser.Role = identity.Role;                    
+                    objUser.Role = identity.Role;
 
                     var ds = OrganizationBL.GetAdminUsers(objUser);
                     if (ds.Tables.Count > 0)
@@ -97,7 +97,7 @@ namespace _365_Portal.Controllers
             else
             {
                 data = Utility.AuthenticationError();
-            }            
+            }
             return new APIResult(Request, data);
         }
 
@@ -114,7 +114,7 @@ namespace _365_Portal.Controllers
 
                 if (identity.Role == ConstantMessages.Roles.superadmin)//identity.Role == ConstantMessages.Roles.companyadmin || 
                 {
-                    if (ValidateUserDetails(jsonResult, out Message, out objUser, "create", Convert.ToInt32(identity.UserID), identity.Role))
+                    if (ValidateUserDetails(identity.Role, identity.CompId, jsonResult, out Message, out objUser, "create", Convert.ToInt32(identity.UserID)))
                     {
                         objUser.UserID = identity.UserID;
                         objUser.CompId = identity.CompId;
@@ -153,7 +153,7 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
-        private bool ValidateUserDetails(JObject jsonResult, out string Message, out UserBO objUserVal, string flag,int ChildUserID,string Role)
+        private bool ValidateUserDetails(string Role, int compid, JObject jsonResult, out string Message, out UserBO objUserVal, string flag, int ChildUserID)
         {
             bool ValFlag = true;
             Message = string.Empty;
@@ -292,7 +292,13 @@ namespace _365_Portal.Controllers
                 string fileName = ChildUserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(userProfilePicBase64);
                 string filePath = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/" + fileName);
                 File.WriteAllBytes(filePath, imageBytes);
-                HttpContext.Current.Session["ProfilePicFile"] = fileName;
+                if (HttpContext.Current.Session["CompId"] != null)
+                {
+                    if (Convert.ToInt32(HttpContext.Current.Session["CompId"]) == compid)
+                    {
+                        HttpContext.Current.Session["ProfilePicFile"] = fileName;
+                    }
+                }
 
                 DataSet dsProfilePic = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/ProfilePic/"), false, "ProfilePic");
                 if (dsProfilePic.Tables.Count > 0 && dsProfilePic.Tables[0].Rows.Count > 0)
@@ -314,7 +320,14 @@ namespace _365_Portal.Controllers
                 string fileName = ChildUserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(companyLogoBase64);
                 string filePath = HttpContext.Current.Server.MapPath("~/Files/CompLogo/" + fileName);
                 File.WriteAllBytes(filePath, imageBytes);
-                HttpContext.Current.Session["CompanyProfilePicFile"] = fileName;
+
+                if (HttpContext.Current.Session["CompId"] != null)
+                {
+                    if (Convert.ToInt32(HttpContext.Current.Session["CompId"]) == compid)
+                    {
+                        HttpContext.Current.Session["CompanyProfilePicFile"] = fileName;
+                    }
+                }
                 DataSet dsCompanyLogo = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/CompLogo/"), false, "");
                 if (dsCompanyLogo.Tables.Count > 0 && dsCompanyLogo.Tables[0].Rows.Count > 0)
                 {
@@ -334,6 +347,10 @@ namespace _365_Portal.Controllers
                 byte[] imageBytes = Convert.FromBase64String(faviconBase64);
                 string fileName = ChildUserID + "_" + Guid.NewGuid() + "." + Utility.GetFileExtension(faviconBase64);
                 string filePath = HttpContext.Current.Server.MapPath("~/Files/Favicon/" + fileName);
+                if (Convert.ToInt32(HttpContext.Current.Session["CompId"]) == compid)
+                {
+                    HttpContext.Current.Session["Favicon"] = fileName;
+                }
                 File.WriteAllBytes(filePath, imageBytes);
                 //HttpContext.Current.Session["CompanyProfilePicFile"] = fileName;
                 DataSet dsFavicon = UserBL.CreateFile(fileName, HttpContext.Current.Server.MapPath("~/Files/Favicon/"), false, "");
@@ -350,6 +367,17 @@ namespace _365_Portal.Controllers
 
             objUserVal.EmailNotification = false;
             objUserVal.PushNotification = false;
+
+            if (HttpContext.Current.Session["CompId"] != null)
+            {
+                if (Convert.ToInt32(HttpContext.Current.Session["CompId"]) == compid)
+                {
+                    HttpContext.Current.Session["ThemeColor"] = objUserVal.ThemeColor;
+                    HttpContext.Current.Session["ThemeColor2"] = objUserVal.ThemeColor2;
+                    HttpContext.Current.Session["ThemeColor3"] = objUserVal.ThemeColor3;
+                    HttpContext.Current.Session["ThemeColor4"] = objUserVal.ThemeColor4;
+                }
+            }
 
             return ValFlag;
         }
@@ -370,7 +398,7 @@ namespace _365_Portal.Controllers
                 {
                     objUser.UserID = identity.UserID;
                     objUser.CompId = identity.CompId;
-                    objUser.Role = identity.Role;                    
+                    objUser.Role = identity.Role;
 
                     if (jsonResult.SelectToken("UserID") != null && jsonResult.SelectToken("UserID").ToString().Trim() != "")
                     {
@@ -421,7 +449,7 @@ namespace _365_Portal.Controllers
                     objUser.UserID = identity.UserID;
                     objUser.CompId = identity.CompId;
                     objUser.Role = identity.Role;
-                    
+
                     ChildUserID = Convert.ToInt32(identity.UserID);
                     var ds = OrganizationBL.GetAdminUserDetails(objUser, ChildUserID);
                     if (ds.Tables[0].Rows.Count > 0)
@@ -464,12 +492,12 @@ namespace _365_Portal.Controllers
                     {
                         ChildUserID = (int)jsonResult.SelectToken("UserID");
 
-                        if (ValidateUserDetails(jsonResult, out Message, out objUser, "update", ChildUserID, identity.Role))
+                        if (ValidateUserDetails(identity.Role, identity.CompId, jsonResult, out Message, out objUser, "update", ChildUserID))
                         {
                             objUser.UserID = identity.UserID;
                             objUser.CompId = identity.CompId;
                             objUser.Role = identity.Role;
-                            
+
                             var ds = OrganizationBL.CreateUpdateAdminUser(objUser, 2, ChildUserID);
                             if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
                             {
@@ -484,7 +512,7 @@ namespace _365_Portal.Controllers
                             else
                             {
                                 data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
-                            }                            
+                            }
                         }
                         else
                         {
@@ -524,7 +552,7 @@ namespace _365_Portal.Controllers
                     int ChildUserID = 0;
                     ChildUserID = Convert.ToInt32(identity.UserID);
 
-                    if (ValidateUserDetails(jsonResult, out Message, out objUser, "update", ChildUserID, identity.Role))
+                    if (ValidateUserDetails(identity.Role, identity.CompId, jsonResult, out Message, out objUser, "update", ChildUserID))
                     {
                         objUser.UserID = identity.UserID;
                         objUser.CompId = identity.CompId;

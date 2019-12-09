@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Content List" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="ContentList.aspx.cs" Inherits="_365_Portal.Admin.ContentList" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Content List</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -74,7 +74,7 @@
                                     <label class="custom-control-label" for="rd_file">Upload File</label>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <%--<div class="col-md-3">
                             <div class="custom-radio">
                                 <input type="radio" class="custom-radio-input" id="rd_url" name="filetype" checked="checked" value="URL" onchange="ShowControl(this)">
@@ -98,6 +98,9 @@
                             <div class="form-group">
                                 <label for="txtFileUrl">File Url</label>
                                 <input type="text" class="form-control" id="txtFileUrl" placeholder="File Url" />
+                                For e.g. Replace Video text by (?V= Querystring) value from youtube video link
+                                <br />
+                                https://www.youtube.com/embed/video?enablejsapi=1
                             </div>
                         </div>
 
@@ -636,12 +639,12 @@
                         },
                         complete: function () {
                             $('#tblContent').DataTable();
-                            $('#tblContent').tableDnD({
-                                onDragStart: function (table, row) {
-                                    $('#savereorder').show();
+                            //$('#tblContent').tableDnD({
+                            //    onDragStart: function (table, row) {
+                            //        $('#savereorder').show();
 
-                                }
-                            });
+                            //    }
+                            //});
                             HideLoader();
                         }
                     });

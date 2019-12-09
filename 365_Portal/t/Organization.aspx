@@ -7,7 +7,7 @@
     <div class="row settings">
         <div class="col-md-12 header mb-4">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h2 class="text-center font-weight-bold">Manage Organization</h2>
+            <h2 class="text-center font-weight-bold" id="dvTitle">Organization</h2>
         </div>
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
@@ -28,11 +28,13 @@
 
                     <div id="divOrganizationDetails">
                         <div class="row input-validation">
-                            <div class="form-header col-md-12">
+                           <%-- <div class="form-header col-md-12">
                                 <h3>Organization Details</h3>
-                            </div>
+                            </div>--%>
                             <div class="w-100"></div>
                             <div class="col-md-4" id="divCompanyLogo">
+                                Upload your organization logo
+                                <br />
                                 <img class="circle user-photo" id="imgCompLogo" src="../Asset/images/CompanyLogo.png" />
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="fileChangeCompanyLogo" onchange="encodeImagetoBase64(this,'companypic')">
@@ -41,6 +43,8 @@
                             </div>
 
                             <div class="col-md-4" id="divFavicon">
+                                Upload your organization Favicon
+                                <br />
                                 <img class="circle user-photo" id="imgFavicon" src="../INCLUDES/Asset/images/menu.png" />
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="fileChangeFavicon" onchange="encodeImagetoBase64(this,'favicon')">
@@ -67,7 +71,7 @@
                                     <div class="w-100 mt-3"></div>
                                     <div class="col-sm-6">
                                         Botton Font Color
-                                        <div class="row mt-2">
+                                        <%--<div class="row mt-2">
                                             <div class="col button-color">
                                                 <a class="font-weight-bold auto" button-data="auto">Preview</a>
                                                 <span class="label active">Auto</span>
@@ -80,11 +84,16 @@
                                                 <a class="font-weight-bold light" button-data="light">Preview</a>
                                                 <span class="label">Light</span>
                                             </div>
+                                        </div>--%>
+                                        <div class="row mt-2">
+                                            <div class="col button-color"><a class="font-weight-bold auto" button-data="auto">Preview</a><span class="label" id="dvButtonColor_auto">Auto</span></div>
+                                            <div class="col button-color"><a class="font-weight-bold dark" button-data="dark">Preview</a><span class="label" id="dvButtonColor_dark">Dark</span></div>
+                                            <div class="col button-color"><a class="font-weight-bold light" button-data="light">Preview</a><span class="label" id="dvButtonColor_light">Light</span></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         Custom Font
-                                        <div class="row mt-2">
+                                       <%-- <div class="row mt-2">
                                             <div class="col custom-font">
                                                 <div class="serif custom-font-style" font-data="serif">
                                                     <span class="titles">Titles</span>
@@ -109,6 +118,20 @@
                                                 </div>
                                                 <span class="label mt-2">Mixed Serif</span>
                                             </div>
+                                        </div>--%>
+                                        <div class="row mt-2">
+                                            <div class="col custom-font">
+                                                <div class="serif custom-font-style" font-data="serif"><span class="titles">Titles</span><span class="paragraphs">Paragraphs</span><span class="captions">Captions</span></div>
+                                                <span class="label mt-2" id="dvCustomFont_serif">Serif</span>
+                                            </div>
+                                            <div class="col custom-font">
+                                                <div class="sans-serif custom-font-style" font-data="sans-serif"><span class="titles">Titles</span><span class="paragraphs">Paragraphs</span><span class="captions">Captions</span></div>
+                                                <span class="label mt-2" id="dvCustomFont_sans-serif">Sans Serif (Default)</span>
+                                            </div>
+                                            <div class="col custom-font">
+                                                <div class="mixed-serif custom-font-style" font-data="mixed-serif"><span class="titles">Titles</span><span class="paragraphs">Paragraphs</span><span class="captions">Captions</span></div>
+                                                <span class="label mt-2" id="dvCustomFont_mixed-serif">Mixed Serif</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +146,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="ddlEmployeeCount">No Of Employee</label>
-                                    <select class="form-control select2 required" id="ddlEmployeeCount" style="width: 100% !important">
+                                    <select class="form-control required" id="ddlEmployeeCount" style="width: 100% !important">
                                         <option></option>
                                         <option value="1">Just You</option>
                                         <option value="2">2-9</option>
@@ -135,7 +158,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="ddlCountry">Country</label>
-                                    <select class="form-control select2 required" id="ddlCountry" style="width: 100% !important">
+                                    <select class="form-control required" id="ddlCountry" style="width: 100% !important">
                                     </select>
                                 </div>
                             </div>
@@ -162,7 +185,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="ddlRole">Role</label>
-                                    <select class="form-control select2 required" id="ddlRole" style="width: 100% !important">
+                                    <select class="form-control required" id="ddlRole" style="width: 100% !important">
                                     </select>
                                 </div>
                             </div>
@@ -240,10 +263,18 @@
         var accessToken = '<%=Session["access_token"]%>';
         var Role = '<%=Session["RoleName"]%>';
         var id = '';
+        var customFont = '';
+        var buttonFontColor = '';
 
         $(document).ready(function () {
             //debugger
             ShowLoader();
+            if (Role == "superadmin") {
+                $("#divAdminDetails").show();
+            }
+            else if (Role == "companyadmin") {
+                $("#divAdminDetails").hide();
+            }
             if (Role == "superadmin") {
                 $('#btnAddNew').show();
                 GetAdminUsers();
@@ -273,15 +304,17 @@
             $('.custom-font-style').click(function () {
                 $('.custom-font .label').removeClass('active')
                 $(this).parent().find('.label').addClass('active')
-                $('body').css({ "font-family": $(this).attr('font-data') })
+                //$('body').css({ "font-family": $(this).attr('font-data') })
+                customFont = $(this).attr('font-data');
             })
 
 
             $('.button-color a').click(function () {
                 $('.button-color .label').removeClass('active')
                 $(this).parent().find('.label').addClass('active')
-                $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
-                $('.btn').addClass($(this).attr('button-data'))
+                //$('.btn').removeClass('auto').removeClass('dark').removeClass('light')
+                //$('.btn').addClass($(this).attr('button-data'))
+                buttonFontColor = $(this).attr('button-data');
             })
         });
 
@@ -327,7 +360,7 @@
             $('#divTable').empty().append();
 
             var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
-                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Position</th><th>Role</th><th>Action</th></thead>'
+                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>Organization Name</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Position</th><th>Role</th><th>Action</th></thead>'
 
             tbl += '<tbody>';
             if (Table != undefined && Table.length > 0) {
@@ -335,6 +368,7 @@
                     tbl += '<tr>';
                     tbl += '<td>' + (i + 1) + '</td>';
                     tbl += '<td style="display:none;" id="id">' + Table[i].UserID + '</td>';
+                    tbl += '<td title="' + Table[i].Name + '" >' + Table[i].Name + '</td>';
                     tbl += '<td title="' + Table[i].FirstName + '" >' + Table[i].FirstName + '</td>';
                     tbl += '<td title="' + Table[i].LastName + '" >' + Table[i].LastName + '</td>';
                     tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
@@ -530,11 +564,24 @@
                                 $("#imgFavicon").attr("src", "../Files/Favicon/" + DataSet.Data[0].FaviconPicFile);
                             }
 
+                            if (DataSet.Data[0].CompanyThemeColor3 == null || DataSet.Data[0].CompanyThemeColor3 == "") {
+                                DataSet.Data[0].CompanyThemeColor3 = "auto";
+                            }
+                            if (DataSet.Data[0].CompanyThemeColor4 == null || DataSet.Data[0].CompanyThemeColor4 == "") {
+                                DataSet.Data[0].CompanyThemeColor4 = "sans-serif";
+                            }
+                            customFont = DataSet.Data[0].CompanyThemeColor4;
+                            buttonFontColor = DataSet.Data[0].CompanyThemeColor3;
+
+                            $("[id=dvCustomFont_" + DataSet.Data[0].CompanyThemeColor4 + "]").addClass('active');
+                            $("[id=dvButtonColor_" + DataSet.Data[0].CompanyThemeColor3 + "]").addClass('active');
+
                             if (Role == "superadmin") {
                                 $("#divAdminDetails").show();
                             }
                             else if (Role == "companyadmin") {
                                 $("#divAdminDetails").hide();
+                                // $("#dvTitle").html("Company Profile");
                             }
                         }
                         else {
@@ -597,10 +644,10 @@
                 var ThemeColor = theInput.value;
                 theInput = document.getElementById("ThemeColor2");
                 var ThemeColor2 = theInput.value;
-                theInput = document.getElementById("ThemeColor3");
-                var ThemeColor3 = theInput.value;
-                theInput = document.getElementById("txtCustomFont");
-                var CustomFont = theInput.value;
+                //theInput = document.getElementById("ThemeColor3");
+                //var ThemeColor3 = theInput.value;
+                //theInput = document.getElementById("txtCustomFont");
+                //var CustomFont = theInput.value;
 
                 var BusinessName = $("#txtBusinessName").val();
                 var EmployeeCount = $("#ddlEmployeeCount option:selected").val();
@@ -629,7 +676,7 @@
                 if (flag == 'create') {
                     var requestParams = {
                         UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, FaviconImageBase64: base64FaviconString
-                        , CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyCustomFont: CustomFont
+                        , CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: buttonFontColor, CompanyCustomFont: customFont
                         , BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country, RoleID: Role, FirstName: FirstName
                         , LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, UpdateFlag: UpdateFlag
                     };
@@ -637,7 +684,7 @@
                 else {
                     var requestParams = {
                         UserID: id, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, FaviconImageBase64: base64FaviconString
-                        , CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyCustomFont: CustomFont
+                        , CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: buttonFontColor, CompanyCustomFont: customFont
                         , BusinessName: BusinessName, EmployeeCount: EmployeeCount, Country: Country
                         , RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, UpdateFlag: UpdateFlag
                     };
@@ -656,7 +703,10 @@
                             HideLoader();
                             if (DataSet.StatusCode == "1") {
                                 Swal.fire(DataSet.Data[0].ReturnMessage, {
-                                    icon: "success",
+                                    title: 'Success',
+                                    icon: 'success',
+                                    showConfirmButton: true,
+                                    showCloseButton: true
                                 }).then((CreateUpdateAdminUser) => {
                                     location.reload();
                                 });;

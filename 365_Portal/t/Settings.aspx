@@ -28,8 +28,8 @@
                                 <div class="col-md-4">
                                     <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'companypic')">
-                                        <label class="custom-file-label mt-2" for="fileChangePic">Change Organization Logo</label>
+                                        <input type="file" class="custom-file-input" id="fileChangePic" onchange="encodeImagetoBase64(this,'userpic')">
+                                        <label class="custom-file-label mt-2" for="fileChangePic">Change Profile Pic</label>
                                     </div>
                                 </div>
 
@@ -40,10 +40,13 @@
                                         <label class="custom-file-label mt-2" for="fileChangeCompanyLogo">Change Organization Logo</label>
                                     </div>
                                 </div>
+
                                 <div class="w-100"></div>
                                 <div class="col-md-12 mt-4 mb-3" id="divCompanyTheme" style="display: none;">
                                 </div>
                                 <div class="w-100"></div>
+                                <br />
+                                <br />
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="txtFirstName">First Name</label>
@@ -127,6 +130,8 @@
 
         var accessToken = '<%=Session["access_token"]%>';
         var Role = '<%=Session["RoleName"]%>';
+        var customFont = '';
+        var buttonFontColor = '';
 
         var IsFirstLogin = '<%=Session["IsFirstLogin"]%>';
         var IsFirstPasswordNotChanged = '<%=Session["IsFirstPasswordNotChanged"]%>';
@@ -171,10 +176,12 @@
                 if (Role == "companyadmin")
                     $('#divCompanyLogo').show();
 
-                $('#divCompanyTheme').empty().append('<div class="row"><div class="col-md-12">Choose your theme colors </div>' +
-                    '<div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>' +
-                    '<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>' +
-                    '<div class="w-100 mt-3"></div><div class="col-sm-6">Botton Font Color' +
+                $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor"></div>');
+                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor2"></div>');
+                //$('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="#000000" onchange="assignColor(this)">&nbsp;<input type="text" id="txtThemeColor3"></div>');
+
+                $('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Botton Font Color' +
                     '<div class="row mt-2">' +
                     '<div class="col button-color">' +
                     '<a class="font-weight-bold auto" button-data="auto">Preview</a>' +
@@ -188,8 +195,10 @@
                     '<a class="font-weight-bold light" button-data="light">Preview</a>' +
                     '<span class="label">Light</span>' +
                     '</div>' +
-                    '</div></div>' +
-                    '<div class="col-sm-6">Custom Font' +
+                    '</div></div>');
+
+
+                $('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Custom Font' +
                     '<div class="row mt-2">' +
                     '<div class="col custom-font">' +
                     '<div class="serif custom-font-style" font-data="serif">' +
@@ -215,23 +224,11 @@
                     '</div>' +
                     '<span class="label mt-2">Mixed Serif</span>' +
                     '</div>' +
-                    '</div></div></div>');
+                    '</div></div>');
 
                 $('#divCompanyTheme').show();
 
-                $('.custom-font-style').click(function () {
-                    $('.custom-font .label').removeClass('active')
-                    $(this).parent().find('.label').addClass('active')
-                    $('body').css({ "font-family": $(this).attr('font-data') })
-                })
 
-
-                $('.button-color a').click(function () {
-                    $('.button-color .label').removeClass('active')
-                    $(this).parent().find('.label').addClass('active')
-                    $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
-                    $('.btn').addClass($(this).attr('button-data'))
-                })
             }
             GetUserProfileDetails();
 
@@ -317,27 +314,89 @@
                 //);
 
                 $("#imgCompLogo").attr("src", "../Files/CompLogo/" + Data.CompanyProfilePicFile);
+            }
+            if (Role != undefined && Role == "companyadmin") {
                 $('#divCompanyTheme').empty().append('<div class="col-md-12">Choose your theme colors </div>');
 
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Branding Color <input type="color" id="ThemeColor" value="' + Data.ThemeColor + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor + '" id="txtThemeColor" onkeyup="getCustomColor(this)"></div>');
                 $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Custom Link Color <input type="color" id="ThemeColor2" value="' + Data.ThemeColor2 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor2 + '" id="txtThemeColor2" onkeyup="getCustomColor(this)"></div>');
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor3 + '" id="txtThemeColor3" onkeyup="getCustomColor(this)"></div>');
+                //$('#divCompanyTheme').append('<div class="col-md-12 mt-3">Button Font Color <input type="color" id="ThemeColor3" value="' + Data.ThemeColor3 + '" onchange="assignColor(this)">&nbsp;<input type="text" value="' + Data.ThemeColor3 + '" id="txtThemeColor3" onkeyup="getCustomColor(this)"></div>');
 
-                $('#divCompanyTheme').append('<div class="col-md-12 mt-3 custom-font">Custom Font' +
-                    '<div class="form-group radio box">' +
-                    '<input type="radio" id="f1" name="fontFamily" value="Heebo">' +
-                    '<label for="f1">Heebo</label>' +
-                    '<input type="radio" id="f2" name="fontFamily" value="sans-serif">' +
-                    '<label for="f2">Sans Serif</label>' +
-                    '<input type="radio" id="f3" name="fontFamily" value="Roboto">' +
-                    '<label for="f3">Roboto</label>' +
+
+
+                $('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Botton Font Color' +
+                    '<div class="row mt-2">' +
+                    '<div class="col button-color">' +
+                    '<a class="font-weight-bold auto" button-data="auto">Preview</a>' +
+                    '<span class="label" id="dvButtonColor_Auto">Auto</span>' +
                     '</div>' +
-                    '</div>');
-                if (Data.ThemeColor4 == null || Data.ThemeColor4 == "") {
-                    Data.ThemeColor4 = "Heebo";
+                    '<div class="col button-color">' +
+                    '<a class="font-weight-bold dark" button-data="dark">Preview</a>' +
+                    '<span class="label" id="dvButtonColor_dark">Dark</span>' +
+                    '</div>' +
+                    '<div class="col button-color">' +
+                    '<a class="font-weight-bold light" button-data="light">Preview</a>' +
+                    '<span class="label" id="dvButtonColor_light">Light</span>' +
+                    '</div>' +
+                    '</div></div>');
+
+
+                $('#divCompanyTheme').append('<div class="col-sm-12 mt-3">Custom Font' +
+                    '<div class="row mt-2">' +
+                    '<div class="col custom-font">' +
+                    '<div class="serif custom-font-style" font-data="serif">' +
+                    '<span class="titles">Titles</span>' +
+                    '<span class="paragraphs">Paragraphs</span>' +
+                    '<span class="captions">Captions</span>' +
+                    '</div>' +
+                    '<span class="label mt-2"  id="dvCustomFont_serif">Serif</span>' +
+                    '</div>' +
+                    '<div class="col custom-font">' +
+                    '<div class="sans-serif custom-font-style" font-data="sans-serif">' +
+                    '<span class="titles">Titles</span>' +
+                    '<span class="paragraphs">Paragraphs</span>' +
+                    '<span class="captions">Captions</span>' +
+                    '</div>' +
+                    '<span class="label mt-2" id="dvCustomFont_sans-serif">Sans Serif (Default)</span>' +
+                    '</div>' +
+                    '<div class="col custom-font">' +
+                    '<div class="mixed-serif custom-font-style" font-data="mixed-serif">' +
+                    '<span class="titles">Titles</span>' +
+                    '<span class="paragraphs">Paragraphs</span>' +
+                    '<span class="captions">Captions</span>' +
+                    '</div>' +
+                    '<span class="label mt-2" id="dvCustomFont_mixed-serif">Mixed Serif</span>' +
+                    '</div>' +
+                    '</div></div>');
+
+                if (Data.ThemeColor3 == null || Data.ThemeColor3 == "") {
+                    Data.ThemeColor3 = "Auto";
                 }
-                $('input[name="fontFamily"]').prop('checked', false);
-                $("input[name=fontFamily][value=" + Data.ThemeColor4 + "]").prop("checked", true);
+                if (Data.ThemeColor4 == null || Data.ThemeColor4 == "") {
+                    Data.ThemeColor4 = "sans-serif";
+                }
+
+                buttonFontColor = Data.ThemeColor3;
+                customFont = Data.ThemeColor4;
+
+                $('.custom-font-style').click(function () {
+                    $('.custom-font .label').removeClass('active')
+                    $(this).parent().find('.label').addClass('active')
+                    //$('body').css({ "font-family": $(this).attr('font-data') });
+                    customFont = $(this).attr('font-data');
+                });
+
+                $('.button-color a').click(function () {
+                    $('.button-color .label').removeClass('active')
+                    $(this).parent().find('.label').addClass('active')
+                    // $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
+                    //$('.btn').addClass($(this).attr('button-data'));
+                    buttonFontColor = $(this).attr('button-data');
+                });
+
+                $("[id=dvCustomFont_" + Data.ThemeColor4 + "]").addClass('active');
+                $("[id=dvButtonColor_" + Data.ThemeColor3 + "]").addClass('active');
+
                 $('#divCompanyTheme').show();
             }
         }
@@ -399,8 +458,8 @@
                 theInput = document.getElementById("ThemeColor2");
                 ThemeColor2 = theInput.value;
                 theInput = document.getElementById("ThemeColor3");
-                ThemeColor3 = theInput.value;
-                ThemeColor4 = $('input[name=fontFamily]:checked').val();
+                ThemeColor3 = buttonFontColor;
+                ThemeColor4 = customFont;
             }
 
             var requestParams = { EmailID: EmailID, Position: Position, UserProfileImageBase64: base64UserProfileString, CompanyProfileImageBase64: base64CompanyProfileString, CompanyThemeColor: ThemeColor, CompanyThemeColor2: ThemeColor2, CompanyThemeColor3: ThemeColor3, CompanyThemeColor4: ThemeColor4 };

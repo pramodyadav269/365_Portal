@@ -430,10 +430,17 @@ app.service("DataService", function ($http, $rootScope, $compile) {
             $rootScope.SpecialContents = responseData;
             if ($rootScope.SpecialContents.Type == 'CONTENT') {
                 if ($rootScope.SpecialContents.DocType == 'VIDEO') {
-                    $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
-                        '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath + '" type="video/mp4">' +
-                        '</video>');
-                    document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
+                    if ($rootScope.SpecialContents.FilePath.toLowerCase().includes("youtube.com")) {
+                        //$("#divVideo").html('<iframe id="ik_player" class="section-video-main" height="100%" width="100%" src="https://www.youtube.com/embed/GYnwqxKOm0Y?enablejsapi=1"></iframe>');
+                        $("#divVideo").html('<iframe id="ik_player" class="section-video-main" height="100%" width="100%" src="' + $rootScope.SpecialContents.FilePath + '"></iframe>');
+                        onYouTubeIframeAPIReady();
+                    }
+                    else {
+                        $("#divVideo").html('<video id="vdVideoPlayer" onclick="VideoClicked(this)" onpause="VideoPaused(this)" class="section-video-main" autobuffer="" controls="" height="100%" width="100%">' +
+                            '<source id="dvVideoPlayer" src="' + $rootScope.SpecialContents.FilePath + '" type="video/mp4">' +
+                            '</video>');
+                        document.getElementById('vdVideoPlayer').addEventListener('ended', VideoFinished, false);
+                    }
                     $('#videoControl').show();
                 }
                 else if ($rootScope.SpecialContents.DocType == 'PDF') {
