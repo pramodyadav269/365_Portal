@@ -773,6 +773,21 @@ a.link, a.link:hover {
     .header a.btn {
         top: -2.2rem !important;
     }
+
+    .achievements .list-group-item {
+        padding: .75rem .2rem;
+        margin: 0 .95rem;
+    }
+
+    .achievements-progress .progress {
+        width: 60px;
+        height: 60px;
+    }
+
+    .achievements .list-group-item .ach-icon {
+        width: 3rem;
+        height: 3rem;
+    }
 }
 
 input[type=checkbox] + label, input[type=radio] + label {
