@@ -68,7 +68,7 @@
         function BindTable(Table) {
             debugger
             $('#divTable').empty().append();
-            var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
+            var tbl = '<table id="tblGird" class="table-bordered" style="width:100%">' +
                 '<thead><tr><th>#</th><th>Email ID</th><th>Group</th><th>Action</th></thead>'
 
             tbl += '<tbody>';
@@ -108,7 +108,7 @@
             tbl += '</tbody>';
             tbl += '</table>';
             $('#divTable').empty().append(tbl);
-            $('#tblGird').DataTable();
+            //$('#tblGird').DataTable();
         }
 
         function submit(obj, userID)

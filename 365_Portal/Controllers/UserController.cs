@@ -1231,7 +1231,7 @@ namespace _365_Portal.Controllers
                         objUser.Role = identity.Role;
 
                         var ds = CommonBL.CreateUpdateUser(objUser, 1, 0);
-                        if (ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
+                        if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["ReturnCode"].ToString() == "1")
                         {
                             data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
                             data = Utility.Successful(data);

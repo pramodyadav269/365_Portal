@@ -492,6 +492,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_UserKey", objUsers.UserKey);
                 cmd.Parameters.AddWithValue("p_CompName", objUsers.CompName);
                 cmd.Parameters.AddWithValue("p_RoleID", objUsers.RoleID);
+                cmd.Parameters.AddWithValue("p_CurrentRole", objUsers.Role);
                 cmd.Parameters.AddWithValue("p_FirstName", objUsers.FirstName);
                 cmd.Parameters.AddWithValue("p_LastName", objUsers.LastName);
                 cmd.Parameters.AddWithValue("p_EmailID", objUsers.EmailID);                
