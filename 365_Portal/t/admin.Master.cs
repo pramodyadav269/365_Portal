@@ -93,6 +93,7 @@ namespace _365_Portal.Admin
                         dvSubMenu_ContentSettings.Visible = true;
                         dvMenu_Account.Visible = true;
                         dvSubMenu_Customize.Visible = true;
+                        dvSubMenu_AssignTopics.Visible = true;
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.subadmin)
                     {

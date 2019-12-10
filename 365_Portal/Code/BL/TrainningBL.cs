@@ -456,12 +456,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds)
+        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds,string removeTopic)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.AssignTopicsByEntity(compID, userId, topicIds, groupIds, userIds);
+                ds = TrainningDAL.AssignTopicsByEntity(compID, userId, topicIds, groupIds, userIds, removeTopic);
             }
             catch (Exception ex)
             {

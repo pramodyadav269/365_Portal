@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="104px" height="126px" viewBox="0 0 104 126" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 54.1 (76490) - https://sketchapp.com -->
+    <title>9CE5C32C-CA56-4F45-A2FF-521625B2DE1C</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <path d="M8,0 L63.2438086,0 L70.9916853,7.7497765 L78,17.5127888 L78,92 C78,96.418278 74.418278,100 70,100 L8,100 C3.581722,100 -2.12345226e-15,96.418278 -2.66453526e-15,92 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 Z" id="path-1"></path>
+        <filter x="-26.3%" y="-18.5%" width="152.6%" height="141.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="6.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.0652173913 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Profile" transform="translate(-348.000000, -751.000000)">
+            <g id="next-pdf-icon" transform="translate(361.000000, 762.000000)">
+                <g id="Rectangle-9-Copy-4">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <text id="PDF" font-family="Heebo-Bold, Heebo" font-size="16" font-weight="bold" fill="#FF4141">
+                    <tspan x="25.2460938" y="48">PDF</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

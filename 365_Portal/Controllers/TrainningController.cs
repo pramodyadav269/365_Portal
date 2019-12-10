@@ -517,8 +517,9 @@ namespace _365_Portal.Controllers
                     var topicIds = Convert.ToString(requestParams["TopicIds"].ToString());
                     var groupIds = Convert.ToString(requestParams["GroupIds"].ToString());
                     var userIds = Convert.ToString(requestParams["UserIds"].ToString());
+                    var removeTopic = Convert.ToString(requestParams["RemoveTopics"].ToString());
 
-                    var ds = TrainningBL.AssignTopicsByEntity(compId, userId, topicIds, groupIds, userIds);
+                    var ds = TrainningBL.AssignTopicsByEntity(compId, userId, topicIds, groupIds, userIds, removeTopic);
                     if (ds.Tables.Count > 0)
                     {
                         // Successful

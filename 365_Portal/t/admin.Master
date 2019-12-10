@@ -40,28 +40,28 @@
         var favicon = '<%=Session["Favicon"]%>';
         $(document).ready(function () {
             //alert(customFont);
-            //$('body').css({ "font-family": customFont });
+            $('body').css({ "font-family": customFont });
 
-            //if (buttonTheme != "") {
-            //    $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
-            //    $('.btn').addClass(buttonTheme);
-            //}
+            if (buttonTheme != "") {
+                $('.btn').removeClass('auto').removeClass('dark').removeClass('light')
+                $('.btn').addClass(buttonTheme);
+            }
 
-            //if (brandColor != "") {
-            //    //branding color
-            //    $('.sidenav').css({ "background-color": brandColor })
-            //    $('.sidenav-content-menu').css({
-            //        "background-color": brandColor
-            //    })
-            //    $('<style>.sidenav-content .sidenav-nav .sidenav-item.side-menu.active .sidenav-link::after {border-color: transparent ' + brandColor + 'transparent transparent;} </style>').appendTo('head');
-            //}
-            //if (favicon != "") {
-            //    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-            //    link.type = 'image/x-icon';
-            //    link.rel = 'shortcut icon';
-            //    link.href = '../Files/Favicon/' + favicon;
-            //    document.getElementsByTagName('head')[0].appendChild(link);
-            //}
+            if (brandColor != "") {
+                //branding color
+                $('.sidenav').css({ "background-color": brandColor })
+                $('.sidenav-content-menu').css({
+                    "background-color": brandColor
+                })
+                $('<style>.sidenav-content .sidenav-nav .sidenav-item.side-menu.active .sidenav-link::after {border-color: transparent ' + brandColor + 'transparent transparent;} </style>').appendTo('head');
+            }
+            if (favicon != "") {
+                var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+                link.type = 'image/x-icon';
+                link.rel = 'shortcut icon';
+                link.href = '../Files/Favicon/' + favicon;
+                document.getElementsByTagName('head')[0].appendChild(link);
+            }
         });
 
     </script>
@@ -180,9 +180,12 @@
                     <li class="sidenav-item" id="dvSubMenu_ContentSettings" runat="server" visible="false" onclick="location.href='topics.aspx';">
                         <a class="sidenav-link">Content Settings</a>
                     </li>
+                    <li class="sidenav-item" id="dvSubMenu_AssignTopics" runat="server" visible="false" onclick="location.href='assign_topics.aspx';">
+                        <a class="sidenav-link">Assign Topics</a>
+                    </li>
                 </ul>
 
-                <ul class="sidenav-nav d-none" id="sidenav_learing">
+               <%-- <ul class="sidenav-nav d-none" id="sidenav_learing">
                     <h4 class="menu-title">Learning</h4>
                     <li class="sidenav-item" id="dvSubMenu_Learning" onclick="location.href='topics.aspx';">
                         <a class="sidenav-link">Learning</a>
@@ -190,7 +193,7 @@
                     <li class="sidenav-item" id="dvSubMenu_AssignTopics" runat="server" visible="false" onclick="location.href='assign_topics.aspx';">
                         <a class="sidenav-link">Assign Topics</a>
                     </li>
-                </ul>
+                </ul>--%>
                 <ul class="sidenav-nav d-none" id="sidenav_settings">
                     <h4 class="menu-title">Settings</h4>
                     <li class="sidenav-item" id="dvSubMenu_Settings" onclick="location.href='settings.aspx';">

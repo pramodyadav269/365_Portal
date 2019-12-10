@@ -1162,6 +1162,11 @@ namespace _365_Portal.ControllersReOrderContent
                                     data = "No link provided";
                                 }
                             }
+                            else
+                            {
+                                // Only Update...File not changed
+                                content.ContentFileID = httpRequest.Form["ContentFileID"];
+                            }
                             if (!string.IsNullOrEmpty(httpRequest.Form["Title"].ToString()))
                             {
                                 content.ContentTitle = httpRequest.Form["Title"].ToString();

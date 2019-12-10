@@ -305,6 +305,7 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     }
 
     $scope.NextContent = function (contentId) {
+        $("#divVideo").html("");
         var nextContent = NextItemContent(contentId);
         $scope.ViewContent(nextContent.TopicID, nextContent.ModuleID, nextContent.ContentID, nextContent.Title, nextContent.ContentType);
     }

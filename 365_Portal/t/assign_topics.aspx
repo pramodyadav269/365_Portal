@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Assign Topics" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="assign_topics.aspx.cs" Inherits="_365_Portal.Admin.AssignTopics" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
@@ -266,6 +266,7 @@
             topicIds = topicIds.replace(/,\s*$/, "");
 
             if ($("input[name='ddlAssignType']:checked").val() == "GROUP") {
+                var removeTopic = 0;
                 if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
                     $("input[name='GROUP']").each(function (index, obj) {
                         if (obj.checked) {
@@ -275,11 +276,13 @@
                 }
                 else {
                     groupIds = $("#ddlGroup").val() != "" ? $("#ddlGroup").val() : "";
+                    removeTopic = 1;
                 }
                 groupIds = groupIds.replace(/,\s*$/, "");
-                requestParams = { "Type": $("input[name='ddlAssignType']:checked").val(), "GroupIds": groupIds, "UserIds": "", "TopicIds": topicIds };
+                requestParams = { "Type": $("input[name='ddlAssignType']:checked").val(), "GroupIds": groupIds, "UserIds": "", "TopicIds": topicIds, "RemoveTopics": removeTopic };
             }
             else if ($("input[name='ddlAssignType']:checked").val() == "USER") {
+                var removeTopic = 0;
                 if ($("input[name='TopicAssignment']:checked").val() == "BULK") {
                     $("input[name='USER']").each(function (index, obj) {
                         if (obj.checked) {
@@ -289,9 +292,10 @@
                 }
                 else {
                     userIds = $("#ddlUser").val() != "" ? $("#ddlUser").val() : "";
+                    removeTopic = 1;
                 }
                 userIds = userIds.replace(/,\s*$/, "");
-                requestParams = { "Type": $("input[name='ddlAssignType']:checked").val(), "GroupIds": "", "UserIds": userIds, "TopicIds": topicIds };
+                requestParams = { "Type": $("input[name='ddlAssignType']:checked").val(), "GroupIds": "", "UserIds": userIds, "TopicIds": topicIds, "RemoveTopics": removeTopic };
             }
 
             if ((requestParams.GroupIds.length == 0 && requestParams.UserIds.length == 0) || requestParams.TopicIds.length == 0) {

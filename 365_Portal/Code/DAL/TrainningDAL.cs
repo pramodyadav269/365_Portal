@@ -473,7 +473,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds)
+        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds,string removeTopic)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -489,6 +489,7 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_TopicIds", topicIds);
                 cmd.Parameters.AddWithValue("p_groupIds", groupIds);
                 cmd.Parameters.AddWithValue("p_userIds", userIds);
+                cmd.Parameters.AddWithValue("p_removetopic", removeTopic);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
