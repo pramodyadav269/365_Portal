@@ -1154,7 +1154,7 @@ namespace _365_Portal.Controllers
                     {
                         objUser.CompId = Convert.ToInt32(requestParams["CompId"].ToString());
                     }
-
+                                        
                     var ds = CommonBL.GetUsers(objUser);
                     if (ds.Tables.Count > 0)
                     {

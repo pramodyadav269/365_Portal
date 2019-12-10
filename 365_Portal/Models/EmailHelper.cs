@@ -1,5 +1,7 @@
 ﻿using _365_Portal.Code;
 using MySql.Data.MySqlClient;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,31 +28,33 @@ namespace _365_Portal.Models
             public string FromCCMail { get; set; }
             public string FromBCCMail { get; set; }
             public string EmailContent { get; set; }
+            public string EmailSubject { get; set; }
             public string SMSUserID { get; set; }
             public string SMSPassword { get; set; }
             public string SMSText { get; set; }
+            public string ToMail { get; set; }
         }
 
-        public static bool GetEmailContent(int CompID,string Functionality,string Ref1,string Ref2)
+        public static bool GetEmailContent(int UserID, int CompID,string Functionality,string Ref1,string Ref2)
         {
             bool flag = true;
             try
             {
-                DataSet ds = GetEmailContentFromDB(CompID, Functionality, Ref1, Ref2);
+                DataSet ds = GetEmailContentFromDB(UserID, CompID, Functionality, Ref1, Ref2);
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     EmailResponse obj = new EmailResponse();
-                    obj.CompID = ds.Tables[0].Rows[0]["CompID"].ToString();
-                    obj.Functionality = ds.Tables[0].Rows[0]["Functionality"].ToString();
                     obj.FromMail = ds.Tables[0].Rows[0]["FromMail"].ToString();
                     obj.FromCCMail = ds.Tables[0].Rows[0]["FromCCMail"].ToString();
                     obj.FromBCCMail = ds.Tables[0].Rows[0]["FromBCCMail"].ToString();
                     obj.EmailContent = ds.Tables[0].Rows[0]["EmailContent"].ToString();
-                    obj.SMSUserID = ds.Tables[0].Rows[0]["SMSUserID"].ToString();
-                    obj.SMSPassword = ds.Tables[0].Rows[0]["SMSPassword"].ToString();
+                    obj.EmailSubject = ds.Tables[0].Rows[0]["EmailSubject"].ToString();
                     obj.SMSText = ds.Tables[0].Rows[0]["SMSText"].ToString();
+                    obj.SMSUserID = ds.Tables[0].Rows[0]["SMSUserID"].ToString();
+                    obj.SMSPassword = ds.Tables[0].Rows[0]["SMSPassword"].ToString();                    
+                    obj.ToMail = ds.Tables[0].Rows[0]["ToMail"].ToString();
 
-                    //code goes here to send mail
+                    flag = SendEmail(obj);
                 }
                 else
                 {
@@ -63,7 +67,7 @@ namespace _365_Portal.Models
             }
             return flag;       
         }
-        public static DataSet GetEmailContentFromDB(int CompID, string Functionality, string Ref1, string Ref2)
+        public static DataSet GetEmailContentFromDB(int UserID, int CompID, string Functionality, string Ref1, string Ref2)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -74,6 +78,7 @@ namespace _365_Portal.Models
                 string stm = "spGetEmailContent";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_UserID", UserID);
                 cmd.Parameters.AddWithValue("p_CompID", CompID);
                 cmd.Parameters.AddWithValue("p_Functionality", Functionality);
                 cmd.Parameters.AddWithValue("p_Ref1", Ref1);
@@ -91,6 +96,26 @@ namespace _365_Portal.Models
                 conn.Close();
             }
             return ds;
+        }
+
+        static bool SendEmail(EmailResponse objEmailResponse)
+        {
+            try
+            {
+                var client = new SendGridClient(System.Web.Configuration.WebConfigurationManager.AppSettings["SendGridEmailKey"]);
+                var from = new EmailAddress(objEmailResponse.FromMail, "Example User");
+                var subject = objEmailResponse.EmailSubject;
+                var to = new EmailAddress(objEmailResponse.ToMail, "Example User");
+                var plainTextContent = objEmailResponse.EmailContent;
+                var htmlContent = objEmailResponse.EmailContent;
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                var response = client.SendEmailAsync(msg);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         private static void Log(Exception ex, string name)
