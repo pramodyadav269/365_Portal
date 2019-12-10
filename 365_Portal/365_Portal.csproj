@@ -332,6 +332,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ConstantMessages.cs" />
+    <Compile Include="Models\EmailHelper.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\RequestBase.cs" />

@@ -2,7 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../includes/Asset/customer/default.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div ng-app="MasterPage" ng-controller="DefaultController">
@@ -11,14 +10,21 @@
             <div class="col-12 achievements mb-5">
                 <div class="card top shadow">
                     <div class="row">
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold" style="font-weight: bold" runat="server" id="dvUserName">Welcome back, John!!</h5>
                                 <p class="card-text">Welcome to 365!</p>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 achievements-progress">
-                            <ul class="list-group list-group-horizontal" id="dvAchievement">
+
+<%--                        	<button class="button" id="play-button" onclick="return false;">PLAY</button>
+		<button class="button" id="pause-button" onclick="return false;">PAUSE</button>
+		<button class="button" id="stop-button" onclick="return false;">STOP</button>
+	</div>
+                        <iframe id="video" width="420" height="345" src="https://www.youtube.com/embed/HSsqzzuGTPo"></iframe>--%>
+
+                        <div class="col-sm-12 col-md col-lg-8 achievements-progress">
+                            <ul class="list-group list-group-horizontal float-right" id="dvAchievement">
                                 <li class="list-group-item" onclick="openModal(1)">
                                     <span class="ach-title">Professor</span>
                                     <div class="progress" data-value='0'>
@@ -96,10 +102,10 @@
                 <div class="card bottom admin-task" id="dvAdminTasks" runat="server" visible="false">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-12 col-md-2">
+                            <div class="col-sm-12 col-lg-2 mb-2">
                                 <h6 class="card-title mt-2">Admin Tasks</h6>
                             </div>
-                            <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                            <div class="col-sm-12 col-lg-3 dot-br-2 mr-4 mb-2">
                                 <div class="media" onclick="location.href='settings.aspx';" style="cursor: pointer;">
                                     <img src="../includes/Asset/images/settings.png" class="mr-3">
                                     <div class="media-body">
@@ -108,7 +114,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-3 dot-br-2 mr-4">
+                            <div class="col-sm-12 col-lg-3 dot-br-2 mr-4 mb-2">
                                 <div class="media" onclick="location.href='topics.aspx';" style="cursor: pointer;">
                                     <img src="../includes/Asset/images/learning-library.png" class="mr-3">
                                     <div class="media-body">
@@ -117,7 +123,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-3">
+                            <div class="col-sm-12 col-lg-3 mb-2">
                                 <div class="media" onclick="location.href='users.aspx';" style="cursor: pointer;">
                                     <img src="../includes/Asset/images/add-people.png" class="mr-3">
                                     <div class="media-body">
@@ -138,9 +144,9 @@
             <div class="col-12">
                 <h6 class="section-title">My Topics</h6>
             </div>
-            <div class="col-md-12">
+            <div class="col-sm-12">
                 <div class="row topics">
-                    <div class="col-sm-12 col-md-4" ng-repeat="topic in Topics">
+                    <div class="col-sm-12 col-md-6 col-lg-4" ng-repeat="topic in Topics">
                         <div ng-click="GetModulesByTopic(topic.TopicId)" style="cursor: pointer;">
                             <div class="{{topic.Class}}">
                                 <img class="card-mask-top" src="{{topic.TopClass}}" />
@@ -163,12 +169,12 @@
 
         <%--Start Modules--%>
         <div class="row" id="dvModuleContainer" ng-if="ActiveContainer =='Module'">
-            <div class="col-md-12 header">
+            <div class="col-sm-12 header">
                 <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>BACK TO TOPICS</a>
                 <h2 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h2>
                 <h6 class="text-center section-title mt-3 color-0-25">TOPIC</h6>
             </div>
-            <div class="col-md-6 mt-4 offset-md-3 completed-progress">
+            <div class="col-sm-6 mt-4 offset-md-3 completed-progress">
                 <div class="row">
                     <div class="col-12">
                         <p class="float-left"><span>{{SelectedTopic.CompletedModules}} of {{SelectedTopic.TotalModules}}</span> modules completed</p>
@@ -183,14 +189,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 mt-5 modules">
+            <div class="col-sm-12 mt-5 modules">
                 <div class="row">
-                    <div class="col-md-12 mb-1">
+                    <div class="col-sm-12 mb-1">
                         <h6 class="section-title">Unlocked Modules</h6>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-sm-12 col-md-4" ng-repeat="module in Module.UnlockedItems">
+                            <div class="col-sm-12 col-md-6 col-lg-4" ng-repeat="module in Module.UnlockedItems">
                                 <div ng-click="GetContentsByModule(module.TopicID,module.ModuleID)" style="cursor: pointer;">
                                     <div class="{{module.Class}}">
                                         <img class="card-mask-top" src="{{module.TopClass}}" />
@@ -226,12 +232,12 @@
                     </div>
                 </div>
                 <div class="row mt-5 locked">
-                    <div class="col-md-12 mb-1">
+                    <div class="col-sm-12 mb-1">
                         <h6 class="section-title">Locked Modules</h6>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-sm-12 col-md-4" ng-repeat="module in Module.LockedItems">
+                            <div class="col-sm-12 col-md-6 col-lg-4" ng-repeat="module in Module.LockedItems">
                                 <div class="{{module.Class}}">
                                     <img class="card-mask-top" src="{{module.TopClass}}" />
                                     <img class="card-mask-bottom" src="{{module.BottomClass}}" />
@@ -251,14 +257,14 @@
 
         <%--Start Content--%>
         <div class="row contents" id="dvContentsContainer" ng-show="ActiveContainer =='Content'">
-            <div class="col-md-12 header">
+            <div class="col-sm-12 header">
                 <a class="back" href="#" ng-click="GoBack('Module')"><i class="fas fa-arrow-left"></i>Back to Modules</a>
                 <a style="display: none;" class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
                 <h2 class="text-center font-weight-bold">{{SelectedModule.Title}}</h2>
                 <h6 class="text-center header-sub-title mt-3">Module</h6>
             </div>
 
-            <div class="col-md-6 mt-4 offset-md-3 completed-progress">
+            <div class="col-sm-6 mt-4 offset-md-3 completed-progress">
                 <div class="row">
                     <div class="col-12">
                         <p class="float-left"><span>{{SelectedModule.CompletedContents}} of {{SelectedModule.TotalContents}}</span> contents completed</p>
@@ -274,16 +280,16 @@
                 </div>
             </div>
 
-            <div class="col-md-12 mt-5">
+            <div class="col-sm-12 mt-5">
                 <div class="row">
-                    <div class="col-md-12 mb-4 overview">
+                    <div class="col-sm-12 mb-4 overview">
                         <h5 class="font-weight-bold">Overview</h5>
                         <p>
                             {{SelectedModule.Overview}}
                         </p>
                     </div>
 
-                    <div class="col-md-12 mb-3" ng-repeat="content in Content.UnlockedItems">
+                    <div class="col-sm-12 mb-3" ng-repeat="content in Content.UnlockedItems">
                         <a href="#" ng-click="ViewContent(content.TopicID,content.ModuleID,content.ContentID,content.Title,content.ContentType)">
                             <div class="card border-0 shadow mb-3">
                                 <div class="card-body">
@@ -308,7 +314,7 @@
                         </a>
                     </div>
 
-                    <div class="col-md-12 mb-3 locked" ng-repeat="content in Content.LockedItems">
+                    <div class="col-sm-12 mb-3 locked" ng-repeat="content in Content.LockedItems">
                         <a href="#" ng-click="ViewContent(content.Title,content.Type)">
                             <div class="card border-0 shadow mb-3">
                                 <div class="card-body">
@@ -339,14 +345,14 @@
         <%--End Content--%>
 
         <div class="row contents-datials" ng-if="ActiveContainer =='ContentView'">
-            <div class="col-md-12 header">
+            <div class="col-sm-12 header">
                 <a class="back" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
                 <a style="display: none;" class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
             </div>
 
-            <div class="col-md-8 offset-2 mt-5">
+            <div class="col-sm-8 offset-2 mt-5">
                 <div class="row">
-                    <div class="col-md-12 mb-3" id="pdfContent" ng-show="SpecialContents.DocType == 'PDF'">
+                    <div class="col-sm-12 mb-3" id="pdfContent" ng-show="SpecialContents.DocType == 'PDF'">
                         <div id="divPDF">
                         </div>
                         <div class="text-center mt-5">
@@ -354,12 +360,12 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
+                    <div class="col-sm-12 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
                         <div class="row">
-                            <div class="col-md-12">
-                               <%-- <div class="video-control text-white" style="display: none;" id="videoControl" onclick="VideoPlayPause(1)">
+                            <div class="col-sm-12">
+                                <div class="video-control text-white" style="display: none;" id="videoControl" onclick="VideoPlayPause(1)">
                                     <i class="fas fa-play fa-5x"></i>
-                                </div>--%>
+                                </div>
                                 <div id="dvVideoRating" style="display: none;" class="video-rating text-white">
                                     <div class="video-rating-content">
                                         <h2 class="font-weight-bold">How did you like the video?</h2>
@@ -387,18 +393,19 @@
                                         </dl>
                                     </div>
                                 </div>
-                                <div id="divVideo" style="height: 500px"></div>
+                                <div id="divVideo"></div>
+                                <iframe width="420" height="345" src="https://www.youtube.com/embed/HSsqzzuGTPo"></iframe>
                                 <%-- <video controls id="contentVideo" onended="videoRating()">
                                     <source src="../Asset/data/bunny.mp4" type="video/mp4">
                                 </video>--%>
                             </div>
-                            <div class="col-md-12 mt-4 overview text-left">
+                            <div class="col-sm-12 mt-4 overview text-left">
                                 <h5 class="font-weight-bold text-uppercase">{{SelectedContent.Title}}</h5>
                                 <p>
                                     {{SelectedContent.Description}}
                                 </p>
                             </div>
-                            <div class="col-md-12 text-center mt-5">
+                            <div class="col-sm-12 text-center mt-5">
                                 <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="NextContent(SpecialContents.ContentID)">Continue</a>
                             </div>
                         </div>
@@ -408,13 +415,13 @@
         </div>
 
         <div class="row survey" ng-if="ActiveContainer =='ContentSurveyView'">
-            <div class="col-md-12 header">
+            <div class="col-sm-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
                 <h2 class="text-center font-weight-bold">{{SelectedContent.Title}}</h2>
             </div>
-            <div class="col-md-12 mt-5">
+            <div class="col-sm-12 mt-5">
                 <div class="row" id="surveyQuestion">
-                    <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
+                    <div class="col-sm-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="card border-0 shadow mb-3">
                             <div class="card-body question">
                                 <div class="media mb-4">
@@ -515,12 +522,12 @@
         </div>
 
         <div class="row flashcards" ng-if="ActiveContainer =='ContentFlashcardView'">
-            <div class="col-md-12 header">
+            <div class="col-sm-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
                 <h2 class="text-center font-weight-bold">{{SpecialContents.Title}}</h2>
                 <h6 class="text-center header-sub-title mt-3">Flashcards</h6>
             </div>
-            <div class="col-md-10 offset-1 mt-4">
+            <div class="col-sm-10 offset-1 mt-4">
                 <div class="row justify-content-center">
                     <%--<div class="col-12 col-sm-12 col-md-6 mb-3 overview" ng-if="ActiveSubContainer =='BeginFlashcard'">
                         You have completed all the videos/pdfs in this module.
@@ -596,14 +603,14 @@
 
 
         <div class="row" ng-if="ActiveContainer =='ContentQuizView'">
-            <div class="col-md-12 header">
+            <div class="col-sm-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
                 <h2 class="text-center font-weight-bold">{{SelectedContent.Title}}</h2>
             </div>
 
-            <div class="col-md-12 mt-5">
+            <div class="col-sm-12 mt-5">
                 <div class="row" id="finalQuiz">
-                    <div class="col-md-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
+                    <div class="col-sm-12 mb-3" ng-repeat="question in SpecialContents.Questions" my-post-repeat-directive>
                         <div class="ng-class: 'card border-0 shadow mb-3 ' + (question.IsAnswered == true ? (question.IsCorrect ==true ? 'b-green-2' : 'b-red-2'):'' );">
                             <div class="card-body question">
                                 <div class="media mb-4">
@@ -693,18 +700,18 @@
                         <img src="../Asset/images/close-button.png" class="close" /></a>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12 text-center mt-4">
+                            <div class="col-sm-12 text-center mt-4">
                                 <img src="../Asset/images/suprrise-icon.svg" class="img-achievements" />
                                 <p class="modal-text mt-4">Surprise!</p>
                                 <h3 class="font-weight-bold modal-title">You just unlocked a personal gift!</h3>
                             </div>
-                            <div class="col-md-12 text-center mt-3">
+                            <div class="col-sm-12 text-center mt-3">
                                 <img ng-if="UnlockGiftData.DocType == 'VIDEO'" src="../Asset/images/next-video-icon.svg" class="img-achievements" />
                                 <img ng-if="UnlockGiftData.DocType == 'PDF'" src="../Asset/images/next-pdf-icon.svg" class="img-achievements" />
                                 <img ng-if="UnlockGiftData.DocType == 'FLASHCARD'" src="../Asset/images/next-flashcard-icon.svg" class="img-achievements" />
                                 <h5 class="modal-title mt-2"><b>{{UnlockGiftData.Title}}:</b> {{UnlockGiftData.Description}}</h5>
                             </div>
-                            <div class="col-md-12 text-center mt-5 mb-3">
+                            <div class="col-sm-12 text-center mt-5 mb-3">
                                 <a class="btn btn-custom bg-blue font-weight-bold text-white" class="close-modal" data-dismiss="modal" aria-label="Close" href="#">OK</a>
                                 <div class="w-100"></div>
                                 <span class="note"><b>Note:</b> You can access this gift in your Profile page</span>
@@ -729,23 +736,23 @@
                         <img src="../Asset/images/close-button.png" class="close" /></a>
                     <div class="modal-body">
                         <div class="row reward">
-                            <div class="col-md-10 offset-md-1">
+                            <div class="col-sm-12 col-md-10 offset-md-1">
                                 <div class="row mt-3">
                                     <div class="col-md-3 mt-3 text-right">
                                         <img id="imgAchievementIcon" src="../Asset/images/engager-icon.svg" class="img-achievements disabled" />
                                     </div>
-                                    <div class="col-md-9">
+                                    <div class="col-sm-9">
                                         <h3 class="font-weight-bold modal-title" id="dvAchievementTitle">The Engager</h3>
                                         <p class="modal-text" id="dvAchievmentDescription">The Engager is dedicated to the platform. She loves interacting with others and sharing her thoughts about the topics.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-10 offset-md-1">
+                            <div class="col-sm-12 col-md-10 offset-md-1">
                                 <div class="row mt-3 requirements">
-                                    <div class="col-md-12">
+                                    <div class="col-sm-12">
                                         <h5 class="section-title">Requirements</h5>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-sm-12">
                                         <ul class="list-group" id="dvRequirements">
                                             <%--<li class="list-group-item border-0">Be an active part of the community</li>
                                             <li class="list-group-item border-0">Express your opinion</li>
@@ -754,15 +761,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-10 offset-md-1">
+                            <div class="col-sm-12 col-md-10 offset-md-1">
                                 <div class="row mt-4">
-                                    <div class="col-md-12">
+                                    <div class="col-sm-12">
                                         <h5 class="section-title">Your Reward on completion</h5>
                                     </div>
-                                    <div class="col-md-12 text-center mt-3">
+                                    <div class="col-sm-12 text-center mt-3">
                                         <img src="../Asset/images/reward-icon.svg" class="img-achievements" />
                                     </div>
-                                    <div class="col-md-12 text-center mt-5 mb-4">
+                                    <div class="col-sm-12 text-center mt-5 mb-4">
                                         <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>
                                     </div>
                                 </div>
@@ -787,85 +794,46 @@
             GetAchievements();
         });
 
-        //This code loads the IFrame Player API code asynchronously.
-        //var tag = document.createElement('script');
-        //tag.src = "https://www.youtube.com/iframe_api";
-        //var firstScriptTag = document.getElementsByTagName('script')[0];
-        //firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        // global variable for the player
+        var player;
 
-        // This function creates an iframe and YouTube player
-        // after the API code downloads.
-        var ik_player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('ik_player', {
-                height: '390',
-                width: '640',
-                videoId: '',
+        // this function gets called when API is ready to use
+        function onYouTubePlayerAPIReady() {
+            alert("abc")
+            // create the global player from the specific iframe (#video)
+            player = new YT.Player('video', {
                 events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange,
-                    'onPlaybackQualityChange': onPlayerPlaybackQualityChange,
-                    'onPlaybackRateChange': onPlayerPlaybackRateChange,
-                    'onError': onPlayerError,
-                    'onApiChange': onPlayerApiChange
+                    // call this function when player is ready to use
+                    'onReady': onPlayerReady
                 }
             });
         }
 
-        // The API will call this function when the video player is ready.
         function onPlayerReady(event) {
-            console.log('player is ready');
+
+            // bind events
+            var playButton = document.getElementById("play-button");
+            playButton.addEventListener("click", function () {
+                player.playVideo();
+            });
+
+            var pauseButton = document.getElementById("pause-button");
+            pauseButton.addEventListener("click", function () {
+                player.pauseVideo();
+            });
+
+            var stopButton = document.getElementById("stop-button");
+            stopButton.addEventListener("click", function () {
+                player.stopVideo();
+            });
+
         }
 
-        // The API calls this function when the player's state changes.
-        function onPlayerStateChange(event) {
-
-            switch (event.data) {
-                case YT.PlayerState.UNSTARTED:
-                    console.log('unstarted');
-                    break;
-                case YT.PlayerState.ENDED:
-                    $("#dvVideoRating").show();
-                    $('#dvVideoRating').removeClass('d-none');
-                    $('#videoControl').addClass('d-none');
-                    $('#videoControl').hide();
-                    break;
-                case YT.PlayerState.PLAYING:
-                    console.log('playing');
-                    break;
-                case YT.PlayerState.PAUSED:
-                    console.log('paused');
-                    break;
-                case YT.PlayerState.BUFFERING:
-                    console.log('buffering');
-                    break;
-                case YT.PlayerState.CUED:
-                    console.log('video cued');
-                    break;
-            }
-        }
-
-        function onPlayerPlaybackQualityChange(playbackQuality) {
-            //alert("onPlayerPlaybackQualityChange");
-            console.log('playback quality changed to ' + playbackQuality.data);
-        }
-
-        function onPlayerPlaybackRateChange(playbackRate) {
-            //alert("onPlayerPlaybackRateChange");
-            console.log('playback rate changed to ' + playbackRate.data);
-        }
-
-        function onPlayerError(e) {
-            //alert("onPlayerError");
-            console.log('An error occurred: ' + e.data);
-        }
-
-        function onPlayerApiChange() {
-            //alert("onPlayerApiChange");
-            console.log('The player API changed');
-        }
-
-
+        // Inject YouTube API script
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         var achievements = [];
 
