@@ -2,6 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../includes/Asset/customer/default.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div ng-app="MasterPage" ng-controller="DefaultController">
@@ -17,7 +18,7 @@
                             </div>
                         </div>
 
-<%--                        	<button class="button" id="play-button" onclick="return false;">PLAY</button>
+                        <%--                        	<button class="button" id="play-button" onclick="return false;">PLAY</button>
 		<button class="button" id="pause-button" onclick="return false;">PAUSE</button>
 		<button class="button" id="stop-button" onclick="return false;">STOP</button>
 	</div>
@@ -295,11 +296,12 @@
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img ng-if="content.ContentType=='PDF'" src="../Asset/images/pdf-icon.svg" />
-                                            <img ng-if="content.ContentType=='VIDEO'" src="../Asset/images/video-icon.svg" />
-                                            <img ng-if="content.ContentType=='SURVEY'" src="../Asset/images/survey-icon.svg" />
-                                            <img ng-if="content.ContentType=='FLASHCARD'" src="../Asset/images/flashcard-icon.svg" />
-                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="../Asset/images/quiz-icon.svg" />
+                                            <img ng-if="content.ContentType=='PDF'" src="../includes/Asset/images/pdf-icon.svg" />
+                                            <img ng-if="content.ContentType=='VIDEO'" src="../includes/Asset/images/video-icon.svg" />
+                                            <img ng-if="content.ContentType=='SURVEY'" src="../includes/Asset/images/survey-icon.svg" />
+                                            <img ng-if="content.ContentType=='TEXT'" src="../includes/Asset/images/text-icon.svg" />
+                                            <img ng-if="content.ContentType=='FLASHCARD'" src="../includes/Asset/images/flashcard-icon.svg" />
+                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="../includes/Asset/images/quiz-icon.svg" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
@@ -320,11 +322,12 @@
                                 <div class="card-body">
                                     <div class="row align-items-center content-type">
                                         <div class="col-sm-2 col-md-2 col-lg-1">
-                                            <img ng-if="content.ContentType=='PDF'" src="../Asset/images/pdf-icon.svg" />
-                                            <img ng-if="content.ContentType=='VIDEO'" src="../Asset/images/video-icon.svg" />
-                                            <img ng-if="content.ContentType=='SURVEY'" src="../Asset/images/survey-icon.svg" />
-                                            <img ng-if="content.ContentType=='FLASHCARD'" src="../Asset/images/flashcard-icon.svg" />
-                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="../Asset/images/quiz-icon.svg" />
+                                            <img ng-if="content.ContentType=='PDF'" src="../includes/Asset/images/pdf-icon.svg" />
+                                            <img ng-if="content.ContentType=='VIDEO'" src="../includes/Asset/images/video-icon.svg" />
+                                            <img ng-if="content.ContentType=='TEXT'" src="../includes/Asset/images/text-icon.svg" />
+                                            <img ng-if="content.ContentType=='SURVEY'" src="../includes/Asset/images/survey-icon.svg" />
+                                            <img ng-if="content.ContentType=='FLASHCARD'" src="../includes/Asset/images/flashcard-icon.svg" />
+                                            <img ng-if="content.ContentType=='FINALQUIZ'" src="../includes/Asset/images/quiz-icon.svg" />
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
@@ -360,43 +363,55 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-12 mb-3" id="textContent" ng-show="SpecialContents.DocType == 'TEXT'">
+                        <div class="col-sm-12 mt-4 overview text-left">
+                            <h5 class="font-weight-bold text-uppercase">{{SelectedContent.Title}}</h5>
+                            <p>
+                                {{SelectedContent.Description}}
+                            </p>
+                        </div>
+                        <div class="text-center mt-5">
+                            <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="NextContent(SpecialContents.ContentID)">Continue</a>
+                        </div>
+                    </div>
+
                     <div class="col-sm-12 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="video-control text-white" style="display: none;" id="videoControl" onclick="VideoPlayPause(1)">
+                               <%-- <div class="video-control text-white" style="display: none;" id="videoControl" onclick="VideoPlayPause(1)">
                                     <i class="fas fa-play fa-5x"></i>
-                                </div>
+                                </div>--%>
                                 <div id="dvVideoRating" style="display: none;" class="video-rating text-white">
                                     <div class="video-rating-content">
                                         <h2 class="font-weight-bold">How did you like the video?</h2>
                                         <dl class="row text-center">
                                             <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,1)">
                                                 <i class="far fa-grin-hearts fa-5x"></i>
-                                                <%--<img src="../Asset/images/love-icon.svg" />--%>
+                                                <%--<img src="../includes/Asset/images/love-icon.svg" />--%>
                                                 <span>Love it!</span>
                                             </dt>
                                             <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,2)">
                                                 <i class="far fa-grin-beam fa-5x"></i>
-                                                <%--<img src="../Asset/images/like-icon.svg" />--%>
+                                                <%--<img src="../includes/Asset/images/like-icon.svg" />--%>
                                                 <span>Like it!</span>
                                             </dt>
                                             <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,3)">
                                                 <i class="far fa-meh fa-5x"></i>
-                                                <%--<img src="../Asset/images/meh-icon.svg" />--%>
+                                                <%--<img src="../includes/Asset/images/meh-icon.svg" />--%>
                                                 <span>Meh</span>
                                             </dt>
                                             <dt class="col" ng-click="RateVideo(SpecialContents.TopicID,SpecialContents.ModuleID,SpecialContents.ContentID,4)">
                                                 <i class="far fa-frown fa-5x"></i>
-                                                <%--<img src="../Asset/images/didnt-like-icon.svg" />--%>
+                                                <%--<img src="../includes/Asset/images/didnt-like-icon.svg" />--%>
                                                 <span>Didn't like it!</span>
                                             </dt>
                                         </dl>
                                     </div>
                                 </div>
-                                <div id="divVideo"></div>
-                                <iframe width="420" height="345" src="https://www.youtube.com/embed/HSsqzzuGTPo"></iframe>
+                                <div id="divVideo" style="height: 500px"></div>
+                                
                                 <%-- <video controls id="contentVideo" onended="videoRating()">
-                                    <source src="../Asset/data/bunny.mp4" type="video/mp4">
+                                    <source src="../includes/Asset/data/bunny.mp4" type="video/mp4">
                                 </video>--%>
                             </div>
                             <div class="col-sm-12 mt-4 overview text-left">
@@ -553,7 +568,7 @@
                         <div ng-repeat="flashcardSlide in SpecialContents.Flashcards" ng-if="$index == CurrIndex">
                             <div class="flashcard">
                                 <div class="card border-0">
-                                    <img class="card-img-top circle mx-auto" src="../Asset/images/profile.png" />
+                                    <img class="card-img-top circle mx-auto" src="../includes/Asset/images/profile.png" />
                                     <div class="card-body">
                                         <p class="card-text">
                                             {{flashcardSlide.Description}}
@@ -697,18 +712,18 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <a class="close-modal" data-dismiss="modal" aria-label="Close">
-                        <img src="../Asset/images/close-button.png" class="close" /></a>
+                        <img src="../includes/Asset/images/close-button.png" class="close" /></a>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-12 text-center mt-4">
-                                <img src="../Asset/images/suprrise-icon.svg" class="img-achievements" />
+                                <img src="../includes/Asset/images/suprrise-icon.svg" class="img-achievements" />
                                 <p class="modal-text mt-4">Surprise!</p>
                                 <h3 class="font-weight-bold modal-title">You just unlocked a personal gift!</h3>
                             </div>
                             <div class="col-sm-12 text-center mt-3">
-                                <img ng-if="UnlockGiftData.DocType == 'VIDEO'" src="../Asset/images/next-video-icon.svg" class="img-achievements" />
-                                <img ng-if="UnlockGiftData.DocType == 'PDF'" src="../Asset/images/next-pdf-icon.svg" class="img-achievements" />
-                                <img ng-if="UnlockGiftData.DocType == 'FLASHCARD'" src="../Asset/images/next-flashcard-icon.svg" class="img-achievements" />
+                                <img ng-if="UnlockGiftData.DocType == 'VIDEO'" src="../includes/Asset/images/next-video-icon.svg" class="img-achievements" />
+                                <img ng-if="UnlockGiftData.DocType == 'PDF'" src="../includes/Asset/images/next-pdf-icon.svg" class="img-achievements" />
+                                <img ng-if="UnlockGiftData.DocType == 'FLASHCARD'" src="../includes/Asset/images/next-flashcard-icon.svg" class="img-achievements" />
                                 <h5 class="modal-title mt-2"><b>{{UnlockGiftData.Title}}:</b> {{UnlockGiftData.Description}}</h5>
                             </div>
                             <div class="col-sm-12 text-center mt-5 mb-3">
@@ -733,13 +748,13 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <a class="close-modal" data-dismiss="modal" aria-label="Close">
-                        <img src="../Asset/images/close-button.png" class="close" /></a>
+                        <img src="../includes/Asset/images/close-button.png" class="close" /></a>
                     <div class="modal-body">
                         <div class="row reward">
                             <div class="col-sm-12 col-md-10 offset-md-1">
                                 <div class="row mt-3">
                                     <div class="col-md-3 mt-3 text-right">
-                                        <img id="imgAchievementIcon" src="../Asset/images/engager-icon.svg" class="img-achievements disabled" />
+                                        <img id="imgAchievementIcon" src="../includes/Asset/images/engager-icon.svg" class="img-achievements disabled" />
                                     </div>
                                     <div class="col-sm-9">
                                         <h3 class="font-weight-bold modal-title" id="dvAchievementTitle">The Engager</h3>
@@ -767,7 +782,7 @@
                                         <h5 class="section-title">Your Reward on completion</h5>
                                     </div>
                                     <div class="col-sm-12 text-center mt-3">
-                                        <img src="../Asset/images/reward-icon.svg" class="img-achievements" />
+                                        <img src="../includes/Asset/images/reward-icon.svg" class="img-achievements" />
                                     </div>
                                     <div class="col-sm-12 text-center mt-5 mb-4">
                                         <a class="btn btn-custom bg-blue font-weight-bold text-white" data-dismiss="modal" aria-label="Close">Got It!</a>
@@ -794,46 +809,85 @@
             GetAchievements();
         });
 
-        // global variable for the player
-        var player;
+         //This code loads the IFrame Player API code asynchronously.
+        //var tag = document.createElement('script');
+        //tag.src = "https://www.youtube.com/iframe_api";
+        //var firstScriptTag = document.getElementsByTagName('script')[0];
+        //firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // this function gets called when API is ready to use
-        function onYouTubePlayerAPIReady() {
-            alert("abc")
-            // create the global player from the specific iframe (#video)
-            player = new YT.Player('video', {
+        // This function creates an iframe and YouTube player
+        // after the API code downloads.
+        var ik_player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('ik_player', {
+                height: '390',
+                width: '640',
+                videoId: '',
                 events: {
-                    // call this function when player is ready to use
-                    'onReady': onPlayerReady
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange,
+                    'onPlaybackQualityChange': onPlayerPlaybackQualityChange,
+                    'onPlaybackRateChange': onPlayerPlaybackRateChange,
+                    'onError': onPlayerError,
+                    'onApiChange': onPlayerApiChange
                 }
             });
         }
 
+        // The API will call this function when the video player is ready.
         function onPlayerReady(event) {
-
-            // bind events
-            var playButton = document.getElementById("play-button");
-            playButton.addEventListener("click", function () {
-                player.playVideo();
-            });
-
-            var pauseButton = document.getElementById("pause-button");
-            pauseButton.addEventListener("click", function () {
-                player.pauseVideo();
-            });
-
-            var stopButton = document.getElementById("stop-button");
-            stopButton.addEventListener("click", function () {
-                player.stopVideo();
-            });
-
+            console.log('player is ready');
         }
 
-        // Inject YouTube API script
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/player_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        // The API calls this function when the player's state changes.
+        function onPlayerStateChange(event) {
+
+            switch (event.data) {
+                case YT.PlayerState.UNSTARTED:
+                    console.log('unstarted');
+                    break;
+                case YT.PlayerState.ENDED:
+                    $("#dvVideoRating").show();
+                    $('#dvVideoRating').removeClass('d-none');
+                    $('#videoControl').addClass('d-none');
+                    $('#videoControl').hide();
+                    break;
+                case YT.PlayerState.PLAYING:
+                    console.log('playing');
+                    break;
+                case YT.PlayerState.PAUSED:
+                    console.log('paused');
+                    break;
+                case YT.PlayerState.BUFFERING:
+                    console.log('buffering');
+                    break;
+                case YT.PlayerState.CUED:
+                    console.log('video cued');
+                    break;
+            }
+        }
+
+        function onPlayerPlaybackQualityChange(playbackQuality) {
+            //alert("onPlayerPlaybackQualityChange");
+            console.log('playback quality changed to ' + playbackQuality.data);
+        }
+
+        function onPlayerPlaybackRateChange(playbackRate) {
+            //alert("onPlayerPlaybackRateChange");
+            console.log('playback rate changed to ' + playbackRate.data);
+        }
+
+        function onPlayerError(e) {
+            //alert("onPlayerError");
+            console.log('An error occurred: ' + e.data);
+        }
+
+        function onPlayerApiChange() {
+            //alert("onPlayerApiChange");
+            console.log('The player API changed');
+        }
+
+
 
         var achievements = [];
 
