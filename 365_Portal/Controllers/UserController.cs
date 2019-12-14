@@ -183,7 +183,7 @@ namespace _365_Portal.Controllers
         /// Result as True or false 
         /// </returns>
         [HttpPost]
-        [Route("API/User/ChangePassword")]
+        [Route("API/User/ChangePassword")]//With Old Password
         public IHttpActionResult ChangePassword(JObject requestParams)
         {
             var data = string.Empty;
@@ -242,6 +242,8 @@ namespace _365_Portal.Controllers
                                             Utility.CreateFirstPasswordNotChangedSession(false);
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
+
+                                            EmailHelper.GetEmailContent(Convert.ToInt32(identity.UserID), identity.CompId, EmailHelper.Functionality.CHANGE_PASS, "", "");
                                         }
                                         else
                                         {
@@ -331,8 +333,8 @@ namespace _365_Portal.Controllers
         }
 
         [HttpPost]
-        [Route("API/User/GetMyProfile")]
-        public IHttpActionResult GetMyProfile()//JObject requestParams
+        [Route("API/User/GetMyProfile")]//JObject requestParams
+        public IHttpActionResult GetMyProfile()
         {
             var data = string.Empty;
             UserProfileResponse objUserProfile = new UserProfileResponse();
@@ -667,7 +669,7 @@ namespace _365_Portal.Controllers
         /// <param name="requestParams"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("API/User/ResetPassword")]
+        [Route("API/User/ResetPassword")]//Before Login
         public IHttpActionResult ResetPassword(JObject requestParams)
         {
             var data = string.Empty;
@@ -714,6 +716,8 @@ namespace _365_Portal.Controllers
                                         {
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
+
+                                            EmailHelper.GetEmailContent(Convert.ToInt32(User_details.UserID), User_details.CompId, EmailHelper.Functionality.FORGOT_PASS, "", "");
                                         }
                                         else
                                         {
@@ -1235,6 +1239,8 @@ namespace _365_Portal.Controllers
                         {
                             data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
                             data = Utility.Successful(data);
+
+                            EmailHelper.GetEmailContent(Convert.ToInt32(ds.Tables[0].Rows[0]["InsertedID"]), identity.CompId, EmailHelper.Functionality.CREATE_USER, "", "");//
                         }
                         else if (ds.Tables[0].Rows.Count > 0)
                         {

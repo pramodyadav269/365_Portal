@@ -125,6 +125,8 @@ namespace _365_Portal.Controllers
                         {
                             data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
                             data = Utility.Successful(data);
+
+                            EmailHelper.GetEmailContent(Convert.ToInt32(ds.Tables[0].Rows[0]["InsertedID"]),0, EmailHelper.Functionality.CREATE_ORG,"","");
                         }
                         else if (ds.Tables[0].Rows.Count > 0)
                         {

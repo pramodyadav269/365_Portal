@@ -33,6 +33,7 @@ namespace _365_Portal.Models
             public string SMSPassword { get; set; }
             public string SMSText { get; set; }
             public string ToMail { get; set; }
+            public string ToMailName { get; set; }
         }
 
         public static bool GetEmailContent(int UserID, int CompID,string Functionality,string Ref1,string Ref2)
@@ -103,9 +104,9 @@ namespace _365_Portal.Models
             try
             {
                 var client = new SendGridClient(System.Web.Configuration.WebConfigurationManager.AppSettings["SendGridEmailKey"]);
-                var from = new EmailAddress(objEmailResponse.FromMail, "Example User");
+                var from = new EmailAddress(objEmailResponse.FromMail, "365 Staff App");
                 var subject = objEmailResponse.EmailSubject;
-                var to = new EmailAddress(objEmailResponse.ToMail, "Example User");
+                var to = new EmailAddress(objEmailResponse.ToMail, objEmailResponse.ToMailName);
                 var plainTextContent = objEmailResponse.EmailContent;
                 var htmlContent = objEmailResponse.EmailContent;
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
