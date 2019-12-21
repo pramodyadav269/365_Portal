@@ -12,6 +12,7 @@ using System.Web.Http;
 using System.Reflection;
 using Newtonsoft.Json;
 using _365_Portal.Code.BO;
+using _365_Portal.Models;
 
 namespace _365_Portal.Controllers
 {
@@ -135,7 +136,7 @@ namespace _365_Portal.Controllers
                             isGift = "1";
                             data = Utility.ContentUpdated("1", "Success", isGift, Utility.ConvertDataSetToJSONString(ds.Tables[0]));
                             tableIndex = 1;
-                            TrainningBL.SendNotification(compId, userId, "1", "", ds.Tables[0]);
+                            TrainningBL.SendNotification(compId, userId, ConstantMessages.NotificationType.gift, "", ds.Tables[0].Rows[0]["Title"].ToString());
                         }
                         else if (ds.Tables[0].Rows[0]["StatusCode"].ToString() == "1")
                         {
@@ -156,13 +157,13 @@ namespace _365_Portal.Controllers
                                 // Module Completed
                                 // ds.Tables[tableIndex + 1];
                                 moduleCompleted = true;
-                                TrainningBL.SendNotification(compId, userId, "2", "", ds.Tables[tableIndex + 1]);
+                                TrainningBL.SendNotification(compId, userId, ConstantMessages.NotificationType.module, "", ds.Tables[tableIndex + 1].Rows[0]["Title"].ToString());
                             }
                             if (Convert.ToBoolean(Convert.ToInt32(Convert.ToString(ds.Tables[tableIndex].Rows[0]["IsTopicCompleted"]))))
                             {
                                 // Topic Completed
                                 //ds.Tables[tableIndex + 1 + (moduleCompleted ? 1 : 0)];
-                                TrainningBL.SendNotification(compId, userId, "3", "", ds.Tables[tableIndex + 1 + (moduleCompleted ? 1 : 0)]);
+                                TrainningBL.SendNotification(compId, userId, ConstantMessages.NotificationType.topic, "", ds.Tables[tableIndex + 1 + (moduleCompleted ? 1 : 0)].Rows[0]["Title"].ToString());
                             }
                         }
                     }

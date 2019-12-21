@@ -75,7 +75,14 @@ namespace _365_Portal.Models
             public static string BrowserName = "Browser Name";
             public static string BrowserVersion = "Browser Version";
         }
-        
+
+        public class NotificationType
+        {
+            public static string gift = "1";
+            public static string module = "2";
+            public static string topic = "3";
+        }
+
         public enum StatusCode
         {
             Success = 1, Failure = 0

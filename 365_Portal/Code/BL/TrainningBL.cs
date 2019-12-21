@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using _365_Portal.Code.BO;
 using System.IO;
+using _365_Portal.Models;
 
 namespace _365_Portal.Code.BL
 {
@@ -370,6 +371,21 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+
+        public static DataSet CheckNotificationAccess(int compId, string userId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.CheckNotificationAccess(compId, userId);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
         public static DataSet UpdateNotification(int compId, string userId, string type, string notificationIds, string token)
         {
             DataSet ds = new DataSet();
@@ -484,26 +500,39 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static void SendNotification(int compId, string userId, string type, string token, DataTable dt)
+        public static void SendNotification(int compId, string userId, string type, string token, string subject)
         {
             var msg = "";
             var title = "";
-            if (type == "1")
+            if (type == ConstantMessages.NotificationType.gift)
             {
-                msg = "You just unlocked the " + dt.Rows[0]["Title"] + " gift";
+                msg = "You just unlocked the " + subject + " gift";
                 title = "Gift";
             }
-            else if (type == "2")
+            else if (type == ConstantMessages.NotificationType.module)
             {
-                msg = "You just completed the " + dt.Rows[0]["Title"] + " module";
+                msg = "You just completed the " + subject + " module";
                 title = "Module";
             }
-            else if (type == "3")
+            else if (type == ConstantMessages.NotificationType.topic)
             {
-                msg = "You just completed the " + dt.Rows[0]["Title"] + " topic";
+                msg = "You just completed the " + subject + " topic";
                 title = "Topic";
             }
-            CreateNotification(compId, userId, title, msg, token);
+
+            DataSet ds = CheckNotificationAccess(compId, userId);
+
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0]["PushNotification"].ToString() == "1")
+                {
+                    CreateNotification(compId, userId, title, msg, token);
+                }
+                if (ds.Tables[0].Rows[0]["EmailNotification"].ToString() == "1")
+                {
+                    EmailHelper.GetEmailContent(Convert.ToInt32(userId), compId, type, "","");
+                }
+            }
         }
 
         public static DataSet QuestionCRUD(int action, int compId, string userId, int contentId, int questionId, string title, int questionTypeId, bool isBox)

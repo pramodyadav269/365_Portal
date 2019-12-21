@@ -384,6 +384,34 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
+        public static DataSet CheckNotificationAccess(int compID, string userId)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spCheckNotificationAccess";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_compID", compID);
+                cmd.Parameters.AddWithValue("p_userId", userId);               
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
         public static DataSet GetAchievementGifts(int compID, string userId)
         {
             DataSet ds = new DataSet();
