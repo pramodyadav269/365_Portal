@@ -7,7 +7,7 @@
     <title>Reset Password</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-   <%-- CSS --%>
+    <%-- CSS --%>
     <link href="Asset/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Asset/css/all.css" rel="stylesheet" />
     <link href="Asset/css/gijgo.min.css" rel="stylesheet" />
@@ -39,8 +39,9 @@
                     <%-- <span class="back" onclick="toggle('divReg','divRegPassword');"><i class="fas fa-arrow-left"></i>Back</span>--%>
                     <div class="card border-0 rounded-0 shadow p-3 mb-5 bg-white">
                         <div class="card-body">
-                            <h1 class="card-title mb-3 mt-3 text-center font-weight-bold">Welcome to 360 life!</h1>
-                            <h4 class="card-subtitle mb-3 text-center font-weight-bold">Set up your profile</h4>
+                            <h1 class="card-title mb-3 mt-3 text-center font-weight-bold">
+                                <img src="/INCLUDES/Asset/images/logo-black.svg" class="logo" /></h1>
+                            <h4 class="card-subtitle mb-3 text-center font-weight-bold">Change your password</h4>
 
                             <div class="card-form">
                                 <div class="form-group">
@@ -189,7 +190,7 @@
                             else {
                                 Swal.fire({
                                     title: "Alert",
-                                    text: "Fill all fields",
+                                    text: "Please fill all fields properly",
                                     icon: "error",
                                     button: "Ok",
                                 });
@@ -209,7 +210,7 @@
                             else {
                                 Swal.fire({
                                     title: "Alert",
-                                    text: "Fill all fields",
+                                    text: "Please fill all fields properly",
                                     icon: "error",
                                     button: "Ok",
                                 });
@@ -221,7 +222,7 @@
                     HideLoader();
                     Swal.fire({
                         title: "Alert",
-                        text: "Fill all fields",
+                        text: "Please fill all fields properly",
                         icon: "error",
                         button: "Ok",
                     });
@@ -231,7 +232,7 @@
                 HideLoader();
                 Swal.fire({
                     title: "Alert",
-                    text: "Fill all fields",
+                    text: "Please fill all fields properly",
                     icon: "error",
                     button: "Ok",
                 });
