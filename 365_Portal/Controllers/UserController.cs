@@ -1215,6 +1215,18 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
+
+        public static bool IsValidEmail(string eMail)
+        {
+            string strRegex = @"^([0-9a-zA-Z]([\+\-_\.]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$";
+            Regex re = new Regex(strRegex);
+            if (re.IsMatch(eMail))
+                return true;
+            else
+                return false;
+        }
+
+
         [Route("API/User/CreateUser")]
         [HttpPost]
         public IHttpActionResult CreateUser(JObject jsonResult)
@@ -1298,6 +1310,12 @@ namespace _365_Portal.Controllers
                             {
                                 data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
                                 data = Utility.Successful(data);
+
+
+                                if (jsonResult.SelectToken("UpdateFlag") != null && jsonResult.SelectToken("UpdateFlag").ToString().Trim() == "1")
+                                {
+                                    EmailHelper.GetEmailContent(ChildUserID, identity.CompId, EmailHelper.Functionality.CHANGE_PASS_ADMIN, "", "");
+                                }
                             }
                             else if (ds.Tables[0].Rows.Count > 0)
                             {
@@ -1474,6 +1492,11 @@ namespace _365_Portal.Controllers
             if (jsonResult.SelectToken("EmailID") != null && jsonResult.SelectToken("EmailID").ToString().Trim() != "")
             {
                 objUserVal.EmailID = (string)jsonResult.SelectToken("EmailID");
+
+                if (!IsValidEmail(objUserVal.EmailID))
+                {
+                    Message = "Please provide valid EmailID of user."; ValFlag = false; return ValFlag;
+                }
             }
             else
             {

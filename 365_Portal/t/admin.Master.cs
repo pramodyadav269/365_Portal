@@ -1,4 +1,5 @@
 ﻿using _365_Portal.Code;
+using _365_Portal.Code.BL;
 using _365_Portal.Code.DAL;
 using _365_Portal.Common;
 using _365_Portal.Models;
@@ -17,6 +18,23 @@ namespace _365_Portal.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Page.IsPostBack)
+            {
+                if (HttpContext.Current.Session["UserId"] != null && HttpContext.Current.Session["CompId"] != null) 
+                {
+                    DataSet ds = TrainningBL.GetNotificationsCount(Convert.ToInt32(HttpContext.Current.Session["CompId"]), HttpContext.Current.Session["UserId"].ToString());
+                    if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    {
+                        lblNotiCount.Text = ds.Tables[0].Rows[0]["NotificationCount"].ToString();
+                    }
+                    else
+                    {
+                        lblNotiCount.Text = "";
+                    }
+                }
+            }
+
+
             if (HttpContext.Current.Session["UserId"] != null &&
                 (
                 Convert.ToString(Session["RoleName"]) == "superadmin"

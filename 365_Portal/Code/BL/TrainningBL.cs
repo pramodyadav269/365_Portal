@@ -358,6 +358,20 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+
+        public static DataSet GetNotificationsCount(int compId, string userId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.GetNotificationsCount(compId, userId);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
         public static DataSet CreateNotification(int compId, string userId, string title, string message, string token)
         {
             DataSet ds = new DataSet();

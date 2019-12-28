@@ -18,6 +18,7 @@ namespace _365_Portal.Models
             public static string CREATE_ORG = "CREATE_ORG";
             public static string FORGOT_PASS = "FORGOT_PASS";
             public static string CHANGE_PASS = "CHANGE_PASS";
+            public static string CHANGE_PASS_ADMIN = "CHANGE_PASS_ADMIN";
         }
 
         public class EmailResponse 

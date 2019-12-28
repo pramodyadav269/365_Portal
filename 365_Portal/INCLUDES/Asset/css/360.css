@@ -837,7 +837,9 @@ input[type=checkbox] + label, input[type=radio] + label {
 
 .btn {
     border-radius: 0;
-    text-transform: uppercase;
+    
+    /*Commented by pramod on 28 DEC to remove uppercase condition on button*/
+    /*text-transform: uppercase;*/
 }
 
     .btn .svg-inline--fa {
@@ -913,7 +915,9 @@ input[type=checkbox] + label, input[type=radio] + label {
 
 
 .form-group label {
-    text-transform: uppercase;
+    /*Commented by pramod on 28 DEC to remove uppercase condition on lable*/
+    /*text-transform: uppercase;*/
+    font-weight: bold;/*Added by pramod on 28 DEC 19*/
     display: block;
 }
 
@@ -950,7 +954,10 @@ input[type=checkbox] + label, input[type=radio] + label {
 
 .header a.back {
     color: rgba(0, 0, 0, .50);
-    text-transform: uppercase;
+
+    /*Commented by pramod on 28 DEC to remove uppercase condition on Header*/
+    /*text-transform: uppercase;*/
+
     font-weight: bold;
     position: absolute;
     top: .75rem;

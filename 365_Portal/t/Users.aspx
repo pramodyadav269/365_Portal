@@ -81,8 +81,8 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="txtPosition">Position</label>
-                                <input type="text" class="form-control required" id="txtPosition" placeholder="Position" />
+                                <label for="txtPosition">Title</label>
+                                <input type="text" class="form-control required" id="txtPosition" placeholder="Title" />
                             </div>
                         </div>
                         <div class="col-md-3" id="divGroup" style="display: none;">
@@ -96,7 +96,7 @@
                         <div class="col-md-3" id="divUpdatePassword">
                             <div class="custom-control custom-checkbox mb-4">
                                 <input type="checkbox" onchange="enableUpdatePassword();" class="custom-control-input" id="cbUpdatePassword">
-                                <label class="custom-control-label" for="cbUpdatePassword">Want to change password!</label>
+                                <label class="custom-control-label" for="cbUpdatePassword">Change password</label>
                                 <input type="password" disabled class="form-control required" id="txtUpdatePassword" placeholder="Password" />
                             </div>
                         </div>
@@ -156,7 +156,7 @@
             $('#divTable').empty().append();
 
             var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
-                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Position</th><th>Role</th><th>Group</th><th>Action</th></thead>'
+                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Title</th><th>Role</th><th>Group</th><th>Action</th></thead>'
 
             tbl += '<tbody>';
             if (Table != undefined && Table.length > 0) {
@@ -356,6 +356,9 @@
             else if ($("#txtEmailId").val() == undefined || $("#txtEmailId").val() == '') {
                 return { error: true, msg: "Please enter emailid" };
             }
+            else if (!IsValidEmail($("#txtEmailId").val())) {
+                return { error: true, msg: "Please provide valid EmailID of user" };
+            }
 
             if (flag == 'create') {
                 if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
@@ -370,7 +373,16 @@
 
             return true;
         }
-
+        
+        function IsValidEmail(EmailId){
+            debugger
+            //var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            var reg = /^([0-9a-zA-Z]([\+\-_\.]+)*)+\@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$/;
+            if (reg.test(EmailId) == false) {
+                return false;
+            }
+            return true;
+        }
 
         function Edit(ctrl, id) {
             //var id = $(ctrl).closest('tr').attr('id')
