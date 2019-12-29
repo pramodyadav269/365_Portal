@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
-            <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Topics</a>
+            <a class="back" href="Topics.aspx"><i class="fas fa-arrow-left"></i>Back to Courses</a>
             <h2 class="text-center font-weight-bold" id="module"></h2>
         </div>
 
@@ -96,7 +96,7 @@
                             $('#ddlTopic').empty().append('<option></option>');
                             for (var i = 0; i < Topic.length; i++) {
                                 if (TopicID == Topic[i].TopicID) {
-                                    $('#module').html(Topic[i].Title+':- Manage Modules');
+                                    $('#module').html(Topic[i].Title+':- Manage Lessons');
                                 }
                                 //$('#ddlTopic').append('<option value="' + Topic[i].TopicID + '">' + Topic[i].Title + '</option>');
                             }
@@ -428,19 +428,19 @@
                     success: function (response) {
                          HideLoader();
                         try {
-                            var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                            var tbl = '<table id="tblGird" class="table-bordered" style="width: 100%">';//class="table table-bordered"
                             tbl += '<thead><tr>';
                             tbl += '<th>Sr.No.';
                             tbl += '<th>Topic';
                             tbl += '<th>Title';
                             tbl += '<th>Overview';
                             tbl += '<th>Description';
-                            tbl += '<th>Is Published';
+                            tbl += '<th>Is<br />Published';
                             //tbl += '<th>Skip Flashcard';
-                            tbl += '<th>All Contents';
+                            tbl += '<th>All<br />Contents';
                             tbl += '<th>Survey';
                             tbl += '<th>Flashcards';
-                            tbl += '<th>Final Quiz';
+                            tbl += '<th>Final<br />Quiz';
                             //tbl += '<th>Personal Gifts';
                             tbl += '<th>Action';
                             tbl += '<tbody>';

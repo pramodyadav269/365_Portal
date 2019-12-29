@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h2 class="text-center font-weight-bold">Topics</h1>
+            <h2 class="text-center font-weight-bold">Courses</h1>
         </div>
 
         <div class="col-md-12" id="divGird">
@@ -447,7 +447,7 @@
                         tbl += '<th>Title';
                         tbl += '<th>Description';
                         tbl += '<th>Is Published';
-                        tbl += '<th>Total Modules';
+                        tbl += '<th>Total Lessons';
                         tbl += '<th>Action';
                         tbl += '<tbody>';
                         if (response != null && response != undefined) {
