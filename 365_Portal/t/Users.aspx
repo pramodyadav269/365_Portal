@@ -422,7 +422,7 @@
                                 for (var i = 0; i < Group.length; i++) {
                                     $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');
                                 }
-                                $('#divGroup').show();
+                                //$('#divGroup').show();
                                 selectInit('#ddlGroup', 'Select Group');
                             }
 

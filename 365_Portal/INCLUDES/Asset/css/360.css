@@ -1423,7 +1423,10 @@ p.anchor {
 .table thead th, .table tbody td {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    
+    /*Comented by Pramod on 29 DEC 19 to remove partial text in table*/
+    /*white-space: nowrap;*/
+
     max-width: 260px;
 }
 

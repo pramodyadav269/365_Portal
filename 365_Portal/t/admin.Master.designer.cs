@@ -130,6 +130,15 @@ namespace _365_Portal.Admin {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_DirectorySettings;
         
         /// <summary>
+        /// dvSubMenu_UserGroupMapSettings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dvSubMenu_UserGroupMapSettings;
+        
+        /// <summary>
         /// dvSubMenu_CompanyProfile control.
         /// </summary>
         /// <remarks>

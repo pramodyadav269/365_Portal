@@ -68,22 +68,23 @@
         function BindTable(Table) {
             debugger
             $('#divTable').empty().append();
-            var tbl = '<table id="tblGird" class="table-bordered" style="width:100%">' +
-                '<thead><tr><th>#</th><th>Email ID</th><th>Group</th><th>Action</th></thead>'
+            var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
+                '<thead><tr><th>Sr.No.</th><th>Email ID</th><th>Group</th><th>Action</th></thead>'
 
             tbl += '<tbody>';
 
             if (Table != undefined && Table.length > 0)
             {
                 var CurrentUserID = '';
+                var srno = 1;
                 for (var i = 0; i < Table.length; i++)
                 {
                     CurrentUserID = Table[i].UserID;
 
                     tbl += '<tr>';
-                    tbl += '<td>' + (i + 1) + '</td>';
-                    tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
-                    tbl += '<td title="' + Table[i].GroupName + '" >';
+                    tbl += '<td width="5%">' + (srno) + '</td>';
+                    tbl += '<td width="23%" title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
+                    tbl += '<td width="65%" title="' + Table[i].GroupName + '" >';
 
                     for (var j = i; j < Table.length; j++)
                     {
@@ -101,8 +102,10 @@
                     i--;
 
                     tbl += '</td>';
-                    tbl += '<td><a class="btn bg-yellow" onclick="submit(this,' + Table[i].UserID + ');">Submit</a>';
+                    tbl += '<td width="7%"><a class="btn bg-yellow" onclick="submit(this,' + Table[i].UserID + ');">Submit</a>';
                     tbl += '</tr>';
+
+                    srno++;
                 }
             }
             tbl += '</tbody>';
