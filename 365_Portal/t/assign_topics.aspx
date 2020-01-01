@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
-            <h2 class="text-center font-weight-bold">Assign Topics By Groups & Users</h2>
+            <h2 class="text-center font-weight-bold">Assign Courses By Groups & Users</h2>
         </div>
 
 
@@ -17,7 +17,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="ddlAssignType">Assign Topics To</label>
+                                <label for="ddlAssignType">Assign Courses To</label>
                                 <%--  <select class="form-control select2" id="ddlAssignType" style="width: 100% !important" onchange="BindGroupUserCheckboxList(this);">
                                     <option></option>
                                     <option value="GROUP">Group</option>
@@ -63,7 +63,7 @@
 
                         <div class="col-md-6 mt-3" id="dvTopicContainer" style="display: none;">
                             <div class="form-group">
-                                <label>Select Topics</label>
+                                <label>Select Courses</label>
                                 <div id="dvTopicsCheckboxes"></div>
                             </div>
                         </div>

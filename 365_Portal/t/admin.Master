@@ -144,6 +144,9 @@
                     <li class="sidenav-item" id="dvSubMenu_DirectorySettings" runat="server" onclick="location.href='comingsoon.aspx';">
                         <a class="sidenav-link">Directory Settings</a>
                     </li>
+                    <li class="sidenav-item" id="dvSubMenu_UserGroupMapSettings" runat="server" onclick="location.href='UserGroupMapping.aspx';">
+                        <a class="sidenav-link">User Group Mapping</a>
+                    </li>
                 </ul>
                 <%--  <ul class="sidenav-nav d-none" id="sidenav_me">
                     <h4 class="menu-title">Me</h4>
@@ -181,7 +184,7 @@
                         <a class="sidenav-link">Content Settings</a>
                     </li>
                     <li class="sidenav-item" id="dvSubMenu_AssignTopics" runat="server" visible="false" onclick="location.href='assign_topics.aspx';">
-                        <a class="sidenav-link">Assign Topics</a>
+                        <a class="sidenav-link">Assign Courses</a>
                     </li>
                 </ul>
 

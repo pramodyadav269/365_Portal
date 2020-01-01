@@ -143,7 +143,7 @@
         <%--Start Topics--%>
         <div class="row" id="dvTopicContainer" ng-if="ActiveContainer =='Topic'">
             <div class="col-12">
-                <h6 class="section-title">My Topics</h6>
+                <h6 class="section-title">My Courses</h6>
             </div>
             <div class="col-sm-12">
                 <div class="row topics">

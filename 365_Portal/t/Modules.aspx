@@ -428,7 +428,7 @@
                     success: function (response) {
                          HideLoader();
                         try {
-                            var tbl = '<table id="tblGird" class="table-bordered" style="width: 100%">';//class="table table-bordered"
+                            var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';//class="table table-bordered"
                             tbl += '<thead><tr>';
                             tbl += '<th>Sr.No.';
                             tbl += '<th>Topic';
