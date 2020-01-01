@@ -7,12 +7,25 @@
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h2 class="text-center font-weight-bold">User Group Mapping</h2>
-        </div>
-
+        </div>        
 
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
                 <div class="card-body">
+
+                    <div class="row input-validation">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ddlGroup">Groups</label>
+                                <select class="form-control required select2" id="ddlGroup" style="width: 100% !important">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">                
+                            <a class="btn bg-yellow float-left" id="btnSearch" onclick="Search();">Search</a>                
+                        </div>
+                    </div>
+
                     <div class="w-100"></div>
                     <div id="divTable" class="mt-3 table-responsive"></div>
                 </div>
@@ -26,14 +39,13 @@
         var Role = '<%=Session["RoleName"]%>';
         var id = '';
 
-        $(document).ready(function () {            
-            debugger
+        $(document).ready(function () {                        
             ShowLoader();
             GetUsersGroup();
         });
         
         function GetUsersGroup() {
-            debugger
+            
             var getUrl = "/API/User/GetUsersGroup";
             $.ajax({
                 type: "POST",
@@ -45,9 +57,20 @@
                         //debugger
                         var DataSet = $.parseJSON(response);
                         HideLoader();
-                        debugger
+                        
                         if (DataSet.StatusCode == "1") {
-                            BindTable(DataSet.Data);
+                            BindTable(DataSet.Data.Data);
+
+                            var Group = DataSet.Data.Data1;
+                            if (Group != undefined && Group.length > 0)
+                            {
+                                $('#ddlGroup').empty().append('<option></option>');
+                                for (var i = 0; i < Group.length; i++)
+                                {
+                                    $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');
+                                }
+                                selectInit('#ddlGroup', 'Select Group');
+                            }
                         }
                         else {
                             Swal.fire(DataSet.StatusDescription, {
@@ -66,7 +89,7 @@
         }
 
         function BindTable(Table) {
-            debugger
+            
             $('#divTable').empty().append();
             var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
                 '<thead><tr><th>Sr.No.</th><th>Email ID</th><th>Group</th><th>Action</th></thead>'
@@ -136,7 +159,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        debugger
+                        
                         var DataSet = $.parseJSON(response);
                         HideLoader();
                         if (DataSet.StatusCode == "1") {
@@ -157,6 +180,43 @@
                                     icon: "error",
                                 });
                             }
+                        }
+                    }
+                    catch (e) {
+                        HideLoader();
+                    }
+                },
+                failure: function (response) {
+                    HideLoader();
+                }
+            });
+        }
+
+        function Search() {
+            
+            ShowLoader();
+            var Group = $("#ddlGroup option:selected").val();
+            var requestParams = { GroupID: Group };
+            var getUrl = "/API/User/SearchUsersByGroups";
+
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                headers: { "Authorization": "Bearer " + accessToken },
+                data: JSON.stringify(requestParams),
+                contentType: "application/json",
+                success: function (response) {
+                    try {
+                        
+                        var DataSet = $.parseJSON(response);
+                        HideLoader();
+                        if (DataSet.StatusCode == "1") {
+                            BindTable(DataSet.Data);
+                        }
+                        else {
+                            Swal.fire(DataSet.StatusDescription, {
+                                icon: "error",
+                            });
                         }
                     }
                     catch (e) {
