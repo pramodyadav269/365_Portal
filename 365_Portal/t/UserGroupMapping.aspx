@@ -65,6 +65,7 @@
                             if (Group != undefined && Group.length > 0)
                             {
                                 $('#ddlGroup').empty().append('<option></option>');
+                                $('#ddlGroup').append('<option value="0">Select All</option>');
                                 for (var i = 0; i < Group.length; i++)
                                 {
                                     $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');

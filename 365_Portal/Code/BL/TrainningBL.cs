@@ -359,12 +359,12 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet GetNotificationsCount(int compId, string userId)
+        public static DataSet GetMsgNotifications(int compId, string userId, int action)
         {
             DataSet ds = new DataSet();
             try
             {
-                ds = TrainningDAL.GetNotificationsCount(compId, userId);
+                ds = TrainningDAL.GetMsgNotifications(compId, userId, action);
             }
             catch (Exception ex)
             {

@@ -22,7 +22,7 @@ namespace _365_Portal.Admin
             {
                 if (HttpContext.Current.Session["UserId"] != null && HttpContext.Current.Session["CompId"] != null) 
                 {
-                    DataSet ds = TrainningBL.GetNotificationsCount(Convert.ToInt32(HttpContext.Current.Session["CompId"]), HttpContext.Current.Session["UserId"].ToString());
+                    DataSet ds = TrainningBL.GetMsgNotifications(Convert.ToInt32(HttpContext.Current.Session["CompId"]), HttpContext.Current.Session["UserId"].ToString(),4);
                     if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
                         lblNotiCount.Text = ds.Tables[0].Rows[0]["NotificationCount"].ToString();
