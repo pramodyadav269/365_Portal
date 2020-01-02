@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="txtPosition">Position</label>
+                                        <label for="txtPosition">Title</label>
                                         <input type="text" class="form-control" id="txtPosition" />
                                     </div>
                                 </div>

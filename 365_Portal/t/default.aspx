@@ -171,9 +171,9 @@
         <%--Start Modules--%>
         <div class="row" id="dvModuleContainer" ng-if="ActiveContainer =='Module'">
             <div class="col-sm-12 header">
-                <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>BACK TO TOPICS</a>
+                <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>Back to Topics</a>
                 <h2 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h2>
-                <h6 class="text-center section-title mt-3 color-0-25">TOPIC</h6>
+                <h6 class="text-center section-title mt-3 color-0-25">Topic</h6>
             </div>
             <div class="col-sm-6 mt-4 offset-md-3 completed-progress">
                 <div class="row">
@@ -262,7 +262,7 @@
                 <a class="back" href="#" ng-click="GoBack('Module')"><i class="fas fa-arrow-left"></i>Back to Modules</a>
                 <a style="display: none;" class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
                 <h2 class="text-center font-weight-bold">{{SelectedModule.Title}}</h2>
-                <h6 class="text-center header-sub-title mt-3">Module</h6>
+                <h6 class="text-center section-title mt-3 color-0-25">Module</h6>
             </div>
 
             <div class="col-sm-6 mt-4 offset-md-3 completed-progress">
@@ -540,7 +540,7 @@
             <div class="col-sm-12 header">
                 <a class="back" href="#" ng-click="GoBack('Content')"><i class="fas fa-arrow-left"></i>{{ContentGoBackText}}</a>
                 <h2 class="text-center font-weight-bold">{{SpecialContents.Title}}</h2>
-                <h6 class="text-center header-sub-title mt-3">Flashcards</h6>
+                <h6 class="text-center section-title mt-3 color-0-25">Flashcards</h6>
             </div>
             <div class="col-sm-10 offset-1 mt-4">
                 <div class="row justify-content-center">
