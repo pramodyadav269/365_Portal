@@ -109,6 +109,7 @@ namespace _365_Portal
                             }
                             else
                             {
+                                Utility.CreateFirstLoginSession(false);
                                 if (objResponse.Role.ToLower() == "enduser")
                                 {
                                     Response.Redirect("~/t/default.aspx", false);
