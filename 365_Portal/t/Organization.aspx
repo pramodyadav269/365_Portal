@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Organization.aspx.cs" Inherits="_365_Portal.t.Organization" %>
+﻿<%@ Page Title="Organizations" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="Organization.aspx.cs" Inherits="_365_Portal.t.Organization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -227,8 +227,8 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="txtPosition">Position</label>
-                                    <input type="text" class="form-control required" id="txtPosition" placeholder="Position" />
+                                    <label for="txtPosition">Title</label>
+                                    <input type="text" class="form-control required" id="txtPosition" placeholder="Title" />
                                 </div>
                             </div>
 
@@ -360,7 +360,7 @@
             $('#divTable').empty().append();
 
             var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
-                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>Organization Name</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Position</th><th>Role</th><th>Action</th></thead>'
+                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>Organization Name</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Title</th><th>Role</th><th>Action</th></thead>'
 
             tbl += '<tbody>';
             if (Table != undefined && Table.length > 0) {

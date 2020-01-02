@@ -171,14 +171,14 @@
         <%--Start Modules--%>
         <div class="row" id="dvModuleContainer" ng-if="ActiveContainer =='Module'">
             <div class="col-sm-12 header">
-                <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>Back to Topics</a>
+                <a class="back" href="#" ng-click="GoBack('Topic')"><i class="fas fa-arrow-left"></i>Back to Courses</a>
                 <h2 class="text-center font-weight-bold">{{SelectedTopic.Title}}</h2>
-                <h6 class="text-center section-title mt-3 color-0-25">Topic</h6>
+                <h6 class="text-center section-title mt-3 color-0-25">Course</h6>
             </div>
             <div class="col-sm-6 mt-4 offset-md-3 completed-progress">
                 <div class="row">
                     <div class="col-12">
-                        <p class="float-left"><span>{{SelectedTopic.CompletedModules}} of {{SelectedTopic.TotalModules}}</span> modules completed</p>
+                        <p class="float-left"><span>{{SelectedTopic.CompletedModules}} of {{SelectedTopic.TotalModules}}</span> lessons completed</p>
                         <i class="fas fa-trophy fa-lg float-right"></i>
                     </div>
                     <div class="col-12">
@@ -193,7 +193,7 @@
             <div class="col-sm-12 mt-5 modules">
                 <div class="row">
                     <div class="col-sm-12 mb-1">
-                        <h6 class="section-title">Unlocked Modules</h6>
+                        <h6 class="section-title">Unlocked Lessons</h6>
                     </div>
                     <div class="col-sm-12">
                         <div class="row">
@@ -234,7 +234,7 @@
                 </div>
                 <div class="row mt-5 locked">
                     <div class="col-sm-12 mb-1">
-                        <h6 class="section-title">Locked Modules</h6>
+                        <h6 class="section-title">Locked Lessons</h6>
                     </div>
                     <div class="col-sm-12">
                         <div class="row">
@@ -259,7 +259,7 @@
         <%--Start Content--%>
         <div class="row contents" id="dvContentsContainer" ng-show="ActiveContainer =='Content'">
             <div class="col-sm-12 header">
-                <a class="back" href="#" ng-click="GoBack('Module')"><i class="fas fa-arrow-left"></i>Back to Modules</a>
+                <a class="back" href="#" ng-click="GoBack('Module')"><i class="fas fa-arrow-left"></i>Back to Lessons</a>
                 <a style="display: none;" class="btn bg-yellow font-weight-bold" href="#"><i class="fas fa-comments"></i>Discussion</a>
                 <h2 class="text-center font-weight-bold">{{SelectedModule.Title}}</h2>
                 <h6 class="text-center section-title mt-3 color-0-25">Module</h6>

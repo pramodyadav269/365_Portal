@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="UserGroupMapping.aspx.cs" Inherits="_365_Portal.t.UserGroupMapping" %>
+﻿<%@ Page Title="User Group Mapping" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="UserGroupMapping.aspx.cs" Inherits="_365_Portal.t.UserGroupMapping" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
@@ -114,10 +114,10 @@
                         if (Table[j].UserID == CurrentUserID)
                         {
                             if (Table[j].IsActive == "1") {
-                                tbl += '<input type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].UserID + '" checked>' + Table[j].GroupName;
+                                tbl += '<input style="margin-left:10px;" type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].UserID + '" checked>' + Table[j].GroupName;
                             }
                             else {
-                                tbl += '<input type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].UserID + '">' + Table[j].GroupName;
+                                tbl += '<input style="margin-left:10px;" type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].UserID + '">' + Table[j].GroupName;
                             }
                             i++;
                         }

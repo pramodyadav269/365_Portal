@@ -141,11 +141,11 @@
                     <li class="sidenav-item" id="dvSubMenu_Groups" runat="server" onclick="location.href='groups.aspx';">
                         <a class="sidenav-link">Groups</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_DirectorySettings" runat="server" onclick="location.href='comingsoon.aspx';">
-                        <a class="sidenav-link">Directory Settings</a>
-                    </li>
                     <li class="sidenav-item" id="dvSubMenu_UserGroupMapSettings" runat="server" onclick="location.href='UserGroupMapping.aspx';">
                         <a class="sidenav-link">User Group Mapping</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_DirectorySettings" runat="server" onclick="location.href='comingsoon.aspx';">
+                        <a class="sidenav-link">Directory Settings</a>
                     </li>
                 </ul>
                 <%--  <ul class="sidenav-nav d-none" id="sidenav_me">
@@ -188,7 +188,7 @@
                     </li>
                 </ul>
 
-               <%-- <ul class="sidenav-nav d-none" id="sidenav_learing">
+                <%-- <ul class="sidenav-nav d-none" id="sidenav_learing">
                     <h4 class="menu-title">Learning</h4>
                     <li class="sidenav-item" id="dvSubMenu_Learning" onclick="location.href='topics.aspx';">
                         <a class="sidenav-link">Learning</a>
@@ -250,7 +250,7 @@
 
                     <li class="nav-item icon dropdown"><a class="nav-link" id="navbarNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <%--<img src="../includes/Asset/images/notifications.png" /><span class="badge">2</span></a>--%>
-                        <img src="../includes/Asset/images/notifications.png" /><asp:Label class="badge" runat="server" ID="lblNotiCount" Text=""/></a>
+                        <img src="../includes/Asset/images/notifications.png" /><asp:Label class="badge" runat="server" ID="lblNotiCount" Text="" /></a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarNotification">
                             <a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>
