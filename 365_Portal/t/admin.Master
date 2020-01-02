@@ -202,8 +202,11 @@
                     <li class="sidenav-item" id="dvSubMenu_Settings" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">My Account</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Notifications" onclick="location.href='MsgNotification.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Notifications" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Notifications</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_MsgNotifications" onclick="location.href='MsgNotification.aspx';">
+                        <a class="sidenav-link">Msg Notifications</a>
                     </li>
                     <li class="sidenav-item" id="dvSubMenu_Roles" runat="server" visible="false" onclick="location.href='roles.aspx';">
                         <a class="sidenav-link">Roles</a>
@@ -252,12 +255,12 @@
                         <%--<img src="../includes/Asset/images/notifications.png" /><span class="badge">2</span></a>--%>
                         <img src="../includes/Asset/images/notifications.png" onclick="location.href='MsgNotification.aspx';"/><asp:Label class="badge" runat="server" ID="lblNotiCount" Text=""/></a>
 
-                        <div class="dropdown-menu" aria-labelledby="navbarNotification">
+                        <%--<div class="dropdown-menu" aria-labelledby="navbarNotification">
                             <a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>
                             <a class="dropdown-item unread" href="#">You’re <b>halfway</b> at completing all your modules! Congrats!</a>
                             <a class="dropdown-item read" href="#">You just completed the <b>Staff Development topic</b></a>
                             <a class="dropdown-item text-right font-weight-bold" href="#">Clear all</a>
-                        </div>
+                        </div>--%>
                     </li>
 
                     <li class="nav-item language dropdown">
