@@ -64,7 +64,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="txtDescription">Description</label>
-                                <textarea class="form-control required" rows="4" cols="50" placeholder="Description" id="txtDescription"></textarea>
+                                <textarea class="form-control required tinymce" placeholder="Description" id="txtDescription"></textarea>
                             </div>
                         </div>
 
@@ -76,14 +76,14 @@
                             </div>
                         </div>--%>
                         <div id="dvVideoPDFContent" style="display: none;" class="col-md-12">
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                                 <div class="form-group radio required">
                                     <label>File Type</label>
-                                    <div class="custom-control custom-radio">
+                                    <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="rd_url" name="filetype" class="custom-control-input" checked="checked" value="URL" onchange="ShowControl(this)">
                                         <label class="custom-control-label" for="rd_url">File Url</label>
                                     </div>
-                                    <div class="custom-control custom-radio">
+                                    <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="rd_file" name="filetype" class="custom-control-input" value="FILE" onchange="ShowControl(this)">
                                         <label class="custom-control-label" for="rd_file">Upload File</label>
                                     </div>
@@ -185,6 +185,19 @@
                 ClearAllFields(this);
                 ShowControl();
 
+                // WYSIWYG Editer Short Init
+                tinymce.init({
+                    selector: 'textarea.tinymce',
+                    menubar: false,
+                    min_height: 300,
+                    max_height: 300,
+                    plugins: 'table',
+                    toolbar: "undo redo | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | table"
+                });
+
+                //tinymce.get('txtDescription').setContent('');
+                //tinymce.get('txtDescription').getContent()
+
             });
 
             function SaveChanges(cntrl) {
@@ -194,7 +207,7 @@
                 var selectedDocType = $("#ddlDocType").val();
                 if ($("#ddlDocType").val() != "" &&
                     $("#txtTitle").val() != "" &&
-                    $("#txtDescription").val() != "" &&
+                    tinymce.get('txtDescription').getContent() != "" &&
                     TopicID != "" && _ModuleID != "") {
                     var isUrl;
 
@@ -226,7 +239,7 @@
                     //    SrNo: index,
                     //    DocType: $("#ddlDocType").val()
                     //    , Title: $("#txtTitle").val()
-                    //    , Description: $("#txtDescription").val()
+                    //    , Description: tinymce.get('txtDescription').getContent()
                     //    , Overview: ""
                     //    , ContentFileID: base64filestring
                     //    , IsGift: $("#chkIsGift").prop("checked")
@@ -263,7 +276,7 @@
                         formdata.append("SrNo", index);
                         formdata.append("DocType", $("#ddlDocType").val());
                         formdata.append("Title", $("#txtTitle").val());
-                        formdata.append("Description", $("#txtDescription").val());
+                        formdata.append("Description", tinymce.get('txtDescription').getContent());
                         formdata.append("Overview", "");
                         if (selectedDocType != "TEXT") {
                             if (($('#filepath').val() != "" && $('#filepath').val() != undefined) && isUrl == 0 && $("input[name=filetype]:checked").val() != "URL") {
@@ -411,7 +424,7 @@
                         formdata.append("ContentID", index);
                         formdata.append("DocType", $("#ddlDocType").val());
                         formdata.append("Title", $("#txtTitle").val());
-                        formdata.append("Description", $("#txtDescription").val());
+                        formdata.append("Description", tinymce.get('txtDescription').getContent());
                         formdata.append("Overview", "");
                         if (selectedDocType != "TEXT") {
                             if (isUrl == 0 && $("input[name=filetype]:checked").val() != "URL") {
@@ -540,7 +553,7 @@
             function ClearAllFields(cntrl) {
                 $("#ddlDocType").val("");
                 $("#txtTitle").val("");
-                $("#txtDescription").val("");
+                tinymce.get('txtDescription').setContent('')
                 $("#txtOverview").val("");
                 $("#filepath").val("");
                 $('.custom-file-label').html('File Path');
@@ -699,7 +712,7 @@
 
                     $("#ddlDocType").val(content.DocType);
                     $("#txtTitle").val(content.Title);
-                    $("#txtDescription").val(content.Description);
+                    tinymce.get('txtDescription').setContent(content.Description);
                     if (content.FilePath.split('.')[1] != undefined) {
                         if (allowedExtensions.indexOf(content.FilePath.split('.')[1]) != -1) {
                             $('#rd_file').prop('checked', true);

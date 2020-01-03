@@ -24,6 +24,7 @@
     <script src="../includes/Asset/js/all.js"></script>
     <script src="../includes/Asset/js/gijgo.min.js"></script>
     <script src="../includes/Asset/js/sweetalert2.js"></script>
+    <script src="../INCLUDES/Asset/tinymce/tinymce.min.js"></script>
     <script src="../includes/Asset/js/360.js"></script>
 
     <script src="../includes/Asset/js/bs-custom-file-input.min.js"></script>
@@ -105,7 +106,7 @@
                     </li>--%>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Directory" id="dvMenu_Directory" runat="server" visible="false">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Directory</span><span>Directory</span></a>
+                        <a class="sidenav-link"><i class="fas fa-folder"></i><span class="tooltiptext">Directory</span><span>Directory</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Integrations" id="dvMenu_Integrations" runat="server" visible="false">
@@ -113,11 +114,11 @@
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Content" id="dvMenu_Content" runat="server">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Content</span><span>Content</span></a>
+                        <a class="sidenav-link"><i class="fas fa-file"></i><span class="tooltiptext">Content</span><span>Content</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Account" id="dvMenu_Account" runat="server" visible="false">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Account</span><span>Account</span></a>
+                        <a class="sidenav-link"><i class="fas fa-user-circle"></i><span class="tooltiptext">Account</span><span>Account</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_settings" id="dvMenu_Settings">
