@@ -185,15 +185,15 @@
                     '<div class="row mt-2">' +
                     '<div class="col button-color">' +
                     '<a class="font-weight-bold auto" button-data="auto">Preview</a>' +
-                    '<span class="label active">Auto</span>' +
+                    '<div class="w-100"></div><span class="label active">Auto</span>' +
                     '</div>' +
                     '<div class="col button-color">' +
                     '<a class="font-weight-bold dark" button-data="dark">Preview</a>' +
-                    '<span class="label">Dark</span>' +
+                    '<div class="w-100"></div><span class="label">Dark</span>' +
                     '</div>' +
                     '<div class="col button-color">' +
                     '<a class="font-weight-bold light" button-data="light">Preview</a>' +
-                    '<span class="label">Light</span>' +
+                    '<div class="w-100"></div><span class="label">Light</span>' +
                     '</div>' +
                     '</div></div>');
 
@@ -328,15 +328,15 @@
                     '<div class="row mt-2">' +
                     '<div class="col button-color">' +
                     '<a class="font-weight-bold auto" button-data="auto">Preview</a>' +
-                    '<span class="label" id="dvButtonColor_Auto">Auto</span>' +
+                    '<div class="w-100"></div><span class="label" id="dvButtonColor_Auto">Auto</span>' +
                     '</div>' +
                     '<div class="col button-color">' +
                     '<a class="font-weight-bold dark" button-data="dark">Preview</a>' +
-                    '<span class="label" id="dvButtonColor_dark">Dark</span>' +
+                    '<div class="w-100"></div><span class="label" id="dvButtonColor_dark">Dark</span>' +
                     '</div>' +
                     '<div class="col button-color">' +
                     '<a class="font-weight-bold light" button-data="light">Preview</a>' +
-                    '<span class="label" id="dvButtonColor_light">Light</span>' +
+                    '<div class="w-100"></div><span class="label" id="dvButtonColor_light">Light</span>' +
                     '</div>' +
                     '</div></div>');
 
