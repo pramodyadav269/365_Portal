@@ -655,12 +655,11 @@
                             },
                             complete: function () {
                                 $('#tblContent').DataTable();
-                                //$('#tblContent').tableDnD({
-                                //    onDragStart: function (table, row) {
-                                //        $('#savereorder').show();
-
-                                //    }
-                                //});
+                                $('#tblContent').tableDnD({
+                                    onDragStart: function (table, row) {
+                                        $('#savereorder').show();
+                                    }
+                                });
                                 HideLoader();
                             }
                         });

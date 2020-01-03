@@ -431,7 +431,7 @@
                             var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';//class="table table-bordered"
                             tbl += '<thead><tr>';
                             tbl += '<th>Sr.No.';
-                            tbl += '<th>Topic';
+                            tbl += '<th>Course';
                             tbl += '<th>Title';
                             tbl += '<th>Overview';
                             tbl += '<th>Description';

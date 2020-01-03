@@ -205,9 +205,9 @@
                     <li class="sidenav-item" id="dvSubMenu_Notifications" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Notifications</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_MsgNotifications" onclick="location.href='MsgNotification.aspx';">
+                   <%-- <li class="sidenav-item" id="dvSubMenu_MsgNotifications" onclick="location.href='MsgNotification.aspx';">
                         <a class="sidenav-link">Msg Notifications</a>
-                    </li>
+                    </li>--%>
                     <li class="sidenav-item" id="dvSubMenu_Roles" runat="server" visible="false" onclick="location.href='roles.aspx';">
                         <a class="sidenav-link">Roles</a>
                     </li>
