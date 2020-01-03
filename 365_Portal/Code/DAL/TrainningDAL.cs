@@ -322,7 +322,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet GetNotificationsCount(int compID, string userId)
+        public static DataSet GetMsgNotifications(int compID, string userId, int action)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -330,9 +330,10 @@ namespace _365_Portal.Code.DAL
             try
             {
                 conn.Open();
-                string stm = "spGetNotificationsCount";
+                string stm = "spGetMsgNotifications";
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_action", action);
                 cmd.Parameters.AddWithValue("p_compID", compID);
                 cmd.Parameters.AddWithValue("p_userId", userId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);

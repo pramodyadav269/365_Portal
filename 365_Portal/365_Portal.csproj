@@ -435,6 +435,13 @@
     <Compile Include="t\flashcards.aspx.designer.cs">
       <DependentUpon>flashcards.aspx</DependentUpon>
     </Compile>
+    <Compile Include="t\MsgNotification.aspx.cs">
+      <DependentUpon>MsgNotification.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\MsgNotification.aspx.designer.cs">
+      <DependentUpon>MsgNotification.aspx</DependentUpon>
+    </Compile>
     <Compile Include="t\roles.aspx.cs">
       <DependentUpon>roles.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -798,6 +805,7 @@
     <Content Include="t\dashboard.aspx" />
     <Content Include="t\default.aspx" />
     <Content Include="t\flashcards.aspx" />
+    <Content Include="t\MsgNotification.aspx" />
     <Content Include="t\roles.aspx" />
     <Content Include="t\Groups.aspx" />
     <Content Include="t\Modules.aspx" />

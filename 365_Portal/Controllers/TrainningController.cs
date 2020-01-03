@@ -576,5 +576,34 @@ namespace _365_Portal.Controllers
         }
 
 
+        [Route("API/Trainning/GetMsgNotifications")]
+        [HttpPost]
+        public IHttpActionResult GetMsgNotifications()
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                string Message = string.Empty;
+               
+                DataSet ds = TrainningBL.GetMsgNotifications(identity.CompId, identity.UserID.ToString(), 5);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    //data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.Successful(data);
+                }
+                else
+                {
+                    data = Utility.API_Status("0", "No data found");
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
     }
 }
