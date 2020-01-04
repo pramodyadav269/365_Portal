@@ -24,6 +24,7 @@
     <script src="../includes/Asset/js/all.js"></script>
     <script src="../includes/Asset/js/gijgo.min.js"></script>
     <script src="../includes/Asset/js/sweetalert2.js"></script>
+    <script src="../INCLUDES/Asset/tinymce/tinymce.min.js"></script>
     <script src="../includes/Asset/js/360.js"></script>
 
     <script src="../includes/Asset/js/bs-custom-file-input.min.js"></script>
@@ -105,19 +106,19 @@
                     </li>--%>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Directory" id="dvMenu_Directory" runat="server" visible="false">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Directory</span><span>Directory</span></a>
+                        <a class="sidenav-link"><i class="fas fa-folder-open"></i><span class="tooltiptext">Directory</span><span>Directory</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Integrations" id="dvMenu_Integrations" runat="server" visible="false">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Integrations</span><span>Integrations</span></a>
+                        <a class="sidenav-link"><i class="fas fa-clipboard"></i><span class="tooltiptext">Integrations</span><span>Integrations</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Content" id="dvMenu_Content" runat="server">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Content</span><span>Content</span></a>
+                        <a class="sidenav-link"><i class="fas fa-file"></i><span class="tooltiptext">Content</span><span>Content</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Account" id="dvMenu_Account" runat="server" visible="false">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Account</span><span>Account</span></a>
+                        <a class="sidenav-link"><i class="fas fa-user-circle"></i><span class="tooltiptext">Account</span><span>Account</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_settings" id="dvMenu_Settings">
@@ -125,7 +126,7 @@
                     </li>
 
                     <li class="sidenav-item side-menu" id="dvMenu_Help" sidenav-id="sidenav_Help">
-                        <a class="sidenav-link"><i class="far fa-question-circle"></i><span class="tooltiptext">Help</span><span>Help</span></a>
+                        <a class="sidenav-link"><i class="fas fa-question-circle"></i><span class="tooltiptext">Help</span><span>Help</span></a>
                     </li>
                 </ul>
             </div>
@@ -141,11 +142,11 @@
                     <li class="sidenav-item" id="dvSubMenu_Groups" runat="server" onclick="location.href='groups.aspx';">
                         <a class="sidenav-link">Groups</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_DirectorySettings" runat="server" onclick="location.href='comingsoon.aspx';">
-                        <a class="sidenav-link">Directory Settings</a>
-                    </li>
                     <li class="sidenav-item" id="dvSubMenu_UserGroupMapSettings" runat="server" onclick="location.href='UserGroupMapping.aspx';">
                         <a class="sidenav-link">User Group Mapping</a>
+                    </li>
+                    <li class="sidenav-item" id="dvSubMenu_DirectorySettings" runat="server" onclick="location.href='comingsoon.aspx';">
+                        <a class="sidenav-link">Directory Settings</a>
                     </li>
                 </ul>
                 <%--  <ul class="sidenav-nav d-none" id="sidenav_me">
@@ -188,7 +189,7 @@
                     </li>
                 </ul>
 
-               <%-- <ul class="sidenav-nav d-none" id="sidenav_learing">
+                <%-- <ul class="sidenav-nav d-none" id="sidenav_learing">
                     <h4 class="menu-title">Learning</h4>
                     <li class="sidenav-item" id="dvSubMenu_Learning" onclick="location.href='topics.aspx';">
                         <a class="sidenav-link">Learning</a>
@@ -205,9 +206,9 @@
                     <li class="sidenav-item" id="dvSubMenu_Notifications" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Notifications</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_MsgNotifications" onclick="location.href='MsgNotification.aspx';">
+                   <%-- <li class="sidenav-item" id="dvSubMenu_MsgNotifications" onclick="location.href='MsgNotification.aspx';">
                         <a class="sidenav-link">Msg Notifications</a>
-                    </li>
+                    </li>--%>
                     <li class="sidenav-item" id="dvSubMenu_Roles" runat="server" visible="false" onclick="location.href='roles.aspx';">
                         <a class="sidenav-link">Roles</a>
                     </li>
@@ -238,7 +239,7 @@
             </a>--%>
             <div class="nav-content float-right">
                 <ul class="navbar-nav">
-                    <li class="nav-item icon dropdown"><a class="nav-link" id="navbarComments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item icon dropdown d-none"><a class="nav-link" id="navbarComments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <%--<img src="../includes/Asset/images/comments.png" /><span class="badge">2</span></a>--%>
                         <img src="../includes/Asset/images/comments.png" /></a>
 

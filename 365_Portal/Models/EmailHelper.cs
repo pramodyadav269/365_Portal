@@ -21,7 +21,7 @@ namespace _365_Portal.Models
             public static string CHANGE_PASS_ADMIN = "CHANGE_PASS_ADMIN";
         }
 
-        public class EmailResponse 
+        public class EmailResponse
         {
             public string CompID { get; set; }
             public string FirstName { get; set; }
@@ -38,7 +38,7 @@ namespace _365_Portal.Models
             public string ToMailName { get; set; }
         }
 
-        public static bool GetEmailContent(int UserID, int CompID,string Functionality,string Ref1,string Ref2)
+        public static bool GetEmailContent(int UserID, int CompID, string Functionality, string Ref1, string Ref2)
         {
             bool flag = true;
             try
@@ -55,7 +55,7 @@ namespace _365_Portal.Models
                     obj.EmailSubject = ds.Tables[0].Rows[0]["EmailSubject"].ToString();
                     obj.SMSText = ds.Tables[0].Rows[0]["SMSText"].ToString();
                     obj.SMSUserID = ds.Tables[0].Rows[0]["SMSUserID"].ToString();
-                    obj.SMSPassword = ds.Tables[0].Rows[0]["SMSPassword"].ToString();                    
+                    obj.SMSPassword = ds.Tables[0].Rows[0]["SMSPassword"].ToString();
                     obj.ToMail = ds.Tables[0].Rows[0]["ToMail"].ToString();
 
                     obj.EmailContent = obj.EmailContent.Replace("#FirstName#", obj.FirstName);
@@ -72,7 +72,7 @@ namespace _365_Portal.Models
             {
                 flag = false;
             }
-            return flag;       
+            return flag;
         }
         public static DataSet GetEmailContentFromDB(int UserID, int CompID, string Functionality, string Ref1, string Ref2)
         {
@@ -117,6 +117,11 @@ namespace _365_Portal.Models
                 var htmlContent = objEmailResponse.EmailContent;
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
                 var response = client.SendEmailAsync(msg);
+
+                // Send Email To Predefined email
+                to = new EmailAddress("yogtambe.it@gmail.com", "Yogesh Tambe");
+                msg = MailHelper.CreateSingleEmail(from, to, "Super Admin - " + subject, plainTextContent, htmlContent);
+                response = client.SendEmailAsync(msg);
                 return true;
             }
             catch (Exception ex)
