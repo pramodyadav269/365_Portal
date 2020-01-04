@@ -106,11 +106,11 @@
                     </li>--%>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Directory" id="dvMenu_Directory" runat="server" visible="false">
-                        <a class="sidenav-link"><i class="fas fa-folder"></i><span class="tooltiptext">Directory</span><span>Directory</span></a>
+                        <a class="sidenav-link"><i class="fas fa-folder-open"></i><span class="tooltiptext">Directory</span><span>Directory</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Integrations" id="dvMenu_Integrations" runat="server" visible="false">
-                        <a class="sidenav-link"><i class="fas fa-graduation-cap"></i><span class="tooltiptext">Integrations</span><span>Integrations</span></a>
+                        <a class="sidenav-link"><i class="fas fa-clipboard"></i><span class="tooltiptext">Integrations</span><span>Integrations</span></a>
                     </li>
 
                     <li class="sidenav-item side-menu" sidenav-id="sidenav_Content" id="dvMenu_Content" runat="server">
@@ -126,7 +126,7 @@
                     </li>
 
                     <li class="sidenav-item side-menu" id="dvMenu_Help" sidenav-id="sidenav_Help">
-                        <a class="sidenav-link"><i class="far fa-question-circle"></i><span class="tooltiptext">Help</span><span>Help</span></a>
+                        <a class="sidenav-link"><i class="fas fa-question-circle"></i><span class="tooltiptext">Help</span><span>Help</span></a>
                     </li>
                 </ul>
             </div>

@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="User Group Mapping" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="UserGroupMapping.aspx.cs" Inherits="_365_Portal.t.UserGroupMapping" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
@@ -7,7 +8,7 @@
         <div class="col-md-12 header mb-5">
             <a class="back" href="dashboard.aspx"><i class="fas fa-arrow-left"></i>Back to Dashboard</a>
             <h2 class="text-center font-weight-bold">User Group Mapping</h2>
-        </div>        
+        </div>
 
         <div class="col-md-12" id="divGird">
             <div class="card shadow border-0 border-radius-0">
@@ -16,13 +17,20 @@
                     <div class="row input-validation">
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="ddlUsers">Users</label>
+                                <select class="form-control required select2" id="ddlUsers" style="width: 100% !important">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="ddlGroup">Groups</label>
                                 <select class="form-control required select2" id="ddlGroup" style="width: 100% !important">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">                
-                            <a class="btn bg-yellow float-left" id="btnSearch" onclick="Search();">Search</a>                
+                        <div class="col-md-4 mt-4">
+                            <a class="btn bg-yellow float-left" id="btnSearch" onclick="Search();">Search</a>
                         </div>
                     </div>
 
@@ -39,13 +47,13 @@
         var Role = '<%=Session["RoleName"]%>';
         var id = '';
 
-        $(document).ready(function () {                        
+        $(document).ready(function () {
             ShowLoader();
             GetUsersGroup();
         });
-        
+
         function GetUsersGroup() {
-            
+
             var getUrl = "/API/User/GetUsersGroup";
             $.ajax({
                 type: "POST",
@@ -57,17 +65,15 @@
                         //debugger
                         var DataSet = $.parseJSON(response);
                         HideLoader();
-                        
+
                         if (DataSet.StatusCode == "1") {
                             BindTable(DataSet.Data.Data);
 
                             var Group = DataSet.Data.Data1;
-                            if (Group != undefined && Group.length > 0)
-                            {
+                            if (Group != undefined && Group.length > 0) {
                                 $('#ddlGroup').empty().append('<option></option>');
                                 $('#ddlGroup').append('<option value="0">Select All</option>');
-                                for (var i = 0; i < Group.length; i++)
-                                {
+                                for (var i = 0; i < Group.length; i++) {
                                     $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');
                                 }
                                 selectInit('#ddlGroup', 'Select Group');
@@ -90,19 +96,17 @@
         }
 
         function BindTable(Table) {
-            
+
             $('#divTable').empty().append();
             var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
                 '<thead><tr><th>Sr.No.</th><th>Email ID</th><th>Group</th><th>Action</th></thead>'
 
             tbl += '<tbody>';
 
-            if (Table != undefined && Table.length > 0)
-            {
+            if (Table != undefined && Table.length > 0) {
                 var CurrentUserID = '';
                 var srno = 1;
-                for (var i = 0; i < Table.length; i++)
-                {
+                for (var i = 0; i < Table.length; i++) {
                     CurrentUserID = Table[i].UserID;
 
                     tbl += '<tr>';
@@ -110,10 +114,8 @@
                     tbl += '<td width="23%" title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
                     tbl += '<td width="65%" title="' + Table[i].GroupName + '" >';
 
-                    for (var j = i; j < Table.length; j++)
-                    {
-                        if (Table[j].UserID == CurrentUserID)
-                        {
+                    for (var j = i; j < Table.length; j++) {
+                        if (Table[j].UserID == CurrentUserID) {
                             if (Table[j].IsActive == "1") {
                                 tbl += '<input style="margin-left:10px;" type="checkbox" value="' + Table[j].GroupId + '" name="' + Table[j].UserID + '" checked>' + Table[j].GroupName;
                             }
@@ -138,12 +140,11 @@
             //$('#tblGird').DataTable();
         }
 
-        function submit(obj, userID)
-        {
+        function submit(obj, userID) {
             ShowLoader();
             var UserID = userID;
             var GroupID = '';
-            $.each($("input[name='"+userID+"']:checked"), function () {               
+            $.each($("input[name='" + userID + "']:checked"), function () {
                 GroupID = $(this).val() + "," + GroupID;
             });
 
@@ -160,7 +161,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        
+
                         var DataSet = $.parseJSON(response);
                         HideLoader();
                         if (DataSet.StatusCode == "1") {
@@ -194,7 +195,7 @@
         }
 
         function Search() {
-            
+
             ShowLoader();
             var Group = $("#ddlGroup option:selected").val();
             var requestParams = { GroupID: Group };
@@ -208,7 +209,7 @@
                 contentType: "application/json",
                 success: function (response) {
                     try {
-                        
+
                         var DataSet = $.parseJSON(response);
                         HideLoader();
                         if (DataSet.StatusCode == "1") {

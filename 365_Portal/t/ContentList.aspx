@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Content List" Language="C#" MasterPageFile="~/t/admin.Master" validateRequest="false" AutoEventWireup="true" CodeBehind="ContentList.aspx.cs" Inherits="_365_Portal.Admin.ContentList" %>
+﻿<%@ Page Title="Content List" Language="C#" MasterPageFile="~/t/admin.Master" ValidateRequest="false" AutoEventWireup="true" CodeBehind="ContentList.aspx.cs" Inherits="_365_Portal.Admin.ContentList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Content List</title>
@@ -128,24 +128,7 @@
                     <div class="row mt-4">
                         <div class="col-md-12">
                             <div id="dvJson"></div>
-                            <div id="divTable" class="mt-3 table-responsive">
-                                <table id="tblContent" class="table table-bordered" style="width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Sr No</th>
-                                            <th>Doc Type</th>
-                                            <th>Title</th>
-                                            <th>Description</th>
-                                            <%--<th>Overview</th>--%>
-                                            <th>File Path</th>
-                                            <th>Is Gift</th>
-                                            <th>Is Published</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tBodyContent"></tbody>
-                                </table>
-                            </div>
+                            <div id="divTable" class="mt-3 table-responsive"></div>
                         </div>
                     </div>
 
@@ -196,7 +179,7 @@
             ClearAllFields(this);
             ShowControl();
 
-            
+
 
             //tinymce.get('txtDescription').setContent($("<div/>").html(value).text());
             //tinymce.get('txtDescription').getContent()
@@ -585,6 +568,21 @@
                         processData: false,
                         success: function (response) {
                             HideLoader();
+
+                            var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                            tbl += '<thead><tr>';
+                            tbl += '<th>Sr.No.';
+                            tbl += '<th>Doc Type';
+                            tbl += '<th>Title';
+                            tbl += '<th>Description';
+                            //tbl += '<th>Overview';
+                            tbl += '<th>File Path';
+                            tbl += '<th>Is Gift';
+                            tbl += '<th>Is Published';
+                            tbl += '<th>Action';
+                            tbl += '<tbody>';
+
+
                             if (response != null && response != undefined) {
                                 //$("#dvJson").html(JSON.stringify(contentList));
                                 var list = JSON.parse(response);
@@ -594,11 +592,6 @@
                                         contentList.push(list.Data[i]);
                                     }
 
-                                    var tableBody = $("#tblContent #tBodyContent");
-                                    tableBody.html("");
-                                    if (contentList.length == 0) {
-                                        tableBody.append("<td colspan='10'><center>No Contents</center></td>");
-                                    }
                                     $.grep(contentList, function (content, i) {
                                         try {
                                             var isGiftValue = Number(content.IsGift) == "1" ? "Checked disabled" : "disabled";
@@ -618,28 +611,28 @@
                                                     FilePath = content.FilePath;
                                                 }
                                             }
-                                            var markup = '<tr  id="' + content.ContentID + '">';
-                                            markup += "<td>" + (i + 1) + "</td>";
-                                            markup += "<td>" + content.DocType + "</td>";
-                                            markup += "<td>" + content.Title + "</td>";
-                                            markup += "<td>" + $("<div/>").html(content.Description).text() + "</td>";
+
+                                            tbl += '<tr  id="' + content.ContentID + '">';
+                                            tbl += "<td>" + (i + 1) + "</td>";
+                                            tbl += "<td>" + content.DocType + "</td>";
+                                            tbl += "<td>" + content.Title + "</td>";
+                                            tbl += "<td>" + $("<div/>").html(content.Description).text() + "</td>";
                                             if (FilePath != '' && FilePath != undefined) {
                                                 if (is_valid_url(FilePath)) {
-                                                    markup += "<td><a href=" + FilePath + " target=_blank data-action='navigate'>" + FilePath + "</a></td>";
+                                                    tbl += "<td><a href=" + FilePath + " target=_blank data-action='navigate'>" + FilePath + "</a></td>";
                                                 }
                                                 else {
-                                                    markup += "<td><a href=" + FilePath + " target=_blank>File</a></td>";
+                                                    tbl += "<td><a href=" + FilePath + " target=_blank>File</a></td>";
                                                 }
                                             }
                                             else {
-                                                markup += "<td></td>";
+                                                tbl += "<td></td>";
                                             }
-                                            markup += "<td><input type='checkbox' " + isGiftValue + " /></td>";
-                                            markup += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
-                                            markup += '<td><i title="Edit" contentfileid="' + content.ContentFileID + '" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
-
-                                            markup += "</tr>";
-                                            tableBody.append(markup);
+                                            tbl += "<td><input type='checkbox' " + isGiftValue + " /></td>";
+                                            tbl += "<td><input type='checkbox' " + isPublishedValue + " /></td>";
+                                            tbl += '<td><i title="Edit" contentfileid="' + content.ContentFileID + '" index=' + content.ContentID + ' onclick="EditContent($(this));" class="fas fa-edit text-warning"></i><i title="Delete" index=' + content.ContentID + ' onclick="DeleteContent($(this));" class="fas fa-trash text-danger"></i></td>';
+                                            
+                                            tbl += "</tr>";
                                         }
                                         catch (ex) {
 
@@ -659,23 +652,25 @@
                                         icon: "error"
                                     });
                                 }
-                            }
-                            else {
+                            } else {
                                 HideLoader();
+
                                 Swal.fire({
                                     title: "Failure",
                                     text: "Please try Again",
                                     icon: "error"
                                 });
                             }
-                        },
-                        complete: function () {
-                            $('#tblContent').DataTable();
-                            $('#tblContent').tableDnD({
+
+                            $('#divTable').empty().append(tbl);
+                            $('#tblGird').DataTable();
+                            $('#tblGird').tableDnD({
                                 onDragStart: function (table, row) {
                                     $('#savereorder').show();
                                 }
                             });
+                        },
+                        complete: function () {
                             HideLoader();
                         }
                     });
