@@ -15,13 +15,13 @@
                 <div class="card-body">
 
                     <div class="row input-validation">
-                        <div class="col-md-4">
+                        <%--<div class="col-md-4">
                             <div class="form-group">
                                 <label for="ddlUsers">Users</label>
                                 <select class="form-control required select2" id="ddlUsers" style="width: 100% !important">
                                 </select>
                             </div>
-                        </div>
+                        </div>--%>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="ddlGroup">Groups</label>

@@ -569,7 +569,7 @@
                         success: function (response) {
                             HideLoader();
 
-                            var tbl = '<table id="tblGird" class="table table-bordered" style="width: 100%">';
+                            var tbl = '<table id="tblContent" class="table table-bordered" style="width: 100%">';
                             tbl += '<thead><tr>';
                             tbl += '<th>Sr.No.';
                             tbl += '<th>Doc Type';
@@ -663,8 +663,8 @@
                             }
 
                             $('#divTable').empty().append(tbl);
-                            $('#tblGird').DataTable();
-                            $('#tblGird').tableDnD({
+                            $('#tblContent').DataTable();
+                            $('#tblContent').tableDnD({
                                 onDragStart: function (table, row) {
                                     $('#savereorder').show();
                                 }
