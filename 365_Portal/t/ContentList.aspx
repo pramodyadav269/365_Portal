@@ -198,7 +198,7 @@
 
             
 
-            //tinymce.get('txtDescription').setContent('');
+            //tinymce.get('txtDescription').setContent($("<div/>").html(value).text());
             //tinymce.get('txtDescription').getContent()
 
         });
@@ -622,7 +622,7 @@
                                             markup += "<td>" + (i + 1) + "</td>";
                                             markup += "<td>" + content.DocType + "</td>";
                                             markup += "<td>" + content.Title + "</td>";
-                                            markup += "<td>" + content.Description + "</td>";
+                                            markup += "<td>" + $("<div/>").html(content.Description).text() + "</td>";
                                             if (FilePath != '' && FilePath != undefined) {
                                                 if (is_valid_url(FilePath)) {
                                                     markup += "<td><a href=" + FilePath + " target=_blank data-action='navigate'>" + FilePath + "</a></td>";
@@ -715,7 +715,7 @@
 
                 $("#ddlDocType").val(content.DocType);
                 $("#txtTitle").val(content.Title);
-                tinymce.get('txtDescription').setContent(content.Description);
+                tinymce.get('txtDescription').setContent($("<div/>").html(content.Description).text());
                 if (content.FilePath.split('.')[1] != undefined) {
                     if (allowedExtensions.indexOf(content.FilePath.split('.')[1]) != -1) {
                         $('#rd_file').prop('checked', true);
