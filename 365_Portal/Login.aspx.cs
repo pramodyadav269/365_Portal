@@ -22,8 +22,8 @@ namespace _365_Portal
                 Utility.DestroyAllSession();
             }
 
-            string str = "123";
-            str.isn
+            //string str = "123";
+            //str.isn
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)

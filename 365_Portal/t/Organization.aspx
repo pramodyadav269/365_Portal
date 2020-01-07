@@ -761,6 +761,9 @@
                 else if ($("#txtEmailId").val() == undefined || $("#txtEmailId").val() == '') {
                     return { error: true, msg: "Please enter emailid" };
                 }
+                else if (!IsValidEmail($("#txtEmailId").val())) {
+                    return { error: true, msg: "Please provide valid EmailID of user" };
+                }
 
                 if (flag == 'create') {
                     if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
@@ -772,6 +775,16 @@
                         return { error: true, msg: "Please enter password" };
                     }
                 }
+            }
+            return true;
+        }
+
+        function IsValidEmail(EmailId) {
+            debugger
+            //var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            var reg = /^([0-9a-zA-Z]([\+\-_\.]+)*)+\@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$/;
+            if (reg.test(EmailId) == false) {
+                return false;
             }
             return true;
         }

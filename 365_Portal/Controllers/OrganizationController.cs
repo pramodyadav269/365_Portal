@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using static _365_Portal.Code.BO.UserProfile;
@@ -99,6 +100,17 @@ namespace _365_Portal.Controllers
                 data = Utility.AuthenticationError();
             }
             return new APIResult(Request, data);
+        }
+
+
+        public static bool IsValidEmail(string eMail)
+        {
+            string strRegex = @"^([0-9a-zA-Z]([\+\-_\.]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$";
+            Regex re = new Regex(strRegex);
+            if (re.IsMatch(eMail))
+                return true;
+            else
+                return false;
         }
 
         [Route("API/Organization/CreateAdminUser")]
@@ -220,6 +232,11 @@ namespace _365_Portal.Controllers
                 if (jsonResult.SelectToken("EmailID") != null && jsonResult.SelectToken("EmailID").ToString().Trim() != "")
                 {
                     objUserVal.EmailID = (string)jsonResult.SelectToken("EmailID");
+
+                    if (!IsValidEmail(objUserVal.EmailID))
+                    {
+                        Message = "Please provide valid EmailID of user."; ValFlag = false; return ValFlag;
+                    }
                 }
                 else
                 {
