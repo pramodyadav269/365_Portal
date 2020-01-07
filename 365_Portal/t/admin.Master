@@ -35,6 +35,7 @@
     <script src="../includes/Asset/js/site.js"></script>
     <script>
 
+        var accessToken = '<%=Session["access_token"]%>';
         var buttonTheme = '<%=Session["ThemeColor3"]%>';
         var brandColor = '<%=Session["ThemeColor"]%>';
         var customFont = '<%=Session["ThemeColor4"]%>';
@@ -64,6 +65,62 @@
                 document.getElementsByTagName('head')[0].appendChild(link);
             }
         });
+
+        function BindNotification() {
+            //debugger
+            var getUrl = "/API/Trainning/GetMsgNotifications";
+            $.ajax({
+                type: "POST",
+                url: getUrl,
+                headers: { "Authorization": "Bearer " + accessToken },
+                contentType: "application/json",
+                success: function (response) {
+                    try {
+                        //debugger
+                        var DataSet = $.parseJSON(response);
+                        HideLoader();
+
+                        if (DataSet.StatusCode == "1") {
+                            BindTable(DataSet.Data);
+                            $('#lblNotiCount').text("");
+                        }
+                        else {
+                            Swal.fire(DataSet.StatusDescription, {
+                                icon: "error",
+                            });
+                        }
+                    }
+                    catch (e) {
+                        HideLoader();
+                    }
+                },
+                failure: function (response) {
+                    HideLoader();
+                }
+            });
+        }
+
+        function BindTable(Table) {
+            //debugger
+            var dynamicMsg = '';
+            if (Table != undefined && Table.length > 0) {
+                for (var i = 0; i < Table.length; i++) {
+                    dynamicMsg = dynamicMsg + '<a class="dropdown-item unread" href="#">' + Table[i].Message + '</a>';
+                }
+            }
+            //$('#lstNotification').append(dynamicMsg);
+            //$('#lstNotification').append('<div class="dropdown-menu" id="divMsgDropdown" aria-labelledby="navbarNotification">' + dynamicMsg + '</div>');
+
+            //$("#navbarNotification").attr("aria-expanded", "true");
+            //$("#lstNotification").addClass("show");
+            //$("#divMsgDropdown").addClass("show");
+            $('#lstNotification').html(dynamicMsg);
+
+            //$("#navbarNotification").attr("aria-expanded", "true");
+            //$("#lstNotification").addClass("show");
+            //$("#divMsgDropdown").addClass("show");
+        }
+
 
     </script>
 
@@ -206,7 +263,7 @@
                     <li class="sidenav-item" id="dvSubMenu_Notifications" onclick="location.href='settings.aspx';">
                         <a class="sidenav-link">Notifications</a>
                     </li>
-                   <%-- <li class="sidenav-item" id="dvSubMenu_MsgNotifications" onclick="location.href='MsgNotification.aspx';">
+                    <%-- <li class="sidenav-item" id="dvSubMenu_MsgNotifications" onclick="location.href='MsgNotification.aspx';">
                         <a class="sidenav-link">Msg Notifications</a>
                     </li>--%>
                     <li class="sidenav-item" id="dvSubMenu_Roles" runat="server" visible="false" onclick="location.href='roles.aspx';">
@@ -244,19 +301,20 @@
                         <img src="../includes/Asset/images/comments.png" /></a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarComments">
-                            <a class="dropdown-item text-right font-weight-bold" href="#">Coming Soon...</a>
-                            <%--<a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>
+                            <%-- <a class="dropdown-item text-right font-weight-bold" href="#">Coming Soon...</a>--%>
+                            <a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>
                             <a class="dropdown-item unread" href="#">You’re <b>halfway</b> at completing all your modules! Congrats!</a>
                             <a class="dropdown-item read" href="#">You just completed the <b>Staff Development topic</b></a>
-                            <a class="dropdown-item text-right font-weight-bold" href="#">Clear all</a>--%>
+                            <a class="dropdown-item text-right font-weight-bold" href="#">Clear all</a>
                         </div>
                     </li>
 
-                    <li class="nav-item icon dropdown"><a class="nav-link" id="navbarNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <%--<img src="../includes/Asset/images/notifications.png" /><span class="badge">2</span></a>--%>
-                        <img src="../includes/Asset/images/notifications.png" onclick="location.href='MsgNotification.aspx';"/><asp:Label class="badge" runat="server" ID="lblNotiCount" Text=""/></a>
-
-                        <%--<div class="dropdown-menu" aria-labelledby="navbarNotification">
+                    <li class="nav-item icon dropdown" onclick="BindNotification()">
+                        <a class="nav-link" id="navbarNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="../includes/Asset/images/notifications.png" /><asp:Label class="badge" runat="server" ID="lblNotiCount" Text="" /></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarNotification" id="lstNotification" style="height: 250px; overflow-y: scroll;">
+                        </div>
+                        <%-- <div class="dropdown-menu" aria-labelledby="navbarNotification">
                             <a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>
                             <a class="dropdown-item unread" href="#">You’re <b>halfway</b> at completing all your modules! Congrats!</a>
                             <a class="dropdown-item read" href="#">You just completed the <b>Staff Development topic</b></a>

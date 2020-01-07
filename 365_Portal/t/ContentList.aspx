@@ -103,9 +103,6 @@
                                 <div class="form-group">
                                     <label for="txtFileUrl">File Url</label>
                                     <input type="text" class="form-control" id="txtFileUrl" placeholder="File Url" />
-                                    For e.g. Replace Video text by (?V= Querystring) value from youtube video link
-                                <br />
-                                    https://www.youtube.com/embed/video?enablejsapi=1
                                 </div>
                             </div>
                         </div>

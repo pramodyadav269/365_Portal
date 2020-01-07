@@ -283,6 +283,7 @@
     <Compile Include="Code\DAL\TrainningDAL.cs" />
     <Compile Include="Code\DAL\UserDAL.cs" />
     <Compile Include="Code\ExcelPackageExtensions.cs" />
+    <Compile Include="Code\ExtentionMethods.cs" />
     <Compile Include="Code\Logger.cs" />
     <Compile Include="Code\TextResult.cs" />
     <Compile Include="Code\Utility.cs" />
@@ -661,6 +662,7 @@
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="email\ChangePass.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

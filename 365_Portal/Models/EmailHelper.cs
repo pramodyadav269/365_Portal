@@ -47,7 +47,7 @@ namespace _365_Portal.Models
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     EmailResponse obj = new EmailResponse();
-                    obj.FirstName = ds.Tables[0].Rows[0]["FirstName"].ToString();
+                    obj.ToMailName = ds.Tables[0].Rows[0]["FirstName"].ToString();
                     obj.FromMail = ds.Tables[0].Rows[0]["FromMail"].ToString();
                     obj.FromCCMail = ds.Tables[0].Rows[0]["FromCCMail"].ToString();
                     obj.FromBCCMail = ds.Tables[0].Rows[0]["FromBCCMail"].ToString();
@@ -58,7 +58,7 @@ namespace _365_Portal.Models
                     obj.SMSPassword = ds.Tables[0].Rows[0]["SMSPassword"].ToString();
                     obj.ToMail = ds.Tables[0].Rows[0]["ToMail"].ToString();
 
-                    obj.EmailContent = obj.EmailContent.Replace("#FirstName#", obj.FirstName);
+                    obj.EmailContent = obj.EmailContent.Replace("#FirstName#", obj.ToMailName);
                     obj.EmailContent = obj.EmailContent.Replace("#EmailID#", obj.ToMail);
 
                     flag = SendEmail(obj);

@@ -428,7 +428,7 @@ namespace _365_Portal.Code
             //System.Web.HttpContext.Current.Session.Abandon(); //Commented because this is does not allowing to create sessnio
         }
 
-        public static void CreateUserSession(string UserID,string Role,string FirstName,string LastName,int CompID)
+        public static void CreateUserSession(string UserID, string Role, string FirstName, string LastName, int CompID)
         {
             System.Web.HttpContext.Current.Session["UserId"] = UserID;
             System.Web.HttpContext.Current.Session["CompId"] = CompID;
@@ -502,7 +502,20 @@ namespace _365_Portal.Code
             }
             return "unknown/unknown";
         }
-  
+
+        public static string GetYoutubeVideoLink(string link)
+        {
+            if (link.Trim().ToUpper().Contains("WWW.YOUTUBE.COM"))
+            {
+                if (!link.Trim().ToUpper().Contains("WWW.YOUTUBE.COM/EMBED"))
+                {
+                    Uri uri = new Uri(link);
+                    string videoId = HttpUtility.ParseQueryString(uri.Query).Get("v");
+                    return "https://www.youtube.com/embed/" + videoId + "?enablejsapi=1";
+                }
+            }
+            return link;
+        }
 
         public static readonly Dictionary<string, string> MIMETypesDictionary = new Dictionary<string, string>
      {

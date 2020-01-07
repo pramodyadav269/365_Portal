@@ -885,7 +885,7 @@ namespace _365_Portal.ControllersReOrderContent
                             {
                                 if (!string.IsNullOrEmpty(httpRequest.Form["ContentFileID"].ToString()))
                                 {
-                                    string fileName = httpRequest.Form["ContentFileID"].ToString();
+                                    string fileName = Utility.GetYoutubeVideoLink(httpRequest.Form["ContentFileID"].ToString());
                                     Regex regex_Url = new Regex(@"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
                                     Match mtch_Url = regex_Url.Match(fileName);
                                     if (mtch_Url.Success)
@@ -1139,7 +1139,7 @@ namespace _365_Portal.ControllersReOrderContent
                             {
                                 if (!string.IsNullOrEmpty(httpRequest.Form["ContentFileID"].ToString()))
                                 {
-                                    string fileName = httpRequest.Form["ContentFileID"].ToString();
+                                    string fileName = Utility.GetYoutubeVideoLink(httpRequest.Form["ContentFileID"].ToString());
                                     Regex regex_Url = new Regex(@"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
                                     Match mtch_Url = regex_Url.Match(fileName);
                                     if (mtch_Url.Success)

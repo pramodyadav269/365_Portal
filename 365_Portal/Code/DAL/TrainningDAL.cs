@@ -350,7 +350,6 @@ namespace _365_Portal.Code.DAL
             }
             return ds;
         }
-
         public static DataSet UpdateNotification(int compID, string userId, string type, string notificationIds, string token)
         {
             DataSet ds = new DataSet();

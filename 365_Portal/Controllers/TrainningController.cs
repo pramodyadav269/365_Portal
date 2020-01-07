@@ -585,7 +585,7 @@ namespace _365_Portal.Controllers
             if (identity != null)
             {
                 string Message = string.Empty;
-               
+
                 DataSet ds = TrainningBL.GetMsgNotifications(identity.CompId, identity.UserID.ToString(), 5);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -604,6 +604,5 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
-
     }
 }

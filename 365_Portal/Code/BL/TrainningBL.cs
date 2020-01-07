@@ -372,6 +372,7 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
+
         public static DataSet CreateNotification(int compId, string userId, string title, string message, string token)
         {
             DataSet ds = new DataSet();
