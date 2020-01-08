@@ -392,6 +392,8 @@ namespace _365_Portal.Code.DAL
                 {
                     if (Type == ConstantMessages.ForgotPassowrd.Type_1)
                     {
+                        EmailHelper.GetEmailContent(Convert.ToInt32(UserId), CompId,EmailHelper.Functionality.FORGOT_PASS, token_url, "");
+
                         // Send OTP on email-id.
                         //SendEmail(FROM_EMAIL, emailId, GetMobileOTPVerificationMail(userName, OTP.ToString()), GetMobileOTPVerificationMailSubject());
                     }

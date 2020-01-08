@@ -406,7 +406,8 @@ namespace _365_Portal.Code
                 {
                     Url = "http://" + Url;
                 }
-                var request = WebRequest.Create("http://tinyurl.com/api-create.php?url=" + Url);
+                string BaseTinyURL = System.Web.Configuration.WebConfigurationManager.AppSettings["SendGridEmailKey"].ToString();
+                var request = WebRequest.Create(BaseTinyURL + Url);
                 var res = request.GetResponse();
                 string text;
                 using (var reader = new StreamReader(res.GetResponseStream()))
