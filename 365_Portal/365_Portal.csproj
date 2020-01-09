@@ -703,6 +703,7 @@
     <Content Include="INCLUDES\Asset\images\user.png" />
     <Content Include="INCLUDES\Asset\js\360.js" />
     <Content Include="INCLUDES\Asset\js\all.js" />
+    <Content Include="INCLUDES\Asset\js\angular-sanitize.js" />
     <Content Include="INCLUDES\Asset\js\angular.min.js" />
     <Content Include="INCLUDES\Asset\js\bootstrap.min.js" />
     <Content Include="INCLUDES\Asset\js\bs-custom-file-input.min.js" />

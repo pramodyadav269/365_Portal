@@ -1,12 +1,12 @@
 ﻿<%@ Page Title="365" Language="C#" MasterPageFile="~/t/admin.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Life.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-sanitize.js"></script>
     <script src="../includes/Asset/customer/default.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div ng-app="MasterPage" ng-controller="DefaultController">
-
         <div class="row">
             <div class="col-12 achievements mb-5">
                 <div class="card top shadow">
@@ -15,6 +15,7 @@
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold" style="font-weight: bold" runat="server" id="dvUserName">Welcome back, John!!</h5>
                                 <p class="card-text">Welcome to 365!</p>
+                               
                             </div>
                         </div>
 
@@ -305,7 +306,7 @@
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
-                                            <p class="card-text">{{content.Description}}</p>
+                                            <p ng-bind-html="trustAsHtml(content.Description)" class="card-text"></p>
                                         </div>
                                         <div class="col-sm-1 col-md-1 col-lg-1">
                                             <p ng-if="content.IsCompleted =='1'" class="anchor text-right"><i class="fas fa-check c-green"></i></p>
@@ -331,7 +332,7 @@
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-10">
                                             <h5 class="card-title">{{content.Title}}</h5>
-                                            <p class="card-text">{{content.Description}}</p>
+                                            <p ng-bind-html="trustAsHtml(content.Description)" class="card-text"></p>
                                         </div>
                                         <div class="col-sm-1 col-md-1 col-lg-1">
                                             <p class="anchor text-right"><i class="fas fa-lock"></i></p>
@@ -366,9 +367,7 @@
                     <div class="col-sm-12 mb-3" id="textContent" ng-show="SpecialContents.DocType == 'TEXT'">
                         <div class="col-sm-12 mt-4 overview text-left">
                             <h5 class="font-weight-bold text-uppercase">{{SelectedContent.Title}}</h5>
-                            <p>
-                                {{SelectedContent.Description}}
-                            </p>
+                            <p ng-bind-html="trustAsHtml(SelectedContent.Description)"></p>
                         </div>
                         <div class="text-center mt-5">
                             <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="NextContent(SpecialContents.ContentID)">Continue</a>
@@ -378,7 +377,7 @@
                     <div class="col-sm-12 mb-3 text-center" id="videoContent" ng-show="SpecialContents.DocType == 'VIDEO'">
                         <div class="row">
                             <div class="col-sm-12">
-                               <%-- <div class="video-control text-white" style="display: none;" id="videoControl" onclick="VideoPlayPause(1)">
+                                <%-- <div class="video-control text-white" style="display: none;" id="videoControl" onclick="VideoPlayPause(1)">
                                     <i class="fas fa-play fa-5x"></i>
                                 </div>--%>
                                 <div id="dvVideoRating" style="display: none;" class="video-rating text-white">
@@ -409,16 +408,14 @@
                                     </div>
                                 </div>
                                 <div id="divVideo" style="height: 500px"></div>
-                                
+
                                 <%-- <video controls id="contentVideo" onended="videoRating()">
                                     <source src="../includes/Asset/data/bunny.mp4" type="video/mp4">
                                 </video>--%>
                             </div>
                             <div class="col-sm-12 mt-4 overview text-left">
                                 <h5 class="font-weight-bold text-uppercase">{{SelectedContent.Title}}</h5>
-                                <p>
-                                    {{SelectedContent.Description}}
-                                </p>
+                                <p ng-bind-html="trustAsHtml(SelectedContent.Description)"></p>
                             </div>
                             <div class="col-sm-12 text-center mt-5">
                                 <a class="btn btn-custom bg-blue font-weight-bold text-white" ng-click="NextContent(SpecialContents.ContentID)">Continue</a>
@@ -809,7 +806,7 @@
             GetAchievements();
         });
 
-         //This code loads the IFrame Player API code asynchronously.
+        //This code loads the IFrame Player API code asynchronously.
         //var tag = document.createElement('script');
         //tag.src = "https://www.youtube.com/iframe_api";
         //var firstScriptTag = document.getElementsByTagName('script')[0];
