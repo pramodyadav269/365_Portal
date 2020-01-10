@@ -60,6 +60,7 @@ namespace _365_Portal.Models
 
                     obj.EmailContent = obj.EmailContent.Replace("#FirstName#", obj.ToMailName);
                     obj.EmailContent = obj.EmailContent.Replace("#EmailID#", obj.ToMail);
+                    obj.EmailContent = obj.EmailContent.Replace("#ResetPwdLink#", Ref1);
 
                     flag = SendEmail(obj);
                 }

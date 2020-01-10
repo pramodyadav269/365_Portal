@@ -159,8 +159,9 @@ namespace _365_Portal.Code.BL
             }
             else
             {
+                string Link = System.Web.Configuration.WebConfigurationManager.AppSettings["ResetPasswordLink"].ToString();
                 var g = Guid.NewGuid();
-                token_url = Utility.urlNewShorter("http://localhost:54500/ResetPassword.aspx?Token=" + g);
+                token_url = Utility.urlNewShorter(Link + g);
                 token = g.ToString();
             }
             //If otp type is for success message than skip otp code..            

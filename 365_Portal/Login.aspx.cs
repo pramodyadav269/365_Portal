@@ -21,6 +21,9 @@ namespace _365_Portal
                 //HttpContext.Current.Session["RoleName"] = null;
                 Utility.DestroyAllSession();
             }
+
+            //string str = "123";
+            //str.isn
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
