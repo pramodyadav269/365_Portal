@@ -30,6 +30,12 @@ namespace _365_Portal.Controllers
         [Route("api/User/LoginUser")]
         public IHttpActionResult LoginUser(JObject requestParams)
         {
+            WebServiceLog objServiceLog = new WebServiceLog();
+            objServiceLog.RequestTime = DateTime.Now;
+            objServiceLog.ControllerName = this.GetType().Name;
+            objServiceLog.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            objServiceLog.RequestString = JSONHelper.ConvertJsonToString(requestParams);
+
             LoginResponse objResponse = null;
             string data = string.Empty;
             try
@@ -40,6 +46,7 @@ namespace _365_Portal.Controllers
                 if (string.IsNullOrEmpty(EmailId) || string.IsNullOrEmpty(UserPwd))
                 {
                     data = Utility.API_Status("0", ConstantMessages.Login.InvalidUser);
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                 }
                 else
                 {
@@ -72,17 +79,21 @@ namespace _365_Portal.Controllers
                             objResponse.Token = HttpContext.Current.Session["access_token"].ToString();
                             data = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
                             data = Utility.Successful(data);
+                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
                         }
                         else
                         {
                             data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
+                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                         }
                     }
                     else
                     {
                         // Failed
                         data = Utility.API_Status("0", objResponse.ReturnMessage);
+                        objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                     }
+                    objServiceLog.ResponseString = data;
                 }
             }
             catch (Exception ex)
@@ -137,14 +148,13 @@ namespace _365_Portal.Controllers
                     }
                     //Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
-                    objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
+                    objServiceLog.ResponseString = data;
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
                 }
                 else
-                {
-                    objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
-                    objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
-                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                {                    
+                    objServiceLog.ResponseString = data;
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                     data = Utility.AuthenticationError();
                 }
             }
@@ -803,25 +813,22 @@ namespace _365_Portal.Controllers
                             }
                             else
                             {
-
                                 data = Utility.ConvertDataSetToJSONString(dt);
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
-                            data = ConstantMessages.ChangePassowrd.Error;
+                            data = "Dear customer this link has expired.";
                             data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
                     }
                     else
                     {
-                        data = ConstantMessages.ChangePassowrd.Error;
+                        data = "Dear customer you have entered invalid URL";
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
 
                     }
-
                 }
                 else
                 {

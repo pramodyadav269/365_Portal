@@ -200,7 +200,7 @@ namespace _365_Portal.Admin
                 {
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
                     objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
-                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                 }
             }
             catch (Exception ex)

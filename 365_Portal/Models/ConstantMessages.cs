@@ -17,6 +17,7 @@ namespace _365_Portal.Models
             public static string Success = "Success";
             public static string Exception = "Error";
             public static string Validation = "Validation";
+            public static string TokenValidation = "Token Failed";
 
             public static string GenericErrorMsg = "There seems to be technical problem, please try again.";
             public static string GenericErrorCode = "-1";
