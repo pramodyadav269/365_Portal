@@ -717,7 +717,7 @@ namespace _365_Portal.Controllers
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
 
-                                            EmailHelper.GetEmailContent(Convert.ToInt32(User_details.UserID), User_details.CompId, EmailHelper.Functionality.FORGOT_PASS, "", "");
+                                            EmailHelper.GetEmailContent(Convert.ToInt32(User_details.UserID), User_details.CompId, EmailHelper.Functionality.CHANGE_PASS, "", "");
                                         }
                                         else
                                         {

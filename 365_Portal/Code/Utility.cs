@@ -406,7 +406,7 @@ namespace _365_Portal.Code
                 {
                     Url = "http://" + Url;
                 }
-                string BaseTinyURL = System.Web.Configuration.WebConfigurationManager.AppSettings["SendGridEmailKey"].ToString();
+                string BaseTinyURL = System.Web.Configuration.WebConfigurationManager.AppSettings["BaseTinyURL"].ToString();
                 var request = WebRequest.Create(BaseTinyURL + Url);
                 var res = request.GetResponse();
                 string text;

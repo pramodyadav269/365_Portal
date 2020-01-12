@@ -29,6 +29,7 @@
     <script src="Asset/js/dataTables.bootstrap4.min.js"></script>
     <script src="Asset/js/jquery.tablednd.js"></script>
     <script src="Asset/js/site.js"></script>
+    <script src="INCLUDES/Asset/js/site.js"></script>
 
     <style>
         .swal2-styled {
@@ -123,7 +124,7 @@
                                     <asp:TextBox ID="txtUserPassword" runat="server" TextMode="Password" class="form-control" placeholder="Password" />
                                 </div>
                                 <div class="text-center mt-4">
-                                    <a class="link font-weight-bold" onclick="toggle('divPasswordRecover','divlogin');">Forgot your password?</a>
+                                    <a class="link font-weight-bold" onclick="toggle('divPasswordRecover','divlogin'); showPwdRecDiv()">Forgot your password?</a>
                                 </div>
                                 <div class="text-center mt-4">
                                     <%--<a class="btn btn-custom bg-yellow font-weight-bold" onclick="login(this)">Log In</a>--%>
@@ -141,17 +142,24 @@
                     <span class="back" onclick="toggle('divlogin','divPasswordRecover');"><i class="fas fa-arrow-left"></i>Back</span>
                     <div class="card border-0 rounded-0 shadow p-3 mb-5 bg-white">
                         <div class="card-body">
-                            <h3 class="card-title mb-3 mt-3 text-center font-weight-bold">Recover your password</h3>
-                            <p class="card-text mb-3 text-center">Enter your email address and we will send you a link where you can reset your password.</p>
-                            <div class="card-form">
-                                <div class="form-group">
-                                    <label for="txtRecoverEmail">Email</label>
-                                    <input type="email" class="form-control" id="txtRecoverEmail" placeholder="Your email" />
-                                </div>
-                                <div class="text-center mt-5">
-                                    <a class="btn btn-custom bg-yellow font-weight-bold" onclick="Recovery()">Recover</a>
+                            <h3 class="card-title mb-3 mt-3 text-center font-weight-bold">Recover your password</h3>                            
+
+                            <div id="divBeforeRecoverSend">
+                                <p class="card-text mb-3 text-center">Enter your email address and we will send you a link where you can reset your password.</p>
+                                <div class="card-form">
+                                    <div class="form-group">
+                                        <label for="txtRecoverEmail">Email</label>
+                                        <input type="email" class="form-control" id="txtRecoverEmail" placeholder="Your email" />
+                                    </div>
+                                    <div class="text-center mt-5">
+                                        <a class="btn btn-custom bg-yellow font-weight-bold" onclick="Recovery()">Recover</a>
+                                    </div>
                                 </div>
                             </div>
+                            <div id="divAfterRecoveryMail" style="display:none;">
+                                <p class="card-text mb-3 text-center">We have sent the password recovery mail on your registered EmailId, <br />please open your mail and click on link to reset your password.</p>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -166,6 +174,11 @@
             toggle('divRegPassword', 'divReg');
         }
 
+        function showPwdRecDiv()
+        {            
+            $('#divBeforeRecoverSend').show();
+            $('#divAfterRecoveryMail').hide();
+        }
 
         function login(ctrl) {
             //window.location.href = 'Topics.aspx';
@@ -240,7 +253,11 @@
                     var DataSet = $.parseJSON(response);
                     if (DataSet != null && DataSet != "")
                     { 
-                        if (DataSet.StatusCode == "1") {
+                        if (DataSet.StatusCode == "1")
+                        {
+                            $('#divBeforeRecoverSend').hide();
+                            $('#divAfterRecoveryMail').show();
+
                             HideLoader();
                             $('#txtRecoverEmail').val('');
                             Swal.fire({
@@ -250,6 +267,9 @@
                             });
                         }
                         else {
+                            $('#divBeforeRecoverSend').show();
+                            $('#divAfterRecoveryMail').hide();
+
                             HideLoader();
                             Swal.fire({
                                 title: "Failure",
@@ -259,6 +279,8 @@
                         }
 
                     } else {
+                        $('#divBeforeRecoverSend').show();
+                        $('#divAfterRecoveryMail').hide();
                         HideLoader();
                         Swal.fire({
                             title: "Failure",
