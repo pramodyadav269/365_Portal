@@ -16,8 +16,10 @@
     <link href="../Asset/css/select2.min.css" rel="stylesheet" />
     <link href="../includes/Asset/css/360.css" rel="stylesheet" />
 
+    
     <%-- JS --%>
     <script src="../includes/Asset/js/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-sanitize.js"></script>
     <script src="../includes/Asset/js/jquery.min.js"></script>
     <script src="../includes/Asset/js/popper.min.js"></script>
     <script src="../includes/Asset/js/bootstrap.min.js"></script>

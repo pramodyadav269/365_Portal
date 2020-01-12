@@ -18,8 +18,8 @@
                             <div class="form-group">
 
                                 <label for="ddlDocType">Doc Type</label>
-                                <select class="form-control select2 required" id="ddlDocType" style="width: 100% !important">
-                                    <option></option>
+                                <select class="form-control required" id="ddlDocType" style="width: 100% !important">
+                                   <%-- <option></option>--%>
                                     <option value="PDF">PDF</option>
                                     <option value="VIDEO">Video</option>
                                     <option value="TEXT">Text</option>
