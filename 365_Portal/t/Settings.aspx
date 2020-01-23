@@ -24,6 +24,11 @@
 
                     <div class="tab-content mt-5" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                            <div class="row input-validation">
+                                <h3 id="hdrOrganization"></h3>
+                            </div>
+
                             <div class="row input-validation">
                                 <div class="col-md-4">
                                     <img class="circle user-photo" id="imgUserPic" src="../Asset/images/profile.png" />
@@ -285,6 +290,9 @@
         }
 
         function BindFields(Data) {
+            //debugger
+            $('#hdrOrganization').text('Organization : ' + Data.OrganizationName);
+
             $('#txtFirstName').val(Data.FirstName);
             $('#txtLastName').val(Data.LastName);
             $('#txtPosition').val(Data.Position);

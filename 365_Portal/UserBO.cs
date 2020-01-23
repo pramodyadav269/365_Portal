@@ -78,5 +78,6 @@ namespace _365_Portal
         public string NoOfEmployees { get; set; }
         public string Country { get; set; }
         public string IsActive { get; set; }
+        public string OrganizationName { get; set; }
     }
 }

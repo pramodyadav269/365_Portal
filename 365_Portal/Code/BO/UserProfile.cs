@@ -29,6 +29,7 @@ namespace _365_Portal.Code.BO
             public string ThemeColor3 { get; set; }
             public string ThemeColor4 { get; set; }
             public string GroupName { get; set; }
+            public string OrganizationName { get; set; }
         }
 
         public class AdminUserProfileResponse

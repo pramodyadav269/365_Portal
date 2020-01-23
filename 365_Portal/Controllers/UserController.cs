@@ -368,6 +368,7 @@ namespace _365_Portal.Controllers
                     objUserProfile.ThemeColor3 = UserDetails.ThemeColor3;
                     objUserProfile.ThemeColor4 = UserDetails.ThemeColor4;
                     objUserProfile.GroupName = UserDetails.GroupName;
+                    objUserProfile.OrganizationName = UserDetails.OrganizationName;
                     if (!string.IsNullOrEmpty(UserDetails.ProfilePicFileID))
                     {
                         //objUserProfile.ProfilePicFile = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/") + UserDetails.ProfilePicFileID;

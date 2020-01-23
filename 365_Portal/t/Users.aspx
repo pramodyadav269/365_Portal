@@ -156,7 +156,7 @@
             $('#divTable').empty().append();
 
             var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
-                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Title</th><th>Role</th><th>Group</th><th>Action</th></thead>'
+                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Title</th><th>Role</th><th>Group</th><th style="width:9%">Action</th></thead>'
 
             tbl += '<tbody>';
             if (Table != undefined && Table.length > 0) {
@@ -169,7 +169,7 @@
                     tbl += '<td title="' + Table[i].EmailID + '" >' + Table[i].EmailID + '</td>';
                     tbl += '<td title="' + Table[i].Position + '" >' + Table[i].Position + '</td>';
                     tbl += '<td title="' + Table[i].RoleName + '" >' + Table[i].RoleName + '</td>';
-                    tbl += '<td title="' + Table[i].GroupName + '" >' + Table[i].GroupName + '</td>';
+                    tbl += '<td title="' + Table[i].GroupName + '" >' + FormatGroups(Table[i].GroupName) + '</td>';
                     tbl += '<td><i title="Edit" onclick="Edit(this,' + Table[i].UserID + ');" class="fas fa-edit text-warning"></i>' +
                         '<i title="Delete" onclick="Delete(this,' + Table[i].UserID + ');" class="fas fa-trash text-danger"></i></td>';
                     tbl += '</tr>';
@@ -179,6 +179,16 @@
             tbl += '</table>';
             $('#divTable').empty().append(tbl);
             $('#tblGird').DataTable();
+        }
+
+        function FormatGroups(Groups)
+        {
+            if (Groups != undefined && Groups != '')
+            {
+                Groups = Groups.replace(",,", ",");
+                Groups = Groups.replace(/,\s*$/, "");
+            }
+            return Groups;
         }
 
         function GetUsers() {
@@ -223,101 +233,212 @@
             });
         }
 
-        function AddNew() {
+            function AddNew() {
 
-            $('#btnSubmit').show();
-            $('#divPassword').show();
-            $('#btnUpdate').hide();
-            $('#divUpdatePassword').hide();
-            clearFields('.input-validation')
-            toggle('divForm', 'divGird');
-        }
-
-        function Submit() {
-            var getUrl = "/API/User/CreateUser";
-            ProcessCreateUpdate('', getUrl, 'create');
-            /*
-            if (inputValidation('.input-validation')) {
-                Swal.fire({
-                    title: "Good job!",
-                    text: "You clicked the button!",
-                    icon: "success",
-                    button: "Ok",
-                });
-            } else {
-                Swal.fire({
-                    title: "Alert",
-                    text: "Fill all fields",
-                    icon: "error",
-                    button: "Ok",
-                });
+                $('#btnSubmit').show();
+                $('#divPassword').show();
+                $('#btnUpdate').hide();
+                $('#divUpdatePassword').hide();
+                clearFields('.input-validation')
+                toggle('divForm', 'divGird');
             }
-            */
-        }
 
-        function Update() {
-            var id = $('#UserID').val();
-            var getUrl = "/API/User/UpdateUser";
-            ProcessCreateUpdate(id, getUrl, 'update');
-        }
-
-        function ProcessCreateUpdate(id, getUrl, flag) {
-            var result = InputValidation(flag);
-            if (result.error) {
-                Swal.fire({
-                    title: "Alert",
-                    text: result.msg,
-                    icon: "error",
-                    button: "Ok",
-                });
+            function Submit() {
+                var getUrl = "/API/User/CreateUser";
+                ProcessCreateUpdate('', getUrl, 'create');
+                /*
+                if (inputValidation('.input-validation')) {
+                    Swal.fire({
+                        title: "Good job!",
+                        text: "You clicked the button!",
+                        icon: "success",
+                        button: "Ok",
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Alert",
+                        text: "Fill all fields",
+                        icon: "error",
+                        button: "Ok",
+                    });
+                }
+                */
             }
-            else {
-                ShowLoader();
-                var Role = $("#ddlRole option:selected").val();
-                var FirstName = $("#txtFname").val();
-                var LastName = $("#txtLname").val();
-                var EmailID = $("#txtEmailId").val();
 
-                var Password = '';
-                var UpdateFlag = '0';
-                if (flag == 'create') {
-                    Password = $("#txtPassword").val();
+            function Update() {
+                var id = $('#UserID').val();
+                var getUrl = "/API/User/UpdateUser";
+                ProcessCreateUpdate(id, getUrl, 'update');
+            }
+
+            function ProcessCreateUpdate(id, getUrl, flag) {
+                var result = InputValidation(flag);
+                if (result.error) {
+                    Swal.fire({
+                        title: "Alert",
+                        text: result.msg,
+                        icon: "error",
+                        button: "Ok",
+                    });
                 }
                 else {
-                    if ($('#cbUpdatePassword').prop('checked') == true) {
-                        Password = $("#txtUpdatePassword").val();
-                        UpdateFlag = '1';
+                    ShowLoader();
+                    var Role = $("#ddlRole option:selected").val();
+                    var FirstName = $("#txtFname").val();
+                    var LastName = $("#txtLname").val();
+                    var EmailID = $("#txtEmailId").val();
+
+                    var Password = '';
+                    var UpdateFlag = '0';
+                    if (flag == 'create') {
+                        Password = $("#txtPassword").val();
+                    }
+                    else {
+                        if ($('#cbUpdatePassword').prop('checked') == true) {
+                            Password = $("#txtUpdatePassword").val();
+                            UpdateFlag = '1';
+                        }
+                    }
+
+                    var MobileNum = $("#txtMobileNo").val();
+                    var Position = $("#txtPosition").val();
+                    var GroupId = $("#ddlGroup option:selected").val();
+
+                    if (flag == 'create') {
+                        var requestParams = { RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag };
+                    }
+                    else {
+                        var requestParams = { UserID: id, RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag };
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: getUrl,
+                        headers: { "Authorization": "Bearer " + accessToken },
+                        data: JSON.stringify(requestParams),
+                        contentType: "application/json",
+                        success: function (response) {
+                            try {
+                                debugger
+                                var DataSet = $.parseJSON(response);
+                                HideLoader();
+                                if (DataSet.StatusCode == "1") {
+                                    Swal.fire(DataSet.Data[0].ReturnMessage, {
+                                        icon: "success",
+                                    }).then((CreateUpdateUser) => {
+                                        location.reload();
+                                    });;
+                                }
+                                else {
+                                    if (DataSet.Data != undefined && DataSet.Data.length > 0) {
+                                        Swal.fire(DataSet.Data[0].ReturnMessage, {
+                                            icon: "error",
+                                        });
+                                    }
+                                    else {
+                                        Swal.fire(DataSet.StatusDescription, {
+                                            icon: "error",
+                                        });
+                                    }
+                                }
+                            }
+                            catch (e) {
+                                HideLoader();
+                            }
+                        },
+                        failure: function (response) {
+                            HideLoader();
+                        }
+                    });
+                }
+            }
+
+            function InputValidation(flag) {
+                if ($("#ddlRole option:selected").val() == undefined || $("#ddlRole option:selected").val() == '') {
+                    return { error: true, msg: "Please select Role" };
+                }
+                else if ($("#txtFname").val() == undefined || $("#txtFname").val() == '') {
+                    return { error: true, msg: "Please enter firstname" };
+                }
+                else if ($("#txtLname").val() == undefined || $("#txtLname").val() == '') {
+                    return { error: true, msg: "Please enter lastname" };
+                }
+                else if ($("#txtEmailId").val() == undefined || $("#txtEmailId").val() == '') {
+                    return { error: true, msg: "Please enter emailid" };
+                }
+                else if (!IsValidEmail($("#txtEmailId").val())) {
+                    return { error: true, msg: "Please provide valid EmailID of user" };
+                }
+
+                if (flag == 'create') {
+                    if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
+                        return { error: true, msg: "Please enter password" };
+                    }
+                }
+                else {
+                    if ($('#cbUpdatePassword').prop('checked') == true && ($("#txtUpdatePassword").val() == undefined || $("#txtUpdatePassword").val() == '')) {
+                        return { error: true, msg: "Please enter password" };
                     }
                 }
 
-                var MobileNum = $("#txtMobileNo").val();
-                var Position = $("#txtPosition").val();
-                var GroupId = $("#ddlGroup option:selected").val();
-
-                if (flag == 'create') {
-                    var requestParams = { RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag };
+                return true;
+            }
+        
+            function IsValidEmail(EmailId){
+                debugger
+                //var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                var reg = /^([0-9a-zA-Z]([\+\-_\.]+)*)+\@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$/;
+                if (reg.test(EmailId) == false) {
+                    return false;
                 }
-                else {
-                    var requestParams = { UserID: id, RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag };
-                }
+                return true;
+            }
 
+            function Edit(ctrl, id) {
+                //var id = $(ctrl).closest('tr').attr('id')
+                //debugger
+                ShowLoader();
+                clearFields('.input-validation')
+                BindRoleAndGroup(id, 'update');
+
+            }
+
+            function BindRoleAndGroup(id, flag) {
+                var getUrl = "/API/User/BindRoleAndGroup";
                 $.ajax({
                     type: "POST",
                     url: getUrl,
                     headers: { "Authorization": "Bearer " + accessToken },
-                    data: JSON.stringify(requestParams),
                     contentType: "application/json",
                     success: function (response) {
                         try {
-                            debugger
+                            //debugger
                             var DataSet = $.parseJSON(response);
                             HideLoader();
                             if (DataSet.StatusCode == "1") {
-                                Swal.fire(DataSet.Data[0].ReturnMessage, {
-                                    icon: "success",
-                                }).then((CreateUpdateUser) => {
-                                    location.reload();
-                                });;
+
+                                var Role = DataSet.Data.Data;
+                                var Group = DataSet.Data.Data1;
+
+                                if (Role != undefined && Role.length > 0) {
+                                    $('#ddlRole').empty().append('<option></option>');
+                                    for (var i = 0; i < Role.length; i++) {
+                                        $('#ddlRole').append('<option value="' + Role[i].RoleID + '">' + Role[i].RoleDisplayName + '</option>');
+                                    }
+                                    selectInit('#ddlRole', 'Select Role');
+                                }
+                                if (Group != undefined && Group.length > 0) {
+                                    $('#ddlGroup').empty().append('<option></option>');
+                                    for (var i = 0; i < Group.length; i++) {
+                                        $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');
+                                    }
+                                    //$('#divGroup').show();
+                                    selectInit('#ddlGroup', 'Select Group');
+                                }
+
+                                if (flag == 'update') {
+                                    BindUserData(id);
+                                }
                             }
                             else {
                                 if (DataSet.Data != undefined && DataSet.Data.length > 0) {
@@ -341,251 +462,140 @@
                     }
                 });
             }
-        }
 
-        function InputValidation(flag) {
-            if ($("#ddlRole option:selected").val() == undefined || $("#ddlRole option:selected").val() == '') {
-                return { error: true, msg: "Please select Role" };
-            }
-            else if ($("#txtFname").val() == undefined || $("#txtFname").val() == '') {
-                return { error: true, msg: "Please enter firstname" };
-            }
-            else if ($("#txtLname").val() == undefined || $("#txtLname").val() == '') {
-                return { error: true, msg: "Please enter lastname" };
-            }
-            else if ($("#txtEmailId").val() == undefined || $("#txtEmailId").val() == '') {
-                return { error: true, msg: "Please enter emailid" };
-            }
-            else if (!IsValidEmail($("#txtEmailId").val())) {
-                return { error: true, msg: "Please provide valid EmailID of user" };
-            }
+            function BindUserData(id) {
+                ShowLoader();
+                var requestParams = { UserID: id };
+                var getUrl = "/API/User/GetUserDetailsForParent";
+                $.ajax({
+                    type: "POST",
+                    url: getUrl,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    success: function (response) {
+                        try {
+                            //debugger
+                            var DataSet = $.parseJSON(response);
+                            HideLoader();
+                            if (DataSet.StatusCode == "1") {
 
-            if (flag == 'create') {
-                if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
-                    return { error: true, msg: "Please enter password" };
-                }
-            }
-            else {
-                if ($('#cbUpdatePassword').prop('checked') == true && ($("#txtUpdatePassword").val() == undefined || $("#txtUpdatePassword").val() == '')) {
-                    return { error: true, msg: "Please enter password" };
-                }
-            }
+                                toggle('divForm', 'divGird')
 
-            return true;
-        }
-        
-        function IsValidEmail(EmailId){
-            debugger
-            //var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-            var reg = /^([0-9a-zA-Z]([\+\-_\.]+)*)+\@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$/;
-            if (reg.test(EmailId) == false) {
-                return false;
-            }
-            return true;
-        }
+                                $('#ddlRole').val(DataSet.Data[0].RoleID).trigger('change');
+                                $('#txtFname').val(DataSet.Data[0].FirstName);
+                                $('#txtLname').val(DataSet.Data[0].LastName);
+                                $('#txtEmailId').val(DataSet.Data[0].EmailID);
+                                $('#txtPassword').val('');
+                                $('#txtMobileNo').val(DataSet.Data[0].MobileNum);
+                                $('#txtPosition').val(DataSet.Data[0].Position);
+                                $('#ddlGroup').val(DataSet.Data[0].GroupID).trigger('change');
 
-        function Edit(ctrl, id) {
-            //var id = $(ctrl).closest('tr').attr('id')
-            //debugger
-            ShowLoader();
-            clearFields('.input-validation')
-            BindRoleAndGroup(id, 'update');
+                                $('#btnSubmit').hide();
+                                $('#divPassword').hide();
+                                $('#btnUpdate').show();
+                                $('#divUpdatePassword').show();
+                                $('#UserID').val(id);
 
-        }
-
-        function BindRoleAndGroup(id, flag) {
-            var getUrl = "/API/User/BindRoleAndGroup";
-            $.ajax({
-                type: "POST",
-                url: getUrl,
-                headers: { "Authorization": "Bearer " + accessToken },
-                contentType: "application/json",
-                success: function (response) {
-                    try {
-                        //debugger
-                        var DataSet = $.parseJSON(response);
-                        HideLoader();
-                        if (DataSet.StatusCode == "1") {
-
-                            var Role = DataSet.Data.Data;
-                            var Group = DataSet.Data.Data1;
-
-                            if (Role != undefined && Role.length > 0) {
-                                $('#ddlRole').empty().append('<option></option>');
-                                for (var i = 0; i < Role.length; i++) {
-                                    $('#ddlRole').append('<option value="' + Role[i].RoleID + '">' + Role[i].RoleDisplayName + '</option>');
+                            }
+                            else {
+                                if (DataSet.Data != undefined && DataSet.Data.length > 0) {
+                                    Swal.fire(DataSet.Data[0].ReturnMessage, {
+                                        icon: "error",
+                                    });
                                 }
-                                selectInit('#ddlRole', 'Select Role');
-                            }
-                            if (Group != undefined && Group.length > 0) {
-                                $('#ddlGroup').empty().append('<option></option>');
-                                for (var i = 0; i < Group.length; i++) {
-                                    $('#ddlGroup').append('<option value="' + Group[i].GroupID + '">' + Group[i].GroupName + '</option>');
+                                else {
+                                    Swal.fire(DataSet.StatusDescription, {
+                                        icon: "error",
+                                    });
                                 }
-                                //$('#divGroup').show();
-                                selectInit('#ddlGroup', 'Select Group');
-                            }
-
-                            if (flag == 'update') {
-                                BindUserData(id);
                             }
                         }
-                        else {
-                            if (DataSet.Data != undefined && DataSet.Data.length > 0) {
-                                Swal.fire(DataSet.Data[0].ReturnMessage, {
-                                    icon: "error",
-                                });
-                            }
-                            else {
-                                Swal.fire(DataSet.StatusDescription, {
-                                    icon: "error",
-                                });
-                            }
+                        catch (e) {
+                            HideLoader();
                         }
-                    }
-                    catch (e) {
+                    },
+                    failure: function (response) {
                         HideLoader();
                     }
-                },
-                failure: function (response) {
-                    HideLoader();
-                }
-            });
-        }
-
-        function BindUserData(id) {
-            ShowLoader();
-            var requestParams = { UserID: id };
-            var getUrl = "/API/User/GetUserDetailsForParent";
-            $.ajax({
-                type: "POST",
-                url: getUrl,
-                headers: { "Authorization": "Bearer " + accessToken },
-                data: JSON.stringify(requestParams),
-                contentType: "application/json",
-                success: function (response) {
-                    try {
-                        //debugger
-                        var DataSet = $.parseJSON(response);
-                        HideLoader();
-                        if (DataSet.StatusCode == "1") {
-
-                            toggle('divForm', 'divGird')
-
-                            $('#ddlRole').val(DataSet.Data[0].RoleID).trigger('change');
-                            $('#txtFname').val(DataSet.Data[0].FirstName);
-                            $('#txtLname').val(DataSet.Data[0].LastName);
-                            $('#txtEmailId').val(DataSet.Data[0].EmailID);
-                            $('#txtPassword').val('');
-                            $('#txtMobileNo').val(DataSet.Data[0].MobileNum);
-                            $('#txtPosition').val(DataSet.Data[0].Position);
-                            $('#ddlGroup').val(DataSet.Data[0].GroupID).trigger('change');
-
-                            $('#btnSubmit').hide();
-                            $('#divPassword').hide();
-                            $('#btnUpdate').show();
-                            $('#divUpdatePassword').show();
-                            $('#UserID').val(id);
-
-                        }
-                        else {
-                            if (DataSet.Data != undefined && DataSet.Data.length > 0) {
-                                Swal.fire(DataSet.Data[0].ReturnMessage, {
-                                    icon: "error",
-                                });
-                            }
-                            else {
-                                Swal.fire(DataSet.StatusDescription, {
-                                    icon: "error",
-                                });
-                            }
-                        }
-                    }
-                    catch (e) {
-                        HideLoader();
-                    }
-                },
-                failure: function (response) {
-                    HideLoader();
-                }
-            });
-        }
-
-        function Delete(ctrl, id) {
-            //var id = $(ctrl).closest('tr').attr('id')
-
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to delete user!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.value) {
-                    DeleteUser(id);
-                }
-            })
-        }
-
-        function DeleteUser(id) {
-            //debugger
-            ShowLoader();
-            var getUrl = "/API/User/DeleteUser";
-            var requestParams = { UserID: id };
-            $.ajax({
-                type: "POST",
-                url: getUrl,
-                headers: { "Authorization": "Bearer " + accessToken },
-                data: JSON.stringify(requestParams),
-                contentType: "application/json",
-                success: function (response) {
-                    try {
-                        //debugger
-                        var DataSet = $.parseJSON(response);
-                        HideLoader();
-                        if (DataSet.StatusCode == "1") {
-                            Swal.fire(DataSet.Data[0].ReturnMessage, {
-                                icon: "success",
-                            }).then((deleteuser) => {
-                                location.reload();
-                            });
-                            ;
-                        }
-                        else {
-                            if (DataSet.Data != undefined && DataSet.Data.length > 0) {
-                                Swal.fire(DataSet.Data[0].ReturnMessage, {
-                                    icon: "error",
-                                });
-                            }
-                            else {
-                                Swal.fire(DataSet.StatusDescription, {
-                                    icon: "error",
-                                });
-                            }
-                        }
-                    }
-                    catch (e) {
-                        HideLoader();
-                    }
-                },
-                failure: function (response) {
-                    HideLoader();
-                }
-            });
-        }
-
-        function enableUpdatePassword() {
-            //debugger
-            if ($('#cbUpdatePassword').prop('checked')) {
-                $("#txtUpdatePassword").removeAttr("disabled");
+                });
             }
-            else {
-                $("#txtUpdatePassword").attr("disabled", "disabled");
+
+            function Delete(ctrl, id) {
+                //var id = $(ctrl).closest('tr').attr('id')
+
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to delete user!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+                        DeleteUser(id);
+                    }
+                })
             }
-        }
+
+            function DeleteUser(id) {
+                //debugger
+                ShowLoader();
+                var getUrl = "/API/User/DeleteUser";
+                var requestParams = { UserID: id };
+                $.ajax({
+                    type: "POST",
+                    url: getUrl,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    data: JSON.stringify(requestParams),
+                    contentType: "application/json",
+                    success: function (response) {
+                        try {
+                            //debugger
+                            var DataSet = $.parseJSON(response);
+                            HideLoader();
+                            if (DataSet.StatusCode == "1") {
+                                Swal.fire(DataSet.Data[0].ReturnMessage, {
+                                    icon: "success",
+                                }).then((deleteuser) => {
+                                    location.reload();
+                                });
+                                ;
+                            }
+                            else {
+                                if (DataSet.Data != undefined && DataSet.Data.length > 0) {
+                                    Swal.fire(DataSet.Data[0].ReturnMessage, {
+                                        icon: "error",
+                                    });
+                                }
+                                else {
+                                    Swal.fire(DataSet.StatusDescription, {
+                                        icon: "error",
+                                    });
+                                }
+                            }
+                        }
+                        catch (e) {
+                            HideLoader();
+                        }
+                    },
+                    failure: function (response) {
+                        HideLoader();
+                    }
+                });
+            }
+
+            function enableUpdatePassword() {
+                //debugger
+                if ($('#cbUpdatePassword').prop('checked')) {
+                    $("#txtUpdatePassword").removeAttr("disabled");
+                }
+                else {
+                    $("#txtUpdatePassword").attr("disabled", "disabled");
+                }
+            }
 
     </script>
 </asp:Content>
