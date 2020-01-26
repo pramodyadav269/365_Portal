@@ -501,6 +501,20 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
+        public static DataSet GetUserAssignedTopic(int compID, string userId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.GetUserAssignedTopic(compID, userId);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
         public static DataSet GetTableDataByType(int compID, string type, string valueType, string valueId)
         {
             DataSet ds = new DataSet();

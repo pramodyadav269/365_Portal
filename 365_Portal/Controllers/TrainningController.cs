@@ -514,17 +514,49 @@ namespace _365_Portal.Controllers
                 try
                 {
                     int compId = identity.CompId;
+                    string[] mailUserIDs = new string[] { };
                     string userId = identity.UserID;
                     var topicIds = Convert.ToString(requestParams["TopicIds"].ToString());
                     var groupIds = Convert.ToString(requestParams["GroupIds"].ToString());
                     var userIds = Convert.ToString(requestParams["UserIds"].ToString());
                     var removeTopic = Convert.ToString(requestParams["RemoveTopics"].ToString());
+                    
+                    if (!string.IsNullOrEmpty(userIds))
+                    {
+                        var dsTopics = TrainningBL.GetUserAssignedTopic(compId, userIds);
+
+                        string[] arrTopics = topicIds.Split(',');
+                        string[] arrUsers  = userIds.Split(',');
+
+                        mailUserIDs = new string[arrUsers.Length];
+
+                        if (dsTopics.Tables.Count > 0 && dsTopics.Tables[0].Rows.Count > 0)
+                        {
+                            for (int j = 0; j < arrUsers.Length; j++)
+                            {
+                                for (int i = 0; i < arrTopics.Length; i++)
+                                {
+                                    if (!dsTopics.Tables[0].Select().ToList().Exists(row => row["Topics"].ToString() == arrTopics[i] && row["UserID"].ToString() == arrUsers[j]))
+                                    {
+                                        mailUserIDs[j] = arrUsers[j];
+                                    }
+                                }
+                            }                            
+                        }
+                    }                    
 
                     var ds = TrainningBL.AssignTopicsByEntity(compId, userId, topicIds, groupIds, userIds, removeTopic);
                     if (ds.Tables.Count > 0)
                     {
                         // Successful
                         data = Utility.Successful("");
+                        if (mailUserIDs.Length > 0)
+                        {
+                            foreach (string UserID in mailUserIDs)
+                            {
+                                EmailHelper.GetEmailContent(Convert.ToInt32(UserID), identity.CompId, EmailHelper.Functionality.ADD_TOPIC, "", "");
+                            }                            
+                        }
                     }
                     else
                     {
