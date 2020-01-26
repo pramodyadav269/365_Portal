@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
-            <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Modules</a>
+            <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Lessons</a>
             <h2 class="text-center font-weight-bold">Contents</h2>
         </div>
 
