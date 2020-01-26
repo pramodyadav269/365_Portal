@@ -156,7 +156,7 @@
             $('#divTable').empty().append();
 
             var tbl = '<table id="tblGird" class="table table-bordered" style="width:100%">' +
-                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Title</th><th>Role</th><th>Group</th><th style="width:9%">Action</th></thead>'
+                '<thead><tr><th>#</th><th style="display:none;">ID</th><th>First Name</th><th>Last Name</th><th>Email ID</th><th>Title</th><th>Role</th><th>Groups</th><th style="width:9%">Action</th></thead>'
 
             tbl += '<tbody>';
             if (Table != undefined && Table.length > 0) {
@@ -185,7 +185,7 @@
         {
             if (Groups != undefined && Groups != '')
             {
-                Groups = Groups.replace(",,", ",");
+                Groups = Groups.replace(/,,/g, ",");
                 Groups = Groups.replace(/,\s*$/, "");
             }
             return Groups;

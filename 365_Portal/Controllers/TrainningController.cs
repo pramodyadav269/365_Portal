@@ -552,6 +552,7 @@ namespace _365_Portal.Controllers
                         data = Utility.Successful("");
                         if (mailUserIDs.Length > 0)
                         {
+                            mailUserIDs = mailUserIDs.Distinct().ToArray();
                             foreach (string UserID in mailUserIDs)
                             {
                                 EmailHelper.GetEmailContent(Convert.ToInt32(UserID), identity.CompId, EmailHelper.Functionality.ADD_TOPIC, "", "");
