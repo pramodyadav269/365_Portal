@@ -278,10 +278,10 @@
                 </ul>
                 <ul class="sidenav-nav d-none" id="sidenav_Help">
                     <h4 class="menu-title">Help</h4>
-                    <li class="sidenav-item" id="dvSubMenu_HelpCenter" onclick="location.href='comingsoon.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_HelpCenter" onclick="location.href='http://support.365staffapp.com/en';">
                         <a class="sidenav-link">Help Center</a>
                     </li>
-                    <li class="sidenav-item" id="dvSubMenu_Support" onclick="location.href='comingsoon.aspx';">
+                    <li class="sidenav-item" id="dvSubMenu_Support" onclick="location.href='http://support.365staffapp.com/en';">
                         <a class="sidenav-link">Support</a>
                     </li>
                     <li class="sidenav-item" id="dvSubMenu_Chat" onclick="location.href='comingsoon.aspx';">
