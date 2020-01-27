@@ -514,7 +514,8 @@ namespace _365_Portal.Controllers
                 try
                 {
                     int compId = identity.CompId;
-                    string[] mailUserIDs = new string[] { };
+                    //string[] mailUserIDs = new string[] { };
+                    List<string> mailUserIDs = new List<string>();
                     string userId = identity.UserID;
                     var topicIds = Convert.ToString(requestParams["TopicIds"].ToString());
                     var groupIds = Convert.ToString(requestParams["GroupIds"].ToString());
@@ -528,7 +529,7 @@ namespace _365_Portal.Controllers
                         string[] arrTopics = topicIds.Split(',');
                         string[] arrUsers  = userIds.Split(',');
 
-                        mailUserIDs = new string[arrUsers.Length];
+                        //mailUserIDs = new string[arrUsers.Length];
 
                         if (dsTopics.Tables.Count > 0 && dsTopics.Tables[0].Rows.Count > 0)
                         {
@@ -538,7 +539,8 @@ namespace _365_Portal.Controllers
                                 {
                                     if (!dsTopics.Tables[0].Select().ToList().Exists(row => row["Topics"].ToString() == arrTopics[i] && row["UserID"].ToString() == arrUsers[j]))
                                     {
-                                        mailUserIDs[j] = arrUsers[j];
+                                        //mailUserIDs[j] = arrUsers[j];
+                                        mailUserIDs.Add(arrUsers[j]);
                                     }
                                 }
                             }                            
@@ -550,9 +552,9 @@ namespace _365_Portal.Controllers
                     {
                         // Successful
                         data = Utility.Successful("");
-                        if (mailUserIDs.Length > 0)
+                        if (mailUserIDs.Count() > 0)
                         {
-                            mailUserIDs = mailUserIDs.Distinct().ToArray();
+                            mailUserIDs = mailUserIDs.Distinct().ToList();
                             foreach (string UserID in mailUserIDs)
                             {
                                 EmailHelper.GetEmailContent(Convert.ToInt32(UserID), identity.CompId, EmailHelper.Functionality.ADD_TOPIC, "", "");
