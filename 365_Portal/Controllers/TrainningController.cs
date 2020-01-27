@@ -539,13 +539,12 @@ namespace _365_Portal.Controllers
                                 {
                                     if (!dsTopics.Tables[0].Select().ToList().Exists(row => row["Topics"].ToString() == arrTopics[i] && row["UserID"].ToString() == arrUsers[j]))
                                     {
-                                        //mailUserIDs[j] = arrUsers[j];
                                         mailUserIDs.Add(arrUsers[j]);
                                     }
                                 }
                             }                            
                         }
-                    }                    
+                    }
 
                     var ds = TrainningBL.AssignTopicsByEntity(compId, userId, topicIds, groupIds, userIds, removeTopic);
                     if (ds.Tables.Count > 0)
