@@ -95,7 +95,7 @@ namespace _365_Portal.Admin
                         dvSubMenu_Roles.Visible = true;
                         dvSubMenu_Customize.Visible = true;
 
-                        dvSubMenu_Users.Visible = false;
+                        dvSubMenu_Users.Visible = false; 
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin)
                     {
