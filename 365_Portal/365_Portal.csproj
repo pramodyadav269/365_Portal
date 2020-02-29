@@ -257,6 +257,7 @@
     <Compile Include="Code\BL\AchivementBL.cs" />
     <Compile Include="Code\BL\CommonBL.cs" />
     <Compile Include="Code\BL\ContentBL.cs" />
+    <Compile Include="Code\BL\DiscussionBL.cs" />
     <Compile Include="Code\BL\FlashcardBL.cs" />
     <Compile Include="Code\BL\ModulesBL.cs" />
     <Compile Include="Code\BL\OrganizationBL.cs" />
@@ -274,6 +275,7 @@
     <Compile Include="Code\DAL\AchivementDAL.cs" />
     <Compile Include="Code\DAL\CommonDAL.cs" />
     <Compile Include="Code\DAL\ContentDAL.cs" />
+    <Compile Include="Code\DAL\DiscussionDAL.cs" />
     <Compile Include="Code\DAL\FlashcardDAL.cs" />
     <Compile Include="Code\DAL\ModuleDAL.cs" />
     <Compile Include="Code\DAL\OrganizationDAL.cs" />
@@ -291,6 +293,7 @@
     <Compile Include="Common\JSONHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AchievementController.cs" />
+    <Compile Include="Controllers\DiscussionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
@@ -915,6 +918,7 @@
     <Folder Include="Files\Others\" />
     <Folder Include="Files\ProfilePic\" />
     <Folder Include="Files\Survey\" />
+    <Folder Include="Views\Discussion\" />
     <Folder Include="Views\Modules\" />
     <Folder Include="Views\Organization\" />
     <Folder Include="Views\Quiz\" />

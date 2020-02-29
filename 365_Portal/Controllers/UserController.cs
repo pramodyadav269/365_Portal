@@ -66,6 +66,7 @@ namespace _365_Portal.Controllers
                     objResponse.FirstName = objUser.FirstName;
                     objResponse.LastName = objUser.LastName;
                     objResponse.IsFirstLogin = objUser.IsFirstLogin;
+                    objResponse.ProfilePicFileID = objUser.ProfilePicFileID;
 
                     objResponse.IsFirstPasswordNotChanged = objUser.IsFirstPasswordNotChanged;
 
@@ -152,7 +153,7 @@ namespace _365_Portal.Controllers
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
                 }
                 else
-                {                    
+                {
                     objServiceLog.ResponseString = data;
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                     data = Utility.AuthenticationError();
@@ -485,6 +486,14 @@ namespace _365_Portal.Controllers
                 var ResponseBase = UserDAL.UpdateUserDetailsByUserID(_userdetail, "");
                 //ResponseBase.Ref1 = _userdetail.ProfilePicFile;
                 data = Utility.ConvertJsonToString(ResponseBase);
+
+                if (Convert.ToString(requestParams.SelectToken("EmailNotification")) != "")
+                {
+                    _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
+                    _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
+
+                    UserDAL.UpdateNotificationByUserID(_userdetail, "");
+                }
 
                 if (ResponseBase.ReturnCode == "1")
                 {
@@ -1166,7 +1175,7 @@ namespace _365_Portal.Controllers
                     {
                         objUser.CompId = Convert.ToInt32(requestParams["CompId"].ToString());
                     }
-                                        
+
                     var ds = CommonBL.GetUsers(objUser);
                     if (ds.Tables.Count > 0)
                     {
@@ -1624,7 +1633,7 @@ namespace _365_Portal.Controllers
 
                 if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
-                    if (jsonResult.SelectToken("GroupID") != null && jsonResult.SelectToken("GroupID").ToString().Trim() != "" )
+                    if (jsonResult.SelectToken("GroupID") != null && jsonResult.SelectToken("GroupID").ToString().Trim() != "")
                     {
                         objUser.GroupId = jsonResult.SelectToken("GroupID").ToString();
                     }
