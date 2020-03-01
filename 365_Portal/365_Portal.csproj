@@ -495,6 +495,13 @@
     <Compile Include="t\Settings.aspx.designer.cs">
       <DependentUpon>Settings.aspx</DependentUpon>
     </Compile>
+    <Compile Include="t\discussion.aspx.cs">
+      <DependentUpon>discussion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\discussion.aspx.designer.cs">
+      <DependentUpon>discussion.aspx</DependentUpon>
+    </Compile>
     <Compile Include="t\Topics.aspx.cs">
       <DependentUpon>Topics.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -888,6 +895,7 @@
     <Content Include="t\Profile.aspx" />
     <Content Include="t\quiz.aspx" />
     <Content Include="t\Settings.aspx" />
+    <Content Include="t\discussion.aspx" />
     <Content Include="t\Topics.aspx" />
     <Content Include="t\UserGroupMapping.aspx" />
     <Content Include="t\Users.aspx" />

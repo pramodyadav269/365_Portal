@@ -31,7 +31,7 @@ namespace _365_Portal.Controllers
                     int compId = identity.CompId;
                     string userId = identity.UserID;
                     int moduleId = Convert.ToInt32(requestParams["ModuleID"].ToString());
-                    var msg = Convert.ToString(requestParams["ModuleID"]);
+                    var msg = Convert.ToString(requestParams["Message"]);
                     var ds = DiscussionBL.SendMessage(compId, userId, moduleId, msg, Utility.GetClientIPaddress());
                     data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
                     data = Utility.GetJSONData("1", "Successful", data);

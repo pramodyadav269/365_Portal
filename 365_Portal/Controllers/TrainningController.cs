@@ -521,13 +521,13 @@ namespace _365_Portal.Controllers
                     var groupIds = Convert.ToString(requestParams["GroupIds"].ToString());
                     var userIds = Convert.ToString(requestParams["UserIds"].ToString());
                     var removeTopic = Convert.ToString(requestParams["RemoveTopics"].ToString());
-                    
+
                     if (!string.IsNullOrEmpty(userIds))
                     {
                         var dsTopics = TrainningBL.GetUserAssignedTopic(compId, userIds);
 
                         string[] arrTopics = topicIds.Split(',');
-                        string[] arrUsers  = userIds.Split(',');
+                        string[] arrUsers = userIds.Split(',');
 
                         //mailUserIDs = new string[arrUsers.Length];
 
@@ -542,7 +542,7 @@ namespace _365_Portal.Controllers
                                         mailUserIDs.Add(arrUsers[j]);
                                     }
                                 }
-                            }                            
+                            }
                         }
                     }
 
@@ -557,7 +557,7 @@ namespace _365_Portal.Controllers
                             foreach (string UserID in mailUserIDs)
                             {
                                 EmailHelper.GetEmailContent(Convert.ToInt32(UserID), identity.CompId, EmailHelper.Functionality.ADD_TOPIC, "", "");
-                            }                            
+                            }
                         }
                     }
                     else
@@ -630,6 +630,37 @@ namespace _365_Portal.Controllers
                 else
                 {
                     data = Utility.API_Status("0", "No data found");
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("api/Trainning/ChangeTopicProperty")]
+        [HttpPost]
+        public IHttpActionResult ChangeTopicProperty(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    int userId = Convert.ToInt32(identity.UserID);
+                    int type = Convert.ToInt32(requestParams["Type"].ToString());
+                    int topicId = Convert.ToInt32(requestParams["TopicID"].ToString());
+                    bool flag = Convert.ToBoolean(requestParams["Flag"].ToString());
+                    var ds = TrainningBL.ChangeTopicProperty(compId, userId, topicId, type, flag);
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.Successful(data);
+                }
+                catch (Exception ex)
+                {
+                    data = Utility.Exception(ex); ;
                 }
             }
             else
