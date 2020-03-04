@@ -1232,7 +1232,6 @@ namespace _365_Portal.Controllers
             return new APIResult(Request, data);
         }
 
-
         public static bool IsValidEmail(string eMail)
         {
             string strRegex = @"^([0-9a-zA-Z]([\+\-_\.]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$";
@@ -1575,6 +1574,54 @@ namespace _365_Portal.Controllers
             {
                 objUserVal.CompName = (string)jsonResult.SelectToken("CompName");
             }
+            if (jsonResult.SelectToken("Gender") != null && jsonResult.SelectToken("Gender").ToString().Trim() != "")
+            {
+                objUserVal.Gender = (string)jsonResult.SelectToken("Gender");
+            }
+            else
+            {
+                Message = "Please select gender."; ValFlag = false; return ValFlag;
+            }
+            if (jsonResult.SelectToken("DepartmentID") != null && jsonResult.SelectToken("DepartmentID").ToString().Trim() != "")
+            {
+                objUserVal.DepartmentID = (string)jsonResult.SelectToken("DepartmentID");
+            }
+            //else
+            //{
+            //    Message = "Please select Department."; ValFlag = false; return ValFlag;
+            //}
+            if (jsonResult.SelectToken("TeamID") != null && jsonResult.SelectToken("TeamID").ToString().Trim() != "")
+            {
+                objUserVal.TeamID = (string)jsonResult.SelectToken("TeamID");
+            }
+            //else
+            //{
+            //    Message = "Please select Team."; ValFlag = false; return ValFlag;
+            //}
+            if (jsonResult.SelectToken("ManagerID") != null && jsonResult.SelectToken("ManagerID").ToString().Trim() != "")
+            {
+                objUserVal.ManagerID = (string)jsonResult.SelectToken("ManagerID");
+            }
+            //else
+            //{
+            //    Message = "Please select Manager."; ValFlag = false; return ValFlag;
+            //}
+            if (jsonResult.SelectToken("DOJ") != null && jsonResult.SelectToken("DOJ").ToString().Trim() != "")
+            {                
+                try
+                {
+                    objUserVal.DOJ = DateTime.ParseExact(jsonResult.SelectToken("DOJ").ToString().Trim(), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+                }
+                catch (Exception ex)
+                {
+                    Message = "Please enter valid Date of Joining."; ValFlag = false; return ValFlag;
+                }                
+            }
+            //else
+            //{
+            //    Message = "Please enter Date of Joining."; ValFlag = false; return ValFlag;
+            //}
+
             return ValFlag;
         }
 
@@ -1718,5 +1765,39 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
+
+        [Route("API/User/BindDropdown")]
+        [HttpPost]
+        public IHttpActionResult BindDropdown()
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                UserBO objUser = new UserBO();
+
+                if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin || identity.Role == ConstantMessages.Roles.subadmin)
+                {
+                    objUser.UserID = identity.UserID;
+                    objUser.CompId = identity.CompId;
+                    objUser.Role = identity.Role;
+
+                    var ds = CommonBL.BindDropDown(objUser, "createuser");
+
+                    data = Utility.ConvertDataSetToJSONString(ds);
+                    data = Utility.Successful(data);
+                }
+                else
+                {
+                    data = Utility.API_Status("3", "You do not have access for this functionality");
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
     }
 }

@@ -101,6 +101,48 @@
                             </div>
                         </div>
 
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ddlGender">Gender</label>
+                                <select class="form-control required select2" id="ddlGender" style="width: 100% !important">
+                                    <option></option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ddlDepartment">Department</label>
+                                <select class="form-control required select2" id="ddlDepartment" style="width: 100% !important">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ddlTeam">Team</label>
+                                <select class="form-control required select2" id="ddlTeam" style="width: 100% !important">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ddlManager">Manager</label>
+                                <select class="form-control required select2" id="ddlManager" style="width: 100% !important">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3" >
+                            <div class="form-group">
+                                <label for="txtDOJ">Date of Joining</label>
+                                <input ng-init="question.Value_Text = GetFormattedDate(question.Value_Text)" value="question.Value_Text" type="date" class="form-control" id="txtDOJ" placeholder="Select Date" style="width: 100%;" ng-model="question.Value_Text" />
+                                <%--<input ng-init="question.Value_Text = GetFormattedDate(question.Value_Text)" value="question.Value_Text" type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 100%;" ng-model="question.Value_Text" />--%>
+                            </div>
+                        </div>
 
                         <div class="w-100"></div>
 
@@ -241,6 +283,72 @@
                 $('#divUpdatePassword').hide();
                 clearFields('.input-validation')
                 toggle('divForm', 'divGird');
+
+                BindDropDown();
+            }
+
+            function BindDropDown()
+            {
+                var getUrl = "/API/User/BindDropDown";
+                $.ajax({
+                    type: "POST",
+                    url: getUrl,
+                    headers: { "Authorization": "Bearer " + accessToken },
+                    contentType: "application/json",
+                    success: function (response) {
+                        try {
+                            //debugger
+                            var DataSet = $.parseJSON(response);
+                            HideLoader();
+                            if (DataSet.StatusCode == "1") {
+
+                                var Department = DataSet.Data.Data;
+                                var Team = DataSet.Data.Data1;
+                                var Manager = DataSet.Data.Data2;
+
+                                if (Department != undefined && Department.length > 0) {
+                                    $('#ddlDepartment').empty().append('<option></option>');
+                                    for (var i = 0; i < Department.length; i++) {
+                                        $('#ddlDepartment').append('<option value="' + Department[i].Id + '">' + Department[i].DeptName + '</option>');
+                                    }
+                                    selectInit('#ddlDepartment', 'Select Department');
+                                }
+                                if (Team != undefined && Team.length > 0) {
+                                    $('#ddlTeam').empty().append('<option></option>');
+                                    for (var i = 0; i < Team.length; i++) {
+                                        $('#ddlTeam').append('<option value="' + Team[i].Id + '">' + Team[i].TeamName + '</option>');
+                                    }
+                                    selectInit('#ddlTeam', 'Select Team');
+                                }
+                                if (Manager != undefined && Manager.length > 0) {
+                                    $('#ddlManager').empty().append('<option></option>');
+                                    for (var i = 0; i < Manager.length; i++) {
+                                        $('#ddlManager').append('<option value="' + Manager[i].UserID + '">' + Manager[i].ManagerID + '</option>');
+                                    }
+                                    selectInit('#ddlManager', 'Select Manager');
+                                }
+                            }
+                            else {
+                                if (DataSet.Data != undefined && DataSet.Data.length > 0) {
+                                    Swal.fire(DataSet.Data[0].ReturnMessage, {
+                                        icon: "error",
+                                    });
+                                }
+                                else {
+                                    Swal.fire(DataSet.StatusDescription, {
+                                        icon: "error",
+                                    });
+                                }
+                            }
+                        }
+                        catch (e) {
+                            HideLoader();
+                        }
+                    },
+                    failure: function (response) {
+                        HideLoader();
+                    }
+                });
             }
 
             function Submit() {
@@ -282,6 +390,7 @@
                     });
                 }
                 else {
+                    debugger
                     ShowLoader();
                     var Role = $("#ddlRole option:selected").val();
                     var FirstName = $("#txtFname").val();
@@ -299,16 +408,22 @@
                             UpdateFlag = '1';
                         }
                     }
-
+                    debugger
                     var MobileNum = $("#txtMobileNo").val();
                     var Position = $("#txtPosition").val();
                     var GroupId = $("#ddlGroup option:selected").val();
 
+                    var Gender = $("#ddlGender option:selected").val();
+                    var DepartmentID = $("#ddlDepartment option:selected").val();
+                    var TeamID = $("#ddlTeam option:selected").val();
+                    var ManagerID = $("#ddlManager option:selected").val();
+                    var DOJ = $("#txtDOJ").val();
+
                     if (flag == 'create') {
-                        var requestParams = { RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag };
+                        var requestParams = { RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag, Gender: Gender, DepartmentID: DepartmentID, TeamID: TeamID, ManagerID: ManagerID, DOJ: DOJ };
                     }
                     else {
-                        var requestParams = { UserID: id, RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag };
+                        var requestParams = { UserID: id, RoleID: Role, FirstName: FirstName, LastName: LastName, EmailID: EmailID, Password: Password, MobileNum: MobileNum, Position: Position, GroupId: GroupId, UpdateFlag: UpdateFlag, Gender: Gender, DepartmentID: DepartmentID, TeamID: TeamID, ManagerID: ManagerID, DOJ: DOJ };
                     }
 
                     $.ajax({
@@ -369,6 +484,21 @@
                 else if (!IsValidEmail($("#txtEmailId").val())) {
                     return { error: true, msg: "Please provide valid EmailID of user" };
                 }
+                else if ($("#ddlGender option:selected").val() == undefined || $("#ddlGender option:selected").val() == '') {
+                    return { error: true, msg: "Please select Gender" };
+                }
+                //else if ($("#ddlDepartment option:selected").val() == undefined || $("#ddlDepartment option:selected").val() == '') {
+                //    return { error: true, msg: "Please select Department" };
+                //}
+                //else if ($("#ddlTeam option:selected").val() == undefined || $("#ddlTeam option:selected").val() == '') {
+                //    return { error: true, msg: "Please select Team" };
+                //}
+                //else if ($("#ddlManager option:selected").val() == undefined || $("#ddlManager option:selected").val() == '') {
+                //    return { error: true, msg: "Please select Manager" };
+                //}
+                //else if ($("#txtDOJ").val() == undefined || $("#txtDOJ").val() == '') {
+                //    return { error: true, msg: "Please enter Date of Joining" };
+                //}
 
                 if (flag == 'create') {
                     if ($("#txtPassword").val() == undefined || $("#txtPassword").val() == '') {
@@ -380,7 +510,6 @@
                         return { error: true, msg: "Please enter password" };
                     }
                 }
-
                 return true;
             }
         

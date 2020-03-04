@@ -238,6 +238,20 @@ namespace _365_Portal.Code.BL
             }
             return ds;
         }
-        
+
+        public static DataSet BindDropDown(UserBO objUserBO,string Type)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = CommonDAL.BindDropDown(objUserBO,Type);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
     }
 }

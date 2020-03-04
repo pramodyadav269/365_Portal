@@ -504,6 +504,13 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_MobileNum", objUsers.MobileNum);
                 cmd.Parameters.AddWithValue("p_Position", objUsers.Position);
                 cmd.Parameters.AddWithValue("p_GroupId", objUsers.GroupId);
+
+                cmd.Parameters.AddWithValue("p_Gender", objUsers.Gender);
+                cmd.Parameters.AddWithValue("p_DeptID", objUsers.DepartmentID);
+                cmd.Parameters.AddWithValue("p_TeamID", objUsers.TeamID);                
+                cmd.Parameters.AddWithValue("p_StartDate", objUsers.DOJ);
+                cmd.Parameters.AddWithValue("p_ManagerID", objUsers.ManagerID);
+
                 cmd.Parameters.AddWithValue("p_CreatedBy", objUsers.UserID);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
@@ -615,6 +622,35 @@ namespace _365_Portal.Code.DAL
 
             return ds;
         }
-       
+
+        public static DataSet BindDropDown(UserBO objUsers, string Type)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spBindDropdown";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_UserID", objUsers.UserID);
+                cmd.Parameters.AddWithValue("p_Type", Type);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds;
+        }
+
     }
 }
