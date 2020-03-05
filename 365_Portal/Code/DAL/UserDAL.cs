@@ -56,6 +56,7 @@ namespace _365_Portal.Code.DAL
                         objResponse.FirstName = dt.Rows[0]["FirstName"].ToString();
                         objResponse.LastName = dt.Rows[0]["LastName"].ToString();
                         objResponse.IsFirstLogin = dt.Rows[0]["IsFirstLogin"].ToString();
+                        objResponse.ProfilePicFileID = dt.Rows[0]["ProfilePicFileID"].ToString();
 
                         objResponse.IsFirstPasswordNotChanged = dt.Rows[0]["IsFirstPasswordNotChanged"].ToString();
                     }
@@ -176,6 +177,7 @@ namespace _365_Portal.Code.DAL
                 objUser.PasswordHash = dt.Rows[0]["PasswordHash"].ToString(); // newly filed Added by Rana for Change Password Logic
                 objUser.PasswordSalt = dt.Rows[0]["PasswordSalt"].ToString();// newly filed Added by Rana for Change Password Logic
                 objUser.FaviconFileID = dt.Rows[0]["FaviconPath"].ToString();
+                objUser.OrganizationName = dt.Rows[0]["OrganizationName"].ToString();                
 
                 if (dt.Rows[0]["EmailNotification"].ToString() == "")
                 {

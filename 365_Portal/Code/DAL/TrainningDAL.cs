@@ -424,7 +424,7 @@ namespace _365_Portal.Code.DAL
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("p_compID", compID);
-                cmd.Parameters.AddWithValue("p_userId", userId);               
+                cmd.Parameters.AddWithValue("p_userId", userId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -529,7 +529,7 @@ namespace _365_Portal.Code.DAL
             return ds;
         }
 
-        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds,string removeTopic)
+        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds, string removeTopic)
         {
             DataSet ds = new DataSet();
             MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
@@ -546,6 +546,34 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_groupIds", groupIds);
                 cmd.Parameters.AddWithValue("p_userIds", userIds);
                 cmd.Parameters.AddWithValue("p_removetopic", removeTopic);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
+        public static DataSet GetUserAssignedTopic(int compID, string userId)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spGetUserAssignedTopic";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_CompID", compID);
+                cmd.Parameters.AddWithValue("p_UserIds", userId);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;
@@ -613,6 +641,37 @@ namespace _365_Portal.Code.DAL
                 cmd.Parameters.AddWithValue("p_MaxLength", 150);
                 cmd.Parameters.AddWithValue("p_Title", title);
                 cmd.Parameters.AddWithValue("p_CreatedBy", userId);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(ds, "Data");
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return ds;
+        }
+
+        public static DataSet ChangeTopicProperty(int compID, int userId, int topicId, int type, bool flag)
+        {
+            DataSet ds = new DataSet();
+            MySqlConnection conn = new MySqlConnection(ConnectionManager.connectionString);
+
+            try
+            {
+                conn.Open();
+                string stm = "spChangeTopicProperty";
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("p_compID", compID);
+                cmd.Parameters.AddWithValue("p_userId", userId);
+                cmd.Parameters.AddWithValue("p_topicid", topicId);
+                cmd.Parameters.AddWithValue("p_type", type);
+                cmd.Parameters.AddWithValue("p_flag", flag);
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(ds, "Data");
                 return ds;

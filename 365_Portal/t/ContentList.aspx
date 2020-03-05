@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <div class="row">
         <div class="col-md-12 header mb-5">
-            <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Modules</a>
+            <a class="back" id="back"><i class="fas fa-arrow-left"></i>Back to Lessons</a>
             <h2 class="text-center font-weight-bold">Contents</h2>
         </div>
 
@@ -18,8 +18,8 @@
                             <div class="form-group">
 
                                 <label for="ddlDocType">Doc Type</label>
-                                <select class="form-control select2 required" id="ddlDocType" style="width: 100% !important">
-                                    <option></option>
+                                <select class="form-control required" id="ddlDocType" style="width: 100% !important">
+                                   <%-- <option></option>--%>
                                     <option value="PDF">PDF</option>
                                     <option value="VIDEO">Video</option>
                                     <option value="TEXT">Text</option>

@@ -1,9 +1,9 @@
-﻿var app = angular.module('MasterPage', []);
+﻿var app = angular.module('MasterPage', ['ngSanitize']);
 
 var allContents = [];
 
 // CONTROLLER FUNCTIONS
-app.controller("DefaultController", function ($scope, $rootScope, DataService) {
+app.controller("DefaultController", function ($scope, $rootScope, DataService, $sce) {
     objDs = DataService;
     objDs.DS_GetUserTopics();
     $("#dvTopicContainer").hide();
@@ -11,6 +11,20 @@ app.controller("DefaultController", function ($scope, $rootScope, DataService) {
     $scope.ActiveContainer = "Topic";
     $scope.NotificationText = "Notifications";
     $scope.ColorIndex = 1;
+
+    $scope.trustAsHtml = function (html) {
+
+        //var encodedStr = "&lt;p&gt;&lt;span style=&quot;color: #2dc26b;&quot;&gt;Cloud Compu&lt;/span&gt;&lt;em&gt;&lt;span style=&quot;color: #2dc26b;&quot;&gt;ting - 1&lt;/span&gt; Content Description Cloud Computing Content Des&lt;/em&gt;cription &lt;strong&gt;Cloud Computing Content Description&lt;/strong&gt; Cloud Computing&lt;/p&gt;";
+        var encodedStr = html;
+        var parser = new DOMParser;
+        var dom = parser.parseFromString(
+            '<!doctype html><body>' + encodedStr,
+            'text/html');
+        var decodedString = dom.body.textContent;
+
+        return $sce.trustAsHtml(decodedString);
+    }
+
     $scope.GetColorIndex = function (title) {
         var indx = parseInt($scope.ColorIndex);
         var claass = "";
@@ -565,6 +579,23 @@ app.service("DataService", function ($http, $rootScope, $compile) {
         }).then(function success(response) {
             var responseData = response.data;
             ds.DS_GetContentDetails(topicId, moduleId, contentId);
+            HideLoader();
+        });
+    }
+
+    ds.DS_ChangeTopicProperty = function (type, topicId, flag) {
+        ShowLoader();
+        var requestParams = { Type: type, TopicID: topicId, Flag: flag };
+        $http({
+            method: "POST",
+            url: "../api/Trainning/ChangeTopicProperty",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                "Authorization": "Bearer " + accessToken
+            },
+            data: requestParams,
+        }).then(function success(response) {
+            var responseData = response.data;
             HideLoader();
         });
     }

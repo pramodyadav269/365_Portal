@@ -15,6 +15,7 @@ namespace _365_Portal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            //string aa = getYouTubeThumbnail("'https://www.youtube.com/embed/ZRvhn68WVpg?enablejsapi=1'");
             if (!Page.IsPostBack)
             {
                 //HttpContext.Current.Session["UserId"] = null;
@@ -24,6 +25,34 @@ namespace _365_Portal
 
             //string str = "123";
             //str.isn
+        }
+
+        public string getYouTubeThumbnail(string YoutubeUrl)
+        {
+            string youTubeThumb = string.Empty;
+            if (YoutubeUrl == "")
+                return "";
+
+            if (YoutubeUrl.IndexOf("=") > 0)
+            {
+                youTubeThumb = YoutubeUrl.Split('=')[1];
+            }
+            else if (YoutubeUrl.IndexOf("/v/") > 0)
+            {
+                string strVideoCode = YoutubeUrl.Substring(YoutubeUrl.IndexOf("/v/") + 3);
+                int ind = strVideoCode.IndexOf("?");
+                youTubeThumb = strVideoCode.Substring(0, ind == -1 ? strVideoCode.Length : ind);
+            }
+            else if (YoutubeUrl.IndexOf('/') < 6)
+            {
+                youTubeThumb = YoutubeUrl.Split('/')[3];
+            }
+            else if (YoutubeUrl.IndexOf('/') > 6)
+            {
+                youTubeThumb = YoutubeUrl.Split('/')[1];
+            }
+
+            return "http://img.youtube.com/vi/" + youTubeThumb + "/mqdefault.jpg";
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)

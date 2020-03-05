@@ -11,13 +11,13 @@ namespace _365_Portal.Models
 {    
     public class WebServiceLog
     {
-        public string ControllerName { get; set; }
+        public DateTime RequestTime { get; set; }
+        public string ControllerName { get; set; }        
         public string MethodName { get; set; }
         public string RequestString { get; set; }
         public string ResponseString { get; set; }
-        public DateTime RequestTime { get; set; }        
-        public DateTime ResponseTime { get; set; }
         public string RequestType { get; set; }
+        public DateTime ResponseTime { get; set; }        
         public string ClientIpAddress { get; set; }
         public string IMEI { get; set; }
         public string DeviceModelNo { get; set; }

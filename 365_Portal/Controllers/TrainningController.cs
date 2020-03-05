@@ -514,17 +514,51 @@ namespace _365_Portal.Controllers
                 try
                 {
                     int compId = identity.CompId;
+                    //string[] mailUserIDs = new string[] { };
+                    List<string> mailUserIDs = new List<string>();
                     string userId = identity.UserID;
                     var topicIds = Convert.ToString(requestParams["TopicIds"].ToString());
                     var groupIds = Convert.ToString(requestParams["GroupIds"].ToString());
                     var userIds = Convert.ToString(requestParams["UserIds"].ToString());
                     var removeTopic = Convert.ToString(requestParams["RemoveTopics"].ToString());
 
+                    if (!string.IsNullOrEmpty(userIds))
+                    {
+                        var dsTopics = TrainningBL.GetUserAssignedTopic(compId, userIds);
+
+                        string[] arrTopics = topicIds.Split(',');
+                        string[] arrUsers = userIds.Split(',');
+
+                        //mailUserIDs = new string[arrUsers.Length];
+
+                        if (dsTopics.Tables.Count > 0 && dsTopics.Tables[0].Rows.Count > 0)
+                        {
+                            for (int j = 0; j < arrUsers.Length; j++)
+                            {
+                                for (int i = 0; i < arrTopics.Length; i++)
+                                {
+                                    if (!dsTopics.Tables[0].Select().ToList().Exists(row => row["Topics"].ToString() == arrTopics[i] && row["UserID"].ToString() == arrUsers[j]))
+                                    {
+                                        mailUserIDs.Add(arrUsers[j]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     var ds = TrainningBL.AssignTopicsByEntity(compId, userId, topicIds, groupIds, userIds, removeTopic);
                     if (ds.Tables.Count > 0)
                     {
                         // Successful
                         data = Utility.Successful("");
+                        if (mailUserIDs.Count() > 0)
+                        {
+                            mailUserIDs = mailUserIDs.Distinct().ToList();
+                            foreach (string UserID in mailUserIDs)
+                            {
+                                EmailHelper.GetEmailContent(Convert.ToInt32(UserID), identity.CompId, EmailHelper.Functionality.ADD_TOPIC, "", "");
+                            }
+                        }
                     }
                     else
                     {
@@ -596,6 +630,37 @@ namespace _365_Portal.Controllers
                 else
                 {
                     data = Utility.API_Status("0", "No data found");
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
+        [Route("api/Trainning/ChangeTopicProperty")]
+        [HttpPost]
+        public IHttpActionResult ChangeTopicProperty(JObject requestParams)
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                try
+                {
+                    int compId = identity.CompId;
+                    int userId = Convert.ToInt32(identity.UserID);
+                    int type = Convert.ToInt32(requestParams["Type"].ToString());
+                    int topicId = Convert.ToInt32(requestParams["TopicID"].ToString());
+                    bool flag = Convert.ToBoolean(requestParams["Flag"].ToString());
+                    var ds = TrainningBL.ChangeTopicProperty(compId, userId, topicId, type, flag);
+                    data = Utility.ConvertDataSetToJSONString(ds.Tables[0]);
+                    data = Utility.Successful(data);
+                }
+                catch (Exception ex)
+                {
+                    data = Utility.Exception(ex); ;
                 }
             }
             else

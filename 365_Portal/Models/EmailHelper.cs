@@ -19,6 +19,7 @@ namespace _365_Portal.Models
             public static string FORGOT_PASS = "FORGOT_PASS";
             public static string CHANGE_PASS = "CHANGE_PASS";
             public static string CHANGE_PASS_ADMIN = "CHANGE_PASS_ADMIN";
+            public static string ADD_TOPIC = "ADD_TOPIC";            
         }
 
         public class EmailResponse
@@ -57,9 +58,11 @@ namespace _365_Portal.Models
                     obj.SMSUserID = ds.Tables[0].Rows[0]["SMSUserID"].ToString();
                     obj.SMSPassword = ds.Tables[0].Rows[0]["SMSPassword"].ToString();
                     obj.ToMail = ds.Tables[0].Rows[0]["ToMail"].ToString();
+                    //obj.ToMail = "pramodyadav269@gmail.com";
 
                     obj.EmailContent = obj.EmailContent.Replace("#FirstName#", obj.ToMailName);
                     obj.EmailContent = obj.EmailContent.Replace("#EmailID#", obj.ToMail);
+                    obj.EmailContent = obj.EmailContent.Replace("#ResetPwdLink#", Ref1);
 
                     flag = SendEmail(obj);
                 }

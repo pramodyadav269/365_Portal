@@ -94,6 +94,8 @@ namespace _365_Portal.Admin
                         dvSubMenu_ContentSettings.Visible = true;
                         dvSubMenu_Roles.Visible = true;
                         dvSubMenu_Customize.Visible = true;
+
+                        dvSubMenu_Users.Visible = false; 
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.companyadmin)
                     {
@@ -112,6 +114,8 @@ namespace _365_Portal.Admin
                         dvMenu_Account.Visible = true;
                         dvSubMenu_Customize.Visible = true;
                         dvSubMenu_AssignTopics.Visible = true;
+
+                        dvSubMenu_Organizations.Visible = false;
                     }
                     else if (HttpContext.Current.Session["RoleName"].ToString() == ConstantMessages.Roles.subadmin)
                     {
@@ -200,7 +204,7 @@ namespace _365_Portal.Admin
                 {
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
                     objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
-                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                 }
             }
             catch (Exception ex)

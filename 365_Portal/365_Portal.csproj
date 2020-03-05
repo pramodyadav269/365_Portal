@@ -257,6 +257,7 @@
     <Compile Include="Code\BL\AchivementBL.cs" />
     <Compile Include="Code\BL\CommonBL.cs" />
     <Compile Include="Code\BL\ContentBL.cs" />
+    <Compile Include="Code\BL\DiscussionBL.cs" />
     <Compile Include="Code\BL\FlashcardBL.cs" />
     <Compile Include="Code\BL\ModulesBL.cs" />
     <Compile Include="Code\BL\OrganizationBL.cs" />
@@ -274,6 +275,7 @@
     <Compile Include="Code\DAL\AchivementDAL.cs" />
     <Compile Include="Code\DAL\CommonDAL.cs" />
     <Compile Include="Code\DAL\ContentDAL.cs" />
+    <Compile Include="Code\DAL\DiscussionDAL.cs" />
     <Compile Include="Code\DAL\FlashcardDAL.cs" />
     <Compile Include="Code\DAL\ModuleDAL.cs" />
     <Compile Include="Code\DAL\OrganizationDAL.cs" />
@@ -291,6 +293,7 @@
     <Compile Include="Common\JSONHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AchievementController.cs" />
+    <Compile Include="Controllers\DiscussionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
@@ -512,6 +515,13 @@
     <Compile Include="t\Settings.aspx.designer.cs">
       <DependentUpon>Settings.aspx</DependentUpon>
     </Compile>
+    <Compile Include="t\discussion.aspx.cs">
+      <DependentUpon>discussion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="t\discussion.aspx.designer.cs">
+      <DependentUpon>discussion.aspx</DependentUpon>
+    </Compile>
     <Compile Include="t\Topics.aspx.cs">
       <DependentUpon>Topics.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -724,6 +734,7 @@
     <Content Include="INCLUDES\Asset\images\user.png" />
     <Content Include="INCLUDES\Asset\js\360.js" />
     <Content Include="INCLUDES\Asset\js\all.js" />
+    <Content Include="INCLUDES\Asset\js\angular-sanitize.js" />
     <Content Include="INCLUDES\Asset\js\angular.min.js" />
     <Content Include="INCLUDES\Asset\js\bootstrap.min.js" />
     <Content Include="INCLUDES\Asset\js\bs-custom-file-input.min.js" />
@@ -1026,6 +1037,7 @@
     <Content Include="t\Profile.aspx" />
     <Content Include="t\quiz.aspx" />
     <Content Include="t\Settings.aspx" />
+    <Content Include="t\discussion.aspx" />
     <Content Include="t\Topics.aspx" />
     <Content Include="t\UserGroupMapping.aspx" />
     <Content Include="t\Users.aspx" />
@@ -1056,6 +1068,7 @@
     <Folder Include="Files\Others\" />
     <Folder Include="Files\ProfilePic\" />
     <Folder Include="Files\Survey\" />
+    <Folder Include="Views\Discussion\" />
     <Folder Include="Views\Modules\" />
     <Folder Include="Views\Organization\" />
     <Folder Include="Views\Quiz\" />

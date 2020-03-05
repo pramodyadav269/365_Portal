@@ -299,7 +299,7 @@ namespace _365_Portal.Code.BL
                                     string filePath = HttpContext.Current.Server.MapPath("~/Files/Survey/" + fileName);
                                     File.WriteAllBytes(filePath, imageBytes);
 
-                                    DataSet dsFile = UserBL.CreateFile("~/Files/Survey/" + fileName, filePath,false, "ProfilePic");
+                                    DataSet dsFile = UserBL.CreateFile("~/Files/Survey/" + fileName, filePath, false, "ProfilePic");
                                     if (dsFile.Tables.Count > 0 && dsFile.Tables[0].Rows.Count > 0)
                                     {
                                         ansOption.FileID = Convert.ToInt32(dsFile.Tables[0].Rows[0]["UniqueID"].ToString());
@@ -487,12 +487,26 @@ namespace _365_Portal.Code.BL
             return ds;
         }
 
-        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds,string removeTopic)
+        public static DataSet AssignTopicsByEntity(int compID, string userId, string topicIds, string groupIds, string userIds, string removeTopic)
         {
             DataSet ds = new DataSet();
             try
             {
                 ds = TrainningDAL.AssignTopicsByEntity(compID, userId, topicIds, groupIds, userIds, removeTopic);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet GetUserAssignedTopic(int compID, string userId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.GetUserAssignedTopic(compID, userId);
             }
             catch (Exception ex)
             {
@@ -545,7 +559,7 @@ namespace _365_Portal.Code.BL
                 }
                 if (ds.Tables[0].Rows[0]["EmailNotification"].ToString() == "1")
                 {
-                    EmailHelper.GetEmailContent(Convert.ToInt32(userId), compId, type, "","");
+                    EmailHelper.GetEmailContent(Convert.ToInt32(userId), compId, type, "", "");
                 }
             }
         }
@@ -556,6 +570,20 @@ namespace _365_Portal.Code.BL
             try
             {
                 ds = TrainningDAL.QuestionCRUD(action, compId, userId, contentId, questionId, title, questionTypeId, isBox);
+            }
+            catch (Exception ex)
+            {
+                Log(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+            return ds;
+        }
+
+        public static DataSet ChangeTopicProperty(int compID, int userId, int topicId, int type, bool flag)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = TrainningDAL.ChangeTopicProperty(compID, userId, topicId, type, flag);
             }
             catch (Exception ex)
             {

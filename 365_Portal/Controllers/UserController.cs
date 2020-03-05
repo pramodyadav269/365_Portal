@@ -30,6 +30,12 @@ namespace _365_Portal.Controllers
         [Route("api/User/LoginUser")]
         public IHttpActionResult LoginUser(JObject requestParams)
         {
+            WebServiceLog objServiceLog = new WebServiceLog();
+            objServiceLog.RequestTime = DateTime.Now;
+            objServiceLog.ControllerName = this.GetType().Name;
+            objServiceLog.MethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            objServiceLog.RequestString = JSONHelper.ConvertJsonToString(requestParams);
+
             LoginResponse objResponse = null;
             string data = string.Empty;
             try
@@ -40,6 +46,7 @@ namespace _365_Portal.Controllers
                 if (string.IsNullOrEmpty(EmailId) || string.IsNullOrEmpty(UserPwd))
                 {
                     data = Utility.API_Status("0", ConstantMessages.Login.InvalidUser);
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                 }
                 else
                 {
@@ -59,6 +66,7 @@ namespace _365_Portal.Controllers
                     objResponse.FirstName = objUser.FirstName;
                     objResponse.LastName = objUser.LastName;
                     objResponse.IsFirstLogin = objUser.IsFirstLogin;
+                    objResponse.ProfilePicFileID = objUser.ProfilePicFileID;
 
                     objResponse.IsFirstPasswordNotChanged = objUser.IsFirstPasswordNotChanged;
 
@@ -72,17 +80,21 @@ namespace _365_Portal.Controllers
                             objResponse.Token = HttpContext.Current.Session["access_token"].ToString();
                             data = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
                             data = Utility.Successful(data);
+                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
                         }
                         else
                         {
                             data = Utility.API_Status("0", ConstantMessages.WebServiceLog.GenericErrorMsg);
+                            objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                         }
                     }
                     else
                     {
                         // Failed
                         data = Utility.API_Status("0", objResponse.ReturnMessage);
+                        objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                     }
+                    objServiceLog.ResponseString = data;
                 }
             }
             catch (Exception ex)
@@ -137,14 +149,13 @@ namespace _365_Portal.Controllers
                     }
                     //Response = JsonConvert.SerializeObject(objResponse, Formatting.Indented);
                     objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
-                    objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
+                    objServiceLog.ResponseString = data;
                     objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
                 }
                 else
                 {
-                    objServiceLog.RequestString = JSONHelper.ConvertJsonToString(objRequest);
-                    objServiceLog.ResponseString = JSONHelper.ConvertJsonToString(objResponse);
-                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Success;
+                    objServiceLog.ResponseString = data;
+                    objServiceLog.RequestType = ConstantMessages.WebServiceLog.Validation;
                     data = Utility.AuthenticationError();
                 }
             }
@@ -358,6 +369,7 @@ namespace _365_Portal.Controllers
                     objUserProfile.ThemeColor3 = UserDetails.ThemeColor3;
                     objUserProfile.ThemeColor4 = UserDetails.ThemeColor4;
                     objUserProfile.GroupName = UserDetails.GroupName;
+                    objUserProfile.OrganizationName = UserDetails.OrganizationName;
                     if (!string.IsNullOrEmpty(UserDetails.ProfilePicFileID))
                     {
                         //objUserProfile.ProfilePicFile = HttpContext.Current.Server.MapPath("~/Files/ProfilePic/") + UserDetails.ProfilePicFileID;
@@ -475,6 +487,14 @@ namespace _365_Portal.Controllers
                 //ResponseBase.Ref1 = _userdetail.ProfilePicFile;
                 data = Utility.ConvertJsonToString(ResponseBase);
 
+                if (Convert.ToString(requestParams.SelectToken("EmailNotification")) != "")
+                {
+                    _userdetail.EmailNotification = (bool)requestParams.SelectToken("EmailNotification");
+                    _userdetail.PushNotification = (bool)requestParams.SelectToken("PushNotification");
+
+                    UserDAL.UpdateNotificationByUserID(_userdetail, "");
+                }
+
                 if (ResponseBase.ReturnCode == "1")
                 {
                     //HttpContext.Current.Session["IsFirstLogin"] = false;
@@ -575,7 +595,7 @@ namespace _365_Portal.Controllers
                                         CompId = identity.CompId;
                                         UserId = identity.UserID;
                                         IP_Address = Utility.GetClientIPaddress();
-                                        if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType) && string.IsNullOrEmpty(DeviceType))
+                                        if ((HttpContext.Current.Request.Browser.IsMobileDevice == true || HttpContext.Current.Request.Browser.IsMobileDevice == false) && string.IsNullOrEmpty(DeviceDetails) && string.IsNullOrEmpty(DeviceType))
                                         {
                                             DeviceDetails = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.InfoType.Trim().ToLower());
                                             DeviceType = Utility.GetDeviceDetails(ConstantMessages.DeviceInfo.DeviceTypeBrowser.Trim().ToLower());
@@ -717,7 +737,7 @@ namespace _365_Portal.Controllers
                                             data = Utility.ConvertDataSetToJSONString(dt);
                                             data = Utility.Successful(data);
 
-                                            EmailHelper.GetEmailContent(Convert.ToInt32(User_details.UserID), User_details.CompId, EmailHelper.Functionality.FORGOT_PASS, "", "");
+                                            EmailHelper.GetEmailContent(Convert.ToInt32(User_details.UserID), User_details.CompId, EmailHelper.Functionality.CHANGE_PASS, "", "");
                                         }
                                         else
                                         {
@@ -803,25 +823,22 @@ namespace _365_Portal.Controllers
                             }
                             else
                             {
-
                                 data = Utility.ConvertDataSetToJSONString(dt);
                                 data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                             }
-
                         }
                         else
                         {
-                            data = ConstantMessages.ChangePassowrd.Error;
+                            data = "Dear customer this link has expired.";
                             data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
                         }
                     }
                     else
                     {
-                        data = ConstantMessages.ChangePassowrd.Error;
+                        data = "Dear customer you have entered invalid URL";
                         data = Utility.API_Status(Convert.ToInt32(ConstantMessages.StatusCode.Failure).ToString(), data);
 
                     }
-
                 }
                 else
                 {
@@ -1158,7 +1175,7 @@ namespace _365_Portal.Controllers
                     {
                         objUser.CompId = Convert.ToInt32(requestParams["CompId"].ToString());
                     }
-                                        
+
                     var ds = CommonBL.GetUsers(objUser);
                     if (ds.Tables.Count > 0)
                     {
@@ -1214,7 +1231,6 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
-
 
         public static bool IsValidEmail(string eMail)
         {
@@ -1558,6 +1574,54 @@ namespace _365_Portal.Controllers
             {
                 objUserVal.CompName = (string)jsonResult.SelectToken("CompName");
             }
+            if (jsonResult.SelectToken("Gender") != null && jsonResult.SelectToken("Gender").ToString().Trim() != "")
+            {
+                objUserVal.Gender = (string)jsonResult.SelectToken("Gender");
+            }
+            else
+            {
+                Message = "Please select gender."; ValFlag = false; return ValFlag;
+            }
+            if (jsonResult.SelectToken("DepartmentID") != null && jsonResult.SelectToken("DepartmentID").ToString().Trim() != "")
+            {
+                objUserVal.DepartmentID = (string)jsonResult.SelectToken("DepartmentID");
+            }
+            //else
+            //{
+            //    Message = "Please select Department."; ValFlag = false; return ValFlag;
+            //}
+            if (jsonResult.SelectToken("TeamID") != null && jsonResult.SelectToken("TeamID").ToString().Trim() != "")
+            {
+                objUserVal.TeamID = (string)jsonResult.SelectToken("TeamID");
+            }
+            //else
+            //{
+            //    Message = "Please select Team."; ValFlag = false; return ValFlag;
+            //}
+            if (jsonResult.SelectToken("ManagerID") != null && jsonResult.SelectToken("ManagerID").ToString().Trim() != "")
+            {
+                objUserVal.ManagerID = (string)jsonResult.SelectToken("ManagerID");
+            }
+            //else
+            //{
+            //    Message = "Please select Manager."; ValFlag = false; return ValFlag;
+            //}
+            if (jsonResult.SelectToken("DOJ") != null && jsonResult.SelectToken("DOJ").ToString().Trim() != "")
+            {                
+                try
+                {
+                    objUserVal.DOJ = DateTime.ParseExact(jsonResult.SelectToken("DOJ").ToString().Trim(), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+                }
+                catch (Exception ex)
+                {
+                    Message = "Please enter valid Date of Joining."; ValFlag = false; return ValFlag;
+                }                
+            }
+            //else
+            //{
+            //    Message = "Please enter Date of Joining."; ValFlag = false; return ValFlag;
+            //}
+
             return ValFlag;
         }
 
@@ -1616,7 +1680,7 @@ namespace _365_Portal.Controllers
 
                 if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin)
                 {
-                    if (jsonResult.SelectToken("GroupID") != null && jsonResult.SelectToken("GroupID").ToString().Trim() != "" )
+                    if (jsonResult.SelectToken("GroupID") != null && jsonResult.SelectToken("GroupID").ToString().Trim() != "")
                     {
                         objUser.GroupId = jsonResult.SelectToken("GroupID").ToString();
                     }
@@ -1701,5 +1765,39 @@ namespace _365_Portal.Controllers
             }
             return new APIResult(Request, data);
         }
+
+        [Route("API/User/BindDropdown")]
+        [HttpPost]
+        public IHttpActionResult BindDropdown()
+        {
+            var data = "";
+            var identity = MyAuthorizationServerProvider.AuthenticateUser();
+            if (identity != null)
+            {
+                UserBO objUser = new UserBO();
+
+                if (identity.Role == ConstantMessages.Roles.companyadmin || identity.Role == ConstantMessages.Roles.superadmin || identity.Role == ConstantMessages.Roles.subadmin)
+                {
+                    objUser.UserID = identity.UserID;
+                    objUser.CompId = identity.CompId;
+                    objUser.Role = identity.Role;
+
+                    var ds = CommonBL.BindDropDown(objUser, "createuser");
+
+                    data = Utility.ConvertDataSetToJSONString(ds);
+                    data = Utility.Successful(data);
+                }
+                else
+                {
+                    data = Utility.API_Status("3", "You do not have access for this functionality");
+                }
+            }
+            else
+            {
+                data = Utility.AuthenticationError();
+            }
+            return new APIResult(Request, data);
+        }
+
     }
 }
