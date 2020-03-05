@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="col-md-8 mt-5 offset-md-2">
-            <div class="row achievements">
+            <div class="row achievements d-none">
                 <div class="col-md-12">
                     <h4 class="section-title">Achievements</h4>
                 </div>
