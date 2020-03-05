@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server"> 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
-    <div class="row">
+    <div class="row d-none">
         <div class="col-12 achievements mb-5">
             <div class="card top shadow">
                 <div class="row">

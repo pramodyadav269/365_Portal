@@ -1,0 +1,252 @@
+﻿
+/* heebo-regular - latin */
+@font-face {
+    font-family: 'Heebo';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Heebo'), local('Heebo-Regular'), url('../fonts/heebo-v5-latin-regular.woff2') format('woff2');
+}
+
+body {
+    background: #F5F6F7;
+    font-size: .9rem;
+    font-family: Heebo;
+}
+
+a {
+    cursor: pointer;
+}
+
+    a:hover {
+        text-decoration: none;
+    }
+
+/* navbar */
+.nav-search .select2-container .select2-selection--single {
+    height: 36px;
+}
+
+.nav-search .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 34px;
+}
+
+.nav-search .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 32px;
+}
+
+
+.nav-search .select2-container--default .select2-selection--single {
+    border: 1px solid rgba(170, 170, 170, 0.2);
+    border-radius: 18px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.18);
+}
+
+    .nav-search .select2-container--default .select2-selection--single .select2-selection__placeholder {
+        color: #000;
+    }
+
+
+    .nav-search .select2-container--default .select2-selection--single .select2-selection__arrow b {
+        border-color: #000 transparent transparent transparent;
+    }
+
+/* navbar input */
+.nav-search .form-control {
+    border-right: none;
+}
+
+.nav-search .input-group-text {
+    background-color: transparent;
+    border-left: none;
+}
+
+/* navbar right menu */
+.navbar .navbar-brand .logo {
+    height: 30px;
+}
+
+.navbar .nav-content {
+    display: flex;
+    /*margin: 0 2rem;*/
+}
+
+    .navbar .nav-content .navbar-nav {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .navbar .nav-content .nav-item {
+        margin: 0 .25rem;
+    }
+
+        .navbar .nav-content .nav-item.language {
+            margin-left: 1rem;
+        }
+
+            .navbar .nav-content .nav-item.language img {
+                height: 26px;
+                width: 26px;
+            }
+
+
+        .navbar .nav-content .nav-item.icon {
+            padding: 0 1rem;
+            border-right: 1.5px solid rgba(0, 0, 0, 0.2);
+        }
+
+            .navbar .nav-content .nav-item.icon span.badge {
+                background: #147EFB;
+                color: #fff;
+                border-radius: 50%;
+                border: 1.5px solid #fff;
+                font-size: 8px;
+                font-weight: 500;
+                position: relative;
+                top: -8px;
+                left: -8px;
+            }
+
+            .navbar .nav-content .nav-item.icon img {
+                height: 20px;
+            }
+
+        .navbar .nav-content .nav-item.profile-photo {
+            margin-left: 3rem;
+        }
+
+            .navbar .nav-content .nav-item.profile-photo .badge {
+                border-radius: 50%;
+                border: 2px solid #fff;
+                font-size: 6px;
+                position: relative;
+                top: -12px;
+                left: -12px;
+            }
+
+                .navbar .nav-content .nav-item.profile-photo .badge.online {
+                    background: #2DCD7A;
+                    color: #2DCD7A;
+                }
+
+                .navbar .nav-content .nav-item.profile-photo .badge.offline {
+                    background: #ED5F5F;
+                    color: #ED5F5F;
+                }
+
+        .navbar .nav-content .nav-item .nav-link {
+            padding: 0;
+            color: #000;
+        }
+
+        .navbar .nav-content .nav-item.profile a span {
+            cursor: pointer;
+        }
+
+
+            .navbar .nav-content .nav-item.profile a span.status {
+                display: block;
+                font-size: 10px;
+                line-height: 10px;
+                color: rgba(0,0,0,.5);
+            }
+
+            .navbar .nav-content .nav-item.profile a span.name.dropdown-toggle::after {
+                margin-left: .5em;
+            }
+
+.navbar .profile .dropdown-menu {
+    left: -6.5rem;
+    top: 2.3rem;
+    width: 200px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    position: absolute !important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+    .navbar .profile .dropdown-menu::before {
+        position: absolute;
+        display: inline-block;
+        top: -8px;
+        right: 20px;
+        content: "";
+        color: #fff;
+        border-bottom: .5em solid;
+        border-right: .5em solid transparent;
+        border-top: 0;
+        border-left: .5em solid transparent;
+    }
+
+    .navbar .profile .dropdown-menu .dropdown-item {
+        padding: .55rem .75rem;
+        color: rgba(0, 0, 0, .65);
+        border-bottom: 1px solid rgba(234, 234, 234, 0.1);
+    }
+
+        .navbar .profile .dropdown-menu .dropdown-item:hover {
+            color: #000;
+        }
+
+
+.navbar .icon .dropdown-menu {
+    left: -284px;
+    width: 338px;
+    top: 34px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    position: absolute !important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+    .navbar .icon .dropdown-menu::before {
+        position: absolute;
+        display: inline-block;
+        top: -8px;
+        right: 20px;
+        content: "";
+        color: #ffffff;
+        border-bottom: .5em solid;
+        border-right: .5em solid #95121200;
+        border-top: 0;
+        border-left: .5em solid transparent;
+    }
+
+    .navbar .icon .dropdown-menu .dropdown-item {
+        padding: .55rem .75rem;
+        border-bottom: 1px solid #eaeaea;
+        white-space: normal;
+        font-size: 14px;
+        text-transform: none;
+    }
+
+        .navbar .icon .dropdown-menu .dropdown-item.unread::before {
+            position: absolute;
+            display: inline-block;
+            right: 8px;
+            content: ' \25CF';
+            color: #FEC900;
+        }
+
+
+.dropdown-arrow {
+    position: relative;
+    height: 8px;
+    left: 6px;
+    top: -1px;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+/* navbar menu */
+.navbar.nav-menu {
+    box-shadow: 0 .125rem .13rem rgba(0,0,0,.2);
+    padding: 0 1rem;
+}
+
+    .navbar.nav-menu .navbar-nav .nav-item {
+        margin: 0 .75rem;
+    }
