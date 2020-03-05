@@ -19,8 +19,17 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-8 mt-5 offset-md-2">
-            <div class="row achievements d-none">
+            <div class="row">
+                <div class="col-sm-12">
+                    <img class="img-fluid" src="https://wallpaperplay.com/walls/full/f/f/1/122862.jpg" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 mt-5 offset-md-2 d-none">
+            <div class="row achievements">
                 <div class="col-md-12">
                     <h4 class="section-title">Achievements</h4>
                 </div>

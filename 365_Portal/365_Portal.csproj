@@ -326,6 +326,12 @@
     <Compile Include="INCLUDES\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="INCLUDES\ValidationForm.aspx.cs">
+      <DependentUpon>ValidationForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="INCLUDES\ValidationForm.aspx.designer.cs">
+      <DependentUpon>ValidationForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -343,6 +349,20 @@
     <Compile Include="Models\ResponseBase.cs" />
     <Compile Include="Models\WebServiceLog.cs" />
     <Compile Include="MyAuthorizationServerProvider.cs" />
+    <Compile Include="Phase2\Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Phase2\Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Phase2\Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Phase2\Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="RefreshTokenProvider.cs" />
@@ -682,6 +702,7 @@
     <Content Include="INCLUDES\Asset\css\bootstrap.min.css" />
     <Content Include="INCLUDES\Asset\css\dataTables.bootstrap4.min.css" />
     <Content Include="INCLUDES\Asset\css\gijgo.min.css" />
+    <Content Include="INCLUDES\Asset\css\jodit.min.css" />
     <Content Include="INCLUDES\Asset\css\select2.min.css" />
     <Content Include="INCLUDES\Asset\customer\common.js" />
     <Content Include="INCLUDES\Asset\customer\default.js" />
@@ -719,6 +740,7 @@
     <Content Include="INCLUDES\Asset\js\bs-custom-file-input.min.js" />
     <Content Include="INCLUDES\Asset\js\dataTables.bootstrap4.min.js" />
     <Content Include="INCLUDES\Asset\js\gijgo.min.js" />
+    <Content Include="INCLUDES\Asset\js\jodit.min.js" />
     <Content Include="INCLUDES\Asset\js\jquery.dataTables.min.js" />
     <Content Include="INCLUDES\Asset\js\jquery.min.js" />
     <Content Include="INCLUDES\Asset\js\jquery.tablednd.js" />
@@ -796,7 +818,105 @@
     <Content Include="INCLUDES\Asset\webfonts\fa-solid-900.svg" />
     <Content Include="INCLUDES\Dashboard.aspx" />
     <Content Include="INCLUDES\Default.aspx" />
+    <Content Include="INCLUDES\ValidationForm.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="Phase2\Assets\css\site.css" />
+    <Content Include="Phase2\Assets\css\all.css" />
+    <Content Include="Phase2\Assets\css\bootstrap.min.css" />
+    <Content Include="Phase2\Assets\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Phase2\Assets\css\gijgo.min.css" />
+    <Content Include="Phase2\Assets\css\select2.min.css" />
+    <Content Include="Phase2\Assets\fonts\gijgo-material.svg" />
+    <Content Include="Phase2\Assets\images\arrow-down-sign-to-navigate.png" />
+    <Content Include="Phase2\Assets\images\comments.png" />
+    <Content Include="Phase2\Assets\images\logo-black.svg" />
+    <Content Include="Phase2\Assets\images\logo-white.svg" />
+    <Content Include="Phase2\Assets\images\logo.svg" />
+    <Content Include="Phase2\Assets\images\notifications.png" />
+    <Content Include="Phase2\Assets\images\profile.png" />
+    <Content Include="Phase2\Assets\images\us.png" />
+    <Content Include="Phase2\Assets\js\site.js" />
+    <Content Include="Phase2\Assets\js\all.js" />
+    <Content Include="Phase2\Assets\js\angular.min.js" />
+    <Content Include="Phase2\Assets\js\bootstrap.min.js" />
+    <Content Include="Phase2\Assets\js\bs-custom-file-input.min.js" />
+    <Content Include="Phase2\Assets\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Phase2\Assets\js\gijgo.min.js" />
+    <Content Include="Phase2\Assets\js\jquery.dataTables.min.js" />
+    <Content Include="Phase2\Assets\js\jquery.min.js" />
+    <Content Include="Phase2\Assets\js\jquery.tablednd.js" />
+    <Content Include="Phase2\Assets\js\moment.js" />
+    <Content Include="Phase2\Assets\js\popper.min.js" />
+    <Content Include="Phase2\Assets\js\select2.min.js" />
+    <Content Include="Phase2\Assets\js\sweetalert2.js" />
+    <Content Include="Phase2\Assets\tinymce\jquery.tinymce.min.js" />
+    <Content Include="Phase2\Assets\tinymce\license.txt" />
+    <Content Include="Phase2\Assets\tinymce\plugins\advlist\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\anchor\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\autolink\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\autoresize\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\autosave\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\bbcode\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\charmap\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\codesample\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\code\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\colorpicker\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\contextmenu\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\directionality\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\emoticons\js\emojis.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\emoticons\js\emojis.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\emoticons\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\fullpage\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\fullscreen\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\help\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\hr\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\imagetools\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\image\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\importcss\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\legacyoutput\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\link\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\lists\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\media\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\noneditable\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\pagebreak\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\paste\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\preview\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\print\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\quickbars\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\save\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\searchreplace\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\spellchecker\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\tabfocus\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\table\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\template\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\textcolor\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\textpattern\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\toc\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\visualblocks\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\visualchars\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\plugins\wordcount\plugin.min.js" />
+    <Content Include="Phase2\Assets\tinymce\skins\content\default\content.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\content\document\content.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\content\writer\content.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide-dark\content.inline.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide-dark\content.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide-dark\content.mobile.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide-dark\skin.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide-dark\skin.mobile.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide\content.inline.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide\content.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide\content.mobile.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide\skin.min.css" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide\skin.mobile.min.css" />
+    <Content Include="Phase2\Assets\tinymce\themes\mobile\theme.min.js" />
+    <Content Include="Phase2\Assets\tinymce\themes\silver\theme.min.js" />
+    <Content Include="Phase2\Assets\tinymce\tinymce.min.js" />
+    <Content Include="Phase2\Assets\webfonts\fa-brands-400.svg" />
+    <Content Include="Phase2\Assets\webfonts\fa-regular-400.svg" />
+    <Content Include="Phase2\Assets\webfonts\fa-solid-900.svg" />
+    <Content Include="Phase2\Dashboard.aspx" />
     <Content Include="ResetPassword.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -865,6 +985,28 @@
     <Content Include="INCLUDES\Asset\tinymce\skins\ui\oxide-dark\content.min.css.15712_1.266.partial" />
     <Content Include="INCLUDES\Asset\tinymce\skins\ui\oxide-dark\fonts\tinymce-mobile.woff" />
     <Content Include="INCLUDES\Asset\tinymce\skins\ui\oxide\fonts\tinymce-mobile.woff" />
+    <Content Include="Phase2\Site.Master" />
+    <Content Include="Phase2\Assets\fonts\gijgo-material.eot" />
+    <Content Include="Phase2\Assets\fonts\gijgo-material.ttf" />
+    <Content Include="Phase2\Assets\fonts\gijgo-material.woff" />
+    <Content Include="Phase2\Assets\fonts\heebo-v5-latin-700.woff2" />
+    <Content Include="Phase2\Assets\fonts\heebo-v5-latin-regular.woff2" />
+    <Content Include="Phase2\Assets\tinymce\langs\readme.md" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide-dark\content.min.css.15712_1.266.partial" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide-dark\fonts\tinymce-mobile.woff" />
+    <Content Include="Phase2\Assets\tinymce\skins\ui\oxide\fonts\tinymce-mobile.woff" />
+    <Content Include="Phase2\Assets\webfonts\fa-brands-400.eot" />
+    <Content Include="Phase2\Assets\webfonts\fa-brands-400.ttf" />
+    <Content Include="Phase2\Assets\webfonts\fa-brands-400.woff" />
+    <Content Include="Phase2\Assets\webfonts\fa-brands-400.woff2" />
+    <Content Include="Phase2\Assets\webfonts\fa-regular-400.eot" />
+    <Content Include="Phase2\Assets\webfonts\fa-regular-400.ttf" />
+    <Content Include="Phase2\Assets\webfonts\fa-regular-400.woff" />
+    <Content Include="Phase2\Assets\webfonts\fa-regular-400.woff2" />
+    <Content Include="Phase2\Assets\webfonts\fa-solid-900.eot" />
+    <Content Include="Phase2\Assets\webfonts\fa-solid-900.ttf" />
+    <Content Include="Phase2\Assets\webfonts\fa-solid-900.woff" />
+    <Content Include="Phase2\Assets\webfonts\fa-solid-900.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

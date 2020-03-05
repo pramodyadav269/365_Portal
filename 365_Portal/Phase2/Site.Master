@@ -1,0 +1,147 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="_365_Portal.Phase2.Site" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="icon" href="Assets/images/logo-black.svg" type="image/svg" sizes="16x16">
+    <%-- CSS --%>
+    <link href="Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Assets/css/all.css" rel="stylesheet" />
+    <link href="Assets/css/gijgo.min.css" rel="stylesheet" />
+    <link href="Assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="Assets/css/select2.min.css" rel="stylesheet" />
+    <link href="Assets/css/site.css" rel="stylesheet" />
+
+    <%-- JS --%>
+    <script src="Assets/js/jquery.min.js"></script>
+    <script src="Assets/js/popper.min.js"></script>
+    <script src="Assets/js/bootstrap.min.js"></script>
+    <script src="Assets/js/bs-custom-file-input.min.js"></script>
+    <script src="Assets/js/select2.min.js"></script>
+    <script src="Assets/js/all.js"></script>
+    <script src="Assets/js/gijgo.min.js"></script>
+    <script src="Assets/js/sweetalert2.js"></script>
+    <script src="Assets/js/jquery.dataTables.min.js"></script>
+    <script src="Assets/js/dataTables.bootstrap4.min.js"></script>
+    <script src="Assets/js/jquery.tablednd.js"></script>
+    <script src="Assets/js/site.js"></script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <nav class="navbar navbar-expand-sm bg-white navbar-light navbar-light justify-content-between nav-search">
+            <!-- Brand -->
+            <a class="navbar-brand" href="#">
+                <img src="Assets/images/logo-black.svg" class="logo" alt="Logo">
+            </a>
+
+            <%-- Search filter --%>
+            <div class="form-inline col-6 col-sm-2 col-md-2 col-lg-1">
+                <select class="form-control select2" id="ddlCourses">
+                    <option></option>
+                    <option>Course 1</option>
+                    <option>Course 2</option>
+                    <option>Course 3</option>
+                    <option>Course 4</option>
+                </select>
+            </div>
+
+            <%-- Search --%>
+            <div class="form-inline input-group col-12 col-sm-6">
+                <input class="form-control" type="text" placeholder="What you want to learn today?">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div class="nav-content">
+                <ul class="navbar-nav">
+                    <li class="nav-item icon dropdown"><a class="nav-link" id="navbarComments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="Assets/images/comments.png" /><span class="badge">2</span></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarComments">
+                            <a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>
+                            <a class="dropdown-item unread" href="#">You’re <b>halfway</b> at completing all your modules! Congrats!</a>
+                            <a class="dropdown-item read" href="#">You just completed the <b>Staff Development topic</b></a>
+                            <a class="dropdown-item text-right font-weight-bold" href="#">Clear all</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item icon dropdown"><a class="nav-link" id="navbarNotifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="Assets/images/notifications.png" /><span class="badge">2</span></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarNotifications">
+                            <a class="dropdown-item unread" href="#">You just completed the <b>Principles Made Practical module</b></a>
+                            <a class="dropdown-item unread" href="#">You’re <b>halfway</b> at completing all your modules! Congrats!</a>
+                            <a class="dropdown-item read" href="#">You just completed the <b>Staff Development topic</b></a>
+                            <a class="dropdown-item text-right font-weight-bold" href="#">Clear all</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item language">
+                        <img src="Assets/images/us.png" class="circle" height="26" /></li>
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <span class="language">EN<img class="dropdown-arrow" src="Assets/images/arrow-down-sign-to-navigate.png" /></span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item profile-photo">
+                        <img src="Assets/images/profile.png" class="circle" height="32" />
+                        <span class="badge online">0</span>
+                        <%--offline--%>
+                    </li>
+                    <li class="nav-item profile dropdown">
+                        <a class="nav-link" id="dropdownMenuProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="name dropdown-toggle">John Wick</span>
+                            <span class="status">0 badges, 0 points</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
+                            <a class="dropdown-item" href="#">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-sm bg-white navbar-light navbar-light justify-content-center nav-menu">
+            <!-- Links -->
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">My Learning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">My Team</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Integrations</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="#">Settings</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="#">Help</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main>
+            <asp:ContentPlaceHolder ID="body" runat="server">
+            </asp:ContentPlaceHolder>
+        </main>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            selectInit('#ddlCourses', 'Courses');
+        });
+    </script>
+</body>
+</html>
