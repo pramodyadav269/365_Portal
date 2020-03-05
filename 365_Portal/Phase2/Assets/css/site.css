@@ -22,6 +22,12 @@ a {
     }
 
 /* navbar */
+
+.nav-search, .nav-menu {
+    padding: .5rem 4rem;
+}
+
+
 .nav-search .select2-container .select2-selection--single {
     height: 36px;
 }
@@ -249,4 +255,8 @@ a {
 
     .navbar.nav-menu .navbar-nav .nav-item {
         margin: 0 .75rem;
+    }
+
+    .navbar.nav-menu.navbar-light .navbar-nav .active > .nav-link {
+        font-weight: 600;
     }

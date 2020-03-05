@@ -323,6 +323,12 @@
     <Compile Include="INCLUDES\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="INCLUDES\ValidationForm.aspx.cs">
+      <DependentUpon>ValidationForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="INCLUDES\ValidationForm.aspx.designer.cs">
+      <DependentUpon>ValidationForm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -686,6 +692,7 @@
     <Content Include="INCLUDES\Asset\css\bootstrap.min.css" />
     <Content Include="INCLUDES\Asset\css\dataTables.bootstrap4.min.css" />
     <Content Include="INCLUDES\Asset\css\gijgo.min.css" />
+    <Content Include="INCLUDES\Asset\css\jodit.min.css" />
     <Content Include="INCLUDES\Asset\css\select2.min.css" />
     <Content Include="INCLUDES\Asset\customer\common.js" />
     <Content Include="INCLUDES\Asset\customer\default.js" />
@@ -722,6 +729,7 @@
     <Content Include="INCLUDES\Asset\js\bs-custom-file-input.min.js" />
     <Content Include="INCLUDES\Asset\js\dataTables.bootstrap4.min.js" />
     <Content Include="INCLUDES\Asset\js\gijgo.min.js" />
+    <Content Include="INCLUDES\Asset\js\jodit.min.js" />
     <Content Include="INCLUDES\Asset\js\jquery.dataTables.min.js" />
     <Content Include="INCLUDES\Asset\js\jquery.min.js" />
     <Content Include="INCLUDES\Asset\js\jquery.tablednd.js" />
@@ -799,6 +807,7 @@
     <Content Include="INCLUDES\Asset\webfonts\fa-solid-900.svg" />
     <Content Include="INCLUDES\Dashboard.aspx" />
     <Content Include="INCLUDES\Default.aspx" />
+    <Content Include="INCLUDES\ValidationForm.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Phase2\Assets\css\site.css" />
     <Content Include="Phase2\Assets\css\all.css" />

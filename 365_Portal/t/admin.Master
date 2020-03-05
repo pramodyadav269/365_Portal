@@ -13,7 +13,7 @@
     <link href="../includes/Asset/css/all.css" rel="stylesheet" />
     <link href="../includes/Asset/css/gijgo.min.css" rel="stylesheet" />
     <link href="../Asset/css/select2.min.css" rel="stylesheet" />
-    <link href="../Asset/css/select2.min.css" rel="stylesheet" />
+    <link href="../INCLUDES/Asset/css/jodit.min.css" rel="stylesheet" />
     <link href="../includes/Asset/css/360.css" rel="stylesheet" />
 
     <%-- JS --%>
@@ -24,6 +24,7 @@
     <script src="../includes/Asset/js/all.js"></script>
     <script src="../includes/Asset/js/gijgo.min.js"></script>
     <script src="../includes/Asset/js/sweetalert2.js"></script>
+    <script src="../INCLUDES/Asset/js/jodit.min.js"></script>
     <script src="../INCLUDES/Asset/tinymce/tinymce.min.js"></script>
     <script src="../includes/Asset/js/360.js"></script>
 

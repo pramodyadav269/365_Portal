@@ -62,10 +62,13 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="txtDescription">Description</label>
+                            <label for="txtDescription">Description</label>
+                            <div id="txtDescription"></div>
+
+<%--                            <div class="form-group">
+                                
                                 <textarea class="form-control required tinymce" placeholder="Description" id="txtDescription"></textarea>
-                            </div>
+                            </div>--%>
                         </div>
 
 
@@ -149,6 +152,9 @@
     </table>--%>
     </div>
     <script>
+
+        var editor = new Jodit('#txtDescription');
+
         var accessToken = '<%=Session["access_token"]%>';
         contentList = [];
         var TopicID;
@@ -159,15 +165,16 @@
         var allowedExtensions = ['pdf', 'mp4', 'avi', 'flv', 'wmv', 'mov', '3gp', 'webm', 'wav'];
         $(document).ready(function () {
             // WYSIWYG Editer Short Init
-            tinymce.init({
-                selector: 'textarea.tinymce',
-                menubar: false,
-                min_height: 300,
-                max_height: 300,
-                plugins: 'table',
-                toolbar: "undo redo | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | table"
-            });
+            //tinymce.init({
+            //    selector: 'textarea.tinymce',
+            //    menubar: false,
+            //    min_height: 300,
+            //    max_height: 300,
+            //    plugins: 'table',
+            //    toolbar: "undo redo | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | table"
+            //});
 
+            
 
             TopicID = GetParameterValues('TopicID');
             _ModuleID = GetParameterValues('ModuleID');

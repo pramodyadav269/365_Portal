@@ -35,7 +35,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <nav class="navbar navbar-expand-sm bg-white navbar-light navbar-light justify-content-around nav-search">
+        <nav class="navbar navbar-expand-sm bg-white navbar-light navbar-light justify-content-between nav-search">
             <!-- Brand -->
             <a class="navbar-brand" href="#">
                 <img src="Assets/images/logo-black.svg" class="logo" alt="Logo">
@@ -53,7 +53,7 @@
             </div>
 
             <%-- Search --%>
-            <div class="form-inline input-group col-12 col-sm-6 col-md-5">
+            <div class="form-inline input-group col-12 col-sm-6">
                 <input class="form-control" type="text" placeholder="What you want to learn today?">
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
