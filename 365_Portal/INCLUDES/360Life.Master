@@ -10,16 +10,24 @@
     <link href="Asset/css/bootstrap.min.css" rel="stylesheet" />
     <link href="Asset/css/all.css" rel="stylesheet" />
     <link href="Asset/css/gijgo.min.css" rel="stylesheet" />
+    <link href="Asset/css/select2.min.css" rel="stylesheet" />
+    <link href="Asset/css/jodit.min.css" rel="stylesheet" />
     <link href="Asset/css/360.css" rel="stylesheet" />
 
     <%-- JS --%>
     <script src="Asset/js/jquery.min.js"></script>
     <script src="Asset/js/popper.min.js"></script>
     <script src="Asset/js/bootstrap.min.js"></script>
+    <script src="Asset/js/bs-custom-file-input.min.js"></script>
     <script src="Asset/js/all.js"></script>
     <script src="Asset/js/gijgo.min.js"></script>
+    <script src="Asset/js/select2.min.js"></script>
     <script src="Asset/js/sweetalert2.js"></script>
+    <script src="Asset/js/moment.js"></script>
+    <script src="Asset/js/jodit.min.js"></script>
     <script src="Asset/js/360.js"></script>
+    
+    <script src="Asset/js/site.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>

@@ -2,7 +2,7 @@
 $(document).ready(function () {
     selectInit('select.select2', 'Select a option');
 
-    bsCustomFileInput.init();
+    //bsCustomFileInput.init();
 
     $('.date').datepicker({ uiLibrary: 'bootstrap4', format: 'yyyy-dd-mm' });
 
@@ -10,29 +10,29 @@ $(document).ready(function () {
         $('label[for=' + this.id + ']').text('Value : ' + $(this).val());
     });
 
-    $.extend(true, $.fn.dataTable.defaults, {
-        'paging': false,
-        'ordering': false,
-        'info': false,
-        'searching': false,
-        dom: '<"tbl-head"Bf><"tbl-body"rt><"tbl-foot"ip>',
-        buttons: [
-            { extend: 'colvis', columns: ':not(.noVis)' }, {
-                extend: 'excel',
-                exportOptions: {
-                    format: {
-                        body: function (data, row, column, node) {
-                            if ($(node).hasClass('noVis'))
-                                return;
-                            data = data.replace(/(&nbsp;|<([^>]+)>)/ig, "");
-                            data = data.replace('more_horiz', '');
-                            return "\u200C" + data;
-                        }
-                    }
-                }
-            }
-        ]
-    });
+    //$.extend(true, $.fn.dataTable.defaults, {
+    //    'paging': false,
+    //    'ordering': false,
+    //    'info': false,
+    //    'searching': false,
+    //    dom: '<"tbl-head"Bf><"tbl-body"rt><"tbl-foot"ip>',
+    //    buttons: [
+    //        { extend: 'colvis', columns: ':not(.noVis)' }, {
+    //            extend: 'excel',
+    //            exportOptions: {
+    //                format: {
+    //                    body: function (data, row, column, node) {
+    //                        if ($(node).hasClass('noVis'))
+    //                            return;
+    //                        data = data.replace(/(&nbsp;|<([^>]+)>)/ig, "");
+    //                        data = data.replace('more_horiz', '');
+    //                        return "\u200C" + data;
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    ]
+    //});
 });
 
 function selectInit(el, placeholder) {
