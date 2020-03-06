@@ -101,6 +101,8 @@
                             </div>
                         </div>
 
+                    <div style="display:none;">
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="ddlGender">Gender</label>
@@ -143,6 +145,8 @@
                                 <%--<input ng-init="question.Value_Text = GetFormattedDate(question.Value_Text)" value="question.Value_Text" type="date" class="form-control" id="{{'date_' + $index}}" placeholder="Select Date" style="width: 100%;" ng-model="question.Value_Text" />--%>
                             </div>
                         </div>
+
+                    </div>
 
                         <div class="w-100"></div>
 
@@ -291,6 +295,7 @@
             {
                 var getUrl = "/API/User/BindDropDown";
                 $.ajax({
+                    async: false,
                     type: "POST",
                     url: getUrl,
                     headers: { "Authorization": "Bearer " + accessToken },
@@ -484,9 +489,9 @@
                 else if (!IsValidEmail($("#txtEmailId").val())) {
                     return { error: true, msg: "Please provide valid EmailID of user" };
                 }
-                else if ($("#ddlGender option:selected").val() == undefined || $("#ddlGender option:selected").val() == '') {
-                    return { error: true, msg: "Please select Gender" };
-                }
+                //else if ($("#ddlGender option:selected").val() == undefined || $("#ddlGender option:selected").val() == '') {
+                //    return { error: true, msg: "Please select Gender" };
+                //}
                 //else if ($("#ddlDepartment option:selected").val() == undefined || $("#ddlDepartment option:selected").val() == '') {
                 //    return { error: true, msg: "Please select Department" };
                 //}
@@ -527,9 +532,9 @@
                 //var id = $(ctrl).closest('tr').attr('id')
                 //debugger
                 ShowLoader();
-                clearFields('.input-validation')
-                BindRoleAndGroup(id, 'update');
-
+                clearFields('.input-validation');
+                BindDropDown();
+                BindRoleAndGroup(id, 'update');                
             }
 
             function BindRoleAndGroup(id, flag) {
@@ -604,7 +609,7 @@
                     contentType: "application/json",
                     success: function (response) {
                         try {
-                            //debugger
+                            debugger
                             var DataSet = $.parseJSON(response);
                             HideLoader();
                             if (DataSet.StatusCode == "1") {
@@ -619,13 +624,35 @@
                                 $('#txtMobileNo').val(DataSet.Data[0].MobileNum);
                                 $('#txtPosition').val(DataSet.Data[0].Position);
                                 $('#ddlGroup').val(DataSet.Data[0].GroupID).trigger('change');
+                                
+                                $('#ddlGender').val(DataSet.Data[0].Gender).trigger('change');
+                                $('#ddlDepartment').val(DataSet.Data[0].DeptID).trigger('change');
+                                $('#ddlTeam').val(DataSet.Data[0].TeamID).trigger('change');
+                                $('#ddlManager').val(DataSet.Data[0].ManagerID).trigger('change');
+
+                                if (DataSet.Data[0].StartDate != undefined && DataSet.Data[0].StartDate != '')
+                                {
+                                    var fromDate = new Date(DataSet.Data[0].StartDate);
+                                    var Year = fromDate.getFullYear();
+                                    var Month = fromDate.getMonth() + 1;
+                                    if (Month < 10)
+                                    {
+                                        Month = '0' + Month;
+                                    }
+                                    var Day = fromDate.getDay();
+                                    if (Day < 10) {
+                                        Day = '0' + Day;
+                                    }
+                                    var date = Year + '-' + Month + '-' + Day;
+
+                                    $('#txtDOJ').val(date);
+                                }                                
 
                                 $('#btnSubmit').hide();
                                 $('#divPassword').hide();
                                 $('#btnUpdate').show();
                                 $('#divUpdatePassword').show();
                                 $('#UserID').val(id);
-
                             }
                             else {
                                 if (DataSet.Data != undefined && DataSet.Data.length > 0) {

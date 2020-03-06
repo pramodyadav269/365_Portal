@@ -1578,10 +1578,10 @@ namespace _365_Portal.Controllers
             {
                 objUserVal.Gender = (string)jsonResult.SelectToken("Gender");
             }
-            else
-            {
-                Message = "Please select gender."; ValFlag = false; return ValFlag;
-            }
+            //else
+            //{
+            //    Message = "Please select gender."; ValFlag = false; return ValFlag;
+            //}
             if (jsonResult.SelectToken("DepartmentID") != null && jsonResult.SelectToken("DepartmentID").ToString().Trim() != "")
             {
                 objUserVal.DepartmentID = (string)jsonResult.SelectToken("DepartmentID");
