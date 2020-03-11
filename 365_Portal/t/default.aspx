@@ -26,7 +26,7 @@
                         <iframe id="video" width="420" height="345" src="https://www.youtube.com/embed/HSsqzzuGTPo"></iframe>--%>
 
                         <div class="col-sm-12 col-md col-lg-8 achievements-progress">
-                            <ul class="list-group list-group-horizontal float-right" id="dvAchievement">
+                            <ul class="list-group list-group-horizontal float-right d-none" id="dvAchievement">
                                 <li class="list-group-item" onclick="openModal(1)">
                                     <span class="ach-title">Professor</span>
                                     <div class="progress" data-value='0'>
