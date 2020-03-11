@@ -14,6 +14,7 @@
     <link href="Assets/css/gijgo.min.css" rel="stylesheet" />
     <link href="Assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="Assets/css/select2.min.css" rel="stylesheet" />
+    <link href="Assets/css/slick.css" rel="stylesheet" />
     <link href="Assets/css/site.css" rel="stylesheet" />
 
     <%-- JS --%>
@@ -27,7 +28,8 @@
     <script src="Assets/js/sweetalert2.js"></script>
     <script src="Assets/js/jquery.dataTables.min.js"></script>
     <script src="Assets/js/dataTables.bootstrap4.min.js"></script>
-    <script src="Assets/js/jquery.tablednd.js"></script>
+    <%--<script src="Assets/js/jquery.tablednd.js"></script>--%>
+    <script src="Assets/js/slick.min.js"></script>
     <script src="Assets/js/site.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
@@ -40,20 +42,74 @@
             <a class="navbar-brand" href="#">
                 <img src="Assets/images/logo-black.svg" class="logo" alt="Logo">
             </a>
-
-            <%-- Search filter --%>
-            <div class="form-inline col-6 col-sm-2 col-md-2 col-lg-1">
-                <select class="form-control select2" id="ddlCourses">
-                    <option></option>
-                    <option>Course 1</option>
-                    <option>Course 2</option>
-                    <option>Course 3</option>
-                    <option>Course 4</option>
-                </select>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item courses dropdown"><a class="nav-link" id="navbarCourses" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="name dropdown-toggle">Courses</span></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarCourses">
+                        <div class="courses-item">
+                            <div class="courses-title">
+                                <a class="dropdown-item">Data and Tech</a>
+                                <a class="dropdown-item">Languages</a>
+                                <a class="dropdown-item">Digital Marketing</a>
+                                <a class="dropdown-item">Career Development</a>
+                                <a class="dropdown-item">Personal Development</a>
+                                <a class="dropdown-item">Lifestyle Classes</a>
+                                <a class="dropdown-item">Leadership</a>
+                                <a class="btn btn-dark" href="#">All Courses</a>
+                            </div>
+                            <div class="courses-details">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-6 course-length">
+                                        <span class="courses-details-title">Course Length</span>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cbU2H">
+                                            <label class="custom-control-label" for="cbU2H">under 2 hours</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cb2to10H">
+                                            <label class="custom-control-label" for="cb2to10H">2 - 10 hours</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cb11to20H">
+                                            <label class="custom-control-label" for="cb11to20H">11 - 20 hours</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cb20PlusH">
+                                            <label class="custom-control-label" for="cb20PlusH">20+ hours</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-6">
+                                        <a class="courses-details-title">Recommended Classes</a>
+                                        <a class="courses-details-title mt-3">Trending Classes</a>
+                                        <a class="courses-details-title mt-3">Popular Classes</a>
+                                    </div>
+                                    <div class="w-100">
+                                        <hr />
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-6">
+                                        <span class="courses-details-title">Course Provider</span>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cbTeam">
+                                            <label class="custom-control-label" for="cbTeam">Team</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cbCompanyWide">
+                                            <label class="custom-control-label" for="cbCompanyWide">Company Wide</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cbGlobal">
+                                            <label class="custom-control-label" for="cbGlobal">Global</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
 
             <%-- Search --%>
-            <div class="form-inline input-group col-12 col-sm-6">
+            <div class="form-inline input-group col-12 col-sm-4 col-md-5 col-lg-6">
                 <input class="form-control" type="text" placeholder="What you want to learn today?">
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -123,15 +179,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Integrations</a>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="#">Settings</a>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="#">Help</a>
                 </li>
             </ul>
         </nav>
-
+         <img src="Assets/images/theme1.png" class="img-fluid" />
         <main>
             <asp:ContentPlaceHolder ID="body" runat="server">
             </asp:ContentPlaceHolder>
@@ -140,7 +196,11 @@
 
     <script>
         $(document).ready(function () {
-            selectInit('#ddlCourses', 'Courses');
+   
+            $('.courses.dropdown .dropdown-menu').on("click", function (e) {
+                e.stopPropagation();
+                //e.preventDefault();
+            });
         });
     </script>
 </body>

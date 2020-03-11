@@ -328,6 +328,7 @@
     </Compile>
     <Compile Include="INCLUDES\ValidationForm.aspx.cs">
       <DependentUpon>ValidationForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="INCLUDES\ValidationForm.aspx.designer.cs">
       <DependentUpon>ValidationForm.aspx</DependentUpon>
@@ -826,6 +827,7 @@
     <Content Include="Phase2\Assets\css\dataTables.bootstrap4.min.css" />
     <Content Include="Phase2\Assets\css\gijgo.min.css" />
     <Content Include="Phase2\Assets\css\select2.min.css" />
+    <Content Include="Phase2\Assets\css\slick.css" />
     <Content Include="Phase2\Assets\fonts\gijgo-material.svg" />
     <Content Include="Phase2\Assets\images\arrow-down-sign-to-navigate.png" />
     <Content Include="Phase2\Assets\images\comments.png" />
@@ -834,6 +836,9 @@
     <Content Include="Phase2\Assets\images\logo.svg" />
     <Content Include="Phase2\Assets\images\notifications.png" />
     <Content Include="Phase2\Assets\images\profile.png" />
+    <Content Include="Phase2\Assets\images\return.png" />
+    <Content Include="Phase2\Assets\images\sun.png" />
+    <Content Include="Phase2\Assets\images\theme1.png" />
     <Content Include="Phase2\Assets\images\us.png" />
     <Content Include="Phase2\Assets\js\site.js" />
     <Content Include="Phase2\Assets\js\all.js" />
@@ -848,6 +853,7 @@
     <Content Include="Phase2\Assets\js\moment.js" />
     <Content Include="Phase2\Assets\js\popper.min.js" />
     <Content Include="Phase2\Assets\js\select2.min.js" />
+    <Content Include="Phase2\Assets\js\slick.min.js" />
     <Content Include="Phase2\Assets\js\sweetalert2.js" />
     <Content Include="Phase2\Assets\tinymce\jquery.tinymce.min.js" />
     <Content Include="Phase2\Assets\tinymce\license.txt" />
